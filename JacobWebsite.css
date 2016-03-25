@@ -6,12 +6,16 @@ html {
 
 body {
 	color: white;
+	text-align : center;
+	font-family: Portrait;
+	font-size: 28px;
 }
 
 
 li {
 	text-decoration: none;
     list-style: none;
+    display: inline-block;
 }
 
 a {
