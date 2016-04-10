@@ -1,7 +1,7 @@
 
 
 html {
-    background: url("black2.png");
+    background: black;
     
 
 }
@@ -34,3 +34,13 @@ a {
         line-height: 1;
         -webkit-font-smoothing: antialiased;
     }
+
+#JHLogo{
+
+left: 50px;
+top: 233px;
+transform: rotate(0deg);
+z-index: -5;
+opacity: 0.3;
+
+}
