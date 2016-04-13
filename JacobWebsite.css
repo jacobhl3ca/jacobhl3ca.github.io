@@ -47,9 +47,32 @@ opacity: 1;
 }
 
 
-#LastName3
+#LastName3{
+left: 150px;
+top: 233px;
+transform: rotate(20deg);
+
+}
+
+#LastName4 
+{
+
+
+}
+#testing{
+opacity: 0.5;
+
+}
+
+#musicSign2{
+transform: rotate(180deg);
+
 }
 
 
+#elementID{
+    color: #fff;
+    text-shadow: 1px 1px 1px #ccc;
+    font-size: 1.5em;
 
 }
