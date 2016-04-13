@@ -43,6 +43,10 @@ top: 233px;
 transform: rotate(0deg);
 z-index: -5;
 opacity: 1;
+padding-bottom: 0px;
+
+    
+
 
 }
 
@@ -56,7 +60,7 @@ transform: rotate(20deg);
 
 #LastName4 
 {
-
+padding-top: 20px;
 
 }
 #testing{
@@ -71,18 +75,68 @@ transform: rotate(180deg);
 
 
 
-#LinkedIn{
-transform: rotate(180deg);
+#LinkedInBeg{
+transform: rotate(210deg);
+padding-top: 10px;
 
 }
-#LinkedIn1{
-transform: rotate(190deg);
-margin-top: 15px;
+#LinkedInMid1{
+transform: rotate(195deg);
+padding-bottom: 10px;
 
 }
-#LinkedIn2{
-transform: rotate(170deg);
+#LinkedInMid2{
+transform: rotate(185deg);
+padding-bottom: 20px;
 
+}
+#LinkedInMid3{
+transform: rotate(175deg);
+padding-bottom: 20px;
+
+}
+#LinkedInMid4{
+transform: rotate(165deg);
+padding-bottom: 10px;
+
+}
+
+#LinkedInEnd{
+    padding-top: 10px;
+transform: rotate(150deg);
+
+
+
+}
+#resume1{
+transform: rotate(270deg);
+
+    font-size: 60px;
+
+}
+#resume2{
+transform: rotate(90deg);
+    font-size: 60px;
+
+}
+#SC{
+transform: rotate(10deg);
+padding-bottom: 00px;
+padding-left: 40px;
+padding-top: -60px;
+    font-size: 80px;
+
+
+}
+#mail{
+    font-size: 60px;
+transform: rotate(deg);
+
+
+
+}
+#insta{
+padding-top: 0px;
 
 
 }
@@ -92,11 +146,28 @@ transform: rotate(170deg);
 }
 #elementID{
 
+
+}
+#elementID{
+
+
+}
+#elementID{
+
+
+}
+#elementID{
+
+
+}
+#topName{
+padding-top: 30px;
 
 }
 #elementID{
     color: #fff;
     text-shadow: 1px 1px 1px #ccc;
     font-size: 1.5em;
+border: 20px solid #f00;
 
 }
