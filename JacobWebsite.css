@@ -37,10 +37,19 @@ a {
 
 #JHLogo{
 
+
 left: 50px;
 top: 233px;
 transform: rotate(0deg);
 z-index: -5;
-opacity: 0.3;
+opacity: 1;
+
+}
+
+
+#LastName3
+}
+
+
 
 }
