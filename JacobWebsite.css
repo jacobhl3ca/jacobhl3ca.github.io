@@ -2,8 +2,6 @@
 
 html {
     background: black;
-    
-
 }
 
 body {
@@ -11,7 +9,6 @@ body {
 	text-align : center;
 	font-family: Portrait;
 	font-size: 28px;
-
 }
 
 
@@ -37,18 +34,27 @@ a {
 
 #JHLogo{
 
-right: 40px;
-bottom: 30px;
-transform: rotate(0deg);
+left: 10px;
+bottom:48px;
+transform: rotate(deg);
 z-index: -5;
 opacity: 1;
 padding-bottom: 0px;
 
     position: relative; 
+    display: inline-block;
     
 }
+#insta{
+bottom: 39px;
+left: 85px;
+position: relative;
+    font-size: 44px;
+}
+}
+#test{
 
-
+}
 
 
 
@@ -167,14 +173,7 @@ transform: rotate(deg);
 
 
 }
-#insta{
-top: 69px;
-right: 70px;
-position: fixed;
-    font-size: 33px;
 
-
-}
 #musicSign{
 
 padding-bottom: 500px
@@ -189,16 +188,10 @@ position: fixed;
 
 
 }
-#elementID{
+#paragraphThing{
+top: 405px;
 
 
-}
-#linkedintest{
-top: 382px;
-right: 373px;
-font-size: 60px;
- position: absolute;
-}
 
 img.ram{
 
