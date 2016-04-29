@@ -37,20 +37,51 @@ a {
 
 #JHLogo{
 
-
-left: 50px;
-top: 233px;
+right: 40px;
+bottom: 30px;
 transform: rotate(0deg);
 z-index: -5;
 opacity: 1;
 padding-bottom: 0px;
+
+    position: relative; 
     
-    left: 480px;
-    top: 435px;
-    
+}
+
+
+
+
+
+p {
+    background-color: white;
+    color: black;
+}
+
+p.bio {
+   
+border-style: solid;
+font-size: 9px;
+padding-top: 12px;
+margin-left: 600px;
+
 
 
 }
+
+p.solid {}
+
+   solid white;
+    padding-left: 223px
+    
+    background-color: grey;
+    margin-left: 210px;
+    margin-right: 210px;
+    
+font-size: 12px;
+padding-top: 12px;
+
+padding-left: 34px;
+    font-size: 33px;
 
 
 #LastName3{
@@ -61,7 +92,7 @@ margin-left: -160px;
 #LastName4 
 {
 padding-top: 0px;
-position: fixed;
+left: 30px;
 
 
 }
@@ -113,12 +144,12 @@ transform: rotate(150deg);
 #resume1{
 transform: rotate(270deg);
 
-    font-size: 20px;
+    font-size: 50px;
 
 }
 #resume2{
 transform: rotate(90deg);
-    font-size: 20px;
+    font-size: 50px;
 }
 #SC{
 transform: rotate(10deg);
@@ -130,21 +161,28 @@ padding-top: -60px;
 
 }
 #mail{
-    font-size: 60px;
+    font-size: 20px;
 transform: rotate(deg);
 
 
 
 }
 #insta{
-padding-top: 0px;
+top: 69px;
+right: 70px;
+position: fixed;
+    font-size: 33px;
 
-padding-left: 33px;
+
+}
+#musicSign{
+
+padding-bottom: 500px
+
+padding-left: 582px
 position: fixed;
 
 }
-#elementID{
-
 
 }
 #elementID{
@@ -155,12 +193,18 @@ position: fixed;
 
 
 }
-#elementID{
-
-
+#linkedintest{
+top: 382px;
+right: 373px;
+font-size: 60px;
+ position: absolute;
 }
-#elementID{
 
+img.ram{
+
+    
+    left: 480px;
+    top: 135px;
 
 }
 #topName{
