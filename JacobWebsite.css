@@ -39,7 +39,7 @@ a {
 #link{
 transform: rotate(180deg);
 position: relative;
-left: 70px;
+left: 71px;
 top:137px;
 font-size: 45px;
 
@@ -75,10 +75,10 @@ font-size: 46px;
 #sc1{
 
 position: relative;
-bottom: 556px;
-right: 99px;
+bottom: 434px;
+right: 62px;
 transform: rotate(180deg);
-font-size: 33px;
+font-size: 27px;
 
 }
 
@@ -86,7 +86,7 @@ font-size: 33px;
 transform: rotate(180deg);
 position: relative;
 bottom: 751px;
-left: 254px;
+left: 264px;
 font-size: 33px;
 
     
