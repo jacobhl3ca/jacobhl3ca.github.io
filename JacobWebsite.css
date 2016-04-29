@@ -4,6 +4,7 @@ html {
     background: black;
     test--background-image: url("PrettyPictures/photo-1446797376004-9352dfc9f789.jpeg");
     background-repeat: no-repeat;
+
 }
 
 body {
@@ -11,6 +12,7 @@ body {
 	text-align : center;
 	font-family: Portrait;
 	font-size: 28px;
+
 }
 
 
@@ -85,8 +87,8 @@ font-size: 27px;
 #tongue{
 transform: rotate(180deg);
 position: relative;
-bottom: 751px;
-left: 264px;
+bottom: 671px;
+left: 164px;
 font-size: 33px;
 
     
@@ -106,6 +108,13 @@ padding-bottom: 0px;
     margin-bottom: -56px; 
     
 }
+#gif{
+
+
+
+}
+
+
 #insta{
 bottom: 35px;
 left: 63px;
