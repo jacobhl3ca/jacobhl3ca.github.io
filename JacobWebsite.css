@@ -77,18 +77,18 @@ font-size: 46px;
 #sc1{
 
 position: relative;
-bottom: 434px;
-right: 62px;
-transform: rotate(180deg);
-font-size: 27px;
+bottom: 460px;
+left: 50px;
+transform: rotate(0deg);
+font-size: 63px;
 
 }
 
 #tongue{
 transform: rotate(1deg);
 position: relative;
-bottom: 671px;
-left: 164px;
+bottom: 685px;
+left: 167px;
 font-size: 33px;
 
     
