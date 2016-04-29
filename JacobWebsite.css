@@ -85,7 +85,7 @@ font-size: 27px;
 }
 
 #tongue{
-transform: rotate(180deg);
+transform: rotate(1deg);
 position: relative;
 bottom: 671px;
 left: 164px;
