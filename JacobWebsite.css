@@ -57,9 +57,9 @@ font-size: 65px;
 #snapchat{
 transform: rotate(270deg);
 position: relative;
-left: 179px;
-bottom:367px;
-font-size: 45px;
+left: 154px;
+bottom:363px;
+font-size: 35px;
 
 }
 
@@ -67,7 +67,7 @@ font-size: 45px;
 transform: rotate(0deg);
 position: relative;
 left: 47px;
-bottom:536px;
+bottom:526px;
 font-size: 45px;
 }
 
