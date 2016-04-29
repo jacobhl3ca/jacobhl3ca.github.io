@@ -82,6 +82,16 @@ font-size: 33px;
 
 }
 
+#tongue{
+transform: rotate(180deg);
+position: relative;
+bottom: 751px;
+left: 254px;
+font-size: 33px;
+
+    
+}
+
 #JHLogo{
 
 left: 10px;
