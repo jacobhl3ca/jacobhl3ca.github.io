@@ -57,19 +57,26 @@ font-size: 65px;
 
 }
 #snapchat{
-transform: rotate(270deg);
+transform: rotate(0deg);
 position: relative;
-left: 153px;
-bottom:361px;
+right: 100px;
+bottom:391px;
 font-size: 31px;
 
+
 }
+.DIV_ICONS{
+
+height: 0;
+
+}
+
 
 #resumee{
 transform: rotate(0deg);
 position: relative;
 left: 48px;
-bottom:522px;
+bottom:422px;
 font-size: 46px;
 
 }
@@ -78,7 +85,7 @@ font-size: 46px;
 
 position: relative;
 bottom: 460px;
-left: 50px;
+right: 140px;
 transform: rotate(0deg);
 font-size: 63px;
 
@@ -87,7 +94,7 @@ font-size: 63px;
 #tongue{
 transform: rotate(1deg);
 position: relative;
-bottom: 685px;
+bottom: 485px;
 left: 167px;
 font-size: 33px;
 
@@ -129,18 +136,19 @@ font-size: 44px;
 
 
 p {
-    background-color: white;
-    color: black;
+   
 }
 
-p.bio {
-   
-border-style: solid;
+#bio {
+
+color: white;
+border: 2px solid white;
 font-size: 9px;
 padding-top: 12px;
 margin-left: 600px;
-
-
+bottom: 670px;
+right: 30px;
+position: relative;
 
 }
 
@@ -148,7 +156,6 @@ p.solid {}
 
    solid white;
     padding-left: 223px
-    
     background-color: grey;
     margin-left: 210px;
     margin-right: 210px;
