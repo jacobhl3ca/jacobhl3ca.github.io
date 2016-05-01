@@ -41,12 +41,23 @@ a {
     }
 
 #link{
-transform: rotate(0deg);
+transform: rotate(deg);
 position: relative;
-left: 156px;
-top:157px;
+left: 247px;
+top:457px;
 font-size: 44px;
 z-index: 3;
+}
+
+#facebook{
+transform: rotate(deg);
+position: relative;
+left: 192px;
+bottom: 31px;
+font-size: 40px;
+z-index: 2;
+
+
 }
 
 #resumee{
@@ -55,18 +66,11 @@ position: relative;
 left: 176px;
 bottom:296px;
 font-size: 33px;
+z-index: 1;
 }
 
 
-#facebook{
-transform: rotate(deg);
-position: relative;
-right: 131px;
-bottom:426px;
-font-size: 65px;
 
-
-}
 #snapchat{
 transform: rotate(0deg);
 position: relative;
@@ -110,7 +114,7 @@ opacity: 0;
 left: 10px;
 bottom:48px;
 transform: rotate(deg);
-z-index: 0;
+z-index: 1;
 opacity: 1;
 padding-bottom: 0px;
 
@@ -131,6 +135,7 @@ bottom: 35px;
 left: 63px;
 position: relative;
 font-size: 44px;
+z-index: 2;
 }
 
 p {
@@ -143,12 +148,12 @@ color: white;
 background-color: black;
 border: 0px solid white;
 
-font-size: 18px;
+font-size: 20px;
 font-family: Portrait;
 
 
-bottom: 420px;
-left: 85px;
+bottom: 410px;
+left: 35px;
 
 position: relative;
 width: 350px;
