@@ -61,11 +61,11 @@ z-index: 2;
 }
 
 #resumee{
-transform: rotate(90deg);
+transform: rotate(0deg);
 position: relative;
-left: 176px;
-bottom:296px;
-font-size: 33px;
+left: 246px;
+bottom:167px;
+font-size: 84px;
 z-index: 1;
 }
 
@@ -138,6 +138,14 @@ font-size: 44px;
 z-index: 2;
 }
 
+#rutgers{
+bottom: 35px;
+left: 63px;
+position: relative;
+font-size: 44px;
+z-index: 2;
+}
+
 p {
    
 }
@@ -153,7 +161,7 @@ font-family: Portrait;
 
 
 bottom: 410px;
-left: 35px;
+left: 335px;
 
 position: relative;
 width: 350px;
