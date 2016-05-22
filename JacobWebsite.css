@@ -2,6 +2,7 @@
 
 html {
     background: black;
+    border: orange;
     test--background-image: url("PrettyPictures/photo-1446797376004-9352dfc9f789.jpeg");
     background-repeat: no-repeat;
 
@@ -43,30 +44,28 @@ a {
 #link{
 transform: rotate(deg);
 position: relative;
-left: 247px;
-top:457px;
-font-size: 44px;
+right: 40px;
+top: 245px;
+font-size: 31px;
 z-index: 3;
 }
 
 #facebook{
 transform: rotate(deg);
 position: relative;
-left: 192px;
-bottom: 31px;
 font-size: 40px;
 z-index: 2;
-
 
 }
 
 #resumee{
-transform: rotate(0deg);
+transform: rotate(deg);
 position: relative;
-left: 246px;
-bottom:167px;
-font-size: 84px;
+right: 41px;
+top: 38px;
+font-size: 28px;
 z-index: 1;
+color: #CCCC00 !important;
 }
 
 
@@ -132,9 +131,9 @@ opacity: 0;
 
 #insta{
 bottom: 35px;
-left: 63px;
+left: 61px;
 position: relative;
-font-size: 44px;
+font-size: 45px;
 z-index: 2;
 }
 
@@ -160,8 +159,7 @@ font-size: 20px;
 font-family: Portrait;
 
 
-bottom: 410px;
-left: 335px;
+
 
 position: relative;
 width: 350px;
@@ -171,6 +169,9 @@ width: 350px;
 height: 160px;
 
 p.solid {}
+
+bottom: 410px;
+left: 335px;
 
    solid white;
     padding-left: 223px
@@ -194,7 +195,7 @@ margin-left: -160px;
 {
 padding-top: 0px;
 left: 30px;
-color: pink;
+color: 
 
 
 }
