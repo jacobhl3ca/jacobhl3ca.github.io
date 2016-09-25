@@ -25,6 +25,17 @@ li {
     display: inline-block;
 }
 
+#linkedinName{
+
+    color: white;
+    right: 40px;
+    top: 245px;
+            font-family: 'icomoon';
+    line-height: 24em;
+
+
+
+}
 
 
 a {
