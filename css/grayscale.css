@@ -20,7 +20,7 @@ h3,
 h4,
 h5,
 h6 {
-  margin: 0 0 35px;
+  margin: 0 0 0px;
   text-transform: uppercase;
   font-family: "Montserrat", "Helvetica Neue", Helvetica, Arial, sans-serif;
   font-weight: 700;
@@ -260,7 +260,7 @@ a:focus {
 .btn-default {
   border: 1px solid #42DCA3;
   color: #42DCA3;
-  background-color: transparent;
+  background-color: orange;
 }
 .btn-default:hover,
 .btn-default:focus {
