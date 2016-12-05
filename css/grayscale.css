@@ -310,6 +310,17 @@ img::selection {
 img::-moz-selection {
   background: transparent;
 }
+
+.img-proPic{
+  border-radius: 50%
+  }
+  /*@media (min-width: 768px) {
+  img-proPic {
+    margin: 0 0 35px;
+    font-size: 70px;
+    line-height: 1.6;
+  }*/
+
 body {
   webkit-tap-highlight-color: rgba(255, 255, 255, 0.2);
 }
