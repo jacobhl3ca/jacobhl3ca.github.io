@@ -153,7 +153,7 @@ a:focus {
     font-size: 26px;
   }
 }
-.btn-circle {
+.btn-circle { /* THIS IS FOR THE DOWN ARROWS */
   width: 70px;
   height: 70px;
   margin-top: 15px;
@@ -311,9 +311,7 @@ img::-moz-selection {
   background: transparent;
 }
 
-.img-proPic{
-  border-radius: 50%
-  }
+/* 480 or above */
   /*@media (min-width: 768px) {
   img-proPic {
     margin: 0 0 35px;
