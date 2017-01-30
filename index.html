@@ -84,16 +84,22 @@
 <body id="page-top" data-spy="scroll" data-target=".navbar-fixed-top">
 
     <!-- Navigation -->
+    
     <nav align = "right" class="navbar navbar-custom navbar-fixed-top" role="navigation">
         <div class="container">
             <div class="navbar-header">
                 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-main-collapse">
                     Menu <i class="fa fa-bars"></i>
                 </button>
-                <a class="navbar-brand page-scroll" href="#page-top">
+                <a class="navbar-brand page-scroll" onclick="play()"href="#page-top">
                     <i class="fa fa-play-circle"></i><span class="light"> 
                     Jacob</span> Hi-Fitz Licked
-                
+
+                    <!--<img class = "proPic" src="cropped.png" style="width:80px; height:80px;">
+    
+
+                    border-radius: 50%; margin-bottom: 16px; rotate: 50%"
+                    -->
                 
 
                 </a>
@@ -248,8 +254,9 @@
 
                 <h2>Contact Me</h2>
                 <br>
-                <p>Feel free to reach out for any reason.
-                </p>
+                <!--<br>
+                <p>
+                </p>-->
 
                 <h3>
 
@@ -326,7 +333,17 @@ RESUME</span></a>
     <!-- jQuery 
     <script src="vendor/jquery/jquery.js"></script>-->
 
-     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <!--<input type="button" value="PLAY"  onclick="play()">-->
+    <audio id="audio" src="music2.m4a" ></audio>
+
+    <script>
+      function play(){
+           var audio = document.getElementById("audio");
+           audio.play();
+                     }
+   </script>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.7/angular.min.js"></script>
 
@@ -340,6 +357,7 @@ RESUME</span></a>
     <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCRngKslUGJTlibkQ3FkfTxj3Xss1UlZDA&sensor=false"></script>-->
 
     <!-- Theme JavaScript -->
+
     <script src="js/grayscale.min.js"></script>
 
     <!-- Latest compiled and minified JavaScript -->
