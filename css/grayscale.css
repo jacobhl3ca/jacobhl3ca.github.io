@@ -24,6 +24,7 @@ h6 {
   text-transform: uppercase;
   font-family: "Montserrat", "Helvetica Neue", Helvetica, Arial, sans-serif;
   font-weight: 700;
+  color: white;
   letter-spacing: 1px;
 }
 p {
@@ -162,7 +163,7 @@ a:focus {
   border-radius: 100% !important;
   font-size: 40px;
   color: white;
-  background: transparent;
+  background: black;
   -webkit-transition: background 0.3s ease-in-out;
   -moz-transition: background 0.3s ease-in-out;
   transition: background 0.3s ease-in-out;
