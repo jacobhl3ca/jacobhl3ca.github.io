@@ -161,7 +161,7 @@ a:focus {
 .btn-circle { /* THIS IS FOR THE DOWN ARROWS */
   width: 70px;
   height: 70px;
-  margin-top: 15px;
+  margin-top: 7px;
   padding: 7px 16px;
   border: 2px solid white;
   border-radius: 100% !important;
@@ -222,8 +222,9 @@ a:focus {
     transform: scale(1);
   }
 }
+/*ABOVE CONTENT SECTION PADDING!*/
 .content-section {
-  padding-top: 100px;
+  padding-top: 52px;
 }
 .download-section {
   width: 100%;
