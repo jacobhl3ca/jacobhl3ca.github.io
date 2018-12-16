@@ -129,7 +129,7 @@ a:focus {
   padding: 100px 0;
   text-align: center;
   color: white;
-  background: url(../img/bgd.gif) no-repeat bottom center scroll;
+  background: url(../img/bgd.gif)  ;
   background-color: black;
   -webkit-background-size: cover;
   -moz-background-size: cover;
