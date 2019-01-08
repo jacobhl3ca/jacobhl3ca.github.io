@@ -146,7 +146,6 @@ a:focus {
   padding: 100px 0;
   text-align: center;
   color: white;
-  background: url(../img/bgd.gif);
   background-color: black;
   -webkit-background-size: cover;
   -moz-background-size: cover;
@@ -157,7 +156,7 @@ a:focus {
   display: table-cell;
   vertical-align: middle;
 }
-.intro .intro-body .brand-heading {
+.intro .intro-body .brand-heading { /* CHANGE THIS HEADING */
   font-size: 40px;
 }
 .intro .intro-body .intro-text {
@@ -168,9 +167,11 @@ a:focus {
     height: 100%;
     padding: 0;
   }
-  .intro .intro-body .brand-heading {
-    font-size: 100px;
-  }
+  .intro .intro-body .brand-heading { /* CHANGE THIS HEADING */
+    font-size: 40px;
+    /*    
+    font-family: arial;
+    */  }
   .intro .intro-body .intro-text {
     font-size: 26px;
   }
