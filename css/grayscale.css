@@ -242,7 +242,7 @@ a:focus {
 }
 /*ABOVE CONTENT SECTION PADDING!*/
 .content-section {
-  padding-top: 82px;
+  /*padding-top: 12px;*/
 }
 .download-section {
   width: 100%;
