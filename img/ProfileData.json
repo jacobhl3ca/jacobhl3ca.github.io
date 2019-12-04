@@ -1,0 +1,60 @@
+{
+  "Name": "Jacob Heifetz-Licht",
+  "JobRoles": [
+    "Analyst"
+  ],
+  "BusinessTypes": [
+    "Content Publisher"
+  ],
+  "IsOptedInToEmails": false,
+  "CourseProgress": [
+    {
+      "CourseName": "Google Analytics for Beginners",
+      "StartDate": 20191120,
+      "CourseCompleted": true,
+      "CertificateDate": 20191121,
+      "AssessmentsProgress": [
+        {
+          "Title": "Assessment 1",
+          "Passed": true
+        },
+        {
+          "Title": "Assessment 2",
+          "Passed": true
+        },
+        {
+          "Title": "Assessment 3",
+          "Passed": true
+        },
+        {
+          "Title": "Assessment 4",
+          "Passed": true
+        }
+      ]
+    },
+    {
+      "CourseName": "Advanced Google Analytics",
+      "StartDate": 20191121,
+      "CourseCompleted": true,
+      "CertificateDate": 20191123,
+      "AssessmentsProgress": [
+        {
+          "Title": "Assessment 1",
+          "Passed": true
+        },
+        {
+          "Title": "Assessment 2",
+          "Passed": true
+        },
+        {
+          "Title": "Assessment 3",
+          "Passed": true
+        },
+        {
+          "Title": "Assessment 4",
+          "Passed": true
+        }
+      ]
+    }
+  ]
+}
