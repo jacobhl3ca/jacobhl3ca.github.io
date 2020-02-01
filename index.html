@@ -41,8 +41,8 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <link rel="icon" type="image/x-icon" href="http://jacobhl.com/favicon.ico">
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<meta name="description" content="Jacob HL's Personal Website">
-<meta name="author" content="Jacob HL">
+<meta name="description" content="Jacob's Website">
+<meta name="author" content="Jacob Heifetz-Licht">
 
 <title>
   Jacob Heifetz-Licht
@@ -82,7 +82,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <br><br>
 
       <font color="white">
-        Creates data visualizations
+        Data visualization expert 
       <!-- 
         CREATES DATA VISUALIZATIONS 
       -->
@@ -102,8 +102,40 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
       <font color="white">
         Founded 
           <a href="https://instagram.com/radrut" target=”_blank”>
-            <font color="#FF387C">
+            <font color="white">
               RAD</a></font><!-- . -->
+
+<br><br>
+
+<!-- Linkedin -->
+
+      <a href="https://linkedin.com/in/jacobhl" target=”_blank”>
+        <font color="white">
+        <!-- <font color="#0095e8"> -->
+          <!-- #0072b1 -->
+          <!-- 
+            DO A CSS GRADIENT SAME AS INSTAGRAM
+          -->
+          <i class="fab fa-linkedin"></i></a>
+        </font>
+        
+        <font color="white">
+        </font>
+
+        <!-- 
+      
+        Free Icons 
+        https://fontawesome.com/icons?d=gallery&v=5.12.0&m=free 
+        
+        -->
+<br>
+
+<!-- Email -->
+      
+      <a href="mailto:me@jacobhl.com" target=”_blank”>
+        <font color="white">
+          <!-- Purple -->
+          <i class="far fa-envelope"></i></a>
 
       <!-- 
       <form>
@@ -120,49 +152,24 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
         Super Smash Brothers Fan.
       </font>
  -->
-<br><br>
-
-<!-- Linkedin -->
-
-      <a href="https://linkedin.com/in/jacobhl" target=”_blank”>
-        <font color="#0095e8">
-          <!-- #0072b1 -->
-          <!-- 
-            DO A CSS GRADIENT SAME AS INSTAGRAM
-          -->
-          <i class="fab fa-linkedin"></i></a>
-        </font>
-        
-        <font color="white">
-          &nbsp;
-        </font>
 
 <!-- Instagram -->
       
+<!-- 
+
       <a href="https://instagram.com/jacobhl3ca" target=”_blank”>
         
-        <font color="#FF387C"><!-- <font color="#E1306C"> -->
+        <font color="#FF387C">
+
           <i class="fab fa-instagram"></i></a>
         </font>
         <font color="white">
           &nbsp;
-        </font>
+        </font> 
 
-<!-- Email -->
-      
-      <a href="mailto:me@jacobhl.com" target=”_blank”>
-        <font color="orange">
-          <!-- Purple -->
-          <i class="far fa-envelope"></i></a>
-      <br><br><font color="343a40">
-          © Jacob Heifetz-Licht 2020
+-->
 
-    </h3>
-  </center>
-</body>
-
-
-
+<!-- OLD <font color="#E1306C"> -->
 
       <!-- <i class="fab fa-instagram"> -->
       <!-- </i> -->
@@ -360,7 +367,6 @@ Instagram
           <script>
 
             var context = document.getElementById('content').getContext('2d');
-
             var width = window.innerWidth;
             var height = window.innerHeight;
             var size = d3.min([width, height]);
@@ -369,7 +375,7 @@ Instagram
               .attr('width', width + 'px')
               .attr('height', height + 'px');
 
-            context.lineWidth = 0.4;
+            context.lineWidth = 0.6;
             context.strokeStyle = 'rgba(255, 255, 255, 0.6)';
 
             var projection = d3.geoOrthographic()
@@ -389,16 +395,16 @@ Instagram
               if(geojson.geometry.coordinates.length < 6000)
                 addPoint();
 
-              projection.rotate([t / 1000]);
+            // Rotation
+            projection.rotate([t / 1000]);
 
-              context.clearRect(0, 0, width, height);
-              context.beginPath();
-              geoGenerator(geojson);
-              context.stroke();
+            context.clearRect(0, 0, width, height);
+            context.beginPath();
+            geoGenerator(geojson);
+            context.stroke();
 
-              window.requestAnimationFrame(update);
+            window.requestAnimationFrame(update);
             }
-
             window.requestAnimationFrame(update);
 
           </script>
@@ -454,6 +460,13 @@ Instagram
 
           https://www.chase.com/content/chase-ux/en/microsites/referafriend/chasesapphirepreferred/chasesapphirepreferred_referral.html
           -->
+
+<br><br><font color="343a40">
+          © Jacob Heifetz-Licht 2020
+
+    </h3>
+  </center>
+</body>
 
   <!-- Bootstrap core JavaScript -->
   <script src="vendor/jquery/jquery.min.js">
