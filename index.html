@@ -74,6 +74,9 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
         Jacob Heifetz-Licht</font>
     </h2>
 
+<h3>
+</h3>
+
 <br>
 
     <h3>
@@ -179,7 +182,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 
             var projection = d3.geoOrthographic()
               .scale(0.45 * size)
-              .translate([0.5 * width, 0.61 * height]);
+              .translate([0.5 * width, 0.5 * height]);//0.61
 
             var geoGenerator = d3.geoPath()
               .projection(projection)
