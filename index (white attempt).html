@@ -62,147 +62,65 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 
 <!-- BODY -->
 
-<center>
-<body style="background-color: black">
-  
+<body style="background-color: white">
+  <center>
+
+<br>
+<h3>
+</h3>
+
+    <h2 class="mb-0">
+      <font color="black">
+        Jacob Heifetz-Licht</font>
+    </h2>
+
+<h3>
+</h3>
 
 <br>
 
-  <h2 class="mb-0">
-    <font color="white">
-      Jacob Heifetz-Licht
-    </font>
-  </h2>
-
-  <h3 class="mb-0">
-    <font color="white">
-      Senior Analyst at Condé Nast
-  </font>
-
-<!-- D3 Visualization -->
-    <canvas id="content">
-    </canvas>
-
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/4.2.2/d3.min.js">
-    </script>
-
-    <script>
-      var context = document.getElementById('content').getContext('2d');
-      var width = window.innerWidth;
-      var height = window.innerHeight;
-      var size = d3.min([width, height]);
-
-      d3.select('#content')
-        .attr('width', width + 'px')
-        .attr('height', height + 'px');
-
-      context.lineWidth = 0.6;
-      context.strokeStyle = 'rgba(255, 255, 255, 0.6)';
-
-      var projection = d3.geoOrthographic()
-        .scale(0.45 * size)
-        .translate([0.5 * width, 0.5 * height]);//0.61
-
-      var geoGenerator = d3.geoPath()
-        .projection(projection)
-        .context(context);
-
-      var geojson = {type: 'Feature', geometry: {type: 'LineString', coordinates: []}};
-      function rndLon() {return -180 + Math.random() * 360;}
-      function rndLat() {return -90 + Math.random() * 180;}
-      function addPoint() {geojson.geometry.coordinates.push([rndLon(), rndLat()])}
-
-      function update(t) {
-        if(geojson.geometry.coordinates.length < 6000)
-          addPoint();
-
-      // Rotation
-      projection.rotate([t / 1000]);
-
-      context.clearRect(0, 0, width, height);
-      context.beginPath();
-      geoGenerator(geojson);
-      context.stroke();
-
-      window.requestAnimationFrame(update);
-      }
-      window.requestAnimationFrame(update);
-    </script>
-
-<!-- END OF D3 Visualization -->
-    <center>
-
-    <a href="https://linkedin.com/in/jacobhl" target=”_blank”>
-      <font size="6px" color="white">
-
-<!-- FOOTER -->
-
-<!-- Instagram -->
-          <i class="fab fa-linkedin-in"></i></a>
-          &nbsp;
-<!-- Email -->
-      <a href="mailto:me@jacobhl.com" target=”_blank”>
-        <font size="5px" color="white">
-          <i class="fa fa-envelope"></i></a>
-        </font>
-        
-        <br>
-          <!-- <font color="#343a40">
-            © Jacob Heifetz-Licht 2020
-          </font> -->
-    </h3>
-  </center>
-</body>
-
-  <!-- Bootstrap core JavaScript -->
-  <script src="vendor/jquery/jquery.min.js">
-  </script>
-  <script src="vendor/bootstrap/js/bootstrap.bundle.min.js">
-  </script>
-  <!-- Plugin JavaScript -->
-  <script src="vendor/jquery-easing/jquery.easing.min.js">
-  </script>
-  <!-- Custom scripts for this template -->
-  <script src="js/resume.min.js">
-  </script>
-</body>
-</html>
-
-
-
-<!-- OLD VERSION:
-
-
-<br><br>
-          
-      <font color="white">
-        Interested in tech & design
-        </font>
-
-...... END OLD VERSION --> 
-
-
-<!-- OLDER VERSION:
-
     <h3>
+      <font color="black"> 
+          Senior Analyst at Condé Nast
+          </font>
+
+    <!-- <h3>
       <font color="yellow"> 
         <i>
           Senior Analyst at Condé Nast
         </i>
       </font> -->
 
+<br><br>
 
+      <font color="black">
+        Data visualization expert
+        </font> 
       <!-- 
         CREATES DATA VISUALIZATIONS 
       -->
 
 <!-- <br><br>
 
-      <font color="white">
+      <font color="black">
         Learning React, D3 & Adobe Suite.
+ -->
+<br><br>
+          
+      <font color="black">
+        Interested in tech & design
+        </font>
 
- ...... END OLDER VERSION --> 
+<br><br>
 
+      <font color="black">
+        Founded
+      </font>
+          <a href="https://instagram.com/radrut" target=”_blank>
+            <font color="black">
+              RAD</a>
+
+<br><br>
 
 <!-- FB color: 4267b2 -->
 
@@ -210,21 +128,93 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 
 <!-- Instagram -->
 
-      <!-- <a href="https://instagram.com/jacobhl3ca" target=”_blank”><font color="white"><i class="fab fa-instagram"></i></a></font>
+      <!-- <a href="https://instagram.com/jacobhl3ca" target=”_blank”><font color="black"><i class="fab fa-instagram"></i></a></font>
       &nbsp; -->
 
 <!-- Facebook -->
 
      <!--  <a href="https://facebook.com/jacobhl3ca" target=”_blank”>
-        <font size="6px" color="white">
+        <font size="6px" color="black">
           <i class="fab fa-facebook-f"></i></a>
         </font> -->
 
 <!-- Linkedin -->
 
+       <a href="https://linkedin.com/in/jacobhl" target=”_blank”>
+        <font size="6px" color="black">
 
+          <!-- MARGIN TOP??-->
+          <i class="fab fa-linkedin-in"></i></a>
+          <!-- stagram -->
 
+          &nbsp;
 
+<!-- Email -->
+      <a href="mailto:me@jacobhl.com" target=”_blank”>
+        <font size="5px" color="black">
+          <i class="fa fa-envelope"></i></a>
+        </font>
+
+<br>
+<br>
+
+<!-- D3 Visualization -->
+
+          <canvas id="content">
+            
+          </canvas>
+
+          <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/4.2.2/d3.min.js">
+            
+          </script>
+
+          <script>
+
+            var context = document.getElementById('content').getContext('2d');
+            var width = window.innerWidth;
+            var height = window.innerHeight;
+            var size = d3.min([width, height]);
+
+            d3.select('#content')
+              .attr('width', width + 'px')
+              .attr('height', height + 'px');
+
+            context.lineWidth = 0.6;
+            context.strokeStyle = 'rgba(255, 255, 255, 0.6)';
+
+            var projection = d3.geoOrthographic()
+              .scale(0.45 * size)
+              .translate([0.5 * width, 0.5 * height]);//0.61
+
+            var geoGenerator = d3.geoPath()
+              .projection(projection)
+              .context(context);
+
+            var geojson = {type: 'Feature', geometry: {type: 'LineString', coordinates: []}};
+            function rndLon() {return -180 + Math.random() * 360;}
+            function rndLat() {return -90 + Math.random() * 180;}
+            function addPoint() {geojson.geometry.coordinates.push([rndLon(), rndLat()])}
+
+            function update(t) {
+              if(geojson.geometry.coordinates.length < 6000)
+                addPoint();
+
+            // Rotation
+            projection.rotate([t / 1000]);
+
+            context.clearRect(0, 0, width, height);
+            context.beginPath();
+            geoGenerator(geojson);
+            context.stroke();
+
+            window.requestAnimationFrame(update);
+            }
+            window.requestAnimationFrame(update);
+
+          </script>
+          <center>
+            <font color="#343a40">
+          © Jacob Heifetz-Licht 2020
 
       <!-- 
       <form>
@@ -237,7 +227,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
       </form> 
       -->
 <!--     
-      <font color="white">      
+      <font color="black">      
         Super Smash Brothers Fan.
       </font>
  -->
@@ -252,7 +242,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 
           <i class="fab fa-instagram"></i></a>
         </font>
-        <font color="white">
+        <font color="black">
           &nbsp;
         </font> 
 
@@ -267,7 +257,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   </h3>
 </body>
       &nbsp;
-      <font color="white">
+      <font color="black">
         /
       &nbsp;
       </font> -->
@@ -284,7 +274,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
         <!-- </i> -->
       
       <!-- &nbsp;
-      <font color="white">
+      <font color="black">
         |
       &nbsp;
       </font> -->
@@ -476,3 +466,22 @@ Instagram
 
           https://www.chase.com/content/chase-ux/en/microsites/referafriend/chasesapphirepreferred/chasesapphirepreferred_referral.html
           -->
+
+
+    </h3>
+  </center>
+</body>
+
+  <!-- Bootstrap core JavaScript -->
+  <script src="vendor/jquery/jquery.min.js">
+  </script>
+  <script src="vendor/bootstrap/js/bootstrap.bundle.min.js">
+  </script>
+  <!-- Plugin JavaScript -->
+  <script src="vendor/jquery-easing/jquery.easing.min.js">
+  </script>
+  <!-- Custom scripts for this template -->
+  <script src="js/resume.min.js">
+  </script>
+</body>
+</html>
