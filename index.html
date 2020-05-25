@@ -1,478 +1,143 @@
 <!DOCTYPE html>
-<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:fb="http://ogp.me/ns/fb#">
-
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jacob Heifetz-Licht</title>
+    <meta name="description" content="Jacob Heifetz-Licht's personal website.">
+    <meta name="keywords" content="Jacob Heifetz-Licht,Jacob,Heifetz,Licht,Heifetz-Licht,personal website,personal,website">
+    <meta property="og:title" content="Jacob Heifetz-Licht">
+    <meta property="og:description" content="Jacob Heifetz-Licht's personal website.">
+    
+   	<!-- Make HTTPS -->
+    <meta property="og:url" content="http://jacobhl.com">
+    <meta property="og:type" content="website">
+    <meta property="og:image" content="https://newcss.net/_assets/og.png">
 
-<!--Google AdSense-->
-<script data-ad-client="ca-pub-6867313545473451" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-
-<!-- Global site tag (gtag.js) - Google Analytics -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=UA-77191616-1"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'UA-77191616-1');
-</script>
-
-<!-- Google Tag Manager -->
-<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-})(window,document,'script','dataLayer','GTM-K3HW52K');</script>
-<!-- End Google Tag Manager -->
-
-<!-- AdSense -->
-<script data-ad-client="ca-pub-6867313545473451" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js">
-</script>
-
-<!-- Google Tag Manager (noscript) -->
-<noscript>
-  <iframe src="https://www.googletagmanager.com/ns.html?id=GTM-K3HW52K"height="0" width="0" style="display:none;visibility:hidden">
-  </iframe>
-</noscript>
-
-<!-- Tags, favicons, preview images, etc. -->
-<meta property="og:image" content="http://jacobhl.com/img/preview.png"/>
-<link rel="icon" type="image/png" sizes="32x32" href="img/favicon.ico">
-<link rel="icon" type="image/png" sizes="16x16" href="favicon.ico">
-<link rel="icon" type="image/x-icon" href="http://jacobhl.com/favicon.ico">
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<meta name="description" content="Jacob's Website">
-<meta name="author" content="Jacob Heifetz-Licht">
-
-<title>
-  Jacob Heifetz-Licht
-</title>
-
-<!-- Bootstrap core CSS -->
-<link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-
-<!-- Custom fonts for this template -->
-<link href="https://fonts.googleapis.com/css?family=Saira+Extra+Condensed:500,700" rel="stylesheet">
-<link href="https://fonts.googleapis.com/css?family=Muli:400,400i,800,800i" rel="stylesheet">
-<link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet">
-
-<!-- Custom styles for this template -->
-<link href="css/resume.min.css" rel="stylesheet">
+	<!--Add the new.css stylesheet-->
+    <link rel="stylesheet" href="https://fonts.xz.style/serve/inter.css">
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@exampledev/new.css@1.1.2/new.min.css">
 </head>
+<body>
 
-<!-- BODY -->
-
-<center>
-<body style="background-color: black">
-  
-
+	<header>
+    	<h1>
+        	Jacob Heifetz-Licht
+        </h1>
+        <a href="https://linkedin.com/in/jacobhl">Linkedin</a> / Referrals 
+		<!-- <p>
+    		Senior Analyst at Condé Nast
 <br>
+    		NYC Metropolitan Area
+		</p> -->
 
-  <h2 class="mb-0">
-    <font color="white">
-      Jacob Heifetz-Licht
-    </font>
-  </h2>
 
-  <h3 class="mb-0">
-    <font color="white">
-      Senior Analyst at Condé Nast
-  </font>
-
-<!-- D3 Visualization -->
-    <canvas id="content">
-    </canvas>
-
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/4.2.2/d3.min.js">
-    </script>
-
-    <script>
-      var context = document.getElementById('content').getContext('2d');
-      var width = window.innerWidth;
-      var height = window.innerHeight;
-      var size = d3.min([width, height]);
-
-      d3.select('#content')
-        .attr('width', width + 'px')
-        .attr('height', height + 'px');
-
-      context.lineWidth = 0.6;
-      context.strokeStyle = 'rgba(255, 255, 255, 0.6)';
-
-      var projection = d3.geoOrthographic()
-        .scale(0.45 * size)
-        .translate([0.5 * width, 0.5 * height]);//0.61
-
-      var geoGenerator = d3.geoPath()
-        .projection(projection)
-        .context(context);
-
-      var geojson = {type: 'Feature', geometry: {type: 'LineString', coordinates: []}};
-      function rndLon() {return -180 + Math.random() * 360;}
-      function rndLat() {return -90 + Math.random() * 180;}
-      function addPoint() {geojson.geometry.coordinates.push([rndLon(), rndLat()])}
-
-      function update(t) {
-        if(geojson.geometry.coordinates.length < 6000)
-          addPoint();
-
-      // Rotation
-      projection.rotate([t / 1000]);
-
-      context.clearRect(0, 0, width, height);
-      context.beginPath();
-      geoGenerator(geojson);
-      context.stroke();
-
-      window.requestAnimationFrame(update);
-      }
-      window.requestAnimationFrame(update);
-    </script>
-
-<!-- END OF D3 Visualization -->
-    <center>
-
-    <a href="https://linkedin.com/in/jacobhl" target=”_blank”>
-      <font size="6px" color="white">
-
-<!-- FOOTER -->
-
-<!-- Instagram -->
-          <i class="fab fa-linkedin-in"></i></a>
-          &nbsp;
-<!-- Email -->
-      <a href="mailto:me@jacobhl.com" target=”_blank”>
-        <font size="5px" color="white">
-          <i class="fa fa-envelope"></i></a>
-        </font>
+		            <!-- <button>
+            	Switch to Light Mode
+        	</button> -->
         
-        <br>
-          <!-- <font color="#343a40">
-            © Jacob Heifetz-Licht 2020
-          </font> -->
-    </h3>
-  </center>
-</body>
+    </header>
 
-  <!-- Bootstrap core JavaScript -->
-  <script src="vendor/jquery/jquery.min.js">
-  </script>
-  <script src="vendor/bootstrap/js/bootstrap.bundle.min.js">
-  </script>
-  <!-- Plugin JavaScript -->
-  <script src="vendor/jquery-easing/jquery.easing.min.js">
-  </script>
-  <!-- Custom scripts for this template -->
-  <script src="js/resume.min.js">
-  </script>
+    <h3>About Me</h3>
+
+    	<p>
+		I am a <mark style="background-color:white;">Senior Analyst at Condé Nast</mark> specializing in data analysis, transformation, and visualization. Graduated with honors in Business Analytics and Information Technology from <mark style="background-color:#cc0033;">Rutgers University</mark>. Like to play chess, 
+    </p>
+
+	<!-- Form for..
+	-->
+
+    <hr>
+
+    <p>
+        Lorem <mark>ipsum</mark> dolor sit amet <strong>consectetur</strong> adipisicing elit. Aut <i>harum
+            molestias</i> labore amet
+        possimus <s>exercitationem aperiam</s> earum, doloribus <u>nobis ducimus</u> maiores quia voluptates quis omnis
+        molestiae quisquam. <a href="#">Voluptatibus, officiis laudantium?</a>
+    </p>
+
+    <p>
+        Lorem ipsum dolor sit amet consectetur adipisicing elit. <code>Hic culpa, nobis doloremque</code> veniam non,
+        nihil
+        cupiditate odit repellat est <kbd>ALT + F4</kbd> expedita facilis. Fuga aspernatur, alias debitis eveniet totam
+        minima vel.
+    </p>
+
+    
+    <h3>TL;DR</h3>
+    <ul>
+        <li>Senior Analyst at Condé Nast</li>
+        <li>Living in the New York City Area</li>
+        <li>Learning how to build websites, data visualizations, and PCs.</li>
+        <li>Likes warm weather, running, my new mouse, Super Smash Bros. Ultimate, and Chess.</li>
+        <li>Wants to thank you for learning about him.</li>
+
+    </ul>
+
+    <h3> Q&A </h3>
+
+    <dl>
+        <dt>How do you pronounce your last name?</dt>
+        <dd>Hi-Fitz Licked</dd>
+
+        <br>
+        
+        <dt>Why did you start the Rutgers Art & Design Club?</dt>
+        <dd>I wanted to provide a supportive environment for creative students to sharpen their skills and connect with each other.</dd>
+    
+		<br>
+
+		<dt>
+			Can you make some buttons desecribing yourself?
+		</dt>
+        <dd>
+        	You got it.
+		</dd>
+
+		<br>
+
+		<button>
+            Switch to Light Mode
+        </button>
+    
+		<br>
+		<br>
+
+		<dt>How can I reach you?</dt>
+        <dd>me (at) jacobhl.com</dd>
+
+<!-- <br>
+
+        <dt>What's one of your favorite quotes?</dt>
+
+    </dl>
+
+    <blockquote cite="https://en.wikiquote.org/wiki/Edward_Snowden">
+    	Believe you can and you're halfway there.
+        <br><br>– Theodore Roosevelt
+    </blockquote>
+ -->
+    <!-- <form>
+		<p>
+            <label>Name</label><br>
+            <input type="text" name="first_name">
+        </p>
+        <p>
+            <label>Email</label><br>
+            <input type="email" name="email" required="">
+        </p>
+        </p>
+            <label>Comment</label><br>
+            <textarea></textarea>
+        </p>
+        
+    </form> -->
+
+<!--     
+	<img src="https://elements.xz.style/assets/fuji-daniel-hehn.jpg" alt="Mt. Fuji">
+ -->
+    <script async defer src="https://api.newcss.net/latest.js"></script>
+    <noscript><img src="https://api.newcss.net/noscript.gif" alt=""></noscript>
+
 </body>
 </html>
-
-
-
-<!-- OLD VERSION:
-
-
-<br><br>
-          
-      <font color="white">
-        Interested in tech & design
-        </font>
-
-...... END OLD VERSION --> 
-
-
-<!-- OLDER VERSION:
-
-    <h3>
-      <font color="yellow"> 
-        <i>
-          Senior Analyst at Condé Nast
-        </i>
-      </font> -->
-
-
-      <!-- 
-        CREATES DATA VISUALIZATIONS 
-      -->
-
-<!-- <br><br>
-
-      <font color="white">
-        Learning React, D3 & Adobe Suite.
-
- ...... END OLDER VERSION --> 
-
-
-<!-- FB color: 4267b2 -->
-
-<!-- Social Icons -->
-
-<!-- Instagram -->
-
-      <!-- <a href="https://instagram.com/jacobhl3ca" target=”_blank”><font color="white"><i class="fab fa-instagram"></i></a></font>
-      &nbsp; -->
-
-<!-- Facebook -->
-
-     <!--  <a href="https://facebook.com/jacobhl3ca" target=”_blank”>
-        <font size="6px" color="white">
-          <i class="fab fa-facebook-f"></i></a>
-        </font> -->
-
-<!-- Linkedin -->
-
-
-
-
-
-      <!-- 
-      <form>
-        <input type="text" placeholder=" Useless Text Box">
-        
-        <input type="text" placeholder="Name">
-        <input type="email" placeholder="Email">
-        <input type="submit" value="Submit"> 
-       
-      </form> 
-      -->
-<!--     
-      <font color="white">      
-        Super Smash Brothers Fan.
-      </font>
- -->
-
-<!-- Instagram -->
-      
-<!-- 
-
-      <a href="https://instagram.com/jacobhl3ca" target=”_blank”>
-        
-        <font color="#FF387C">
-
-          <i class="fab fa-instagram"></i></a>
-        </font>
-        <font color="white">
-          &nbsp;
-        </font> 
-
--->
-
-<!-- OLD <font color="#E1306C"> -->
-
-      <!-- <i class="fab fa-instagram"> -->
-      <!-- </i> -->
-      <!-- Bring up a tiled page of my favorite art pieces. Doesn't have to be ordered yet, just compile a page that pops up when clicked.
-    </font>
-  </h3>
-</body>
-      &nbsp;
-      <font color="white">
-        /
-      &nbsp;
-      </font> -->
-
-<!-- Resume -->
-
-<!-- <a href="https://linkedin.com/in/jacobhl"> -->
-
-      <!-- <font color="brown">
-        Resume
-      </font> -->
-        <!-- <i class="fab fa-instagram"> -->
-          
-        <!-- </i> -->
-      
-      <!-- &nbsp;
-      <font color="white">
-        |
-      &nbsp;
-      </font> -->
-
-<!-- Contact -->
-
-
-    <!-- Resume -->
-
-    <!-- <a href="http://jacobhl.com/resume.pdf"> -->
-    <!-- 
-    <font color="grey">
-        <i class="fas fa-file-alt">  
-        </i>
-      &nbsp;
-    </font> 
-    -->
-
-    <!-- 
-      <br><br> 
-    -->
-
-    <!-- Gmail -->
-
-<!-- EMAIL -->
-
-    <!-- <h1 class="mb-0">
-      <center>
-        <h3>
-          <font color="">
-            <a href="mailto:me@jacobhl.com">
-              <i class="far fa-envelope">
-              </i>
-            </a>
-          </font>
-        </h3>
-      </center>
-    </h1>
-    <h1 class="mb-0">
-      <center>
-        <h3>
-          <font color="">
-            <a href="mailto:me@jacobhl.com">
-              <i class="far fa-envelope">
-              </i>
-            </a>
-          </font>
-        </h3>
-      </center>
-    </h1> -->
-
-<!-- EMAIL -->
-
-    <!-- <h1 class="mb-0">
-      <center>
-        <h3>
-          <font color="">
-            <a href="mailto:me@jacobhl.com">
-              <i class="far fa-envelope">
-              </i>
-            </a>
-          </font>
-        </h3>
-      </center>
-    </h1> -->
-         
-<!-- 
-
-http://jacobhl.com/refer  
-Referrals        
-
-https://linkedin.com/in/jacobhl
-Linkedin
-
-https://instagram.com/jacobhl3ca
-Instagram  
-
--->     
-
-
-<!--
-
-http://jacobhl.com/refer  
-Referrals        
-
-https://linkedin.com/in/jacobhl
-Linkedin
-
-https://instagram.com/jacobhl3ca
-Instagram
-
--->
-
-<!-- 
-          <a target=”_blank” 
-          href=
-          "
-          http://instagram.com/jacobhl3ca
-          
-          "
-          >
-          
-          INSTAGRAM
-          
-          </a> 
-
-          -->
-
-        <!-- <FONT size="1px">
-            © Jacob Heifetz-Licht 2020
-          </FONT> -->
-
-        <!-- 
-          <h5>
-          <a target=”_blank” 
-          href=
-          "
-          http://jacobhl.com/string/
-          "
-          >
-          this is cool
-          </a>
-        -->
-          <!--
-
-          <a target=”_blank” 
-          href=
-          "
-
-          http://jacobhl.com/string/
-          
-          "
-          >
-          
-          request resume
-          
-          </a> 
-
-          -->
-
-          <!-- <br>
-
-          <a target=”_blank” 
-          href=
-          "
-
-          http://jacobhl.com/refer
-          
-          "
-          >
-          
-          Referrals
-          
-          </a> -->
-
-          <!-- 
-
-          <br>
-
-          <a target=”_blank” href="
-          
-          https://github.com/jacobhl3ca
-          
-          ">
-          
-          Github
-          
-          </a> 
-          
-          -->
-
-          <!-- 
-          <a 
-          target = ”_blank”
-          href = "https://jacobhl.com/refer"
-          >
-            Referrals
-
-          </a> -->
-
-          <!--             
-
-          MY REFERRAL LINK
-
-          Earn 60,000 bonus points with Chase Sapphire Preferred. I can be rewarded, learn more. 
-          https://www.referyourchasecard.com/6a/CAH6JAE0D7
-
-          THE SITE HOMEPAGE FOR ME
-
-          https://www.chase.com/content/chase-ux/en/microsites/referafriend/chasesapphirepreferred/chasesapphirepreferred_referral.html
-          -->
