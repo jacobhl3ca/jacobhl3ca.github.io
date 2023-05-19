@@ -1,0 +1,2983 @@
+<!doctype html>
+<!--[if IE 9]> <html class="no-js ie9 fixed-layout" lang="en"> <![endif]-->
+<!--[if gt IE 9]><!--> <html class="no-js " lang="en"> <!--<![endif]-->
+  <head>
+    <meta charset="utf-8">
+<meta content="origin-when-cross-origin" name="referrer" />
+
+<link rel="dns-prefetch" href="//s3.envato.com" />
+
+
+<script nonce="fD4adlj4x3ugJ/EbV4KyJw==">window.NREUM||(NREUM={});NREUM.info={"beacon":"bam-cell.nr-data.net","errorBeacon":"bam-cell.nr-data.net","licenseKey":"NRBR-281af528f2b1e2422b5","applicationID":"13909","transactionName":"NTU0DRQNDwshOmIZBRM3dQoODRRIJykhHA==","queueTime":1,"applicationTime":165,"agent":"","atts":"DXgvW1wZQRQtPChSS1QMMx0DDSsOMi1vXFMEPywQFQsMCWZyb0YQQjxsSQJRQRo5"}</script>
+<script nonce="fD4adlj4x3ugJ/EbV4KyJw==">(window.NREUM||(NREUM={})).loader_config={licenseKey:"NRBR-281af528f2b1e2422b5",applicationID:"13909"};window.NREUM||(NREUM={}),__nr_require=function(e,t,n){function r(n){if(!t[n]){var i=t[n]={exports:{}};e[n][0].call(i.exports,function(t){var i=e[n][1][t];return r(i||t)},i,i.exports)}return t[n].exports}if("function"==typeof __nr_require)return __nr_require;for(var i=0;i<n.length;i++)r(n[i]);return r}({1:[function(e,t,n){function r(){}function i(e,t,n){return function(){return o(e,[u.now()].concat(c(arguments)),t?null:this,n),t?void 0:this}}var o=e("handle"),a=e(6),c=e(7),f=e("ee").get("tracer"),u=e("loader"),s=NREUM;"undefined"==typeof window.newrelic&&(newrelic=s);var d=["setPageViewName","setCustomAttribute","setErrorHandler","finished","addToTrace","inlineHit","addRelease"],p="api-",l=p+"ixn-";a(d,function(e,t){s[t]=i(p+t,!0,"api")}),s.addPageAction=i(p+"addPageAction",!0),s.setCurrentRouteName=i(p+"routeName",!0),t.exports=newrelic,s.interaction=function(){return(new r).get()};var m=r.prototype={createTracer:function(e,t){var n={},r=this,i="function"==typeof t;return o(l+"tracer",[u.now(),e,n],r),function(){if(f.emit((i?"":"no-")+"fn-start",[u.now(),r,i],n),i)try{return t.apply(this,arguments)}catch(e){throw f.emit("fn-err",[arguments,this,e],n),e}finally{f.emit("fn-end",[u.now()],n)}}}};a("actionText,setName,setAttribute,save,ignore,onEnd,getContext,end,get".split(","),function(e,t){m[t]=i(l+t)}),newrelic.noticeError=function(e,t){"string"==typeof e&&(e=new Error(e)),o("err",[e,u.now(),!1,t])}},{}],2:[function(e,t,n){function r(){return c.exists&&performance.now?Math.round(performance.now()):(o=Math.max((new Date).getTime(),o))-a}function i(){return o}var o=(new Date).getTime(),a=o,c=e(8);t.exports=r,t.exports.offset=a,t.exports.getLastTimestamp=i},{}],3:[function(e,t,n){function r(e,t){var n=e.getEntries();n.forEach(function(e){"first-paint"===e.name?d("timing",["fp",Math.floor(e.startTime)]):"first-contentful-paint"===e.name&&d("timing",["fcp",Math.floor(e.startTime)])})}function i(e,t){var n=e.getEntries();n.length>0&&d("lcp",[n[n.length-1]])}function o(e){e.getEntries().forEach(function(e){e.hadRecentInput||d("cls",[e])})}function a(e){if(e instanceof m&&!g){var t=Math.round(e.timeStamp),n={type:e.type};t<=p.now()?n.fid=p.now()-t:t>p.offset&&t<=Date.now()?(t-=p.offset,n.fid=p.now()-t):t=p.now(),g=!0,d("timing",["fi",t,n])}}function c(e){d("pageHide",[p.now(),e])}if(!("init"in NREUM&&"page_view_timing"in NREUM.init&&"enabled"in NREUM.init.page_view_timing&&NREUM.init.page_view_timing.enabled===!1)){var f,u,s,d=e("handle"),p=e("loader"),l=e(5),m=NREUM.o.EV;if("PerformanceObserver"in window&&"function"==typeof window.PerformanceObserver){f=new PerformanceObserver(r);try{f.observe({entryTypes:["paint"]})}catch(v){}u=new PerformanceObserver(i);try{u.observe({entryTypes:["largest-contentful-paint"]})}catch(v){}s=new PerformanceObserver(o);try{s.observe({type:"layout-shift",buffered:!0})}catch(v){}}if("addEventListener"in document){var g=!1,w=["click","keydown","mousedown","pointerdown","touchstart"];w.forEach(function(e){document.addEventListener(e,a,!1)})}l(c)}},{}],4:[function(e,t,n){function r(e,t){if(!i)return!1;if(e!==i)return!1;if(!t)return!0;if(!o)return!1;for(var n=o.split("."),r=t.split("."),a=0;a<r.length;a++)if(r[a]!==n[a])return!1;return!0}var i=null,o=null,a=/Version\/(\S+)\s+Safari/;if(navigator.userAgent){var c=navigator.userAgent,f=c.match(a);f&&c.indexOf("Chrome")===-1&&c.indexOf("Chromium")===-1&&(i="Safari",o=f[1])}t.exports={agent:i,version:o,match:r}},{}],5:[function(e,t,n){function r(e){function t(){e(a&&document[a]?document[a]:document[i]?"hidden":"visible")}"addEventListener"in document&&o&&document.addEventListener(o,t,!1)}t.exports=r;var i,o,a;"undefined"!=typeof document.hidden?(i="hidden",o="visibilitychange",a="visibilityState"):"undefined"!=typeof document.msHidden?(i="msHidden",o="msvisibilitychange"):"undefined"!=typeof document.webkitHidden&&(i="webkitHidden",o="webkitvisibilitychange",a="webkitVisibilityState")},{}],6:[function(e,t,n){function r(e,t){var n=[],r="",o=0;for(r in e)i.call(e,r)&&(n[o]=t(r,e[r]),o+=1);return n}var i=Object.prototype.hasOwnProperty;t.exports=r},{}],7:[function(e,t,n){function r(e,t,n){t||(t=0),"undefined"==typeof n&&(n=e?e.length:0);for(var r=-1,i=n-t||0,o=Array(i<0?0:i);++r<i;)o[r]=e[t+r];return o}t.exports=r},{}],8:[function(e,t,n){t.exports={exists:"undefined"!=typeof window.performance&&window.performance.timing&&"undefined"!=typeof window.performance.timing.navigationStart}},{}],ee:[function(e,t,n){function r(){}function i(e){function t(e){return e&&e instanceof r?e:e?u(e,f,a):a()}function n(n,r,i,o,a){if(a!==!1&&(a=!0),!l.aborted||o){e&&a&&e(n,r,i);for(var c=t(i),f=v(n),u=f.length,s=0;s<u;s++)f[s].apply(c,r);var p=d[h[n]];return p&&p.push([b,n,r,c]),c}}function o(e,t){y[e]=v(e).concat(t)}function m(e,t){var n=y[e];if(n)for(var r=0;r<n.length;r++)n[r]===t&&n.splice(r,1)}function v(e){return y[e]||[]}function g(e){return p[e]=p[e]||i(n)}function w(e,t){s(e,function(e,n){t=t||"feature",h[n]=t,t in d||(d[t]=[])})}var y={},h={},b={on:o,addEventListener:o,removeEventListener:m,emit:n,get:g,listeners:v,context:t,buffer:w,abort:c,aborted:!1};return b}function o(e){return u(e,f,a)}function a(){return new r}function c(){(d.api||d.feature)&&(l.aborted=!0,d=l.backlog={})}var f="nr@context",u=e("gos"),s=e(6),d={},p={},l=t.exports=i();t.exports.getOrSetContext=o,l.backlog=d},{}],gos:[function(e,t,n){function r(e,t,n){if(i.call(e,t))return e[t];var r=n();if(Object.defineProperty&&Object.keys)try{return Object.defineProperty(e,t,{value:r,writable:!0,enumerable:!1}),r}catch(o){}return e[t]=r,r}var i=Object.prototype.hasOwnProperty;t.exports=r},{}],handle:[function(e,t,n){function r(e,t,n,r){i.buffer([e],r),i.emit(e,t,n)}var i=e("ee").get("handle");t.exports=r,r.ee=i},{}],id:[function(e,t,n){function r(e){var t=typeof e;return!e||"object"!==t&&"function"!==t?-1:e===window?0:a(e,o,function(){return i++})}var i=1,o="nr@id",a=e("gos");t.exports=r},{}],loader:[function(e,t,n){function r(){if(!x++){var e=b.info=NREUM.info,t=p.getElementsByTagName("script")[0];if(setTimeout(u.abort,3e4),!(e&&e.licenseKey&&e.applicationID&&t))return u.abort();f(y,function(t,n){e[t]||(e[t]=n)});var n=a();c("mark",["onload",n+b.offset],null,"api"),c("timing",["load",n]);var r=p.createElement("script");r.src="https://"+e.agent,t.parentNode.insertBefore(r,t)}}function i(){"complete"===p.readyState&&o()}function o(){c("mark",["domContent",a()+b.offset],null,"api")}var a=e(2),c=e("handle"),f=e(6),u=e("ee"),s=e(4),d=window,p=d.document,l="addEventListener",m="attachEvent",v=d.XMLHttpRequest,g=v&&v.prototype;NREUM.o={ST:setTimeout,SI:d.setImmediate,CT:clearTimeout,XHR:v,REQ:d.Request,EV:d.Event,PR:d.Promise,MO:d.MutationObserver};var w=""+location,y={beacon:"bam.nr-data.net",errorBeacon:"bam.nr-data.net",agent:"js-agent.newrelic.com/nr-1198.min.js"},h=v&&g&&g[l]&&!/CriOS/.test(navigator.userAgent),b=t.exports={offset:a.getLastTimestamp(),now:a,origin:w,features:{},xhrWrappable:h,userAgent:s};e(1),e(3),p[l]?(p[l]("DOMContentLoaded",o,!1),d[l]("load",r,!1)):(p[m]("onreadystatechange",i),d[m]("onload",r)),c("mark",["firstbyte",a.getLastTimestamp()],null,"api");var x=0},{}],"wrap-function":[function(e,t,n){function r(e,t){function n(t,n,r,f,u){function nrWrapper(){var o,a,s,p;try{a=this,o=d(arguments),s="function"==typeof r?r(o,a):r||{}}catch(l){i([l,"",[o,a,f],s],e)}c(n+"start",[o,a,f],s,u);try{return p=t.apply(a,o)}catch(m){throw c(n+"err",[o,a,m],s,u),m}finally{c(n+"end",[o,a,p],s,u)}}return a(t)?t:(n||(n=""),nrWrapper[p]=t,o(t,nrWrapper,e),nrWrapper)}function r(e,t,r,i,o){r||(r="");var c,f,u,s="-"===r.charAt(0);for(u=0;u<t.length;u++)f=t[u],c=e[f],a(c)||(e[f]=n(c,s?f+r:r,i,f,o))}function c(n,r,o,a){if(!m||t){var c=m;m=!0;try{e.emit(n,r,o,t,a)}catch(f){i([f,n,r,o],e)}m=c}}return e||(e=s),n.inPlace=r,n.flag=p,n}function i(e,t){t||(t=s);try{t.emit("internal-error",e)}catch(n){}}function o(e,t,n){if(Object.defineProperty&&Object.keys)try{var r=Object.keys(e);return r.forEach(function(n){Object.defineProperty(t,n,{get:function(){return e[n]},set:function(t){return e[n]=t,t}})}),t}catch(o){i([o],n)}for(var a in e)l.call(e,a)&&(t[a]=e[a]);return t}function a(e){return!(e&&e instanceof Function&&e.apply&&!e[p])}function c(e,t){var n=t(e);return n[p]=e,o(e,n,s),n}function f(e,t,n){var r=e[t];e[t]=c(r,n)}function u(){for(var e=arguments.length,t=new Array(e),n=0;n<e;++n)t[n]=arguments[n];return t}var s=e("ee"),d=e(7),p="nr@original",l=Object.prototype.hasOwnProperty,m=!1;t.exports=r,t.exports.wrapFunction=c,t.exports.wrapInPlace=f,t.exports.argsToArray=u},{}]},{},["loader"]);</script>
+
+<title>Dark Urban Generic Background by xponentialdesign | VideoHive</title>
+
+<meta name="description" content="Buy Dark Urban Generic Background by xponentialdesign on VideoHive. Black and white monochrome cityscape loop. 4 Ultra HD clips." />
+
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+
+  <link rel="apple-touch-icon-precomposed" type="image/x-icon" href="https://public-assets.envato-static.com/icons/videohive.net/apple-touch-icon-72x72-precomposed.png" sizes="72x72" />
+  <link rel="apple-touch-icon-precomposed" type="image/x-icon" href="https://public-assets.envato-static.com/icons/videohive.net/apple-touch-icon-114x114-precomposed.png" sizes="114x114" />
+  <link rel="apple-touch-icon-precomposed" type="image/x-icon" href="https://public-assets.envato-static.com/icons/videohive.net/apple-touch-icon-144x144-precomposed.png" sizes="144x144" />
+<link rel="apple-touch-icon-precomposed" type="image/x-icon" href="https://public-assets.envato-static.com/icons/videohive.net/apple-touch-icon-precomposed.png" />
+
+  <link rel="stylesheet" media="all" href="https://public-assets.envato-static.com/assets/market/core/index-6e294e9c28580b492d27bcaaaada9a0076a7fc2dff6bc9df9de894ce02be4c1c.css" />
+  <link rel="stylesheet" media="all" href="https://public-assets.envato-static.com/assets/market/pages/default/index-bdc74c6929a0669987ace85dac597cf7a881015467548b037afc7d578b07e45b.css" />
+
+<link rel="stylesheet" media="all" href="https://public-assets.envato-static.com/css/cookiebot.css" />
+
+
+<meta name="theme-color" content="#333333">
+
+
+<link rel="canonical" href="https://videohive.net/item/dark-urban-generic-background/29916785" />
+
+<script type="application/ld+json">
+{
+  "@context": "http://schema.org",
+  "@type": "WebSite",
+  "name": "VideoHive",
+  "url": "https://videohive.net"
+}
+</script>
+
+
+
+    <script type="application/ld+json">
+      {"@context":"http://schema.org","@type":"Product","category":"Technology","url":"https://videohive.net/item/dark-urban-generic-background/29916785","description":"Black and white monochrome cityscape loop. 4 Ultra HD clips.","name":"Dark Urban Generic Background","image":"https://s3.envato.com/files/98a36cc5-4105-4a5c-8888-32dea96f181f/thumbnail.jpg","brand":{"@type":"Brand","name":"xponentialdesign"},"sku":29916785,"mpn":"E-29916785","offers":{"@type":"AggregateOffer","availability":"http://schema.org/InStock","lowPrice":"14.00","highPrice":"39.00","offerCount":1,"priceCurrency":"USD"}}
+    </script>
+
+    <script type="application/ld+json">
+      {"@context":"http://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://videohive.net"},{"@type":"ListItem","position":2,"name":"Files","item":"https://videohive.net/category/all"},{"@type":"ListItem","position":3,"name":"Motion Graphics","item":"https://videohive.net/motion-graphics"},{"@type":"ListItem","position":4,"name":"Backgrounds","item":"https://videohive.net/motion-graphics/backgrounds"},{"@type":"ListItem","position":5,"name":"Technology"}]}
+    </script>
+
+    <script type="application/ld+json">
+      {"@type":"VideoObject","contentUrl":"https://previews.customer.envatousercontent.com/h264-video-previews/857b063b-0992-4f91-9a8e-1cfd9e9a1a9c/3883585.mp4","@context":"http://schema.org","name":"Dark Urban Generic Background","description":"Black and white monochrome cityscape loop. 4 Ultra HD clips.","url":"https://videohive.net/item/dark-urban-generic-background/29916785","thumbnailUrl":"https://videohive.img.customer.envatousercontent.com/files/98a36cc5-4105-4a5c-8888-32dea96f181f/inline_image_preview.jpg?auto=compress%2Cformat\u0026fit=crop\u0026crop=top\u0026max-h=8000\u0026max-w=590\u0026s=85f6d0eac6b8854b44d5dc0fd7176026","uploadDate":"2021-01-02T04:43:49+11:00","author":{"@type":"Person","name":"Dominic Pons","url":"https://videohive.net/user/xponentialdesign"}}
+    </script>
+
+<script nonce="fD4adlj4x3ugJ/EbV4KyJw==">
+//<![CDATA[
+  window.dataLayer = window.dataLayer || [];
+
+//]]>
+</script>
+
+      <meta name="twitter:card" content="player" />
+  <meta name="twitter:site" content="@envatomarket" />
+  <meta name="twitter:creator" content="@xponential" />
+  <meta name="twitter:data1" content="$14 USD" />
+  <meta name="twitter:label1" content="Price" />
+  <meta name="twitter:data2" content="VideoHive" />
+  <meta name="twitter:label2" content="Marketplace" />
+  <meta name="twitter:domain" content="videohive.net" />
+  <meta property="og:title" content="Dark Urban Generic Background" />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://videohive.net/item/dark-urban-generic-background/29916785" />
+  <meta property="og:image" content="https://s3.envato.com/files/98a36cc5-4105-4a5c-8888-32dea96f181f/inline_image_preview.jpg" />
+  <meta property="og:description" content="Black and white monochrome cityscape loop.
+4 Ultra HD clips." />
+  <meta property="og:site_name" content="VideoHive" />
+  <meta name="twitter:player:height" content="480" />
+  <meta name="twitter:player:width" content="640" />
+  <meta name="twitter:player" content="https://videohive.net/item/dark-urban-generic-background/embed/29916785" />
+  <meta name="twitter:player:stream" content="https://s3.envato.com/h264-video-previews/857b063b-0992-4f91-9a8e-1cfd9e9a1a9c/3883585.mp4" />
+  <meta name="twitter:player:stream:content_type" content="video/mp4" />
+
+
+<meta name="csrf-param" content="authenticity_token" />
+<meta name="csrf-token" content="NdaU0bW93FLAa8BH/MgQsAaV1yGm0Lintvap8wwwOjV/EJcm0ud4RTZjgwKABX6W283tvp8K4tv1B87ntGnH7w==" />
+
+<meta name="turbo-visit-control" content="reload">
+  <script src="//script.crazyegg.com/pages/scripts/0053/5982.js" async="async" nonce="fD4adlj4x3ugJ/EbV4KyJw=="></script>
+
+
+    <script src="https://public-assets.envato-static.com/assets/market/core/head-df4183f2f1b84caa8ad6707c533e562f18a9eaae2b2e4d2081cf439c23343ad3.js" nonce="fD4adlj4x3ugJ/EbV4KyJw=="></script>
+  </head>
+  <body id="" class="" data-view="app" data-responsive="true" data-user-signed-in="false" >
+    
+    <!--[if lte IE 8]>
+  <div style="color:#fff;background:#f00;padding:20px;text-align:center;">
+    VideoHive no longer actively supports this version of Internet Explorer. We suggest that you <a href="https://windows.microsoft.com/en-us/internet-explorer/download-ie" style="color:#fff;text-decoration:underline;">upgrade to a newer version</a> or <a href="https://browsehappy.com/" style="color:#fff;text-decoration:underline;">try a different browser</a>.
+  </div>
+<![endif]-->
+
+
+    <div class="page">
+          <div class="page__off-canvas--left overthrow">
+            
+<div class="off-canvas-left js-off-canvas-left">
+  <div class="off-canvas-left__top">
+    <a href="https://videohive.net">Envato Market</a>
+  </div>
+
+  <div class="off-canvas-left__current-site -color-videohive">
+  <span class="off-canvas-left__site-title">
+    Video
+  </span>
+
+  <a class="off-canvas-left__current-site-toggle -white-arrow -color-videohive" data-view="dropdown" data-dropdown-target=".off-canvas-left__sites" href="#"></a>
+</div>
+
+<div class="off-canvas-left__sites is-hidden" id="off-canvas-sites">
+    <a class="off-canvas-left__site" href="https://themeforest.net/?auto_signin=true">
+      <span class="off-canvas-left__site-title">
+        Web Themes &amp; Templates
+      </span>
+      <i class="e-icon -icon-right-open"></i>
+</a>    <a class="off-canvas-left__site" href="https://codecanyon.net/?auto_signin=true">
+      <span class="off-canvas-left__site-title">
+        Code
+      </span>
+      <i class="e-icon -icon-right-open"></i>
+</a>    <a class="off-canvas-left__site" href="https://audiojungle.net/?auto_signin=true">
+      <span class="off-canvas-left__site-title">
+        Audio
+      </span>
+      <i class="e-icon -icon-right-open"></i>
+</a>    <a class="off-canvas-left__site" href="https://graphicriver.net/?auto_signin=true">
+      <span class="off-canvas-left__site-title">
+        Graphics
+      </span>
+      <i class="e-icon -icon-right-open"></i>
+</a>    <a class="off-canvas-left__site" href="https://photodune.net/?auto_signin=true">
+      <span class="off-canvas-left__site-title">
+        Photos
+      </span>
+      <i class="e-icon -icon-right-open"></i>
+</a>    <a class="off-canvas-left__site" href="https://3docean.net/?auto_signin=true">
+      <span class="off-canvas-left__site-title">
+        3D Files
+      </span>
+      <i class="e-icon -icon-right-open"></i>
+</a></div>
+
+  
+<div class="off-canvas-left__search">
+  <form id="search" action="/category/all" accept-charset="UTF-8" method="get"><input name="utf8" type="hidden" value="&#x2713;" />
+    <div class="search-field -border-none">
+      <div class="search-field__input">
+        <input id="term" name="term" type="search" placeholder="Search" class="search-field__input-field" />
+      </div>
+      <button class="search-field__button" type="submit">
+        <i class="e-icon -icon-search"><span class="e-icon__alt">Search</span></i>
+      </button>
+    </div>
+</form></div>
+
+  
+<ul>
+    <li>
+      <a class="off-canvas-category-link--empty" href="/page/top_sellers">Popular Files</a>
+    </li>
+    <li>
+      <a class="off-canvas-category-link--empty" href="/feature">Featured Files</a>
+    </li>
+    <li>
+      <a class="off-canvas-category-link--empty" href="/category/all?date=this-month&amp;sort=sales&amp;utf8=%E2%9C%93&amp;view=list">Top New Files</a>
+    </li>
+    <li>
+      <a class="off-canvas-category-link--empty" href="/follow_feed">Follow Feed</a>
+    </li>
+    <li>
+      <a class="off-canvas-category-link--empty" href="/authors/top">Top Authors</a>
+    </li>
+    <li>
+      <a class="off-canvas-category-link--empty" href="/page/top_new_sellers">Top New Authors</a>
+    </li>
+    <li>
+      <a class="off-canvas-category-link--empty" href="/collections">Public Collections</a>
+    </li>
+    <li>
+        <a class="off-canvas-category-link" data-view="dropdown" data-dropdown-target="#off-canvas-after-effects" href="/category/after-effects-project-files">
+    After Effects
+</a>  <ul class="is-hidden" id="off-canvas-after-effects">
+      <li><a class="off-canvas-category-link--sub" href="/category/after-effects-project-files">Show all After Effects</a></li>
+
+      <li>
+        <a class="off-canvas-category-link--sub" href="/popular_item/by_category?category=after-effects-project-files">Popular Items</a>
+      </li>
+
+      <li>
+        <a class="off-canvas-category-link--sub" href="/category/after-effects-project-files/broadcast-packages">Broadcast Packages</a>
+      </li>
+      <li>
+        <a class="off-canvas-category-link--sub" href="/attributes/video-project-requires/Element 3D?sort=date">Element 3D</a>
+      </li>
+      <li>
+        <a class="off-canvas-category-link--sub" href="/category/after-effects-project-files/elements">Elements</a>
+      </li>
+      <li>
+        <a class="off-canvas-category-link--sub" href="/category/after-effects-project-files/infographics">Infographics</a>
+      </li>
+      <li>
+        <a class="off-canvas-category-link--sub" href="/category/after-effects-project-files/logo-stings">Logo Stings</a>
+      </li>
+      <li>
+        <a class="off-canvas-category-link--sub" href="/category/after-effects-project-files/openers">Openers</a>
+      </li>
+      <li>
+        <a class="off-canvas-category-link--sub" href="/category/after-effects-project-files/product-promo">Product Promo</a>
+      </li>
+      <li>
+        <a class="off-canvas-category-link--sub" href="/category/after-effects-project-files/titles">Titles</a>
+      </li>
+      <li>
+        <a class="off-canvas-category-link--sub" href="/category/after-effects-project-files/video-displays">Video Displays</a>
+      </li>
+
+  </ul>
+
+    </li>
+    <li>
+        <a class="off-canvas-category-link" data-view="dropdown" data-dropdown-target="#off-canvas-premiere-pro" href="/category/premiere-pro-templates">
+    Premiere Pro
+</a>  <ul class="is-hidden" id="off-canvas-premiere-pro">
+      <li><a class="off-canvas-category-link--sub" href="/category/premiere-pro-templates">Show all Premiere Pro</a></li>
+
+      <li>
+        <a class="off-canvas-category-link--sub" href="/popular_item/by_category?category=premiere-pro-templates">Popular Items</a>
+      </li>
+
+      <li>
+        <a class="off-canvas-category-link--sub" href="/category/premiere-pro-templates/broadcast-packages">Broadcast Packages</a>
+      </li>
+      <li>
+        <a class="off-canvas-category-link--sub" href="/category/premiere-pro-templates/elements">Elements</a>
+      </li>
+      <li>
+        <a class="off-canvas-category-link--sub" href="/category/premiere-pro-templates/infographics">Infographics</a>
+      </li>
+      <li>
+        <a class="off-canvas-category-link--sub" href="/category/premiere-pro-templates/logo-stings">Logo Stings</a>
+      </li>
+      <li>
+        <a class="off-canvas-category-link--sub" href="/category/premiere-pro-templates/openers">Openers</a>
+      </li>
+      <li>
+        <a class="off-canvas-category-link--sub" href="/category/premiere-pro-templates/product-promo">Product Promo</a>
+      </li>
+      <li>
+        <a class="off-canvas-category-link--sub" href="/category/premiere-pro-templates/titles">Titles</a>
+      </li>
+      <li>
+        <a class="off-canvas-category-link--sub" href="/category/premiere-pro-templates/video-displays">Video Displays</a>
+      </li>
+
+  </ul>
+
+    </li>
+    <li>
+        <a class="off-canvas-category-link" data-view="dropdown" data-dropdown-target="#off-canvas-apple-motion" href="/category/apple-motion-templates">
+    Apple Motion
+</a>  <ul class="is-hidden" id="off-canvas-apple-motion">
+      <li><a class="off-canvas-category-link--sub" href="/category/apple-motion-templates">Show all Apple Motion</a></li>
+
+      <li>
+        <a class="off-canvas-category-link--sub" href="/popular_item/by_category?category=apple-motion-templates">Popular Items</a>
+      </li>
+
+      <li>
+        <a class="off-canvas-category-link--sub" href="/category/apple-motion-templates/elements">Elements</a>
+      </li>
+      <li>
+        <a class="off-canvas-category-link--sub" href="/category/apple-motion-templates/logo-stings">Logo Stings</a>
+      </li>
+      <li>
+        <a class="off-canvas-category-link--sub" href="/category/apple-motion-templates/openers">Openers</a>
+      </li>
+      <li>
+        <a class="off-canvas-category-link--sub" href="/category/apple-motion-templates/titles">Titles</a>
+      </li>
+      <li>
+        <a class="off-canvas-category-link--sub" href="/category/apple-motion-templates/video-displays">Video Displays</a>
+      </li>
+
+  </ul>
+
+    </li>
+    <li>
+        <a class="off-canvas-category-link" data-view="dropdown" data-dropdown-target="#off-canvas-davinci-resolve" href="/category/davinci-resolve-templates">
+    DaVinci Resolve
+      &nbsp;<span class="e-text-label -size-s -color-grey-light">New</span>
+</a>  <ul class="is-hidden" id="off-canvas-davinci-resolve">
+      <li><a class="off-canvas-category-link--sub" href="/category/davinci-resolve-templates">Show all DaVinci Resolve</a></li>
+
+      <li>
+        <a class="off-canvas-category-link--sub" href="/popular_item/by_category?category=davinci-resolve-templates">Popular Items</a>
+      </li>
+
+      <li>
+        <a class="off-canvas-category-link--sub" href="/category/davinci-resolve-templates/broadcast-packages">Broadcast Packages</a>
+      </li>
+      <li>
+        <a class="off-canvas-category-link--sub" href="/category/davinci-resolve-templates/elements">Elements</a>
+      </li>
+      <li>
+        <a class="off-canvas-category-link--sub" href="/category/davinci-resolve-templates/infographics">Infographics</a>
+      </li>
+      <li>
+        <a class="off-canvas-category-link--sub" href="/category/davinci-resolve-templates/logo-stings">Logo Stings</a>
+      </li>
+      <li>
+        <a class="off-canvas-category-link--sub" href="/category/davinci-resolve-templates/openers">Openers</a>
+      </li>
+      <li>
+        <a class="off-canvas-category-link--sub" href="/category/davinci-resolve-templates/product-promo">Product Promo</a>
+      </li>
+      <li>
+        <a class="off-canvas-category-link--sub" href="/category/davinci-resolve-templates/titles">Titles</a>
+      </li>
+      <li>
+        <a class="off-canvas-category-link--sub" href="/category/davinci-resolve-templates/video-displays">Video Displays</a>
+      </li>
+
+  </ul>
+
+    </li>
+    <li>
+        <a class="off-canvas-category-link" data-view="dropdown" data-dropdown-target="#off-canvas-motion-graphics" href="/category/motion-graphics">
+    Motion Graphics
+</a>  <ul class="is-hidden" id="off-canvas-motion-graphics">
+      <li><a class="off-canvas-category-link--sub" href="/category/motion-graphics">Show all Motion Graphics</a></li>
+
+      <li>
+        <a class="off-canvas-category-link--sub" href="/popular_item/by_category?category=motion-graphics">Popular Items</a>
+      </li>
+
+      <li>
+        <a class="off-canvas-category-link--sub" href="/category/motion-graphics/backgrounds">Backgrounds</a>
+      </li>
+      <li>
+        <a class="off-canvas-category-link--sub" href="/category/motion-graphics/bugs">Bugs</a>
+      </li>
+      <li>
+        <a class="off-canvas-category-link--sub" href="/category/motion-graphics/elements">Elements</a>
+      </li>
+      <li>
+        <a class="off-canvas-category-link--sub" href="/category/motion-graphics/infographics">Infographics</a>
+      </li>
+      <li>
+        <a class="off-canvas-category-link--sub" href="/category/motion-graphics/interface-effects">Interface Effects</a>
+      </li>
+      <li>
+        <a class="off-canvas-category-link--sub" href="/category/motion-graphics/lower-thirds">Lower Thirds</a>
+      </li>
+      <li>
+        <a class="off-canvas-category-link--sub" href="/category/motion-graphics/overlays">Overlays</a>
+      </li>
+      <li>
+        <a class="off-canvas-category-link--sub" href="/category/motion-graphics/revealer">Revealer</a>
+      </li>
+      <li>
+        <a class="off-canvas-category-link--sub" href="/category/motion-graphics/transitions">Transitions</a>
+      </li>
+      <li>
+        <a class="off-canvas-category-link--sub" href="/category/motion-graphics/miscellaneous">Miscellaneous</a>
+      </li>
+
+  </ul>
+
+    </li>
+    <li>
+        <a class="off-canvas-category-link" data-view="dropdown" data-dropdown-target="#off-canvas-stock-footage" href="/category/stock-footage">
+    Stock Footage
+</a>  <ul class="is-hidden" id="off-canvas-stock-footage">
+      <li><a class="off-canvas-category-link--sub" href="/category/stock-footage">Show all Stock Footage</a></li>
+
+      <li>
+        <a class="off-canvas-category-link--sub" href="/popular_item/by_category?category=stock-footage">Popular Items</a>
+      </li>
+
+      <li>
+        <a class="off-canvas-category-link--sub" href="/category/stock-footage/buildings">Buildings</a>
+      </li>
+      <li>
+        <a class="off-canvas-category-link--sub" href="/category/stock-footage/business-corporate">Business, Corporate</a>
+      </li>
+      <li>
+        <a class="off-canvas-category-link--sub" href="/category/stock-footage/cartoons">Cartoons</a>
+      </li>
+      <li>
+        <a class="off-canvas-category-link--sub" href="/category/stock-footage/city">City</a>
+      </li>
+      <li>
+        <a class="off-canvas-category-link--sub" href="/category/stock-footage/construction">Construction</a>
+      </li>
+      <li>
+        <a class="off-canvas-category-link--sub" href="/category/stock-footage/education">Education</a>
+      </li>
+      <li>
+        <a class="off-canvas-category-link--sub" href="/category/stock-footage/food">Food</a>
+      </li>
+      <li>
+        <a class="off-canvas-category-link--sub" href="/category/stock-footage/holidays">Holidays</a>
+      </li>
+      <li>
+        <a class="off-canvas-category-link--sub" href="/category/stock-footage/industrial">Industrial</a>
+      </li>
+      <li>
+        <a class="off-canvas-category-link--sub" href="/category/stock-footage/kids">Kids</a>
+      </li>
+      <li>
+        <a class="off-canvas-category-link--sub" href="/category/stock-footage/lifestyle">Lifestyle</a>
+      </li>
+      <li>
+        <a class="off-canvas-category-link--sub" href="/category/stock-footage/medical">Medical</a>
+      </li>
+      <li>
+        <a class="off-canvas-category-link--sub" href="/category/stock-footage/military">Military</a>
+      </li>
+      <li>
+        <a class="off-canvas-category-link--sub" href="/category/stock-footage/nature">Nature</a>
+      </li>
+      <li>
+        <a class="off-canvas-category-link--sub" href="/category/stock-footage/overhead">Overhead</a>
+      </li>
+      <li>
+        <a class="off-canvas-category-link--sub" href="/category/stock-footage/people">People</a>
+      </li>
+      <li>
+        <a class="off-canvas-category-link--sub" href="/category/stock-footage/religious">Religious</a>
+      </li>
+      <li>
+        <a class="off-canvas-category-link--sub" href="/category/stock-footage/science">Science</a>
+      </li>
+      <li>
+        <a class="off-canvas-category-link--sub" href="/category/stock-footage/slow-motion">Slow Motion</a>
+      </li>
+      <li>
+        <a class="off-canvas-category-link--sub" href="/category/stock-footage/special-events">Special Events</a>
+      </li>
+      <li>
+        <a class="off-canvas-category-link--sub" href="/category/stock-footage/sports">Sports</a>
+      </li>
+      <li>
+        <a class="off-canvas-category-link--sub" href="/category/stock-footage/stop-motion">Stop Motion</a>
+      </li>
+      <li>
+        <a class="off-canvas-category-link--sub" href="/category/stock-footage/technology">Technology</a>
+      </li>
+      <li>
+        <a class="off-canvas-category-link--sub" href="/category/stock-footage/time-lapse">Time Lapse</a>
+      </li>
+      <li>
+        <a class="off-canvas-category-link--sub" href="/category/stock-footage/vehicles">Vehicles</a>
+      </li>
+      <li>
+        <a class="off-canvas-category-link--sub" href="/category/stock-footage/weather">Weather</a>
+      </li>
+
+  </ul>
+
+    </li>
+    <li>
+        <a class="off-canvas-category-link" data-view="dropdown" data-dropdown-target="#off-canvas-add-ons" href="/category/add-ons">
+    Add Ons
+</a>  <ul class="is-hidden" id="off-canvas-add-ons">
+      <li><a class="off-canvas-category-link--sub" href="/category/add-ons">Show all Add Ons</a></li>
+
+      <li>
+        <a class="off-canvas-category-link--sub" href="/popular_item/by_category?category=add-ons">Popular Items</a>
+      </li>
+
+      <li>
+        <a class="off-canvas-category-link--sub" href="/category/add-ons/after-effects-presets">After Effects Presets</a>
+      </li>
+      <li>
+        <a class="off-canvas-category-link--sub" href="/category/add-ons/after-effects-scripts">After Effects Scripts</a>
+      </li>
+      <li>
+        <a class="off-canvas-category-link--sub" href="/category/add-ons/premiere-pro-presets">Premiere Pro Presets</a>
+      </li>
+
+  </ul>
+
+    </li>
+    <li>
+        <a class="off-canvas-category-link" data-view="dropdown" data-dropdown-target="#off-canvas-video-maker" href="https://placeit.net/video-maker?utm_source=envatomarket&amp;utm_medium=promos&amp;utm_campaign=placeit_mkt-menu-video&amp;utm_content=video_maker">
+    Video Maker
+</a>  <ul class="is-hidden" id="off-canvas-video-maker">
+
+
+      <li>
+        <a class="off-canvas-category-link--sub" href="https://placeit.net/video-maker?utm_source=envatomarket&amp;utm_medium=promos&amp;utm_campaign=placeit_mkt-menu-video&amp;utm_content=video_maker">Video Maker</a>
+      </li>
+      <li>
+        <a class="off-canvas-category-link--sub" href="https://placeit.net/intro-maker?utm_source=envatomarket&amp;utm_medium=promos&amp;utm_campaign=placeit_mkt-menu-video&amp;utm_content=intro_maker">Intro Maker</a>
+      </li>
+      <li>
+        <a class="off-canvas-category-link--sub" href="https://placeit.net/slideshow-video-maker?utm_source=envatomarket&amp;utm_medium=promos&amp;utm_campaign=placeit_mkt-menu-video&amp;utm_content=slideshow_maker">Slideshow Maker</a>
+      </li>
+      <li>
+        <a class="off-canvas-category-link--sub" href="https://placeit.net/instagram-story-video-maker?utm_source=envatomarket&amp;utm_medium=promos&amp;utm_campaign=placeit_mkt-menu-video&amp;utm_content=instagram_story_video_maker">Instagram Story Video Maker</a>
+      </li>
+      <li>
+        <a class="off-canvas-category-link--sub" href="https://placeit.net/promo-video-templates?utm_source=envatomarket&amp;utm_medium=promos&amp;utm_campaign=placeit_mkt-menu-vidoe&amp;utm_content=offers_sales">Promo Video Maker</a>
+      </li>
+      <li>
+        <a class="off-canvas-category-link--sub" href="https://placeit.net/teaser-video-maker?utm_source=envatomarket&amp;utm_medium=promos&amp;utm_campaign=placeit_mkt-menu-vidoe&amp;utm_content=content_teaser">Teaser Video Maker</a>
+      </li>
+      <li>
+        <a class="off-canvas-category-link--sub" href="https://placeit.net/quote-video-maker?utm_source=envatomarket&amp;utm_medium=promos&amp;utm_campaign=placeit_mkt-menu-vidoe&amp;utm_content=inspirational_quote">Inspirational Quote</a>
+      </li>
+      <li>
+        <a class="off-canvas-category-link--sub" href="https://placeit.net/tutorial-video-maker?utm_source=envatomarket&amp;utm_medium=promos&amp;utm_campaign=placeit_mkt-menu-vidoe&amp;utm_content=tutorial">Step by Step Tutorial</a>
+      </li>
+      <li>
+        <a class="off-canvas-category-link--sub" href="https://placeit.net/product-video-maker?utm_source=envatomarket&amp;utm_medium=promos&amp;utm_campaign=placeit_mkt-menu-vidoe&amp;utm_content=product_service_overview">Product / Service Overview</a>
+      </li>
+      <li>
+        <a class="off-canvas-category-link--sub" href="https://placeit.net/testimonial-video-templates?utm_source=envatomarket&amp;utm_medium=promos&amp;utm_campaign=placeit_mkt-menu-vidoe&amp;utm_content=customer_testimonial">Customer Testimonial</a>
+      </li>
+
+  </ul>
+
+    </li>
+
+    <li>
+      <a class="off-canvas-category-link" data-view="dropdown" data-dropdown-target="#off-canvas-more" href="/category">More</a>
+
+      <ul class="is-hidden" id="off-canvas-more">
+          <li>
+            <a class="off-canvas-category-link--sub" href="/category/cinema-4d-templates/elements">Cinema 4D Elements</a>
+          </li>
+          <li>
+            <a class="off-canvas-category-link--sub" href="/category/cinema-4d-templates/elements">Cinema 4D Logo Stings </a>
+          </li>
+          <li>
+            <a class="off-canvas-category-link--sub" href="/category/cinema-4d-templates/elements">Cinema 4D Openers</a>
+          </li>
+          <li>
+            <a class="off-canvas-category-link--sub" href="/category/cinema-4d-templates/elements">Cinema 4D Titles</a>
+          </li>
+          <li>
+            <a class="off-canvas-category-link--sub" href="/category/cinema-4d-templates/elements">Cinema 4D Video Displays</a>
+          </li>
+          <li>
+            <a class="off-canvas-category-link--sub" href="/search/logo">Logo Files</a>
+          </li>
+          <li>
+            <a class="off-canvas-category-link--sub" href="/search/news">News Files</a>
+          </li>
+          <li>
+            <a class="off-canvas-category-link--sub" href="/search/wedding">Wedding Files</a>
+          </li>
+      </ul>
+    </li>
+</ul>
+
+</div>
+
+          </div>
+
+        <div class="page__off-canvas--right overthrow">
+          <div class="off-canvas-right">
+    <a class="off-canvas-right__link--cart" href="/cart">
+  Guest Cart
+  <div class="shopping-cart-summary is-empty" data-view="cartCount">
+    <span class="js-cart-summary-count shopping-cart-summary__count">0</span>
+    <i class="e-icon -icon-cart"></i>
+  </div>
+</a>
+<a class="off-canvas-right__link" href="/sign_up">
+  Create an Envato Account
+  <i class="e-icon -icon-envato"></i>
+</a>
+<a class="off-canvas-right__link" href="/sign_in">
+  Sign In
+  <i class="e-icon -icon-login"></i>
+</a>
+</div>
+
+        </div>
+
+      <div class="page__canvas">
+        <div class="canvas">
+          <div class="canvas__header">
+              <div class="banner" style="display: none;" data-view="banner" data-cache-key="banner_elements_mkt-header_general_4Feb2021_B_cache" data-google-analytics-payload="{&quot;actionData&quot;:null,&quot;productsArray&quot;:[{&quot;id&quot;:&quot;elements_mkt-header_general_4Feb2021_B&quot;,&quot;name&quot;:&quot;elements_mkt-header_general_4Feb2021_B&quot;}],&quot;timestamp&quot;:1612902269}" data-cookiebot-enabled="true">
+
+      <div class="headerstrip-wrapper">
+  <button title="dismiss" type="button" class='js-banner__dismiss headerstrip__banner-dismiss'>
+    <svg class="headerstrip__dismiss-icon" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+      <path d="M19.8 2.4c.3.3.3.8 0 1.1l-6 6c-.3.3-.3.8 0 1.1l6 6c.3.3.3.8 0 1.1l-2.2 2.2c-.3.3-.8.3-1.1 0l-6-6c-.3-.3-.8-.3-1.1 0l-6 6c-.3.3-.8.3-1.1 0L.1 17.7c-.3-.3-.3-.8 0-1.1l6-6c.3-.3.3-.8 0-1.1l-6-6c-.3-.3-.3-.8 0-1.1L2.3.2c.3-.3.8-.3 1.1 0l6 6c.3.3.8.3 1.1 0l6-6c.3-.3.8-.3 1.1 0l2.2 2.2z"/>
+    </svg>
+  </button>
+  <a class="headerstrip js-banner__link" href="https://elements.envato.com/pricing?utm_campaign=elements_mkt-header_general_4Feb2021_B&amp;utm_content=vh_header-bar&amp;utm_medium=promos&amp;utm_source=videohive.net" target="_blank" rel="noopener noreferrer">
+    <div class="headerstrip-content-background"></div>
+    <div class="headerstrip-canvas is-hidden-desktop">
+      <div class="headerstrip-content">
+        <div class="headerstrip-text">
+          <strong>Envato Elements:</strong>
+          <span class="js-banner__link headerstrip-cta-mobile" href="https://elements.envato.com/pricing?utm_campaign=elements_mkt-header_general_4Feb2021_B&amp;utm_content=vh_header-bar&amp;utm_medium=promos&amp;utm_source=videohive.net">Go Unlimited</span>
+        </div>
+      </div>
+    </div>
+    <div class="headerstrip-canvas is-hidden-tablet-and-below">
+      <div class="headerstrip-content">
+        <div class="headerstrip-text">
+          <strong>Envato Elements:</strong>  Millions of creative assets. Unlimited downloads. From $16.50/m.
+        </div>
+        <span class="js-banner__link headerstrip-cta" href="https://elements.envato.com/pricing?utm_campaign=elements_mkt-header_general_4Feb2021_B&amp;utm_content=vh_header-bar&amp;utm_medium=promos&amp;utm_source=videohive.net">Get Unlimited Downloads</span>
+      </div>
+    </div>
+  </a>
+</div>
+
+
+<style media="screen">
+  .headerstrip-wrapper {
+  height: 50px;
+  position: relative;
+}
+
+.headerstrip-wrapper .headerstrip__banner-dismiss {
+  width: 12px;
+  height: 12px;
+  background: none;
+  border: none;
+  -webkit-box-sizing: content-box;
+  -moz-box-sizing: content-box;
+  box-sizing: content-box;
+  padding: 0;
+  position: absolute;
+  font: inherit;
+  height: 100%;
+  line-height: 0;
+  cursor: pointer;
+  outline: inherit;
+  opacity: 0.4;
+  padding: 0 16px;
+  color: white;
+  text-decoration: none;
+  -webkit-transition: all 100ms ease;
+  -moz-transition: all 100ms ease;
+  -o-transition: all 100ms ease;
+  transition: all 100ms ease;
+  right: 0;
+  top: 0;
+  z-index: 2;
+}
+
+.headerstrip-wrapper .headerstrip__banner-dismiss:hover {
+  -webkit-transform: scale(1.3);
+  transform: scale(1.3);
+}
+
+.headerstrip-wrapper .headerstrip__banner-dismiss svg {
+  fill: #000000;
+}
+
+.headerstrip {
+  display: block;
+  height: 50px;
+  font-family: arial;
+  font-size: 14px;
+  position: relative;
+  text-decoration: none !important;
+  z-index: 1;
+}
+
+.headerstrip .headerstrip-content-background {
+  background-color: #fff;
+  opacity: 1;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: #FFFFFF; /* For browsers that do not support gradients */
+  background: -webkit-linear-gradient(left, #FFFFFF, #FFFFFF); /* For Safari 5.1 to 6.0 */
+  background: linear-gradient(to right, #FFFFFF, #FFFFFF); /* Standard syntax */
+    background-image: url(https://assets.banners.envato-static.com/header_banner/background_image/97188a6146.png);
+  background-repeat: repeat-x;
+}
+
+.headerstrip .headerstrip-canvas {
+  height: 50px;
+  margin: auto auto;
+}
+
+.headerstrip .headerstrip-content {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-size: 1000px 50px;
+  width: 100%;
+  height: 50px;
+  max-width: 1408px;
+  padding-left: 16px;
+  padding-right: 16px;
+  margin: 0 auto;
+}
+
+.headerstrip .headerstrip-text {
+  color: #383838;
+  text-decoration: none;
+  padding-right: 24px;
+  font-weight: 300;
+  letter-spacing: 0.8px;
+  position: relative;
+}
+
+.headerstrip .headerstrip-text strong {
+  font-weight: 600;
+}
+
+.headerstrip .headerstrip-cta-container {
+  display: flex;
+}
+
+.headerstrip .headerstrip-cta {
+  position: relative;
+  background-color: #F73859;
+  padding: 5px 30px;
+  color: #FFFFFF;
+  font-weight: 600;
+  border-radius: 4px;
+  text-decoration: none;
+  display: block;
+  text-align: center;
+  min-width: 100px;
+}
+
+.headerstrip .headerstrip-cta-mobile {
+  color: #F73859;
+  text-decoration: underline;
+  padding-left: 5px;
+}
+
+.headerstrip .headerstrip-cta-mobile:hover {
+  color: #F73859;
+}
+
+
+.headerstrip .is-hidden-desktop .headerstrip-content {
+  text-align: center;
+}
+
+.headerstrip .is-hidden-desktop .headerstrip-text {
+  position: relative;
+  padding-right: 24px;
+}
+
+.headerstrip .is-hidden-desktop .headerstrip__banner-dismiss {
+  margin-left: 0;
+}
+
+.headerstrip .headerstrip__dismiss-icon {
+  width: 12px;
+  height: 12px;
+  fill: #383838;
+  display: inline-block;
+}
+
+@media (max-width: 1024px) {
+  .headerstrip .is-hidden-tablet-and-below {
+    display: none !important;
+  }
+}
+
+@media (min-width: 1025px) {
+  .headerstrip .is-hidden-desktop {
+    display: none !important
+  }
+}
+
+</style>
+
+</div>
+
+            <header class="site-header">
+                <div class="site-header__mini is-hidden-desktop">
+                  <div class="header-mini">
+  <div class="header-mini__button--account">
+    <a class="btn btn--square" data-view="offCanvasNavToggle" data-off-canvas="right" href="#account">
+      <i class="e-icon -icon-person"></i>
+      <span class="is-hidden">Account</span>
+</a>  </div>
+
+    <div class="header-mini__button--categories">
+      <a class="btn btn--square" data-view="offCanvasNavToggle" data-off-canvas="left" href="#categories">
+        <i class="e-icon -icon-hamburger"></i>
+        <span class="is-hidden">Sites, Search &amp; Categories</span>
+</a>    </div>
+
+  <div class="header-mini__logo">
+  <a href="https://videohive.net/?auto_signin=true">
+    <img alt="VideoHive" class="header-mini__logo--videohive" src="https://public-assets.envato-static.com/assets/common/transparent-1px-93ae7d494fad0fb30cbf3ae746a39c4bc7a0f8bbf87fbb587a3f3c01f3c5ce20.png" />
+</a></div>
+
+
+</div>
+
+                </div>
+
+              <div class="global-header is-hidden-tablet-and-below">
+
+  <div class='grid-container -layout-wide'>
+    <div class='global-header__wrapper'>
+      <a href="https://videohive.net">
+        <img alt="Envato Market" class="global-header__logo" src="https://public-assets.envato-static.com/assets/logos/envato_market-a5ace93f8482e885ae008eb481b9451d379599dfed24868e52b6b2d66f5cf633.svg" />
+</a>
+      <nav class='global-header-menu' role='navigation'>
+        <ul class='global-header-menu__list'>
+            <li class='global-header-menu__list-item'>
+              <a class="global-header-menu__link" href="https://forums.envato.com">
+                <span class='global-header-menu__link-text'>
+                  Forums
+                </span>
+</a>            </li>
+            <li class='global-header-menu__list-item'>
+              <a class="global-header-menu__link" href="https://author.envato.com">
+                <span class='global-header-menu__link-text'>
+                  Start Selling
+                </span>
+</a>            </li>
+
+
+          <li class='global-header-menu__list-item--with-dropdown'>
+  <a data-lazy-load-trigger="mouseover" class="global-header-menu__link" href="#">
+            <svg width="16px"
+             height="16px"
+             viewBox="0 0 16 16"
+             class="global-header-menu__icon"
+             xmlns="http://www.w3.org/2000/svg"
+             aria-labelledby="title"
+             role="img">
+          <title>Menu</title>
+          <path d="M3.5 2A1.5 1.5 0 0 1 5 3.5 1.5 1.5 0 0 1 3.5 5 1.5 1.5 0 0 1 2 3.5 1.5 1.5 0 0 1 3.5 2zM8 2a1.5 1.5 0 0 1 1.5 1.5A1.5 1.5 0 0 1 8 5a1.5 1.5 0 0 1-1.5-1.5A1.5 1.5 0 0 1 8 2zM12.5 2A1.5 1.5 0 0 1 14 3.5 1.5 1.5 0 0 1 12.5 5 1.5 1.5 0 0 1 11 3.5 1.5 1.5 0 0 1 12.5 2zM3.5 6.5A1.5 1.5 0 0 1 5 8a1.5 1.5 0 0 1-1.5 1.5A1.5 1.5 0 0 1 2 8a1.5 1.5 0 0 1 1.5-1.5zM8 6.5A1.5 1.5 0 0 1 9.5 8 1.5 1.5 0 0 1 8 9.5 1.5 1.5 0 0 1 6.5 8 1.5 1.5 0 0 1 8 6.5zM12.5 6.5A1.5 1.5 0 0 1 14 8a1.5 1.5 0 0 1-1.5 1.5A1.5 1.5 0 0 1 11 8a1.5 1.5 0 0 1 1.5-1.5zM3.5 11A1.5 1.5 0 0 1 5 12.5 1.5 1.5 0 0 1 3.5 14 1.5 1.5 0 0 1 2 12.5 1.5 1.5 0 0 1 3.5 11zM8 11a1.5 1.5 0 0 1 1.5 1.5A1.5 1.5 0 0 1 8 14a1.5 1.5 0 0 1-1.5-1.5A1.5 1.5 0 0 1 8 11zM12.5 11a1.5 1.5 0 0 1 1.5 1.5 1.5 1.5 0 0 1-1.5 1.5 1.5 1.5 0 0 1-1.5-1.5 1.5 1.5 0 0 1 1.5-1.5z"></path>
+
+        </svg>
+
+    <span class='global-header-menu__link-text'>
+      Our Products
+    </span>
+</a>
+  <div class='global-header-menu__dropdown-container'>
+    <div class='global-header-dropdown'>
+      <ul class='global-header-dropdown__list'>
+          <li>
+            <a class="global-header-dropdown__link" target="_blank" href="https://elements.envato.com?utm_source=Market&amp;utm_medium=promos&amp;utm_campaign=elements_mkt-headernav_our_products&amp;utm_content=headernav">
+              <span data-src="https://public-assets.envato-static.com/assets/header/EnvatoElements-logo-93296989e268af4b90133a4016d66fa11eeab8340c5c90d9a172427209e8d492.svg" data-alt="Envato Elements" data-class="global-header-dropdown__product-logo" class="lazy-load-img global-header-dropdown__product-logo"></span>
+                <span class="global-header-dropdown__link-text -decoration-none">Digital assets subscription</span>
+</a>          </li>
+          <li>
+            <a class="global-header-dropdown__link" target="_blank" href="https://studio.envato.com">
+              <span data-src="https://public-assets.envato-static.com/assets/header/EnvatoStudio-logo-4e63b93037b3f8f30f9f2f39082fd4d0846af758674cf9c9463d4ac08c3fcb97.svg" data-alt="Envato Studio" data-class="global-header-dropdown__product-logo" class="lazy-load-img global-header-dropdown__product-logo"></span>
+                <span class="global-header-dropdown__link-text -decoration-none">Hire a freelancer</span>
+</a>          </li>
+          <li>
+            <a class="global-header-dropdown__link" target="_blank" href="https://tutsplus.com">
+              <span data-src="https://public-assets.envato-static.com/assets/header/EnvatoTuts-logo-4fcaac6c4c0e62fdc9f305be3d842f59814843c2792e57d15b2bd25883d8547a.svg" data-alt="Tuts+" data-class="global-header-dropdown__product-logo" class="lazy-load-img global-header-dropdown__product-logo"></span>
+                <span class="global-header-dropdown__link-text -decoration-none">Tutorials &amp; courses</span>
+</a>          </li>
+          <li>
+            <a class="global-header-dropdown__link" target="_blank" href="https://placeit.net?utm_source=envatomarket&amp;utm_medium=promos&amp;utm_campaign=placeit_mkt-headernav&amp;utm_content=headernav_our_products">
+              <span data-src="https://public-assets.envato-static.com/assets/header/Placeit-logo-66bfe89630200c82c66dc97b686d7b319bc4b170b165cb30eaae7117929effa7.svg" data-alt="Placeit by Envato" data-class="global-header-dropdown__product-logo" class="lazy-load-img global-header-dropdown__product-logo"></span>
+                <span class="global-header-dropdown__link-text -decoration-none">Create designs, videos &amp; mockups</span>
+</a>          </li>
+      </ul>
+
+      <div class='global-header-dropdown-footer'>
+        <ul>
+            <li class='global-header-dropdown-footer__list-item'>
+              Join the
+              <a class="global-header-dropdown-footer__link" target="_blank" href="http://community.envato.com">
+                Envato community
+</a>            </li>
+            <li class='global-header-dropdown-footer__list-item'>
+              Learn from others in
+              <a class="global-header-dropdown-footer__link" target="_blank" href="https://forums.envato.com">
+                the forums
+</a>            </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</li>
+
+          <li class='global-header-menu__list-item -background-light -border-radius'>
+  <a id="spec-link-cart" class="global-header-menu__link h-pr1" href="/cart">
+            <svg width="16px"
+             height="16px"
+             viewBox="0 0 16 16"
+             class="global-header-menu__icon global-header-menu__icon-cart"
+             xmlns="http://www.w3.org/2000/svg"
+             aria-labelledby="title"
+             role="img">
+          <title>Cart</title>
+          <path d="M 0.009 1.349 C 0.009 1.753 0.347 2.086 0.765 2.086 C 0.765 2.086 0.766 2.086 0.767 2.086 L 0.767 2.09 L 2.289 2.09 L 5.029 7.698 L 4.001 9.507 C 3.88 9.714 3.812 9.958 3.812 10.217 C 3.812 11.028 4.496 11.694 5.335 11.694 L 14.469 11.694 L 14.469 11.694 C 14.886 11.693 15.227 11.36 15.227 10.957 C 15.227 10.552 14.886 10.221 14.469 10.219 L 14.469 10.217 L 5.653 10.217 C 5.547 10.217 5.463 10.135 5.463 10.031 L 5.487 9.943 L 6.171 8.738 L 11.842 8.738 C 12.415 8.738 12.917 8.436 13.175 7.978 L 15.901 3.183 C 15.96 3.08 15.991 2.954 15.991 2.828 C 15.991 2.422 15.65 2.09 15.23 2.09 L 3.972 2.09 L 3.481 1.077 L 3.466 1.043 C 3.343 0.79 3.084 0.612 2.778 0.612 C 2.777 0.612 0.765 0.612 0.765 0.612 C 0.347 0.612 0.009 0.943 0.009 1.349 Z M 3.819 13.911 C 3.819 14.724 4.496 15.389 5.335 15.389 C 6.171 15.389 6.857 14.724 6.857 13.911 C 6.857 13.097 6.171 12.434 5.335 12.434 C 4.496 12.434 3.819 13.097 3.819 13.911 Z M 11.431 13.911 C 11.431 14.724 12.11 15.389 12.946 15.389 C 13.784 15.389 14.469 14.724 14.469 13.911 C 14.469 13.097 13.784 12.434 12.946 12.434 C 12.11 12.434 11.431 13.097 11.431 13.911 Z"></path>
+
+        </svg>
+
+
+      <span class="global-header-menu__link-cart-amount is-hidden" data-view="headerCartCount">0</span>
+</a></li>
+
+            <li class='global-header-menu__list-item -background-light -border-radius'>
+    <a class="global-header-menu__link h-pl1" data-view="modalAjax" href="/sign_in">
+      <span id="spec-user-username" class='global-header-menu__link-text'>
+        Sign In
+      </span>
+</a>  </li>
+
+        </ul>
+      </nav>
+    </div>
+  </div>
+</div>
+<div>
+
+</div>
+
+
+              <div class="site-header__sites is-hidden-tablet-and-below">
+                <div class="header-sites header-site-titles">
+  <div class="grid-container -layout-wide">
+    <nav class="header-site-titles__container">
+        <div class="header-site-titles__site" >
+            <a class="header-site-titles__link t-link" alt="Web Templates" href="https://themeforest.net/?auto_signin=true">Web Themes &amp; Templates</a>
+        </div>
+        <div class="header-site-titles__site" >
+            <a class="header-site-titles__link t-link" alt="Code" href="https://codecanyon.net/?auto_signin=true">Code</a>
+        </div>
+        <div class="header-site-titles__site" >
+            <a class="header-site-titles__link t-link is-active" alt="Video" href="https://videohive.net/?auto_signin=true">Video</a>
+        </div>
+        <div class="header-site-titles__site" >
+            <a class="header-site-titles__link t-link" alt="Music" href="https://audiojungle.net/?auto_signin=true">Audio</a>
+        </div>
+        <div class="header-site-titles__site" >
+            <a class="header-site-titles__link t-link" alt="Graphics" href="https://graphicriver.net/?auto_signin=true">Graphics</a>
+        </div>
+        <div class="header-site-titles__site" >
+            <a class="header-site-titles__link t-link" alt="Photos" href="https://photodune.net/?auto_signin=true">Photos</a>
+        </div>
+        <div class="header-site-titles__site" >
+            <a class="header-site-titles__link t-link" alt="3D Files" href="https://3docean.net/?auto_signin=true">3D Files</a>
+        </div>
+      <div class="header-site-floating-logo__container">
+        <div class=header-site-floating-logo__videohive ></div>
+      </div>
+    </nav>
+  </div>
+</div>
+
+              </div>
+
+                  <div class="site-header__categories is-hidden-tablet-and-below">
+                    
+<div class="header-categories">
+  <div class="grid-container -layout-wide">
+    
+<ul class="header-categories__links">
+  <li class="header-categories__links-item">
+    <a class="header-categories__main-link" data-view="touchOnlyDropdown" data-dropdown-target=".js-categories-all-files-dropdown" href="/category/all">All Items</a>
+
+    <div class="header-categories__links-dropdown js-categories-all-files-dropdown">
+      <ul class="header-dropdown">
+          <li>
+            <a href="/page/top_sellers">Popular Files</a>
+          </li>
+          <li>
+            <a href="/feature">Featured Files</a>
+          </li>
+          <li>
+            <a href="/category/all?date=this-month&amp;sort=sales&amp;utf8=%E2%9C%93&amp;view=list">Top New Files</a>
+          </li>
+          <li>
+            <a href="/follow_feed">Follow Feed</a>
+          </li>
+          <li>
+            <a href="/authors/top">Top Authors</a>
+          </li>
+          <li>
+            <a href="/page/top_new_sellers">Top New Authors</a>
+          </li>
+          <li>
+            <a href="/collections">Public Collections</a>
+          </li>
+          <li>
+            <a href="/category">View All Categories</a>
+          </li>
+      </ul>
+    </div>
+  </li>
+
+    <li class="header-categories__links-item">
+      
+  <a class="header-categories__main-link" data-view="touchOnlyDropdown" data-dropdown-target=".js-categories-0-dropdown" href="/category/after-effects-project-files">
+    After Effects
+</a>  <div class="header-categories__links-dropdown js-categories-0-dropdown">
+    <ul class="header-dropdown">
+        <li>
+          <a class="header-dropdown__top" href="/popular_item/by_category?category=after-effects-project-files">Popular Items</a>
+        </li>
+
+        <li class="header-dropdown__all-items">
+          <a href="/category/after-effects-project-files">All Items</a>
+        </li>
+
+        <li>
+          <a href="/category/after-effects-project-files/broadcast-packages">Broadcast Packages</a>
+        </li>
+        <li>
+          <a href="/attributes/video-project-requires/Element 3D?sort=date">Element 3D</a>
+        </li>
+        <li>
+          <a href="/category/after-effects-project-files/elements">Elements</a>
+        </li>
+        <li>
+          <a href="/category/after-effects-project-files/infographics">Infographics</a>
+        </li>
+        <li>
+          <a href="/category/after-effects-project-files/logo-stings">Logo Stings</a>
+        </li>
+        <li>
+          <a href="/category/after-effects-project-files/openers">Openers</a>
+        </li>
+        <li>
+          <a href="/category/after-effects-project-files/product-promo">Product Promo</a>
+        </li>
+        <li>
+          <a href="/category/after-effects-project-files/titles">Titles</a>
+        </li>
+        <li>
+          <a href="/category/after-effects-project-files/video-displays">Video Displays</a>
+        </li>
+
+    </ul>
+  </div>
+
+    </li>
+    <li class="header-categories__links-item">
+      
+  <a class="header-categories__main-link" data-view="touchOnlyDropdown" data-dropdown-target=".js-categories-1-dropdown" href="/category/premiere-pro-templates">
+    Premiere Pro
+</a>  <div class="header-categories__links-dropdown js-categories-1-dropdown">
+    <ul class="header-dropdown">
+        <li>
+          <a class="header-dropdown__top" href="/popular_item/by_category?category=premiere-pro-templates">Popular Items</a>
+        </li>
+
+        <li class="header-dropdown__all-items">
+          <a href="/category/premiere-pro-templates">All Items</a>
+        </li>
+
+        <li>
+          <a href="/category/premiere-pro-templates/broadcast-packages">Broadcast Packages</a>
+        </li>
+        <li>
+          <a href="/category/premiere-pro-templates/elements">Elements</a>
+        </li>
+        <li>
+          <a href="/category/premiere-pro-templates/infographics">Infographics</a>
+        </li>
+        <li>
+          <a href="/category/premiere-pro-templates/logo-stings">Logo Stings</a>
+        </li>
+        <li>
+          <a href="/category/premiere-pro-templates/openers">Openers</a>
+        </li>
+        <li>
+          <a href="/category/premiere-pro-templates/product-promo">Product Promo</a>
+        </li>
+        <li>
+          <a href="/category/premiere-pro-templates/titles">Titles</a>
+        </li>
+        <li>
+          <a href="/category/premiere-pro-templates/video-displays">Video Displays</a>
+        </li>
+
+    </ul>
+  </div>
+
+    </li>
+    <li class="header-categories__links-item">
+      
+  <a class="header-categories__main-link" data-view="touchOnlyDropdown" data-dropdown-target=".js-categories-2-dropdown" href="/category/apple-motion-templates">
+    Apple Motion
+</a>  <div class="header-categories__links-dropdown js-categories-2-dropdown">
+    <ul class="header-dropdown">
+        <li>
+          <a class="header-dropdown__top" href="/popular_item/by_category?category=apple-motion-templates">Popular Items</a>
+        </li>
+
+        <li class="header-dropdown__all-items">
+          <a href="/category/apple-motion-templates">All Items</a>
+        </li>
+
+        <li>
+          <a href="/category/apple-motion-templates/elements">Elements</a>
+        </li>
+        <li>
+          <a href="/category/apple-motion-templates/logo-stings">Logo Stings</a>
+        </li>
+        <li>
+          <a href="/category/apple-motion-templates/openers">Openers</a>
+        </li>
+        <li>
+          <a href="/category/apple-motion-templates/titles">Titles</a>
+        </li>
+        <li>
+          <a href="/category/apple-motion-templates/video-displays">Video Displays</a>
+        </li>
+
+    </ul>
+  </div>
+
+    </li>
+    <li class="header-categories__links-item">
+      
+  <a class="header-categories__main-link header-categories__main-link--new_label" data-view="touchOnlyDropdown" data-dropdown-target=".js-categories-3-dropdown" href="/category/davinci-resolve-templates">
+    DaVinci Resolve
+      &nbsp;<span class="e-text-label -size-s -color-grey-light">New</span>
+</a>  <div class="header-categories__links-dropdown js-categories-3-dropdown">
+    <ul class="header-dropdown">
+        <li>
+          <a class="header-dropdown__top" href="/popular_item/by_category?category=davinci-resolve-templates">Popular Items</a>
+        </li>
+
+        <li class="header-dropdown__all-items">
+          <a href="/category/davinci-resolve-templates">All Items</a>
+        </li>
+
+        <li>
+          <a href="/category/davinci-resolve-templates/broadcast-packages">Broadcast Packages</a>
+        </li>
+        <li>
+          <a href="/category/davinci-resolve-templates/elements">Elements</a>
+        </li>
+        <li>
+          <a href="/category/davinci-resolve-templates/infographics">Infographics</a>
+        </li>
+        <li>
+          <a href="/category/davinci-resolve-templates/logo-stings">Logo Stings</a>
+        </li>
+        <li>
+          <a href="/category/davinci-resolve-templates/openers">Openers</a>
+        </li>
+        <li>
+          <a href="/category/davinci-resolve-templates/product-promo">Product Promo</a>
+        </li>
+        <li>
+          <a href="/category/davinci-resolve-templates/titles">Titles</a>
+        </li>
+        <li>
+          <a href="/category/davinci-resolve-templates/video-displays">Video Displays</a>
+        </li>
+
+    </ul>
+  </div>
+
+    </li>
+    <li class="header-categories__links-item">
+      
+  <a class="header-categories__main-link" data-view="touchOnlyDropdown" data-dropdown-target=".js-categories-4-dropdown" href="/category/motion-graphics">
+    Motion Graphics
+</a>  <div class="header-categories__links-dropdown js-categories-4-dropdown">
+    <ul class="header-dropdown">
+        <li>
+          <a class="header-dropdown__top" href="/popular_item/by_category?category=motion-graphics">Popular Items</a>
+        </li>
+
+        <li class="header-dropdown__all-items">
+          <a href="/category/motion-graphics">All Items</a>
+        </li>
+
+        <li>
+          <a href="/category/motion-graphics/backgrounds">Backgrounds</a>
+        </li>
+        <li>
+          <a href="/category/motion-graphics/bugs">Bugs</a>
+        </li>
+        <li>
+          <a href="/category/motion-graphics/elements">Elements</a>
+        </li>
+        <li>
+          <a href="/category/motion-graphics/infographics">Infographics</a>
+        </li>
+        <li>
+          <a href="/category/motion-graphics/interface-effects">Interface Effects</a>
+        </li>
+        <li>
+          <a href="/category/motion-graphics/lower-thirds">Lower Thirds</a>
+        </li>
+        <li>
+          <a href="/category/motion-graphics/overlays">Overlays</a>
+        </li>
+        <li>
+          <a href="/category/motion-graphics/revealer">Revealer</a>
+        </li>
+        <li>
+          <a href="/category/motion-graphics/transitions">Transitions</a>
+        </li>
+        <li>
+          <a href="/category/motion-graphics/miscellaneous">Miscellaneous</a>
+        </li>
+
+    </ul>
+  </div>
+
+    </li>
+    <li class="header-categories__links-item">
+      
+  <a class="header-categories__main-link" data-view="touchOnlyDropdown" data-dropdown-target=".js-categories-5-dropdown" href="/category/stock-footage">
+    Stock Footage
+</a>  <div class="header-categories__links-dropdown js-categories-5-dropdown">
+    <ul class="header-dropdown">
+        <li>
+          <a class="header-dropdown__top" href="/popular_item/by_category?category=stock-footage">Popular Items</a>
+        </li>
+
+        <li class="header-dropdown__all-items">
+          <a href="/category/stock-footage">All Items</a>
+        </li>
+
+        <li>
+          <a href="/category/stock-footage/buildings">Buildings</a>
+        </li>
+        <li>
+          <a href="/category/stock-footage/business-corporate">Business, Corporate</a>
+        </li>
+        <li>
+          <a href="/category/stock-footage/cartoons">Cartoons</a>
+        </li>
+        <li>
+          <a href="/category/stock-footage/city">City</a>
+        </li>
+        <li>
+          <a href="/category/stock-footage/construction">Construction</a>
+        </li>
+        <li>
+          <a href="/category/stock-footage/education">Education</a>
+        </li>
+        <li>
+          <a href="/category/stock-footage/food">Food</a>
+        </li>
+        <li>
+          <a href="/category/stock-footage/holidays">Holidays</a>
+        </li>
+        <li>
+          <a href="/category/stock-footage/industrial">Industrial</a>
+        </li>
+        <li>
+          <a href="/category/stock-footage/kids">Kids</a>
+        </li>
+        <li>
+          <a href="/category/stock-footage/lifestyle">Lifestyle</a>
+        </li>
+        <li>
+          <a href="/category/stock-footage/medical">Medical</a>
+        </li>
+        <li>
+          <a href="/category/stock-footage/military">Military</a>
+        </li>
+        <li>
+          <a href="/category/stock-footage/nature">Nature</a>
+        </li>
+        <li>
+          <a href="/category/stock-footage/overhead">Overhead</a>
+        </li>
+        <li>
+          <a href="/category/stock-footage/people">People</a>
+        </li>
+        <li>
+          <a href="/category/stock-footage/religious">Religious</a>
+        </li>
+        <li>
+          <a href="/category/stock-footage/science">Science</a>
+        </li>
+        <li>
+          <a href="/category/stock-footage/slow-motion">Slow Motion</a>
+        </li>
+        <li>
+          <a href="/category/stock-footage/special-events">Special Events</a>
+        </li>
+        <li>
+          <a href="/category/stock-footage/sports">Sports</a>
+        </li>
+        <li>
+          <a href="/category/stock-footage/stop-motion">Stop Motion</a>
+        </li>
+        <li>
+          <a href="/category/stock-footage/technology">Technology</a>
+        </li>
+        <li>
+          <a href="/category/stock-footage/time-lapse">Time Lapse</a>
+        </li>
+        <li>
+          <a href="/category/stock-footage/vehicles">Vehicles</a>
+        </li>
+        <li>
+          <a href="/category/stock-footage/weather">Weather</a>
+        </li>
+
+    </ul>
+  </div>
+
+    </li>
+    <li class="header-categories__links-item">
+      
+  <a class="header-categories__main-link" data-view="touchOnlyDropdown" data-dropdown-target=".js-categories-6-dropdown" href="/category/add-ons">
+    Add Ons
+</a>  <div class="header-categories__links-dropdown js-categories-6-dropdown">
+    <ul class="header-dropdown">
+        <li>
+          <a class="header-dropdown__top" href="/popular_item/by_category?category=add-ons">Popular Items</a>
+        </li>
+
+        <li class="header-dropdown__all-items">
+          <a href="/category/add-ons">All Items</a>
+        </li>
+
+        <li>
+          <a href="/category/add-ons/after-effects-presets">After Effects Presets</a>
+        </li>
+        <li>
+          <a href="/category/add-ons/after-effects-scripts">After Effects Scripts</a>
+        </li>
+        <li>
+          <a href="/category/add-ons/premiere-pro-presets">Premiere Pro Presets</a>
+        </li>
+
+    </ul>
+  </div>
+
+    </li>
+    <li class="header-categories__links-item">
+      
+  <a class="header-categories__main-link header-categories__main-link--offsite_icon" target="_blank" data-view="touchOnlyDropdown" data-dropdown-target=".js-categories-7-dropdown" href="https://placeit.net/video-maker?utm_source=envatomarket&amp;utm_medium=promos&amp;utm_campaign=placeit_mkt-menu-video&amp;utm_content=video_maker">
+    Video Maker
+</a>  <div class="header-categories__links-dropdown js-categories-7-dropdown">
+    <ul class="header-dropdown">
+
+        <li class="header-dropdown__all-items">
+          <a href="https://placeit.net/video-maker?utm_source=envatomarket&amp;utm_medium=promos&amp;utm_campaign=placeit_mkt-menu-video&amp;utm_content=video_maker">All Items</a>
+        </li>
+
+        <li>
+          <a href="https://placeit.net/video-maker?utm_source=envatomarket&amp;utm_medium=promos&amp;utm_campaign=placeit_mkt-menu-video&amp;utm_content=video_maker">Video Maker</a>
+        </li>
+        <li>
+          <a href="https://placeit.net/intro-maker?utm_source=envatomarket&amp;utm_medium=promos&amp;utm_campaign=placeit_mkt-menu-video&amp;utm_content=intro_maker">Intro Maker</a>
+        </li>
+        <li>
+          <a href="https://placeit.net/slideshow-video-maker?utm_source=envatomarket&amp;utm_medium=promos&amp;utm_campaign=placeit_mkt-menu-video&amp;utm_content=slideshow_maker">Slideshow Maker</a>
+        </li>
+        <li>
+          <a href="https://placeit.net/instagram-story-video-maker?utm_source=envatomarket&amp;utm_medium=promos&amp;utm_campaign=placeit_mkt-menu-video&amp;utm_content=instagram_story_video_maker">Instagram Story Video Maker</a>
+        </li>
+        <li>
+          <a href="https://placeit.net/promo-video-templates?utm_source=envatomarket&amp;utm_medium=promos&amp;utm_campaign=placeit_mkt-menu-vidoe&amp;utm_content=offers_sales">Promo Video Maker</a>
+        </li>
+        <li>
+          <a href="https://placeit.net/teaser-video-maker?utm_source=envatomarket&amp;utm_medium=promos&amp;utm_campaign=placeit_mkt-menu-vidoe&amp;utm_content=content_teaser">Teaser Video Maker</a>
+        </li>
+        <li>
+          <a href="https://placeit.net/quote-video-maker?utm_source=envatomarket&amp;utm_medium=promos&amp;utm_campaign=placeit_mkt-menu-vidoe&amp;utm_content=inspirational_quote">Inspirational Quote</a>
+        </li>
+        <li>
+          <a href="https://placeit.net/tutorial-video-maker?utm_source=envatomarket&amp;utm_medium=promos&amp;utm_campaign=placeit_mkt-menu-vidoe&amp;utm_content=tutorial">Step by Step Tutorial</a>
+        </li>
+        <li>
+          <a href="https://placeit.net/product-video-maker?utm_source=envatomarket&amp;utm_medium=promos&amp;utm_campaign=placeit_mkt-menu-vidoe&amp;utm_content=product_service_overview">Product / Service Overview</a>
+        </li>
+        <li>
+          <a href="https://placeit.net/testimonial-video-templates?utm_source=envatomarket&amp;utm_medium=promos&amp;utm_campaign=placeit_mkt-menu-vidoe&amp;utm_content=customer_testimonial">Customer Testimonial</a>
+        </li>
+
+    </ul>
+  </div>
+
+    </li>
+
+    <li class="header-categories__links-item">
+      <a class="header-categories__main-link" data-view="touchOnlyDropdown" data-dropdown-target=".js-categories-more-links-dropdown" href="/category">More</a>
+
+      <div class="header-categories__links-dropdown js-categories-more-links-dropdown">
+        <ul class="header-dropdown">
+            <li><a href="/category/cinema-4d-templates/elements">Cinema 4D Elements</a></li>
+            <li><a href="/category/cinema-4d-templates/elements">Cinema 4D Logo Stings </a></li>
+            <li><a href="/category/cinema-4d-templates/elements">Cinema 4D Openers</a></li>
+            <li><a href="/category/cinema-4d-templates/elements">Cinema 4D Titles</a></li>
+            <li><a href="/category/cinema-4d-templates/elements">Cinema 4D Video Displays</a></li>
+            <li><a href="/search/logo">Logo Files</a></li>
+            <li><a href="/search/news">News Files</a></li>
+            <li><a href="/search/wedding">Wedding Files</a></li>
+        </ul>
+      </div>
+    </li>
+</ul>
+
+
+      <div class="header-categories__search--experiment">
+  <form id="search" data-view="searchField" action="/category/all" accept-charset="UTF-8" method="get"><input name="utf8" type="hidden" value="&#x2713;" />
+    <div class="search-field -border-light h-ml2">
+      <div class="search-field__input">
+        <input id="term" name="term" class="js-term search-field__input-field" type="search" placeholder="Search" />
+      </div>
+      <button class="search-field__button" type="submit">
+        <i class="e-icon -icon-search"><span class="e-icon__alt">Search</span></i>
+      </button>
+    </div>
+</form></div>
+
+  </div>
+</div>
+
+                  </div>
+            </header>
+          </div>
+
+          <div class="js-canvas__body canvas__body">
+              <div class="grid-container">
+</div>
+
+
+
+                  <div class="context-header ">
+  <div class="grid-container ">
+    <nav class="breadcrumbs h-text-truncate ">
+  <a class="js-breadcrumb-category" href="/">Home</a>
+
+
+    <a href='/category/all' class="js-breadcrumb-category">Files</a>
+    
+<a class="js-breadcrumb-category" href="https://videohive.net/category/motion-graphics">Motion Graphics</a><a class="js-breadcrumb-category" href="https://videohive.net/category/motion-graphics/backgrounds">Backgrounds</a>
+
+<a class="js-breadcrumb-category" href="https://videohive.net/category/motion-graphics/backgrounds/technology">Technology</a>
+
+</nav>
+
+
+      <div class="item-header" data-view="itemHeader">
+  <div class="item-header__top">
+    <div class="item-header__title">
+      <h1 class="t-heading -color-inherit -size-l h-m0 is-hidden-phone">
+          Dark Urban Generic Background
+      </h1>
+
+      <h1 class="t-heading -color-inherit -size-xs h-m0 is-hidden-tablet-and-above">
+          Dark Urban Generic Background
+      </h1>
+    </div>
+
+      <div class="item-header__price">
+        <a class="js-item-header__cart-button e-btn--3d -color-primary -size-m" rel="nofollow" title="Add to Cart" data-view="modalAjax" href="/cart/configure_before_adding/29916785">
+          <span class="item-header__cart-button-icon">
+            <i class="e-icon -icon-cart -margin-right"></i>
+          </span>
+
+          <span class="t-heading -size-m -color-light -margin-none">
+            <b class="t-currency"><span class="js-item-header__price">$14</span></b>
+          </span>
+</a>      </div>
+  </div>
+
+</div>
+
+
+    
+  <!-- Desktop Item Navigation -->
+  <div class="is-hidden-tablet-and-below page-tabs">
+      <ul>
+          <li class="selected"><a class="js-item-navigation-item-details t-link -decoration-none" href="/item/dark-urban-generic-background/29916785">Item Details</a></li>
+          <li><a rel="nofollow" class="js-item-navigation-comments t-link -decoration-none" href="/item/dark-urban-generic-background/29916785/comments">Comments</a></li>
+      </ul>
+
+  </div>
+
+
+  <!-- Table or below Item Navigation -->
+    <div class="page-tabs--dropdown" data-view="replaceItemNavsWithRemote" data-target=".js-remote">
+      <div class="page-tabs--dropdown__slt-custom-wlabel">
+        <div class="slt-custom-wlabel--page-tabs--dropdown">
+          <label>
+            <span class="js-label">
+              Item Details
+            </span>
+            <span class="slt-custom-wlabel__arrow">
+              <i class="e-icon -icon-arrow-fill-down"></i>
+            </span>
+          </label>
+
+          <select class="js-remote">
+              <option selected="selected" data-url="/item/dark-urban-generic-background/29916785">Item Details</option>
+              <option data-url="/item/dark-urban-generic-background/29916785/comments">Comments</option>
+
+
+          </select>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+
+            
+
+            <div class="content-main" id="content">
+              
+              <div class="grid-container">
+                
+
+
+
+<link href="https://s3.envato.com/files/98a36cc5-4105-4a5c-8888-32dea96f181f/thumbnail.jpg" />
+
+
+
+
+
+<div class="content-s js-adi-data-wrapper adi-variant-2">
+  <div class="box--no-padding">
+      <div class="item-preview ">
+        
+        
+             
+
+  <div class="video-preview-wrapper">
+  <a class="fake-video-player js-video-player" href="https://previews.customer.envatousercontent.com/h264-video-previews/857b063b-0992-4f91-9a8e-1cfd9e9a1a9c/3883585.mp4">
+    <img alt="Play preview video" src="https://videohive.img.customer.envatousercontent.com/files/98a36cc5-4105-4a5c-8888-32dea96f181f/inline_image_preview.jpg?auto=compress%2Cformat&amp;fit=crop&amp;crop=top&amp;max-h=8000&amp;max-w=590&amp;s=85f6d0eac6b8854b44d5dc0fd7176026" />
+    <b class="fake-video-player__button"></b>
+</a></div>
+
+<div class="js-video-error-container"></div>
+
+<div class="js-legacy-preview-buttons">
+  <div class="item-preview__actions">
+    <div class="item-preview__preview-buttons">
+      <a class="btn" download="29916785_dark-urban-generic-background_by_xponentialdesign_preview.mp4" data-view="DownloadVideoPreviewButtonTracking" href="https://preview-downloads.customer.envatousercontent.com/h264-video-previews/857b063b-0992-4f91-9a8e-1cfd9e9a1a9c/3883585.mp4?response-content-disposition=attachment%3Bfilename%3D29916785_dark-urban-generic-background_by_xponentialdesign_preview.mp4&amp;Expires=1613426656&amp;Signature=a3bst3-nby5UoP2LP7FQ8kR6lALBZhbU0Mqt-3NJ7b9KPNAGMGaHtjaYXNtObREKSNIh-mX8LBxZlPkqhIkJL0Ch1VB5qnLGvPpdvaH4EAnmu3ZgjuNEXczdGrbUlxUF6ft4Z9I6Bwe4nw3Pn8-XbewapwNutOwK9lBI~Mh-wLo0weUzcU-16koe0GzNsO07l6eeulMpSf~kSNF-Ul9Bj~09bbPDo6tzmkKY0Gozx6UHvdaP77GAypO0M1-iFs0CU0dpXqiESX-EeVZ7-VhqxmeVPTy8yalcA5H3TrMcoRM4-Ydn3crNuYgmQjOugJo7rrmus8nreH4-Pd9~WPpo3eUw~dJf-Pn-6pwG8D6w0Flj59ZAVv9N7Pv4ZkcRAW5-ybFqNqnp-s6oJKbyF4oMAg~XGGQCEISkOo3QP-IHP23GciUkYvHAZbCnsrp9c4EAYvVWCL9q8O8tcwDJCqpehThXCCWj~Te9h3X6Hxp1wr4fG9j7mJuxPcahMIaL~rRCFqJ80SUuvUsD3e9hbyhzhN31Y9Cz05~WipHfhXsFTS4XXadDuIyDsSULB981ExKWxZPQngbpNvXLDHusq4MU5eOi3fuL16souKlSfZwjfZiAUoGNHuOqcxSZnrIhGWKljT2l7udBZLYY2LbKLvqITvMnENUZ5ZGil1dbDa6u0zY_&amp;Key-Pair-Id=APKAJRP2AVKNFZOM4BLQ">
+        Download Preview
+        <i class="e-icon -icon-download"></i>
+</a>    </div>
+
+      <div class="item-preview__preview-buttons--social" data-view="socialButtons">
+    <div class="btn-group">
+      <div class="btn btn--label btn--group-item">Share</div>
+      <a class="btn btn--group-item" data-social-network="Facebook" data-social-network-link href="https://www.facebook.com/sharer/sharer.php?display=popup&amp;u=https%3A%2F%2Fvideohive.net%2Fitem%2Fdark-urban-generic-background%2F29916785%3Futm_source%3Dsharefb"><i class="e-icon -icon-facebook -size-medium -line-height-small"><span class="e-icon__alt">Facebook</span></i></a>
+      <a class="btn btn--group-item" data-social-network="Twitter" data-social-network-link href="https://twitter.com/intent/tweet?text=Check+out+%27Dark+Urban+Generic+Background%27+on+%23EnvatoMarket+by+%40xponential+%23videohive&amp;url=https%3A%2F%2Fvideohive.net%2Fitem%2Fdark-urban-generic-background%2F29916785%3Futm_source%3Dsharetw"><i class="e-icon -icon-twitter -size-medium -line-height-small"><span class="e-icon__alt">Twitter</span></i></a>
+        <a class="btn btn--group-item" data-social-network="Pinterest" data-social-network-link href="http://pinterest.com/pin/create/button?description=Dark+Urban+Generic+Background&amp;media=http%3A%2F%2Fs3.envato.com%2Ffiles%2F98a36cc5-4105-4a5c-8888-32dea96f181f%2Finline_image_preview.jpg&amp;url=https%3A%2F%2Fvideohive.net%2Fitem%2Fdark-urban-generic-background%2F29916785%3Futm_source%3Dsharepi"><i class="e-icon -icon-pinterest -size-medium -line-height-small"><span class="e-icon__alt">Pinterest</span></i></a>
+    </div>
+  </div>
+
+  </div>
+</div>
+
+<div data-view="inlineVideoPreview" data-props="{&quot;file&quot;:&quot;https://previews.customer.envatousercontent.com/h264-video-previews/857b063b-0992-4f91-9a8e-1cfd9e9a1a9c/3883585.mp4&quot;,&quot;poster&quot;:&quot;https://videohive.img.customer.envatousercontent.com/files/98a36cc5-4105-4a5c-8888-32dea96f181f/inline_image_preview.jpg?auto=compress%2Cformat\u0026fit=crop\u0026crop=top\u0026max-h=8000\u0026max-w=590\u0026s=85f6d0eac6b8854b44d5dc0fd7176026&quot;,&quot;title&quot;:&quot;Dark Urban Generic Background&quot;,&quot;height&quot;:540,&quot;width&quot;:960,&quot;embed_url&quot;:&quot;http://videohive.net/item/dark-urban-generic-background/embed/29916785&quot;,&quot;isMainPreview&quot;:true}"></div>
+
+
+
+    </div>
+  </div>
+
+  <ul class="item-bookmarking" data-view="bookmarkStatesLoader">
+  <li class="item-bookmarking__control--favorite">
+      <span>
+    <a title="Add to Favorites" data-view="modalAjax" href="/sign_in?action_name=favorite&amp;resource_id=29916785"><span>Add to Favorites</span></a>
+  </span>
+
+  </li>
+  <li class="item-bookmarking__control--collection">
+      <span>
+    <a title="Add to Collection" data-view="modalAjax" href="/sign_in?action_name=collect&amp;resource_id=29916785"><span>Add to Collection</span></a>
+  </span>
+
+  </li>
+</ul>
+
+
+      <div data-view="toggleItemDescription">
+        <div class="js-item-togglable-content ">          <div class="js-item-description item-description">
+            <div class="user-html user-html__with-lazy-load"><p>Black and white monochrome cityscape loop.
+4 Ultra HD clips.</p></div>
+          </div>
+          <div class="js-item-description-toggle item-description-toggle ">            <a class="item-description-toggle__link is-hidden" href="#">
+              <span>Show More <i class="e-icon -icon-chevron-down"></i></span>
+              <span class="item-description-toggle__less">Show Less <i class="e-icon -icon-chevron-down -rotate-180"></i></span>
+</a></div></div>      </div>
+
+  <section data-view="recommendedItems" data-url="/item/dark-urban-generic-background/29916785/recommended_items" id="recommended_items">
+</section>
+
+
+        <section class="related-by-author h-my2 h-pb1">
+      <h2 class="t-heading -size-xs -weight-normal">More items by xponentialdesign</h2>
+      <div class="related-by-author__list h-py1" data-view="productList">
+        <ul class="item-thumbnail-carousel--item-page overthrow">
+              <li class="item-thumbnail-container">
+                
+  <a class="js-google-analytics__list-event-trigger" href="https://videohive.net/item/gyroscopic-ring-laces/30223835"><img border="0" alt="Gyroscopic Ring Laces - VideoHive Item for Sale" title="Gyroscopic Ring Laces" height="80" width="80" class="video-image-magnifier preload no_preview" data-preview-width="" data-preview-height="" data-preview-url="https://s3.envato.com/files/2021d596-ce3d-42ab-988c-4841b2b4738b/inline_image_preview.jpg" data-item-name="Gyroscopic Ring Laces" data-item-author="xponentialdesign" data-item-id="30223835" data-item-category="Motion Graphics / Backgrounds / Corporate" data-item-cost="12" data-google-analytics-payload="{&quot;actionData&quot;:null,&quot;productsArray&quot;:[{&quot;id&quot;:30223835,&quot;name&quot;:&quot;Gyroscopic Ring Laces&quot;,&quot;brand&quot;:&quot;xponentialdesign&quot;,&quot;category&quot;:&quot;videohive.net/category/motion-graphics/backgrounds/corporate&quot;,&quot;position&quot;:1,&quot;list&quot;:&quot;Item page: More items by this author&quot;}],&quot;timestamp&quot;:1612902269}" data-video-file-url="https://s3.envato.com/files/2021d596-ce3d-42ab-988c-4841b2b4738b/video_preview_h264.mp4" src="https://s3.envato.com/files/2021d596-ce3d-42ab-988c-4841b2b4738b/thumbnail.jpg" /></a>
+
+              </li>
+              <li class="item-thumbnail-container">
+                
+  <a class="js-google-analytics__list-event-trigger" href="https://videohive.net/item/rusty-fractal-noise-corrosion/29807850"><img border="0" alt="Rusty Fractal Noise Corrosion - VideoHive Item for Sale" title="Rusty Fractal Noise Corrosion" height="80" width="80" class="video-image-magnifier preload no_preview" data-preview-width="" data-preview-height="" data-preview-url="https://s3.envato.com/files/75e4e9af-c0b4-46be-a9f3-1a7775e91594/inline_image_preview.jpg" data-item-name="Rusty Fractal Noise Corrosion" data-item-author="xponentialdesign" data-item-id="29807850" data-item-category="Motion Graphics / Backgrounds / Grunge" data-item-cost="17" data-google-analytics-payload="{&quot;actionData&quot;:null,&quot;productsArray&quot;:[{&quot;id&quot;:29807850,&quot;name&quot;:&quot;Rusty Fractal Noise Corrosion&quot;,&quot;brand&quot;:&quot;xponentialdesign&quot;,&quot;category&quot;:&quot;videohive.net/category/motion-graphics/backgrounds/grunge&quot;,&quot;position&quot;:2,&quot;list&quot;:&quot;Item page: More items by this author&quot;}],&quot;timestamp&quot;:1612902269}" data-video-file-url="https://s3.envato.com/files/75e4e9af-c0b4-46be-a9f3-1a7775e91594/video_preview_h264.mp4" src="https://s3.envato.com/files/75e4e9af-c0b4-46be-a9f3-1a7775e91594/thumbnail.jpg" /></a>
+
+              </li>
+              <li class="item-thumbnail-container">
+                
+  <a class="js-google-analytics__list-event-trigger" href="https://videohive.net/item/glowing-soft-maps-pack-01/28809376"><img border="0" alt="Glowing Soft Maps Pack 01 - VideoHive Item for Sale" title="Glowing Soft Maps Pack 01" height="80" width="80" class="video-image-magnifier preload no_preview" data-preview-width="" data-preview-height="" data-preview-url="https://s3.envato.com/files/c718b4e3-a83b-47e3-8c2e-426d9933444d/inline_image_preview.jpg" data-item-name="Glowing Soft Maps Pack 01" data-item-author="xponentialdesign" data-item-id="28809376" data-item-category="Motion Graphics / Backgrounds / Abstract" data-item-cost="14" data-google-analytics-payload="{&quot;actionData&quot;:null,&quot;productsArray&quot;:[{&quot;id&quot;:28809376,&quot;name&quot;:&quot;Glowing Soft Maps Pack 01&quot;,&quot;brand&quot;:&quot;xponentialdesign&quot;,&quot;category&quot;:&quot;videohive.net/category/motion-graphics/backgrounds/abstract&quot;,&quot;position&quot;:3,&quot;list&quot;:&quot;Item page: More items by this author&quot;}],&quot;timestamp&quot;:1612902269}" data-video-file-url="https://s3.envato.com/files/c718b4e3-a83b-47e3-8c2e-426d9933444d/video_preview_h264.mp4" src="https://s3.envato.com/files/c718b4e3-a83b-47e3-8c2e-426d9933444d/thumbnail.jpg" /></a>
+
+              </li>
+              <li class="item-thumbnail-container">
+                
+  <a class="js-google-analytics__list-event-trigger" href="https://videohive.net/item/medicine-bush-color-bloom/28728844"><img border="0" alt="Medicine Bush Color Bloom - VideoHive Item for Sale" title="Medicine Bush Color Bloom" height="80" width="80" class="video-image-magnifier preload no_preview" data-preview-width="" data-preview-height="" data-preview-url="https://s3.envato.com/files/f84156f2-894b-49e9-b5dd-33ed0b8b5f46/inline_image_preview.jpg" data-item-name="Medicine Bush Color Bloom" data-item-author="xponentialdesign" data-item-id="28728844" data-item-category="Motion Graphics / Backgrounds / Medical" data-item-cost="14" data-google-analytics-payload="{&quot;actionData&quot;:null,&quot;productsArray&quot;:[{&quot;id&quot;:28728844,&quot;name&quot;:&quot;Medicine Bush Color Bloom&quot;,&quot;brand&quot;:&quot;xponentialdesign&quot;,&quot;category&quot;:&quot;videohive.net/category/motion-graphics/backgrounds/medical&quot;,&quot;position&quot;:4,&quot;list&quot;:&quot;Item page: More items by this author&quot;}],&quot;timestamp&quot;:1612902269}" data-video-file-url="https://s3.envato.com/files/f84156f2-894b-49e9-b5dd-33ed0b8b5f46/video_preview_h264.mp4" src="https://s3.envato.com/files/f84156f2-894b-49e9-b5dd-33ed0b8b5f46/thumbnail.jpg" /></a>
+
+              </li>
+              <li class="item-thumbnail-container">
+                
+  <a class="js-google-analytics__list-event-trigger" href="https://videohive.net/item/neural-bulbs-network/28719694"><img border="0" alt="Neural Bulbs Network - VideoHive Item for Sale" title="Neural Bulbs Network" height="80" width="80" class="video-image-magnifier preload no_preview" data-preview-width="" data-preview-height="" data-preview-url="https://s3.envato.com/files/8e6513c4-c18f-4f1a-814f-3e8537073fe1/inline_image_preview.jpg" data-item-name="Neural Bulbs Network" data-item-author="xponentialdesign" data-item-id="28719694" data-item-category="Motion Graphics / Backgrounds / Electric" data-item-cost="16" data-google-analytics-payload="{&quot;actionData&quot;:null,&quot;productsArray&quot;:[{&quot;id&quot;:28719694,&quot;name&quot;:&quot;Neural Bulbs Network&quot;,&quot;brand&quot;:&quot;xponentialdesign&quot;,&quot;category&quot;:&quot;videohive.net/category/motion-graphics/backgrounds/electric&quot;,&quot;position&quot;:5,&quot;list&quot;:&quot;Item page: More items by this author&quot;}],&quot;timestamp&quot;:1612902269}" data-video-file-url="https://s3.envato.com/files/8e6513c4-c18f-4f1a-814f-3e8537073fe1/video_preview_h264.mp4" src="https://s3.envato.com/files/8e6513c4-c18f-4f1a-814f-3e8537073fe1/thumbnail.jpg" /></a>
+
+              </li>
+              <li class="item-thumbnail-container">
+                
+  <a class="js-google-analytics__list-event-trigger" href="https://videohive.net/item/diagonal-trance-stripes/28574222"><img border="0" alt="Diagonal Trance Stripes - VideoHive Item for Sale" title="Diagonal Trance Stripes" height="80" width="80" class="video-image-magnifier preload no_preview" data-preview-width="" data-preview-height="" data-preview-url="https://s3.envato.com/files/305453293/45degreesBGRectNew_IMG_00000.jpg" data-item-name="Diagonal Trance Stripes" data-item-author="xponentialdesign" data-item-id="28574222" data-item-category="Motion Graphics / Backgrounds / Abstract" data-item-cost="15" data-google-analytics-payload="{&quot;actionData&quot;:null,&quot;productsArray&quot;:[{&quot;id&quot;:28574222,&quot;name&quot;:&quot;Diagonal Trance Stripes&quot;,&quot;brand&quot;:&quot;xponentialdesign&quot;,&quot;category&quot;:&quot;videohive.net/category/motion-graphics/backgrounds/abstract&quot;,&quot;position&quot;:6,&quot;list&quot;:&quot;Item page: More items by this author&quot;}],&quot;timestamp&quot;:1612902269}" data-video-file-url="https://s3.envato.com/files/40e002ef-3721-4eb2-b866-8bd213df6eaa/video_preview_h264.mp4" src="https://s3.envato.com/files/305484546/DiagonalTransStripes_08_00000.jpg" /></a>
+
+              </li>
+              <li class="item-thumbnail-container">
+                
+  <a class="js-google-analytics__list-event-trigger" href="https://videohive.net/item/hexa-generative-pattern-01/28579410"><img border="0" alt="Hexa Generative Pattern 01 - VideoHive Item for Sale" title="Hexa Generative Pattern 01" height="80" width="80" class="video-image-magnifier preload no_preview" data-preview-width="" data-preview-height="" data-preview-url="https://s3.envato.com/files/305460739/HexaGenerativePattern_VH_IMG_00000.jpg" data-item-name="Hexa Generative Pattern 01" data-item-author="xponentialdesign" data-item-id="28579410" data-item-category="Motion Graphics / Backgrounds / Abstract" data-item-cost="16" data-google-analytics-payload="{&quot;actionData&quot;:null,&quot;productsArray&quot;:[{&quot;id&quot;:28579410,&quot;name&quot;:&quot;Hexa Generative Pattern 01&quot;,&quot;brand&quot;:&quot;xponentialdesign&quot;,&quot;category&quot;:&quot;videohive.net/category/motion-graphics/backgrounds/abstract&quot;,&quot;position&quot;:7,&quot;list&quot;:&quot;Item page: More items by this author&quot;}],&quot;timestamp&quot;:1612902269}" data-video-file-url="https://s3.envato.com/files/229f5fdc-3d18-4f2c-8fb7-5430d48240fb/video_preview_h264.mp4" src="https://s3.envato.com/files/305484573/HexaGenerativePattern_VH_THUMB_02429.jpg" /></a>
+
+              </li>
+        </ul>
+      </div>
+      <div>
+        <p class="t-body -size-m">
+          <a class="t-link-decoration-reversed" href="/user/xponentialdesign/portfolio">View author portfolio</a>
+        </p>
+      </div>
+    </section>
+
+
+</div>
+
+<div class="sidebar-l sidebar-right js-sso-checkout-experiment">
+    
+    
+    <div class="pricebox-container js-author-driven-pricing-experiment">
+      <div class="box -radius-all">
+  <div id="purchase-form" class="purchase-form">
+    <form data-view="purchaseForm" data-google-analytics-page="itemPage" data-google-analytics-payload="{&quot;actionData&quot;:null,&quot;productsArray&quot;:[{&quot;id&quot;:29916785,&quot;name&quot;:&quot;Dark Urban Generic Background&quot;,&quot;brand&quot;:&quot;xponentialdesign&quot;,&quot;category&quot;:&quot;videohive.net/category/motion-graphics/backgrounds/technology&quot;,&quot;quantity&quot;:&quot;1&quot;}],&quot;timestamp&quot;:1612902269}" action="/cart/add/29916785" accept-charset="UTF-8" method="post"><input name="utf8" type="hidden" value="&#x2713;" /><input type="hidden" name="authenticity_token" value="QQFwTt3PaUvAFFJ3OvC+guoRqoUY+O03Eve/kcTTJwYTH4e09FfqoK8jc+9XKajqE1d+zEUjjtgAxC6k1fZzhQ==" />
+        <div data-view="itemVariantSelector">
+          <div class="purchase-form__selection">
+  <span class="purchase-form__license-type">
+
+      <select class="f-select js-purchase-license-selector " name="license">
+          <option value="video_media_single" selected="selected" data-license="video_media_single" data-license-default="true">Video Media (Single Use)</option>
+          <option value="video_media_multi" disabled="disabled" data-license="video_media_multi" data-license-default="false">Video Media (Multi-Use)</option>
+      </select>
+  </span>
+
+  <div class="js-purchase-heading purchase-form__price t-heading -size-xxl ">
+      <b class="t-currency"><span class="js-purchase-price">$14</span></b>
+  </div>
+</div>
+
+
+            <div class="purchase-form__license js-purchase-license is-active" data-license="video_media_single">
+              <div class="purchase-form__info">
+  <p class="t-body -size-m">
+    Use in a <strong>single</strong> end product, free or commercial. The total price includes the item price and a buyer fee.
+  </p>
+
+
+  <p class="t-body -size-m">
+    <a class="js-purchase-license-details" href="https://videohive.net/licenses/video">License details</a>
+      |
+    <a href="/buy">Why buy with Envato</a>
+  </p>
+
+</div>
+
+              <price class="js-purchase-license-prices" data-price-prepaid="$14" data-license="video_media_single" />
+            </div>
+            <div class="purchase-form__license js-purchase-license " data-license="video_media_multi">
+              <div class="purchase-form__info">
+  <p class="t-body -size-m">
+    Use in an <strong>unlimited number</strong> of end products, free or commercial. May be used with different clients, but not for on-demand customization products or services. The total price includes the item price and a buyer fee.
+  </p>
+
+
+  <p class="t-body -size-m">
+    <a class="js-purchase-license-details" href="https://videohive.net/licenses/video">License details</a>
+      |
+    <a href="/buy">Why buy with Envato</a>
+  </p>
+
+</div>
+
+              <price class="js-purchase-license-prices" data-price-prepaid="$39" data-license="video_media_multi" />
+            </div>
+        </div>
+
+          <p class="t-body -size-s"><i>Price is in US dollars. Price displayed excludes sales tax.</i></p>
+
+        <div class="purchase-form__button">
+  <button name="button" type="submit" class="js-purchase__add-to-cart e-btn--3d -color-primary -size-m -width-full">
+    <i class="e-icon -icon-cart -margin-right"></i> <strong>Add to Cart</strong>
+</button></div>
+
+        <div class="purchase-form__button">
+  <button name="buy_now_button" type="submit" value="Buy Now" class="js-purchase__buy-now e-btn--3d -size-m -width-full">
+    <strong>Buy Now</strong>
+</button></div>
+
+</form>  </div>
+</div>
+
+</div>
+
+    
+    
+    <div class="box -radius-all">
+  <div class="media">
+    <div class="media__item">
+      <img alt="Elite author" title="Elite author" width="42" height="42" src="https://public-assets.envato-static.com/assets/badges/elite-d41954e54b009732125beec497f8e4e837aabac1fb59883dc88f167d61fe06ae.svg" />
+    </div>
+    <div class="media__body -align-center">
+      <p class="t-body -size-m h-m0">Elite Author</p>
+    </div>
+  </div>
+</div>
+
+    
+    <div class="box -radius-all">
+  <div class="media">
+    <div class="media__item">
+      <div class="avatar-wrapper tooltip-advanced">
+    <a class="avatar" title="xponentialdesign" href="/user/xponentialdesign">
+        <span data-src="https://0.s3.envato.com/files/50249309/80x80Xpo.jpg" data-width="80" data-height="80" data-alt="xponentialdesign" class="lazy-load-img"></span>
+
+</a>
+  
+</div>
+
+    </div>
+    <div class="media__body">
+      <h2 class="t-heading -size-s h-text-overflow-wrap-anywhere">
+          <a rel="author" class="t-link -color-dark -decoration-none" href="/user/xponentialdesign">xponentialdesign</a>
+      </h2>
+        <div class="">
+          <ul class="badges">
+    <li>
+      <span class="community-badges__badge-wrapper--s community-badges__badge-wrapper--responsive-xs ">
+        <span data-src="https://public-assets.envato-static.com/assets/badges/veteran_level_11-s-18ccab1be4e06b01c0dc4c7e6b68432ed1c4a486892ff815dba06304da1352bd.svg" data-alt="11 Years of Membership" data-class="community-badges__badge--s" data-title="11 Years of Membership: Has been part of the Envato Community for over 11 years" class="lazy-load-img"></span>
+
+      </span>
+    </li>
+    <li>
+      <span class="community-badges__badge-wrapper--s community-badges__badge-wrapper--responsive-xs ">
+        <span data-src="https://public-assets.envato-static.com/assets/badges/affiliate_level_4-s-16bcce24e3fe502fb9c0eb08542cba884397c3f5a81e3d00d7f2cb93bc622120.svg" data-alt="Affiliate Level 4" data-class="community-badges__badge--s" data-title="Affiliate Level 4: Has referred 100+ members" class="lazy-load-img"></span>
+
+      </span>
+    </li>
+    <li>
+      <span class="community-badges__badge-wrapper--s community-badges__badge-wrapper--responsive-xs ">
+        <span data-src="https://public-assets.envato-static.com/assets/badges/author_level_8-s-8a1a2ba95c62cef26a250cd41454d7b19674aeef847ea13a9c366d45ca1c6e97.svg" data-alt="Author Level 8" data-class="community-badges__badge--s" data-title="Author Level 8: Has sold $125,000+ on Envato Market" class="lazy-load-img"></span>
+
+      </span>
+    </li>
+    <li>
+      <span class="community-badges__badge-wrapper--s community-badges__badge-wrapper--responsive-xs ">
+        <span data-src="https://public-assets.envato-static.com/assets/badges/beta_tester-s-2790f914d7c1567fc72cd6f3c927065b4d0011a99dbd96e92e938035b37a8aa6.svg" data-alt="Beta Tester" data-class="community-badges__badge--s" data-title="Beta Tester: Has been a beta tester for an Envato feature" class="lazy-load-img"></span>
+
+      </span>
+    </li>
+    <li>
+      <span class="community-badges__badge-wrapper--s community-badges__badge-wrapper--responsive-xs ">
+        <span data-src="https://public-assets.envato-static.com/assets/badges/country_ca-70c2a5d59add1c9f6c0498213e5a31920dcc0663fcbe084c2d5926af1f177362.svg" data-alt="Canada" data-class="community-badges__badge--s" data-title="Located in Canada" class="lazy-load-img"></span>
+
+      </span>
+    </li>
+    <li>
+      <span class="community-badges__badge-wrapper--s community-badges__badge-wrapper--responsive-xs ">
+        <span data-src="https://public-assets.envato-static.com/assets/badges/collector_level_3-s-c997d39d200be34d4838c39c41e85811a8af4f09c403bf320fbdba28f8d63c50.svg" data-alt="Collector Level 3" data-class="community-badges__badge--s" data-title="Collector Level 3: Has collected 50+ items on Envato Market" class="lazy-load-img"></span>
+
+      </span>
+    </li>
+    <li>
+      <span class="community-badges__badge-wrapper--s community-badges__badge-wrapper--responsive-xs ">
+        <span data-src="https://public-assets.envato-static.com/assets/badges/elite-s-d86069db1d3c907686827818ce40daec4d0a32b89933faedd46e5ea8f4bfb897.svg" data-alt="Elite Author" data-class="community-badges__badge--s" data-title="Elite Author: Sold more than $75,000 on Envato Market" class="lazy-load-img"></span>
+
+      </span>
+    </li>
+    <li>
+      <span class="community-badges__badge-wrapper--s community-badges__badge-wrapper--responsive-xs ">
+        <span data-src="https://public-assets.envato-static.com/assets/badges/exclusive-s-7be11fa1e7f915d21f1d93d092dbd6678c35d5c03c3e7cd8d541e715667f7725.svg" data-alt="Exclusive Author" data-class="community-badges__badge--s" data-title="Exclusive Author: Sells items exclusively on Envato Market" class="lazy-load-img"></span>
+
+      </span>
+    </li>
+    <li>
+      <span class="community-badges__badge-wrapper--s community-badges__badge-wrapper--responsive-xs ">
+        <span data-src="https://public-assets.envato-static.com/assets/badges/was_featured-s-2416553afc897c607b305a37062c673c2a75be01c029cd0bd18ee7856cd8c323.svg" data-alt="Featured Author" data-class="community-badges__badge--s" data-title="Featured Author: Made it to the Authors&#39; Hall of Fame" class="lazy-load-img"></span>
+
+      </span>
+    </li>
+    <li>
+      <span class="community-badges__badge-wrapper--s community-badges__badge-wrapper--responsive-xs ">
+        <span data-src="https://public-assets.envato-static.com/assets/badges/had_featured_item-s-9ade9faaf559fcd90da204022222dcaba5402ba5535c62e8760ee3cfa312eb3b.svg" data-alt="Featured Item" data-class="community-badges__badge--s" data-title="Featured Item: Had an item featured on Envato Market" class="lazy-load-img"></span>
+
+      </span>
+    </li>
+    <li>
+      <span class="community-badges__badge-wrapper--s community-badges__badge-wrapper--responsive-xs ">
+        <span data-src="https://public-assets.envato-static.com/assets/badges/feedback_guru-s-6355c624b77e0d4e416fd234249468786178e1f6117ce804e56c9a6f02b2a170.svg" data-alt="Feedback Guru" data-class="community-badges__badge--s" data-title="Feedback Guru: Participated in a focus group or interview to improve the user experience on Envato Market" class="lazy-load-img"></span>
+
+      </span>
+    </li>
+    <li>
+      <span class="community-badges__badge-wrapper--s community-badges__badge-wrapper--responsive-xs ">
+        <span data-src="https://public-assets.envato-static.com/assets/badges/attended_community_meetup-s-4419b0cc225cfd92c4f9e9eff69c885aceddbdd3e24d5403ba4b7f84a17973fd.svg" data-alt="Meetup Participant" data-class="community-badges__badge--s" data-title="Meetup Participant: Attended one of our Meetups around the world" class="lazy-load-img"></span>
+
+      </span>
+    </li>
+    <li>
+      <span class="community-badges__badge-wrapper--s community-badges__badge-wrapper--responsive-xs ">
+        <span data-src="https://public-assets.envato-static.com/assets/badges/one_billion_milestone-s-6bafd9c1c66e21701fa25158e42e4f28a3ca101552f952c9680b10822f2c147e.svg" data-alt="Milestone Member" data-class="community-badges__badge--s" data-title="Milestone Member: Part of the $1 billion community earnings milestone" class="lazy-load-img"></span>
+
+      </span>
+    </li>
+    <li>
+      <span class="community-badges__badge-wrapper--s community-badges__badge-wrapper--responsive-xs ">
+        <span data-src="https://public-assets.envato-static.com/assets/badges/was_top_monthly_author-s-cfb33adaaf41d5c5b039fd44649a7d8dd1226c180aa3c392ee9c7d17ba3f5fc2.svg" data-alt="Top Monthly Author" data-class="community-badges__badge--s" data-title="Top Monthly Author: Became a Top 20 Author of the Month" class="lazy-load-img"></span>
+
+      </span>
+    </li>
+    <li>
+      <span class="community-badges__badge-wrapper--s community-badges__badge-wrapper--responsive-xs ">
+        <span data-src="https://public-assets.envato-static.com/assets/badges/had_trending_item-s-df25504354e95350eb7eaa475e4d6fe77cb972b4a0b225358eac6b99e6acc415.svg" data-alt="Trendsetter" data-class="community-badges__badge--s" data-title="Trendsetter: Had an item that was trending" class="lazy-load-img"></span>
+
+      </span>
+    </li>
+    <li>
+      <span class="community-badges__badge-wrapper--s community-badges__badge-wrapper--responsive-xs ">
+        <span data-src="https://public-assets.envato-static.com/assets/badges/was_weekly_top_seller-s-dbafc5973a4eca5621dc631bd004b0f92170882f8d6cf9b64b3e880583dbf888.svg" data-alt="Weekly Top Seller" data-class="community-badges__badge--s" data-title="Weekly Top Seller: Had an item that ranked among the weekly top sellers across the entire marketplace" class="lazy-load-img"></span>
+
+      </span>
+    </li>
+</ul>
+
+        </div>
+    </div>
+  </div>
+
+    <div class="h-mt1">
+      <a class="e-btn--3d -color-light -width-full js-view-portfolio-button" href="/user/xponentialdesign/portfolio">View Portfolio</a>
+    </div>
+</div>
+
+    <div class="sidebar-stats">
+
+    <div class="sidebar-stats__item">
+      <div class="box -radius-all -spacing-small">
+        <strong class="sidebar-stats__number">
+          <span class="sidebar-stats__icon"><i class="e-icon -icon-cart"></i></span>
+          0
+        </strong>
+        <span class="sidebar-stats__label">
+          Sales
+        </span>
+      </div>
+    </div>
+
+    <div class="sidebar-stats__item">
+      <div class="box -radius-all -spacing-small">
+        <a class="t-link -decoration-none js-item-comments" rel="nofollow" href="/item/dark-urban-generic-background/29916785/comments">
+          <strong class="sidebar-stats__number">
+            <span class="sidebar-stats__icon"><i class="e-icon -icon-speech-bubble"></i></span>
+            0
+          </strong>
+          <span class="sidebar-stats__label">
+            Comments
+          </span>
+</a>      </div>
+    </div>
+</div>
+
+    <div class="box -radius-all">
+    <div class="rating-detailed--has-no-ratings">
+    <strong>Item Rating:</strong> &nbsp;&nbsp;<span>Minimum of 3 votes required</span>
+  </div>
+
+</div>
+
+    
+    <div class="box -radius-all">
+  <div class="meta-attributes " data-view="CondenseItemInfoPanel">
+    <table class="meta-attributes__table" cellspacing="0" cellpadding="0" border="0">
+      <tbody>
+        <tr>
+          <td class="meta-attributes__attr-name">Last Update</td>
+          <td class="meta-attributes__attr-detail">
+            <time class="updated" datetime="2021-01-07T10:17:48+11:00">
+              7 January 21
+            </time>
+          </td>
+        </tr>
+          <tr>
+            <td class="meta-attributes__attr-name">Created</td>
+            <td class="meta-attributes__attr-detail">
+              <span>
+                6 January 21
+</span>            </td>
+          </tr>
+
+            <tr>
+              <td class="meta-attributes__attr-name">Alpha Channel</td>
+              <td class="meta-attributes__attr-detail">
+                <a rel="nofollow" class="js-item-sidebar-meta-attributes" href="/attributes/alpha-channel/no">No</a>
+              </td>
+            </tr>
+            <tr>
+              <td class="meta-attributes__attr-name">Looped Video</td>
+              <td class="meta-attributes__attr-detail">
+                <a rel="nofollow" class="js-item-sidebar-meta-attributes" href="/attributes/looped-video/yes">Yes</a>
+              </td>
+            </tr>
+            <tr>
+              <td class="meta-attributes__attr-name">Frame Rate</td>
+              <td class="meta-attributes__attr-detail">
+                <a rel="nofollow" class="js-item-sidebar-meta-attributes" href="/attributes/frame-rate/30">30</a>
+              </td>
+            </tr>
+            <tr>
+              <td class="meta-attributes__attr-name">Resolution</td>
+              <td class="meta-attributes__attr-detail">
+                <a rel="nofollow" class="js-item-sidebar-meta-attributes" href="/attributes/resolution/3840x2160">3840x2160</a>
+              </td>
+            </tr>
+            <tr>
+              <td class="meta-attributes__attr-name">Video Encoding</td>
+              <td class="meta-attributes__attr-detail">
+                <a rel="nofollow" class="js-item-sidebar-meta-attributes" href="/attributes/video-encoding/h.264">H.264</a>
+              </td>
+            </tr>
+            <tr>
+              <td class="meta-attributes__attr-name">  File Size</td>
+              <td class="meta-attributes__attr-detail">
+                <a rel="nofollow" class="js-item-sidebar-meta-attributes" href="/attributes/file-size/296.25mb">296.25mb</a>
+              </td>
+            </tr>
+            <tr>
+              <td class="meta-attributes__attr-name">  Number of Clips</td>
+              <td class="meta-attributes__attr-detail">
+                <a rel="nofollow" class="js-item-sidebar-meta-attributes" href="/attributes/number-of-clips/4">4</a>
+              </td>
+            </tr>
+            <tr>
+              <td class="meta-attributes__attr-name"> Total Clip(s) Length</td>
+              <td class="meta-attributes__attr-detail">
+                <a rel="nofollow" class="js-item-sidebar-meta-attributes" href="/attributes/length-video/0:24">0:24</a>
+              </td>
+            </tr>
+            <tr>
+              <td class="meta-attributes__attr-name">Individual Clip Lengths</td>
+              <td class="meta-attributes__attr-detail">
+                <a rel="nofollow" class="js-item-sidebar-meta-attributes" href="/attributes/length-video-individual/0:06">0:06</a>, <a rel="nofollow" class="js-item-sidebar-meta-attributes" href="/attributes/length-video-individual/0:06">0:06</a>, <a rel="nofollow" class="js-item-sidebar-meta-attributes" href="/attributes/length-video-individual/0:06">0:06</a>, <a rel="nofollow" class="js-item-sidebar-meta-attributes" href="/attributes/length-video-individual/0:06">0:06</a>
+              </td>
+            </tr>
+
+
+          <tr>
+            <td class="meta-attributes__attr-name">Tags</td>
+            <td><span class="meta-attributes__attr-tags">
+              <a title="4k" rel="nofollow" href="/tags/4k">4k</a>, <a title="artificial" rel="nofollow" href="/tags/artificial">artificial</a>, <a title="background" rel="nofollow" href="/tags/background">background</a>, <a title="black and white" rel="nofollow" href="/tags/black%20and%20white">black and white</a>, <a title="city" rel="nofollow" href="/tags/city">city</a>, <a title="cityscape" rel="nofollow" href="/tags/cityscape">cityscape</a>, <a title="dark" rel="nofollow" href="/tags/dark">dark</a>, <a title="environment" rel="nofollow" href="/tags/environment">environment</a>, <a title="glow" rel="nofollow" href="/tags/glow">glow</a>, <a title="lights" rel="nofollow" href="/tags/lights">lights</a>, <a title="modern" rel="nofollow" href="/tags/modern">modern</a>, <a title="seamless" rel="nofollow" href="/tags/seamless">seamless</a>, <a title="ultra hd" rel="nofollow" href="/tags/ultra%20hd">ultra hd</a>, <a title="urban" rel="nofollow" href="/tags/urban">urban</a>, <a title="visuals" rel="nofollow" href="/tags/visuals">visuals</a>
+            </span></td>
+          </tr>
+      </tbody>
+    </table>
+</div></div>
+
+    <div class="t-body -size-s h-text-align-center h-mt2">
+  &copy; All Rights Reserved xponentialdesign
+  <br/>
+  <a href="https://help.market.envato.com">Contact the Envato Market Help Team</a>
+</div>
+
+</div>
+
+<script nonce="fD4adlj4x3ugJ/EbV4KyJw==">
+//<![CDATA[
+  // HACK: Google Chrome always scroll the previous page's position on hitting Back button
+  // This causes issue with responsive version in which unexpanded item description obscure
+  // the scroll position and Chrome will jump to the outer border of bottom
+  window.addEventListener('unload', function(e) { window.scrollTo(0, 0); });
+
+//]]>
+</script>
+              </div>
+            </div>
+
+            
+
+            <div class='cross-sell'>
+  <div class='grid-container'>
+    <ul class='cross-sell__list'>
+      <li class='cross-sell__list-item'>
+        <a class="cross-sell__link" href="https://elements.envato.com/pricing?utm_campaign=elements_mkt-footer_17JULY2018&amp;utm_content=vh_global-footer&amp;utm_medium=promos&amp;utm_source=videohive.net">
+          <figure>
+            <span data-src="https://public-assets.envato-static.com/assets/header-footer/cross-sell__elements-33380831a942a766c3fdd66d33d77435106b10749edfe92591bf779e2dad478d.jpg" data-srcset="https://public-assets.envato-static.com/assets/header-footer/cross-sell__elements-33380831a942a766c3fdd66d33d77435106b10749edfe92591bf779e2dad478d.jpg 1x,https://public-assets.envato-static.com/assets/header-footer/cross-sell__elements--2x-81004268b3cc8abaced5ab8cc4c724961bbc541fa2be67de3a85d1448eaeb306.jpg 2x" data-class="cross-sell__image" data-alt="Envato Elements" class="lazy-load-img"></span>
+
+            <figcaption class='cross-sell__text-container'>
+              <p class='t-body -color-inherit -size-l -weight-bold h-mb1'>
+                Deliver better projects faster. Web, design & video assets
+              </p>
+              <p class='t-body -color-inherit -size-l h-m0'>
+                <small class='cross-sell__text'>Unlimited downloads, from $16.50/month</small>
+              </p>
+            </figcaption>
+          </figure>
+</a>      </li>
+
+      <li class='cross-sell__list-item'>
+        <a class="cross-sell__link" href="http://placeit.net?utm_campaign=placeit_mkt-footer_July2019&amp;utm_content=vh_global-footer&amp;utm_medium=promos&amp;utm_source=videohive.net">
+          <figure>
+            <span data-src="https://public-assets.envato-static.com/assets/header-footer/cross-sell__placeit_july2019-e6311a944054a8f627a1dbc5e8443b9f97103424e0ff9457046f39a2cd896ece.jpg" data-srcset="https://public-assets.envato-static.com/assets/header-footer/cross-sell__placeit_july2019-e6311a944054a8f627a1dbc5e8443b9f97103424e0ff9457046f39a2cd896ece.jpg 1x,https://public-assets.envato-static.com/assets/header-footer/cross-sell__placeit_july2019--2x-9b3b3bc48a1a7d605e4438252bf11589d030241594428d4b9ecf10d6c1f23dec.jpg 2x" data-class="cross-sell__image" data-alt="Placeit" class="lazy-load-img"></span>
+
+            <figcaption class='cross-sell__text-container'>
+              <p class='t-body -color-inherit -size-l -weight-bold h-mb1'>
+                Effortless design and video. <br> Made online by you.
+              </p>
+              <p class='t-body -color-inherit -size-l h-m0'>
+                <small class='cross-sell__text'>Smart templates ready for any skill level.</small>
+              </p>
+            </figcaption>
+          </figure>
+</a>      </li>
+
+      <li class='cross-sell__list-item'>
+        <a class="cross-sell__link" href="http://studio.envato.com/explore/video-animation?utm_campaign=internal+navigation&amp;utm_content=footernav&amp;utm_medium=videohive&amp;utm_source=marketplaces">
+          <figure>
+            <span data-src="https://public-assets.envato-static.com/assets/header-footer/cross-sell__studio-cea5f47ba6cb30d4be16906c50b3d233125827f51efd0057098e296142e01e37.jpg" data-srcset="https://public-assets.envato-static.com/assets/header-footer/cross-sell__studio-cea5f47ba6cb30d4be16906c50b3d233125827f51efd0057098e296142e01e37.jpg 1x,https://public-assets.envato-static.com/assets/header-footer/cross-sell__studio--2x-455f871f95fd4f07579b08f0403dc0e4317ad36442338691522ae9b9a1d8e8a9.jpg 2x" data-class="cross-sell__image" data-alt="Envato Studio" class="lazy-load-img"></span>
+
+            <figcaption class='cross-sell__text-container'>
+              <p class='t-body -color-inherit -size-l -weight-bold h-mb1'>
+                Designers matched perfectly to<br>
+                you on Envato Studio
+              </p>
+              <p class='t-body -color-inherit -size-l h-m0'>
+                <small class='cross-sell__text'>2000 artists ready to undertake your work</small>
+              </p>
+            </figcaption>
+          </figure>
+</a>      </li>
+    </ul>
+  </div>
+</div>
+
+            
+
+<footer class='global-footer'>
+  <div class='grid-container -layout-wide'>
+    <div class='global-footer__container'>
+  <nav class='global-footer-info-links'>
+    <hr class='global-footer__separator is-hidden-desktop h-mb4'>
+
+    <ul class='global-footer-info-links__list'>
+        <li class='global-footer-info-links__list-item'>
+          <ul class='global-footer-sublist'>
+            <li class='global-footer-sublist__item-title'>
+              Envato Market
+            </li>
+
+              <li class='global-footer-sublist__item h-p0'>
+                <a class="global-footer__text-link" href="https://themeforest.net/legal/market">Terms</a>
+              </li>
+              <li class='global-footer-sublist__item h-p0'>
+                <a class="global-footer__text-link" href="https://themeforest.net/licenses">Licenses</a>
+              </li>
+              <li class='global-footer-sublist__item h-p0'>
+                <a class="global-footer__text-link" href="https://build.envato.com">Market API</a>
+              </li>
+              <li class='global-footer-sublist__item h-p0'>
+                <a class="global-footer__text-link" href="https://envato.com/market/affiliate-program/">Become an affiliate</a>
+              </li>
+          </ul>
+        </li>
+        <li class='global-footer-info-links__list-item'>
+          <ul class='global-footer-sublist'>
+            <li class='global-footer-sublist__item-title'>
+              Help
+            </li>
+
+              <li class='global-footer-sublist__item h-p0'>
+                <a class="global-footer__text-link" href="https://help.market.envato.com">Themes and Templates</a>
+              </li>
+              <li class='global-footer-sublist__item h-p0'>
+                <a class="global-footer__text-link" href="https://help.author.envato.com/hc/en-us">Authors</a>
+              </li>
+              <li class='global-footer-sublist__item h-p0'>
+                <a class="global-footer__text-link" href="https://help.market.envato.com">Help Center</a>
+              </li>
+          </ul>
+        </li>
+        <li class='global-footer-info-links__list-item'>
+          <ul class='global-footer-sublist'>
+            <li class='global-footer-sublist__item-title'>
+              <span class='is-hidden-phone'>Join</span> our community
+            </li>
+
+              <li class='global-footer-sublist__item h-p0'>
+                <a class="global-footer__text-link" href="https://community.envato.com">Community</a>
+              </li>
+              <li class='global-footer-sublist__item h-p0'>
+                <a class="global-footer__text-link" href="https://envato.com/blog">Blog</a>
+              </li>
+              <li class='global-footer-sublist__item h-p0'>
+                <a class="global-footer__text-link" href="https://forums.envato.com">Forums</a>
+              </li>
+              <li class='global-footer-sublist__item h-p0'>
+                <a class="global-footer__text-link" href="https://community.envato.com/#/events">Meetups</a>
+              </li>
+          </ul>
+        </li>
+    </ul>
+  </nav>
+
+  <div class='global-footer-stats'>
+    <img class="global-footer-stats__logo" alt="Envato Market" src="https://public-assets.envato-static.com/assets/logos/envato_market-a5ace93f8482e885ae008eb481b9451d379599dfed24868e52b6b2d66f5cf633.svg" />
+
+    <ul class='global-footer-stats__list'>
+      <li class='global-footer-stats__list-item h-p0'>
+        <span class='global-footer-stats__number'>63,574,689</span> items sold
+
+      </li>
+      <li class='global-footer-stats__list-item h-p0'>
+        <span class='global-footer-stats__number'>$907,967,371</span> community earnings
+
+      </li>
+    </ul>
+  </div>
+</div>
+
+    <hr class='global-footer__separator'>
+      <div class='global-footer__container'>
+
+    <a target="_blank" rel="noopener noreferrer" class="global-footer-bcorp-link" href="https://bcorporation.net/directory/envato">
+      <img class="global-footer-bcorp-logo" width="36" alt="B Corp Logo" src="https://public-assets.envato-static.com/assets/header-footer/logo-bcorp-fbdd18d9fd7274a0e6591e67408e26c55df20358c3c4eee496117b16874e1749.svg" />
+</a>
+    <div class='global-footer-company-links'>
+      <ul class='global-footer-company-links__list'>
+          <li class='global-footer-company-links__list-item'>
+            <a class="global-footer__text-link -opacity-full" href="https://envato.com">About Envato</a>
+          </li>
+          <li class='global-footer-company-links__list-item'>
+            <a class="global-footer__text-link -opacity-full" href="https://envato.com/careers/">Careers</a>
+          </li>
+          <li class='global-footer-company-links__list-item'>
+            <a class="global-footer__text-link -opacity-full" href="https://envato.com/privacy/">Privacy Policy</a>
+          </li>
+          <li class='global-footer-company-links__list-item'>
+            <a class="global-footer__text-link -opacity-full" href="https://envato.com/sitemap/">Sitemap</a>
+          </li>
+      </ul>
+
+      <hr class="global-footer__separator is-hidden-tablet-and-above h-mt3">
+
+        <small class='global-footer-company-links__price-disclaimer'>
+          All prices are in US dollars and exclude sales tax
+        </small>
+
+      <small class='global-footer-company-links__copyright'>
+        © 2021 Envato Pty Ltd. Trademarks and brands are the property of their respective owners.
+      </small>
+    </div>
+
+    <div class='global-footer-social'>
+      <ul>
+          <li class='global-footer-social__list-item'>
+            <a class="global-footer__icon-link" rel="nofollow" href="https://twitter.com/envato">
+            <span data-src="https://public-assets.envato-static.com/assets/header-footer/social/twitter-eb1c91b55d0de5dc2531864ca586dfd126f47265a6a2ac45eaf42ecfec1d80fe.svg" data-class="global-footer-social__icon" data-alt="Twitter" data-title="Twitter" class="lazy-load-img"></span>
+</a>          </li>
+          <li class='global-footer-social__list-item'>
+            <a class="global-footer__icon-link" rel="nofollow" href="https://www.facebook.com/envato">
+            <span data-src="https://public-assets.envato-static.com/assets/header-footer/social/facebook-6999049d3775a8a8707c857da80446b19ffc0a01c35d13b74517100844ff3faa.svg" data-class="global-footer-social__icon" data-alt="Facebook" data-title="Facebook" class="lazy-load-img"></span>
+</a>          </li>
+          <li class='global-footer-social__list-item'>
+            <a class="global-footer__icon-link" rel="nofollow" href="https://www.youtube.com/user/Envato">
+            <span data-src="https://public-assets.envato-static.com/assets/header-footer/social/youtube-b1b0afe6502def949dbef299d02d5d9f594e49f8fafcdf0d7ae10a118a086b67.svg" data-class="global-footer-social__icon" data-alt="YouTube" data-title="YouTube" class="lazy-load-img"></span>
+</a>          </li>
+          <li class='global-footer-social__list-item'>
+            <a class="global-footer__icon-link" rel="nofollow" href="https://www.instagram.com/envato/">
+            <span data-src="https://public-assets.envato-static.com/assets/header-footer/social/instagram-fc36708c12541f7b4a0b25cc4d5626226ceac438010037288b2be588fcadbce3.svg" data-class="global-footer-social__icon" data-alt="Instagram" data-title="Instagram" class="lazy-load-img"></span>
+</a>          </li>
+          <li class='global-footer-social__list-item'>
+            <a class="global-footer__icon-link" rel="nofollow" href="https://www.pinterest.com/envato/">
+            <span data-src="https://public-assets.envato-static.com/assets/header-footer/social/pinterest-11a3028152735b2ab34c786404e1c8395c58ba9beb47f39fd67b2dc8a788f836.svg" data-class="global-footer-social__icon" data-alt="Pinterest" data-title="Pinterest" class="lazy-load-img"></span>
+</a>          </li>
+      </ul>
+    </div>
+  </div>
+
+  </div>
+</footer>
+
+          </div>
+
+          <div class="is-hidden-phone">
+            <div id="tooltip-magnifier" class="magnifier">
+  <strong></strong>
+  <div class="info">
+    <div class="author-category">
+      by <span class="author"></span>
+    </div>
+    <div class="price">
+      <span class="cost"></span>
+    </div>
+  </div>
+  <div class="footer">
+    <span class="category"></span>
+      <span class="gst-notice">All prices are in US dollars and exclude sales tax</span>
+  </div>
+</div>
+
+            <div id="landscape-image-magnifier" class="magnifier">
+    <div class="size-limiter">
+    </div>
+  <strong></strong>
+  <div class="info">
+    <div class="author-category">
+      by <span class="author"></span>
+    </div>
+    <div class="price">
+      <span class="cost"></span>
+    </div>
+  </div>
+  <div class="footer">
+    <span class="category"></span>
+      <span class="gst-notice">All prices are in US dollars and exclude sales tax</span>
+  </div>
+</div>
+
+            <div id="portrait-image-magnifier" class="magnifier">
+    <div class="size-limiter">
+    </div>
+  <strong></strong>
+  <div class="info">
+    <div class="author-category">
+      by <span class="author"></span>
+    </div>
+    <div class="price">
+      <span class="cost"></span>
+    </div>
+  </div>
+  <div class="footer">
+    <span class="category"></span>
+      <span class="gst-notice">All prices are in US dollars and exclude sales tax</span>
+  </div>
+</div>
+
+            <div id="square-image-magnifier" class="magnifier">
+    <div class="size-limiter">
+    </div>
+  <strong></strong>
+  <div class="info">
+    <div class="author-category">
+      by <span class="author"></span>
+    </div>
+    <div class="price">
+      <span class="cost"></span>
+    </div>
+  </div>
+  <div class="footer">
+    <span class="category"></span>
+      <span class="gst-notice">All prices are in US dollars and exclude sales tax</span>
+  </div>
+</div>
+
+            <div id="smart-image-magnifier" class="magnifier">
+    <div class="size-limiter">
+    </div>
+  <strong></strong>
+  <div class="info">
+    <div class="author-category">
+      by <span class="author"></span>
+    </div>
+    <div class="price">
+      <span class="cost"></span>
+    </div>
+  </div>
+  <div class="footer">
+    <span class="category"></span>
+      <span class="gst-notice">All prices are in US dollars and exclude sales tax</span>
+  </div>
+</div>
+
+            <div id="video-magnifier" class="magnifier">
+    <div class="size-limiter">
+    </div>
+  <strong></strong>
+  <div class="info">
+    <div class="author-category">
+      by <span class="author"></span>
+    </div>
+    <div class="price">
+      <span class="cost"></span>
+    </div>
+  </div>
+  <div class="footer">
+    <span class="category"></span>
+      <span class="gst-notice">All prices are in US dollars and exclude sales tax</span>
+  </div>
+</div>
+
+          </div>
+        </div>
+
+
+        <div class="page__overlay" data-view="offCanvasNavToggle" data-off-canvas="close"></div>
+      </div>
+    </div>
+
+    
+
+      <div data-site="videohive" data-view="CsatSurvey" data-experiment-id="csat_survey" class="is-visually-hidden">
+  <div id="js-customer-satisfaction-survey">
+    <div class="e-modal">
+      <div class="e-modal__section" id="js-customer-satisfaction-survey-iframe-wrapper">
+      </div>
+    </div>
+  </div>
+</div>
+<div id="js-customer-satisfaction-popup" class="survey-popup is-visually-hidden">
+  <div class="h-text-align-right"><a href="#" id="js-popup-close-button" class="e-alert-box__dismiss-icon"><i class="e-icon -icon-cancel"></i></a></div>
+  <div class="survey-popup--section">
+    <h2 class="t-heading h-text-align-center -size-m">Tell us what you think!</h2>
+    <p>We'd like to ask you a few questions to help improve VideoHive.</p>
+  </div>
+  <div class="survey-popup--section">
+    <a href="#" id="js-show-survey-button" class="e-btn -color-primary -size-m -width-full js-survey-popup--show-survey-button">Sure, take me to the survey</a>
+  </div>
+</div>
+
+
+    <script src="https://public-assets.envato-static.com/assets/market/core/index-d4ffe9cce26f820b79f4c32edf3c9575df5f69f40e2ff13bbf80f126977792a4.js" nonce="fD4adlj4x3ugJ/EbV4KyJw=="></script>
+
+    <script src="https://public-assets.envato-static.com/assets/market/pages/default/index-1660567a8ca1d4dabd1aeccc141d0eb281160217f8ecf47207b1e2a78bcc9144.js" nonce="fD4adlj4x3ugJ/EbV4KyJw=="></script>
+
+
+
+
+    
+<div id="affiliate-tracker" class="is-hidden" data-view="affiliatesTracker" data-cookiebot-enabled="true"></div>
+
+    <script src="https://public-assets.envato-static.com/assets/market/core/lazyload-d32acbbc193ba843927175d43ecdc442a0f9dc9c4f9eca8172c201ca29cd4bab.js" crossorigin="anonymous" nonce="fD4adlj4x3ugJ/EbV4KyJw==" integrity="sha256-0yrLvBk7qEOScXXUPs3EQqD53JxPnsqBcsIByinNS6s="></script>
+
+    <script nonce="fD4adlj4x3ugJ/EbV4KyJw==">
+//<![CDATA[
+      $(function(){viewloader.execute(Views);});
+
+//]]>
+</script>
+      <script src="https://consent.cookiebot.com/uc.js" data-cbid="58b7468f-7dba-4036-baad-925e721641e5" async="async" id="Cookiebot" nonce="fD4adlj4x3ugJ/EbV4KyJw=="></script>
+
+
+  <script nonce="fD4adlj4x3ugJ/EbV4KyJw==">
+//<![CDATA[
+  window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+
+    var consentCookie = getCookie('CookieConsent');
+
+    if (consentCookie) {
+      var hasConsent = Market.Helpers.CookieConsent.given('statistics');
+
+      if (hasConsent) {
+        setupGoogleAnalytics();
+        loadGoogleAnalytics();
+        loadLinkingForAllAccounts();
+      }
+    } else {
+      setupGoogleAnalytics();
+      loadGoogleAnalytics();
+      loadLinkingForAllAccounts();
+    }
+
+    window.addEventListener('CookiebotOnAccept', function (e) {
+      if (Cookiebot.consent.statistics) {
+        if (!(window.ga && ga.create)) {
+          setupGoogleAnalytics();
+          loadGoogleAnalytics();
+          loadLinkingForAllAccounts();
+        }
+      } else {
+        unloadGoogleAnalytics()
+      }
+      if (!consentToExperimentsEnrollmentGiven()) {
+        unenrollFromExperiments();
+      }
+    }, false);
+
+  function getCookie(name) {
+    var name = name + "=";
+    var decodedCookie = decodeURIComponent(document.cookie);
+    var cookieContent = decodedCookie.split(';');
+
+    for(var i = 0; i <cookieContent.length; i++) {
+      var c = cookieContent[i];
+
+      while (c.charAt(0) == ' ') {
+        c = c.substring(1);
+      }
+
+      if (c.indexOf(name) == 0) {
+        return c.substring(name.length, c.length);
+      }
+    }
+
+    return false;
+  }
+
+  function delete_cookie_by_name(name) {
+    document.cookie = name + "=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+  }
+
+  function unloadGoogleAnalytics() {
+    var payload = {"name":"m","allowLinker":true};
+    var accountId = "UA-11834194-8";
+
+    // Set the GA User Opt-out flag
+    window['ga-disable-'+accountId] = true;
+
+    // Do not explicitly make any further calls to ga()
+    ga(payload.name+".remove");
+
+    // Delete any existing GA cookies (_ga, _gat & _gaid) and GA Client ID from localStorage
+    delete_cookie_by_name('_ga');
+    delete_cookie_by_name('_gat');
+    delete_cookie_by_name('_gid');
+
+    // Delete LocalStorage Entries
+    if (Market.Helpers.GaLsUtils.localStorageAvailable()) {
+      var clientId = Market.Helpers.GaLsUtils.getClientId();
+
+      if (!clientId) {
+        return;
+      }
+
+      Market.Helpers.GaLsUtils.removeClientId();
+    }
+
+    // Do not transmit the Client ID to other sites upon navigation (i.e. autoLink)
+  }
+
+  function domLoaded() {
+    return new Promise(resolve => {
+      if (
+        document.readyState === 'interactive' ||
+        document.readyState === 'complete'
+      ) {
+        resolve()
+      } else {
+        document.addEventListener(
+          'DOMContentLoaded',
+          () => {
+            resolve()
+          },
+          {
+            capture: true,
+            once: true,
+            passive: true
+          }
+        )
+      }
+    })
+  }
+
+  function consentToExperimentsEnrollmentGiven () {
+    return Market.Helpers.CookieConsent.given('preferences') && Market.Helpers.CookieConsent.given('statistics');
+  }
+
+  function unenrollFromExperiments() {
+    var activeExperimentsConfig = {"globalExperiment":{"id":"Q4KMAh3BQ4qNUNsdMXdprg","loadingCover":true,"variants":["0","1"],"domain":"videohive.net","variantsWeights":[1,9],"requires":{}},"newHomepageExperiment":{"id":"eCQGElkrSVqkXjHjD14dBg","loadingCover":true,"variants":["0","1"],"domain":"videohive.net","variantsWeights":[1,1],"requires":{"globalExperiment":{"variants":[1]}}},"csatSurveyExperiment":{"id":"csat_survey","loadingCover":true,"variants":["0","1"],"domain":"videohive.net","variantsWeights":[9,1],"requires":{"globalExperiment":{"variants":[1]}}},"ipxSimplifiedItemPage":{"id":"Wkp3qNpZQ1axe18WVz9REw","loadingCover":true,"variants":["0","1","2","3","4","5","6"],"domain":"videohive.net","variantsWeights":[1,1,1,1,1,1,1],"requires":{"globalExperiment":{"variants":[1]}}}}
+    var deletedCookies = [];
+
+    _.each(activeExperimentsConfig, function(expConfig, name) {
+      var cookieName =  "market_experiment_" + expConfig.id;
+
+      if ($.cookie(cookieName) != null && $.cookie(cookieName) != '' && typeof($.cookie(cookieName)) != 'undefined') {
+        $.removeCookie(cookieName);
+        deletedCookies.push(cookieName);
+      }
+    });
+
+    if(deletedCookies.length > 0) {
+      ga(t+'.set', "exp", null);
+      ga(t+'.set', "dimension21", null);
+      ga(t+'.set', "dimension22", null);
+    }
+  }
+
+  function enrolIntoActiveExperiments() {
+    var activeExperimentsConfig = {"globalExperiment":{"id":"Q4KMAh3BQ4qNUNsdMXdprg","loadingCover":true,"variants":["0","1"],"domain":"videohive.net","variantsWeights":[1,9],"requires":{}},"newHomepageExperiment":{"id":"eCQGElkrSVqkXjHjD14dBg","loadingCover":true,"variants":["0","1"],"domain":"videohive.net","variantsWeights":[1,1],"requires":{"globalExperiment":{"variants":[1]}}},"csatSurveyExperiment":{"id":"csat_survey","loadingCover":true,"variants":["0","1"],"domain":"videohive.net","variantsWeights":[9,1],"requires":{"globalExperiment":{"variants":[1]}}},"ipxSimplifiedItemPage":{"id":"Wkp3qNpZQ1axe18WVz9REw","loadingCover":true,"variants":["0","1","2","3","4","5","6"],"domain":"videohive.net","variantsWeights":[1,1,1,1,1,1,1],"requires":{"globalExperiment":{"variants":[1]}}}}
+
+    var independentExperimentConfigs = _.reduce(activeExperimentsConfig, function(memo, expConfig, name) {
+      if(_.isEmpty(expConfig.requires)) {
+        memo[name] = expConfig;
+      }
+      return memo;
+    }, {});
+
+    var dependentExperimentConfigs = _.reduce(activeExperimentsConfig, function(memo, expConfig, name) {
+      if(!_.isEmpty(expConfig.requires)) {
+        memo[name] = expConfig;
+      }
+      return memo;
+    }, {});
+
+    var experimentsConfig = {...independentExperimentConfigs, ...dependentExperimentConfigs};
+
+    if (!_.isEmpty(experimentsConfig)) {
+      var experimentEnrolments = createExperimentEnrollments(experimentsConfig);
+      window.dispatchEvent(new CustomEvent('ExperimentsReady', { payload: experimentEnrolments }));
+    }
+  }
+
+  function areRequirementsMet(experimentsConfig, requiredExperiments) {
+    return _.reduce(requiredExperiments, function(memo, requiredExperimentVariants, requiredExperimentName){
+      var requiredExperiment = experimentsConfig[requiredExperimentName];
+      var requiredExperimentCookieName = "market_experiment_" + requiredExperiment.id;
+      var requiredExperimentVariantEnabled = _.contains(requiredExperimentVariants.variants, +$.cookie(requiredExperimentCookieName));
+
+      return memo && requiredExperimentVariantEnabled;
+    }, true)
+  }
+
+  function selectExperimentVariant(expConfig) {
+    var variantWeights = _.object(expConfig.variants, expConfig.variantsWeights);
+
+    return _.chain(variantWeights).map(function (weight, variant) {
+      return _.times(weight, function() { return variant; });
+    }).flatten().sample().value();
+  }
+
+  function createExperimentEnrollments(activeExperimentsConfig) {
+    var enrollments = _.reduce(activeExperimentsConfig, function(memo, expConfig, name) {
+      var cookieName = "market_experiment_" + expConfig.id;
+
+      if (!$.cookie(cookieName)) {
+        var requirementsMet = areRequirementsMet(activeExperimentsConfig, expConfig.requires);
+
+        if (requirementsMet) {
+          var variant = selectExperimentVariant(expConfig)
+          $.cookie(cookieName, variant, { expires: 365, domain: expConfig.domain, path: '/' });
+        }
+      }
+      if ($.cookie(cookieName)) {
+        memo[expConfig.id] = $.cookie(cookieName);
+      }
+
+      return memo;
+    }, {});
+
+    var enrollmentsString = _.map(_.pairs(enrollments), function(pair) { return pair.join("."); }).join("!");
+
+    ga(t+'.set', "exp", enrollmentsString);
+    ga(t+'.set', "dimension21", enrollmentsString);
+    ga(t+'.set', "dimension22", enrollmentsString);
+
+    return enrollments;
+  }
+
+  function loadLinkingForAllAccounts() {
+    domLoaded().then(() => {
+      var ACCOUNTS = ["m"];
+      window._envGaTrackerNames = ACCOUNTS;
+
+      for (var i = 0; i < ACCOUNTS.length; i++) {
+        t = ACCOUNTS[i];
+
+        ga(t+'.require', 'linker');
+
+        ga(t+'.require', 'linkid', 'linkid.js');
+      };
+
+      document.body.addEventListener('click', function(event) {
+        decorateLink(event);
+      });
+      document.body.addEventListener('contextmenu', function(event) {
+        // Aside from a normal click, we need to handle the variety of ways users
+        // can open a link in a new tab
+        // Right click to open context menu
+        decorateLink(event);
+      });
+      document.body.addEventListener('mousedown', function(event) {
+        // Aside from a normal click, we need to handle the variety of ways users
+        // can open a link in a new tab
+        // Middle mouse button click
+        if (event.button === 1) {
+          decorateLink(event);
+        }
+      });
+    });
+  }
+
+  function decorateLink(event) {
+
+    var ACCOUNTS = ["m"];
+    window._envGaTrackerNames = ACCOUNTS;
+
+    var currentTarget = jQuery(event.target);
+    var link = currentTarget.closest('a')[0];
+    var ourDomains = ["activeden.net","audiojungle.net","themeforest.net","videohive.net","graphicriver.net","3docean.net","codecanyon.net","photodune.net","market.styleguide.envato.com","elements.envato.com","build.envatohostedservices.com","author.envato.com","tutsplus.com","sites.envato.com"];
+    var filteredDomains = ourDomains.filter(function(domain) {
+      return domain !== document.location.hostname;
+    });
+
+    for (var i = 0; i < ACCOUNTS.length; i++) {
+      t = ACCOUNTS[i];
+
+      if (link && link.href) {
+        if (filteredDomains.includes(link.hostname) || currentSiteLinkOpensInNewWindow(link)) {
+          ga(t+'.linker:decorate', link)
+        }
+      }
+    }
+  }
+
+  function currentSiteLinkOpensInNewWindow(link) {
+    return document.location.hostname === link.hostname && link.target === '_blank';
+  }
+
+  function setupGoogleAnalytics() {
+    (function () {
+      var accountId = "UA-11834194-8";
+      window['ga-disable-'+accountId] = false;
+
+      if (Market.Helpers.GaLsUtils.localStorageAvailable()) {
+        var options = {"name":"m","allowLinker":true};
+
+        options.storage = "none";
+        options.clientId = Market.Helpers.GaLsUtils.getClientId();
+
+        var clientIdValid = Market.Helpers.GaLsUtils.clientIdValid(options.clientId);
+        if (!clientIdValid) {
+          options.clientId = null;
+        }
+
+        ga("create", "UA-11834194-8", options);
+        ga(function() {
+          var tracker = ga.getByName(options.name);
+          Market.Helpers.GaLsUtils.storeClientId(tracker.get('clientId'));
+        })
+      } else {
+        ga("create", "UA-11834194-8", {"name":"m","allowLinker":true});
+      }
+
+      var ACCOUNTS = ["m"];
+      window._envGaTrackerNames = ACCOUNTS;
+
+      for (var i = 0; i < ACCOUNTS.length; i++) {
+        t = ACCOUNTS[i];
+
+        ga(t+'.require', "GTM-5VPWWP");
+
+        ga(t+'.require', 'ec');
+
+        ga(t+'.require', 'displayfeatures');
+
+        ga(t+'.set', 'dimension20', 'item:details')
+
+
+
+
+        if (!getCookie('CookieConsent') || consentToExperimentsEnrollmentGiven()) {
+            enrolIntoActiveExperiments();
+        }
+
+
+        if ('') {
+          ga(t+'.send', {
+            hitType: 'pageview',
+            page: ''
+          });
+        } else if ('') {
+          // append the analytics_suffix to the page path so the flash alert/error type can be tracked
+          var analyticsSuffix = $.trim('').replace(/([A-Z])/g, '$1').replace(/[-_\s]+/g, '-').toLowerCase();
+          var uri = URI(window.location.pathname + window.location.search);
+          uri.path(uri.path() + '/' + analyticsSuffix);
+          var tracking_path = uri.path() + uri.search();
+          ga(t+'.send', {
+            hitType: 'pageview',
+            page: tracking_path,
+          });
+        } else {
+          ga(t+'.send', 'pageview');
+        }
+      }
+
+      loadLinkingForAllAccounts()
+    }());
+  }
+
+  function loadGoogleAnalytics() {
+    (function () {
+
+      var s=document.createElement('script');
+      s.type='text/javascript';
+      s.async=true;
+        s.src='https://www.google-analytics.com/analytics.js';
+      var x=document.getElementsByTagName('script')[0];
+      x.parentNode.insertBefore(s,x);
+    }());
+  }
+
+  
+
+//]]>
+</script>
+
+  
+<script nonce="fD4adlj4x3ugJ/EbV4KyJw==">
+//<![CDATA[
+
+    if (typeof Cookiebot !== 'undefined' && Cookiebot.consent && Cookiebot.consent.statistics ) {
+      enableGoogleAnalyticsLinkWrapper();
+    } else {
+      window.addEventListener('CookiebotOnAccept', function (e) {
+        if (Cookiebot.consent.statistics) {
+          enableGoogleAnalyticsLinkWrapper();
+        }
+      }, false);
+    }
+
+  function enableGoogleAnalyticsLinkWrapper() {
+    // GA: universal analytics link wrapper
+    (function(){
+        window._envTrkrs = [["m", "UA-11834194-8"]];
+
+        var debug = false;
+        var MAX_RETRIES = 10;
+
+        /*
+           The script needs to wait until the Analytics script
+           has been downloaded from Google before initializing
+        */
+        var waitForAnalytics = function(){
+            this.count = this.count || 0;
+
+            if (window.ga && ga.getByName) {
+                e.init();
+            } else {
+                if (count < MAX_RETRIES) { setTimeout(waitForAnalytics, 250); }
+                count++;
+            }
+        };
+
+        var e = {
+            _envArray: [],
+            _envTrkrs: (window._envTrkrsCust && window._envTrkrsCust.length) ? window._envTrkrs.concat(window._envTrkrsCust) : window._envTrkrs,
+            init: function() {
+                for (var i=0; i < _envTrkrs.length; i++) {
+                  if(!ga.getByName(_envTrkrs[i][0])) {
+                    if (Market.Helpers.GaLsUtils.localStorageAvailable()) {
+                      var clientId = Market.Helpers.GaLsUtils.getClientId();
+
+                      ga("create", _envTrkrs[i][1], "auto", {name: _envTrkrs[i][0], storage: "none", clientId: clientId, allowLinker: true});
+                    } else {
+                      ga("create", _envTrkrs[i][1], "auto", {name: _envTrkrs[i][0], allowLinker: true});
+                    }
+                  }
+                }
+
+                document.addEventListener('DOMContentLoaded', function(){
+                    e.wrapperInit();
+                });
+
+                if (debug) {console.log('Initiated');}
+            },
+            wrapperInit: function() {
+                if (typeof window._envIsRunning != 'undefined' || window._envIsRunning == true) {
+                    return
+                }
+                window._envIsRunning = true;
+
+                if (document.addEventListener) {
+                    document.addEventListener('click', function(event){
+                        var target = event.target;
+                        if (target && target.tagName === 'A') {
+                            e._envLinksTracker(event);
+                        }
+                    });
+                }
+            },
+            isInArray: function(e, t) {
+                for (var n = 0; n < t.length; n++) {
+                    var r = new RegExp(t[n], 'i');
+                    if (r.test(e)) {
+                        return n
+                    }
+                }
+                return -1
+            },
+            _envTrackevent: function(e, t, n, r) {
+                for (var i = 0; i < this._envTrkrs.length; i++) {
+                    var s = this._envTrkrs[i][0].length == 0 ? '' : this._envTrkrs[i][0] + '.';
+                    r.length == 0 ? ga(s + 'send', 'event', e, t, n) : ga(s + 'send', 'event', e, t, n, r)
+                }
+            },
+            _envTrackpageview: function(e, t) {
+                t = t.charAt(0) == '/' ? t : '/' + t;
+                for (var n = 0; n < this._envTrkrs.length; n++) {
+                    var r = this._envTrkrs[n][0].length == 0 ? '' : this._envTrkrs[n][0] + '.';
+                    ga(r + 'send', 'pageview', e + t);
+                }
+            },
+            _envLinksTracker: function(t) {
+                var r = false;
+                var i = {
+                    outbound: {
+                        run: true,
+                        useEvent: true
+                    },
+                    download: {
+                        run: true,
+                        useEvent: true,
+                        reg: ''
+                    },
+                    self: {
+                        run: false,
+                        useEvent: true
+                    },
+                    mail: {
+                        run: true,
+                        useEvent: true
+                    },
+                    ext: /\.(doc.?|xls.?|ppt.?|exe|zip|rar|gz|tar|tgz|dmg|csv|pdf|xpi|txt|mp3)$/i
+                };
+                var s = t.srcElement ? t.srcElement : this;
+                if (t.srcElement) {
+                    r = true
+                }
+                while (s.tagName != 'A') {
+                    s = s.parentNode
+                }
+                if (s.href == undefined || s.href == null) {
+                    return true
+                }
+                var o = s.href;
+                if (o.length == 0) return;
+                var u = s.hostname.toLowerCase();
+                var a = s.pathname;
+                if (a.length == 0) {
+                    a = '/'
+                } else if (a.substr(0, 1) != '/') {
+                    a = '/' + a
+                }
+                var f = s.protocol;
+                var l = s.search;
+                var c = location.hostname;
+                c = c.replace(/^www\./i, '').toLowerCase();
+                u = u.replace(/^www\./i, '').toLowerCase();
+                if (o.match(/^#/)) {
+                    if (i.self.run) {
+                        i.self.useEvent ? e._envTrackevent('self', 'click - ' + c, o, '') : e._envTrackpageview('/virtual/self', '/' + o);
+                        return true
+                    }
+                } else if (f.match(/^mailto:/i)) {
+                    if (i.mail.run) {
+                        o = o.replace(/^mailto:/i, '');
+                        i.mail.useEvent ? e._envTrackevent('mailto', 'click - ' + c, o, '') : e._envTrackpageview('/virtual/mailto', o);
+                        return true
+                    }
+                } else if ((new RegExp(i.ext)).test(a)) {
+                    if (i.download.run) {
+                        o = o.replace(/^https?:\/\//i, '');
+                        i.download.useEvent ? e._envTrackevent('download', 'click - ' + c, o, '') : e._envTrackpageview('/virtual/download', o);
+                        return true
+                    }
+                } else if (u == undefined || u.length == 0 || f.match(/^javascript:/i)) {
+                    return
+                } else if ((new RegExp(c + '$', 'i')).test(u) || (new RegExp(u + '$', 'i')).test(c)) {
+                    if (i.download.run && i.download.reg.length != 0) {
+                        if ((new RegExp(i.download.reg, 'i')).test(a + l)) {
+                            o = o.replace(/^https?:\/\//i, '');
+                            i.download.useEvent ? e._envTrackevent('download', 'click - ' + c, o, '') : e._envTrackpageview('/virtual/download', o);
+                            return true
+                        }
+                    }
+                } else if (u != c) {
+                    if (e.isInArray(u, e._envArray) == -1) {
+                        if (i.outbound.run) {
+                            i.outbound.useEvent ? e._envTrackevent('outbound', 'click - ' + c, u + a + l, '') : e._envTrackpageview('/virtual/outbound', u + a);
+                            return true
+                        }
+                    } else if (e.isInArray(u, e._envArray) != -1) {
+                        var h = s.target;
+                        if (h != null && h == '_blank') {
+                            if ((new RegExp(/_utma=/)).test(l)) {
+                                return true
+                            }
+                            var p = e._envTrkrs[0][0].length == 0 ? '' : _envTrkrs[0][0] + '.';
+                            return true
+                        } else {
+                            return false
+                        }
+                    }
+                }
+            }
+        };
+
+        waitForAnalytics();
+    })()
+  }
+
+//]]>
+</script>
+
+
+
+<script nonce="fD4adlj4x3ugJ/EbV4KyJw==">
+//<![CDATA[
+  // Set New Relic custom attributes
+  (function () {
+    if (typeof newrelic !== 'undefined') {
+      newrelic.setCustomAttribute('pageType', 'item:details')
+    }
+  })()
+
+//]]>
+</script>
+
+  <script nonce="fD4adlj4x3ugJ/EbV4KyJw==">
+//<![CDATA[
+    if (typeof Cookiebot !== 'undefined' && Cookiebot.consent && Cookiebot.consent.marketing) {
+      enableGoogleTagManager();
+    } else {
+      window.addEventListener('CookiebotOnAccept', function (e) {
+        if (Cookiebot.consent.marketing) {
+          enableGoogleTagManager();
+        }
+      }, false);
+    }
+
+  function enableGoogleTagManager() {
+    var gtmId = 'GTM-585RXMV';
+    // Google Tag Manager Tracking Code
+    (function(w,d,s,l,i) {
+      w[l]=w[l]||[];w[l].push({'gtm.start':
+        new Date().getTime(),event:'gtm.js'});
+      var f=d.getElementsByTagName(s)[0],
+        j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';
+      j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;
+      f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer',gtmId);
+
+
+    window.addEventListener('load', function() {
+      window.dataLayer.push({
+        event: 'pinterestReady'
+      });
+    });
+  }
+
+//]]>
+</script>
+
+  </body>
+</html>
