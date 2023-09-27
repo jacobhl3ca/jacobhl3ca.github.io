@@ -287,6 +287,122 @@ h1 {
   font-size: 2.5em;
   line-height: 1.25em; }
 
+
+
+
+/*body {
+    background-color: #f0f0f0; 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+}*/
+
+
+
+
+
+
+/*
+h1.cool-hover {
+    font-size: 2rem;
+    position: relative;
+    color: white;
+    overflow: hidden;
+}
+
+h1.cool-hover::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background-color: #333;  
+    transition: left 0.3s ease;
+}
+
+h1.cool-hover:hover::before {
+    left: 0;
+}
+*/
+/* Change this to your desired darker shade -- the 333 at then end */
+
+
+
+
+
+
+
+
+body {
+    background-color: #000; /* Change this to your desired background color */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+}
+
+h1.cool-hover {
+    font-size: 2rem;
+    position: relative;
+/*    color: #444; */
+    /* Medium dark grey text color */
+    overflow: hidden;
+}
+
+h1.cool-hover::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+/*    background-color: #000; */
+    /* Change this to your desired darker shade */
+    transition: left 0.3s ease;
+}
+
+h1.cool-hover::after {
+    content: 'i\'m smart, i swear!';
+/*    content: 'ZEGZO'; */
+    /* Text to display on hover */
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    color: #333;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 0; /* Initially hidden */
+    transition: opacity 0.3s ease;
+/*font-family: 'Open Sans', sans-serif;*/
+/*font-family: 'Montserrat', sans-serif;*/
+/*font-family: 'Roboto', sans-serif;*/
+
+/*    font-family: 'Abril Fatface', serif;*/
+/*    font-family: 'Dancing Script', cursive;*/
+/*    font-size: 1.5rem; */
+    /* Adjust the font size as needed */
+}
+
+h1.cool-hover:hover::before {
+    left: 0;
+    background-color: #000; /* Change this to your desired even darker shade on hover */
+}
+
+h1.cool-hover:hover::after {
+    opacity: 1; /* Display the new text on hover */
+}
+
+
+
+
+
 h2 {
   font-size: 1.75em;
   line-height: 1.5em; }
