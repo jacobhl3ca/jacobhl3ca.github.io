@@ -51,7 +51,7 @@
                 <div class="home__social">
                     <a href="https://www.linkedin.com/in/jacobhl/" class="home__social-icon"><i class='bx bxl-linkedin'></i></a>
                     <a href="https://github.com/jacobhl3ca" class="home__social-icon"><i class='bx bxl-github' ></i></a>
-                    <a href="mailto:hi@jacobhl.com" class="home__social-icon"><i class='bx bxl-envelope' ></i></a>
+                    <a href="mailto:hi@jacobhl.com" class="home__social-icon"><i class='bx bx-envelope'></i></a>
                 </div>
 
                 <div class="home__img">
@@ -207,17 +207,24 @@
             <!--===== CONTACT =====-->
             <section class="contact section" id="contact">
                 <h2 class="section-title">Contact</h2>
-
                 <div class="contact__container bd-grid">
-                    <form action="" class="contact__form">
-                        <input type="text" placeholder="Name" class="contact__input">
-                        <!-- should be "email" type below? -->
-                        <input type="mail" placeholder="Email" class="contact__input"> 
-                        <textarea name="" id="" cols="0" rows="10" class="contact__input"></textarea>
-                        <input type="button" value="Send" class="contact__button button">
+                    <!-- Form with updated action and event handler -->
+                    <form id="contact-form" action="https://formspree.io/f/mkgqkgyr" method="POST" class="contact__form">
+                        <input type="text" name="name" placeholder="Name" class="contact__input" required>
+                        <input type="email" name="email" placeholder="Email" class="contact__input" required>
+                        <textarea name="message" placeholder="Your Message" class="contact__input" rows="10" required></textarea>
+                        <button type="submit" class="contact__button button">Send</button>
                     </form>
+<div></div>
+                    <!-- Success message to show after submission -->
+                    <div id="success-message" style="display: none; color: green; margin-top: 20px;">
+                        <br><p>Thank you for contacting me! Your message has been sent successfully.</p>
+                    </div>
                 </div>
             </section>
+
+
+
         </main>
 
         <!--===== FOOTER =====-->
@@ -238,5 +245,27 @@
 
         <!--===== MAIN JS =====-->
         <script src="assets/js/main.js"></script>
+
+        
+
+<script>
+    // Select the form and success message
+    const form = document.getElementById('contact-form');
+    const successMessage = document.getElementById('success-message');
+
+    // Prevent form submission from redirecting the page
+    form.addEventListener('submit', function(event) {
+        event.preventDefault();  // Prevent the default form submission (which causes the redirect)
+
+        // Show the success message
+        successMessage.style.display = 'block';
+
+        // Optionally, reset the form fields after submission
+        form.reset();
+    });
+</script>
+
+
+
     </body>
 </html>
