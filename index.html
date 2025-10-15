@@ -27,7 +27,8 @@
                         <li class="nav__item"><a href="#home" class="nav__link active-link">Home</a></li>
                         <li class="nav__item"><a href="#about" class="nav__link">About</a></li>
                         <li class="nav__item"><a href="#skills" class="nav__link">Skills</a></li> <!-- Update Periodically -->
-                        <li class="nav__item"><a href="#work" class="nav__link">Work</a></li> <!-- /Projects -->
+                        <!-- <li class="nav__item"><a href="#work" class="nav__link">Work</a></li>  -->
+                        <!-- /Projects -->
                         <li class="nav__item"><a href="#contact" class="nav__link">Contact</a></li>
                     </ul>
                 </div>
@@ -45,7 +46,7 @@
                     <h1 class="home__title">Hi,<br>I'm <span class="home__title-color">Jacob</span><br>Analytics Manager</h1>
                     <!-- <h1 class="home__title">Hi,<br>I'm <span class="home__title-color">Jacob</span><br>Manager, Analytics </h1> -->
 
-                    <a href="#" class="button">Contact</a>
+                    <a href="#contact" class="button">Contact</a>
                 </div>
 
                 <div class="home__social">
@@ -179,7 +180,7 @@
             </section>
 
             <!--===== WORK =====-->
-            <section class="work section" id="work">
+            <!-- <section class="work section" id="work">
                 <h2 class="section-title">Work</h2>
 
                 <div class="work__container bd-grid">
@@ -202,28 +203,23 @@
                         <img src="assets/img/work6.jpg" alt="">
                     </a>
                 </div>
-            </section>
+            </section> -->
+
+
+
 
             <!--===== CONTACT =====-->
             <section class="contact section" id="contact">
                 <h2 class="section-title">Contact</h2>
                 <div class="contact__container bd-grid">
-                    <!-- Form with updated action and event handler -->
-                    <form id="contact-form" action="https://formspree.io/f/mkgqkgyr" method="POST" class="contact__form">
+                    <form action="https://formspree.io/f/mkgqkgyr" method="POST" class="contact__form">
                         <input type="text" name="name" placeholder="Name" class="contact__input" required>
                         <input type="email" name="email" placeholder="Email" class="contact__input" required>
                         <textarea name="message" placeholder="Your Message" class="contact__input" rows="10" required></textarea>
                         <button type="submit" class="contact__button button">Send</button>
                     </form>
-<div></div>
-                    <!-- Success message to show after submission -->
-                    <div id="success-message" style="display: none; color: green; margin-top: 20px;">
-                        <br><p>Thank you for contacting me! Your message has been sent successfully.</p>
-                    </div>
                 </div>
             </section>
-
-
 
         </main>
 
@@ -245,27 +241,6 @@
 
         <!--===== MAIN JS =====-->
         <script src="assets/js/main.js"></script>
-
-        
-
-<script>
-    // Select the form and success message
-    const form = document.getElementById('contact-form');
-    const successMessage = document.getElementById('success-message');
-
-    // Prevent form submission from redirecting the page
-    form.addEventListener('submit', function(event) {
-        event.preventDefault();  // Prevent the default form submission (which causes the redirect)
-
-        // Show the success message
-        successMessage.style.display = 'block';
-
-        // Optionally, reset the form fields after submission
-        form.reset();
-    });
-</script>
-
-
 
     </body>
 </html>
