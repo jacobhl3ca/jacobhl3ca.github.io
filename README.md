@@ -1,14 +1,11 @@
-# Portfolio Responsive Complete
-## [Watch it on youtube](https://youtu.be/AKNvTxWOdKw)
-### Portfolio Responsive Complete
+# Personal Website
+### Version 3
 
-- Responsive Personal Portfolio Website HTML CSS & JavaScript.
-- Contains animations when scrolling.
-- Smooth scrolling in each section.
-- Developed first with the Mobile First methodology, then for desktop.
-- Compatible with all mobile devices and with a beautiful and pleasant user interface.
+- Responsive Personal Portfolio Website using HTML, CSS, and JS.
+- Contains animations and smooth scrolling in each section.
+- Developed with the Mobile First methodology, then for desktop.
+- Compatible with all mobile devices via a streamlined user interface.
 
-💙 Join the channel to see more videos like this. [Bedimcode](https://www.youtube.com/@Bedimcode)
+💙 Check it out [here](https://www.jacobhl.com)!
 
-![preview img](/preview.png)
-
+[Jacob Heifetz-Licht](https://www.jacobhl.com)<!-- {"preview":"true"} -->!
