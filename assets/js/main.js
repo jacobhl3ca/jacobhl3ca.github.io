@@ -11,6 +11,176 @@ const showMenu = (toggleId, navId) =>{
 }
 showMenu('nav-toggle','nav-menu')
 
+/*===== PASSWORD MODAL =====*/
+function showPasswordModal(type) {
+    const modal = document.getElementById('passwordModal');
+    const input = document.getElementById('passwordInput');
+    const error = document.getElementById('passwordError');
+    
+    modal.style.display = 'block';
+    input.value = '';
+    error.style.display = 'none';
+    input.focus();
+    
+    // Allow Enter key to submit
+    input.onkeypress = function(e) {
+        if (e.key === 'Enter') {
+            checkPassword();
+        }
+    };
+}
+
+function closePasswordModal() {
+    const modal = document.getElementById('passwordModal');
+    modal.style.display = 'none';
+}
+
+function checkPassword() {
+    const input = document.getElementById('passwordInput');
+    const error = document.getElementById('passwordError');
+    const password = input.value.trim();
+    
+    // Obfuscated password (Base64 encoded: aG9wZV95b3VfZW5qb3kh)
+    const encodedPassword = 'aG9wZV95b3VfZW5qb3kh';
+    const correctPassword = atob(encodedPassword);
+    
+    if (password === correctPassword) {
+        // Create download link - replace with your actual resume file
+        const resumeUrl = 'assets/resume/Jacob_Heifetz_Licht_Resume.pdf';
+        
+        // Create temporary link to trigger download
+        const link = document.createElement('a');
+        link.href = resumeUrl;
+        link.download = 'Jacob_Heifetz_Licht_Resume.pdf';
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        
+        closePasswordModal();
+    } else {
+        error.style.display = 'block';
+        input.value = '';
+        input.focus();
+        
+        // Shake animation for incorrect password
+        input.style.animation = 'shake 0.5s';
+        setTimeout(() => {
+            input.style.animation = '';
+        }, 500);
+    }
+}
+
+/*
+//===== PASSWORD MODAL =====*/
+function showPasswordModal(type) {
+    const modal = document.getElementById('passwordModal');
+    const input = document.getElementById('passwordInput');
+    const error = document.getElementById('passwordError');
+    
+    modal.style.display = 'block';
+    input.value = '';
+    error.style.display = 'none';
+    input.focus();
+    
+    // Allow Enter key to submit
+    input.onkeypress = function(e) {
+        if (e.key === 'Enter') {
+            checkPassword();
+        }
+    };
+}
+
+function closePasswordModal() {
+    const modal = document.getElementById('passwordModal');
+    modal.style.display = 'none';
+}
+
+function checkPassword() {
+    const input = document.getElementById('passwordInput');
+    const error = document.getElementById('passwordError');
+    const password = input.value.trim();
+    
+    // Obfuscated password (Base64 encoded: aG9wZV95b3VfZW5qb3kh)
+    const encodedPassword = 'aG9wZV95b3VfZW5qb3kh';
+    const correctPassword = atob(encodedPassword);
+    
+    if (password === correctPassword) {
+        // Create download link - replace with your actual resume file
+        const resumeUrl = 'assets/resume/Jacob_Heifetz_Licht_Resume.pdf';
+        
+        // Create temporary link to trigger download
+        const link = document.createElement('a');
+        link.href = resumeUrl;
+        link.download = 'Jacob_Heifetz_Licht_Resume.pdf';
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        
+        closePasswordModal();
+    } else {
+        error.style.display = 'block';
+        input.value = '';
+        input.focus();
+        
+        // Shake animation for incorrect password
+        input.style.animation = 'shake 0.5s';
+        setTimeout(() => {
+            input.style.animation = '';
+        }, 500);
+    }
+}
+
+// Close modal when clicking outside
+window.onclick = function(event) {
+    const modal = document.getElementById('passwordModal');
+    if (event.target === modal) {
+        closePasswordModal();
+    }
+}
+
+// Add shake animation
+const style = document.createElement('style');
+style.textContent = `
+    @keyframes shake {
+        0%, 100% { transform: translateX(0); }
+        25% { transform: translateX(-10px); }
+        75% { transform: translateX(10px); }
+    }
+`;
+document.head.appendChild(style);
+
+/*===== THEME TOGGLE =====*/
+const themeToggle = document.getElementById('theme-toggle');
+const themeIcon = document.getElementById('theme-icon');
+const currentTheme = localStorage.getItem('theme');
+
+// Set initial theme - default to dark mode
+if (currentTheme === 'light') {
+    document.documentElement.removeAttribute('data-theme');
+    themeIcon.classList.replace('bx-sun', 'bx-moon');
+} else {
+    // Default to dark mode if no preference or explicitly set to dark
+    document.documentElement.setAttribute('data-theme', 'dark');
+    themeIcon.classList.replace('bx-moon', 'bx-sun');
+    if (currentTheme !== 'dark') {
+        localStorage.setItem('theme', 'dark');
+    }
+}
+
+themeToggle.addEventListener('click', () => {
+    const currentTheme = document.documentElement.getAttribute('data-theme');
+    
+    if (currentTheme === 'dark') {
+        document.documentElement.removeAttribute('data-theme');
+        themeIcon.classList.replace('bx-sun', 'bx-moon');
+        localStorage.setItem('theme', 'light');
+    } else {
+        document.documentElement.setAttribute('data-theme', 'dark');
+        themeIcon.classList.replace('bx-moon', 'bx-sun');
+        localStorage.setItem('theme', 'dark');
+    }
+});
+
 /*==================== REMOVE MENU MOBILE ====================*/
 const navLink = document.querySelectorAll('.nav__link')
 

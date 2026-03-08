@@ -12,6 +12,13 @@
         <!-- =====BOX ICONS===== -->
         <link href='https://cdn.jsdelivr.net/npm/boxicons@2.0.5/css/boxicons.min.css' rel='stylesheet'>
 
+        <!-- Privacy-friendly analytics by Plausible -->
+            <script async src="http://192.168.99.97:8001/js/pa-Gs2doyz-B6lgKMO0IhiIX.js"></script>
+            <script>
+            window.plausible=window.plausible||function(){(plausible.q=plausible.q||[]).push(arguments)},plausible.init=plausible.init||function(i){plausible.o=i||{}};
+            plausible.init()
+            </script>
+
         <title>Jacob Heifetz-Licht</title>
     </head>
     <body>
@@ -33,8 +40,13 @@
                     </ul>
                 </div>
 
-                <div class="nav__toggle" id="nav-toggle">
-                    <i class='bx bx-menu'></i>
+                <div style="display: flex; align-items: center;">
+                    <button id="theme-toggle" class="theme-toggle">
+                        <i class='bx bx-moon' id="theme-icon"></i>
+                    </button>
+                    <div class="nav__toggle" id="nav-toggle">
+                        <i class='bx bx-menu'></i>
+                    </div>
                 </div>
             </nav>
         </header>
@@ -52,6 +64,9 @@
                 <div class="home__social">
                     <a href="https://www.linkedin.com/in/jacobhl/" class="home__social-icon"><i class='bx bxl-linkedin'></i></a>
                     <a href="https://github.com/jacobhl3ca" class="home__social-icon"><i class='bx bxl-github' ></i></a>
+                    <button onclick="showPasswordModal('resume')" class="home__social-icon" style="background: none; border: none; cursor: pointer; display: none;">
+                        <i class='bx bx-file' ></i>
+                    </button>
                     <a href="mailto:hi@jacobhl.com" class="home__social-icon"><i class='bx bx-envelope'></i></a>
                 </div>
 
@@ -75,7 +90,10 @@
                 <div class="about__container bd-grid">
                     <div class="about__img">
                         <!-- PROFILE PICTURE 2 -->
-                        <img src="assets/img/about.jpeg" alt=""> 
+                        <!-- <img src="assets/img/about.png" alt="">  -->
+                        <!-- <img src="assets/img/IMG_0025.HEIC" alt="">  -->
+                         <img src="assets/img/about.jpg" alt=""> 
+                        <!-- <img src="assets/img/Untitled.jpg" alt="">  -->
                     </div>
                     
                     <div>
@@ -85,7 +103,8 @@
                             I’m a passionate data analytics leader 
                             with a knack for turning complex data into actionable insights.
 
-                            Over the years, I’ve thrived in roles at companies like Kepler, Condé Nast, and Deloitte, 
+                            Over the years, I’ve led impactful projects at companies like Kepler, Condé Nast, and Deloitte, 
+                            <!-- Over the years, I’ve thrived in roles at companies like Kepler, Condé Nast, and Deloitte,  -->
                             where I’ve automated processes (saving thousands of hours and dollars), 
                             built award-winning dashboards, and mentored teams to unlock their full potential.
                             <br><br>
@@ -125,7 +144,7 @@
                         <div class="skills__data">
                             <div class="skills__names">
                                 <i class='bx bxl-python skills__icon'></i>
-                                <span class="skills__name">DATA VISUALIZATION</span>
+                                <span class="skills__name">AUTOMATION</span>
                             </div>
                             <div class="skills__bar skills__html">
 
@@ -137,7 +156,7 @@
                         <div class="skills__data">
                             <div class="skills__names">
                                 <i class='bx bxl-sqlite skills__icon'></i>
-                                <span class="skills__name">AUTOMATION</span>
+                                <span class="skills__name">DATA VISUALIZATION</span>
                             </div>
                             <div class="skills__bar skills__css">
                                 
@@ -174,36 +193,133 @@
                     </div>
                     
                     <div>              
-                        <img src="assets/img/work3.jpg" alt="" class="skills__img">
+                        <img src="assets/img/skills.jpg" alt="" class="skills__img">
                     </div>
                 </div>
             </section>
 
-            <!--===== WORK =====-->
-            <!-- <section class="work section" id="work">
+            <!-- ===== WORK =====-->
+            <section class="work section" id="work">
                 <h2 class="section-title">Work</h2>
 
                 <div class="work__container bd-grid">
-                    <a href="" class="work__img">
-                        <img src="assets/img/work1.jpg" alt="">
-                    </a>
-                    <a href="" class="work__img">
+                    
+                     <div class="work__img">
+                        <a href="https://devpost.com/software/hackprinceton2017">
+                            <img src="assets/img/spotify.png" alt="">
+                        </a>
+                        <div class="work__description">
+                            <center>
+                                <h3>
+                                    Spotify Analytics
+                                </h3>
+                                <p>
+                                    Summarized listening trends, without waiting and relying on annual Spotify Wrapped.
+                                </p>
+                            </center>
+                        </div>
+                    </div>
+
+                    <div class="work__img">
+                        <a href="https://devpost.com/software/hackprinceton2017">
+                            <img src="assets/img/spotify.png" alt="">
+                        </a>
+                        <div class="work__description">
+                            <center>
+                                <h3>
+                                    Spotify Playlist Archiver
+                                </h3>
+                                <p>
+                                    Weekly automatic archive of primary playlists that would otherwise disappear, including Discover Weekly, Release Radar, and the max ranges allowed to pull (past year, 6-months, and month).
+                                </p>
+                            </center>
+                        </div>
+                    </div>
+
+                    <div class="work__img">
+                        <a href="https://github.com/jacobhl3ca/safari-pinned-tab-automation">
+                            <img src="assets/img/coinbaseAnalytics.jpg" alt="">
+                        </a>
+                        <div class="work__description">
+                            <center>
+                                <h3>
+                                    Safari Unpinner
+                                </h3>
+                                <p>
+                                    Python automation script for macOS that efficiently manages Safari pinned tabs. Supports bulk unpinning and closing operations with bidirectional navigation.
+                                </p>
+                            </center>
+                        </div>
+                    </div>
+
+                    <div class="work__img">
+                        <!-- <a href="https://devpost.com/software/hackprinceton2017"> -->
+                            <img src="assets/img/stocks.png" alt="">
+                        </a>
+                        <div class="work__description">
+                            <center>
+                                <h3>
+                                    Personal Finance App
+                                </h3>
+                                <p>
+                                    Enables daily budgeting, investment planning, and optimization, using Python and Apps Script.
+                                </p>
+                            </center>
+                        </div>
+                    </div>
+                    
+                    <!--  -->
+                    
+                    <div class="work__img">
+                        <a href="https://devpost.com/software/hackprinceton2017">
+                            <img src="assets/img/nextCloud.png" alt="">
+                        </a>
+                        <div class="work__description">
+                            <center>
+                                <h3>
+                                    System Administration
+                                </h3>
+                                <p>
+                                    Self-hosted web apps and network services using multiple Linux servers (Docker, Linux)
+                                    <!-- , Nginx, Apache -->
+                                    <!-- Next: -->
+                                    <!-- Deployed Nextcloud to sync files, calendar, and reminders between mobile and desktop devices -->
+                                    <!-- Utilized Docker to easily containerize and upgrade applications while using Nginx as a reverse proxy to serve each on its own subdomain -->
+                                    <!-- Uses Nginx to reverse proxy services and serve this website -->
+                                </p>
+                            </center>
+                        </div>
+                    </div>
+
+                    <div class="work__img">
+                        <a href="https://devpost.com/software/hackprinceton2017">
+                            <img src="assets/img/coinbaseAnalytics.jpg" alt="">
+                        </a>
+                        <div class="work__description">
+                            <center>
+                                <h3>
+                                    Coinbase Analytics
+                                </h3>
+                                <p>
+                                    Best Financial Hack
+                                    <br>Hack Princeton 2017
+                                </p>
+                            </center>
+                        </div>
+                    </div>
+
+                    <!-- Boring Images
+                    <div class="work__img">
                         <img src="assets/img/work2.jpg" alt="">
-                    </a>
-                    <a href="" class="work__img">
-                        <img src="assets/img/work3.jpg" alt="">
-                    </a>
-                    <a href="" class="work__img">
-                        <img src="assets/img/work4.jpg" alt="">
-                    </a>
-                    <a href="" class="work__img">
                         <img src="assets/img/work5.jpg" alt="">
-                    </a>
-                    <a href="" class="work__img">
+                        <img src="assets/img/work4.jpg" alt="">
+                        <img src="assets/img/work3.jpg" alt="">
                         <img src="assets/img/work6.jpg" alt="">
-                    </a>
+                    </div> 
+                    -->
+
                 </div>
-            </section> -->
+            </section>
 
             <!--===== CONTACT =====-->
             <section class="contact section" id="contact">
@@ -220,24 +336,42 @@
 
         </main>
 
+        <!-- Password Modal -->
+        <div id="passwordModal" class="password-modal">
+            <div class="password-modal-content">
+                <div class="password-modal-header">
+                    <h3>Download Resume</h3>
+                    <button class="password-modal-close" onclick="closePasswordModal()">&times;</button>
+                </div>
+                <div class="password-modal-body">
+                    <p>Please enter password to download resume:</p>
+                    <input type="password" id="passwordInput" placeholder="Enter password" class="password-input">
+                    <button onclick="checkPassword()" class="password-submit">Download</button>
+                    <p id="passwordError" class="password-error" style="display: none;">Incorrect password. Please try again.</p>
+                </div>
+            </div>
+        </div>
+
         <!--===== FOOTER =====-->
         <footer class="footer">
             <p class="footer__title">Jacob</p>
             <div class="footer__social">
                 <a href="https://www.linkedin.com/in/jacobhl/" class="footer__icon"><i class='bx bxl-linkedin' ></i></a>
                 <a href="https://github.com/jacobhl3ca" class="footer__icon"><i class='bx bxl-github' ></i></a>
+                <button onclick="showPasswordModal('resume')" class="footer__icon" style="background: none; border: none; cursor: pointer; padding: 0; display: none;">
+                    <i class='bx bx-file' ></i>
+                </button>
                 <a href="mailto:hi@jacobhl.com" class="footer__icon"><i class='bx bx-envelope'></i></a>
             </div>
-            <!-- <p class="footer__copy">&#169; Bedimcode. All rights reserved</p> -->
+            <!-- <p class="footer__copy">&#169; Made with Love in NY. All rights reserved</p> -->
             <p class="footer__copy">Thanks for coming!</p>
         </footer>
-
 
         <!--===== SCROLL REVEAL =====-->
         <script src="https://unpkg.com/scrollreveal"></script>
 
         <!--===== MAIN JS =====-->
         <script src="assets/js/main.js"></script>
-
+        
     </body>
 </html>
