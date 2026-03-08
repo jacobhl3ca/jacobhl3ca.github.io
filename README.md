@@ -7,5 +7,3 @@
 - Compatible with all mobile devices via a streamlined user interface.
 
 💙 Check it out [here](https://www.jacobhl.com)!
-
-[Jacob Heifetz-Licht](https://www.jacobhl.com)<!-- {"preview":"true"} -->!
