@@ -3,22 +3,9 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
         <link rel="stylesheet" href="assets/css/styles.css">
-
-        <!-- added favicon -->
-        <link rel="icon" type="image/png" href="assets/img/favicon.ico"> <!-- Convert to PNG? -->
-
-        <!-- =====BOX ICONS===== -->
-        <link href='https://cdn.jsdelivr.net/npm/boxicons@2.0.5/css/boxicons.min.css' rel='stylesheet'>
-
-        <!-- Privacy-friendly analytics by Plausible -->
-            <script async src="http://192.168.99.97:8001/js/pa-Gs2doyz-B6lgKMO0IhiIX.js"></script>
-            <script>
-            window.plausible=window.plausible||function(){(plausible.q=plausible.q||[]).push(arguments)},plausible.init=plausible.init||function(i){plausible.o=i||{}};
-            plausible.init()
-            </script>
-
+        <link rel="icon" type="image/png" href="assets/img/favicon.ico"> <!-- PNG conversions needed? -->
+        <link href='https://cdn.jsdelivr.net/npm/boxicons@2.0.5/css/boxicons.min.css' rel='stylesheet'> <!-- icons -->
         <title>Jacob Heifetz-Licht</title>
     </head>
     <body>
@@ -28,18 +15,20 @@
                 <div>
                     <a href="#" class="nav__logo">Jacob</a>
                 </div>
-
                 <div class="nav__menu" id="nav-menu">
                     <ul class="nav__list">
+
                         <li class="nav__item"><a href="#home" class="nav__link active-link">Home</a></li>
                         <li class="nav__item"><a href="#about" class="nav__link">About</a></li>
-                        <li class="nav__item"><a href="#skills" class="nav__link">Skills</a></li> <!-- Update Periodically -->
-                        <!-- <li class="nav__item"><a href="#work" class="nav__link">Work</a></li>  -->
-                        <!-- /Projects -->
+
+                        <!-- Update Periodically -->
+                        <li class="nav__item"><a href="#skills" class="nav__link">Skills</a></li> 
+                        <li class="nav__item"><a href="#Projects" class="nav__link">Projects</a></li> <!-- or "Work" -->
+
                         <li class="nav__item"><a href="#contact" class="nav__link">Contact</a></li>
+
                     </ul>
                 </div>
-
                 <div style="display: flex; align-items: center;">
                     <button id="theme-toggle" class="theme-toggle">
                         <i class='bx bx-moon' id="theme-icon"></i>
@@ -50,24 +39,19 @@
                 </div>
             </nav>
         </header>
-
         <main class="l-main">
             <!--===== HOME =====-->
             <section class="home bd-grid" id="home">
                 <div class="home__data">
-                    <h1 class="home__title">Hi,<br>I'm <span class="home__title-color">Jacob</span><br>Analytics Manager</h1>
-                    <!-- <h1 class="home__title">Hi,<br>I'm <span class="home__title-color">Jacob</span><br>Manager, Analytics </h1> -->
-
+                    <h1 class="home__title">Hi,<br>I'm <span class="home__title-color">Jacob</span><br>Analytics Manager</h1> 
+                    <!-- or Manager, Analytics -->
                     <a href="#contact" class="button">Contact</a>
                 </div>
 
                 <div class="home__social">
-                    <a href="https://www.linkedin.com/in/jacobhl/" class="home__social-icon"><i class='bx bxl-linkedin'></i></a>
-                    <a href="https://github.com/jacobhl3ca" class="home__social-icon"><i class='bx bxl-github' ></i></a>
-                    <button onclick="showPasswordModal('resume')" class="home__social-icon" style="background: none; border: none; cursor: pointer; display: none;">
-                        <i class='bx bx-file' ></i>
-                    </button>
-                    <a href="mailto:hi@jacobhl.com" class="home__social-icon"><i class='bx bx-envelope'></i></a>
+                    <a href="https://www.linkedin.com/in/jacobhl/" class="home__social-icon" target="_blank"><i class='bx bxl-linkedin'></i></a>
+                    <a href="https://github.com/jacobhl3ca" class="home__social-icon" target="_blank"><i class='bx bxl-github' ></i></a>
+                    <a href="mailto:hi@jacobhl.com" class="home__social-icon" target="_blank"><i class='bx bx-envelope'></i></a>
                 </div>
 
                 <div class="home__img">
@@ -89,42 +73,36 @@
 
                 <div class="about__container bd-grid">
                     <div class="about__img">
-                        <!-- PROFILE PICTURE 2 -->
-                        <!-- <img src="assets/img/about.png" alt="">  -->
-                        <!-- <img src="assets/img/IMG_0025.HEIC" alt="">  -->
+
                          <img src="assets/img/about.jpg" alt=""> 
-                        <!-- <img src="assets/img/Untitled.jpg" alt="">  -->
+
                     </div>
-                    
                     <div>
+                        
                         <h2 class="about__subtitle">I'm Jacob</h2>
                         <p class="about__text">
+
                             🌟 Hi there! 
                             I’m a passionate data analytics leader 
-                            with a knack for turning complex data into actionable insights.
-
+                            with a knack for turning complex data into actionable insights. 
                             Over the years, I’ve led impactful projects at companies like Kepler, Condé Nast, and Deloitte, 
-                            <!-- Over the years, I’ve thrived in roles at companies like Kepler, Condé Nast, and Deloitte,  -->
                             where I’ve automated processes (saving thousands of hours and dollars), 
                             built award-winning dashboards, and mentored teams to unlock their full potential.
                             <br><br>
 
-                            <!-- Whether it’s optimizing lead-matching algorithms with Python or creating self-service tools for executives,  -->
-                             Whether it’s optimizing scripts or 
-                             creating self-service tools for executives, 
-                             I geek out on blending my technical chops 
-                             (Python, SQL, Tableau, and more!) 
-                             with strategic thinking to solve real-world problems.
-                             <br><br>
+                            Whether it’s optimizing scripts or 
+                            creating self-service tools for executives, 
+                            I geek out on blending my technical chops 
+                            (Python, SQL, Tableau, and more!) 
+                            with strategic thinking to solve real-world problems.
+                            <br><br>
                             
-                             A proud Rutgers grad with a passion for entrepreneurship, 
-                             I’m always excited to collaborate, innovate, and empower teams. 
-                             Let’s connect if you’re looking for someone who 
-                             can turn data into your organization’s superpower—or 
-                             if you just want to chat about the latest in AI, analytics, or data viz! 🚀✨
+                            A proud Rutgers grad with a passion for entrepreneurship, 
+                            I’m always excited to collaborate, innovate, and empower teams. 
+                            Let’s connect if you’re looking for someone who 
+                            can turn data into your organization’s superpower—or 
+                            if you just want to chat about the latest in AI, analytics, or data viz! 🚀✨
 
-                            <!-- 🌟 Hi there! I’m a passionate data strategist and analytics leader with a knack for turning complex data into actionable insights that drive growth and efficiency. Over the years, I’ve thrived in roles at companies like Kepler, Condé Nast, Deloitte, and UPS, where I’ve automated processes (saving thousands of hours and millions in costs), built award-winning dashboards, and mentored teams to unlock their full potential. Whether it’s optimizing lead-matching algorithms with Python or creating self-service tools for executives, I geek out on blending technical chops (Python, SQL, Tableau, and more!) with strategic thinking to solve real-world problems. -->
-                            <!-- A proud Rutgers grad with a flair for entrepreneurship, I’m always excited to collaborate, innovate, and empower teams. Let’s connect if you’re looking for someone who can turn data into your organization’s superpower—or if you just want to chat about the next big thing in AI, analytics, or hackathons! 🚀✨ -->
                         </p>           
                     </div>                                   
                 </div>
@@ -174,7 +152,7 @@
                                 
                             </div>
                             <div>
-                                <span class="skills__percentage">65%</span>
+                                <span class="skills__percentage">70%</span>
                             </div>
                         </div>
                         <div class="skills__data">
@@ -198,14 +176,16 @@
                 </div>
             </section>
 
-            <!-- ===== WORK =====-->
+            <!-- ===== PROJECTS =====--> <!-- or "Work" -->
+            
             <section class="work section" id="work">
-                <h2 class="section-title">Work</h2>
 
+                <h2 class="section-title">Projects</h2> 
+                
                 <div class="work__container bd-grid">
-                    
-                     <div class="work__img">
-                        <a href="https://devpost.com/software/hackprinceton2017">
+
+                    <div class="work__img"> <!-- Spotify Analytics -->
+                        <a href="">
                             <img src="assets/img/spotify.png" alt="">
                         </a>
                         <div class="work__description">
@@ -214,14 +194,14 @@
                                     Spotify Analytics
                                 </h3>
                                 <p>
-                                    Summarize listening trends, without relying on the annual Spotify Wrapped.
+                                    Summarize listening trends, without relying on  annual Spotify Wrapped.
                                 </p>
                             </center>
                         </div>
                     </div>
 
-                    <div class="work__img">
-                        <a href="https://devpost.com/software/hackprinceton2017">
+                    <div class="work__img"> <!-- Spotify Analytics -->
+                        <a href="">
                             <img src="assets/img/spotify.png" alt="">
                         </a>
                         <div class="work__description">
@@ -230,13 +210,13 @@
                                     Spotify Playlist Archiver
                                 </h3>
                                 <p>
-                                    Automatic weekly archiver of primary playlists that would otherwise disappear. Includes Discover Weekly, Release Radar, and the 3 top-songs lists over the past year, 6-months, and month.
+                                    Automatic weekly archiver of playlists that would otherwise disappear. Includes Discover Weekly, Release Radar, and Your Top Songs at different  granularities.
                                 </p>
                             </center>
                         </div>
                     </div>
 
-                    <div class="work__img">
+                    <div class="work__img"> <!-- Spotify Analytics -->
                         <a href="https://github.com/jacobhl3ca/safari-pinned-tab-automation">
                             <img src="assets/img/coinbaseAnalytics.jpg" alt="">
                         </a>
@@ -247,14 +227,14 @@
                                 </h3>
                                 <p> 
                                     <!-- removed after "script" - "for macOS" -->
-                                    Python automation script that efficiently manages Safari pinned tabs. Supports bulk unpinning and closing operations with bidirectional navigation.
+                                    Python automation script that better <!-- efficiently--> manages Safari pinned tabs. Supports bulk unpinning and closing operations with bidirectional navigation.
                                 </p>
                             </center>
                         </div>
                     </div>
 
-                    <div class="work__img">
-                        <!-- <a href="https://devpost.com/software/hackprinceton2017"> -->
+                    <div class="work__img"> <!-- Spotify Analytics -->
+                        <a href="">
                             <img src="assets/img/stocks.png" alt="">
                         </a>
                         <div class="work__description">
@@ -263,16 +243,14 @@
                                     Personal Finance App
                                 </h3>
                                 <p>
-                                    Enables daily budgeting, investment planning, and optimization, using Python and Apps Script.
+                                    Enables precise <!-- added precise --> daily budgeting, investment planning, and optimization, using Python and Apps Script.
                                 </p>
                             </center>
                         </div>
                     </div>
                     
-                    <!--  -->
-                    
-                    <div class="work__img">
-                        <a href="https://devpost.com/software/hackprinceton2017">
+                    <div class="work__img"> <!-- Spotify Analytics -->
+                        <a href="">
                             <img src="assets/img/nextCloud.png" alt="">
                         </a>
                         <div class="work__description">
@@ -282,17 +260,12 @@
                                 </h3>
                                 <p>
                                     Self-hosted web apps and network services using multiple Linux servers (Docker, Linux)
-                                    <!-- , Nginx, Apache -->
-                                    <!-- Next: -->
-                                    <!-- Deployed Nextcloud to sync files, calendar, and reminders between mobile and desktop devices -->
-                                    <!-- Utilized Docker to easily containerize and upgrade applications while using Nginx as a reverse proxy to serve each on its own subdomain -->
-                                    <!-- Uses Nginx to reverse proxy services and serve this website -->
                                 </p>
                             </center>
                         </div>
                     </div>
 
-                    <div class="work__img">
+                    <div class="work__img"> <!-- Spotify Analytics -->
                         <a href="https://devpost.com/software/hackprinceton2017">
                             <img src="assets/img/coinbaseAnalytics.jpg" alt="">
                         </a>
@@ -309,16 +282,6 @@
                         </div>
                     </div>
 
-                    <!-- Boring Images
-                    <div class="work__img">
-                        <img src="assets/img/work2.jpg" alt="">
-                        <img src="assets/img/work5.jpg" alt="">
-                        <img src="assets/img/work4.jpg" alt="">
-                        <img src="assets/img/work3.jpg" alt="">
-                        <img src="assets/img/work6.jpg" alt="">
-                    </div> 
-                    -->
-
                 </div>
             </section>
 
@@ -334,38 +297,24 @@
                     </form>
                 </div>
             </section>
-
+            
         </main>
-
-        <!-- Password Modal -->
-        <div id="passwordModal" class="password-modal">
-            <div class="password-modal-content">
-                <div class="password-modal-header">
-                    <h3>Download Resume</h3>
-                    <button class="password-modal-close" onclick="closePasswordModal()">&times;</button>
-                </div>
-                <div class="password-modal-body">
-                    <p>Please enter password to download resume:</p>
-                    <input type="password" id="passwordInput" placeholder="Enter password" class="password-input">
-                    <button onclick="checkPassword()" class="password-submit">Download</button>
-                    <p id="passwordError" class="password-error" style="display: none;">Incorrect password. Please try again.</p>
-                </div>
-            </div>
-        </div>
 
         <!--===== FOOTER =====-->
         <footer class="footer">
             <p class="footer__title">Jacob</p>
             <div class="footer__social">
-                <a href="https://www.linkedin.com/in/jacobhl/" class="footer__icon"><i class='bx bxl-linkedin' ></i></a>
-                <a href="https://github.com/jacobhl3ca" class="footer__icon"><i class='bx bxl-github' ></i></a>
-                <button onclick="showPasswordModal('resume')" class="footer__icon" style="background: none; border: none; cursor: pointer; padding: 0; display: none;">
-                    <i class='bx bx-file' ></i>
-                </button>
-                <a href="mailto:hi@jacobhl.com" class="footer__icon"><i class='bx bx-envelope'></i></a>
+
+                <a href="https://www.linkedin.com/in/jacobhl/" class="footer__icon" target="_blank"><i class='bx bxl-linkedin' ></i></a>
+
+                <a href="https://github.com/jacobhl3ca" class="footer__icon" target="_blank"><i class='bx bxl-github' ></i></a>
+
+                <a href="mailto:hi@jacobhl.com" class="footer__icon" target="_blank"><i class='bx bx-envelope'></i></a>
+
             </div>
-            <!-- <p class="footer__copy">&#169; Made with Love in NY. All rights reserved</p> -->
+
             <p class="footer__copy">Thanks for coming!</p>
+
         </footer>
 
         <!--===== SCROLL REVEAL =====-->
