@@ -154,12 +154,11 @@ const themeToggle = document.getElementById('theme-toggle');
 const themeIcon = document.getElementById('theme-icon');
 const currentTheme = localStorage.getItem('theme');
 
-// Set initial theme - default to dark mode
+// HTML defaults to data-theme="dark" and sun icon; only switch to light if user previously chose light
 if (currentTheme === 'light') {
     document.documentElement.removeAttribute('data-theme');
     themeIcon.classList.replace('bx-sun', 'bx-moon');
 } else {
-    // Default to dark mode if no preference or explicitly set to dark
     document.documentElement.setAttribute('data-theme', 'dark');
     themeIcon.classList.replace('bx-moon', 'bx-sun');
     if (currentTheme !== 'dark') {
@@ -179,6 +178,7 @@ themeToggle.addEventListener('click', () => {
         themeIcon.classList.replace('bx-moon', 'bx-sun');
         localStorage.setItem('theme', 'dark');
     }
+    themeToggle.blur();
 });
 
 /*==================== REMOVE MENU MOBILE ====================*/

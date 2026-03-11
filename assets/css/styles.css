@@ -50,11 +50,11 @@
 
 [data-theme="dark"] .l-header {
   background-color: var(--container-bg);
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);
 }
 
+[data-theme="dark"] .nav,
 [data-theme="dark"] .nav__menu {
-  background-color: var(--container-bg);
+  background: transparent;
 }
 
 [data-theme="dark"] .nav__link {
@@ -111,20 +111,39 @@
 
 /* Theme toggle button */
 .theme-toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.25rem;
+  height: 2.25rem;
+  padding: 0;
   background: none;
   border: none;
   color: var(--second-color);
   font-size: 1.2rem;
   cursor: pointer;
-  padding: 0.5rem;
   border-radius: 50%;
-  transition: all 0.3s ease;
+  transition: background-color 0.2s ease, color 0.2s ease;
   margin-left: 1rem;
+  outline: none;
 }
 
 .theme-toggle:hover {
   background-color: var(--first-color);
   color: #fff;
+}
+
+.theme-toggle:focus {
+  outline: none;
+}
+
+.theme-toggle:focus:not(:focus-visible) {
+  outline: none;
+}
+
+.theme-toggle:focus-visible {
+  outline: 2px solid var(--first-color);
+  outline-offset: 2px;
 }
 
 [data-theme="dark"] .theme-toggle {
@@ -343,8 +362,14 @@ img {
   left: 0;
   z-index: var(--z-fixed);
   background-color: #fff;
-  box-shadow: 0 1px 4px rgba(146, 161, 176, 0.15);
-  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+  transition: background-color 0.2s ease;
+  outline: none;
+  border: none;
+  box-shadow: none;
+}
+
+.l-header:focus {
+  outline: none;
 }
 
 /*===== NAV =====*/
@@ -354,6 +379,22 @@ img {
   justify-content: space-between;
   align-items: center;
   font-weight: var(--font-semi);
+  outline: none;
+  background: transparent;
+  border: none;
+  box-shadow: none;
+}
+
+.nav:focus {
+  outline: none;
+}
+
+.nav__menu,
+.nav__list {
+  outline: none;
+  background: transparent;
+  border: none;
+  box-shadow: none;
 }
 @media screen and (max-width: 767px) {
   .nav__menu {
@@ -390,6 +431,15 @@ img {
   top: 2rem;
   background-color: var(--first-color);
 }
+
+.nav__link:focus {
+  outline: none;
+}
+
+.nav__link:focus:not(:focus-visible) {
+  outline: none;
+}
+
 .nav__logo {
   color: var(--second-color);
 }
