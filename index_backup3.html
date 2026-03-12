@@ -47,38 +47,6 @@
                 100% { opacity: 0; transform: translate(var(--dx), var(--dy)) rotate(720deg) scale(0.3); }
             }
 
-            .skills__img {
-                cursor: pointer;
-                position: relative;
-            }
-            .code-popup {
-                position: fixed;
-                pointer-events: none;
-                z-index: 9999;
-                font-family: 'Courier New', monospace;
-                font-size: 0.8rem;
-                padding: 0.4rem 0.75rem;
-                border-radius: 6px;
-                background: rgba(30, 30, 60, 0.92);
-                color: #43e97b;
-                border: 1px solid rgba(67, 233, 123, 0.4);
-                white-space: nowrap;
-                box-shadow: 0 4px 16px rgba(0,0,0,0.3);
-                animation: code-float 1.8s ease-out forwards;
-            }
-            html:not([data-theme="dark"]) .code-popup {
-                background: rgba(255, 255, 255, 0.95);
-                color: #6c63ff;
-                border-color: rgba(108, 99, 255, 0.3);
-                box-shadow: 0 4px 16px rgba(0,0,0,0.1);
-            }
-            @keyframes code-float {
-                0% { opacity: 0; transform: translateY(0) scale(0.7); }
-                15% { opacity: 1; transform: translateY(-10px) scale(1); }
-                70% { opacity: 1; transform: translateY(-40px) scale(1); }
-                100% { opacity: 0; transform: translateY(-70px) scale(0.9); }
-            }
-
             .skills__category {
                 margin-bottom: 1.5rem;
                 text-align: left;
@@ -159,7 +127,7 @@
                     </ul>
                 </div>
                 <div style="display: flex; align-items: center;">
-                    <button id="theme-toggle" class="theme-toggle" style="position: relative; top: -1.5px;">
+                    <button id="theme-toggle" class="theme-toggle">
                         <i class='bx bx-sun' id="theme-icon"></i>
                     </button>
                     <div class="nav__toggle" id="nav-toggle">
@@ -323,7 +291,7 @@
                     </div>
                     
                     <div>              
-                        <img src="assets/img/skills.jpg" alt="" class="skills__img" id="skills-photo">
+                        <img src="assets/img/skills.jpg" alt="" class="skills__img">
                     </div>
                 </div>
             </section>
@@ -337,9 +305,9 @@
                 <div class="work__container bd-grid">
 
                     <div class="work__img"> <!-- Spotify Analytics -->
-                        <!-- <a href=""> -->
+                        <a href="">
                             <img src="assets/img/spotify_monthly.png" alt="Spotify Analytics">
-                        <!-- </a> -->
+                        </a>
                         <div class="work__description">
                             <center>
                                 <h3>
@@ -352,10 +320,10 @@
                         </div>
                     </div>
 
-                    <div class="work__img"> <!-- Spotify Playlist Archiver -->
-                        <!-- <a href=""> -->
+                    <div class="work__img"> <!-- Spotify Analytics -->
+                        <a href="">
                             <img src="assets/img/spotify_archiver.png" alt="Spotify Playlist Archiver" style="object-fit: contain; background: #121212;">
-                        <!-- </a> -->
+                        </a>
                         <div class="work__description">
                             <center>
                                 <h3>
@@ -369,9 +337,9 @@
                     </div>
 
                     <div class="work__img"> <!-- Safari Unpinner -->
-                        <!-- <a href="https://github.com/jacobhl3ca/safari-pinned-tab-automation"> -->
+                        <a href="https://github.com/jacobhl3ca/safari-pinned-tab-automation">
                             <img src="assets/img/unpin.png" alt="Safari Unpinner">
-                        <!-- </a> -->
+                        </a>
                         <div class="work__description">
                             <center>
                                 <h3>
@@ -385,10 +353,10 @@
                         </div>
                     </div>
 
-                    <div class="work__img"> <!-- Personal Finance App -->
-                        <!-- <a href=""> -->
+                    <div class="work__img"> <!-- Spotify Analytics -->
+                        <a href="">
                             <img src="assets/img/finance_trend.png" alt="Personal Finance App">
-                        <!-- </a> -->
+                        </a>
                         <div class="work__description">
                             <center>
                                 <h3>
@@ -401,10 +369,10 @@
                         </div>
                     </div>
                     
-                    <div class="work__img"> <!-- System Administration -->
-                        <!-- <a href=""> -->
+                    <div class="work__img"> <!-- Spotify Analytics -->
+                        <a href="">
                             <img src="assets/img/docker_dark.png" alt="System Administration">
-                        <!-- </a> -->
+                        </a>
                         <div class="work__description">
                             <center>
                                 <h3>
@@ -412,16 +380,16 @@
                                 </h3>
                                 <p>
                                     <!-- Self-hosted web apps and network services using multiple Linux servers (Docker, Linux) -->
-                                    Self-hosted web apps and network services on a Linux server (Docker, Docker Compose) including Plex media automation stack, Portainer, and Plausible Analytics (PostgreSQL, ClickHouse).
+                                    Self-hosted web apps and network services on a Linux server (Docker, Docker Compose): Plex media automation stack, Portainer, and Plausible Analytics (PostgreSQL, ClickHouse).
                                 </p>
                             </center>
                         </div>
                     </div>
 
-                    <div class="work__img"> <!-- Coinbase Analytics -->
-                        <!-- <a href="https://devpost.com/software/hackprinceton2017"> -->
+                    <div class="work__img"> <!-- Spotify Analytics -->
+                        <a href="https://devpost.com/software/hackprinceton2017">
                             <img src="assets/img/coinbase_dark.png" alt="Coinbase Analytics">
-                        <!-- </a> -->
+                        </a>
                         <div class="work__description">
                             <center>
                                 <h3>
@@ -516,72 +484,34 @@
                 }
             }
 
-            function animateElement(el, e) {
-                const rect = el.getBoundingClientRect();
-                const clickX = (e ? e.clientX : rect.left + rect.width / 2) - rect.left;
-                const clickY = (e ? e.clientY : rect.top + rect.height / 2) - rect.top;
-                const tiltX = ((clickY / rect.height) - 0.5) * -20;
-                const tiltY = ((clickX / rect.width) - 0.5) * 20;
-                el.style.transition = 'none';
-                el.style.transformOrigin = 'center center';
-                el.style.transform = `perspective(600px) rotateX(${tiltX}deg) rotateY(${tiltY}deg) scale(0.92)`;
-                requestAnimationFrame(() => {
-                    el.style.transition = 'transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1)';
-                    el.style.transform = 'perspective(600px) rotateX(0deg) rotateY(0deg) scale(1)';
-                });
-                setTimeout(() => { el.style.transition = ''; el.style.transform = ''; }, 700);
+            function wiggleElement(el) {
+                el.style.transition = 'transform 0.1s ease';
+                const steps = [
+                    'rotate(3deg) scale(1.05)',
+                    'rotate(-3deg) scale(1.05)',
+                    'rotate(2deg) scale(1.03)',
+                    'rotate(-2deg) scale(1.03)',
+                    'rotate(0deg) scale(1)',
+                ];
+                let i = 0;
+                const interval = setInterval(() => {
+                    if (i >= steps.length) { clearInterval(interval); el.style.transition = ''; el.style.transform = ''; return; }
+                    el.style.transform = steps[i]; i++;
+                }, 80);
             }
 
             function handleImageClick(e) {
                 const el = e.currentTarget;
                 el.classList.toggle('bg-removed');
                 const rect = el.getBoundingClientRect();
-                const noseX = rect.left + rect.width * 0.5;
-                const noseY = rect.top + rect.height * 0.38;
-                spawnConfetti(noseX, noseY, 35);
-                animateElement(el, e);
+                const cx = rect.left + rect.width / 2;
+                const cy = rect.top + rect.height / 2;
+                spawnConfetti(cx, cy, 35);
+                wiggleElement(el);
             }
 
             document.getElementById('about-photo').addEventListener('click', handleImageClick);
             document.getElementById('home-photo').addEventListener('click', handleImageClick);
-
-            const codeSnippets = [
-                'SELECT * FROM insights WHERE impact > 9000;',
-                'import pandas as pd',
-                'df.groupby("channel").agg({"revenue": "sum"})',
-                'for row in dataset: optimize(row)',
-                'CREATE VIEW kpi_dashboard AS ...',
-                'plt.plot(dates, conversions, color="blue")',
-                'docker compose up -d',
-                'git push origin main',
-                'def automate(boring_stuff):',
-                'WHERE date BETWEEN @start AND @end',
-                'pip install streamlit plotly',
-                'tableau.publish(workbook, server)',
-                'df["roi"] = df["revenue"] / df["cost"]',
-                'spark.sql("SELECT COUNT(*) FROM events")',
-                'echo "ETL pipeline complete"',
-                'requests.get(api_endpoint).json()',
-                'crontab -e  # schedule the magic',
-                'ALTER TABLE metrics ADD COLUMN trend FLOAT;',
-                'sns.heatmap(corr_matrix, annot=True)',
-                'print("Hello, recruiter!")',
-            ];
-            let codeIdx = 0;
-
-            function handleSkillsClick(e) {
-                const snippet = codeSnippets[codeIdx % codeSnippets.length];
-                codeIdx++;
-                const popup = document.createElement('div');
-                popup.classList.add('code-popup');
-                popup.textContent = snippet;
-                popup.style.left = e.clientX + 'px';
-                popup.style.top = e.clientY + 'px';
-                document.body.appendChild(popup);
-                setTimeout(() => popup.remove(), 1900);
-            }
-
-            document.getElementById('skills-photo').addEventListener('click', handleSkillsClick);
 
             function requestResume() {
                 const form = document.querySelector('.contact__form');

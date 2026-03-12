@@ -159,7 +159,7 @@
                     </ul>
                 </div>
                 <div style="display: flex; align-items: center;">
-                    <button id="theme-toggle" class="theme-toggle" style="position: relative; top: -1.5px;">
+                    <button id="theme-toggle" class="theme-toggle">
                         <i class='bx bx-sun' id="theme-icon"></i>
                     </button>
                     <div class="nav__toggle" id="nav-toggle">
@@ -412,7 +412,7 @@
                                 </h3>
                                 <p>
                                     <!-- Self-hosted web apps and network services using multiple Linux servers (Docker, Linux) -->
-                                    Self-hosted web apps and network services on a Linux server (Docker, Docker Compose) including Plex media automation stack, Portainer, and Plausible Analytics (PostgreSQL, ClickHouse).
+                                    Self-hosted web apps and network services on a Linux server (Docker, Docker Compose): Plex media automation stack, Portainer, and Plausible Analytics (PostgreSQL, ClickHouse).
                                 </p>
                             </center>
                         </div>
@@ -516,20 +516,20 @@
                 }
             }
 
-            function animateElement(el, e) {
-                const rect = el.getBoundingClientRect();
-                const clickX = (e ? e.clientX : rect.left + rect.width / 2) - rect.left;
-                const clickY = (e ? e.clientY : rect.top + rect.height / 2) - rect.top;
-                const tiltX = ((clickY / rect.height) - 0.5) * -20;
-                const tiltY = ((clickX / rect.width) - 0.5) * 20;
-                el.style.transition = 'none';
-                el.style.transformOrigin = 'center center';
-                el.style.transform = `perspective(600px) rotateX(${tiltX}deg) rotateY(${tiltY}deg) scale(0.92)`;
-                requestAnimationFrame(() => {
-                    el.style.transition = 'transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1)';
-                    el.style.transform = 'perspective(600px) rotateX(0deg) rotateY(0deg) scale(1)';
-                });
-                setTimeout(() => { el.style.transition = ''; el.style.transform = ''; }, 700);
+            function wiggleElement(el) {
+                el.style.transition = 'transform 0.1s ease';
+                const steps = [
+                    'rotate(3deg) scale(1.05)',
+                    'rotate(-3deg) scale(1.05)',
+                    'rotate(2deg) scale(1.03)',
+                    'rotate(-2deg) scale(1.03)',
+                    'rotate(0deg) scale(1)',
+                ];
+                let i = 0;
+                const interval = setInterval(() => {
+                    if (i >= steps.length) { clearInterval(interval); el.style.transition = ''; el.style.transform = ''; return; }
+                    el.style.transform = steps[i]; i++;
+                }, 80);
             }
 
             function handleImageClick(e) {
@@ -539,7 +539,7 @@
                 const noseX = rect.left + rect.width * 0.5;
                 const noseY = rect.top + rect.height * 0.38;
                 spawnConfetti(noseX, noseY, 35);
-                animateElement(el, e);
+                wiggleElement(el);
             }
 
             document.getElementById('about-photo').addEventListener('click', handleImageClick);
