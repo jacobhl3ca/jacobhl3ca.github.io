@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 400" fill="none">
+  <rect width="800" height="400" fill="#0f172a"/>
+  <rect x="50" y="25" width="700" height="350" rx="14" fill="#1e293b" stroke="#334155" stroke-width="1"/>
+  <text x="400" y="60" text-anchor="middle" fill="#e2e8f0" font-family="sans-serif" font-size="18" font-weight="bold">Surfing Cat Emoji Creator</text>
+  <text x="400" y="80" text-anchor="middle" fill="#64748b" font-family="sans-serif" font-size="11">Custom SVG Tuxedo Cat Emoji - Download or Copy</text>
+  <rect x="120" y="100" width="180" height="180" rx="16" fill="#1a1f36" stroke="#334155" stroke-width="1"/>
+  <text x="210" y="125" text-anchor="middle" fill="#94a3b8" font-family="sans-serif" font-size="9">64px</text>
+  <ellipse cx="210" cy="195" rx="30" ry="8" fill="#0ea5e9" opacity="0.3"/>
+  <ellipse cx="210" cy="200" rx="22" ry="5" fill="#f59e0b"/>
+  <ellipse cx="210" cy="199" rx="20" ry="4" fill="#fbbf24"/>
+  <ellipse cx="210" cy="180" rx="14" ry="18" fill="#1e1e1e"/>
+  <ellipse cx="210" cy="185" rx="12" ry="12" fill="#1e1e1e"/>
+  <ellipse cx="210" cy="175" rx="6" ry="4" fill="#f5f5f5"/>
+  <circle cx="206" cy="173" r="2.5" fill="white"/>
+  <circle cx="214" cy="173" r="2.5" fill="white"/>
+  <circle cx="206" cy="173" r="1.2" fill="#1e1e1e"/>
+  <circle cx="214" cy="173" r="1.2" fill="#1e1e1e"/>
+  <ellipse cx="210" cy="177" rx="1.5" ry="1" fill="#ffb6c1"/>
+  <path d="M196 165 L200 172 L194 172 Z" fill="#1e1e1e"/>
+  <path d="M224 165 L220 172 L226 172 Z" fill="#1e1e1e"/>
+  <path d="M197 164 L201 171 L195 171 Z" fill="#ffb6c1" opacity="0.4"/>
+  <path d="M223 164 L219 171 L225 171 Z" fill="#ffb6c1" opacity="0.4"/>
+  <path d="M228 185 Q240 175 235 190" stroke="#1e1e1e" stroke-width="2" fill="none" stroke-linecap="round"/>
+  <circle cx="190" cy="207" r="3" fill="#0ea5e9" opacity="0.4"/>
+  <circle cx="230" cy="210" r="2" fill="#0ea5e9" opacity="0.3"/>
+  <circle cx="195" cy="212" r="1.5" fill="#0ea5e9" opacity="0.3"/>
+  <rect x="320" y="100" width="180" height="180" rx="16" fill="#1a1f36" stroke="#6366f1" stroke-width="1.5"/>
+  <text x="410" y="125" text-anchor="middle" fill="#a5b4fc" font-family="sans-serif" font-size="9">128px (selected)</text>
+  <ellipse cx="410" cy="195" rx="40" ry="10" fill="#0ea5e9" opacity="0.3"/>
+  <ellipse cx="410" cy="200" rx="30" ry="7" fill="#f59e0b"/>
+  <ellipse cx="410" cy="199" rx="28" ry="6" fill="#fbbf24"/>
+  <ellipse cx="410" cy="178" rx="18" ry="24" fill="#1e1e1e"/>
+  <ellipse cx="410" cy="184" rx="16" ry="16" fill="#1e1e1e"/>
+  <ellipse cx="410" cy="172" rx="8" ry="5" fill="#f5f5f5"/>
+  <circle cx="404" cy="170" r="3.5" fill="white"/>
+  <circle cx="416" cy="170" r="3.5" fill="white"/>
+  <circle cx="404" cy="170" r="1.8" fill="#1e1e1e"/>
+  <circle cx="416" cy="170" r="1.8" fill="#1e1e1e"/>
+  <ellipse cx="410" cy="175" rx="2" ry="1.5" fill="#ffb6c1"/>
+  <path d="M393 160 L398 169 L390 169 Z" fill="#1e1e1e"/>
+  <path d="M427 160 L422 169 L430 169 Z" fill="#1e1e1e"/>
+  <path d="M394 159 L399 168 L391 168 Z" fill="#ffb6c1" opacity="0.4"/>
+  <path d="M426 159 L421 168 L429 168 Z" fill="#ffb6c1" opacity="0.4"/>
+  <path d="M430 183 Q445 170 438 190" stroke="#1e1e1e" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+  <circle cx="385" cy="210" r="4" fill="#0ea5e9" opacity="0.4"/>
+  <circle cx="435" cy="213" r="3" fill="#0ea5e9" opacity="0.3"/>
+  <circle cx="392" cy="216" r="2" fill="#0ea5e9" opacity="0.3"/>
+  <rect x="520" y="100" width="180" height="180" rx="16" fill="#1a1f36" stroke="#334155" stroke-width="1"/>
+  <text x="610" y="125" text-anchor="middle" fill="#94a3b8" font-family="sans-serif" font-size="9">256px</text>
+  <ellipse cx="610" cy="195" rx="40" ry="10" fill="#0ea5e9" opacity="0.3"/>
+  <ellipse cx="610" cy="200" rx="30" ry="7" fill="#f59e0b"/>
+  <ellipse cx="610" cy="199" rx="28" ry="6" fill="#fbbf24"/>
+  <ellipse cx="610" cy="178" rx="18" ry="24" fill="#1e1e1e"/>
+  <ellipse cx="610" cy="184" rx="16" ry="16" fill="#1e1e1e"/>
+  <ellipse cx="610" cy="172" rx="8" ry="5" fill="#f5f5f5"/>
+  <circle cx="604" cy="170" r="3.5" fill="white"/>
+  <circle cx="616" cy="170" r="3.5" fill="white"/>
+  <circle cx="604" cy="170" r="1.8" fill="#1e1e1e"/>
+  <circle cx="616" cy="170" r="1.8" fill="#1e1e1e"/>
+  <ellipse cx="610" cy="175" rx="2" ry="1.5" fill="#ffb6c1"/>
+  <path d="M593 160 L598 169 L590 169 Z" fill="#1e1e1e"/>
+  <path d="M627 160 L622 169 L630 169 Z" fill="#1e1e1e"/>
+  <path d="M630 183 Q645 170 638 190" stroke="#1e1e1e" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+  <rect x="120" y="300" width="120" height="34" rx="8" fill="#6366f1"/>
+  <text x="180" y="321" text-anchor="middle" fill="white" font-family="sans-serif" font-size="11" font-weight="bold">Download SVG</text>
+  <rect x="260" y="300" width="120" height="34" rx="8" fill="#1a1f36" stroke="#6366f1" stroke-width="1"/>
+  <text x="320" y="321" text-anchor="middle" fill="#a5b4fc" font-family="sans-serif" font-size="11">Download PNG</text>
+  <rect x="400" y="300" width="140" height="34" rx="8" fill="#1a1f36" stroke="#22c55e" stroke-width="1"/>
+  <text x="470" y="321" text-anchor="middle" fill="#22c55e" font-family="sans-serif" font-size="11">Copy as Image</text>
+  <text x="400" y="362" text-anchor="middle" fill="#475569" font-family="sans-serif" font-size="9">Pure HTML/CSS/JS - No frameworks or dependencies</text>
+</svg>

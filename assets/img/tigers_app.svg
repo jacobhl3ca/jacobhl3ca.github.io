@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 400" fill="none">
+  <rect width="800" height="400" fill="#0c2340"/>
+  <rect x="275" y="15" width="250" height="370" rx="30" fill="#1a3352" stroke="#2a4a6a" stroke-width="2"/>
+  <rect x="340" y="25" width="120" height="6" rx="3" fill="#2a4a6a"/>
+  <circle cx="400" cy="28" r="4" fill="#1a3352" stroke="#2a4a6a" stroke-width="1"/>
+  <circle cx="400" cy="75" r="30" fill="#ff6600"/>
+  <circle cx="400" cy="75" r="30" fill="none" stroke="#0c2340" stroke-width="3"/>
+  <text x="400" y="88" text-anchor="middle" fill="white" font-family="serif" font-size="36" font-weight="900">D</text>
+  <text x="400" y="125" text-anchor="middle" fill="#e2e8f0" font-family="sans-serif" font-size="12" font-weight="bold">Detroit Tigers</text>
+  <text x="400" y="140" text-anchor="middle" fill="#94a3b8" font-family="sans-serif" font-size="9">Recent Games - No Spoilers</text>
+  <rect x="295" y="155" width="210" height="52" rx="8" fill="#0c2340" stroke="#2a4a6a" stroke-width="1"/>
+  <text x="310" y="173" fill="#ff6600" font-family="sans-serif" font-size="10" font-weight="bold">Jun 15</text>
+  <text x="310" y="190" fill="#e2e8f0" font-family="sans-serif" font-size="11">vs Cleveland Guardians</text>
+  <text x="488" y="180" text-anchor="end" fill="#ff6600" font-family="sans-serif" font-size="12">&#x25B6;</text>
+  <rect x="295" y="213" width="210" height="52" rx="8" fill="#0c2340" stroke="#ff6600" stroke-width="1.5"/>
+  <text x="310" y="231" fill="#ff6600" font-family="sans-serif" font-size="10" font-weight="bold">Jun 13</text>
+  <text x="310" y="248" fill="#e2e8f0" font-family="sans-serif" font-size="11">@ Chicago White Sox</text>
+  <text x="488" y="238" text-anchor="end" fill="#ff6600" font-family="sans-serif" font-size="12">&#x25B6;</text>
+  <rect x="295" y="271" width="210" height="52" rx="8" fill="#0c2340" stroke="#2a4a6a" stroke-width="1"/>
+  <text x="310" y="289" fill="#ff6600" font-family="sans-serif" font-size="10" font-weight="bold">Jun 11</text>
+  <text x="310" y="306" fill="#e2e8f0" font-family="sans-serif" font-size="11">vs Minnesota Twins</text>
+  <text x="488" y="296" text-anchor="end" fill="#ff6600" font-family="sans-serif" font-size="12">&#x25B6;</text>
+  <rect x="295" y="329" width="210" height="40" rx="8" fill="#0c2340" stroke="#2a4a6a" stroke-width="1"/>
+  <text x="310" y="347" fill="#ff6600" font-family="sans-serif" font-size="10" font-weight="bold">Jun 9</text>
+  <text x="310" y="360" fill="#e2e8f0" font-family="sans-serif" font-size="11">@ Kansas City Royals</text>
+  <rect x="55" y="80" width="180" height="130" rx="10" fill="#1a3352" stroke="#2a4a6a" stroke-width="1" opacity="0.8"/>
+  <text x="145" y="105" text-anchor="middle" fill="#ff6600" font-family="sans-serif" font-size="11" font-weight="bold">SwiftUI + iOS 17</text>
+  <text x="145" y="128" text-anchor="middle" fill="#94a3b8" font-family="sans-serif" font-size="9">MLB Stats API</text>
+  <text x="145" y="145" text-anchor="middle" fill="#94a3b8" font-family="sans-serif" font-size="9">YouTube Data API</text>
+  <text x="145" y="162" text-anchor="middle" fill="#94a3b8" font-family="sans-serif" font-size="9">MLB Film Room</text>
+  <text x="145" y="179" text-anchor="middle" fill="#94a3b8" font-family="sans-serif" font-size="9">Background Refresh</text>
+  <text x="145" y="196" text-anchor="middle" fill="#94a3b8" font-family="sans-serif" font-size="9">Video Preloading</text>
+  <rect x="565" y="80" width="180" height="130" rx="10" fill="#1a3352" stroke="#2a4a6a" stroke-width="1" opacity="0.8"/>
+  <text x="655" y="105" text-anchor="middle" fill="#ff6600" font-family="sans-serif" font-size="11" font-weight="bold">1,774 Lines</text>
+  <text x="655" y="128" text-anchor="middle" fill="#94a3b8" font-family="sans-serif" font-size="9">ContentView: 609</text>
+  <text x="655" y="145" text-anchor="middle" fill="#94a3b8" font-family="sans-serif" font-size="9">GameData: 892</text>
+  <text x="655" y="162" text-anchor="middle" fill="#94a3b8" font-family="sans-serif" font-size="9">DetailView: 127</text>
+  <text x="655" y="179" text-anchor="middle" fill="#94a3b8" font-family="sans-serif" font-size="9">App Entry: 65</text>
+  <text x="655" y="196" text-anchor="middle" fill="#64748b" font-family="sans-serif" font-size="9">No spoilers design</text>
+</svg>

@@ -10,28 +10,17 @@
         <style>
             .clickable-img {
                 cursor: pointer;
-                transition: filter 0.5s ease, mix-blend-mode 0.3s ease;
             }
-            .clickable-img.bg-removed {
-                mix-blend-mode: screen;
-                filter: contrast(1.1) brightness(1.05);
+            .pop-bounce {
+                animation: pop-bounce 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) forwards !important;
             }
-            [data-theme="dark"] .clickable-img.bg-removed {
-                mix-blend-mode: screen;
-                filter: contrast(1.15) brightness(1.1);
-            }
-            html:not([data-theme="dark"]) .clickable-img.bg-removed {
-                mix-blend-mode: multiply;
-                filter: contrast(1.1) brightness(1.05);
-            }
-            .home__blob.clickable-img {
-                cursor: pointer;
-            }
-            .home__blob.bg-removed {
-                mix-blend-mode: screen;
-            }
-            html:not([data-theme="dark"]) .home__blob.bg-removed {
-                mix-blend-mode: multiply;
+            @keyframes pop-bounce {
+                0%   { transform: scale(1); filter: brightness(1) drop-shadow(0 0 0 transparent); }
+                18%  { transform: scale(0.85); filter: brightness(0.8) drop-shadow(0 0 0 transparent); }
+                45%  { transform: scale(1.1); filter: brightness(1.2) drop-shadow(0 0 15px var(--first-color)); }
+                65%  { transform: scale(0.96); filter: brightness(1.05) drop-shadow(0 0 8px var(--first-color)); }
+                80%  { transform: scale(1.02); filter: brightness(1.02) drop-shadow(0 0 3px var(--first-color)); }
+                100% { transform: scale(1); filter: brightness(1) drop-shadow(0 0 0 transparent); }
             }
 
             .confetti-piece {
@@ -159,7 +148,7 @@
                     </ul>
                 </div>
                 <div style="display: flex; align-items: center;">
-                    <button id="theme-toggle" class="theme-toggle" style="position: relative; top: -2px;">
+                    <button id="theme-toggle" class="theme-toggle" style="position: relative; top: -1.5px;">
                         <i class='bx bx-sun' id="theme-icon"></i>
                     </button>
                     <div class="nav__toggle" id="nav-toggle">
@@ -368,22 +357,6 @@
                         </div>
                     </div>
 
-                    <div class="work__img"> <!-- Personal Finance App -->
-                        <!-- <a href=""> -->
-                            <img src="assets/img/finance_trend.png" alt="Personal Finance App">
-                        <!-- </a> -->
-                        <div class="work__description">
-                            <center>
-                                <h3>
-                                    Personal Finance App
-                                </h3>
-                                <p>
-                                    Enables precise <!-- added precise --> daily budgeting, investment planning, and optimization, using Python and Apps Script.
-                                </p>
-                            </center>
-                        </div>
-                    </div>
-
                     <div class="work__img"> <!-- Safari Unpinner -->
                         <!-- <a href="https://github.com/jacobhl3ca/safari-pinned-tab-automation"> -->
                             <img src="assets/img/unpin.png" alt="Safari Unpinner">
@@ -400,113 +373,23 @@
                             </center>
                         </div>
                     </div>
+
+                    <div class="work__img"> <!-- Personal Finance App -->
+                        <!-- <a href=""> -->
+                            <img src="assets/img/finance_trend.png" alt="Personal Finance App">
+                        <!-- </a> -->
+                        <div class="work__description">
+                            <center>
+                                <h3>
+                                    Personal Finance App
+                                </h3>
+                                <p>
+                                    Enables precise <!-- added precise --> daily budgeting, investment planning, and optimization, using Python and Apps Script.
+                                </p>
+                            </center>
+                        </div>
+                    </div>
                     
-                    <!-- Data Analytics Dashboard (commented out)
-                    <div class="work__img">
-                            <img src="assets/img/data_analytics_real.png" alt="Data Analytics Dashboard" style="object-fit: cover;">
-                        <div class="work__description">
-                            <center>
-                                <h3>
-                                    Data Analytics Dashboard
-                                </h3>
-                                <p>
-                                    Full-stack interactive analytics platform with ETL pipeline, statistical analysis (t-tests, ANOVA, chi-square), machine learning (RandomForest regression, K-Means/DBSCAN clustering), and 10+ visualization types. Supports CSV/Excel upload and live data exploration (Python, Streamlit, Plotly, scikit-learn).
-                                </p>
-                            </center>
-                        </div>
-                    </div>
-                    -->
-
-                    <div class="work__img"> <!-- E-commerce Store -->
-                            <img src="assets/img/ecommerce_real.png" alt="E-commerce Store" style="object-fit: cover;">
-                        <div class="work__description">
-                            <center>
-                                <h3>
-                                    E-commerce Store
-                                </h3>
-                                <p>
-                                    Full-stack e-commerce site with Stripe payment processing, Express.js backend, responsive product catalog, secure checkout flow, refund handling, and privacy/terms pages (Node.js, Stripe API, HTML/CSS/JS).
-                                </p>
-                            </center>
-                        </div>
-                    </div>
-
-                    <!-- TaskMaster Mobile App (commented out)
-                    <div class="work__img">
-                            <img src="assets/img/taskmaster_real.png" alt="TaskMaster Mobile App" style="object-fit: cover; background: #0d1117;">
-                        <div class="work__description">
-                            <center>
-                                <h3>
-                                    TaskMaster Mobile App
-                                </h3>
-                                <p>
-                                    React Native task management app with three-tab navigation: a Home dashboard showing productivity stats (total, completed, in-progress, pending) and recent tasks with priority badges; a Tasks screen with live search, status-based filtering (All/Pending/In Progress/Completed), category labels, and due dates; and a Profile screen with avatar, success-rate metrics, and settings menu. Built with Expo, React Navigation bottom tabs, and Ionicons (React Native, Expo, React Navigation).
-                                </p>
-                            </center>
-                        </div>
-                    </div>
-                    -->
-
-                    <div class="work__img"> <!-- Weather Dashboard -->
-                            <img src="assets/img/weather_real.png" alt="Weather Dashboard" style="object-fit: cover;">
-                        <div class="work__description">
-                            <center>
-                                <h3>
-                                    Weather Dashboard
-                                </h3>
-                                <p>
-                                    Desktop weather app with real-time conditions and interactive 5-day temperature forecast graph. Integrates the OpenWeather API with graceful demo-mode fallback, city search, and configurable settings (Python, Tkinter, Matplotlib).
-                                </p>
-                            </center>
-                        </div>
-                    </div>
-
-                    <!-- Terminal Snake Game (commented out)
-                    <div class="work__img">
-                            <img src="assets/img/snake_real.png" alt="Terminal Snake Game" style="object-fit: cover;">
-                        <div class="work__description">
-                            <center>
-                                <h3>
-                                    Terminal Snake Game
-                                </h3>
-                                <p>
-                                    Feature-rich terminal snake game with 4 food types (regular, super, bonus, power-up), 5 customizable snake skins, persistent JSON high-score leaderboard, difficulty scaling, speed boosts, invincibility mode, and visual effects. Built with Python curses (480 lines).
-                                </p>
-                            </center>
-                        </div>
-                    </div>
-                    -->
-
-                    <!-- Surfing Cat Emoji (commented out)
-                    <div class="work__img">
-                            <img src="assets/img/surfing_cat_real.png" alt="Surfing Cat Emoji Creator" style="object-fit: cover;">
-                        <div class="work__description">
-                            <center>
-                                <h3>
-                                    Surfing Cat Emoji
-                                </h3>
-                                <p>
-                                    Custom SVG emoji creator featuring a hand-drawn tuxedo cat surfing on a surfboard. Three size variants (64/128/256px) with gradient shading, whiskers, and water splash effects. Download as SVG/PNG or copy to clipboard. Pure HTML/CSS/JS, no dependencies.
-                                </p>
-                            </center>
-                        </div>
-                    </div>
-                    -->
-
-                    <div class="work__img"> <!-- Automation Utilities -->
-                            <img src="assets/img/automation_real.png" alt="Automation Utilities" style="object-fit: cover;">
-                        <div class="work__description">
-                            <center>
-                                <h3>
-                                    Automation Utilities
-                                </h3>
-                                <p>
-                                    macOS productivity automation suite including sample timesheet auto-fill via keystroke injection, a variety of frequently used toggles (menu bar hide/show, system-wide dark/light mode, VPN connect/disconnect), keyboard backlight control, dock spacer grouping, and game re-roll automation (Python, AppleScript, Bash, PyAutoGUI).
-                                </p>
-                            </center>
-                        </div>
-                    </div>
-
                     <div class="work__img"> <!-- System Administration -->
                         <!-- <a href=""> -->
                             <img src="assets/img/docker_dark.png" alt="System Administration">
@@ -517,6 +400,7 @@
                                     System Administration
                                 </h3>
                                 <p>
+                                    <!-- Self-hosted web apps and network services using multiple Linux servers (Docker, Linux) -->
                                     Self-hosted web apps and network services on a Linux server (Docker, Docker Compose) including Plex media automation stack, Portainer, and Plausible Analytics (PostgreSQL, ClickHouse).
                                 </p>
                             </center>
@@ -539,38 +423,6 @@
                             </center>
                         </div>
                     </div>
-
-                    <!-- Beat Generator (commented out)
-                    <div class="work__img">
-                            <img src="assets/img/beatgen_real.png" alt="Procedural Beat Generator" style="object-fit: cover;">
-                        <div class="work__description">
-                            <center>
-                                <h3>
-                                    Procedural Beat Generator
-                                </h3>
-                                <p>
-                                    Synthesizes kicks, snares, hi-hats, claps, and toms from pure math (sine sweeps, filtered noise, envelopes), then arranges 16-step patterns into WAV files. 5 genre presets (Rock, House, Hip Hop, Breakbeat, Trap), configurable BPM/bars/swing, and batch export. Python + NumPy, zero audio samples needed.
-                                </p>
-                            </center>
-                        </div>
-                    </div>
-                    -->
-
-                    <!-- Tigers App (commented out)
-                    <div class="work__img">
-                            <img src="assets/img/tigers_real.png" alt="Detroit Tigers iOS App" style="object-fit: cover; background: #0d1117;">
-                        <div class="work__description">
-                            <center>
-                                <h3>
-                                    Detroit Tigers iOS App
-                                </h3>
-                                <p>
-                                    Native SwiftUI iOS app for watching Detroit Tigers game highlights without score spoilers. Integrates MLB Stats API for real schedules, YouTube Data API and MLB Film Room for video highlights, with background refresh, video preloading, WKWebView player, and Keychain storage (Swift, 1,774 lines).
-                                </p>
-                            </center>
-                        </div>
-                    </div>
-                    -->
 
                 </div>
             </section>
@@ -653,30 +505,21 @@
                 }
             }
 
-            function wiggleElement(el) {
-                el.style.transition = 'transform 0.1s ease';
-                const steps = [
-                    'rotate(3deg) scale(1.05)',
-                    'rotate(-3deg) scale(1.05)',
-                    'rotate(2deg) scale(1.03)',
-                    'rotate(-2deg) scale(1.03)',
-                    'rotate(0deg) scale(1)',
-                ];
-                let i = 0;
-                const interval = setInterval(() => {
-                    if (i >= steps.length) { clearInterval(interval); el.style.transition = ''; el.style.transform = ''; return; }
-                    el.style.transform = steps[i]; i++;
-                }, 80);
+            function popBounce(el) {
+                el.classList.remove('pop-bounce');
+                void el.offsetWidth;
+                el.classList.add('pop-bounce');
+                el.addEventListener('animationend', () => el.classList.remove('pop-bounce'), { once: true });
             }
 
             function handleImageClick(e) {
                 const el = e.currentTarget;
-                el.classList.toggle('bg-removed');
-                const rect = el.getBoundingClientRect();
+                const animTarget = el.closest('.home__img') || el.closest('.about__img') || el;
+                const rect = animTarget.getBoundingClientRect();
                 const noseX = rect.left + rect.width * 0.5;
                 const noseY = rect.top + rect.height * 0.38;
                 spawnConfetti(noseX, noseY, 35);
-                wiggleElement(el);
+                popBounce(animTarget);
             }
 
             document.getElementById('about-photo').addEventListener('click', handleImageClick);
