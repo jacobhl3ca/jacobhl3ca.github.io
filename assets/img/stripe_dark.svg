@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 300">
+  <rect width="600" height="300" fill="#121212"/>
+  <g transform="translate(300,150)" text-anchor="middle">
+    <text font-family="system-ui, -apple-system, 'Helvetica Neue', sans-serif" font-size="72" font-weight="700" fill="#635bff" dy="0.35em">stripe</text>
+  </g>
+</svg>

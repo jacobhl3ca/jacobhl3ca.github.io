@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 300">
+  <rect width="600" height="300" fill="#121212"/>
+  <g transform="translate(300,142)">
+    <!-- Main gear -->
+    <path fill="#5CB8E4" d="
+      M-10,-55 L10,-55 L12,-43 L20,-38 L30,-46 L44,-32 L36,-22 L40,-12 L52,-10 L52,10 L40,12 L36,22 L44,32 L30,46 L20,38 L12,43 L10,55 L-10,55 L-12,43 L-20,38 L-30,46 L-44,32 L-36,22 L-40,12 L-52,10 L-52,-10 L-40,-12 L-36,-22 L-44,-32 L-30,-46 L-20,-38 L-12,-43 Z
+    "/>
+    <circle cx="0" cy="0" r="20" fill="#121212"/>
+    <circle cx="0" cy="0" r="7" fill="#5CB8E4" opacity="0.5"/>
+    <!-- Small accent gear -->
+    <g transform="translate(48,-40) rotate(15)">
+      <path fill="#5CB8E4" opacity="0.4" d="
+        M-5,-26 L5,-26 L6,-20 L10,-18 L14,-22 L21,-15 L17,-11 L19,-6 L25,-5 L25,5 L19,6 L17,11 L21,15 L14,22 L10,18 L6,20 L5,26 L-5,26 L-6,20 L-10,18 L-14,22 L-21,15 L-17,11 L-19,6 L-25,5 L-25,-5 L-19,-6 L-17,-11 L-21,-15 L-14,-22 L-10,-18 L-6,-20 Z
+      "/>
+      <circle cx="0" cy="0" r="10" fill="#121212"/>
+    </g>
+  </g>
+</svg>

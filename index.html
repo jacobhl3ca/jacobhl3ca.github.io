@@ -7,6 +7,12 @@
         <link rel="icon" type="image/png" href="assets/img/favicon.ico"> <!-- use PNG as needed -->
         <link href='https://cdn.jsdelivr.net/npm/boxicons@2.0.5/css/boxicons.min.css' rel='stylesheet'> <!-- icons -->
         <title>Jacob Heifetz-Licht</title>
+        <!-- Privacy-friendly analytics by Plausible -->
+        <script async src="http://192.168.99.97:8001/js/pa-Gs2doyz-B6lgKMO0IhiIX.js"></script>
+        <script>
+          window.plausible=window.plausible||function(){(plausible.q=plausible.q||[]).push(arguments)},plausible.init=plausible.init||function(i){plausible.o=i||{}};
+          plausible.init()
+        </script>
         <style>
             .clickable-img {
                 cursor: pointer;
@@ -40,11 +46,6 @@
                 height: 10px;
                 pointer-events: none;
                 z-index: 9999;
-                animation: confetti-fall 1.2s ease-out forwards;
-            }
-            @keyframes confetti-fall {
-                0% { opacity: 1; transform: translate(0, 0) rotate(0deg) scale(1); }
-                100% { opacity: 0; transform: translate(var(--dx), var(--dy)) rotate(720deg) scale(0.3); }
             }
 
             .skills__img {
@@ -134,6 +135,97 @@
             [data-theme="dark"] .skills__subtitle,
             [data-theme="dark"] .skills__text {
                 color: #fff;
+            }
+
+            /* Ensure skills text stays blue on mobile */
+            @media screen and (max-width: 767px) {
+                .skills__category-title {
+                    color: var(--first-color);
+                }
+                .skills__tag {
+                    color: hsl(var(--hue-color), 89%, 40%);
+                }
+                [data-theme="dark"] .skills__tag {
+                    color: hsl(var(--hue-color), 89%, 75%);
+                }
+            }
+
+            /* Back to top button */
+            .back-to-top {
+                position: fixed;
+                bottom: 2rem;
+                right: 2rem;
+                width: 2.5rem;
+                height: 2.5rem;
+                border-radius: 50%;
+                background: var(--first-color);
+                color: #fff;
+                border: none;
+                font-size: 1.2rem;
+                cursor: pointer;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                opacity: 0;
+                visibility: hidden;
+                transition: opacity 0.3s, visibility 0.3s, transform 0.3s;
+                z-index: 99;
+                box-shadow: 0 2px 12px rgba(0,0,0,0.15);
+            }
+            .back-to-top.visible {
+                opacity: 1;
+                visibility: visible;
+            }
+            .back-to-top:hover {
+                transform: translateY(-3px);
+                box-shadow: 0 4px 20px rgba(0,0,0,0.25);
+            }
+
+            /* Easter egg */
+            .easter-egg {
+                position: fixed;
+                bottom: 1rem;
+                left: 1rem;
+                font-size: 1rem;
+                cursor: default;
+                opacity: 0.18;
+                transition: opacity 0.3s;
+                z-index: 98;
+                user-select: none;
+                line-height: 1;
+            }
+            .easter-egg:hover {
+                opacity: 0.35;
+            }
+            .easter-egg.hatched {
+                animation: egg-hatch 0.6s ease forwards;
+                opacity: 0.7;
+            }
+            .easter-egg .bird {
+                position: absolute;
+                bottom: 0;
+                left: 50%;
+                transform: translateX(-50%) scale(0);
+                opacity: 0;
+                font-size: 1.2rem;
+            }
+            .easter-egg.hatched .bird {
+                animation: bird-pop 3s 0.4s ease forwards;
+            }
+            @keyframes egg-hatch {
+                0% { transform: rotate(0deg); }
+                20% { transform: rotate(10deg); }
+                40% { transform: rotate(-10deg); }
+                60% { transform: rotate(8deg); }
+                80% { transform: rotate(-5deg); }
+                100% { transform: rotate(0deg) scale(0.5); opacity: 0.1; }
+            }
+            @keyframes bird-pop {
+                0% { transform: translateX(-50%) translateY(0) scale(0); opacity: 0; }
+                15% { transform: translateX(-50%) translateY(-18px) scale(1.2); opacity: 1; }
+                25% { transform: translateX(-50%) translateY(-12px) scale(1); opacity: 1; }
+                80% { transform: translateX(-50%) translateY(-10px) scale(1); opacity: 1; }
+                100% { transform: translateX(-50%) translateY(-8px) scale(1); opacity: 0; }
             }
         </style>
     </head>
@@ -346,7 +438,7 @@
                                     Spotify Analytics
                                 </h3>
                                 <p>
-                                    Summarize listening trends, without relying on annual Spotify Wrapped. Created an interactive Streamlit dashboard highlighting top songs/artists/albums via listening trends, heatmaps, skip-rate analysis, artist evolution timelines, session tracking, and listening clock, using Python, Plotly, and Streamlit.
+                                    Summarize listening trends, without relying on annual Spotify Wrapped. Created an interactive dashboard highlighting top songs/artists/albums via listening trends, heatmaps, skip-rate analysis, artist evolution timelines, session tracking, and listening clock, using Python, Plotly, and Streamlit.
                                 </p>
                             </center>
                         </div>
@@ -362,7 +454,7 @@
                                     Spotify Playlist Archiver
                                 </h3>
                                 <p>
-                                    Automatic weekly archiver of playlists that would otherwise disappear. Includes Discover Weekly, Release Radar, and Your Top Songs at different granularities. Uses PyAutoGUI GUI automation for playlists unavailable via API, and the Spotify API (Spotipy) for top tracks with rate-limit handling (Python).
+                                    Automatic weekly archiver of playlists that would otherwise disappear. Includes Discover Weekly, Release Radar, and Your Top Songs at different granularities. Uses PyAutoGUI automation for playlists unavailable via API, and the Spotify API for top tracks with rate-limit handling (Python, Spotipy).
                                 </p>
                             </center>
                         </div>
@@ -384,23 +476,101 @@
                         </div>
                     </div>
 
-                    <div class="work__img"> <!-- Safari Unpinner -->
-                        <!-- <a href="https://github.com/jacobhl3ca/safari-pinned-tab-automation"> -->
-                            <img src="assets/img/unpin.png" alt="Safari Unpinner">
+                    <div class="work__img"> <!-- E-commerce Store -->
+                            <img src="assets/img/stripe_dark.svg" alt="E-commerce Store" style="object-fit: cover; background: #121212;">
+                        <div class="work__description">
+                            <center>
+                                <h3>
+                                    E-commerce Store
+                                </h3>
+                                <p>
+                                    Full-stack e-commerce site with Stripe payment processing, Express.js backend (Node.js, Stripe API, HTML/CSS/JS).
+                                </p>
+                            </center>
+                        </div>
+                    </div>
+
+                    <div class="work__img"> <!-- Automation Utilities -->
+                            <img src="assets/img/automation_dark.svg" alt="Automation Utilities" style="object-fit: cover; background: #121212;">
+                        <div class="work__description">
+                            <center>
+                                <h3>
+                                    Automation Utilities
+                                </h3>
+                                <p>
+                                    <!-- Safari description Option A: "...Safari bulk tab unpinning and closing — handling Safari's quirk where tabs shift position during unpin, requiring reverse iteration..." -->
+                                    <!-- Safari description Option B: "...Safari bulk tab unpinning and closing with bidirectional navigation, solving Safari's behavior where unpinning a tab shifts remaining tabs and breaks sequential automation..." -->
+                                    <!-- Safari description Option C: "...Safari bulk tab unpinning and closing — Safari doesn't support batch unpin natively, and unpinning a tab causes remaining pinned tabs to shift position, breaking forward navigation; solved with reverse iteration and per-tab error handling across multiple windows..." -->
+                                    macOS productivity automation suite including Safari bulk tab unpinning and closing, timesheet autofill via keystroke injection, a variety of frequently used toggles (menu bar hide/show, system-wide dark/light mode, VPN connect/disconnect), keyboard backlight control, dock spacer grouping, and game re-roll automation (Python, AppleScript, Bash, PyAutoGUI).
+                                </p>
+                            </center>
+                        </div>
+                    </div>
+
+                    <div class="work__img"> <!-- System Administration -->
+                        <!-- <a href=""> -->
+                            <img src="assets/img/docker_dark.png" alt="System Administration">
                         <!-- </a> -->
+                        <div class="work__description">
+                            <center>
+                                <h3>
+                                    System Administration
+                                </h3>
+                                <p>
+                                    Self-hosted web apps and network services on a Linux server (Docker, Docker Compose) including Plex media automation stack, Portainer, and Plausible Analytics (PostgreSQL, ClickHouse).
+                                </p>
+                            </center>
+                        </div>
+                    </div>
+
+                    <!-- Safari Unpinner (commented out)
+                    <div class="work__img">
+                            <img src="assets/img/unpin_safari.png" alt="Safari Unpinner" style="object-fit: cover;">
                         <div class="work__description">
                             <center>
                                 <h3>
                                     Safari Unpinner
                                 </h3>
-                                <p> 
-                                    <!-- removed after "script" - "for macOS" -->
-                                    Python automation script that better <!-- efficiently--> manages Safari pinned tabs. Supports bulk unpinning and closing operations with bidirectional navigation.
+                                <p>
+                                    Python automation script that better manages Safari pinned tabs. Supports bulk unpinning and closing operations with bidirectional navigation.
                                 </p>
                             </center>
                         </div>
                     </div>
-                    
+                    -->
+
+                    <!-- Weather Dashboard (commented out)
+                    <div class="work__img">
+                            <img src="assets/img/weather_real.png" alt="Weather Dashboard" style="object-fit: cover;">
+                        <div class="work__description">
+                            <center>
+                                <h3>
+                                    Weather Dashboard
+                                </h3>
+                                <p>
+                                    Desktop weather app with real-time conditions and interactive 5-day temperature forecast graph. Integrates the OpenWeather API, city search, and configurable settings (Python, Tkinter, Matplotlib).
+                                </p>
+                            </center>
+                        </div>
+                    </div>
+                    -->
+
+                    <!-- Coinbase Analytics (commented out)
+                    <div class="work__img">
+                            <img src="assets/img/coinbase_dark.png" alt="Coinbase Analytics">
+                        <div class="work__description">
+                            <center>
+                                <h3>
+                                    Coinbase Analytics
+                                </h3>
+                                <p>
+                                    Crypto portfolio analytics app with Coinbase API authentication, real-time price tracking, and profit/cost analysis for Bitcoin, Ethereum, and Litecoin (Node.js, Google Cloud, Angular.js, HTML/CSS/JS). Best Financial Hack — HackPrinceton 2017.
+                                </p>
+                            </center>
+                        </div>
+                    </div>
+                    -->
+
                     <!-- Data Analytics Dashboard (commented out)
                     <div class="work__img">
                             <img src="assets/img/data_analytics_real.png" alt="Data Analytics Dashboard" style="object-fit: cover;">
@@ -417,20 +587,6 @@
                     </div>
                     -->
 
-                    <div class="work__img"> <!-- E-commerce Store -->
-                            <img src="assets/img/ecommerce_real.png" alt="E-commerce Store" style="object-fit: cover;">
-                        <div class="work__description">
-                            <center>
-                                <h3>
-                                    E-commerce Store
-                                </h3>
-                                <p>
-                                    Full-stack e-commerce site with Stripe payment processing, Express.js backend, responsive product catalog, secure checkout flow, refund handling, and privacy/terms pages (Node.js, Stripe API, HTML/CSS/JS).
-                                </p>
-                            </center>
-                        </div>
-                    </div>
-
                     <!-- TaskMaster Mobile App (commented out)
                     <div class="work__img">
                             <img src="assets/img/taskmaster_real.png" alt="TaskMaster Mobile App" style="object-fit: cover; background: #0d1117;">
@@ -446,20 +602,6 @@
                         </div>
                     </div>
                     -->
-
-                    <div class="work__img"> <!-- Weather Dashboard -->
-                            <img src="assets/img/weather_real.png" alt="Weather Dashboard" style="object-fit: cover;">
-                        <div class="work__description">
-                            <center>
-                                <h3>
-                                    Weather Dashboard
-                                </h3>
-                                <p>
-                                    Desktop weather app with real-time conditions and interactive 5-day temperature forecast graph. Integrates the OpenWeather API with graceful demo-mode fallback, city search, and configurable settings (Python, Tkinter, Matplotlib).
-                                </p>
-                            </center>
-                        </div>
-                    </div>
 
                     <!-- Terminal Snake Game (commented out)
                     <div class="work__img">
@@ -492,53 +634,6 @@
                         </div>
                     </div>
                     -->
-
-                    <div class="work__img"> <!-- Automation Utilities -->
-                            <img src="assets/img/automation_real.png" alt="Automation Utilities" style="object-fit: cover;">
-                        <div class="work__description">
-                            <center>
-                                <h3>
-                                    Automation Utilities
-                                </h3>
-                                <p>
-                                    macOS productivity automation suite including sample timesheet auto-fill via keystroke injection, a variety of frequently used toggles (menu bar hide/show, system-wide dark/light mode, VPN connect/disconnect), keyboard backlight control, dock spacer grouping, and game re-roll automation (Python, AppleScript, Bash, PyAutoGUI).
-                                </p>
-                            </center>
-                        </div>
-                    </div>
-
-                    <div class="work__img"> <!-- System Administration -->
-                        <!-- <a href=""> -->
-                            <img src="assets/img/docker_dark.png" alt="System Administration">
-                        <!-- </a> -->
-                        <div class="work__description">
-                            <center>
-                                <h3>
-                                    System Administration
-                                </h3>
-                                <p>
-                                    Self-hosted web apps and network services on a Linux server (Docker, Docker Compose) including Plex media automation stack, Portainer, and Plausible Analytics (PostgreSQL, ClickHouse).
-                                </p>
-                            </center>
-                        </div>
-                    </div>
-
-                    <div class="work__img"> <!-- Coinbase Analytics -->
-                        <!-- <a href="https://devpost.com/software/hackprinceton2017"> -->
-                            <img src="assets/img/coinbase_dark.png" alt="Coinbase Analytics">
-                        <!-- </a> -->
-                        <div class="work__description">
-                            <center>
-                                <h3>
-                                    Coinbase Analytics
-                                </h3>
-                                <p>
-                                    Best Financial Hack
-                                    <br>Hack Princeton 2017
-                                </p>
-                            </center>
-                        </div>
-                    </div>
 
                     <!-- Beat Generator (commented out)
                     <div class="work__img">
@@ -609,8 +704,21 @@
 
         </footer>
 
+        <!-- Back to top button -->
+        <button class="back-to-top" id="backToTop" aria-label="Back to top">
+            <i class='bx bx-chevron-up'></i>
+        </button>
+
+        <!-- Easter egg (uncomment to enable)
+        <div class="easter-egg" id="easterEgg">🥚<span class="bird">🐣</span></div>
+        -->
+
         <script>
             if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
+            // Clear hash so refresh doesn't jump to #contact
+            if (window.location.hash) {
+                history.replaceState(null, '', window.location.pathname);
+            }
             window.scrollTo(0, 0);
         </script>
 
@@ -638,8 +746,6 @@
                     el.style.width = size + 'px';
                     el.style.height = size + 'px';
                     el.style.background = color;
-                    el.style.setProperty('--dx', (Math.random() - 0.5) * 300 + 'px');
-                    el.style.setProperty('--dy', (Math.random() - 0.7) * 300 + 'px');
                     if (shape === 'circle') el.style.borderRadius = '50%';
                     else if (shape === 'triangle') {
                         el.style.width = '0'; el.style.height = '0';
@@ -649,6 +755,12 @@
                         el.style.borderBottom = size + 'px solid ' + color;
                     }
                     document.body.appendChild(el);
+                    const dx = (Math.random() - 0.5) * 300;
+                    const dy = (Math.random() - 0.7) * 300;
+                    el.animate([
+                        { opacity: 1, transform: 'translate(0, 0) rotate(0deg) scale(1)' },
+                        { opacity: 0, transform: 'translate(' + dx + 'px, ' + dy + 'px) rotate(720deg) scale(0.3)' }
+                    ], { duration: 1200, easing: 'ease-out', fill: 'forwards' });
                     setTimeout(() => el.remove(), 1300);
                 }
             }
@@ -719,6 +831,27 @@
             }
 
             document.getElementById('skills-photo').addEventListener('click', handleSkillsClick);
+
+            // Back to top button
+            const backToTop = document.getElementById('backToTop');
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 300) {
+                    backToTop.classList.add('visible');
+                } else {
+                    backToTop.classList.remove('visible');
+                }
+            });
+            backToTop.addEventListener('click', () => {
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            });
+
+            // Easter egg (uncomment to enable)
+            // const egg = document.getElementById('easterEgg');
+            // egg.addEventListener('click', () => {
+            //     if (egg.classList.contains('hatched')) return;
+            //     egg.classList.add('hatched');
+            //     setTimeout(() => egg.classList.remove('hatched'), 4000);
+            // });
 
             function requestResume() {
                 const form = document.querySelector('.contact__form');
