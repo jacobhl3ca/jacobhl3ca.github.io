@@ -50,10 +50,7 @@
                 z-index: 9999;
             }
 
-            #project-spotify-analytics,
-            #project-spotify-archiver {
-                cursor: pointer;
-            }
+            /* project tile images - no special cursor needed */
 
             .skills__img {
                 cursor: pointer;
@@ -280,7 +277,7 @@
                 <div class="home__social">
                     <a href="https://www.linkedin.com/in/jacobhl/" class="home__social-icon" target="_blank"><i class='bx bxl-linkedin'></i></a>
                     <a href="https://github.com/jacobhl3ca" class="home__social-icon" target="_blank"><i class='bx bxl-github' ></i></a>
-                    <a href="mailto:hi@jacobhl.com" class="home__social-icon" target="_blank"><i class='bx bx-envelope'></i></a>
+                    <a href="#" onclick="window.location='mail'+'to:'+'hi'+'@'+'jacobhl'+'.com';return false;" class="home__social-icon" target="_blank"><i class='bx bx-envelope'></i></a>
                     <a href="#contact" class="home__social-icon" onclick="requestResume()"><i class='bx bx-file'></i></a>
                 </div>
 
@@ -696,7 +693,7 @@
 
                 <a href="https://github.com/jacobhl3ca" class="footer__icon" target="_blank"><i class='bx bxl-github' ></i></a>
 
-                <a href="mailto:hi@jacobhl.com" class="footer__icon" target="_blank"><i class='bx bx-envelope'></i></a>
+                <a href="#" onclick="window.location='mail'+'to:'+'hi'+'@'+'jacobhl'+'.com';return false;" class="footer__icon" target="_blank"><i class='bx bx-envelope'></i></a>
 
                 <a href="#contact" class="footer__icon" onclick="requestResume()"><i class='bx bx-file'></i></a>
 
@@ -1073,11 +1070,7 @@
             //     setTimeout(() => egg.classList.remove('hatched'), 4000);
             // });
 
-            // --- Click effect on project tiles (same auto-fire) ---
-            ['project-spotify-analytics', 'project-spotify-archiver'].forEach(id => {
-                const img = document.getElementById(id);
-                if (img) setupAutoFire(img);
-            });
+            // Confetti only on profile pics (about-photo, home-photo)
 
             function requestResume() {
                 const form = document.querySelector('.contact__form');
