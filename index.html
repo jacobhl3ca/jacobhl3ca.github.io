@@ -50,31 +50,6 @@
                 z-index: 9999;
             }
 
-            .hold-ring {
-                position: absolute;
-                top: 50%;
-                left: 50%;
-                width: 60px;
-                height: 60px;
-                margin: -30px 0 0 -30px;
-                border-radius: 50%;
-                border: 4px solid rgba(108, 99, 255, 0.2);
-                border-top-color: #6c63ff;
-                opacity: 0;
-                pointer-events: none;
-                z-index: 10;
-                box-sizing: border-box;
-            }
-            .hold-ring.active {
-                opacity: 1;
-                animation: holdSpin 0.6s linear forwards;
-            }
-            @keyframes holdSpin {
-                to { transform: rotate(360deg); }
-            }
-            .work__img {
-                position: relative;
-            }
             #project-spotify-analytics,
             #project-spotify-archiver {
                 cursor: pointer;
@@ -1003,43 +978,31 @@
             //     setTimeout(() => egg.classList.remove('hatched'), 4000);
             // });
 
-            // --- Hold-to-click on project tiles ---
+            // --- Click effect on project tiles ---
             ['project-spotify-analytics', 'project-spotify-archiver'].forEach(id => {
                 const img = document.getElementById(id);
                 if (!img) return;
-                const parent = img.closest('.work__img');
-                const ring = document.createElement('div');
-                ring.classList.add('hold-ring');
-                parent.appendChild(ring);
 
-                let holdTimer = null;
-
-                function startHold(e) {
-                    e.preventDefault();
-                    ring.classList.remove('active');
-                    void ring.offsetWidth; // reset animation
-                    ring.classList.add('active');
-                    holdTimer = setTimeout(() => {
-                        ring.classList.remove('active');
-                        const rect = img.getBoundingClientRect();
-                        const cx = rect.left + rect.width / 2;
-                        const cy = rect.top + rect.height / 2;
+                img.addEventListener('mousedown', function(e) {
+                    const rect = img.getBoundingClientRect();
+                    const cx = rect.left + rect.width / 2;
+                    const cy = rect.top + rect.height / 2;
+                    confettiClickCount++;
+                    if (confettiClickCount === 100) {
+                        megaExplosion();
+                        confettiClickCount = 0;
+                    } else if (confettiClickCount % 10 === 0) {
+                        const idx = Math.floor(confettiClickCount / 10) - 1;
+                        spawnBurst(cx, cy, burstStyles[idx % burstStyles.length]);
+                    } else {
                         spawnConfetti(cx, cy, 40);
-                        wiggleElement(img);
-                    }, 600);
-                }
-
-                function cancelHold() {
-                    clearTimeout(holdTimer);
-                    ring.classList.remove('active');
-                }
-
-                img.addEventListener('mousedown', startHold);
-                img.addEventListener('touchstart', startHold, { passive: false });
-                img.addEventListener('mouseup', cancelHold);
-                img.addEventListener('mouseleave', cancelHold);
-                img.addEventListener('touchend', cancelHold);
-                img.addEventListener('touchcancel', cancelHold);
+                    }
+                    wiggleElement(img);
+                });
+                img.addEventListener('touchstart', function(e) {
+                    e.preventDefault();
+                    img.dispatchEvent(new MouseEvent('mousedown'));
+                }, { passive: false });
             });
 
             function requestResume() {
