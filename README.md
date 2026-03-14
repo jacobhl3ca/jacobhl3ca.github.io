@@ -1,9 +1,5 @@
 # Personal Website
-### Version 3
 
-- Responsive Personal Portfolio Website using HTML, CSS, and JS.
-- Contains animations and smooth scrolling in each section.
-- Developed with the Mobile First methodology, then for desktop.
-- Compatible with all mobile devices via a streamlined user interface.
+Responsive portfolio site built with HTML, CSS, and JavaScript. Mobile-first design with dark/light theming, smooth scrolling, and interactive elements.
 
-💙 Check it out [here](https://www.jacobhl.com)!
+**[jacobhl.com](https://www.jacobhl.com)**
