@@ -511,12 +511,30 @@ img {
   right: 0;
   bottom: 0;
   width: 260px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
-.home__blob {
-  fill: var(--first-color);
+.home__circle {
+  width: 240px;
+  height: 240px;
+  background-color: var(--first-color);
+  border-radius: 50%;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  cursor: pointer;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
-.home__blob-img {
-  width: 360px;
+.home__circle:hover {
+  transform: scale(1.03);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
+}
+.home__circle-img {
+  width: 85%;
+  object-fit: cover;
+  object-position: top;
 }
 
 /*BUTTONS*/
@@ -711,6 +729,10 @@ img {
   .home__img {
     width: 200px;
   }
+  .home__circle {
+    width: 180px;
+    height: 180px;
+  }
 }
 @media screen and (min-width: 576px) {
   .home {
@@ -729,6 +751,10 @@ img {
   .home__img {
     width: 300px;
     bottom: 25%;
+  }
+  .home__circle {
+    width: 260px;
+    height: 260px;
   }
   .about__container {
     grid-template-columns: repeat(2, 1fr);
@@ -792,6 +818,10 @@ img {
     width: 400px;
     bottom: 10%;
   }
+  .home__circle {
+    width: 320px;
+    height: 320px;
+  }
   .about__container {
     padding-top: 2rem;
   }
@@ -819,5 +849,9 @@ img {
   }
   .home__img {
     width: 450px;
+  }
+  .home__circle {
+    width: 360px;
+    height: 360px;
   }
 }

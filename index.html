@@ -38,14 +38,11 @@
                 mix-blend-mode: multiply;
                 filter: contrast(1.1) brightness(1.05);
             }
-            .home__blob.clickable-img {
+            .home__circle.clickable-img {
                 cursor: pointer;
             }
-            .home__blob.bg-removed {
-                mix-blend-mode: screen;
-            }
-            html:not([data-theme="dark"]) .home__blob.bg-removed {
-                mix-blend-mode: multiply;
+            .home__circle.bg-removed {
+                background-color: transparent;
             }
 
             .confetti-piece {
@@ -286,15 +283,9 @@
                 </div>
 
                 <div class="home__img">
-                    <svg class="home__blob clickable-img" id="home-photo" viewBox="0 0 479 467" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-                        <mask id="mask0" mask-type="alpha">
-                            <path d="M9.19024 145.964C34.0253 76.5814 114.865 54.7299 184.111 29.4823C245.804 6.98884 311.86 -14.9503 370.735 14.143C431.207 44.026 467.948 107.508 477.191 174.311C485.897 237.229 454.931 294.377 416.506 344.954C373.74 401.245 326.068 462.801 255.442 466.189C179.416 469.835 111.552 422.137 65.1576 361.805C17.4835 299.81 -17.1617 219.583 9.19024 145.964Z"/>
-                        </mask>
-                        <g mask="url(#mask0)">
-                            <path d="M9.19024 145.964C34.0253 76.5814 114.865 54.7299 184.111 29.4823C245.804 6.98884 311.86 -14.9503 370.735 14.143C431.207 44.026 467.948 107.508 477.191 174.311C485.897 237.229 454.931 294.377 416.506 344.954C373.74 401.245 326.068 462.801 255.442 466.189C179.416 469.835 111.552 422.137 65.1576 361.805C17.4835 299.81 -17.1617 219.583 9.19024 145.964Z"/>
-                            <image class="home__blob-img" x="50" y="60" href="assets/img/header.png"/>
-                        </g>
-                    </svg>
+                    <div class="home__circle clickable-img" id="home-photo">
+                        <img src="assets/img/header.png" alt="Jacob Heifetz-Licht" class="home__circle-img">
+                    </div>
                 </div>
             </section>
 
@@ -742,14 +733,14 @@
 
             // --- Image click effects ---
             function spawnConfetti(x, y, count) {
-                const colors = ['#6c63ff', '#ff6584', '#43e97b', '#f9d423', '#00d2ff', '#ff4e50', '#fc5c7d'];
+                const colors = ['#6c63ff', '#ff6584', '#43e97b', '#f9d423', '#00d2ff', '#ff4e50', '#fc5c7d', '#4361ee'];
                 const shapes = ['circle', 'square', 'triangle'];
                 for (let i = 0; i < count; i++) {
                     const el = document.createElement('div');
                     el.classList.add('confetti-piece');
                     const color = colors[Math.floor(Math.random() * colors.length)];
                     const shape = shapes[Math.floor(Math.random() * shapes.length)];
-                    const size = 6 + Math.random() * 8;
+                    const size = 6 + Math.random() * 10;
                     el.style.left = x + 'px';
                     el.style.top = y + 'px';
                     el.style.width = size + 'px';
@@ -764,13 +755,18 @@
                         el.style.borderBottom = size + 'px solid ' + color;
                     }
                     document.body.appendChild(el);
-                    const dx = (Math.random() - 0.5) * 300;
-                    const dy = (Math.random() - 0.7) * 300;
+                    const angle = (Math.PI * 2 * i / count) + (Math.random() - 0.5) * 0.8;
+                    const distance = 120 + Math.random() * 200;
+                    const dx = Math.cos(angle) * distance;
+                    const dy = Math.sin(angle) * distance - 80;
+                    const spin = (Math.random() - 0.5) * 1080;
+                    const duration = 800 + Math.random() * 600;
                     el.animate([
                         { opacity: 1, transform: 'translate(0, 0) rotate(0deg) scale(1)' },
-                        { opacity: 0, transform: 'translate(' + dx + 'px, ' + dy + 'px) rotate(720deg) scale(0.3)' }
-                    ], { duration: 1200, easing: 'ease-out', fill: 'forwards' });
-                    setTimeout(() => el.remove(), 1300);
+                        { opacity: 0.8, transform: `translate(${dx*0.4}px, ${dy*0.3}px) rotate(${spin*0.4}deg) scale(1.1)`, offset: 0.3 },
+                        { opacity: 0, transform: `translate(${dx}px, ${dy}px) rotate(${spin}deg) scale(0.2)` }
+                    ], { duration: duration, easing: 'cubic-bezier(0.25, 0.46, 0.45, 0.94)', fill: 'forwards' });
+                    setTimeout(() => el.remove(), duration + 100);
                 }
             }
 
@@ -794,9 +790,9 @@
                 const el = e.currentTarget;
                 el.classList.toggle('bg-removed');
                 const rect = el.getBoundingClientRect();
-                const noseX = rect.left + rect.width * 0.5;
-                const noseY = rect.top + rect.height * 0.38;
-                spawnConfetti(noseX, noseY, 35);
+                const centerX = rect.left + rect.width * 0.5;
+                const centerY = rect.top + rect.height * 0.4;
+                spawnConfetti(centerX, centerY, 40);
                 wiggleElement(el);
             }
 
