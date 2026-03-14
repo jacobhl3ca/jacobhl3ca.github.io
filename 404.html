@@ -8,43 +8,9 @@
         <link href='https://cdn.jsdelivr.net/npm/boxicons@2.0.5/css/boxicons.min.css' rel='stylesheet'>
         <title>Page Not Found — Jacob Heifetz-Licht</title>
         <style>
-            .error-page {
-                display: flex;
-                flex-direction: column;
-                align-items: center;
-                justify-content: center;
-                min-height: 80vh;
-                text-align: center;
-                padding: 2rem;
+            .home__data {
+                align-self: center;
             }
-            .error-code {
-                font-size: 8rem;
-                font-weight: 700;
-                color: var(--first-color);
-                line-height: 1;
-                margin-bottom: 0.5rem;
-            }
-            .error-message {
-                font-size: 1.5rem;
-                color: var(--second-color);
-                margin-bottom: 1rem;
-            }
-            .error-description {
-                font-size: 1rem;
-                color: var(--second-color);
-                opacity: 0.7;
-                margin-bottom: 2rem;
-                max-width: 400px;
-            }
-            [data-theme="dark"] .error-message,
-            [data-theme="dark"] .error-description {
-                color: #e0e0e0;
-            }
-            [data-theme="dark"] .error-page {
-                background-color: var(--body-bg);
-            }
-
-            /* Back to top button (hidden on 404 but needed for CSS) */
             .back-to-top { display: none; }
         </style>
     </head>
@@ -76,12 +42,25 @@
         </header>
 
         <main class="l-main">
-            <div class="error-page">
-                <div class="error-code">404</div>
-                <p class="error-message">Page not found</p>
-                <p class="error-description">The page you're looking for doesn't exist or has been moved.</p>
-                <a href="/" class="button">Back to Home</a>
-            </div>
+            <section class="home bd-grid" id="home">
+                <div class="home__data">
+                    <h1 class="home__title"><span class="home__title-color">404</span><br>Page Not Found</h1>
+                    <p style="margin-bottom: 1.5rem; opacity: 0.7;">The page you're looking for doesn't exist or has been moved.</p>
+                    <a href="/" class="button">Back to Home</a>
+                </div>
+
+                <div class="home__social">
+                    <a href="https://www.linkedin.com/in/jacobhl/" class="home__social-icon" target="_blank"><i class='bx bxl-linkedin'></i></a>
+                    <a href="https://github.com/jacobhl3ca" class="home__social-icon" target="_blank"><i class='bx bxl-github'></i></a>
+                    <a href="mailto:hi@jacobhl.com" class="home__social-icon" target="_blank"><i class='bx bx-envelope'></i></a>
+                </div>
+
+                <div class="home__img">
+                    <div class="home__circle">
+                        <img src="/assets/img/header.png" alt="Jacob Heifetz-Licht" class="home__circle-img">
+                    </div>
+                </div>
+            </section>
         </main>
 
         <!--===== FOOTER =====-->
@@ -98,7 +77,7 @@
         <!--===== SCROLL REVEAL =====-->
         <script src="https://unpkg.com/scrollreveal"></script>
 
-        <!--===== MAIN JS (handles theme toggle, nav, etc.) =====-->
+        <!--===== MAIN JS =====-->
         <script src="/assets/js/main.js"></script>
     </body>
 </html>
