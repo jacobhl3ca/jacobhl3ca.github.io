@@ -895,56 +895,51 @@
                 setTimeout(() => overlay.remove(), 3000);
             }
 
-            function handleImageClick(e) {
-                const el = e.currentTarget;
-                el.classList.toggle('bg-removed');
-                const rect = el.getBoundingClientRect();
-                const centerX = rect.left + rect.width * 0.5;
-                const centerY = rect.top + rect.height * 0.4;
-
-                confettiClickCount++;
-
-                if (confettiClickCount === 100) {
-                    megaExplosion();
-                    confettiClickCount = 0;
-                } else if (confettiClickCount % 10 === 0) {
-                    const idx = Math.floor(confettiClickCount / 10) - 1;
-                    spawnBurst(centerX, centerY, burstStyles[idx % burstStyles.length]);
-                } else {
-                    spawnConfetti(centerX, centerY, 40);
-                }
-                wiggleElement(el);
-            }
-
-            // Auto-fire: hold down = accelerating confetti up to 100 clicks
+            // Auto-fire: hold mousedown = accelerating confetti, bursts grow each 10, mega at 100
             function setupAutoFire(el) {
                 let autoFireTimer = null;
-                let autoFireDelay = 300; // start slow
+                let autoFireDelay = 300;
+
+                // Prevent browser image drag so mousedown works properly
+                el.setAttribute('draggable', 'false');
+                el.style.userSelect = 'none';
+                el.style.webkitUserSelect = 'none';
 
                 function fireOnce() {
+                    if (el.classList.contains('clickable-img')) {
+                        el.classList.toggle('bg-removed');
+                    }
                     const rect = el.getBoundingClientRect();
                     const centerX = rect.left + rect.width * 0.5;
                     const centerY = rect.top + rect.height * 0.4;
                     confettiClickCount++;
-                    if (confettiClickCount === 100) {
+
+                    if (confettiClickCount >= 100) {
                         megaExplosion();
                         confettiClickCount = 0;
                         stopAutoFire();
                         return;
                     } else if (confettiClickCount % 10 === 0) {
-                        const idx = Math.floor(confettiClickCount / 10) - 1;
-                        spawnBurst(centerX, centerY, burstStyles[idx % burstStyles.length]);
+                        // Each 10th burst is bigger than the last
+                        const tier = Math.floor(confettiClickCount / 10); // 1-9
+                        const idx = (tier - 1) % burstStyles.length;
+                        // Scale burst count and distance by tier
+                        const origBurst = spawnBurst;
+                        const scaledCount = 60 + tier * 15;
+                        const scaledDist = 150 + tier * 30;
+                        // Spawn a scaled burst
+                        spawnScaledBurst(centerX, centerY, burstStyles[idx], scaledCount, scaledDist);
                     } else {
                         spawnConfetti(centerX, centerY, 40);
                     }
                     wiggleElement(el);
-                    // Accelerate: reduce delay down to 40ms minimum
                     autoFireDelay = Math.max(40, autoFireDelay * 0.92);
                     autoFireTimer = setTimeout(fireOnce, autoFireDelay);
                 }
 
                 function startAutoFire(e) {
                     e.preventDefault();
+                    e.stopPropagation();
                     if (autoFireTimer) return;
                     autoFireDelay = 300;
                     fireOnce();
@@ -957,10 +952,48 @@
 
                 el.addEventListener('mousedown', startAutoFire);
                 el.addEventListener('touchstart', startAutoFire, { passive: false });
-                el.addEventListener('mouseup', stopAutoFire);
+                window.addEventListener('mouseup', stopAutoFire);
                 el.addEventListener('mouseleave', stopAutoFire);
-                el.addEventListener('touchend', stopAutoFire);
-                el.addEventListener('touchcancel', stopAutoFire);
+                window.addEventListener('touchend', stopAutoFire);
+                window.addEventListener('touchcancel', stopAutoFire);
+                // Block click so it doesn't fire after mouseup
+                el.addEventListener('click', e => e.preventDefault());
+            }
+
+            // Scaled burst: more particles and bigger spread for higher tiers
+            function spawnScaledBurst(x, y, style, count, maxDist) {
+                for (let i = 0; i < count; i++) {
+                    const el = document.createElement('div');
+                    el.classList.add('confetti-piece');
+                    const color = style.colors[Math.floor(Math.random() * style.colors.length)];
+                    const size = 6 + Math.random() * 14;
+                    el.style.left = x + 'px';
+                    el.style.top = y + 'px';
+                    el.style.width = size + 'px';
+                    el.style.height = size + 'px';
+                    el.style.background = color;
+                    if (style.glow) el.style.boxShadow = `0 0 ${size}px ${color}`;
+                    const s = style.shape === 'mixed' ? ['circle','square','triangle'][i%3] : style.shape;
+                    if (s === 'circle') el.style.borderRadius = '50%';
+                    else if (s === 'star') el.style.clipPath = 'polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%)';
+                    else if (s === 'heart') el.style.clipPath = 'polygon(50% 85%, 15% 45%, 0% 25%, 5% 5%, 25% 0%, 50% 20%, 75% 0%, 95% 5%, 100% 25%, 85% 45%)';
+                    else if (s === 'spark') { el.style.width = '2px'; el.style.height = (size*1.5)+'px'; el.style.borderRadius = '1px'; }
+                    else if (s === 'rect') { el.style.width = (size*0.4)+'px'; el.style.height = (size*1.2)+'px'; }
+                    else if (s === 'triangle') { el.style.background = 'transparent'; el.style.borderLeft = size/2+'px solid transparent'; el.style.borderRight = size/2+'px solid transparent'; el.style.borderBottom = size+'px solid '+color; }
+                    document.body.appendChild(el);
+                    const angle = (Math.PI * 2 * i / count) + (Math.random() - 0.5) * 0.8;
+                    const distance = maxDist + Math.random() * (maxDist * 0.6);
+                    const dx = Math.cos(angle) * distance;
+                    const dy = Math.sin(angle) * distance - 100;
+                    const spin = (Math.random() - 0.5) * 1440;
+                    const duration = 1000 + Math.random() * 800;
+                    el.animate([
+                        { opacity: 1, transform: 'translate(0, 0) rotate(0deg) scale(1)' },
+                        { opacity: 1, transform: `translate(${dx*0.5}px, ${dy*0.3}px) rotate(${spin*0.5}deg) scale(1.3)`, offset: 0.35 },
+                        { opacity: 0, transform: `translate(${dx}px, ${dy}px) rotate(${spin}deg) scale(0.1)` }
+                    ], { duration, easing: 'cubic-bezier(0.25, 0.46, 0.45, 0.94)', fill: 'forwards' });
+                    setTimeout(() => el.remove(), duration + 100);
+                }
             }
 
             setupAutoFire(document.getElementById('about-photo'));
