@@ -1073,7 +1073,7 @@
                     popup.style.top = mouseY + 'px';
                     document.body.appendChild(popup);
                     setTimeout(() => popup.remove(), 1900);
-                    autoFireDelay = Math.max(80, autoFireDelay * 0.9);
+                    autoFireDelay = Math.max(250, autoFireDelay * 0.93);
                     autoFireTimer = setTimeout(fireOnce, autoFireDelay);
                 }
 
