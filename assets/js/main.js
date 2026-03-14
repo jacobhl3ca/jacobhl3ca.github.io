@@ -74,10 +74,21 @@ const themeToggle = document.getElementById('theme-toggle');
 const themeIcon = document.getElementById('theme-icon');
 const currentTheme = localStorage.getItem('theme');
 
+// Swap project images based on theme
+function setThemeImages(theme) {
+    document.querySelectorAll('img[data-dark][data-light]').forEach(img => {
+        img.src = theme === 'light' ? img.dataset.light : img.dataset.dark;
+        if (img.style.background) {
+            img.style.background = theme === 'light' ? '#ffffff' : '#121212';
+        }
+    });
+}
+
 // HTML defaults to data-theme="dark" and sun icon; only switch to light if user previously chose light
 if (currentTheme === 'light') {
     document.documentElement.removeAttribute('data-theme');
     themeIcon.classList.replace('bx-sun', 'bx-moon');
+    setThemeImages('light');
 } else {
     document.documentElement.setAttribute('data-theme', 'dark');
     themeIcon.classList.replace('bx-moon', 'bx-sun');
@@ -88,15 +99,17 @@ if (currentTheme === 'light') {
 
 themeToggle.addEventListener('click', () => {
     const currentTheme = document.documentElement.getAttribute('data-theme');
-    
+
     if (currentTheme === 'dark') {
         document.documentElement.removeAttribute('data-theme');
         themeIcon.classList.replace('bx-sun', 'bx-moon');
         localStorage.setItem('theme', 'light');
+        setThemeImages('light');
     } else {
         document.documentElement.setAttribute('data-theme', 'dark');
         themeIcon.classList.replace('bx-moon', 'bx-sun');
         localStorage.setItem('theme', 'dark');
+        setThemeImages('dark');
     }
     themeToggle.blur();
 });
@@ -136,8 +149,8 @@ window.addEventListener('scroll', scrollActive)
 const sr = ScrollReveal({
     origin: 'top',
     distance: '60px',
-    duration: 500,
-    delay: 100,
+    duration: 750,
+    delay: 150,
 //     reset: true
 });
 
