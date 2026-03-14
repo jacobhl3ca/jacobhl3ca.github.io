@@ -916,8 +916,55 @@
                 wiggleElement(el);
             }
 
-            document.getElementById('about-photo').addEventListener('click', handleImageClick);
-            document.getElementById('home-photo').addEventListener('click', handleImageClick);
+            // Auto-fire: hold down = accelerating confetti up to 100 clicks
+            function setupAutoFire(el) {
+                let autoFireTimer = null;
+                let autoFireDelay = 300; // start slow
+
+                function fireOnce() {
+                    const rect = el.getBoundingClientRect();
+                    const centerX = rect.left + rect.width * 0.5;
+                    const centerY = rect.top + rect.height * 0.4;
+                    confettiClickCount++;
+                    if (confettiClickCount === 100) {
+                        megaExplosion();
+                        confettiClickCount = 0;
+                        stopAutoFire();
+                        return;
+                    } else if (confettiClickCount % 10 === 0) {
+                        const idx = Math.floor(confettiClickCount / 10) - 1;
+                        spawnBurst(centerX, centerY, burstStyles[idx % burstStyles.length]);
+                    } else {
+                        spawnConfetti(centerX, centerY, 40);
+                    }
+                    wiggleElement(el);
+                    // Accelerate: reduce delay down to 40ms minimum
+                    autoFireDelay = Math.max(40, autoFireDelay * 0.92);
+                    autoFireTimer = setTimeout(fireOnce, autoFireDelay);
+                }
+
+                function startAutoFire(e) {
+                    e.preventDefault();
+                    if (autoFireTimer) return;
+                    autoFireDelay = 300;
+                    fireOnce();
+                }
+
+                function stopAutoFire() {
+                    clearTimeout(autoFireTimer);
+                    autoFireTimer = null;
+                }
+
+                el.addEventListener('mousedown', startAutoFire);
+                el.addEventListener('touchstart', startAutoFire, { passive: false });
+                el.addEventListener('mouseup', stopAutoFire);
+                el.addEventListener('mouseleave', stopAutoFire);
+                el.addEventListener('touchend', stopAutoFire);
+                el.addEventListener('touchcancel', stopAutoFire);
+            }
+
+            setupAutoFire(document.getElementById('about-photo'));
+            setupAutoFire(document.getElementById('home-photo'));
 
             const codeSnippets = [
                 'SELECT * FROM insights WHERE impact > 9000;',
@@ -978,31 +1025,10 @@
             //     setTimeout(() => egg.classList.remove('hatched'), 4000);
             // });
 
-            // --- Click effect on project tiles ---
+            // --- Click effect on project tiles (same auto-fire) ---
             ['project-spotify-analytics', 'project-spotify-archiver'].forEach(id => {
                 const img = document.getElementById(id);
-                if (!img) return;
-
-                img.addEventListener('mousedown', function(e) {
-                    const rect = img.getBoundingClientRect();
-                    const cx = rect.left + rect.width / 2;
-                    const cy = rect.top + rect.height / 2;
-                    confettiClickCount++;
-                    if (confettiClickCount === 100) {
-                        megaExplosion();
-                        confettiClickCount = 0;
-                    } else if (confettiClickCount % 10 === 0) {
-                        const idx = Math.floor(confettiClickCount / 10) - 1;
-                        spawnBurst(cx, cy, burstStyles[idx % burstStyles.length]);
-                    } else {
-                        spawnConfetti(cx, cy, 40);
-                    }
-                    wiggleElement(img);
-                });
-                img.addEventListener('touchstart', function(e) {
-                    e.preventDefault();
-                    img.dispatchEvent(new MouseEvent('mousedown'));
-                }, { passive: false });
+                if (img) setupAutoFire(img);
             });
 
             function requestResume() {
