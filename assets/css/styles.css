@@ -722,27 +722,13 @@ img {
 }
 
 /* ===== MEDIA QUERIES=====*/
-@media screen and (max-width: 575px) {
+@media screen and (max-width: 320px) {
   .home {
     row-gap: 2rem;
-    text-align: center;
-    justify-items: center;
   }
   .home__img {
-    position: static;
-    width: auto;
-    order: -1;
+    width: 200px;
   }
-  .home__social {
-    flex-direction: row;
-    justify-content: center;
-    gap: 1.5rem;
-  }
-  .home__social-icon {
-    margin-bottom: 0;
-  }
-}
-@media screen and (max-width: 320px) {
   .home__circle {
     width: 180px;
     height: 180px;
