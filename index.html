@@ -1047,7 +1047,58 @@
                 setTimeout(() => popup.remove(), 1900);
             }
 
-            document.getElementById('skills-photo').addEventListener('click', handleSkillsClick);
+            // Auto-fire code snippets on hold (same mousedown logic as confetti)
+            (function() {
+                const el = document.getElementById('skills-photo');
+                let autoFireTimer = null;
+                let autoFireDelay = 350;
+                let mouseX = 0, mouseY = 0;
+
+                el.setAttribute('draggable', 'false');
+                el.style.userSelect = 'none';
+                el.style.webkitUserSelect = 'none';
+
+                window.addEventListener('mousemove', function(e) {
+                    mouseX = e.clientX;
+                    mouseY = e.clientY;
+                });
+
+                function fireOnce() {
+                    const snippet = codeSnippets[codeIdx % codeSnippets.length];
+                    codeIdx++;
+                    const popup = document.createElement('div');
+                    popup.classList.add('code-popup');
+                    popup.textContent = snippet;
+                    popup.style.left = mouseX + 'px';
+                    popup.style.top = mouseY + 'px';
+                    document.body.appendChild(popup);
+                    setTimeout(() => popup.remove(), 1900);
+                    autoFireDelay = Math.max(80, autoFireDelay * 0.9);
+                    autoFireTimer = setTimeout(fireOnce, autoFireDelay);
+                }
+
+                function startAutoFire(e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    if (autoFireTimer) return;
+                    if (e.touches) { mouseX = e.touches[0].clientX; mouseY = e.touches[0].clientY; }
+                    else { mouseX = e.clientX; mouseY = e.clientY; }
+                    autoFireDelay = 350;
+                    fireOnce();
+                }
+
+                function stopAutoFire() {
+                    clearTimeout(autoFireTimer);
+                    autoFireTimer = null;
+                }
+
+                el.addEventListener('mousedown', startAutoFire);
+                el.addEventListener('touchstart', startAutoFire, { passive: false });
+                window.addEventListener('mouseup', stopAutoFire);
+                window.addEventListener('touchend', stopAutoFire);
+                window.addEventListener('touchcancel', stopAutoFire);
+                el.addEventListener('click', e => e.preventDefault());
+            })();
 
             // Back to top button
             const backToTop = document.getElementById('backToTop');
