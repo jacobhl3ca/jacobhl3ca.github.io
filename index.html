@@ -785,34 +785,51 @@
 
             let confettiClickCount = 0;
 
-            function spawnStarBurst(x, y) {
-                const starColors = ['#FFD700', '#FF4500', '#FF6347', '#FFA500', '#FFFF00', '#FF1493'];
-                for (let i = 0; i < 80; i++) {
+            const burstStyles = [
+                { name: 'starburst', colors: ['#FFD700', '#FF4500', '#FF6347', '#FFA500', '#FFFF00'], shape: 'star', glow: true },
+                { name: 'hearts', colors: ['#FF1493', '#FF69B4', '#FF007F', '#DC143C', '#FF4081'], shape: 'heart', glow: false },
+                { name: 'neon', colors: ['#00FF41', '#00FFFF', '#FF00FF', '#FFFF00', '#7B68EE'], shape: 'circle', glow: true },
+                { name: 'firework', colors: ['#FF0000', '#FF7700', '#FFFF00', '#FFFFFF', '#00BFFF'], shape: 'spark', glow: true },
+                { name: 'confetti-rain', colors: ['#6c63ff', '#ff6584', '#43e97b', '#f9d423', '#fc5c7d'], shape: 'rect', glow: false },
+                { name: 'galaxy', colors: ['#9B59B6', '#3498DB', '#1ABC9C', '#E8DAEF', '#AED6F1'], shape: 'circle', glow: true },
+                { name: 'fire', colors: ['#FF4500', '#FF6600', '#FF8C00', '#FFD700', '#FFF8DC'], shape: 'triangle', glow: true },
+                { name: 'ocean', colors: ['#006994', '#00CED1', '#20B2AA', '#48D1CC', '#AFEEEE'], shape: 'circle', glow: true },
+                { name: 'rainbow', colors: ['#FF0000', '#FF7F00', '#FFFF00', '#00FF00', '#0000FF', '#8B00FF'], shape: 'mixed', glow: false },
+            ];
+
+            function spawnBurst(x, y, style) {
+                const count = 60 + Math.floor(Math.random() * 30);
+                for (let i = 0; i < count; i++) {
                     const el = document.createElement('div');
                     el.classList.add('confetti-piece');
-                    const color = starColors[Math.floor(Math.random() * starColors.length)];
-                    const size = 8 + Math.random() * 14;
+                    const color = style.colors[Math.floor(Math.random() * style.colors.length)];
+                    const size = 6 + Math.random() * 12;
                     el.style.left = x + 'px';
                     el.style.top = y + 'px';
                     el.style.width = size + 'px';
                     el.style.height = size + 'px';
                     el.style.background = color;
-                    el.style.boxShadow = `0 0 ${size}px ${color}`;
-                    if (Math.random() > 0.5) el.style.borderRadius = '50%';
-                    else {
-                        el.style.clipPath = 'polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%)';
-                    }
+                    if (style.glow) el.style.boxShadow = `0 0 ${size}px ${color}`;
+
+                    const s = style.shape === 'mixed' ? ['circle','square','triangle'][i%3] : style.shape;
+                    if (s === 'circle') el.style.borderRadius = '50%';
+                    else if (s === 'star') el.style.clipPath = 'polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%)';
+                    else if (s === 'heart') el.style.clipPath = 'polygon(50% 85%, 15% 45%, 0% 25%, 5% 5%, 25% 0%, 50% 20%, 75% 0%, 95% 5%, 100% 25%, 85% 45%)';
+                    else if (s === 'spark') { el.style.width = '2px'; el.style.height = (size*1.5)+'px'; el.style.borderRadius = '1px'; }
+                    else if (s === 'rect') { el.style.width = (size*0.4)+'px'; el.style.height = (size*1.2)+'px'; }
+                    else if (s === 'triangle') { el.style.background = 'transparent'; el.style.borderLeft = size/2+'px solid transparent'; el.style.borderRight = size/2+'px solid transparent'; el.style.borderBottom = size+'px solid '+color; }
+
                     document.body.appendChild(el);
-                    const angle = (Math.PI * 2 * i / 80) + (Math.random() - 0.5);
-                    const distance = 180 + Math.random() * 300;
+                    const angle = (Math.PI * 2 * i / count) + (Math.random() - 0.5) * 0.8;
+                    const distance = 150 + Math.random() * 250;
                     const dx = Math.cos(angle) * distance;
-                    const dy = Math.sin(angle) * distance - 120;
+                    const dy = Math.sin(angle) * distance - 100;
                     const spin = (Math.random() - 0.5) * 1440;
-                    const duration = 1200 + Math.random() * 800;
+                    const duration = 1000 + Math.random() * 800;
                     el.animate([
                         { opacity: 1, transform: 'translate(0, 0) rotate(0deg) scale(1)' },
-                        { opacity: 1, transform: `translate(${dx*0.5}px, ${dy*0.3}px) rotate(${spin*0.5}deg) scale(1.4)`, offset: 0.35 },
-                        { opacity: 0, transform: `translate(${dx}px, ${dy}px) rotate(${spin}deg) scale(0)` }
+                        { opacity: 1, transform: `translate(${dx*0.5}px, ${dy*0.3}px) rotate(${spin*0.5}deg) scale(1.3)`, offset: 0.35 },
+                        { opacity: 0, transform: `translate(${dx}px, ${dy}px) rotate(${spin}deg) scale(0.1)` }
                     ], { duration, easing: 'cubic-bezier(0.25, 0.46, 0.45, 0.94)', fill: 'forwards' });
                     setTimeout(() => el.remove(), duration + 100);
                 }
@@ -869,7 +886,7 @@
                     setTimeout(() => {
                         const ox = cx + (Math.random() - 0.5) * window.innerWidth * 0.6;
                         const oy = cy + (Math.random() - 0.5) * window.innerHeight * 0.4;
-                        spawnStarBurst(ox, oy);
+                        spawnBurst(ox, oy, burstStyles[i % burstStyles.length]);
                     }, i * 150);
                 }
 
@@ -889,7 +906,8 @@
                     megaExplosion();
                     confettiClickCount = 0;
                 } else if (confettiClickCount % 10 === 0) {
-                    spawnStarBurst(centerX, centerY);
+                    const idx = Math.floor(confettiClickCount / 10) - 1;
+                    spawnBurst(centerX, centerY, burstStyles[idx % burstStyles.length]);
                 } else {
                     spawnConfetti(centerX, centerY, 40);
                 }
