@@ -145,17 +145,3 @@ const scrollActive = () =>{
 }
 window.addEventListener('scroll', scrollActive)
 
-/*===== SCROLL REVEAL ANIMATION =====*/
-const sr = ScrollReveal({
-    origin: 'top',
-    distance: '60px',
-    duration: 750,
-    delay: 150,
-    viewFactor: 0.01,
-//     reset: true
-});
-
-sr.reveal('.home__data, .about__img, .skills__subtitle, .skills__text',{}); 
-sr.reveal('.home__img, .about__subtitle, .about__text, .skills__img',{delay: 200});
-sr.reveal('.home__social-icon',{ interval: 100});
-sr.reveal('.skills__data, .work__img, .contact__input',{interval: 100}); 
