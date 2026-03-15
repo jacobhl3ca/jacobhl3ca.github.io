@@ -145,3 +145,35 @@ const scrollActive = () =>{
 }
 window.addEventListener('scroll', scrollActive)
 
+/*===== SCROLL REVEAL CASCADE =====*/
+const revealElements = document.querySelectorAll(
+  '.section-title, .about__img, .about__subtitle, .about__text, ' +
+  '.skills__subtitle, .skills__text, .skills__category, ' +
+  '.work__img, ' +
+  '.contact__input, .contact__button'
+);
+
+revealElements.forEach(el => el.classList.add('reveal'));
+
+const revealObserver = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('visible');
+      revealObserver.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.15 });
+
+// Stagger siblings so they cascade
+let lastParent = null;
+let staggerIndex = 0;
+revealElements.forEach(el => {
+  if (el.parentElement !== lastParent) {
+    lastParent = el.parentElement;
+    staggerIndex = 0;
+  }
+  el.style.transitionDelay = (staggerIndex * 0.1) + 's';
+  staggerIndex++;
+  revealObserver.observe(el);
+});
+
