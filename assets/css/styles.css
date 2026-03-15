@@ -138,10 +138,9 @@
   50% { transform: rotate(0deg); }
 }
 
-/* Scroll reveal cascade */
+/* Scroll reveal cascade (disabled — see index_with_animation.html to re-enable) */
 .reveal {
-  opacity: 0;
-  transition: opacity 0.6s ease;
+  opacity: 1;
 }
 .reveal.visible {
   opacity: 1;
