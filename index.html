@@ -1024,14 +1024,6 @@
                 window.addEventListener('touchend', stopAutoFire);
                 window.addEventListener('touchcancel', stopAutoFire);
                 el.addEventListener('mouseleave', stopAutoFire);
-                el.addEventListener('mouseenter', function(e) {
-                    if (e.buttons === 1 && !autoFireTimer) {
-                        mouseX = e.clientX;
-                        mouseY = e.clientY;
-                        autoFireDelay = 300;
-                        fireOnce();
-                    }
-                });
                 // Block click so it doesn't fire after mouseup
                 el.addEventListener('click', e => e.preventDefault());
             }
@@ -1166,14 +1158,6 @@
                 window.addEventListener('touchend', stopAutoFire);
                 window.addEventListener('touchcancel', stopAutoFire);
                 el.addEventListener('mouseleave', stopAutoFire);
-                el.addEventListener('mouseenter', function(e) {
-                    if (e.buttons === 1 && !autoFireTimer) {
-                        mouseX = e.clientX;
-                        mouseY = e.clientY;
-                        autoFireDelay = 350;
-                        fireOnce();
-                    }
-                });
                 el.addEventListener('click', e => e.preventDefault());
             })();
 
