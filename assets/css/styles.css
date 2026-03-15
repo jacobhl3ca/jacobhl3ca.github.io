@@ -455,8 +455,10 @@ img {
   outline: none;
 }
 
-.nav__link:focus:not(:focus-visible) {
-  outline: none;
+.nav__link:focus-visible {
+  outline: 2px solid var(--first-color);
+  outline-offset: 2px;
+  border-radius: 0.25rem;
 }
 
 .nav__logo {
@@ -886,5 +888,21 @@ img {
   .home__circle {
     width: 360px;
     height: 360px;
+  }
+}
+
+/* Reduced motion: disable animations for users who prefer it */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+  html {
+    scroll-behavior: auto;
+  }
+  .reveal {
+    opacity: 1;
+    transform: none;
   }
 }
