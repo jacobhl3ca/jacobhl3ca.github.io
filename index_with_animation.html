@@ -1026,6 +1026,7 @@
                 window.addEventListener('mouseup', stopAutoFire);
                 window.addEventListener('touchend', stopAutoFire);
                 window.addEventListener('touchcancel', stopAutoFire);
+                el.addEventListener('mouseleave', stopAutoFire);
                 // Block click so it doesn't fire after mouseup
                 el.addEventListener('click', e => e.preventDefault());
             }
@@ -1159,6 +1160,7 @@
                 window.addEventListener('mouseup', stopAutoFire);
                 window.addEventListener('touchend', stopAutoFire);
                 window.addEventListener('touchcancel', stopAutoFire);
+                el.addEventListener('mouseleave', stopAutoFire);
                 el.addEventListener('click', e => e.preventDefault());
             })();
 
