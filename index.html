@@ -476,7 +476,7 @@
 
                     <div class="work__img"> <!-- Spotify Analytics -->
                         <!-- <a href=""> -->
-                            <img src="assets/img/spotify_monthly.png" alt="Spotify Analytics" data-dark="assets/img/spotify_monthly.png" data-light="assets/img/spotify_monthly_light.png" id="project-spotify-analytics">
+                            <img src="assets/img/spotify_monthly.png" alt="Spotify Analytics" style="object-position: top;" data-dark="assets/img/spotify_monthly.png" data-light="assets/img/spotify_monthly_light.png" id="project-spotify-analytics">
                         <!-- </a> -->
                         <div class="work__description">
                             <center>
@@ -964,6 +964,8 @@
                 el.addEventListener('touchmove', function(e) {
                     mouseX = e.touches[0].clientX;
                     mouseY = e.touches[0].clientY;
+                    var target = document.elementFromPoint(mouseX, mouseY);
+                    if (!el.contains(target)) stopAutoFire();
                 }, { passive: true });
 
                 function fireOnce() {
@@ -1121,6 +1123,8 @@
                 el.addEventListener('touchmove', function(e) {
                     mouseX = e.touches[0].clientX;
                     mouseY = e.touches[0].clientY;
+                    var target = document.elementFromPoint(mouseX, mouseY);
+                    if (!el.contains(target)) stopAutoFire();
                 }, { passive: true });
 
                 function fireOnce() {
@@ -1237,6 +1241,7 @@
             // Confetti only on profile pics (about-photo, home-photo)
 
             function requestResume() {
+                document.getElementById('contact').scrollIntoView({ behavior: 'smooth' });
                 const form = document.querySelector('.contact__form');
                 const nameInput = form.querySelector('input[name="name"]');
                 const emailInput = form.querySelector('input[name="email"]');
