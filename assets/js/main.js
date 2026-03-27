@@ -556,10 +556,6 @@ const sectionIds = ['home', 'about', 'skills', 'Projects', 'contact'];
 const scrollDownBtn = document.getElementById('scrollDown');
 const backToTop = document.getElementById('backToTop');
 
-let downArrowTimer = setTimeout(() => {
-    scrollDownBtn.classList.add('visible');
-}, 3000);
-
 function getCurrentSectionIndex() {
     const scrollPos = window.scrollY + window.innerHeight / 3;
     for (let i = sectionIds.length - 1; i >= 0; i--) {
@@ -569,25 +565,52 @@ function getCurrentSectionIndex() {
     return 0;
 }
 
+// Down arrow: shows on any section except contact after idle time
+// 3s for home (first impression nudge), 5s for other sections
+let downArrowTimer = null;
+let lastSectionIdx = -1;
+
+function startDownArrowTimer() {
+    clearTimeout(downArrowTimer);
+    scrollDownBtn.classList.remove('visible');
+    const idx = getCurrentSectionIndex();
+    const atContact = idx >= sectionIds.length - 1;
+    if (atContact) return;
+    const delay = idx === 0 ? 3000 : 5000;
+    downArrowTimer = setTimeout(() => {
+        scrollDownBtn.classList.add('visible');
+        downArrowTimer = null;
+    }, delay);
+}
+
+// Start timer on initial load
+startDownArrowTimer();
+
 let backToTopTimer = null;
 window.addEventListener('scroll', () => {
     const idx = getCurrentSectionIndex();
     const atContact = idx >= sectionIds.length - 1;
-    const atTop = window.scrollY < 10;
 
-    if (atTop) {
-        if (!downArrowTimer && !scrollDownBtn.classList.contains('visible')) {
-            downArrowTimer = setTimeout(() => {
-                scrollDownBtn.classList.add('visible');
-                downArrowTimer = null;
-            }, 3000);
-        }
-    } else {
-        clearTimeout(downArrowTimer);
-        downArrowTimer = null;
-        scrollDownBtn.classList.remove('visible');
+    // When user scrolls, hide arrow and restart idle timer for new section
+    clearTimeout(downArrowTimer);
+    downArrowTimer = null;
+    scrollDownBtn.classList.remove('visible');
+
+    if (!atContact) {
+        // Restart idle timer after scroll settles
+        downArrowTimer = setTimeout(() => {
+            const currentIdx = getCurrentSectionIndex();
+            if (currentIdx < sectionIds.length - 1) {
+                const delay = currentIdx === 0 ? 3000 : 5000;
+                downArrowTimer = setTimeout(() => {
+                    scrollDownBtn.classList.add('visible');
+                    downArrowTimer = null;
+                }, delay);
+            }
+        }, 200); // debounce scroll events
     }
 
+    // Up arrow: show with 2s delay when at contact, hide otherwise
     if (atContact) {
         if (!backToTopTimer && !backToTop.classList.contains('visible')) {
             backToTopTimer = setTimeout(() => {
