@@ -49,3 +49,20 @@ Log of fixes applied to the site.
 - Dashboard at `jacobhl.goatcounter.com`
 - Privacy-friendly, no cookies, open source, free tier (100k views/month)
 - Note: adblockers may block `goatcounter.com` / `gc.zgo.at` domains
+
+### 12. Trimmed About section copy
+- Replaced 3-paragraph LinkedIn-style bio with 2 concise paragraphs
+- Removed emojis, buzzwords ("passionate", "geek out", "superpower")
+- Added side projects (comedy lineup tracker, subway times PWA)
+- Changed "thousands" to "hundreds of thousands" of hours and dollars
+- Original (V1) and first draft (V2) preserved as HTML comments for reference
+
+### 13. Moved ~476 lines of inline JS to main.js
+- Extracted confetti effects, burst styles, mega-explosion, auto-fire, code snippet popups, section navigation, scroll arrows, easter egg, and resume request function
+- Only the scroll-restoration snippet (6 lines) stays inline — it must run before DOM loads
+- index.html reduced by ~476 lines
+
+### 14. Removed duplicate preview.png
+- `preview.png` (root) was identical to `assets/img/og_image.png` (same MD5 hash, 205KB)
+- Deleted `preview.png` — nothing referenced it
+- Kept `og_image_centered.png` (different file, used by `light/index.html`)
