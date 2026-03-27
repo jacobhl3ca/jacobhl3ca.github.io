@@ -15,20 +15,33 @@
         <meta property="og:title" content="Jacob Heifetz-Licht — Analytics Manager">
         <!-- <meta property="og:title" content="Jacob Heifetz-Licht — Analytics Engineer"> -->
         <meta property="og:description" content="Data analytics leader specializing in Python, SQL, Tableau, and automation. Turning complex data into actionable insights.">
-        <meta property="og:image" content="https://jacobhl3ca.github.io/assets/img/og_image.png">
+        <meta property="og:image" content="https://jacobhl.com/assets/img/og_image.png">
         <meta property="og:url" content="https://jacobhl.com">
         <meta property="og:type" content="website">
         <meta name="twitter:card" content="summary">
         <meta name="twitter:title" content="Jacob Heifetz-Licht — Analytics Manager">
         <meta name="twitter:description" content="Data analytics leader specializing in Python, SQL, Tableau, and automation. Turning complex data into actionable insights.">
-        <meta name="twitter:image" content="https://jacobhl3ca.github.io/assets/img/og_image.png">
-        <!-- Privacy-friendly analytics by Plausible
-        <script async src="http://192.168.99.97:8001/js/pa-Gs2doyz-B6lgKMO0IhiIX.js"></script>
-        <script>
-          window.plausible=window.plausible||function(){(plausible.q=plausible.q||[]).push(arguments)},plausible.init=plausible.init||function(i){plausible.o=i||{}};
-          plausible.init()
+        <meta name="twitter:image" content="https://jacobhl.com/assets/img/og_image.png">
+        <link rel="canonical" href="https://jacobhl.com">
+        <script type="application/ld+json">
+        {
+            "@context": "https://schema.org",
+            "@type": "Person",
+            "name": "Jacob Heifetz-Licht",
+            "url": "https://jacobhl.com",
+            "jobTitle": "Analytics Manager",
+            "description": "Data analytics leader specializing in Python, SQL, Tableau, and automation.",
+            "sameAs": [
+                "https://www.linkedin.com/in/jacobhl/",
+                "https://github.com/jacobhl3ca"
+            ],
+            "alumniOf": {
+                "@type": "CollegeOrUniversity",
+                "name": "Rutgers University"
+            },
+            "knowsAbout": ["Data Analytics", "Python", "SQL", "Tableau", "ETL", "BigQuery", "Automation", "Dashboard Design"]
+        }
         </script>
-        -->
         <style>
 
             .clickable-img {
@@ -323,9 +336,9 @@
                 </div>
 
                 <div class="home__social">
-                    <a href="https://www.linkedin.com/in/jacobhl/" class="home__social-icon" target="_blank" aria-label="LinkedIn profile"><i class='bx bxl-linkedin'></i></a>
-                    <a href="https://github.com/jacobhl3ca" class="home__social-icon" target="_blank" aria-label="GitHub profile"><i class='bx bxl-github' ></i></a>
-                    <a href="#" onclick="window.location='mail'+'to:'+'hi'+'@'+'jacobhl'+'.com';return false;" class="home__social-icon" target="_blank" aria-label="Send email"><i class='bx bx-envelope'></i></a>
+                    <a href="https://www.linkedin.com/in/jacobhl/" class="home__social-icon" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn profile"><i class='bx bxl-linkedin'></i></a>
+                    <a href="https://github.com/jacobhl3ca" class="home__social-icon" target="_blank" rel="noopener noreferrer" aria-label="GitHub profile"><i class='bx bxl-github' ></i></a>
+                    <a href="#" onclick="window.location='mail'+'to:'+'hi'+'@'+'jacobhl'+'.com';return false;" class="home__social-icon" aria-label="Send email"><i class='bx bx-envelope'></i></a>
                     <a href="#contact" class="home__social-icon" onclick="requestResume()" aria-label="Request resume"><i class='bx bx-file'></i></a>
                 </div>
 
@@ -480,14 +493,12 @@
                             <img src="assets/img/spotify_monthly.png" alt="Spotify Analytics" data-dark="assets/img/spotify_monthly.png" data-light="assets/img/spotify_monthly_light.png" id="project-spotify-analytics">
                         <!-- </a> -->
                         <div class="work__description">
-                            <center>
                                 <h3>
                                     Spotify Analytics
                                 </h3>
                                 <p>
                                     Summarize listening trends, without relying on annual Spotify Wrapped. Created an interactive dashboard highlighting top songs/artists/albums via listening trends, heatmaps, skip-rate analysis, artist evolution timelines, session tracking, and listening clock, using Python, Plotly, and Streamlit.
                                 </p>
-                            </center>
                         </div>
                     </div>
 
@@ -496,14 +507,12 @@
                             <img src="assets/img/spotify_archiver.png" alt="Spotify Playlist Archiver" style="object-fit: contain; background: #121212;" data-dark="assets/img/spotify_archiver.png" data-light="assets/img/spotify_archiver_light.png" id="project-spotify-archiver">
                         <!-- </a> -->
                         <div class="work__description">
-                            <center>
                                 <h3>
                                     Spotify Playlist Archiver
                                 </h3>
                                 <p>
                                     Automatic weekly archiver of playlists that would otherwise disappear. Includes Discover Weekly, Release Radar, and Your Top Songs at different granularities. Uses PyAutoGUI automation for playlists unavailable via API, and the Spotify API for top tracks with rate-limit handling (Python, Spotipy).
                                 </p>
-                            </center>
                         </div>
                     </div>
 
@@ -512,35 +521,30 @@
                             <img src="assets/img/finance_trend.png" alt="Personal Finance App" data-dark="assets/img/finance_trend.png" data-light="assets/img/finance_trend_light.png">
                         <!-- </a> -->
                         <div class="work__description">
-                            <center>
                                 <h3>
                                     Personal Finance App
                                 </h3>
                                 <p>
                                     Enables precise <!-- added precise --> daily budgeting, investment planning, and optimization, using Python and Apps Script.
                                 </p>
-                            </center>
                         </div>
                     </div>
 
                     <div class="work__img"> <!-- E-commerce Store -->
                             <img src="assets/img/stripe_dark.svg" alt="E-commerce Store" style="object-fit: cover; background: #121212;" data-dark="assets/img/stripe_dark.svg" data-light="assets/img/stripe_light.svg">
                         <div class="work__description">
-                            <center>
                                 <h3>
                                     E-commerce Store
                                 </h3>
                                 <p>
                                     Full-stack e-commerce site with Stripe payment processing, Express.js backend (Node.js, Stripe API, HTML/CSS/JS).
                                 </p>
-                            </center>
                         </div>
                     </div>
 
                     <div class="work__img"> <!-- Automation Utilities -->
                             <img src="assets/img/automation_dark.svg" alt="Automation Utilities" style="object-fit: cover; background: #121212;" data-dark="assets/img/automation_dark.svg" data-light="assets/img/automation_light.svg">
                         <div class="work__description">
-                            <center>
                                 <h3>
                                     Automation Utilities
                                 </h3>
@@ -550,7 +554,6 @@
                                     <!-- Safari description Option C: "...Safari bulk tab unpinning and closing — Safari doesn't support batch unpin natively, and unpinning a tab causes remaining pinned tabs to shift position, breaking forward navigation; solved with reverse iteration and per-tab error handling across multiple windows..." -->
                                     macOS productivity automation suite including Safari bulk tab unpinning and closing, timesheet autofill via keystroke injection, a variety of frequently used toggles (menu bar hide/show, system-wide dark/light mode, VPN connect/disconnect), keyboard backlight control, dock spacer grouping, and game re-roll automation (Python, AppleScript, Bash, PyAutoGUI).
                                 </p>
-                            </center>
                         </div>
                     </div>
 
@@ -559,14 +562,12 @@
                             <img src="assets/img/docker_dark.png" alt="System Administration" data-dark="assets/img/docker_dark.png" data-light="assets/img/docker_dark_light.png">
                         <!-- </a> -->
                         <div class="work__description">
-                            <center>
                                 <h3>
                                     System Administration
                                 </h3>
                                 <p>
                                     Self-hosted web apps and network services on a Linux server (Docker, Docker Compose) including Plex media automation stack, Portainer, and Plausible Analytics (PostgreSQL, ClickHouse).
                                 </p>
-                            </center>
                         </div>
                     </div>
 
@@ -574,14 +575,12 @@
                     <div class="work__img">
                             <img src="assets/img/unpin_safari.png" alt="Safari Unpinner" style="object-fit: cover;">
                         <div class="work__description">
-                            <center>
                                 <h3>
                                     Safari Unpinner
                                 </h3>
                                 <p>
                                     Python automation script that better manages Safari pinned tabs. Supports bulk unpinning and closing operations with bidirectional navigation.
                                 </p>
-                            </center>
                         </div>
                     </div>
                     -->
@@ -590,14 +589,12 @@
                     <div class="work__img">
                             <img src="assets/img/weather_real.png" alt="Weather Dashboard" style="object-fit: cover;">
                         <div class="work__description">
-                            <center>
                                 <h3>
                                     Weather Dashboard
                                 </h3>
                                 <p>
                                     Desktop weather app with real-time conditions and interactive 5-day temperature forecast graph. Integrates the OpenWeather API, city search, and configurable settings (Python, Tkinter, Matplotlib).
                                 </p>
-                            </center>
                         </div>
                     </div>
                     -->
@@ -606,14 +603,12 @@
                     <div class="work__img">
                             <img src="assets/img/coinbase_dark.png" alt="Coinbase Analytics">
                         <div class="work__description">
-                            <center>
                                 <h3>
                                     Coinbase Analytics
                                 </h3>
                                 <p>
                                     Crypto portfolio analytics app with Coinbase API authentication, real-time price tracking, and profit/cost analysis for Bitcoin, Ethereum, and Litecoin (Node.js, Google Cloud, Angular.js, HTML/CSS/JS). Best Financial Hack — HackPrinceton 2017.
                                 </p>
-                            </center>
                         </div>
                     </div>
                     -->
@@ -622,14 +617,12 @@
                     <div class="work__img">
                             <img src="assets/img/data_analytics_real.png" alt="Data Analytics Dashboard" style="object-fit: cover;">
                         <div class="work__description">
-                            <center>
                                 <h3>
                                     Data Analytics Dashboard
                                 </h3>
                                 <p>
                                     Full-stack interactive analytics platform with ETL pipeline, statistical analysis (t-tests, ANOVA, chi-square), machine learning (RandomForest regression, K-Means/DBSCAN clustering), and 10+ visualization types. Supports CSV/Excel upload and live data exploration (Python, Streamlit, Plotly, scikit-learn).
                                 </p>
-                            </center>
                         </div>
                     </div>
                     -->
@@ -638,14 +631,12 @@
                     <div class="work__img">
                             <img src="assets/img/taskmaster_real.png" alt="TaskMaster Mobile App" style="object-fit: cover; background: #0d1117;">
                         <div class="work__description">
-                            <center>
                                 <h3>
                                     TaskMaster Mobile App
                                 </h3>
                                 <p>
                                     React Native task management app with three-tab navigation: a Home dashboard showing productivity stats (total, completed, in-progress, pending) and recent tasks with priority badges; a Tasks screen with live search, status-based filtering (All/Pending/In Progress/Completed), category labels, and due dates; and a Profile screen with avatar, success-rate metrics, and settings menu. Built with Expo, React Navigation bottom tabs, and Ionicons (React Native, Expo, React Navigation).
                                 </p>
-                            </center>
                         </div>
                     </div>
                     -->
@@ -654,14 +645,12 @@
                     <div class="work__img">
                             <img src="assets/img/snake_real.png" alt="Terminal Snake Game" style="object-fit: cover;">
                         <div class="work__description">
-                            <center>
                                 <h3>
                                     Terminal Snake Game
                                 </h3>
                                 <p>
                                     Feature-rich terminal snake game with 4 food types (regular, super, bonus, power-up), 5 customizable snake skins, persistent JSON high-score leaderboard, difficulty scaling, speed boosts, invincibility mode, and visual effects. Built with Python curses (480 lines).
                                 </p>
-                            </center>
                         </div>
                     </div>
                     -->
@@ -670,14 +659,12 @@
                     <div class="work__img">
                             <img src="assets/img/surfing_cat_real.png" alt="Surfing Cat Emoji Creator" style="object-fit: cover;">
                         <div class="work__description">
-                            <center>
                                 <h3>
                                     Surfing Cat Emoji
                                 </h3>
                                 <p>
                                     Custom SVG emoji creator featuring a hand-drawn tuxedo cat surfing on a surfboard. Three size variants (64/128/256px) with gradient shading, whiskers, and water splash effects. Download as SVG/PNG or copy to clipboard. Pure HTML/CSS/JS, no dependencies.
                                 </p>
-                            </center>
                         </div>
                     </div>
                     -->
@@ -686,14 +673,12 @@
                     <div class="work__img">
                             <img src="assets/img/beatgen_real.png" alt="Procedural Beat Generator" style="object-fit: cover;">
                         <div class="work__description">
-                            <center>
                                 <h3>
                                     Procedural Beat Generator
                                 </h3>
                                 <p>
                                     Synthesizes kicks, snares, hi-hats, claps, and toms from pure math (sine sweeps, filtered noise, envelopes), then arranges 16-step patterns into WAV files. 5 genre presets (Rock, House, Hip Hop, Breakbeat, Trap), configurable BPM/bars/swing, and batch export. Python + NumPy, zero audio samples needed.
                                 </p>
-                            </center>
                         </div>
                     </div>
                     -->
@@ -702,14 +687,12 @@
                     <div class="work__img">
                             <img src="assets/img/tigers_real.png" alt="Detroit Tigers iOS App" style="object-fit: cover; background: #0d1117;">
                         <div class="work__description">
-                            <center>
                                 <h3>
                                     Detroit Tigers iOS App
                                 </h3>
                                 <p>
                                     Native SwiftUI iOS app for watching Detroit Tigers game highlights without score spoilers. Integrates MLB Stats API for real schedules, YouTube Data API and MLB Film Room for video highlights, with background refresh, video preloading, WKWebView player, and Keychain storage (Swift, 1,774 lines).
                                 </p>
-                            </center>
                         </div>
                     </div>
                     -->
@@ -737,11 +720,11 @@
             <p class="footer__title">Jacob</p>
             <div class="footer__social">
 
-                <a href="https://www.linkedin.com/in/jacobhl/" class="footer__icon" target="_blank" aria-label="LinkedIn profile"><i class='bx bxl-linkedin' ></i></a>
+                <a href="https://www.linkedin.com/in/jacobhl/" class="footer__icon" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn profile"><i class='bx bxl-linkedin' ></i></a>
 
-                <a href="https://github.com/jacobhl3ca" class="footer__icon" target="_blank" aria-label="GitHub profile"><i class='bx bxl-github' ></i></a>
+                <a href="https://github.com/jacobhl3ca" class="footer__icon" target="_blank" rel="noopener noreferrer" aria-label="GitHub profile"><i class='bx bxl-github' ></i></a>
 
-                <a href="#" onclick="window.location='mail'+'to:'+'hi'+'@'+'jacobhl'+'.com';return false;" class="footer__icon" target="_blank" aria-label="Send email"><i class='bx bx-envelope'></i></a>
+                <a href="#" onclick="window.location='mail'+'to:'+'hi'+'@'+'jacobhl'+'.com';return false;" class="footer__icon" aria-label="Send email"><i class='bx bx-envelope'></i></a>
 
                 <a href="#contact" class="footer__icon" onclick="requestResume()" aria-label="Request resume"><i class='bx bx-file'></i></a>
 
@@ -1255,6 +1238,10 @@
                 nameInput.focus();
             }
         </script>
-        
+
+        <!-- GoatCounter analytics -->
+        <script data-goatcounter="https://jacobhl.goatcounter.com/count"
+                async src="//gc.zgo.at/count.js"></script>
+
     </body>
 </html>
