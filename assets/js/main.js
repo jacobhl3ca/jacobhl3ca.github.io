@@ -677,8 +677,9 @@ if (contactForm) {
             if (res.ok) {
                 contactForm.reset();
                 btn.textContent = 'Sent!';
+                btn.style.transition = 'none';
                 btn.style.background = '#28a745';
-                setTimeout(() => { btn.textContent = origText; btn.disabled = false; btn.style.background = ''; }, 4000);
+                setTimeout(() => { btn.textContent = origText; btn.disabled = false; btn.style.background = ''; btn.style.transition = ''; }, 4000);
             } else {
                 btn.textContent = 'Error — try again';
                 btn.style.background = '#dc3545';
