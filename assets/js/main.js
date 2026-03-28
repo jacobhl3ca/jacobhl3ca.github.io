@@ -669,10 +669,6 @@ if (contactForm) {
         btn.textContent = 'Sending...';
         btn.disabled = true;
 
-        // Remove any existing confirmation
-        const oldMsg = contactForm.parentElement.querySelector('.form-confirmation');
-        if (oldMsg) oldMsg.remove();
-
         fetch(contactForm.action, {
             method: 'POST',
             body: new FormData(contactForm),
@@ -682,18 +678,7 @@ if (contactForm) {
                 contactForm.reset();
                 btn.textContent = 'Sent!';
                 btn.style.background = '#28a745';
-                // Show confirmation message above form
-                const msg = document.createElement('p');
-                msg.className = 'form-confirmation';
-                msg.textContent = 'Message sent — I\'ll get back to you soon.';
-                msg.style.cssText = 'text-align:center;color:#28a745;font-weight:600;font-size:1.1rem;margin-bottom:1rem;animation:fade-in 0.3s ease';
-                contactForm.parentElement.insertBefore(msg, contactForm);
-                setTimeout(() => {
-                    btn.textContent = origText; btn.disabled = false;
-                    btn.style.background = '';
-                    msg.style.opacity = '0'; msg.style.transition = 'opacity 0.5s';
-                    setTimeout(() => msg.remove(), 500);
-                }, 4000);
+                setTimeout(() => { btn.textContent = origText; btn.disabled = false; btn.style.background = ''; }, 4000);
             } else {
                 btn.textContent = 'Error — try again';
                 btn.style.background = '#dc3545';
