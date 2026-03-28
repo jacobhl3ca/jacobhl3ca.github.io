@@ -659,3 +659,33 @@ function requestResume() {
     nameInput.focus();
 }
 
+/*===== CONTACT FORM SUBMIT =====*/
+const contactForm = document.querySelector('.contact__form');
+if (contactForm) {
+    contactForm.addEventListener('submit', function(e) {
+        e.preventDefault();
+        const btn = contactForm.querySelector('.contact__button');
+        const origText = btn.textContent;
+        btn.textContent = 'Sending...';
+        btn.disabled = true;
+
+        fetch(contactForm.action, {
+            method: 'POST',
+            body: new FormData(contactForm),
+            headers: { 'Accept': 'application/json' }
+        }).then(res => {
+            if (res.ok) {
+                contactForm.reset();
+                btn.textContent = 'Sent!';
+                setTimeout(() => { btn.textContent = origText; btn.disabled = false; }, 3000);
+            } else {
+                btn.textContent = 'Error — try again';
+                setTimeout(() => { btn.textContent = origText; btn.disabled = false; }, 3000);
+            }
+        }).catch(() => {
+            btn.textContent = 'Error — try again';
+            setTimeout(() => { btn.textContent = origText; btn.disabled = false; }, 3000);
+        });
+    });
+}
+
