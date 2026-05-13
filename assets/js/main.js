@@ -566,9 +566,15 @@ function getCurrentSectionIndex() {
 }
 
 // Down arrow: shows on any section except contact after idle time
-// 3s for home (first impression nudge), 5s for other sections
+// 3s for home (first impression nudge), 10s for projects, 8s for others
 let downArrowTimer = null;
 let lastSectionIdx = -1;
+
+function getDownArrowDelay(idx) {
+    if (idx === 0) return 3000;
+    if (idx === 3) return 10000;
+    return 8000;
+}
 
 function startDownArrowTimer() {
     clearTimeout(downArrowTimer);
@@ -576,11 +582,10 @@ function startDownArrowTimer() {
     const idx = getCurrentSectionIndex();
     const atContact = idx >= sectionIds.length - 1;
     if (atContact) return;
-    const delay = idx === 0 ? 3000 : 5000;
     downArrowTimer = setTimeout(() => {
         scrollDownBtn.classList.add('visible');
         downArrowTimer = null;
-    }, delay);
+    }, getDownArrowDelay(idx));
 }
 
 // Start timer on initial load
@@ -601,11 +606,10 @@ window.addEventListener('scroll', () => {
         downArrowTimer = setTimeout(() => {
             const currentIdx = getCurrentSectionIndex();
             if (currentIdx < sectionIds.length - 1) {
-                const delay = currentIdx === 0 ? 3000 : 5000;
                 downArrowTimer = setTimeout(() => {
                     scrollDownBtn.classList.add('visible');
                     downArrowTimer = null;
-                }, delay);
+                }, getDownArrowDelay(currentIdx));
             }
         }, 200); // debounce scroll events
     }
@@ -692,4 +696,18 @@ if (contactForm) {
         });
     });
 }
+
+(function () {
+    const dots = document.querySelectorAll('.live-dot');
+    if (!dots.length || !('IntersectionObserver' in window)) return;
+    const obs = new IntersectionObserver((entries, observer) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('is-visible');
+                observer.unobserve(entry.target);
+            }
+        });
+    }, { threshold: 0.5 });
+    dots.forEach(d => obs.observe(d));
+})();
 

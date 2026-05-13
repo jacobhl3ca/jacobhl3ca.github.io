@@ -396,9 +396,9 @@
 
                         <!-- V3 — Active -->
                         <p class="about__text">
-                            I’m a data analytics leader who’s spent years turning messy data into things people actually use — automated pipelines, executive dashboards, self-service tools. I’ve done this at Kepler, Condé Nast, and Deloitte, leading teams and building systems that have saved hundreds of thousands of hours and dollars.
+                            I’m a data analytics leader who’s spent years turning messy data into products people actually use — automated pipelines, executive dashboards, self-service tools. I’ve done this at Kepler, Condé Nast, and Deloitte, leading teams and building systems that have saved hundreds of thousands of hours and dollars.
                             <br><br>
-                            I work mostly in Python, SQL, and Tableau, and lately I’ve been building web apps<!-- on the side --><!-- (this site, a comedy lineup tracker, a subway times PWA) -->. I like making things that are useful, fast, and fun.
+                            I work mostly in Python, SQL, and Tableau, and lately I’ve been building web and mobile apps<!-- on the side --><!-- (this site, a comedy lineup tracker, a subway times PWA) -->.<!-- CLOSING-LINE ALTERNATIVES (parked) — V1: I like making tools that are useful, fast, and fun. | V2: I prioritize speed, function, and a bit of fun. | V3: Every one of these started as a problem I had. -->
                         </p>
                     </div>                                   
                 </div>
@@ -526,6 +526,64 @@
                 <h2 class="section-title">Projects</h2> 
                 
                 <div class="work__container bd-grid">
+
+                    <div class="work__img"> <!-- Tonight NYC -->
+                        <a href="https://tonightnyc.com" target="_blank" rel="noopener noreferrer">
+                            <img src="assets/img/cellar_tonight.png" alt="Tonight NYC" style="object-fit: cover; background: #0f0f0f;">
+                        </a>
+                        <div class="work__description">
+                            <center>
+                                <h3>
+                                    <span class="live-dot" aria-label="Live"></span>Tonight NYC
+                                </h3>
+                                <!-- PRIORITY REVISIT — previous description (with tech line) saved 2026-05-11:
+                                No more digging for showtimes — stick to your favorite comedians. Every NYC comedy show from the Comedy Cellar, The Stand, and more, filtered your way. Mark favorites and skips, see which set to attend at a glance, and book directly. Built with vanilla JS, Vercel serverless proxy, and localStorage personalization.
+                                -->
+                                <p>
+                                    No more digging for comedy showtimes, stick to your favorite comedians. Includes every NYC show from the Comedy Cellar, The Stand, and more, filtered your way. Mark favorites and skips, see which set to attend at a glance, and book directly.
+                                </p>
+                                <a href="https://apps.apple.com/app/id6763027650" target="_blank" rel="noopener noreferrer" class="app-store-badge-link" aria-label="Download Tonight NYC on the App Store">
+                                    <img src="assets/img/app-store-badge.svg" alt="Download on the App Store" class="app-store-badge">
+                                </a>
+                            </center>
+                        </div>
+                    </div>
+
+                    <div class="work__img"> <!-- HideScore -->
+                        <a href="https://hidescore.com" target="_blank" rel="noopener noreferrer">
+                            <img src="assets/img/hidescore.png" alt="HideScore" style="object-fit: cover; background: #0f0f0f;">
+                        </a>
+                        <div class="work__description">
+                                <h3>
+                                    <span class="live-dot" aria-label="Live"></span>HideScore
+                                </h3>
+                                <!-- PRIORITY REVISIT — previous description (with tech line) saved 2026-05-11:
+                                Watch sports highlights without seeing the score. Aggregates MLB, NBA, NHL, NFL, MLS, and WNBA games with score-hidden cards, embedded highlights, and a unified news view spanning ESPN, MLB.com, NBA.com, and Reddit — without spoiling outcomes you haven't watched. Built with vanilla JS, Capacitor for iOS, Vercel serverless prebake crons, and hls.js inline playback.
+                                -->
+                                <p>
+                                    Watch sports highlights without seeing the score. Covers MLB, NBA, NHL, and more with score-hidden cards, embedded highlights, and a unified news view — without spoiling anything you haven't watched.
+                                </p>
+                        </div>
+                    </div>
+
+                    <div class="work__img"> <!-- Subway Times -->
+                        <a href="https://subwaytimes.com" target="_blank" rel="noopener noreferrer">
+                            <img src="assets/img/subway_times.png" alt="Subway Times" style="object-fit: cover; background: #0f0f0f;">
+                        </a>
+                        <div class="work__description">
+                            <center>
+                                <h3>
+                                    <span class="live-dot" aria-label="Live"></span>Subway Times
+                                </h3>
+                                <!-- PRIORITY REVISIT — previous description (with tech line) saved 2026-05-11:
+                                Quicker than Google Maps for simple departures, especially for your favorited home station. Real-time NYC subway arrivals in a clean PWA — favorite your stations, see countdown timers, and get out the door faster. Built with MTA GTFS-RT feeds, vanilla JS, and Vercel serverless functions.
+                                -->
+                                <p>
+                                    Quicker than Google Maps for simple departures, especially from your home station. Real-time NYC subway arrivals, where you can favorite your stations, see countdown timers down to the second, and get out the door faster.
+                                </p>
+                            </center>
+                        </div>
+                    </div>
 
                     <div class="work__img"> <!-- Spotify Analytics -->
                         <!-- <a href=""> -->
@@ -734,40 +792,6 @@
                                 <p>
                                     Native SwiftUI iOS app for watching Detroit Tigers game highlights without score spoilers. Integrates MLB Stats API for real schedules, YouTube Data API and MLB Film Room for video highlights, with background refresh, video preloading, WKWebView player, and Keychain storage (Swift, 1,774 lines).
                                 </p>
-                        </div>
-                    </div>
-                    -->
-
-                    <!-- Tonight NYC (ready to uncomment when screenshot is added)
-                    Tagline: "No more digging for showtimes — stick to your favorite comedians."
-                    <div class="work__img">
-                            <img src="assets/img/cellar_tonight.png" alt="Tonight NYC" style="object-fit: cover; background: #0f0f0f;">
-                        <div class="work__description">
-                            <center>
-                                <h3>
-                                    Tonight NYC
-                                </h3>
-                                <p>
-                                    No more digging for showtimes — stick to your favorite comedians. Every NYC comedy show from the Comedy Cellar, The Stand, and more, filtered your way. Mark favorites and skips, see which set to attend at a glance, and book directly. Built with vanilla JS, Vercel serverless proxy, and localStorage personalization.
-                                </p>
-                            </center>
-                        </div>
-                    </div>
-                    -->
-
-                    <!-- Subway Times (ready to uncomment when screenshot is added)
-                    Tagline: "Quicker than Google Maps for simply departures, especially for your favorited home station."
-                    <div class="work__img">
-                            <img src="assets/img/subway_times.png" alt="Subway Times" style="object-fit: cover; background: #0f0f0f;">
-                        <div class="work__description">
-                            <center>
-                                <h3>
-                                    Subway Times
-                                </h3>
-                                <p>
-                                    Quicker than Google Maps for simple departures, especially for your favorited home station. Real-time NYC subway arrivals in a clean PWA — favorite your stations, see countdown timers, and get out the door faster. Built with MTA GTFS-RT feeds, vanilla JS, and Vercel serverless functions.
-                                </p>
-                            </center>
                         </div>
                     </div>
                     -->
