@@ -311,6 +311,7 @@ body {
   font-size: var(--normal-font-size);
   color: var(--second-color);
   transition: background-color 0.3s ease, color 0.3s ease;
+  overflow-x: hidden;
 }
 
 h1, h2, p {
@@ -369,8 +370,8 @@ img {
 .bd-grid {
   max-width: 1024px;
   display: grid;
-  margin-left: var(--mb-2);
-  margin-right: var(--mb-2);
+  margin-left: 1.5rem;
+  margin-right: 1.5rem;
 }
 
 .l-header {
@@ -788,7 +789,7 @@ img {
 }
 
 /* ===== MEDIA QUERIES=====*/
-@media screen and (max-width: 575px) {
+@media screen and (max-width: 767px) {
   .home {
     row-gap: 2rem;
     text-align: center;
