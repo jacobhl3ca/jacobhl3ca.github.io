@@ -6,6 +6,16 @@
         <link rel="stylesheet" href="assets/css/styles.css">
         <link rel="icon" type="image/x-icon" href="assets/img/favicon.ico">
         <link href='https://cdn.jsdelivr.net/npm/boxicons@2.0.5/css/boxicons.min.css' rel='stylesheet'> <!-- icons -->
+        <script>
+            // Default view = projects-only (set before paint to avoid flash); honor saved preference.
+            try {
+                if (localStorage.getItem('viewMode') !== 'full') {
+                    document.documentElement.classList.add('projects-only');
+                }
+            } catch (e) {
+                document.documentElement.classList.add('projects-only');
+            }
+        </script>
         <title>Jacob Heifetz-Licht</title>
         <meta name="description" content="Data analytics leader and web developer specializing in Python, SQL, Tableau, React, and Next.js. Turning data into things people actually use.">
         <meta name="keywords" content="analytics manager, data analytics, Python, SQL, Tableau, automation, dashboard design, data visualization, ETL, BigQuery, JavaScript, React, Node.js, Next.js, web development">
@@ -316,6 +326,9 @@
                     </ul>
                 </div>
                 <div style="display: flex; align-items: center;">
+                    <button id="view-toggle" class="view-toggle is-active" aria-pressed="true" aria-label="Toggle projects-only view" title="Showing projects only — tap for the full site" style="position: relative; top: -2px;">
+                        <i class='bx bx-grid-alt'></i>
+                    </button>
                     <button id="theme-toggle" class="theme-toggle" style="position: relative; top: -2px;">
                         <i class='bx bx-sun' id="theme-icon"></i>
                     </button>

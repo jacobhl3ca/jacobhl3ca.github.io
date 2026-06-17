@@ -173,6 +173,51 @@
   color: #fff;
 }
 
+/* ===== Projects-only view toggle (mirrors .theme-toggle) ===== */
+.view-toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.25rem;
+  height: 2.25rem;
+  padding: 0;
+  background: none;
+  border: none;
+  color: var(--second-color);
+  font-size: 1.2rem;
+  cursor: pointer;
+  border-radius: 50%;
+  transition: background-color 0.2s ease, color 0.2s ease;
+  margin-left: 0.25rem;
+  outline: none;
+}
+.view-toggle:hover,
+.view-toggle.is-active {
+  background-color: var(--first-color);
+  color: #fff;
+}
+.view-toggle:focus-visible {
+  outline: 2px solid var(--first-color);
+  outline-offset: 2px;
+}
+[data-theme="dark"] .view-toggle {
+  color: #e0e0e0;
+}
+[data-theme="dark"] .view-toggle:hover,
+[data-theme="dark"] .view-toggle.is-active {
+  background-color: var(--first-color);
+  color: #fff;
+}
+/* When projects-only is active, show just the Projects section */
+html.projects-only #home,
+html.projects-only #about,
+html.projects-only #skills,
+html.projects-only #contact,
+html.projects-only #nav-menu,
+html.projects-only #nav-toggle {
+  display: none;
+}
+
 /* Password Modal Styles */
 .password-modal {
   display: none;
