@@ -69,27 +69,24 @@ window.onclick = function(event) {
 }
 */
 
-/*===== VIEW TOGGLE (projects-only / full site) =====*/
-const viewToggle = document.getElementById('view-toggle');
-if (viewToggle) {
+/*===== VIEW PILL (projects-only / full site) =====*/
+const viewPill = document.getElementById('view-pill');
+if (viewPill) {
+    const pillBtns = viewPill.querySelectorAll('.view-pill__btn');
     const applyView = (mode) => {
         const projectsOnly = mode !== 'full';
         document.documentElement.classList.toggle('projects-only', projectsOnly);
-        viewToggle.classList.toggle('is-active', projectsOnly);
-        viewToggle.setAttribute('aria-pressed', String(projectsOnly));
-        viewToggle.title = projectsOnly
-            ? 'Showing projects only — tap for the full site'
-            : 'Showing full site — tap for projects only';
+        pillBtns.forEach((b) => b.classList.toggle('is-active', (b.dataset.view === 'full') ? !projectsOnly : projectsOnly));
     };
     // Default = projects-only; honor saved preference.
     applyView(localStorage.getItem('viewMode') === 'full' ? 'full' : 'projects');
-    viewToggle.addEventListener('click', () => {
-        const next = document.documentElement.classList.contains('projects-only') ? 'full' : 'projects';
-        localStorage.setItem('viewMode', next);
-        applyView(next);
-        viewToggle.blur();
-        if (next === 'full') window.scrollTo(0, 0);
-    });
+    pillBtns.forEach((b) => b.addEventListener('click', () => {
+        const mode = b.dataset.view === 'full' ? 'full' : 'projects';
+        localStorage.setItem('viewMode', mode);
+        applyView(mode);
+        b.blur();
+        if (mode === 'full') window.scrollTo(0, 0);
+    }));
 }
 
 /*===== THEME TOGGLE =====*/
