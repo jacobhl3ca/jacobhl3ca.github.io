@@ -175,10 +175,13 @@
 
 /* ===== View pill: Projects | Full site (centered in the header) ===== */
 .view-pill {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
   display: inline-flex;
   gap: 2px;
   padding: 3px;
-  margin-right: 0.6rem;
   background: #f5f6fa;
   border: 1px solid rgba(0, 0, 0, 0.045);
   border-radius: 999px;
@@ -216,13 +219,14 @@
 [data-theme="dark"] .view-pill__btn.is-active {
   color: #fff;
 }
-/* Projects-only hides the nav links, so center the pill in the bar */
-html.projects-only .view-pill {
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  transform: translate(-50%, -50%);
-  margin: 0;
+/* Pill is centered by default (small screens + projects-only). On wider screens the nav
+   links show inline, so in Full-site view move the pill to the right of them. */
+@media screen and (min-width: 768px) {
+  html:not(.projects-only) .view-pill {
+    position: static;
+    transform: none;
+    margin-right: 0.6rem;
+  }
 }
 @media screen and (max-width: 480px) {
   .view-pill__btn { padding: 5px 12px; }
@@ -231,6 +235,7 @@ html.projects-only .view-pill {
 html.projects-only #home,
 html.projects-only #about,
 html.projects-only #skills,
+html.projects-only #contact,
 html.projects-only #nav-menu,
 html.projects-only #nav-toggle {
   display: none;
