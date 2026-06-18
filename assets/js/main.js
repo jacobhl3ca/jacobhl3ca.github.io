@@ -118,7 +118,9 @@ if (currentTheme === 'light') {
 }
 
 themeToggle.addEventListener('click', () => {
-    const currentTheme = document.documentElement.getAttribute('data-theme');
+    const root = document.documentElement;
+    root.classList.add('theme-switching'); // make the swap instant (no color-transition lag)
+    const currentTheme = root.getAttribute('data-theme');
 
     if (currentTheme === 'dark') {
         document.documentElement.removeAttribute('data-theme');
@@ -132,6 +134,7 @@ themeToggle.addEventListener('click', () => {
         setThemeImages('dark');
     }
     themeToggle.blur();
+    requestAnimationFrame(() => requestAnimationFrame(() => root.classList.remove('theme-switching')));
 });
 
 /*==================== REMOVE MENU MOBILE ====================*/

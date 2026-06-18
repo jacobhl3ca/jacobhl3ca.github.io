@@ -915,6 +915,10 @@ img {
 [data-theme="dark"] .contact__input::placeholder {
   color: #7c8190;
 }
+/* Instant theme switch — suppress transitions only while toggling so colors swap immediately */
+html.theme-switching * {
+  transition: none !important;
+}
 .contact__button {
   display: block;
   border: none;
