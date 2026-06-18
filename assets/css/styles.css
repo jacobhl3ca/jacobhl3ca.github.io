@@ -906,6 +906,14 @@ img {
   outline: none;
   margin-bottom: var(--mb-4);
 }
+.contact__input::placeholder {
+  color: #9aa0ab;
+  font-weight: 400;
+  opacity: 1;
+}
+[data-theme="dark"] .contact__input::placeholder {
+  color: #7c8190;
+}
 .contact__button {
   display: block;
   border: none;
