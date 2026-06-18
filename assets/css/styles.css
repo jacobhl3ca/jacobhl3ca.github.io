@@ -175,18 +175,14 @@
 
 /* ===== View pill: Projects | Full site (centered in the header) ===== */
 .view-pill {
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  transform: translate(-50%, -50%);
   display: inline-flex;
   gap: 2px;
   padding: 3px;
-  background: #eef0f6;
-  border: 1px solid rgba(0, 0, 0, 0.06);
+  margin-right: 0.6rem;
+  background: #f5f6fa;
+  border: 1px solid rgba(0, 0, 0, 0.045);
   border-radius: 999px;
   z-index: var(--z-fixed);
-  box-shadow: 0 1px 6px rgba(0, 0, 0, 0.06);
 }
 .view-pill__btn {
   border: none;
@@ -196,7 +192,8 @@
   font-size: var(--smaller-font-size);
   font-weight: var(--font-semi);
   color: var(--second-color);
-  padding: 6px 16px;
+  padding: 5px 14px;
+  line-height: 1.45;
   border-radius: 999px;
   white-space: nowrap;
   transition: background-color 0.25s ease, color 0.25s ease;
@@ -219,8 +216,16 @@
 [data-theme="dark"] .view-pill__btn.is-active {
   color: #fff;
 }
+/* Projects-only hides the nav links, so center the pill in the bar */
+html.projects-only .view-pill {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  margin: 0;
+}
 @media screen and (max-width: 480px) {
-  .view-pill__btn { padding: 5px 11px; }
+  .view-pill__btn { padding: 5px 12px; }
 }
 /* When projects-only is active, show just Projects (+ Contact) */
 html.projects-only #home,
@@ -451,6 +456,7 @@ img {
 
 /*===== NAV =====*/
 .nav {
+  position: relative;
   height: var(--header-height);
   display: flex;
   justify-content: space-between;
