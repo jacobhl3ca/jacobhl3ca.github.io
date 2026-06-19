@@ -231,6 +231,11 @@
 @media screen and (max-width: 480px) {
   .view-pill__btn { padding: 5px 12px; }
 }
+/* Small-screen header: Poppins text sits a hair high vs the icons — nudge text down so all align */
+@media screen and (max-width: 767px) {
+  .nav__logo { position: relative; top: 1px; }
+  .view-pill__btn { position: relative; top: 1px; }
+}
 /* When projects-only is active, show just Projects (+ Contact) */
 html.projects-only #home,
 html.projects-only #about,
