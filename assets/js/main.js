@@ -575,7 +575,7 @@ function handleSkillsClick(e) {
 })();
 
 /*===== SECTION NAVIGATION (scroll arrows) =====*/
-const sectionIds = ['home', 'about', 'skills', 'Projects', 'contact'];
+const sectionIds = ['home', 'about', 'Projects', 'skills', 'contact'];
 const scrollDownBtn = document.getElementById('scrollDown');
 const backToTop = document.getElementById('backToTop');
 
@@ -595,7 +595,7 @@ let lastSectionIdx = -1;
 
 function getDownArrowDelay(idx) {
     if (idx === 0) return 3000;
-    if (idx === 3) return 10000;
+    if (idx === 2) return 10000;
     return 8000;
 }
 
