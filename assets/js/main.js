@@ -108,10 +108,12 @@ function setThemeImages(theme) {
 if (currentTheme === 'light') {
     document.documentElement.removeAttribute('data-theme');
     themeIcon.classList.replace('bx-sun', 'bx-moon');
+    themeToggle.setAttribute('aria-label', 'Switch to dark mode');
     setThemeImages('light');
 } else {
     document.documentElement.setAttribute('data-theme', 'dark');
     themeIcon.classList.replace('bx-moon', 'bx-sun');
+    themeToggle.setAttribute('aria-label', 'Switch to light mode');
     if (currentTheme !== 'dark') {
         localStorage.setItem('theme', 'dark');
     }
@@ -125,11 +127,13 @@ themeToggle.addEventListener('click', () => {
     if (currentTheme === 'dark') {
         document.documentElement.removeAttribute('data-theme');
         themeIcon.classList.replace('bx-sun', 'bx-moon');
+        themeToggle.setAttribute('aria-label', 'Switch to dark mode');
         localStorage.setItem('theme', 'light');
         setThemeImages('light');
     } else {
         document.documentElement.setAttribute('data-theme', 'dark');
         themeIcon.classList.replace('bx-moon', 'bx-sun');
+        themeToggle.setAttribute('aria-label', 'Switch to light mode');
         localStorage.setItem('theme', 'dark');
         setThemeImages('dark');
     }
