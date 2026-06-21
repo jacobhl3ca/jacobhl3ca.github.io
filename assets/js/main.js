@@ -371,6 +371,7 @@ function megaExplosion() {
 
 /*===== AUTO-FIRE: hold mousedown = accelerating confetti =====*/
 function setupAutoFire(el) {
+    if (!el) return; // photo only exists on the homepage
     let autoFireTimer = null;
     let autoFireDelay = 300;
     let mouseX = 0;
@@ -524,6 +525,7 @@ function handleSkillsClick(e) {
 
 (function() {
     const el = document.getElementById('skills-photo');
+    if (!el) return; // photo only exists on the homepage
     let autoFireTimer = null;
     let autoFireDelay = 350;
     let mouseX = 0, mouseY = 0;
@@ -607,6 +609,7 @@ function getDownArrowDelay(idx) {
 }
 
 function startDownArrowTimer() {
+    if (!scrollDownBtn) return; // scroll arrows only exist on the homepage
     clearTimeout(downArrowTimer);
     scrollDownBtn.classList.remove('visible');
     const idx = getCurrentSectionIndex();
@@ -623,6 +626,7 @@ startDownArrowTimer();
 
 let backToTopTimer = null;
 window.addEventListener('scroll', () => {
+    if (!scrollDownBtn || !backToTop) return; // scroll arrows only exist on the homepage
     const idx = getCurrentSectionIndex();
     const atContact = idx >= sectionIds.length - 1;
 
@@ -659,14 +663,14 @@ window.addEventListener('scroll', () => {
     }
 });
 
-scrollDownBtn.addEventListener('click', () => {
+if (scrollDownBtn) scrollDownBtn.addEventListener('click', () => {
     const idx = getCurrentSectionIndex();
     const nextIdx = Math.min(idx + 1, sectionIds.length - 1);
     const target = document.getElementById(sectionIds[nextIdx]);
     if (target) target.scrollIntoView({ behavior: 'smooth' });
 });
 
-backToTop.addEventListener('click', () => {
+if (backToTop) backToTop.addEventListener('click', () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
 });
 
