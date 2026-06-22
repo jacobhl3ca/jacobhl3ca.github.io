@@ -137,6 +137,12 @@ body {
 .spinner { display:inline-block; width:24px; height:24px; border:3px solid var(--card-border); border-top-color:var(--accent); border-radius:50%; animation:spin .8s linear infinite; margin-bottom:12px; }
 @keyframes spin { to { transform:rotate(360deg); } }
 
+/* Respect users who prefer reduced motion: stop the looping spinner and ease off transitions */
+@media (prefers-reduced-motion: reduce) {
+  .spinner { animation: none; }
+  .search-bar input, .search-bar button, .sun-dot { transition: none; }
+}
+
 .aqi-bar { display:flex; height:8px; border-radius:4px; overflow:hidden; margin-top:8px; gap:2px; }
 .aqi-seg { flex:1; border-radius:4px; }
 </style>
