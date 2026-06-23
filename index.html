@@ -640,9 +640,9 @@
                 <div class="proj-wrap">
                     <div id="main-rows"></div>
 
-                    <button class="more-toggle" id="moreToggle">
+                    <button class="more-toggle" id="moreToggle" aria-expanded="false" aria-controls="moreWrap">
                         <span id="moreLabel">Private projects</span>
-                        <i class='bx bx-chevron-down'></i>
+                        <i class='bx bx-chevron-down' aria-hidden="true"></i>
                     </button>
                     <div class="more-wrap" id="moreWrap"><div class="more-inner"><div class="padtop">
                         <div id="more-rows"></div>
@@ -1036,6 +1036,7 @@ document.addEventListener('keydown', e=>{ if(e.key==='Escape'){ if(modal.classLi
 const mt=document.getElementById('moreToggle'), mw=document.getElementById('moreWrap'), ml=document.getElementById('moreLabel');
 mt.addEventListener('click', ()=>{
   const open=mw.classList.toggle('open'); mt.classList.toggle('open',open);
+  mt.setAttribute('aria-expanded', open); // mirror collapsed/expanded state to assistive tech
   ml.textContent = open ? 'Hide private projects' : 'Private projects';
 });
 })();
