@@ -917,7 +917,7 @@ function rowHTML(p){
   return `
   <div class="proj-row">
     <div class="proj-head">
-      <div class="proj-thumb ${thumbCls}" ${p.live?`data-url="${p.url}"`:''}>
+      <div class="proj-thumb ${thumbCls}" ${p.live?`data-url="${p.url}" role="button" tabindex="0" aria-label="Open live preview of ${p.title}"`:''}>
         <img src="${p.img}" alt="${p.title}" loading="lazy">
         <div class="proj-cue"><span><i class='bx bx-expand-alt'></i> Preview</span></div>
       </div>
@@ -992,7 +992,11 @@ function minimize(){
 function setFullscreen(on){ modal.classList.toggle('fullscreen', on); }
 frame.addEventListener('load', ()=>{ if(frame.src && !frame.src.endsWith('about:blank')){ mLoad.classList.add('hidden'); clearTimeout(loadTimer);} });
 
-document.querySelectorAll('.proj-thumb[data-url]').forEach(t=> t.addEventListener('click', ()=>openModal(t.dataset.url, t)));
+document.querySelectorAll('.proj-thumb[data-url]').forEach(t=>{
+  t.addEventListener('click', ()=>openModal(t.dataset.url, t));
+  // keyboard users: live thumbnails act as buttons, so Enter/Space opens the preview too
+  t.addEventListener('keydown', e=>{ if(e.key==='Enter'||e.key===' '){ e.preventDefault(); openModal(t.dataset.url, t); } });
+});
 // functional window controls
 document.getElementById('dotClose').addEventListener('click', closeModal);
 document.getElementById('modalClose').addEventListener('click', closeModal);
