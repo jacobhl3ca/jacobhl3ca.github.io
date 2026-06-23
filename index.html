@@ -907,7 +907,7 @@ function ctaHTML(p){
   let h='';
   if(p.site) h+=`<a href="${p.site}" target="_blank" rel="noopener" class="site-link" title="Visit website"><i class='bx bx-globe'></i></a>`;
   if(p.appstore) h+=`<a href="${p.appstore}" target="_blank" rel="noopener" class="app-store-badge-link"><img src="assets/img/app-store-badge.svg" alt="Download on the App Store" class="app-store-badge"></a>`;
-  if(p.download) h+=`<a href="${p.download}" class="gh-link dl-link" title="Download TabTidy for macOS (.dmg, notarized)"><i class='bx bxl-apple'></i>Download for Mac</a>`;
+  if(p.download) h+=`<a href="${p.download}" class="gh-link dl-link" title="Download TidyTab for macOS (.dmg, notarized)"><i class='bx bxl-apple'></i>Download for Mac</a>`;
   if(p.github) h+=`<a href="${p.github}" target="_blank" rel="noopener" class="gh-link"><i class='bx bxl-github'></i>GitHub</a>`;
   return h ? `<div class="work__cta">${h}</div>` : '';
 }
