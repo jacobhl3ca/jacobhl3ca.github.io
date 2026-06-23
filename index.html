@@ -417,8 +417,7 @@
     color:rgba(0,0,0,.5);font-family:-apple-system,BlinkMacSystemFont,sans-serif;
     box-shadow:inset 0 0 0 0.5px rgba(0,0,0,.12);}  /* subtle ring like the real macOS dots */
   .dot.red{background:#ff5f57;}.dot.yellow{background:#febc2e;}.dot.green{background:#28c840;}
-  .dots .dot span{opacity:0;transition:opacity .12s ease;}
-  .modal-bar:hover .dots .dot span{opacity:1;}  /* glyphs appear on hover, exactly like macOS */
+  .dots .dot span{display:none;}  /* clean solid dots (no glyphs), matching the reference */
   .nav-btn{flex:0 0 auto;width:30px;height:30px;border-radius:6px;border:1px solid #2a3242;background:#1a1f29;
     color:#9aa3b4;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .2s ease;}
   .nav-btn:hover{color:#fff;border-color:#3a445a;}
