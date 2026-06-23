@@ -926,7 +926,7 @@ function rowHTML(p){
         <p class="proj-one">${p.one}</p>
         ${ctaHTML(p)}
       </div>
-      <button class="proj-chev" aria-label="Show details"><i class='bx bx-chevron-down'></i></button>
+      <button class="proj-chev" aria-label="Show details" aria-expanded="false"><i class='bx bx-chevron-down'></i></button>
     </div>
     <div class="proj-detail"><div class="proj-detail-in"><div class="pad">
       <p>${p.full}</p>
@@ -943,7 +943,9 @@ document.querySelectorAll('.proj-head').forEach(h=>{
   h.addEventListener('click', e=>{
     if(e.target.closest('.proj-thumb[data-url]')) return; // only LIVE thumbnails open the preview
     if(e.target.closest('a')) return;                     // let the site / App Store links work
-    h.closest('.proj-row').classList.toggle('open');
+    const open = h.closest('.proj-row').classList.toggle('open');
+    const chev = h.querySelector('.proj-chev');
+    if(chev) chev.setAttribute('aria-expanded', open); // mirror collapsed/expanded state to assistive tech
   });
 });
 
