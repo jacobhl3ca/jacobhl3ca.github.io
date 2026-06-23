@@ -4,8 +4,19 @@ const showMenu = (toggleId, navId) =>{
     nav = document.getElementById(navId)
 
     if(toggle && nav){
-        toggle.addEventListener('click', ()=>{
-            nav.classList.toggle('show')
+        // The toggle is a div[role=button]; make it keyboard-operable and announce its open/closed state.
+        if(!toggle.hasAttribute('tabindex')) toggle.setAttribute('tabindex', '0')
+        toggle.setAttribute('aria-expanded', nav.classList.contains('show') ? 'true' : 'false')
+        const toggleMenu = ()=>{
+            const open = nav.classList.toggle('show')
+            toggle.setAttribute('aria-expanded', open ? 'true' : 'false')
+        }
+        toggle.addEventListener('click', toggleMenu)
+        toggle.addEventListener('keydown', (e)=>{
+            if(e.key === 'Enter' || e.key === ' '){
+                e.preventDefault()
+                toggleMenu()
+            }
         })
     }
 }
@@ -148,6 +159,9 @@ function linkAction(){
     const navMenu = document.getElementById('nav-menu')
     // When we click on each nav__link, we remove the show-menu class
     navMenu.classList.remove('show')
+    // Keep the toggle's announced state in sync now that the menu is closed.
+    const navToggle = document.getElementById('nav-toggle')
+    if(navToggle) navToggle.setAttribute('aria-expanded', 'false')
 }
 navLink.forEach(n => n.addEventListener('click', linkAction))
 
