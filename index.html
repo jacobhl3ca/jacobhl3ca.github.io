@@ -843,14 +843,14 @@
         <button class="dot yellow" id="dotMin" title="Minimize"><span>−</span></button>
         <button class="dot green" id="dotExpand" title="Expand to full screen"><span>⤢</span></button>
       </div>
-      <button class="nav-btn" id="navBack" title="Back" style="display:none;"><i class='bx bx-chevron-left'></i></button>
-      <button class="nav-btn" id="navReload" title="Reload"><i class='bx bx-revision'></i></button>
+      <button class="nav-btn" id="navBack" title="Back" style="display:none;"><i class='bx bx-chevron-left' aria-hidden="true"></i></button>
+      <button class="nav-btn" id="navReload" title="Reload"><i class='bx bx-revision' aria-hidden="true"></i></button>
       <form class="url-form" id="urlForm"><input class="modal-url" id="modalUrl" type="text" spellcheck="false" autocomplete="off" aria-label="Preview address"></form>
-      <a class="openext" id="modalOpen" target="_blank" rel="noopener" title="Open in new tab"><i class='bx bx-link-external'></i></a>
+      <a class="openext" id="modalOpen" target="_blank" rel="noopener" title="Open in new tab"><i class='bx bx-link-external' aria-hidden="true"></i></a>
       <button class="mclose" id="modalClose" title="Close">×</button>
     </div>
     <div class="modal-body">
-      <button class="fs-back" id="fsBack" title="Back to projects"><i class='bx bx-arrow-back'></i> Back</button>
+      <button class="fs-back" id="fsBack" title="Back to projects"><i class='bx bx-arrow-back' aria-hidden="true"></i> Back</button>
       <div class="modal-load" id="modalLoad"><div class="spin"></div><span id="modalLoadTxt">Loading preview…</span></div>
       <iframe class="modal-frame" id="modalFrame" title="Live preview" referrerpolicy="no-referrer-when-downgrade"></iframe>
     </div>
@@ -922,11 +922,11 @@ function ctaHTML(p){
   let h='';
   if(p.site){ const _d=(()=>{try{return new URL(p.site).hostname.replace(/^www\./,'')}catch(e){return ''}})();
     const _fav = USE_FAVICONS && FAVICONS[_d];
-    const _inner = _fav ? `<img class="favicon" src="${_fav}" alt="" loading="lazy">` : `<i class='bx bx-globe'></i>`;
+    const _inner = _fav ? `<img class="favicon" src="${_fav}" alt="" loading="lazy">` : `<i class='bx bx-globe' aria-hidden="true"></i>`;
     h+=`<a href="${p.site}" target="_blank" rel="noopener" class="site-link" title="Visit website" aria-label="Visit the ${p.title} website">${_inner}</a>`; }
   if(p.appstore) h+=`<a href="${p.appstore}" target="_blank" rel="noopener" class="app-store-badge-link"><img src="assets/img/app-store-badge.svg" alt="Download on the App Store" class="app-store-badge"></a>`;
-  if(p.download) h+=`<a href="${p.download}" class="gh-link dl-link" title="Download TidyTab for macOS (.dmg, notarized)"><i class='bx bxl-apple'></i>Download for Mac</a>`;
-  if(p.github) h+=`<a href="${p.github}" target="_blank" rel="noopener" class="gh-link"><i class='bx bxl-github'></i>GitHub</a>`;
+  if(p.download) h+=`<a href="${p.download}" class="gh-link dl-link" title="Download TidyTab for macOS (.dmg, notarized)"><i class='bx bxl-apple' aria-hidden="true"></i>Download for Mac</a>`;
+  if(p.github) h+=`<a href="${p.github}" target="_blank" rel="noopener" class="gh-link"><i class='bx bxl-github' aria-hidden="true"></i>GitHub</a>`;
   return h ? `<div class="work__cta">${h}</div>` : '';
 }
 function rowHTML(p){
@@ -937,14 +937,14 @@ function rowHTML(p){
     <div class="proj-head">
       <div class="proj-thumb ${thumbCls}" ${p.live?`data-url="${p.url}" role="button" tabindex="0" aria-label="Open live preview of ${p.title}"`:''}>
         <img src="${p.img}" alt="${p.title}" loading="lazy">
-        <div class="proj-cue"><span><i class='bx bx-expand-alt'></i> Preview</span></div>
+        <div class="proj-cue"><span><i class='bx bx-expand-alt' aria-hidden="true"></i> Preview</span></div>
       </div>
       <div class="proj-info">
         <h3 class="proj-title">${dot}${p.title}</h3>
         <p class="proj-one">${p.one}</p>
         ${ctaHTML(p)}
       </div>
-      <button class="proj-chev" aria-label="Show details" aria-expanded="false"><i class='bx bx-chevron-down'></i></button>
+      <button class="proj-chev" aria-label="Show details" aria-expanded="false"><i class='bx bx-chevron-down' aria-hidden="true"></i></button>
     </div>
     <div class="proj-detail"><div class="proj-detail-in"><div class="pad">
       <p>${p.full}</p>
