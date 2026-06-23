@@ -903,10 +903,21 @@ const MORE = [
     full:"Self-hosted web apps and network services on a Linux server — Plex media automation stack, Portainer, and Plausible Analytics (Docker, Docker Compose, PostgreSQL, ClickHouse)." },
 ];
 
+// Locally-hosted real favicons for the site CTA. Set USE_FAVICONS=false to revert to the globe.
+const USE_FAVICONS = true;
+const FAVICONS = {
+  'hidescore.com':  'assets/img/favicons/hidescore.png',
+  'tonightnyc.com': 'assets/img/favicons/tonightnyc.png',
+  'subwaytimes.com':'assets/img/favicons/subwaytimes.png',
+  'davidlicht.com': 'assets/img/favicons/davidlicht.png',
+  'theisland.nyc':  'assets/img/favicons/theisland.png',
+};
 function ctaHTML(p){
   let h='';
-  if(p.site){ const _d=(()=>{try{return new URL(p.site).hostname}catch(e){return ''}})();
-    h+=`<a href="${p.site}" target="_blank" rel="noopener" class="site-link" title="Visit website"><img class="favicon" src="https://www.google.com/s2/favicons?domain=${_d}&sz=64" alt="" loading="lazy"></a>`; }
+  if(p.site){ const _d=(()=>{try{return new URL(p.site).hostname.replace(/^www\./,'')}catch(e){return ''}})();
+    const _fav = USE_FAVICONS && FAVICONS[_d];
+    const _inner = _fav ? `<img class="favicon" src="${_fav}" alt="" loading="lazy">` : `<i class='bx bx-globe'></i>`;
+    h+=`<a href="${p.site}" target="_blank" rel="noopener" class="site-link" title="Visit website">${_inner}</a>`; }
   if(p.appstore) h+=`<a href="${p.appstore}" target="_blank" rel="noopener" class="app-store-badge-link"><img src="assets/img/app-store-badge.svg" alt="Download on the App Store" class="app-store-badge"></a>`;
   if(p.download) h+=`<a href="${p.download}" class="gh-link dl-link" title="Download TabTidy for macOS (.dmg, notarized)"><i class='bx bxl-apple'></i>Download for Mac</a>`;
   if(p.github) h+=`<a href="${p.github}" target="_blank" rel="noopener" class="gh-link"><i class='bx bxl-github'></i>GitHub</a>`;
