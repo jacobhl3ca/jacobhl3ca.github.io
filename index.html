@@ -367,6 +367,7 @@
   .gh-link:hover{background:var(--first-color);color:#fff;border-color:var(--first-color);transform:translateY(-2px);}
   [data-theme="dark"] .gh-link{color:#e0e0e0;}
   .gh-link i{font-size:1.35rem;}
+  .site-link img.favicon{width:20px;height:20px;border-radius:4px;display:block;}
   /* download button stands out (filled accent) */
   .dl-link, [data-theme="dark"] .dl-link{background:var(--first-color);color:#fff;border-color:var(--first-color);}
   .dl-link:hover{filter:brightness(1.08);background:var(--first-color);color:#fff;transform:translateY(-2px);}
@@ -633,7 +634,7 @@
                     <div id="main-rows"></div>
 
                     <button class="more-toggle" id="moreToggle">
-                        <span id="moreLabel">Other projects</span>
+                        <span id="moreLabel">Private projects</span>
                         <i class='bx bx-chevron-down'></i>
                     </button>
                     <div class="more-wrap" id="moreWrap"><div class="more-inner"><div class="padtop">
@@ -891,10 +892,12 @@ const MORE = [
   { title:"E-commerce Store", img:"assets/img/stripe_dark.svg",
     one:"Full-stack store with Stripe checkout.",
     full:"Full-stack e-commerce site with Stripe payment processing and an Express.js backend (Node.js, Stripe API, HTML/CSS/JS)." },
+  /* Automation Utilities — hidden for now (TidyTab is its own row); restore by uncommenting:
   { title:"Automation Utilities", img:"assets/img/automation_dark.svg",
     one:"macOS automation suite — system toggles, timesheet autofill, and more.",
     full:"macOS productivity automation suite including timesheet autofill via keystroke injection, system toggles (menu bar hide/show, dark/light mode, VPN connect/disconnect), keyboard backlight control, dock spacer grouping, and game re-roll automation (Python, AppleScript, Bash, PyAutoGUI). The Safari pinned-tab tool from this suite ships separately as TidyTab.",
     github:"https://github.com/jacobhl3ca/safari-pinned-tab-automation" },
+  */
   { title:"System Administration", img:"assets/img/docker_dark.png",
     one:"Self-hosted apps & services on a Linux server.",
     full:"Self-hosted web apps and network services on a Linux server — Plex media automation stack, Portainer, and Plausible Analytics (Docker, Docker Compose, PostgreSQL, ClickHouse)." },
@@ -902,7 +905,8 @@ const MORE = [
 
 function ctaHTML(p){
   let h='';
-  if(p.site) h+=`<a href="${p.site}" target="_blank" rel="noopener" class="site-link" title="Visit website"><i class='bx bx-globe'></i></a>`;
+  if(p.site){ const _d=(()=>{try{return new URL(p.site).hostname}catch(e){return ''}})();
+    h+=`<a href="${p.site}" target="_blank" rel="noopener" class="site-link" title="Visit website"><img class="favicon" src="https://www.google.com/s2/favicons?domain=${_d}&sz=64" alt="" loading="lazy"></a>`; }
   if(p.appstore) h+=`<a href="${p.appstore}" target="_blank" rel="noopener" class="app-store-badge-link"><img src="assets/img/app-store-badge.svg" alt="Download on the App Store" class="app-store-badge"></a>`;
   if(p.download) h+=`<a href="${p.download}" class="gh-link dl-link" title="Download TabTidy for macOS (.dmg, notarized)"><i class='bx bxl-apple'></i>Download for Mac</a>`;
   if(p.github) h+=`<a href="${p.github}" target="_blank" rel="noopener" class="gh-link"><i class='bx bxl-github'></i>GitHub</a>`;
@@ -1008,7 +1012,7 @@ document.addEventListener('keydown', e=>{ if(e.key==='Escape'){ if(modal.classLi
 const mt=document.getElementById('moreToggle'), mw=document.getElementById('moreWrap'), ml=document.getElementById('moreLabel');
 mt.addEventListener('click', ()=>{
   const open=mw.classList.toggle('open'); mt.classList.toggle('open',open);
-  ml.textContent = open ? 'Hide other projects' : 'Other projects';
+  ml.textContent = open ? 'Hide private projects' : 'Private projects';
 });
 })();
     </script>
