@@ -640,9 +640,9 @@
 
                     <!-- The Island card hidden 2026-06-06 — restore from rioc-island-undercon-backup-2026-06-06/jacobhl-island-card.html -->
 
-                    <button class="more-toggle" id="moreToggle">
+                    <button class="more-toggle" id="moreToggle" aria-expanded="false" aria-controls="moreWrap">
                         <span id="moreLabel">Other projects</span>
-                        <i class='bx bx-chevron-down'></i>
+                        <i class='bx bx-chevron-down' aria-hidden="true"></i>
                     </button>
                     <div class="more-wrap" id="moreWrap"><div class="more-inner"><div class="padtop">
                         <div id="more-rows"></div>
@@ -1005,6 +1005,7 @@ document.addEventListener('keydown', e=>{ if(e.key==='Escape'){ if(modal.classLi
 const mt=document.getElementById('moreToggle'), mw=document.getElementById('moreWrap'), ml=document.getElementById('moreLabel');
 mt.addEventListener('click', ()=>{
   const open=mw.classList.toggle('open'); mt.classList.toggle('open',open);
+  mt.setAttribute('aria-expanded', open);
   ml.textContent = open ? 'Hide other projects' : 'Other projects';
 });
 })();
