@@ -417,13 +417,14 @@
   .modal-bar{display:flex;align-items:center;gap:.6rem;padding:.5rem .7rem;background:#11141a;
     border-bottom:1px solid #232a36;}
   /* functional traffic-light dots: red=close, yellow=minimize, green=expand to fullscreen */
-  .modal-bar .dots{display:flex;gap:.45rem;}
-  .modal-bar .dots .dot{width:13px;height:13px;border-radius:50%;border:0;padding:0;cursor:pointer;
-    display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;line-height:1;
-    color:rgba(0,0,0,.55);font-family:var(--body-font);}
+  .modal-bar .dots{display:flex;gap:8px;align-items:center;}
+  .modal-bar .dots .dot{width:12px;height:12px;border-radius:50%;border:0;padding:0;cursor:pointer;
+    display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:600;line-height:1;
+    color:rgba(0,0,0,.5);font-family:-apple-system,BlinkMacSystemFont,sans-serif;
+    box-shadow:inset 0 0 0 0.5px rgba(0,0,0,.12);}  /* subtle ring like the real macOS dots */
   .dot.red{background:#ff5f57;}.dot.yellow{background:#febc2e;}.dot.green{background:#28c840;}
-  .dots .dot span{opacity:0;transition:opacity .15s ease;}
-  .modal-bar:hover .dots .dot span{opacity:1;}
+  .dots .dot span{opacity:0;transition:opacity .12s ease;}
+  .modal-bar:hover .dots .dot span{opacity:1;}  /* glyphs appear on hover, exactly like macOS */
   .nav-btn{flex:0 0 auto;width:30px;height:30px;border-radius:6px;border:1px solid #2a3242;background:#1a1f29;
     color:#9aa3b4;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .2s ease;}
   .nav-btn:hover{color:#fff;border-color:#3a445a;}
@@ -840,7 +841,7 @@
     <div class="modal-bar">
       <div class="dots">
         <button class="dot red" id="dotClose" title="Close"><span>×</span></button>
-        <button class="dot yellow" id="dotMin" title="Minimize"><span>–</span></button>
+        <button class="dot yellow" id="dotMin" title="Minimize"><span>−</span></button>
         <button class="dot green" id="dotExpand" title="Expand to full screen"><span>⤢</span></button>
       </div>
       <button class="nav-btn" id="navBack" title="Back" style="display:none;"><i class='bx bx-chevron-left'></i></button>
@@ -909,10 +910,21 @@ const MORE = [
     full:"Self-hosted web apps and network services on a Linux server — Plex media automation stack, Portainer, and Plausible Analytics (Docker, Docker Compose, PostgreSQL, ClickHouse)." },
 ];
 
+// Locally-hosted real favicons for the site CTA. Set USE_FAVICONS=false to revert to the globe.
+const USE_FAVICONS = true;
+const FAVICONS = {
+  'hidescore.com':  'assets/img/favicons/hidescore.png',
+  'tonightnyc.com': 'assets/img/favicons/tonightnyc.png',
+  'subwaytimes.com':'assets/img/favicons/subwaytimes.png',
+  'davidlicht.com': 'assets/img/favicons/davidlicht.png',
+  'theisland.nyc':  'assets/img/favicons/theisland.png',
+};
 function ctaHTML(p){
   let h='';
-  if(p.site){ const _d=(()=>{try{return new URL(p.site).hostname}catch(e){return ''}})();
-    h+=`<a href="${p.site}" target="_blank" rel="noopener" class="site-link" title="Visit website"><img class="favicon" src="https://www.google.com/s2/favicons?domain=${_d}&sz=64" alt="" loading="lazy"></a>`; }
+  if(p.site){ const _d=(()=>{try{return new URL(p.site).hostname.replace(/^www\./,'')}catch(e){return ''}})();
+    const _fav = USE_FAVICONS && FAVICONS[_d];
+    const _inner = _fav ? `<img class="favicon" src="${_fav}" alt="" loading="lazy">` : `<i class='bx bx-globe'></i>`;
+    h+=`<a href="${p.site}" target="_blank" rel="noopener" class="site-link" title="Visit website">${_inner}</a>`; }
   if(p.appstore) h+=`<a href="${p.appstore}" target="_blank" rel="noopener" class="app-store-badge-link"><img src="assets/img/app-store-badge.svg" alt="Download on the App Store" class="app-store-badge"></a>`;
   if(p.download) h+=`<a href="${p.download}" class="gh-link dl-link" title="Download TidyTab for macOS (.dmg, notarized)"><i class='bx bxl-apple'></i>Download for Mac</a>`;
   if(p.github) h+=`<a href="${p.github}" target="_blank" rel="noopener" class="gh-link"><i class='bx bxl-github'></i>GitHub</a>`;
