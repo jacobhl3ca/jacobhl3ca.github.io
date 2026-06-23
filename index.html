@@ -831,6 +831,9 @@
         <script data-goatcounter="https://jacobhl.goatcounter.com/count"
                 async src="//gc.zgo.at/count.js"></script>
 
+        <!-- Umami analytics — self-hosted on the Mac mini, privacy-first; feeds the sites dashboard -->
+        <script defer src="https://stats.hidescore.com/script.js" data-website-id="ae74c209-399b-416b-b340-b8dfac70cfa3"></script>
+
     
     <!-- ===== Projects rows: live-preview modal + render/interaction JS ===== -->
     <div class="modal" id="modal">
@@ -873,6 +876,10 @@ const MAIN = [
     one:"A showcase site for my dad — five decades of drumming.",
     full:"A showcase site I built for my dad — a drummer for five decades, from downtown NYC noise bands to the Grammy-winning Klezmatics. His story, music, and photos in one place.",
     site:"https://davidlicht.com" },
+  { title:"TidyTab", live:false, img:"assets/img/tidytab.png",
+    one:"Bulk unpin or close Safari pinned tabs — a notarized macOS menu-bar app.",
+    full:"A menu-bar app I built to bulk unpin or close Safari pinned tabs in one sweep — it auto-detects your pinned tabs and clears them (press Space to stop). Developer ID-signed and Apple-notarized, so it downloads and opens cleanly (Python, rumps, py2app).",
+    download:"https://github.com/jacobhl3ca/safari-pinned-tab-automation/releases/latest/download/TidyTab.dmg" },
 ];
 const MORE = [
   { title:"Spotify Analytics", img:"assets/img/spotify_monthly.png",
@@ -888,10 +895,9 @@ const MORE = [
     one:"Full-stack store with Stripe checkout.",
     full:"Full-stack e-commerce site with Stripe payment processing and an Express.js backend (Node.js, Stripe API, HTML/CSS/JS)." },
   { title:"Automation Utilities", img:"assets/img/automation_dark.svg",
-    one:"macOS automation suite — incl. TabTidy, a downloadable Safari tab tool.",
-    full:"macOS productivity automation suite including Safari bulk tab unpinning and closing, timesheet autofill via keystroke injection, system toggles (menu bar hide/show, dark/light mode, VPN connect/disconnect), keyboard backlight control, dock spacer grouping, and game re-roll automation (Python, AppleScript, Bash, PyAutoGUI). The Safari pinned-tab tool ships as TabTidy — a Developer ID-signed, Apple-notarized menu-bar app.",
-    github:"https://github.com/jacobhl3ca/safari-pinned-tab-automation",
-    download:"https://github.com/jacobhl3ca/safari-pinned-tab-automation/releases/latest/download/TabTidy.dmg" },
+    one:"macOS automation suite — system toggles, timesheet autofill, and more.",
+    full:"macOS productivity automation suite including timesheet autofill via keystroke injection, system toggles (menu bar hide/show, dark/light mode, VPN connect/disconnect), keyboard backlight control, dock spacer grouping, and game re-roll automation (Python, AppleScript, Bash, PyAutoGUI). The Safari pinned-tab tool from this suite ships separately as TidyTab.",
+    github:"https://github.com/jacobhl3ca/safari-pinned-tab-automation" },
   { title:"System Administration", img:"assets/img/docker_dark.png",
     one:"Self-hosted apps & services on a Linux server.",
     full:"Self-hosted web apps and network services on a Linux server — Plex media automation stack, Portainer, and Plausible Analytics (Docker, Docker Compose, PostgreSQL, ClickHouse)." },
