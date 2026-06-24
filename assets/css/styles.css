@@ -2,6 +2,9 @@
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap");
 /*===== VARIABLES CSS =====*/
 :root {
+  /* Tell the browser the page is light by default so native UI (scrollbars,
+     form controls, autofill) matches; [data-theme="dark"] flips it to dark. */
+  color-scheme: light;
   --header-height: 3rem;
   --font-semi: 600;
   /*===== Colores =====*/
@@ -36,6 +39,7 @@
 
 /* Dark mode variables */
 [data-theme="dark"] {
+  color-scheme: dark;
   --first-color: hsl(224, 89%, 70%);
   --second-color: hsl(224, 56%, 88%);
   --body-bg: hsl(224, 56%, 8%);
