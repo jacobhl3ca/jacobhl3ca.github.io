@@ -275,7 +275,7 @@ async function fetchWeather() {
     const aqi = await aqiRes.json();
     render(weather, aqi, geo);
   } catch (err) {
-    document.getElementById('content').innerHTML = `<div class="card" style="text-align:center;color:var(--danger);">${err.message}</div>`;
+    document.getElementById('content').innerHTML = `<div class="card" role="alert" style="text-align:center;color:var(--danger);">${err.message}</div>`;
   }
 }
 
