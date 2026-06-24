@@ -235,6 +235,19 @@
 @media screen and (max-width: 480px) {
   .view-pill__btn { padding: 5px 12px; }
 }
+/* Inline nav + static pill both switch on at 768px, but each .nav__item has a 3rem
+   left margin, so in full-site view the 5 links + the wide pill fill the bar exactly
+   (~768–830px) and the pill's rounded bg laps over "Contact". Guarantee clearance:
+   keep a hard min-gap between the centered menu and the right-hand controls, and
+   tighten inter-item spacing in this band so the links always clear the pill. */
+@media screen and (min-width: 768px) {
+  .nav { column-gap: 1rem; }
+  .nav > div:last-child { flex-shrink: 0; }
+}
+@media screen and (min-width: 768px) and (max-width: 967px) {
+  .nav__item { margin-left: 1.9rem; }
+  html:not(.projects-only) .view-pill { margin-left: 0.5rem; }
+}
 /* Small-screen header: Poppins text sits a hair high vs the icons — nudge text down so all align */
 @media screen and (max-width: 767px) {
   .nav__logo { position: relative; top: 1px; }
