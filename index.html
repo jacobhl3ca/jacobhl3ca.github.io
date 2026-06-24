@@ -424,7 +424,11 @@
     color:rgba(0,0,0,.5);font-family:-apple-system,BlinkMacSystemFont,sans-serif;
     box-shadow:inset 0 0 0 0.5px rgba(0,0,0,.12);}  /* subtle ring like the real macOS dots */
   .dot.red{background:#ff5f57;}.dot.yellow{background:#febc2e;}.dot.green{background:#28c840;}
-  .dots .dot span{display:none;}  /* clean solid dots (no glyphs), matching the reference */
+  /* macOS-accurate glyphs: revealed on hover (×, −, fullscreen triangles), drawn as SVG */
+  .modal-bar .dots .dot svg{width:12px;height:12px;display:block;opacity:0;transition:opacity .1s ease;}
+  .modal-bar .dots .dot svg path{stroke:rgba(0,0,0,.58);stroke-width:1.3;fill:none;stroke-linecap:round;}
+  .modal-bar .dots .dot svg path.fill{fill:rgba(0,0,0,.52);stroke:none;}
+  .modal-bar:hover .dots .dot svg{opacity:1;}
   .nav-btn{flex:0 0 auto;width:30px;height:30px;border-radius:6px;border:1px solid #2a3242;background:#1a1f29;
     color:#9aa3b4;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .2s ease;}
   .nav-btn:hover{color:#fff;border-color:#3a445a;}
@@ -438,7 +442,8 @@
     color:#9aa3b4;text-decoration:none;border-radius:6px;transition:all .2s ease;}
   .modal-bar a.openext:hover{color:var(--first-color);background:#1a1f29;}
   .modal-bar a.openext i{font-size:1.2rem;}
-  .modal-bar button.mclose{flex:0 0 auto;background:none;border:0;color:#9aa3b4;font-size:1.5rem;cursor:pointer;line-height:1;padding:0 .35rem;}
+  .modal-bar button.mclose{flex:0 0 auto;background:none;border:0;color:#9aa3b4;font-size:1.35rem;cursor:pointer;
+    display:inline-flex;align-items:center;justify-content:center;width:30px;height:30px;line-height:1;padding:0;}
   .modal-bar button.mclose:hover{color:#fff;}
   .modal-body{flex:1;position:relative;background:#0c0e12;}
   /* iframe sits ON TOP (z-index 2) with a transparent bg; the loader is BEHIND it (z-index 1),
@@ -841,9 +846,9 @@
   <div class="modal-card">
     <div class="modal-bar">
       <div class="dots">
-        <button class="dot red" id="dotClose" title="Close" aria-label="Close preview"><span aria-hidden="true">×</span></button>
-        <button class="dot yellow" id="dotMin" title="Minimize" aria-label="Minimize preview"><span aria-hidden="true">−</span></button>
-        <button class="dot green" id="dotExpand" title="Expand to full screen" aria-label="Expand preview to full screen"><span aria-hidden="true">⤢</span></button>
+        <button class="dot red" id="dotClose" title="Close"><svg viewBox="0 0 12 12"><path d="M3.8 3.8 L8.2 8.2 M8.2 3.8 L3.8 8.2"/></svg></button>
+        <button class="dot yellow" id="dotMin" title="Minimize"><svg viewBox="0 0 12 12"><path d="M3.3 6 H8.7"/></svg></button>
+        <button class="dot green" id="dotExpand" title="Full screen"><svg viewBox="0 0 12 12"><path class="fill" d="M3.1 3.1 L3.1 6.5 L6.5 3.1 Z"/><path class="fill" d="M8.9 8.9 L8.9 5.5 L5.5 8.9 Z"/></svg></button>
       </div>
       <button class="nav-btn" id="navBack" title="Back" aria-label="Back" style="display:none;"><i class='bx bx-chevron-left' aria-hidden="true"></i></button>
       <button class="nav-btn" id="navReload" title="Reload" aria-label="Reload"><i class='bx bx-revision' aria-hidden="true"></i></button>
