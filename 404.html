@@ -3,8 +3,11 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="theme-color" content="#090f20">
+        <meta name="robots" content="noindex, follow">
         <link rel="stylesheet" href="/assets/css/styles.css">
         <link rel="icon" type="image/x-icon" href="/assets/img/favicon.ico">
+        <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin> <!-- early-connect to the boxicons CDN (CSS + icon font) -->
         <link href='https://cdn.jsdelivr.net/npm/boxicons@2.0.5/css/boxicons.min.css' rel='stylesheet'>
         <title>Page Not Found — Jacob Heifetz-Licht</title>
         <style>
@@ -65,11 +68,11 @@
                     </ul>
                 </div>
                 <div style="display: flex; align-items: center;">
-                    <button id="theme-toggle" class="theme-toggle" style="position: relative; top: -2px;">
-                        <i class='bx bx-sun' id="theme-icon"></i>
+                    <button id="theme-toggle" class="theme-toggle" aria-label="Switch to light mode" style="position: relative; top: -2px;">
+                        <i class='bx bx-sun' id="theme-icon" aria-hidden="true"></i>
                     </button>
-                    <div class="nav__toggle" id="nav-toggle">
-                        <i class='bx bx-menu'></i>
+                    <div class="nav__toggle" id="nav-toggle" role="button" aria-label="Toggle navigation menu">
+                        <i class='bx bx-menu' aria-hidden="true"></i>
                     </div>
                 </div>
             </nav>
@@ -78,7 +81,7 @@
         <main class="l-main">
             <div class="error-page">
                 <div class="error-code">404</div>
-                <p class="error-message">Page not found</p>
+                <h1 class="error-message">Page not found</h1>
                 <p class="error-description">The page you're looking for doesn't exist or has been moved.</p>
                 <a href="/" class="button">Back to Home</a>
             </div>
@@ -88,10 +91,10 @@
         <footer class="footer">
             <p class="footer__title">Jacob</p>
             <div class="footer__social">
-                <a href="https://www.linkedin.com/in/jacobhl/" class="footer__icon" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn profile"><i class='bx bxl-linkedin'></i></a>
-                <a href="https://github.com/jacobhl3ca" class="footer__icon" target="_blank" rel="noopener noreferrer" aria-label="GitHub profile"><i class='bx bxl-github'></i></a>
-                <a href="#" onclick="window.location='mail'+'to:'+'hi'+'@'+'jacobhl'+'.com';return false;" class="footer__icon" aria-label="Send email"><i class='bx bx-envelope'></i></a>
-                <a href="/#contact" class="footer__icon"><i class='bx bx-file'></i></a>
+                <a href="https://www.linkedin.com/in/jacobhl/" class="footer__icon" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn profile"><i class='bx bxl-linkedin' aria-hidden="true"></i></a>
+                <a href="https://github.com/jacobhl3ca" class="footer__icon" target="_blank" rel="noopener noreferrer" aria-label="GitHub profile"><i class='bx bxl-github' aria-hidden="true"></i></a>
+                <a href="#" onclick="window.location='mail'+'to:'+'hi'+'@'+'jacobhl'+'.com';return false;" class="footer__icon" aria-label="Send email"><i class='bx bx-envelope' aria-hidden="true"></i></a>
+                <a href="/#contact" class="footer__icon" aria-label="Contact"><i class='bx bx-file' aria-hidden="true"></i></a>
             </div>
             <p class="footer__copy">Let's get you back!</p>
         </footer>

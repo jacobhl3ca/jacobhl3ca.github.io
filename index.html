@@ -3,14 +3,21 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="theme-color" content="#090f20">
         <link rel="stylesheet" href="assets/css/styles.css">
         <link rel="icon" type="image/x-icon" href="assets/img/favicon.ico">
+        <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin> <!-- early-connect to the boxicons CDN (CSS + icon font) -->
         <link href='https://cdn.jsdelivr.net/npm/boxicons@2.0.5/css/boxicons.min.css' rel='stylesheet'> <!-- icons -->
         <script>
             // Default view = projects-only (set before paint to avoid flash); honor saved preference.
+            // Also apply the saved theme before paint so light-mode users don't see a dark flash
+            // (the document defaults to data-theme="dark"; main.js loads at the end of <body>).
             try {
                 if (localStorage.getItem('viewMode') !== 'full') {
                     document.documentElement.classList.add('projects-only');
+                }
+                if (localStorage.getItem('theme') === 'light') {
+                    document.documentElement.removeAttribute('data-theme');
                 }
             } catch (e) {
                 document.documentElement.classList.add('projects-only');
@@ -26,12 +33,16 @@
         <!-- <meta property="og:title" content="Jacob Heifetz-Licht — Analytics Engineer"> -->
         <meta property="og:description" content="Data analytics leader and web developer specializing in Python, SQL, Tableau, React, and Next.js. Turning data into things people actually use.">
         <meta property="og:image" content="https://jacobhl.com/assets/img/og_image.png">
+        <meta property="og:image:width" content="1200">
+        <meta property="og:image:height" content="630">
+        <meta property="og:image:alt" content="Jacob Heifetz-Licht — Analytics Manager and web developer">
         <meta property="og:url" content="https://jacobhl.com">
         <meta property="og:type" content="website">
-        <meta name="twitter:card" content="summary">
+        <meta name="twitter:card" content="summary_large_image">
         <meta name="twitter:title" content="Jacob Heifetz-Licht — Analytics Manager">
         <meta name="twitter:description" content="Data analytics leader and web developer specializing in Python, SQL, Tableau, React, and Next.js. Turning data into things people actually use.">
         <meta name="twitter:image" content="https://jacobhl.com/assets/img/og_image.png">
+        <meta name="twitter:image:alt" content="Jacob Heifetz-Licht — Analytics Manager and web developer">
         <link rel="canonical" href="https://jacobhl.com">
         <script type="application/ld+json">
         {
@@ -39,6 +50,7 @@
             "@type": "Person",
             "name": "Jacob Heifetz-Licht",
             "url": "https://jacobhl.com",
+            "image": "https://jacobhl.com/assets/img/about.jpg",
             "jobTitle": "Analytics Manager",
             "description": "Data analytics leader and web developer specializing in Python, SQL, Tableau, React, and Next.js.",
             "sameAs": [
@@ -458,6 +470,7 @@
     </style>
 </head>
     <body>
+        <a href="#main-content" class="skip-link">Skip to main content</a>
         <!--===== HEADER =====-->
         <header class="l-header">
             <nav class="nav bd-grid">
@@ -480,19 +493,19 @@
                 </div>
                 <div style="display: flex; align-items: center;">
                     <div class="view-pill" id="view-pill" role="group" aria-label="View mode">
-                        <button type="button" class="view-pill__btn is-active" data-view="projects">Projects</button>
-                        <button type="button" class="view-pill__btn" data-view="full">Full site</button>
+                        <button type="button" class="view-pill__btn is-active" data-view="projects" aria-pressed="true">Projects</button>
+                        <button type="button" class="view-pill__btn" data-view="full" aria-pressed="false">Full site</button>
                     </div>
-                    <button id="theme-toggle" class="theme-toggle" style="position: relative; top: 0;">
-                        <i class='bx bx-sun' id="theme-icon"></i>
+                    <button id="theme-toggle" class="theme-toggle" aria-label="Switch to light mode" style="position: relative; top: 0;">
+                        <i class='bx bx-sun' id="theme-icon" aria-hidden="true"></i>
                     </button>
                     <div class="nav__toggle" id="nav-toggle" role="button" aria-label="Toggle navigation menu">
-                        <i class='bx bx-menu'></i>
+                        <i class='bx bx-menu' aria-hidden="true"></i>
                     </div>
                 </div>
             </nav>
         </header>
-        <main class="l-main">
+        <main class="l-main" id="main-content" tabindex="-1">
             <!--===== CLAUDE CODE USAGE — TEMPORARILY DISABLED 2026-06-17 (remove the two ccu-disabled comment lines to re-enable) =====-->
             <!-- ccu-disabled
             <section class="ccu-section" id="ccu" style="display:none">
@@ -561,15 +574,15 @@
                 </div>
 
                 <div class="home__social">
-                    <a href="https://www.linkedin.com/in/jacobhl/" class="home__social-icon" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn profile"><i class='bx bxl-linkedin'></i></a>
-                    <a href="https://github.com/jacobhl3ca" class="home__social-icon" target="_blank" rel="noopener noreferrer" aria-label="GitHub profile"><i class='bx bxl-github' ></i></a>
-                    <a href="mailto:hi@jacobhl.com" class="home__social-icon" aria-label="Send email" style="margin-bottom: 0.75rem;"><i class='bx bx-envelope'></i></a>
-                    <a href="#contact" class="home__social-icon" onclick="requestResume()" aria-label="Request resume"><i class='bx bx-file'></i></a>
+                    <a href="https://www.linkedin.com/in/jacobhl/" class="home__social-icon" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn profile"><i class='bx bxl-linkedin' aria-hidden="true"></i></a>
+                    <a href="https://github.com/jacobhl3ca" class="home__social-icon" target="_blank" rel="noopener noreferrer" aria-label="GitHub profile"><i class='bx bxl-github' aria-hidden="true"></i></a>
+                    <a href="mailto:hi@jacobhl.com" class="home__social-icon" aria-label="Send email" style="margin-bottom: 0.75rem;"><i class='bx bx-envelope' aria-hidden="true"></i></a>
+                    <a href="#contact" class="home__social-icon" onclick="requestResume()" aria-label="Request resume"><i class='bx bx-file' aria-hidden="true"></i></a>
                 </div>
 
                 <div class="home__img">
                     <div class="home__circle clickable-img" id="home-photo">
-                        <img src="assets/img/header.png" alt="Jacob Heifetz-Licht" class="home__circle-img">
+                        <img src="assets/img/header.png" alt="Jacob Heifetz-Licht" class="home__circle-img" fetchpriority="high">
                     </div>
                 </div>
             </section>
@@ -581,12 +594,12 @@
                 <div class="about__container bd-grid">
                     <div class="about__img">
 
-                         <img src="assets/img/about.jpg" alt="Jacob Heifetz-Licht portrait" class="clickable-img" id="about-photo">
+                         <img src="assets/img/about.jpg" alt="Jacob Heifetz-Licht portrait" loading="lazy" class="clickable-img" id="about-photo">
 
                     </div>
                     <div>
                         
-                        <h2 class="about__subtitle">I’m Jacob</h2>
+                        <h3 class="about__subtitle">I’m Jacob</h3>
 
                         <!-- V1 — Original description
                         <p class="about__text">
@@ -638,9 +651,9 @@
                 <div class="proj-wrap">
                     <div id="main-rows"></div>
 
-                    <button class="more-toggle" id="moreToggle">
+                    <button class="more-toggle" id="moreToggle" aria-expanded="false" aria-controls="moreWrap">
                         <span id="moreLabel">Private projects</span>
-                        <i class='bx bx-chevron-down'></i>
+                        <i class='bx bx-chevron-down' aria-hidden="true"></i>
                     </button>
                     <div class="more-wrap" id="moreWrap"><div class="more-inner"><div class="padtop">
                         <div id="more-rows"></div>
@@ -654,7 +667,7 @@
 
                 <div class="skills__container bd-grid">
                     <div>
-                        <h2 class="skills__subtitle">Professional Skills</h2>
+                        <h3 class="skills__subtitle">Professional Skills</h3>
                         <!-- V3 — New (pending)
                         <p class="skills__text">
                             I combine deep technical skills with strategic thinking to transform complex data into actionable insights and tools that drive business decisions.
@@ -673,7 +686,7 @@
                         END V2 -->
 
                         <div class="skills__category">
-                            <h3 class="skills__category-title"><i class='bx bx-code-alt skills__icon'></i> Languages & Scripting</h3>
+                            <h3 class="skills__category-title"><i class='bx bx-code-alt skills__icon' aria-hidden="true"></i> Languages & Scripting</h3>
                             <div class="skills__tags">
                                 <span class="skills__tag">Python</span>
                                 <span class="skills__tag">SQL</span>
@@ -684,7 +697,7 @@
 
                         <!--
                         <div class="skills__category">
-                            <h3 class="skills__category-title"><i class='bx bx-globe skills__icon'></i> Web Development</h3>
+                            <h3 class="skills__category-title"><i class='bx bx-globe skills__icon' aria-hidden="true"></i> Web Development</h3>
                             <div class="skills__tags">
                                 <span class="skills__tag">JavaScript</span>
                                 <span class="skills__tag">React</span>
@@ -696,7 +709,7 @@
                         -->
 
                         <div class="skills__category">
-                            <h3 class="skills__category-title"><i class='bx bx-bar-chart-alt-2 skills__icon'></i> Data & Visualization</h3>
+                            <h3 class="skills__category-title"><i class='bx bx-bar-chart-alt-2 skills__icon' aria-hidden="true"></i> Data & Visualization</h3>
                             <div class="skills__tags">
                                 <span class="skills__tag">Tableau</span>
                                 <span class="skills__tag">Looker</span>
@@ -709,7 +722,7 @@
                         </div>
 
                         <div class="skills__category">
-                            <h3 class="skills__category-title"><i class='bx bx-data skills__icon'></i> Analytics Platforms</h3>
+                            <h3 class="skills__category-title"><i class='bx bx-data skills__icon' aria-hidden="true"></i> Analytics Platforms</h3>
                             <div class="skills__tags">
                                 <span class="skills__tag">BigQuery</span>
                                 <span class="skills__tag">GA4</span>
@@ -719,7 +732,7 @@
                         </div>
 
                         <div class="skills__category">
-                            <h3 class="skills__category-title"><i class='bx bx-cog skills__icon'></i> Automation & Infrastructure</h3>
+                            <h3 class="skills__category-title"><i class='bx bx-cog skills__icon' aria-hidden="true"></i> Automation & Infrastructure</h3>
                             <div class="skills__tags">
                                 <span class="skills__tag">Process Automation</span>
                                 <span class="skills__tag">ETL Pipelines</span>
@@ -731,7 +744,7 @@
                         </div>
 
                         <div class="skills__category">
-                            <h3 class="skills__category-title"><i class='bx bx-bulb skills__icon'></i> Strategy & Leadership</h3>
+                            <h3 class="skills__category-title"><i class='bx bx-bulb skills__icon' aria-hidden="true"></i> Strategy & Leadership</h3>
                             <div class="skills__tags">
                                 <span class="skills__tag">Analytics Strategy</span>
                                 <span class="skills__tag">Stakeholder Communication</span>
@@ -745,7 +758,7 @@
 
                         <!--
                         <div class="skills__category">
-                            <h3 class="skills__category-title"><i class='bx bx-certification skills__icon'></i> Certifications</h3>
+                            <h3 class="skills__category-title"><i class='bx bx-certification skills__icon' aria-hidden="true"></i> Certifications</h3>
                             <div class="skills__tags">
                                 <span class="skills__tag">Automate the Boring Stuff with Python</span>
                                 <span class="skills__tag">Tableau Desktop Specialist</span>
@@ -758,7 +771,7 @@
                     </div>
 
                     <div>
-                        <img src="assets/img/skills.jpg" alt="Jacob working with data analytics tools" class="skills__img" id="skills-photo">
+                        <img src="assets/img/skills.jpg" alt="Jacob working with data analytics tools" loading="lazy" class="skills__img" id="skills-photo">
                     </div>
                 </div>
             </section>
@@ -768,9 +781,9 @@
                 <h2 class="section-title">Contact</h2>
                 <div class="contact__container bd-grid">
                     <form action="https://formspree.io/f/mkgqkgyr" method="POST" class="contact__form">
-                        <input type="text" name="name" placeholder="Your Name" class="contact__input" required>
-                        <input type="email" name="email" placeholder="your@email.com" class="contact__input" required>
-                        <textarea name="message" placeholder="Your Message" class="contact__input" rows="10" required></textarea>
+                        <input type="text" name="name" placeholder="Your Name" class="contact__input" aria-label="Your name" autocomplete="name" required>
+                        <input type="email" name="email" placeholder="your@email.com" class="contact__input" aria-label="Your email address" autocomplete="email" required>
+                        <textarea name="message" placeholder="Your Message" class="contact__input" aria-label="Your message" rows="10" required></textarea>
                         <button type="submit" class="contact__button button">Send</button>
                     </form>
                 </div>
@@ -783,11 +796,11 @@
             <p class="footer__title">Jacob</p>
             <div class="footer__social">
 
-                <a href="https://www.linkedin.com/in/jacobhl/" class="footer__icon" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn profile"><i class='bx bxl-linkedin' ></i></a>
+                <a href="https://www.linkedin.com/in/jacobhl/" class="footer__icon" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn profile"><i class='bx bxl-linkedin' aria-hidden="true"></i></a>
 
-                <a href="https://github.com/jacobhl3ca" class="footer__icon" target="_blank" rel="noopener noreferrer" aria-label="GitHub profile"><i class='bx bxl-github' ></i></a>
+                <a href="https://github.com/jacobhl3ca" class="footer__icon" target="_blank" rel="noopener noreferrer" aria-label="GitHub profile"><i class='bx bxl-github' aria-hidden="true"></i></a>
 
-                <a href="mailto:hi@jacobhl.com" class="footer__icon" aria-label="Send email"><i class='bx bx-envelope'></i></a>
+                <a href="mailto:hi@jacobhl.com" class="footer__icon" aria-label="Send email"><i class='bx bx-envelope' aria-hidden="true"></i></a>
 
             </div>
 
@@ -798,12 +811,12 @@
 
         <!-- Scroll down arrow -->
         <button class="scroll-down-arrow" id="scrollDown" aria-label="Scroll down">
-            <i class='bx bx-chevron-down'></i>
+            <i class='bx bx-chevron-down' aria-hidden="true"></i>
         </button>
 
         <!-- Back to top button -->
         <button class="back-to-top" id="backToTop" aria-label="Back to top">
-            <i class='bx bx-chevron-up'></i>
+            <i class='bx bx-chevron-up' aria-hidden="true"></i>
         </button>
 
         <!-- Easter egg (uncomment to enable)
@@ -842,14 +855,14 @@
         <button class="dot yellow" id="dotMin" title="Minimize"><svg viewBox="0 0 12 12"><path d="M3.3 6 H8.7"/></svg></button>
         <button class="dot green" id="dotExpand" title="Full screen"><svg viewBox="0 0 12 12"><path class="fill" d="M3 3 L3 7 L7 3 Z"/><path class="fill" d="M9 9 L9 5 L5 9 Z"/></svg></button>
       </div>
-      <button class="nav-btn" id="navBack" title="Back" style="display:none;"><i class='bx bx-chevron-left'></i></button>
-      <button class="nav-btn" id="navReload" title="Reload"><i class='bx bx-revision'></i></button>
+      <button class="nav-btn" id="navBack" title="Back" aria-label="Back" style="display:none;"><i class='bx bx-chevron-left' aria-hidden="true"></i></button>
+      <button class="nav-btn" id="navReload" title="Reload" aria-label="Reload"><i class='bx bx-revision' aria-hidden="true"></i></button>
       <form class="url-form" id="urlForm"><input class="modal-url" id="modalUrl" type="text" spellcheck="false" autocomplete="off" aria-label="Preview address"></form>
-      <a class="openext" id="modalOpen" target="_blank" rel="noopener" title="Open in new tab"><i class='bx bx-link-external'></i></a>
-      <button class="mclose" id="modalClose" title="Close">×</button>
+      <a class="openext" id="modalOpen" target="_blank" rel="noopener" title="Open in new tab" aria-label="Open preview in new tab"><i class='bx bx-link-external' aria-hidden="true"></i></a>
+      <button class="mclose" id="modalClose" title="Close" aria-label="Close preview"><span aria-hidden="true">×</span></button>
     </div>
     <div class="modal-body">
-      <button class="fs-back" id="fsBack" title="Back to projects"><i class='bx bx-arrow-back'></i> Back</button>
+      <button class="fs-back" id="fsBack" title="Back to projects"><i class='bx bx-arrow-back' aria-hidden="true"></i> Back</button>
       <div class="modal-load" id="modalLoad"><div class="spin"></div><span id="modalLoadTxt">Loading preview…</span></div>
       <iframe class="modal-frame" id="modalFrame" title="Live preview" referrerpolicy="no-referrer-when-downgrade"></iframe>
     </div>
@@ -921,11 +934,11 @@ function ctaHTML(p){
   let h='';
   if(p.site){ const _d=(()=>{try{return new URL(p.site).hostname.replace(/^www\./,'')}catch(e){return ''}})();
     const _fav = USE_FAVICONS && FAVICONS[_d];
-    const _inner = _fav ? `<img class="favicon" src="${_fav}" alt="" loading="lazy">` : `<i class='bx bx-globe'></i>`;
-    h+=`<a href="${p.site}" target="_blank" rel="noopener" class="site-link" title="Visit website">${_inner}</a>`; }
+    const _inner = _fav ? `<img class="favicon" src="${_fav}" alt="" loading="lazy">` : `<i class='bx bx-globe' aria-hidden="true"></i>`;
+    h+=`<a href="${p.site}" target="_blank" rel="noopener" class="site-link" title="Visit website" aria-label="Visit the ${p.title} website">${_inner}</a>`; }
   if(p.appstore) h+=`<a href="${p.appstore}" target="_blank" rel="noopener" class="app-store-badge-link"><img src="assets/img/app-store-badge.svg" alt="Download on the App Store" class="app-store-badge"></a>`;
-  if(p.download) h+=`<a href="${p.download}" class="gh-link dl-link" title="Download TabTidy for macOS (.dmg, notarized)"><i class='bx bxl-apple'></i>Download for Mac</a>`;
-  if(p.github) h+=`<a href="${p.github}" target="_blank" rel="noopener" class="gh-link"><i class='bx bxl-github'></i>GitHub</a>`;
+  if(p.download) h+=`<a href="${p.download}" class="gh-link dl-link" title="Download TidyTab for macOS (.dmg, notarized)"><i class='bx bxl-apple' aria-hidden="true"></i>Download for Mac</a>`;
+  if(p.github) h+=`<a href="${p.github}" target="_blank" rel="noopener" class="gh-link"><i class='bx bxl-github' aria-hidden="true"></i>GitHub</a>`;
   return h ? `<div class="work__cta">${h}</div>` : '';
 }
 function rowHTML(p){
@@ -934,16 +947,16 @@ function rowHTML(p){
   return `
   <div class="proj-row">
     <div class="proj-head">
-      <div class="proj-thumb ${thumbCls}" ${p.live?`data-url="${p.url}"`:''}>
+      <div class="proj-thumb ${thumbCls}" ${p.live?`data-url="${p.url}" role="button" tabindex="0" aria-label="Open live preview of ${p.title}"`:''}>
         <img src="${p.img}" alt="${p.title}" loading="lazy">
-        <div class="proj-cue"><span><i class='bx bx-expand-alt'></i> Preview</span></div>
+        <div class="proj-cue"><span><i class='bx bx-expand-alt' aria-hidden="true"></i> Preview</span></div>
       </div>
       <div class="proj-info">
         <h3 class="proj-title">${dot}${p.title}</h3>
         <p class="proj-one">${p.one}</p>
         ${ctaHTML(p)}
       </div>
-      <button class="proj-chev" aria-label="Show details"><i class='bx bx-chevron-down'></i></button>
+      <button class="proj-chev" aria-label="Show details" aria-expanded="false"><i class='bx bx-chevron-down' aria-hidden="true"></i></button>
     </div>
     <div class="proj-detail"><div class="proj-detail-in"><div class="pad">
       <p>${p.full}</p>
@@ -960,7 +973,9 @@ document.querySelectorAll('.proj-head').forEach(h=>{
   h.addEventListener('click', e=>{
     if(e.target.closest('.proj-thumb[data-url]')) return; // only LIVE thumbnails open the preview
     if(e.target.closest('a')) return;                     // let the site / App Store links work
-    h.closest('.proj-row').classList.toggle('open');
+    const open = h.closest('.proj-row').classList.toggle('open');
+    const chev = h.querySelector('.proj-chev');
+    if(chev) chev.setAttribute('aria-expanded', open); // mirror collapsed/expanded state to assistive tech
   });
 });
 
@@ -1007,7 +1022,11 @@ function minimize(){
 function setFullscreen(on){ modal.classList.toggle('fullscreen', on); }
 frame.addEventListener('load', ()=>{ if(frame.src && !frame.src.endsWith('about:blank')){ mLoad.classList.add('hidden'); clearTimeout(loadTimer);} });
 
-document.querySelectorAll('.proj-thumb[data-url]').forEach(t=> t.addEventListener('click', ()=>openModal(t.dataset.url, t)));
+document.querySelectorAll('.proj-thumb[data-url]').forEach(t=>{
+  t.addEventListener('click', ()=>openModal(t.dataset.url, t));
+  // keyboard users: live thumbnails act as buttons, so Enter/Space opens the preview too
+  t.addEventListener('keydown', e=>{ if(e.key==='Enter'||e.key===' '){ e.preventDefault(); openModal(t.dataset.url, t); } });
+});
 // functional window controls
 document.getElementById('dotClose').addEventListener('click', closeModal);
 document.getElementById('modalClose').addEventListener('click', closeModal);
@@ -1028,6 +1047,7 @@ document.addEventListener('keydown', e=>{ if(e.key==='Escape'){ if(modal.classLi
 const mt=document.getElementById('moreToggle'), mw=document.getElementById('moreWrap'), ml=document.getElementById('moreLabel');
 mt.addEventListener('click', ()=>{
   const open=mw.classList.toggle('open'); mt.classList.toggle('open',open);
+  mt.setAttribute('aria-expanded', open); // mirror collapsed/expanded state to assistive tech
   ml.textContent = open ? 'Hide private projects' : 'Private projects';
 });
 })();

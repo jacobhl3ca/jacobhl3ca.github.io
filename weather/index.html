@@ -3,7 +3,23 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#0b1121">
+<link rel="icon" type="image/x-icon" href="/assets/img/favicon.ico">
 <title>Weather Dashboard — NYC</title>
+<meta name="description" content="A live weather dashboard with current conditions, hourly rain chance, a 5-day forecast, air quality, and sun times. Search any city — defaults to New York, NY.">
+<link rel="canonical" href="https://jacobhl.com/weather/">
+<!-- Open Graph / Twitter meta for link previews -->
+<meta property="og:title" content="Weather Dashboard">
+<meta property="og:description" content="A live weather dashboard with current conditions, hourly rain chance, a 5-day forecast, air quality, and sun times. Search any city — defaults to New York, NY.">
+<meta property="og:image" content="https://jacobhl.com/assets/img/og_image.png">
+<meta property="og:url" content="https://jacobhl.com/weather/">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Weather Dashboard">
+<meta name="twitter:description" content="A live weather dashboard with current conditions, hourly rain chance, a 5-day forecast, air quality, and sun times. Search any city — defaults to New York, NY.">
+<meta name="twitter:image" content="https://jacobhl.com/assets/img/og_image.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
 :root {
@@ -134,21 +150,34 @@ body {
 .spinner { display:inline-block; width:24px; height:24px; border:3px solid var(--card-border); border-top-color:var(--accent); border-radius:50%; animation:spin .8s linear infinite; margin-bottom:12px; }
 @keyframes spin { to { transform:rotate(360deg); } }
 
+/* Respect users who prefer reduced motion: stop the looping spinner and ease off transitions */
+@media (prefers-reduced-motion: reduce) {
+  .spinner { animation: none; }
+  .search-bar input, .search-bar button, .sun-dot { transition: none; }
+}
+
 .aqi-bar { display:flex; height:8px; border-radius:4px; overflow:hidden; margin-top:8px; gap:2px; }
 .aqi-seg { flex:1; border-radius:4px; }
+
+/* Visually hidden but available to assistive tech (gives the page a programmatic heading) */
+.visually-hidden {
+  position:absolute; width:1px; height:1px; padding:0; margin:-1px;
+  overflow:hidden; clip:rect(0,0,0,0); white-space:nowrap; border:0;
+}
 </style>
 </head>
 <body>
-<div class="container">
+<main class="container">
+  <h1 class="visually-hidden">Weather Dashboard</h1>
   <div class="search-bar">
-    <input type="text" id="cityInput" placeholder="Search city..." value="New York, NY">
+    <input type="text" id="cityInput" placeholder="Search city..." value="New York, NY" aria-label="Search for a city">
     <button onclick="fetchWeather()">Search</button>
   </div>
   <div id="alertsBanner" class="alerts-banner"></div>
   <div id="content">
     <div class="loading"><div class="spinner"></div><br>Loading weather data...</div>
   </div>
-</div>
+</main>
 
 <script>
 const WMO_ICONS = {
@@ -256,7 +285,7 @@ async function fetchWeather() {
     const aqi = await aqiRes.json();
     render(weather, aqi, geo);
   } catch (err) {
-    document.getElementById('content').innerHTML = `<div class="card" style="text-align:center;color:var(--danger);">${err.message}</div>`;
+    document.getElementById('content').innerHTML = `<div class="card" role="alert" style="text-align:center;color:var(--danger);">${err.message}</div>`;
   }
 }
 

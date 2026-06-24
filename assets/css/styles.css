@@ -2,6 +2,9 @@
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap");
 /*===== VARIABLES CSS =====*/
 :root {
+  /* Tell the browser the page is light by default so native UI (scrollbars,
+     form controls, autofill) matches; [data-theme="dark"] flips it to dark. */
+  color-scheme: light;
   --header-height: 3rem;
   --font-semi: 600;
   /*===== Colores =====*/
@@ -36,6 +39,7 @@
 
 /* Dark mode variables */
 [data-theme="dark"] {
+  color-scheme: dark;
   --first-color: hsl(224, 89%, 70%);
   --second-color: hsl(224, 56%, 88%);
   --body-bg: hsl(224, 56%, 8%);
@@ -458,6 +462,30 @@ img {
   display: grid;
   margin-left: 1.5rem;
   margin-right: 1.5rem;
+}
+
+/* Skip link: off-screen until focused, then revealed at the top-left (WCAG 2.4.1) */
+.skip-link {
+  position: absolute;
+  left: -999px;
+  top: 0;
+  z-index: calc(var(--z-fixed) + 10);
+  padding: 0.5rem 1rem;
+  background-color: var(--first-color);
+  color: #fff;
+  font-weight: var(--font-semi);
+  text-decoration: none;
+  border-radius: 0 0 0.25rem 0;
+}
+
+.skip-link:focus {
+  left: 0;
+  outline: 2px solid #fff;
+  outline-offset: -4px;
+}
+
+#main-content:focus {
+  outline: none;
 }
 
 .l-header {

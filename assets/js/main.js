@@ -4,8 +4,19 @@ const showMenu = (toggleId, navId) =>{
     nav = document.getElementById(navId)
 
     if(toggle && nav){
-        toggle.addEventListener('click', ()=>{
-            nav.classList.toggle('show')
+        // The toggle is a div[role=button]; make it keyboard-operable and announce its open/closed state.
+        if(!toggle.hasAttribute('tabindex')) toggle.setAttribute('tabindex', '0')
+        toggle.setAttribute('aria-expanded', nav.classList.contains('show') ? 'true' : 'false')
+        const toggleMenu = ()=>{
+            const open = nav.classList.toggle('show')
+            toggle.setAttribute('aria-expanded', open ? 'true' : 'false')
+        }
+        toggle.addEventListener('click', toggleMenu)
+        toggle.addEventListener('keydown', (e)=>{
+            if(e.key === 'Enter' || e.key === ' '){
+                e.preventDefault()
+                toggleMenu()
+            }
         })
     }
 }
@@ -76,7 +87,11 @@ if (viewPill) {
     const applyView = (mode) => {
         const projectsOnly = mode !== 'full';
         document.documentElement.classList.toggle('projects-only', projectsOnly);
-        pillBtns.forEach((b) => b.classList.toggle('is-active', (b.dataset.view === 'full') ? !projectsOnly : projectsOnly));
+        pillBtns.forEach((b) => {
+            const active = (b.dataset.view === 'full') ? !projectsOnly : projectsOnly;
+            b.classList.toggle('is-active', active);
+            b.setAttribute('aria-pressed', active ? 'true' : 'false');
+        });
     };
     // Default = projects-only; honor saved preference.
     applyView(localStorage.getItem('viewMode') === 'full' ? 'full' : 'projects');
@@ -104,14 +119,25 @@ function setThemeImages(theme) {
     });
 }
 
+// Keep the mobile address-bar colour (theme-color meta) in sync with the active
+// theme — the light header is #fff, the dark page bg is #090f20.
+function setThemeColor(theme) {
+    const meta = document.querySelector('meta[name="theme-color"]');
+    if (meta) meta.setAttribute('content', theme === 'light' ? '#ffffff' : '#090f20');
+}
+
 // HTML defaults to data-theme="dark" and sun icon; only switch to light if user previously chose light
 if (currentTheme === 'light') {
     document.documentElement.removeAttribute('data-theme');
     themeIcon.classList.replace('bx-sun', 'bx-moon');
+    themeToggle.setAttribute('aria-label', 'Switch to dark mode');
     setThemeImages('light');
+    setThemeColor('light');
 } else {
     document.documentElement.setAttribute('data-theme', 'dark');
     themeIcon.classList.replace('bx-moon', 'bx-sun');
+    themeToggle.setAttribute('aria-label', 'Switch to light mode');
+    setThemeColor('dark');
     if (currentTheme !== 'dark') {
         localStorage.setItem('theme', 'dark');
     }
@@ -125,13 +151,17 @@ themeToggle.addEventListener('click', () => {
     if (currentTheme === 'dark') {
         document.documentElement.removeAttribute('data-theme');
         themeIcon.classList.replace('bx-sun', 'bx-moon');
+        themeToggle.setAttribute('aria-label', 'Switch to dark mode');
         localStorage.setItem('theme', 'light');
         setThemeImages('light');
+        setThemeColor('light');
     } else {
         document.documentElement.setAttribute('data-theme', 'dark');
         themeIcon.classList.replace('bx-moon', 'bx-sun');
+        themeToggle.setAttribute('aria-label', 'Switch to light mode');
         localStorage.setItem('theme', 'dark');
         setThemeImages('dark');
+        setThemeColor('dark');
     }
     themeToggle.blur();
     requestAnimationFrame(() => requestAnimationFrame(() => root.classList.remove('theme-switching')));
@@ -144,6 +174,9 @@ function linkAction(){
     const navMenu = document.getElementById('nav-menu')
     // When we click on each nav__link, we remove the show-menu class
     navMenu.classList.remove('show')
+    // Keep the toggle's announced state in sync now that the menu is closed.
+    const navToggle = document.getElementById('nav-toggle')
+    if(navToggle) navToggle.setAttribute('aria-expanded', 'false')
 }
 navLink.forEach(n => n.addEventListener('click', linkAction))
 
@@ -158,7 +191,10 @@ const scrollActive = () =>{
               sectionTop = current.offsetTop - 58,
               sectionId = current.getAttribute('id'),
               sectionsClass = document.querySelector('.nav__menu a[href*=' + sectionId + ']')
-        
+
+        // Some sections (e.g. the hidden "ccu" section) have no matching nav link.
+        if(!sectionsClass){ return }
+
         if(scrollDown > sectionTop && scrollDown <= sectionTop + sectionHeight){
             sectionsClass.classList.add('active-link')
         }else{
@@ -166,7 +202,7 @@ const scrollActive = () =>{
         }                                                    
     })
 }
-window.addEventListener('scroll', scrollActive)
+window.addEventListener('scroll', scrollActive, { passive: true })
 
 /*===== SCROLL REVEAL CASCADE =====*/
 const revealElements = document.querySelectorAll(
@@ -364,6 +400,7 @@ function megaExplosion() {
 
 /*===== AUTO-FIRE: hold mousedown = accelerating confetti =====*/
 function setupAutoFire(el) {
+    if (!el) return; // photo only exists on the homepage
     let autoFireTimer = null;
     let autoFireDelay = 300;
     let mouseX = 0;
@@ -517,6 +554,7 @@ function handleSkillsClick(e) {
 
 (function() {
     const el = document.getElementById('skills-photo');
+    if (!el) return; // photo only exists on the homepage
     let autoFireTimer = null;
     let autoFireDelay = 350;
     let mouseX = 0, mouseY = 0;
@@ -575,7 +613,7 @@ function handleSkillsClick(e) {
 })();
 
 /*===== SECTION NAVIGATION (scroll arrows) =====*/
-const sectionIds = ['home', 'about', 'skills', 'Projects', 'contact'];
+const sectionIds = ['home', 'about', 'Projects', 'skills', 'contact'];
 const scrollDownBtn = document.getElementById('scrollDown');
 const backToTop = document.getElementById('backToTop');
 
@@ -595,11 +633,12 @@ let lastSectionIdx = -1;
 
 function getDownArrowDelay(idx) {
     if (idx === 0) return 3000;
-    if (idx === 3) return 10000;
+    if (idx === 2) return 10000;
     return 8000;
 }
 
 function startDownArrowTimer() {
+    if (!scrollDownBtn) return; // scroll arrows only exist on the homepage
     clearTimeout(downArrowTimer);
     scrollDownBtn.classList.remove('visible');
     const idx = getCurrentSectionIndex();
@@ -616,6 +655,7 @@ startDownArrowTimer();
 
 let backToTopTimer = null;
 window.addEventListener('scroll', () => {
+    if (!scrollDownBtn || !backToTop) return; // scroll arrows only exist on the homepage
     const idx = getCurrentSectionIndex();
     const atContact = idx >= sectionIds.length - 1;
 
@@ -650,16 +690,16 @@ window.addEventListener('scroll', () => {
         backToTopTimer = null;
         backToTop.classList.remove('visible');
     }
-});
+}, { passive: true });
 
-scrollDownBtn.addEventListener('click', () => {
+if (scrollDownBtn) scrollDownBtn.addEventListener('click', () => {
     const idx = getCurrentSectionIndex();
     const nextIdx = Math.min(idx + 1, sectionIds.length - 1);
     const target = document.getElementById(sectionIds[nextIdx]);
     if (target) target.scrollIntoView({ behavior: 'smooth' });
 });
 
-backToTop.addEventListener('click', () => {
+if (backToTop) backToTop.addEventListener('click', () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
 });
 
