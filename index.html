@@ -10,9 +10,14 @@
         <link href='https://cdn.jsdelivr.net/npm/boxicons@2.0.5/css/boxicons.min.css' rel='stylesheet'> <!-- icons -->
         <script>
             // Default view = projects-only (set before paint to avoid flash); honor saved preference.
+            // Also apply the saved theme before paint so light-mode users don't see a dark flash
+            // (the document defaults to data-theme="dark"; main.js loads at the end of <body>).
             try {
                 if (localStorage.getItem('viewMode') !== 'full') {
                     document.documentElement.classList.add('projects-only');
+                }
+                if (localStorage.getItem('theme') === 'light') {
+                    document.documentElement.removeAttribute('data-theme');
                 }
             } catch (e) {
                 document.documentElement.classList.add('projects-only');
