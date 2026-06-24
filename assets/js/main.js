@@ -202,7 +202,7 @@ const scrollActive = () =>{
         }                                                    
     })
 }
-window.addEventListener('scroll', scrollActive)
+window.addEventListener('scroll', scrollActive, { passive: true })
 
 /*===== SCROLL REVEAL CASCADE =====*/
 const revealElements = document.querySelectorAll(
@@ -690,7 +690,7 @@ window.addEventListener('scroll', () => {
         backToTopTimer = null;
         backToTop.classList.remove('visible');
     }
-});
+}, { passive: true });
 
 if (scrollDownBtn) scrollDownBtn.addEventListener('click', () => {
     const idx = getCurrentSectionIndex();
