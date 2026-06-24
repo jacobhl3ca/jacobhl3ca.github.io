@@ -87,7 +87,11 @@ if (viewPill) {
     const applyView = (mode) => {
         const projectsOnly = mode !== 'full';
         document.documentElement.classList.toggle('projects-only', projectsOnly);
-        pillBtns.forEach((b) => b.classList.toggle('is-active', (b.dataset.view === 'full') ? !projectsOnly : projectsOnly));
+        pillBtns.forEach((b) => {
+            const active = (b.dataset.view === 'full') ? !projectsOnly : projectsOnly;
+            b.classList.toggle('is-active', active);
+            b.setAttribute('aria-pressed', active ? 'true' : 'false');
+        });
     };
     // Default = projects-only; honor saved preference.
     applyView(localStorage.getItem('viewMode') === 'full' ? 'full' : 'projects');
