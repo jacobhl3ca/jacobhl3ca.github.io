@@ -119,16 +119,25 @@ function setThemeImages(theme) {
     });
 }
 
+// Keep the mobile address-bar colour (theme-color meta) in sync with the active
+// theme — the light header is #fff, the dark page bg is #090f20.
+function setThemeColor(theme) {
+    const meta = document.querySelector('meta[name="theme-color"]');
+    if (meta) meta.setAttribute('content', theme === 'light' ? '#ffffff' : '#090f20');
+}
+
 // HTML defaults to data-theme="dark" and sun icon; only switch to light if user previously chose light
 if (currentTheme === 'light') {
     document.documentElement.removeAttribute('data-theme');
     themeIcon.classList.replace('bx-sun', 'bx-moon');
     themeToggle.setAttribute('aria-label', 'Switch to dark mode');
     setThemeImages('light');
+    setThemeColor('light');
 } else {
     document.documentElement.setAttribute('data-theme', 'dark');
     themeIcon.classList.replace('bx-moon', 'bx-sun');
     themeToggle.setAttribute('aria-label', 'Switch to light mode');
+    setThemeColor('dark');
     if (currentTheme !== 'dark') {
         localStorage.setItem('theme', 'dark');
     }
@@ -145,12 +154,14 @@ themeToggle.addEventListener('click', () => {
         themeToggle.setAttribute('aria-label', 'Switch to dark mode');
         localStorage.setItem('theme', 'light');
         setThemeImages('light');
+        setThemeColor('light');
     } else {
         document.documentElement.setAttribute('data-theme', 'dark');
         themeIcon.classList.replace('bx-moon', 'bx-sun');
         themeToggle.setAttribute('aria-label', 'Switch to light mode');
         localStorage.setItem('theme', 'dark');
         setThemeImages('dark');
+        setThemeColor('dark');
     }
     themeToggle.blur();
     requestAnimationFrame(() => requestAnimationFrame(() => root.classList.remove('theme-switching')));
