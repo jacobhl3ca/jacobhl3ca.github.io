@@ -179,7 +179,7 @@ body {
   </div>
   <div id="alertsBanner" class="alerts-banner"></div>
   <div id="content">
-    <div class="loading"><div class="spinner"></div><br>Loading weather data...</div>
+    <div class="loading" role="status"><div class="spinner" aria-hidden="true"></div><br>Loading weather data...</div>
   </div>
 </main>
 
@@ -262,7 +262,7 @@ async function geocode(city) {
 async function fetchWeather() {
   const city = document.getElementById('cityInput').value.trim();
   if (!city) return;
-  document.getElementById('content').innerHTML = '<div class="loading"><div class="spinner"></div><br>Loading weather data...</div>';
+  document.getElementById('content').innerHTML = '<div class="loading" role="status"><div class="spinner" aria-hidden="true"></div><br>Loading weather data...</div>';
   document.getElementById('alertsBanner').className = 'alerts-banner';
   document.getElementById('alertsBanner').innerHTML = '';
   document.getElementById('alertsBanner').style.display = 'none';
