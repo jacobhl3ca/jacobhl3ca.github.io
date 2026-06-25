@@ -594,7 +594,7 @@
                 <div class="about__container bd-grid">
                     <div class="about__img">
 
-                         <img src="assets/img/about.jpg" alt="Jacob Heifetz-Licht portrait" loading="lazy" class="clickable-img" id="about-photo">
+                         <img src="assets/img/about.jpg" alt="Jacob Heifetz-Licht portrait" loading="lazy" decoding="async" class="clickable-img" id="about-photo">
 
                     </div>
                     <div>
@@ -771,7 +771,7 @@
                     </div>
 
                     <div>
-                        <img src="assets/img/skills.jpg" alt="Jacob working with data analytics tools" loading="lazy" class="skills__img" id="skills-photo">
+                        <img src="assets/img/skills.jpg" alt="Jacob working with data analytics tools" loading="lazy" decoding="async" class="skills__img" id="skills-photo">
                     </div>
                 </div>
             </section>
@@ -948,7 +948,7 @@ function rowHTML(p){
   <div class="proj-row">
     <div class="proj-head">
       <div class="proj-thumb ${thumbCls}" ${p.live?`data-url="${p.url}" role="button" tabindex="0" aria-label="Open live preview of ${p.title}"`:''}>
-        <img src="${p.img}" alt="${p.title}" loading="lazy">
+        <img src="${p.img}" alt="${p.title}" loading="lazy" decoding="async">
         <div class="proj-cue"><span><i class='bx bx-expand-alt' aria-hidden="true"></i> Preview</span></div>
       </div>
       <div class="proj-info">
