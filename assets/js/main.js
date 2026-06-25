@@ -180,6 +180,14 @@ function linkAction(){
 }
 navLink.forEach(n => n.addEventListener('click', linkAction))
 
+/*==================== REDUCED MOTION (programmatic scrolling) ====================*/
+// scrollIntoView/scrollTo with an explicit behavior:'smooth' override the CSS
+// scroll-behavior:auto we set under prefers-reduced-motion, so resolve it in JS
+// too — otherwise reduced-motion users still get animated scrolling.
+const prefersReducedMotion = () =>
+    window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+const scrollBehavior = () => (prefersReducedMotion() ? 'auto' : 'smooth');
+
 /*==================== SCROLL SECTIONS ACTIVE LINK ====================*/
 const sections = document.querySelectorAll('section[id]')
 
@@ -696,11 +704,11 @@ if (scrollDownBtn) scrollDownBtn.addEventListener('click', () => {
     const idx = getCurrentSectionIndex();
     const nextIdx = Math.min(idx + 1, sectionIds.length - 1);
     const target = document.getElementById(sectionIds[nextIdx]);
-    if (target) target.scrollIntoView({ behavior: 'smooth' });
+    if (target) target.scrollIntoView({ behavior: scrollBehavior() });
 });
 
 if (backToTop) backToTop.addEventListener('click', () => {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    window.scrollTo({ top: 0, behavior: scrollBehavior() });
 });
 
 // Easter egg (uncomment to enable)
@@ -713,7 +721,7 @@ if (backToTop) backToTop.addEventListener('click', () => {
 
 /*===== RESUME REQUEST =====*/
 function requestResume() {
-    document.getElementById('contact').scrollIntoView({ behavior: 'smooth' });
+    document.getElementById('contact').scrollIntoView({ behavior: scrollBehavior() });
     const form = document.querySelector('.contact__form');
     const nameInput = form.querySelector('input[name="name"]');
     const emailInput = form.querySelector('input[name="email"]');
