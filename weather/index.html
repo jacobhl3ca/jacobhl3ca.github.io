@@ -384,7 +384,7 @@ function render(w, aqi, geo) {
   // Hero
   html += `<div class="card hero">
     <div class="hero-left">
-      <div class="hero-icon">${getIcon(weatherCode, isDay)}</div>
+      <div class="hero-icon" aria-hidden="true">${getIcon(weatherCode, isDay)}</div>
       <div>
         <div class="hero-temp">${temp}<span>°F</span></div>
         <div class="feels-like">${feelsNote}</div>
@@ -407,7 +407,7 @@ function render(w, aqi, geo) {
 
   // Humidity comfort
   html += `<div class="card">
-    <div class="stat-icon">💧</div>
+    <div class="stat-icon" aria-hidden="true">💧</div>
     <div class="stat-label">Humidity Comfort</div>
     <div class="stat-value">${humidity}%</div>
     <div class="stat-sub">${comfort.label}</div>
@@ -416,7 +416,7 @@ function render(w, aqi, geo) {
 
   // AQI
   html += `<div class="card">
-    <div class="stat-icon">🌬️</div>
+    <div class="stat-icon" aria-hidden="true">🌬️</div>
     <div class="stat-label">Air Quality${usAqi != null ? ' (US AQI: '+usAqi+')' : ''}</div>
     <div class="stat-value" style="color:${aqiInfo.color}">${aqiInfo.text}</div>
     <div class="stat-sub">${pm25 != null ? 'PM2.5: ' + pm25.toFixed(1) + ' µg/m³' : ''}</div>
@@ -425,7 +425,7 @@ function render(w, aqi, geo) {
 
   // Sunrise/Sunset
   html += `<div class="card">
-    <div class="stat-icon">🌅</div>
+    <div class="stat-icon" aria-hidden="true">🌅</div>
     <div class="stat-label">Sunrise / Sunset</div>
     <div class="sun-bar"><div class="sun-dot" style="left:calc(${sunProg}% - 7px)"></div></div>
     <div class="sun-times">
@@ -446,7 +446,7 @@ function render(w, aqi, geo) {
         const popColor = pop >= 60 ? '#ef4444' : pop >= 30 ? '#f59e0b' : '#22c55e';
         return `<div class="hourly-item">
           <div class="time">${fmtHour(h.time)}</div>
-          <div class="icon">${getIcon(h.code, h.isDay)}</div>
+          <div class="icon" aria-hidden="true">${getIcon(h.code, h.isDay)}</div>
           <div class="chance" style="color:${popColor}">${pop}%</div>
         </div>`;
       }).join('')}
@@ -459,7 +459,7 @@ function render(w, aqi, geo) {
     ${dailyRows.map(d => {
       return `<div class="forecast-row">
         <div class="forecast-day">${d.day}</div>
-        <div class="forecast-icon">${getIcon(d.code, true)}</div>
+        <div class="forecast-icon" aria-hidden="true">${getIcon(d.code, true)}</div>
         <div class="forecast-desc">${getDesc(d.code)}${d.pop > 20 ? ' · ' + d.pop + '% rain' : ''}</div>
         <div class="forecast-temps"><span class="hi">${d.hi}°</span> / <span class="lo">${d.lo}°</span></div>
       </div>`;
