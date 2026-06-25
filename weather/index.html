@@ -297,6 +297,8 @@ async function fetchWeather() {
 }
 
 function render(w, aqi, geo) {
+  // Reflect the loaded city in the tab title (the static <title> only says NYC).
+  if (geo && geo.name) document.title = `${geo.name} — Weather Dashboard`;
   const c = w.current;
   const temp = Math.round(c.temperature_2m);
   const feelsLike = Math.round(c.apparent_temperature);
