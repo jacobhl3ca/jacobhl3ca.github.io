@@ -847,7 +847,7 @@
 
     
     <!-- ===== Projects rows: live-preview modal + render/interaction JS ===== -->
-    <div class="modal" id="modal">
+    <div class="modal" id="modal" role="dialog" aria-modal="true" aria-label="Live site preview">
   <div class="modal-card">
     <div class="modal-bar">
       <div class="dots">
@@ -998,10 +998,12 @@ function navigate(url, push){
 }
 function openModal(url, srcEl){ sourceThumb=srcEl||null; backStack=[]; modal.classList.remove('fullscreen'); card.classList.remove('minimizing');
   card.style.transform=''; card.style.opacity=''; card.style.transformOrigin='';
-  navigate(url,false); modal.classList.add('open'); document.body.style.overflow='hidden'; }
+  navigate(url,false); modal.classList.add('open'); document.body.style.overflow='hidden';
+  document.getElementById('modalClose').focus(); }   // move focus into the dialog for keyboard/AT users
 function closeModal(){ modal.classList.remove('open','fullscreen'); card.classList.remove('minimizing');
   card.style.transform=''; card.style.opacity=''; card.style.transformOrigin='';
-  frame.src='about:blank'; document.body.style.overflow=''; clearTimeout(loadTimer); }
+  frame.src='about:blank'; document.body.style.overflow=''; clearTimeout(loadTimer);
+  if(sourceThumb) sourceThumb.focus(); }   // return focus to the thumbnail that opened the preview
 function reload(){ if(currentUrl) navigate(currentUrl,false); }
 function goBack(){ if(backStack.length) navigate(backStack.pop(), false); }
 // yellow dot — minimize: genie back into the exact thumbnail it was opened from, then close
