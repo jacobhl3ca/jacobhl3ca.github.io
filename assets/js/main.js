@@ -205,12 +205,15 @@ const scrollActive = () =>{
 
         if(scrollDown > sectionTop && scrollDown <= sectionTop + sectionHeight){
             sectionsClass.classList.add('active-link')
+            sectionsClass.setAttribute('aria-current', 'page') // tell assistive tech which section is current
         }else{
             sectionsClass.classList.remove('active-link')
-        }                                                    
+            sectionsClass.removeAttribute('aria-current')
+        }
     })
 }
 window.addEventListener('scroll', scrollActive, { passive: true })
+scrollActive() // reflect the initial (top-of-page) active section for assistive tech
 
 /*===== SCROLL REVEAL CASCADE =====*/
 const revealElements = document.querySelectorAll(
