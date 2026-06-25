@@ -251,6 +251,7 @@ function fmtHour(iso) {
 async function geocode(city) {
   const cleanCity = city.replace(/,\s*(US|USA|[A-Z]{2})$/i, '').trim();
   const res = await fetch(`https://geocoding-api.open-meteo.com/v1/search?name=${encodeURIComponent(cleanCity)}&count=5&language=en&format=json`);
+  if (!res.ok) throw new Error('Could not reach the location service. Please try again.');
   const data = await res.json();
   if (!data.results?.length) throw new Error('City not found');
   const usResult = data.results.find(r => r.country_code === 'US') || data.results[0];
@@ -285,6 +286,8 @@ async function fetchWeather() {
       fetch(`https://air-quality-api.open-meteo.com/v1/air-quality?latitude=${geo.lat}&longitude=${geo.lon}&current=pm2_5,pm10,us_aqi&timezone=${encodeURIComponent(geo.tz)}`)
     ]);
 
+    // Weather data is required; air quality degrades gracefully (handled via optional chaining below).
+    if (!weatherRes.ok) throw new Error('Could not load weather data. Please try again in a moment.');
     const weather = await weatherRes.json();
     const aqi = await aqiRes.json();
     render(weather, aqi, geo);
