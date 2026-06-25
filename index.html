@@ -1045,6 +1045,16 @@ document.getElementById('urlForm').addEventListener('submit', e=>{
 });
 modal.addEventListener('click', e=>{ if(e.target===modal) closeModal(); });
 document.addEventListener('keydown', e=>{ if(e.key==='Escape'){ if(modal.classList.contains('fullscreen')) setFullscreen(false); else closeModal(); } });
+// Trap Tab focus inside the open preview dialog so keyboard users can't tab out to the page behind it (WAI-ARIA modal-dialog pattern).
+modal.addEventListener('keydown', e=>{
+  if(e.key!=='Tab' || !modal.classList.contains('open')) return;
+  const items=[...modal.querySelectorAll('button, a[href], input, iframe, [tabindex]:not([tabindex="-1"])')]
+    .filter(el=>!el.disabled && el.offsetParent!==null); // visible, focusable controls only (hidden toolbar/back button excluded)
+  if(!items.length) return;
+  const first=items[0], last=items[items.length-1];
+  if(e.shiftKey && document.activeElement===first){ e.preventDefault(); last.focus(); }
+  else if(!e.shiftKey && document.activeElement===last){ e.preventDefault(); first.focus(); }
+});
 
 const mt=document.getElementById('moreToggle'), mw=document.getElementById('moreWrap'), ml=document.getElementById('moreLabel');
 mt.addEventListener('click', ()=>{
