@@ -948,7 +948,7 @@ function rowHTML(p){
   <div class="proj-row">
     <div class="proj-head">
       <div class="proj-thumb ${thumbCls}" ${p.live?`data-url="${p.url}" role="button" tabindex="0" aria-label="Open live preview of ${p.title}"`:''}>
-        <img src="${p.img}" alt="${p.title}" loading="lazy" decoding="async">
+        <img src="${p.img}" alt="${p.live ? '' : p.title + ' screenshot'}" loading="lazy" decoding="async">
         <div class="proj-cue"><span><i class='bx bx-expand-alt' aria-hidden="true"></i> Preview</span></div>
       </div>
       <div class="proj-info">
