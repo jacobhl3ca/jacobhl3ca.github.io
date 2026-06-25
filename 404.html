@@ -9,6 +9,15 @@
         <link rel="icon" type="image/x-icon" href="/assets/img/favicon.ico">
         <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin> <!-- early-connect to the boxicons CDN (CSS + icon font) -->
         <link href='https://cdn.jsdelivr.net/npm/boxicons@2.0.5/css/boxicons.min.css' rel='stylesheet'>
+        <script>
+            // Apply the saved theme before paint so light-mode users don't see a dark flash
+            // (the document defaults to data-theme="dark"; main.js loads at the end of <body>).
+            try {
+                if (localStorage.getItem('theme') === 'light') {
+                    document.documentElement.removeAttribute('data-theme');
+                }
+            } catch (e) {}
+        </script>
         <title>Page Not Found — Jacob Heifetz-Licht</title>
         <style>
             .error-page {
