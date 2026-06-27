@@ -381,8 +381,16 @@
   .gh-link i{font-size:1.35rem;}
   .site-link img.favicon{width:20px;height:20px;border-radius:4px;display:block;}
   /* download button stands out (filled accent) */
-  .dl-link, [data-theme="dark"] .dl-link{background:var(--first-color);color:#fff;border-color:var(--first-color);}
-  .dl-link:hover{filter:brightness(1.08);background:var(--first-color);color:#fff;transform:translateY(-2px);}
+  /* "Download for Mac" styled exactly like Apple's App Store badge (black, two-line) */
+  .mac-badge{display:inline-flex;align-items:center;gap:9px;height:42px;padding:0 15px;
+    background:#000;border:1px solid #a6a6a6;border-radius:8px;text-decoration:none;color:#fff;
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;line-height:1;
+    transition:transform .25s ease;box-sizing:border-box;}
+  .mac-badge:hover{transform:translateY(-2px);}
+  .mac-badge i{font-size:1.75rem;line-height:1;}
+  .mac-badge .mb-txt{display:flex;flex-direction:column;align-items:flex-start;}
+  .mac-badge .mb-top{font-size:.6rem;letter-spacing:.01em;}
+  .mac-badge .mb-big{font-size:1.2rem;font-weight:500;letter-spacing:-.01em;margin-top:2px;}
 
   /* ---- OTHER PROJECTS DROPDOWN ---- */
   .more-toggle{display:flex;align-items:center;justify-content:center;gap:.55rem;margin:.5rem auto 0;
@@ -937,7 +945,7 @@ function ctaHTML(p){
     const _inner = _fav ? `<img class="favicon" src="${_fav}" alt="" loading="lazy">` : `<i class='bx bx-globe' aria-hidden="true"></i>`;
     h+=`<a href="${p.site}" target="_blank" rel="noopener" class="site-link" title="Visit website" aria-label="Visit the ${p.title} website">${_inner}</a>`; }
   if(p.appstore) h+=`<a href="${p.appstore}" target="_blank" rel="noopener" class="app-store-badge-link"><img src="assets/img/app-store-badge.svg" alt="Download on the App Store" class="app-store-badge"></a>`;
-  if(p.download) h+=`<a href="${p.download}" class="gh-link dl-link" title="Download TidyTab for macOS (.dmg, notarized)"><i class='bx bxl-apple' aria-hidden="true"></i>Download for Mac</a>`;
+  if(p.download) h+=`<a href="${p.download}" class="mac-badge" title="Download TidyTab for macOS (.dmg, notarized)"><i class='bx bxl-apple' aria-hidden="true"></i><span class="mb-txt"><span class="mb-top">Download for</span><span class="mb-big">Mac</span></span></a>`;
   if(p.github) h+=`<a href="${p.github}" target="_blank" rel="noopener" class="gh-link"><i class='bx bxl-github' aria-hidden="true"></i>GitHub</a>`;
   return h ? `<div class="work__cta">${h}</div>` : '';
 }
