@@ -183,7 +183,7 @@ body {
     <input type="text" id="cityInput" placeholder="Search city..." value="New York, NY" aria-label="Search for a city">
     <button onclick="fetchWeather()">Search</button>
   </div>
-  <div id="alertsBanner" class="alerts-banner"></div>
+  <div id="alertsBanner" class="alerts-banner" aria-live="polite" aria-atomic="true"></div>
   <div id="content">
     <div class="loading" role="status"><div class="spinner" aria-hidden="true"></div><br>Loading weather data...</div>
   </div>
@@ -358,18 +358,24 @@ function render(w, aqi, geo) {
 
   // Alerts
   const willRain = hourly.some(h => h.pop > 40);
-  let alertHtml = '';
+  let alertClass = '', alertMsg = '';
   if (windSpeed >= 25 || gusts >= 40) {
-    alertHtml = `<div id="alertsBanner" class="alerts-banner warning">⚠️ High wind advisory — gusts up to ${gusts || windSpeed} mph. Secure loose items.</div>`;
+    alertClass = 'warning'; alertMsg = `⚠️ High wind advisory — gusts up to ${gusts || windSpeed} mph. Secure loose items.`;
   } else if (temp <= 20) {
-    alertHtml = `<div id="alertsBanner" class="alerts-banner danger">🥶 Extreme cold — frostbite risk. Layer up and limit exposure.</div>`;
+    alertClass = 'danger'; alertMsg = `🥶 Extreme cold — frostbite risk. Layer up and limit exposure.`;
   } else if (temp >= 95 && humidity >= 60) {
-    alertHtml = `<div id="alertsBanner" class="alerts-banner danger">🔥 Excessive heat + humidity — heat stroke risk. Stay indoors if possible.</div>`;
+    alertClass = 'danger'; alertMsg = `🔥 Excessive heat + humidity — heat stroke risk. Stay indoors if possible.`;
   } else if (willRain) {
     const rainH = hourly.find(h => h.pop > 40);
-    alertHtml = `<div id="alertsBanner" class="alerts-banner info">☂️ Rain likely around ${fmtHour(rainH.time)} — grab an umbrella before heading out.</div>`;
+    alertClass = 'info'; alertMsg = `☂️ Rain likely around ${fmtHour(rainH.time)} — grab an umbrella before heading out.`;
   }
-  document.getElementById('alertsBanner').outerHTML = alertHtml || '<div id="alertsBanner" class="alerts-banner"></div>';
+  // Update the persistent aria-live banner in place (rather than replacing it via outerHTML)
+  // so screen readers announce the alert; clear the inline display the reset path set so the
+  // CSS class controls visibility again.
+  const alertsBanner = document.getElementById('alertsBanner');
+  alertsBanner.className = 'alerts-banner' + (alertClass ? ' ' + alertClass : '');
+  alertsBanner.innerHTML = alertMsg;
+  alertsBanner.style.display = alertClass ? '' : 'none';
 
   // Daily forecast
   const days = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
