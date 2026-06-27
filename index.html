@@ -385,9 +385,12 @@
   .mac-badge{display:inline-flex;align-items:center;gap:9px;height:42px;padding:0 15px;
     background:#000;border:1px solid #a6a6a6;border-radius:8px;text-decoration:none;color:#fff;
     font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;line-height:1;
-    transition:transform .25s ease;box-sizing:border-box;}
+    transition:transform .25s ease;box-sizing:border-box;
+    will-change:transform;backface-visibility:hidden;}  /* keep the apple glyph from re-snapping on hover */
   .mac-badge:hover{transform:translateY(-2px);}
-  .mac-badge i{font-size:1.75rem;line-height:1;}
+  /* fixed, flex-centered box for the glyph so it never shifts */
+  .mac-badge i{flex:0 0 auto;width:1.75rem;height:1.75rem;font-size:1.75rem;line-height:1;
+    display:flex;align-items:center;justify-content:center;}
   .mac-badge .mb-txt{display:flex;flex-direction:column;align-items:flex-start;}
   .mac-badge .mb-top{font-size:.6rem;letter-spacing:.01em;}
   .mac-badge .mb-big{font-size:1.2rem;font-weight:500;letter-spacing:-.01em;margin-top:2px;}
