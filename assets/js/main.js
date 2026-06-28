@@ -22,6 +22,17 @@ const showMenu = (toggleId, navId) =>{
 }
 showMenu('nav-toggle','nav-menu')
 
+/*===== SAFE localStorage =====*/
+// Some browsers throw on localStorage access (Safari private mode throws on
+// setItem; disabled cookies make even reading it raise SecurityError). Wrap
+// reads/writes so a storage failure never breaks the theme/view code below.
+const safeGetItem = (key) => {
+    try { return localStorage.getItem(key); } catch (e) { return null; }
+}
+const safeSetItem = (key, value) => {
+    try { localStorage.setItem(key, value); } catch (e) { /* storage unavailable — ignore */ }
+}
+
 /*===== PASSWORD MODAL (commented out — kept for reference) =====*/
 /*
 function showPasswordModal(type) {
@@ -94,10 +105,10 @@ if (viewPill) {
         });
     };
     // Default = projects-only; honor saved preference.
-    applyView(localStorage.getItem('viewMode') === 'full' ? 'full' : 'projects');
+    applyView(safeGetItem('viewMode') === 'full' ? 'full' : 'projects');
     pillBtns.forEach((b) => b.addEventListener('click', () => {
         const mode = b.dataset.view === 'full' ? 'full' : 'projects';
-        localStorage.setItem('viewMode', mode);
+        safeSetItem('viewMode', mode);
         applyView(mode);
         b.blur();
         if (mode === 'full') window.scrollTo(0, 0);
@@ -107,7 +118,7 @@ if (viewPill) {
 /*===== THEME TOGGLE =====*/
 const themeToggle = document.getElementById('theme-toggle');
 const themeIcon = document.getElementById('theme-icon');
-const currentTheme = localStorage.getItem('theme');
+const currentTheme = safeGetItem('theme');
 
 // Swap project images based on theme
 function setThemeImages(theme) {
@@ -139,7 +150,7 @@ if (currentTheme === 'light') {
     themeToggle.setAttribute('aria-label', 'Switch to light mode');
     setThemeColor('dark');
     if (currentTheme !== 'dark') {
-        localStorage.setItem('theme', 'dark');
+        safeSetItem('theme', 'dark');
     }
 }
 
@@ -152,14 +163,14 @@ themeToggle.addEventListener('click', () => {
         document.documentElement.removeAttribute('data-theme');
         themeIcon.classList.replace('bx-sun', 'bx-moon');
         themeToggle.setAttribute('aria-label', 'Switch to dark mode');
-        localStorage.setItem('theme', 'light');
+        safeSetItem('theme', 'light');
         setThemeImages('light');
         setThemeColor('light');
     } else {
         document.documentElement.setAttribute('data-theme', 'dark');
         themeIcon.classList.replace('bx-moon', 'bx-sun');
         themeToggle.setAttribute('aria-label', 'Switch to light mode');
-        localStorage.setItem('theme', 'dark');
+        safeSetItem('theme', 'dark');
         setThemeImages('dark');
         setThemeColor('dark');
     }
