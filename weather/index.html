@@ -189,6 +189,12 @@ body {
   <div id="alertsBanner" class="alerts-banner" aria-live="polite" aria-atomic="true"></div>
   <div id="content">
     <div class="loading" role="status"><div class="spinner" aria-hidden="true"></div><br>Loading weather data...</div>
+    <noscript>
+      <!-- The whole dashboard is rendered by JavaScript, so with JS disabled the loading
+           spinner above would otherwise hang forever. Hide it and explain instead. -->
+      <style>.loading{display:none;}</style>
+      <div class="card" role="alert" style="text-align:center;">This weather dashboard needs JavaScript to load live data. Please enable JavaScript, or head back to <a href="/" style="color:var(--accent);">jacobhl.com</a>.</div>
+    </noscript>
   </div>
 </main>
 
