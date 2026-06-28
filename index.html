@@ -545,7 +545,7 @@
               </style>
               <div class="ccu-wrap">
                 <p class="ccu-eyebrow"><span class="ccu-dot"></span> Live · my Claude Code usage</p>
-                <div class="ccu-r"><button data-r="today">Today</button><button data-r="d7">7 days</button><button data-r="d30" class="on">30 days</button><button data-r="all">All time</button></div>
+                <div class="ccu-r" role="group" aria-label="Usage time range"><button type="button" data-r="today" aria-pressed="false">Today</button><button type="button" data-r="d7" aria-pressed="false">7 days</button><button type="button" data-r="d30" class="on" aria-pressed="true">30 days</button><button type="button" data-r="all" aria-pressed="false">All time</button></div>
                 <div class="ccu-h">
                   <div><div class="ccu-num" id="ccu-m">0</div><div class="ccu-lab">Messages</div><div class="ccu-sub">prompts I've sent</div></div>
                   <div><div class="ccu-num" id="ccu-t">0</div><div class="ccu-lab">Tokens</div><div class="ccu-sub">processed</div></div>
@@ -569,7 +569,7 @@
                   var BY=D.by_day,CUT=D.cutoffs;
                   function rng(r){var o={p:0,a:0,t:0,tr:0,o:0,s:0,days:0};BY.forEach(function(x){if(r==="all"||x.d>=CUT[r]){o.p+=x.p;o.a+=x.a;o.t+=x.t;o.tr+=x.tr;o.o+=x.o;o.s+=x.s;if(x.p||x.t)o.days++;}});return o;}
                   function show(r){var s=rng(r);anim(document.getElementById("ccu-m"),s.p,L);anim(document.getElementById("ccu-t"),s.a,ab);document.getElementById("ccu-turns").textContent=L(s.t);document.getElementById("ccu-tools").textContent=L(s.tr);document.getElementById("ccu-convos").textContent=L(s.s);document.getElementById("ccu-written").textContent=ab(s.o);document.getElementById("ccu-days").textContent=L(s.days);}
-                  Array.prototype.forEach.call(document.querySelectorAll(".ccu-r button"),function(b){b.onclick=function(){Array.prototype.forEach.call(document.querySelectorAll(".ccu-r button"),function(x){x.classList.remove("on");});b.classList.add("on");show(b.dataset.r);};});
+                  Array.prototype.forEach.call(document.querySelectorAll(".ccu-r button"),function(b){b.onclick=function(){Array.prototype.forEach.call(document.querySelectorAll(".ccu-r button"),function(x){x.classList.remove("on");x.setAttribute("aria-pressed","false");});b.classList.add("on");b.setAttribute("aria-pressed","true");show(b.dataset.r);};});
                   document.getElementById("ccu-u").textContent="updated "+D.updated+" · auto-refreshes";
                   document.getElementById("ccu").style.display="";
                   show("d30");
@@ -608,7 +608,7 @@
                 <div class="about__container bd-grid">
                     <div class="about__img">
 
-                         <img src="assets/img/about.jpg" alt="Jacob Heifetz-Licht portrait" loading="lazy" decoding="async" class="clickable-img" id="about-photo">
+                         <img src="assets/img/about.jpg" alt="Jacob Heifetz-Licht portrait" width="600" height="600" loading="lazy" decoding="async" class="clickable-img" id="about-photo">
 
                     </div>
                     <div>
@@ -785,7 +785,7 @@
                     </div>
 
                     <div>
-                        <img src="assets/img/skills.jpg" alt="Jacob working with data analytics tools" loading="lazy" decoding="async" class="skills__img" id="skills-photo">
+                        <img src="assets/img/skills.jpg" alt="Jacob working with data analytics tools" width="640" height="426" loading="lazy" decoding="async" class="skills__img" id="skills-photo">
                     </div>
                 </div>
             </section>

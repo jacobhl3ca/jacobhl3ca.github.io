@@ -33,6 +33,9 @@
 <link rel="preconnect" href="https://air-quality-api.open-meteo.com" crossorigin>
 <style>
 :root {
+  /* Dark-only dashboard: tell the browser to render UA chrome (scrollbars, the
+     text caret, form autofill) in dark mode so it matches the dark theme. */
+  color-scheme: dark;
   --bg: #0b1121;
   --card: #111a2e;
   --card-border: #1a2744;
@@ -153,7 +156,7 @@ body {
 
 .section-title {
   font-size:13px; font-weight:600; text-transform:uppercase;
-  letter-spacing:1px; color:var(--text-dim); margin-bottom:12px;
+  letter-spacing:1px; color:var(--text-dim); margin:0 0 12px;
 }
 
 .loading { text-align:center; padding:60px; color:var(--text-dim); font-size:14px; }
@@ -179,11 +182,11 @@ body {
 <body>
 <main class="container">
   <h1 class="visually-hidden">Weather Dashboard</h1>
-  <div class="search-bar">
+  <div class="search-bar" role="search" aria-label="City weather search">
     <input type="text" id="cityInput" placeholder="Search city..." value="New York, NY" aria-label="Search for a city">
     <button onclick="fetchWeather()">Search</button>
   </div>
-  <div id="alertsBanner" class="alerts-banner"></div>
+  <div id="alertsBanner" class="alerts-banner" aria-live="polite" aria-atomic="true"></div>
   <div id="content">
     <div class="loading" role="status"><div class="spinner" aria-hidden="true"></div><br>Loading weather data...</div>
   </div>
@@ -358,18 +361,24 @@ function render(w, aqi, geo) {
 
   // Alerts
   const willRain = hourly.some(h => h.pop > 40);
-  let alertHtml = '';
+  let alertClass = '', alertMsg = '';
   if (windSpeed >= 25 || gusts >= 40) {
-    alertHtml = `<div id="alertsBanner" class="alerts-banner warning">⚠️ High wind advisory — gusts up to ${gusts || windSpeed} mph. Secure loose items.</div>`;
+    alertClass = 'warning'; alertMsg = `⚠️ High wind advisory — gusts up to ${gusts || windSpeed} mph. Secure loose items.`;
   } else if (temp <= 20) {
-    alertHtml = `<div id="alertsBanner" class="alerts-banner danger">🥶 Extreme cold — frostbite risk. Layer up and limit exposure.</div>`;
+    alertClass = 'danger'; alertMsg = `🥶 Extreme cold — frostbite risk. Layer up and limit exposure.`;
   } else if (temp >= 95 && humidity >= 60) {
-    alertHtml = `<div id="alertsBanner" class="alerts-banner danger">🔥 Excessive heat + humidity — heat stroke risk. Stay indoors if possible.</div>`;
+    alertClass = 'danger'; alertMsg = `🔥 Excessive heat + humidity — heat stroke risk. Stay indoors if possible.`;
   } else if (willRain) {
     const rainH = hourly.find(h => h.pop > 40);
-    alertHtml = `<div id="alertsBanner" class="alerts-banner info">☂️ Rain likely around ${fmtHour(rainH.time)} — grab an umbrella before heading out.</div>`;
+    alertClass = 'info'; alertMsg = `☂️ Rain likely around ${fmtHour(rainH.time)} — grab an umbrella before heading out.`;
   }
-  document.getElementById('alertsBanner').outerHTML = alertHtml || '<div id="alertsBanner" class="alerts-banner"></div>';
+  // Update the persistent aria-live banner in place (rather than replacing it via outerHTML)
+  // so screen readers announce the alert; clear the inline display the reset path set so the
+  // CSS class controls visibility again.
+  const alertsBanner = document.getElementById('alertsBanner');
+  alertsBanner.className = 'alerts-banner' + (alertClass ? ' ' + alertClass : '');
+  alertsBanner.innerHTML = alertMsg;
+  alertsBanner.style.display = alertClass ? '' : 'none';
 
   // Daily forecast
   const days = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
@@ -445,7 +454,7 @@ function render(w, aqi, geo) {
 
   // Hourly rain
   html += `<div class="card">
-    <div class="section-title">☂️ Rain Chance — Next 12h</div>
+    <h2 class="section-title">☂️ Rain Chance — Next 12h</h2>
     <div class="hourly-row">
       ${hourly.map(h => {
         const pop = h.pop;
@@ -461,7 +470,7 @@ function render(w, aqi, geo) {
 
   // 5-day forecast
   html += `<div class="card">
-    <div class="section-title">📅 5-Day Forecast</div>
+    <h2 class="section-title">📅 5-Day Forecast</h2>
     ${dailyRows.map(d => {
       return `<div class="forecast-row">
         <div class="forecast-day">${d.day}</div>
