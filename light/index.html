@@ -20,8 +20,10 @@
     <meta name="twitter:description" content="Data analytics leader specializing in Python, SQL, Tableau, and automation. Turning complex data into actionable insights.">
     <meta name="twitter:image" content="https://jacobhl3ca.github.io/assets/img/og_image_centered.png">
     <script>
-        // Force light mode and redirect to main site
-        localStorage.setItem('theme', 'light');
+        // Force light mode and redirect to main site.
+        // Guard localStorage (it can throw in private mode / when storage is blocked)
+        // so the redirect still runs even if the theme preference can't be saved.
+        try { localStorage.setItem('theme', 'light'); } catch (e) {}
         window.location.replace('/');
     </script>
 </head>
