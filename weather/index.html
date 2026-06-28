@@ -207,6 +207,9 @@ body {
     <button onclick="fetchWeather()">Search</button>
   </div>
   <div id="alertsBanner" class="alerts-banner" aria-live="polite" aria-atomic="true"></div>
+  <!-- Persistent polite live region: the loading spinner (role=status) is wiped when results
+       render, so screen-reader users otherwise get no confirmation the new city's weather arrived. -->
+  <div id="srStatus" class="visually-hidden" role="status" aria-live="polite"></div>
   <div id="content">
     <div class="loading" role="status"><div class="spinner" aria-hidden="true"></div><br>Loading weather data...</div>
     <noscript>
@@ -334,6 +337,9 @@ async function fetchWeather() {
 function render(w, aqi, geo) {
   // Reflect the loaded city in the tab title (the static <title> only says NYC).
   if (geo && geo.name) document.title = `${geo.name} — Weather Dashboard`;
+  // Announce completion to screen readers (the loading status node is replaced below).
+  const srStatus = document.getElementById('srStatus');
+  if (srStatus) srStatus.textContent = `Weather for ${geo && geo.name ? geo.name : 'your location'} loaded.`;
   const c = w.current;
   const temp = Math.round(c.temperature_2m);
   const feelsLike = Math.round(c.apparent_temperature);
