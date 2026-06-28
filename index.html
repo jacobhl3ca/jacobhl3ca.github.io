@@ -664,6 +664,18 @@
 
                 <div class="proj-wrap">
                     <div id="main-rows"></div>
+                    <noscript>
+                        <!-- The project cards above are built by JavaScript, so with scripting disabled
+                             (or for crawlers that don't run JS) #main-rows is empty. List the live
+                             projects as plain links so the core content and its SEO value aren't lost. -->
+                        <ul style="list-style:none;margin:0;padding:0;line-height:1.6;color:var(--text-color,#8b94a0);">
+                            <li><a href="https://hidescore.com" target="_blank" rel="noopener noreferrer">HideScore</a> — Watch sports highlights without seeing the score.</li>
+                            <li><a href="https://tonightnyc.com" target="_blank" rel="noopener noreferrer">Tonight NYC</a> — Every NYC comedy show, filtered to your favorite comedians.</li>
+                            <li><a href="https://subwaytimes.com" target="_blank" rel="noopener noreferrer">Subway Times</a> — Real-time NYC subway arrivals, faster than Maps.</li>
+                            <li><a href="https://davidlicht.com" target="_blank" rel="noopener noreferrer">David Licht</a> — A showcase site for my dad — five decades of drumming.</li>
+                            <li><a href="https://theisland.nyc" target="_blank" rel="noopener noreferrer">The Island</a> — Everything happening on NYC's Roosevelt Island, in one place.</li>
+                        </ul>
+                    </noscript>
 
                     <button class="more-toggle" id="moreToggle" aria-expanded="false" aria-controls="moreWrap">
                         <span id="moreLabel">Private projects</span>
