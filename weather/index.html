@@ -156,7 +156,7 @@ body {
 
 .section-title {
   font-size:13px; font-weight:600; text-transform:uppercase;
-  letter-spacing:1px; color:var(--text-dim); margin-bottom:12px;
+  letter-spacing:1px; color:var(--text-dim); margin:0 0 12px;
 }
 
 .loading { text-align:center; padding:60px; color:var(--text-dim); font-size:14px; }
@@ -454,7 +454,7 @@ function render(w, aqi, geo) {
 
   // Hourly rain
   html += `<div class="card">
-    <div class="section-title">☂️ Rain Chance — Next 12h</div>
+    <h2 class="section-title">☂️ Rain Chance — Next 12h</h2>
     <div class="hourly-row">
       ${hourly.map(h => {
         const pop = h.pop;
@@ -470,7 +470,7 @@ function render(w, aqi, geo) {
 
   // 5-day forecast
   html += `<div class="card">
-    <div class="section-title">📅 5-Day Forecast</div>
+    <h2 class="section-title">📅 5-Day Forecast</h2>
     ${dailyRows.map(d => {
       return `<div class="forecast-row">
         <div class="forecast-day">${d.day}</div>
