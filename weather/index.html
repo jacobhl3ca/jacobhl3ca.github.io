@@ -8,6 +8,25 @@
 <title>Weather Dashboard — NYC</title>
 <meta name="description" content="A live weather dashboard with current conditions, hourly rain chance, a 5-day forecast, air quality, and sun times. Search any city — defaults to New York, NY.">
 <link rel="canonical" href="https://jacobhl.com/weather/">
+<!-- Structured data so search engines understand this is a free, browser-based weather app (mirrors the Person schema on the main site) -->
+<script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "Weather Dashboard",
+    "url": "https://jacobhl.com/weather/",
+    "description": "A live weather dashboard with current conditions, hourly rain chance, a 5-day forecast, air quality, and sun times. Search any city — defaults to New York, NY.",
+    "applicationCategory": "UtilitiesApplication",
+    "operatingSystem": "Web browser",
+    "browserRequirements": "Requires JavaScript",
+    "isAccessibleForFree": true,
+    "author": {
+        "@type": "Person",
+        "name": "Jacob Heifetz-Licht",
+        "url": "https://jacobhl.com"
+    }
+}
+</script>
 <!-- Open Graph / Twitter meta for link previews -->
 <meta property="og:title" content="Weather Dashboard">
 <meta property="og:description" content="A live weather dashboard with current conditions, hourly rain chance, a 5-day forecast, air quality, and sun times. Search any city — defaults to New York, NY.">
