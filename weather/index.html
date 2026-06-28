@@ -183,7 +183,7 @@ body {
 <main class="container">
   <h1 class="visually-hidden">Weather Dashboard</h1>
   <div class="search-bar" role="search" aria-label="City weather search">
-    <input type="text" id="cityInput" placeholder="Search city..." value="New York, NY" aria-label="Search for a city">
+    <input type="text" id="cityInput" placeholder="Search city..." value="New York, NY" aria-label="Search for a city" enterkeyhint="search" autocapitalize="words">
     <button onclick="fetchWeather()">Search</button>
   </div>
   <div id="alertsBanner" class="alerts-banner" aria-live="polite" aria-atomic="true"></div>
