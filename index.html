@@ -1037,7 +1037,10 @@ function navigate(url, push){
   if(push && currentUrl && currentUrl!==url) backStack.push(currentUrl);
   currentUrl=url; updateBack();
   mLoad.classList.remove('hidden'); mLoadTxt.innerHTML='Loading preview…';
-  frame.src=url; mUrl.value=url; mOpen.href=url;
+  // Give the iframe a per-site accessible name (its static title is generic "Live preview"),
+  // so screen-reader users entering the frame hear which site this preview is showing.
+  let _host=url; try{ _host=new URL(url).hostname.replace(/^www\./,''); }catch(e){}
+  frame.src=url; frame.title='Live preview of '+_host; mUrl.value=url; mOpen.href=url;
   clearTimeout(loadTimer);
   loadTimer=setTimeout(()=>{ mLoadTxt.innerHTML=`Taking a while — <a href="${url}" target="_blank" rel="noopener">open ${url} ↗</a>`; }, 6000);
 }
