@@ -328,6 +328,17 @@
         </style>
         <style id="proj-rows-css">
   .proj-wrap{max-width:780px;margin:0 auto;padding:0 1.5rem}
+  /* tech-crowd CTA above the Projects title (sits in the section's existing top padding) */
+  .proj-toptag{display:flex;gap:.6rem;justify-content:center;flex-wrap:wrap;margin:0 0 1.4rem;}
+  .proj-toptag a{display:inline-flex;align-items:center;gap:.45rem;font-family:var(--body-font);
+    font-size:.82rem;font-weight:600;padding:.5rem .95rem;border-radius:999px;text-decoration:none;
+    transition:transform .2s ease,filter .2s ease,border-color .2s ease,color .2s ease;}
+  .proj-toptag i{font-size:1.15rem;}
+  .proj-toptag .toplink{background:var(--first-color);color:#fff;}
+  .proj-toptag .toplink:hover{transform:translateY(-1px);filter:brightness(1.06);}
+  .proj-toptag .topchip{background:transparent;border:1px solid #a6a6a6;color:var(--second-color);}
+  [data-theme="dark"] .proj-toptag .topchip{color:#e0e0e0;}
+  .proj-toptag .topchip:hover{border-color:var(--first-color);color:var(--first-color);}
 
   /* ---- ROW CARD (mirrors .work__img shadow/radius, laid out horizontally) ---- */
   .proj-row{
@@ -351,6 +362,11 @@
   .proj-cue span{display:inline-flex;align-items:center;gap:.4rem;font-size:.75rem;font-weight:600;
     color:#fff;background:rgba(20,26,42,.92);border:1px solid rgba(255,255,255,.25);
     padding:.42rem .8rem;border-radius:999px;}
+  /* persistent magnifying-glass affordance — plain white icon, bottom-right corner, sat on the
+     same horizontal line as the action-row buttons (favicon/App Store/chevron) */
+  .proj-zoom{position:absolute;right:.6rem;bottom:.55rem;display:flex;align-items:center;justify-content:center;
+    color:#fff;pointer-events:none;z-index:2;filter:drop-shadow(0 1px 4px rgba(0,0,0,.85));}
+  .proj-zoom i{font-size:1.4rem;line-height:1;}
   .proj-thumb.no-live{cursor:pointer;}
   .proj-thumb.no-live:hover img{transform:none;}
   .proj-thumb.no-live .proj-cue{display:none;}
@@ -370,8 +386,14 @@
   .proj-info .work__cta{margin-top:auto;justify-content:flex-start;padding-top:.8rem;}
   .proj-info img.app-store-badge{height:40px;width:auto;}
 
-  .proj-chev{flex:0 0 auto;align-self:center;width:38px;height:38px;border-radius:.45rem;cursor:pointer;
-    border:1px solid #a6a6a6;background:transparent;color:var(--second-color);
+  /* CTA + expand-arrow share one bottom row: favicon pinned left, App Store CENTERED, chevron pinned right */
+  .proj-info .proj-actions{flex-wrap:nowrap;gap:.55rem;align-items:center;justify-content:space-between;}
+  /* every button gets the App Store badge's white outline + matching 40px height */
+  .proj-actions .site-link{width:40px;height:40px;border-radius:8px;background:#000;border:1px solid #fff;}
+  .proj-actions .site-link img.favicon{width:22px;height:22px;border-radius:6px;} /* round off stray white image corners */
+  .proj-actions .mac-badge,.proj-actions .gh-link{height:40px;border-color:#fff;}
+  .proj-chev{flex:0 0 auto;width:40px;height:40px;border-radius:8px;cursor:pointer;
+    border:1px solid #fff;background:#000;color:#fff;
     display:flex;align-items:center;justify-content:center;transition:all .25s ease;}
   .proj-chev i{font-size:1.5rem;line-height:1;transition:transform .25s ease;}
   .proj-chev:hover{color:var(--first-color);border-color:var(--first-color);}
@@ -410,6 +432,9 @@
   .mac-badge .mb-txt{display:flex;flex-direction:column;align-items:flex-start;}
   .mac-badge .mb-top{font-size:.6rem;letter-spacing:.01em;}
   .mac-badge .mb-big{font-size:1.2rem;font-weight:500;letter-spacing:-.01em;margin-top:2px;}
+  /* "Download on the Mac App Store" — longer text, keep it on its two lines inside the 40px badge */
+  .mas-badge .mb-top{font-size:.55rem;white-space:nowrap;}
+  .mas-badge .mb-big{font-size:.92rem;white-space:nowrap;margin-top:1px;}
 
   /* ---- OTHER PROJECTS DROPDOWN ---- */
   .more-toggle{display:flex;align-items:center;justify-content:center;gap:.55rem;margin:.5rem auto 0;
@@ -490,9 +515,17 @@
   @keyframes spin{to{transform:rotate(360deg)}}
 
   @media(max-width:576px){
-    .proj-thumb{flex-basis:132px;min-height:88px;}
+    .proj-thumb{flex:0 0 120px;}            /* stretches to the (now shorter) card height */
     .proj-title{font-size:1.02rem;}
     .proj-head{gap:.8rem;padding:.7rem;}
+    .proj-actions{gap:.45rem;}
+    /* keep the favicon box, App Store badge, Mac badge and chevron all the same (smaller) height */
+    .proj-info img.app-store-badge{height:34px;}
+    .proj-actions .site-link{width:34px;height:34px;}
+    .proj-actions .site-link img.favicon{width:19px;height:19px;}
+    .proj-actions .mac-badge,.proj-actions .gh-link{height:34px;}
+    .proj-chev{width:34px;height:34px;}
+    .proj-chev i{font-size:1.3rem;}
   }
     </style>
 </head>
@@ -672,6 +705,12 @@
             <!-- ===== PROJECTS =====--> <!-- or "Work" -->
             
             <section class="work section" id="Projects" aria-labelledby="projects-heading">
+
+                <!-- tech-crowd CTA, tucked into the existing space above the title -->
+                <div class="proj-toptag">
+                    <a class="toplink" href="https://www.linkedin.com/in/jacobhl/" target="_blank" rel="noopener noreferrer"><i class='bx bxl-linkedin' aria-hidden="true"></i> Let's connect on LinkedIn</a>
+                    <a class="topchip" href="https://vercel.com/ship" target="_blank" rel="noopener noreferrer"><i class='bx bx-rocket' aria-hidden="true"></i> See you at Ship '26</a>
+                </div>
 
                 <h2 class="section-title" id="projects-heading">Projects</h2>
 
@@ -912,31 +951,36 @@
     <script>
 (function(){
 const MAIN = [
-  { title:"HideScore", live:true, img:"assets/img/hidescore.png", pos:"top", url:"https://hidescore.com",
+  { title:"HideScore", live:true, img:"assets/img/hidescore-app.png", url:"https://hidescore.com",
     one:"Watch sports highlights without seeing the score.",
     full:"Watch sports highlights without seeing the score. Covers MLB, NBA, NHL, NFL, soccer, tennis and more with score-hidden cards, embedded highlights, and a unified news view — without spoiling anything you haven't watched.",
     site:"https://hidescore.com", appstore:"https://apps.apple.com/app/hidescore/id6766885311" },
-  { title:"Tonight NYC", live:true, img:"assets/img/cellar_tonight.png", pos:"top", url:"https://tonightnyc.com",
+  { title:"Tonight NYC", live:true, img:"assets/img/tonightnyc-app.png", url:"https://tonightnyc.com",
     one:"Every NYC comedy show, filtered to your favorite comedians.",
     full:"No more digging for comedy showtimes, stick to your favorite comedians. Includes every NYC show from the Comedy Cellar, The Stand, and more, filtered your way. Mark favorites and skips, see which set to attend at a glance, and book directly.",
     site:"https://tonightnyc.com", appstore:"https://apps.apple.com/app/id6763027650" },
-  { title:"Subway Times", live:true, img:"assets/img/subway_times.png", pos:"top", url:"https://subwaytimes.com",
+  { title:"Subway Times", live:true, img:"assets/img/subwaytimes-app.png", url:"https://subwaytimes.com",
     one:"Real-time NYC subway arrivals, faster than Maps.",
     full:"Quicker than Google Maps for simple departures, especially from your home station. Real-time NYC subway arrivals, where you can favorite your stations, see countdown timers down to the second, and get out the door faster.",
     site:"https://subwaytimes.com" },
-  { title:"David Licht", live:true, img:"assets/img/davidlicht.jpg", url:"https://davidlicht.com",
+  { title:"David Licht", live:true, img:"assets/img/davidlicht-app.png", url:"https://davidlicht.com",
     one:"A showcase site for my dad — five decades of drumming.",
     full:"A showcase site I built for my dad — a drummer for five decades, from downtown NYC noise bands to the Grammy-winning Klezmatics. His story, music, and photos in one place.",
     site:"https://davidlicht.com" },
-  { title:"The Island", live:true, img:"assets/img/rioc.png", pos:"top", url:"https://theisland.nyc",
+  { title:"The Island", live:true, img:"assets/img/theisland-app.png", url:"https://theisland.nyc",
     one:"Everything happening on NYC's Roosevelt Island, in one place.",
     full:"Everything happening on NYC's Roosevelt Island, in one place — real-time bus GPS, subway, tram, and ferry times, a restaurant guide, service alerts, an events newsletter, and an interactive map.",
-    site:"https://theisland.nyc" },
+    site:"https://theisland.nyc", appstore:"https://apps.apple.com/us/app/roosevelt-island/id6775979583" },
   // ref (hidden from site): "Developer ID-signed and Apple-notarized, so it downloads and opens cleanly (Python, rumps, py2app)."
   { title:"TidyTab", live:false, img:"assets/img/tidytab.png",
     one:"Bulk unpin or close Safari pinned tabs — a macOS menu-bar app.",
     full:"A menu-bar app I built to bulk unpin or close Safari pinned tabs in one sweep — it auto-detects your pinned tabs and clears them (press Space to stop).",
     download:"https://github.com/jacobhl3ca/safari-pinned-tab-automation/releases/latest/download/TidyTab.dmg" },
+  // PREVIEW DUP — second TidyTab card so Jacob can see the official "Download on the Mac App Store" badge style. Remove if not wanted.
+  { title:"TidyTab", live:false, img:"assets/img/tidytab.png",
+    one:"Bulk unpin or close Safari pinned tabs — a macOS menu-bar app.",
+    full:"A menu-bar app I built to bulk unpin or close Safari pinned tabs in one sweep — it auto-detects your pinned tabs and clears them (press Space to stop).",
+    mas:"https://github.com/jacobhl3ca/safari-pinned-tab-automation/releases/latest/download/TidyTab.dmg" },
 ];
 const MORE = [
   { title:"Spotify Analytics", img:"assets/img/spotify_monthly.png",
@@ -979,26 +1023,29 @@ function ctaHTML(p){
     h+=`<a href="${p.site}" target="_blank" rel="noopener" class="site-link" title="Visit website" aria-label="Visit the ${p.title} website">${_inner}</a>`; }
   if(p.appstore) h+=`<a href="${p.appstore}" target="_blank" rel="noopener" class="app-store-badge-link" aria-label="Download ${p.title} on the App Store"><img src="assets/img/app-store-badge.svg" alt="" class="app-store-badge"></a>`;
   if(p.download) h+=`<a href="${p.download}" class="mac-badge" title="Download TidyTab for macOS (.dmg, notarized)"><i class='bx bxl-apple' aria-hidden="true"></i><span class="mb-txt"><span class="mb-top">Download for</span><span class="mb-big">Mac</span></span></a>`;
+  if(p.mas) h+=`<a href="${p.mas}" class="mac-badge mas-badge" title="Download on the Mac App Store"><i class='bx bxl-apple' aria-hidden="true"></i><span class="mb-txt"><span class="mb-top">Download on the</span><span class="mb-big">Mac App Store</span></span></a>`;
   if(p.github) h+=`<a href="${p.github}" target="_blank" rel="noopener" class="gh-link" aria-label="View the ${p.title} source on GitHub"><i class='bx bxl-github' aria-hidden="true"></i>GitHub</a>`;
-  return h ? `<div class="work__cta">${h}</div>` : '';
+  return h; // inner links only — wrapped by the .proj-actions row (with the chevron) in rowHTML
 }
 function rowHTML(p){
-  // role=img + aria-label so screen readers announce "Live" (a bare title attribute on a span isn't reliably exposed to AT).
-  const dot = p.live ? '<span class="live-dot is-visible" role="img" aria-label="Live" title="Live"></span>' : '';
+  const dot = (p.live || p.download || p.mas) ? '<span class="live-dot is-visible" title="Live"></span>' : '';
   const thumbCls = (p.live?'':'no-live') + (p.pos==='top'?' pos-top':'');
   return `
   <div class="proj-row">
     <div class="proj-head">
       <div class="proj-thumb ${thumbCls}" ${p.live?`data-url="${p.url}" role="button" tabindex="0" aria-label="Open live preview of ${p.title}"`:''}>
         <img src="${p.img}" alt="${p.live ? '' : p.title + ' screenshot'}" loading="lazy" decoding="async">
+        <span class="proj-zoom" aria-hidden="true"><i class='bx bx-search'></i></span>
         <div class="proj-cue"><span><i class='bx bx-expand-alt' aria-hidden="true"></i> Preview</span></div>
       </div>
       <div class="proj-info">
         <h3 class="proj-title">${dot}${p.title}</h3>
         <p class="proj-one">${p.one}</p>
-        ${ctaHTML(p)}
+        <div class="work__cta proj-actions">
+          ${ctaHTML(p)}
+          <button class="proj-chev" aria-label="Show details" aria-expanded="false"><i class='bx bx-chevron-down' aria-hidden="true"></i></button>
+        </div>
       </div>
-      <button class="proj-chev" aria-label="Show details" aria-expanded="false"><i class='bx bx-chevron-down' aria-hidden="true"></i></button>
     </div>
     <div class="proj-detail"><div class="proj-detail-in"><div class="pad">
       <p>${p.full}</p>

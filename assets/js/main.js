@@ -705,8 +705,10 @@ window.addEventListener('scroll', () => {
         }, 200); // debounce scroll events
     }
 
-    // Up arrow: show with 2s delay when at contact, hide otherwise
-    if (atContact) {
+    // Up arrow: only near the actual bottom of the page (so it never floats
+    // mid-scroll overlapping card buttons). 2s delay, hide otherwise.
+    const nearBottom = (window.innerHeight + window.scrollY) >= (document.documentElement.scrollHeight - 120);
+    if (nearBottom) {
         if (!backToTopTimer && !backToTop.classList.contains('visible')) {
             backToTopTimer = setTimeout(() => {
                 backToTop.classList.add('visible');
