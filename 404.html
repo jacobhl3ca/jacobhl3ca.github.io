@@ -15,10 +15,15 @@
             try {
                 if (localStorage.getItem('theme') === 'light') {
                     document.documentElement.removeAttribute('data-theme');
+                    // Sync the mobile address-bar colour to the light header before first paint
+                    // (main.js does this too, but only later at the end of <body>).
+                    var tc = document.querySelector('meta[name="theme-color"]');
+                    if (tc) tc.setAttribute('content', '#ffffff');
                 }
             } catch (e) {}
         </script>
         <title>Page Not Found — Jacob Heifetz-Licht</title>
+        <meta name="description" content="The page you're looking for doesn't exist or has been moved. Head back to jacobhl.com — the portfolio of Jacob Heifetz-Licht, analytics manager and web developer.">
         <style>
             .error-page {
                 display: flex;
@@ -81,7 +86,7 @@
                     <button id="theme-toggle" class="theme-toggle" aria-label="Switch to light mode" style="position: relative; top: -2px;">
                         <i class='bx bx-sun' id="theme-icon" aria-hidden="true"></i>
                     </button>
-                    <div class="nav__toggle" id="nav-toggle" role="button" aria-label="Toggle navigation menu">
+                    <div class="nav__toggle" id="nav-toggle" role="button" aria-label="Toggle navigation menu" aria-controls="nav-menu">
                         <i class='bx bx-menu' aria-hidden="true"></i>
                     </div>
                 </div>
@@ -103,7 +108,7 @@
             <div class="footer__social">
                 <a href="https://www.linkedin.com/in/jacobhl/" class="footer__icon" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn profile"><i class='bx bxl-linkedin' aria-hidden="true"></i></a>
                 <a href="https://github.com/jacobhl3ca" class="footer__icon" target="_blank" rel="noopener noreferrer" aria-label="GitHub profile"><i class='bx bxl-github' aria-hidden="true"></i></a>
-                <a href="#" onclick="window.location='mail'+'to:'+'hi'+'@'+'jacobhl'+'.com';return false;" class="footer__icon" aria-label="Send email"><i class='bx bx-envelope' aria-hidden="true"></i></a>
+                <a href="mailto:hi@jacobhl.com" class="footer__icon" aria-label="Send email"><i class='bx bx-envelope' aria-hidden="true"></i></a>
                 <a href="/#contact" class="footer__icon" aria-label="Contact"><i class='bx bx-file' aria-hidden="true"></i></a>
             </div>
             <p class="footer__copy">Let's get you back!</p>

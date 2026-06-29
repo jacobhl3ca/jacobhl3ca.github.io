@@ -7,6 +7,10 @@
         <link rel="stylesheet" href="assets/css/styles.css">
         <link rel="icon" type="image/x-icon" href="assets/img/favicon.ico">
         <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin> <!-- early-connect to the boxicons CDN (CSS + icon font) -->
+        <link rel="preconnect" href="https://fonts.googleapis.com"> <!-- early-connect to Google Fonts CSS (styles.css @imports Poppins from here, on the critical path) -->
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin> <!-- early-connect to the Google Fonts file host; crossorigin so the warmed socket is reused for the CORS woff2 fetch -->
+        <link rel="dns-prefetch" href="//gc.zgo.at"> <!-- resolve the GoatCounter analytics host ahead of the async count.js fetch at end of body -->
+        <link rel="dns-prefetch" href="//stats.hidescore.com"> <!-- resolve the self-hosted Umami analytics host ahead of its deferred script.js fetch at end of body -->
         <link href='https://cdn.jsdelivr.net/npm/boxicons@2.0.5/css/boxicons.min.css' rel='stylesheet'> <!-- icons -->
         <script>
             // Default view = projects-only (set before paint to avoid flash); honor saved preference.
@@ -18,6 +22,10 @@
                 }
                 if (localStorage.getItem('theme') === 'light') {
                     document.documentElement.removeAttribute('data-theme');
+                    // Sync the mobile address-bar colour to the light header before first paint
+                    // (main.js does this too, but only later at the end of <body>).
+                    var tc = document.querySelector('meta[name="theme-color"]');
+                    if (tc) tc.setAttribute('content', '#ffffff');
                 }
             } catch (e) {
                 document.documentElement.classList.add('projects-only');
@@ -37,7 +45,7 @@
         <meta property="og:image:width" content="1200">
         <meta property="og:image:height" content="630">
         <meta property="og:image:alt" content="Jacob Heifetz-Licht — Analytics Manager and web developer">
-        <meta property="og:url" content="https://jacobhl.com">
+        <meta property="og:url" content="https://jacobhl.com/">
         <meta property="og:type" content="website">
         <meta property="og:site_name" content="Jacob Heifetz-Licht">
         <meta property="og:locale" content="en_US">
@@ -46,13 +54,13 @@
         <meta name="twitter:description" content="Data analytics leader and web developer specializing in Python, SQL, Tableau, React, and Next.js. Turning data into things people actually use.">
         <meta name="twitter:image" content="https://jacobhl.com/assets/img/og_image.png">
         <meta name="twitter:image:alt" content="Jacob Heifetz-Licht — Analytics Manager and web developer">
-        <link rel="canonical" href="https://jacobhl.com">
+        <link rel="canonical" href="https://jacobhl.com/">
         <script type="application/ld+json">
         {
             "@context": "https://schema.org",
             "@type": "Person",
             "name": "Jacob Heifetz-Licht",
-            "url": "https://jacobhl.com",
+            "url": "https://jacobhl.com/",
             "image": "https://jacobhl.com/assets/img/about.jpg",
             "jobTitle": "Analytics Manager",
             "description": "Data analytics leader and web developer specializing in Python, SQL, Tableau, React, and Next.js.",
@@ -513,7 +521,7 @@
                     <button id="theme-toggle" class="theme-toggle" aria-label="Switch to light mode" style="position: relative; top: 0;">
                         <i class='bx bx-sun' id="theme-icon" aria-hidden="true"></i>
                     </button>
-                    <div class="nav__toggle" id="nav-toggle" role="button" aria-label="Toggle navigation menu">
+                    <div class="nav__toggle" id="nav-toggle" role="button" aria-label="Toggle navigation menu" aria-controls="nav-menu">
                         <i class='bx bx-menu' aria-hidden="true"></i>
                     </div>
                 </div>
@@ -664,6 +672,18 @@
 
                 <div class="proj-wrap">
                     <div id="main-rows"></div>
+                    <noscript>
+                        <!-- The project cards above are built by JavaScript, so with scripting disabled
+                             (or for crawlers that don't run JS) #main-rows is empty. List the live
+                             projects as plain links so the core content and its SEO value aren't lost. -->
+                        <ul style="list-style:none;margin:0;padding:0;line-height:1.6;color:var(--text-color,#8b94a0);">
+                            <li><a href="https://hidescore.com" target="_blank" rel="noopener noreferrer">HideScore</a> — Watch sports highlights without seeing the score.</li>
+                            <li><a href="https://tonightnyc.com" target="_blank" rel="noopener noreferrer">Tonight NYC</a> — Every NYC comedy show, filtered to your favorite comedians.</li>
+                            <li><a href="https://subwaytimes.com" target="_blank" rel="noopener noreferrer">Subway Times</a> — Real-time NYC subway arrivals, faster than Maps.</li>
+                            <li><a href="https://davidlicht.com" target="_blank" rel="noopener noreferrer">David Licht</a> — A showcase site for my dad — five decades of drumming.</li>
+                            <li><a href="https://theisland.nyc" target="_blank" rel="noopener noreferrer">The Island</a> — Everything happening on NYC's Roosevelt Island, in one place.</li>
+                        </ul>
+                    </noscript>
 
                     <button class="more-toggle" id="moreToggle" aria-expanded="false" aria-controls="moreWrap">
                         <span id="moreLabel">Private projects</span>
@@ -700,7 +720,7 @@
                         END V2 -->
 
                         <div class="skills__category">
-                            <h3 class="skills__category-title"><i class='bx bx-code-alt skills__icon' aria-hidden="true"></i> Languages & Scripting</h3>
+                            <h4 class="skills__category-title"><i class='bx bx-code-alt skills__icon' aria-hidden="true"></i> Languages & Scripting</h4>
                             <div class="skills__tags">
                                 <span class="skills__tag">Python</span>
                                 <span class="skills__tag">SQL</span>
@@ -723,7 +743,7 @@
                         -->
 
                         <div class="skills__category">
-                            <h3 class="skills__category-title"><i class='bx bx-bar-chart-alt-2 skills__icon' aria-hidden="true"></i> Data & Visualization</h3>
+                            <h4 class="skills__category-title"><i class='bx bx-bar-chart-alt-2 skills__icon' aria-hidden="true"></i> Data & Visualization</h4>
                             <div class="skills__tags">
                                 <span class="skills__tag">Tableau</span>
                                 <span class="skills__tag">Looker</span>
@@ -736,7 +756,7 @@
                         </div>
 
                         <div class="skills__category">
-                            <h3 class="skills__category-title"><i class='bx bx-data skills__icon' aria-hidden="true"></i> Analytics Platforms</h3>
+                            <h4 class="skills__category-title"><i class='bx bx-data skills__icon' aria-hidden="true"></i> Analytics Platforms</h4>
                             <div class="skills__tags">
                                 <span class="skills__tag">BigQuery</span>
                                 <span class="skills__tag">GA4</span>
@@ -746,7 +766,7 @@
                         </div>
 
                         <div class="skills__category">
-                            <h3 class="skills__category-title"><i class='bx bx-cog skills__icon' aria-hidden="true"></i> Automation & Infrastructure</h3>
+                            <h4 class="skills__category-title"><i class='bx bx-cog skills__icon' aria-hidden="true"></i> Automation & Infrastructure</h4>
                             <div class="skills__tags">
                                 <span class="skills__tag">Process Automation</span>
                                 <span class="skills__tag">ETL Pipelines</span>
@@ -758,7 +778,7 @@
                         </div>
 
                         <div class="skills__category">
-                            <h3 class="skills__category-title"><i class='bx bx-bulb skills__icon' aria-hidden="true"></i> Strategy & Leadership</h3>
+                            <h4 class="skills__category-title"><i class='bx bx-bulb skills__icon' aria-hidden="true"></i> Strategy & Leadership</h4>
                             <div class="skills__tags">
                                 <span class="skills__tag">Analytics Strategy</span>
                                 <span class="skills__tag">Stakeholder Communication</span>
@@ -795,6 +815,8 @@
                 <h2 class="section-title" id="contact-heading">Contact</h2>
                 <div class="contact__container bd-grid">
                     <form action="https://formspree.io/f/mkgqkgyr" method="POST" class="contact__form">
+                        <!-- Formspree honeypot: hidden from people, but bots fill it in — those submissions are silently discarded as spam. Kept out of the tab order and the accessibility tree. -->
+                        <input type="text" name="_gotcha" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden;">
                         <input type="text" name="name" placeholder="Your Name" class="contact__input" aria-label="Your name" autocomplete="name" required>
                         <input type="email" name="email" placeholder="your@email.com" class="contact__input" aria-label="Your email address" autocomplete="email" required>
                         <textarea name="message" placeholder="Your Message" class="contact__input" aria-label="Your message" rows="10" required></textarea>
@@ -989,7 +1011,10 @@ document.querySelectorAll('.proj-head').forEach(h=>{
     if(e.target.closest('a')) return;                     // let the site / App Store links work
     const open = h.closest('.proj-row').classList.toggle('open');
     const chev = h.querySelector('.proj-chev');
-    if(chev) chev.setAttribute('aria-expanded', open); // mirror collapsed/expanded state to assistive tech
+    if(chev){
+      chev.setAttribute('aria-expanded', open); // mirror collapsed/expanded state to assistive tech
+      chev.setAttribute('aria-label', open ? 'Hide details' : 'Show details'); // keep the action label in sync with the state
+    }
   });
 });
 

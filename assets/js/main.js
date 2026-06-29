@@ -471,6 +471,9 @@ function setupAutoFire(el) {
     }
 
     function startAutoFire(e) {
+        // Honor prefers-reduced-motion: the confetti/burst/mega-explosion effects run via the
+        // Web Animations API, which the site's reduced-motion CSS can't disable, so gate them here.
+        if (prefersReducedMotion()) return;
         e.preventDefault();
         e.stopPropagation();
         if (autoFireTimer) return;
@@ -611,6 +614,9 @@ function handleSkillsClick(e) {
     }
 
     function startAutoFire(e) {
+        // Honor prefers-reduced-motion: the code-snippet popups float in via JS animation, which
+        // the site's reduced-motion CSS can't disable, so gate the effect here.
+        if (prefersReducedMotion()) return;
         e.preventDefault();
         e.stopPropagation();
         if (autoFireTimer) return;
