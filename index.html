@@ -978,7 +978,8 @@ function ctaHTML(p){
   return h ? `<div class="work__cta">${h}</div>` : '';
 }
 function rowHTML(p){
-  const dot = p.live ? '<span class="live-dot is-visible" title="Live"></span>' : '';
+  // role=img + aria-label so screen readers announce "Live" (a bare title attribute on a span isn't reliably exposed to AT).
+  const dot = p.live ? '<span class="live-dot is-visible" role="img" aria-label="Live" title="Live"></span>' : '';
   const thumbCls = (p.live?'':'no-live') + (p.pos==='top'?' pos-top':'');
   return `
   <div class="proj-row">
