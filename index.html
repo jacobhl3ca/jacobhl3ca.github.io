@@ -328,17 +328,23 @@
         </style>
         <style id="proj-rows-css">
   .proj-wrap{max-width:780px;margin:0 auto;padding:0 1.5rem}
-  /* tech-crowd CTA above the Projects title (sits in the section's existing top padding) */
-  .proj-toptag{display:flex;gap:.6rem;justify-content:center;flex-wrap:wrap;margin:0 0 1.4rem;}
-  .proj-toptag a{display:inline-flex;align-items:center;gap:.45rem;font-family:var(--body-font);
-    font-size:.82rem;font-weight:600;padding:.5rem .95rem;border-radius:999px;text-decoration:none;
-    transition:transform .2s ease,filter .2s ease,border-color .2s ease,color .2s ease;}
-  .proj-toptag i{font-size:1.15rem;}
-  .proj-toptag .toplink{background:var(--first-color);color:#fff;}
-  .proj-toptag .toplink:hover{transform:translateY(-1px);filter:brightness(1.06);}
-  .proj-toptag .topchip{background:transparent;border:1px solid #a6a6a6;color:var(--second-color);}
-  [data-theme="dark"] .proj-toptag .topchip{color:#e0e0e0;}
-  .proj-toptag .topchip:hover{border-color:var(--first-color);color:var(--first-color);}
+  /* shift the title up so the gap above it ≈ the gap down to the first card */
+  #Projects{padding-top:1.5rem;}
+  /* Projects title (centered) with the LinkedIn CTA pinned top-right, next to it */
+  .proj-head-row{position:relative;display:flex;justify-content:center;align-items:center;margin-bottom:1.2rem;}
+  .proj-head-row .section-title{margin:0;}
+  .proj-head-row .toplink{position:absolute;right:0;top:50%;transform:translateY(-50%);
+    display:inline-flex;align-items:center;gap:.45rem;font-family:var(--body-font);font-size:.82rem;font-weight:600;
+    padding:.5rem .95rem;border-radius:999px;text-decoration:none;background:transparent;border:1px solid #a6a6a6;
+    color:var(--second-color);transition:border-color .2s ease,color .2s ease,transform .2s ease;white-space:nowrap;}
+  [data-theme="dark"] .proj-head-row .toplink{color:#e0e0e0;}
+  .proj-head-row .toplink:hover{border-color:var(--first-color);color:var(--first-color);}
+  .proj-head-row .toplink i{font-size:1.15rem;}
+  @media(max-width:600px){
+    /* compact the button ("LinkedIn") so it fits top-right beside the centered title */
+    .proj-head-row .toplink{font-size:.74rem;padding:.42rem .7rem;gap:.3rem;}
+    .proj-head-row .toplink .tl-full{display:none;}
+  }
 
   /* ---- ROW CARD (mirrors .work__img shadow/radius, laid out horizontally) ---- */
   .proj-row{
@@ -386,14 +392,15 @@
   .proj-info .work__cta{margin-top:auto;justify-content:flex-start;padding-top:.8rem;}
   .proj-info img.app-store-badge{height:40px;width:auto;}
 
-  /* CTA + expand-arrow share one bottom row: favicon pinned left, App Store CENTERED, chevron pinned right */
-  .proj-info .proj-actions{flex-wrap:nowrap;gap:.55rem;align-items:center;justify-content:space-between;}
-  /* every button gets the App Store badge's white outline + matching 40px height */
-  .proj-actions .site-link{width:40px;height:40px;border-radius:8px;background:#000;border:1px solid #fff;}
+  /* CTA + expand-arrow share one bottom row. Desktop: favicon + App Store grouped left, chevron pinned right.
+     Mobile only: App Store centers (space-between) — see the @media block below. */
+  .proj-info .proj-actions{flex-wrap:nowrap;gap:.55rem;align-items:center;justify-content:flex-start;}
+  /* every button gets the App Store badge's grey (#a6a6a6) outline + matching 40px height */
+  .proj-actions .site-link{width:40px;height:40px;border-radius:8px;background:#000;border:1px solid #a6a6a6;}
   .proj-actions .site-link img.favicon{width:22px;height:22px;border-radius:6px;} /* round off stray white image corners */
-  .proj-actions .mac-badge,.proj-actions .gh-link{height:40px;border-color:#fff;}
-  .proj-chev{flex:0 0 auto;width:40px;height:40px;border-radius:8px;cursor:pointer;
-    border:1px solid #fff;background:#000;color:#fff;
+  .proj-actions .mac-badge,.proj-actions .gh-link{height:40px;border-color:#a6a6a6;}
+  .proj-chev{flex:0 0 auto;width:40px;height:40px;border-radius:8px;cursor:pointer;margin-left:auto;
+    border:1px solid #a6a6a6;background:#000;color:#fff;
     display:flex;align-items:center;justify-content:center;transition:all .25s ease;}
   .proj-chev i{font-size:1.5rem;line-height:1;transition:transform .25s ease;}
   .proj-chev:hover{color:var(--first-color);border-color:var(--first-color);}
@@ -518,7 +525,9 @@
     .proj-thumb{flex:0 0 120px;}            /* stretches to the (now shorter) card height */
     .proj-title{font-size:1.02rem;}
     .proj-head{gap:.8rem;padding:.7rem;}
-    .proj-actions{gap:.45rem;}
+    /* mobile only: App Store centers between favicon (left) and chevron (right) */
+    .proj-info .proj-actions{justify-content:space-between;gap:.45rem;}
+    .proj-chev{margin-left:0;}
     /* keep the favicon box, App Store badge, Mac badge and chevron all the same (smaller) height */
     .proj-info img.app-store-badge{height:34px;}
     .proj-actions .site-link{width:34px;height:34px;}
@@ -706,13 +715,10 @@
             
             <section class="work section" id="Projects" aria-labelledby="projects-heading">
 
-                <!-- tech-crowd CTA, tucked into the existing space above the title -->
-                <div class="proj-toptag">
-                    <a class="toplink" href="https://www.linkedin.com/in/jacobhl/" target="_blank" rel="noopener noreferrer"><i class='bx bxl-linkedin' aria-hidden="true"></i> Let's connect on LinkedIn</a>
-                    <a class="topchip" href="https://vercel.com/ship" target="_blank" rel="noopener noreferrer"><i class='bx bx-rocket' aria-hidden="true"></i> See you at Ship '26</a>
+                <div class="proj-head-row">
+                    <h2 class="section-title" id="projects-heading">Projects</h2>
+                    <a class="toplink" href="https://www.linkedin.com/in/jacobhl/" target="_blank" rel="noopener noreferrer"><i class='bx bxl-linkedin' aria-hidden="true"></i> <span class="tl-full">Connect on </span>LinkedIn</a>
                 </div>
-
-                <h2 class="section-title" id="projects-heading">Projects</h2>
 
                 <div class="proj-wrap">
                     <div id="main-rows"></div>
@@ -955,15 +961,19 @@ const MAIN = [
     one:"Watch sports highlights without seeing the score.",
     full:"Watch sports highlights without seeing the score. Covers MLB, NBA, NHL, NFL, soccer, tennis and more with score-hidden cards, embedded highlights, and a unified news view — without spoiling anything you haven't watched.",
     site:"https://hidescore.com", appstore:"https://apps.apple.com/app/hidescore/id6766885311" },
-  { title:"Tonight NYC", live:true, img:"assets/img/tonightnyc-app.png", url:"https://tonightnyc.com",
+  { title:"Tonight NYC", live:true, img:"assets/img/tonightnyc-app.png", pos:"top", url:"https://tonightnyc.com",
     one:"Every NYC comedy show, filtered to your favorite comedians.",
     full:"No more digging for comedy showtimes, stick to your favorite comedians. Includes every NYC show from the Comedy Cellar, The Stand, and more, filtered your way. Mark favorites and skips, see which set to attend at a glance, and book directly.",
     site:"https://tonightnyc.com", appstore:"https://apps.apple.com/app/id6763027650" },
-  { title:"Subway Times", live:true, img:"assets/img/subwaytimes-app.png", url:"https://subwaytimes.com",
+  { title:"Subway Times", live:true, img:"assets/img/subwaytimes-app.png", pos:"top", url:"https://subwaytimes.com",
     one:"Real-time NYC subway arrivals, faster than Maps.",
     full:"Quicker than Google Maps for simple departures, especially from your home station. Real-time NYC subway arrivals, where you can favorite your stations, see countdown timers down to the second, and get out the door faster.",
     site:"https://subwaytimes.com" },
   { title:"David Licht", live:true, img:"assets/img/davidlicht-app.png", url:"https://davidlicht.com",
+    one:"A showcase site for my dad — five decades of drumming.",
+    full:"A showcase site I built for my dad — a drummer for five decades, from downtown NYC noise bands to the Grammy-winning Klezmatics. His story, music, and photos in one place.",
+    site:"https://davidlicht.com" },
+  { title:"David Licht (old pic — compare)", live:true, img:"assets/img/davidlicht.jpg", url:"https://davidlicht.com",
     one:"A showcase site for my dad — five decades of drumming.",
     full:"A showcase site I built for my dad — a drummer for five decades, from downtown NYC noise bands to the Grammy-winning Klezmatics. His story, music, and photos in one place.",
     site:"https://davidlicht.com" },
@@ -976,11 +986,6 @@ const MAIN = [
     one:"Bulk unpin or close Safari pinned tabs — a macOS menu-bar app.",
     full:"A menu-bar app I built to bulk unpin or close Safari pinned tabs in one sweep — it auto-detects your pinned tabs and clears them (press Space to stop).",
     download:"https://github.com/jacobhl3ca/safari-pinned-tab-automation/releases/latest/download/TidyTab.dmg" },
-  // PREVIEW DUP — second TidyTab card so Jacob can see the official "Download on the Mac App Store" badge style. Remove if not wanted.
-  { title:"TidyTab", live:false, img:"assets/img/tidytab.png",
-    one:"Bulk unpin or close Safari pinned tabs — a macOS menu-bar app.",
-    full:"A menu-bar app I built to bulk unpin or close Safari pinned tabs in one sweep — it auto-detects your pinned tabs and clears them (press Space to stop).",
-    mas:"https://github.com/jacobhl3ca/safari-pinned-tab-automation/releases/latest/download/TidyTab.dmg" },
 ];
 const MORE = [
   { title:"Spotify Analytics", img:"assets/img/spotify_monthly.png",
