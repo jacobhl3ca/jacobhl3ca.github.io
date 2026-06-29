@@ -150,9 +150,12 @@
   opacity: 1;
 }
 
-.theme-toggle:hover {
-  background-color: var(--first-color);
-  color: #fff;
+/* hover only on devices that truly hover — on touch the bg would "stick" highlighted after a tap */
+@media (hover:hover){
+  .theme-toggle:hover {
+    background-color: var(--first-color);
+    color: #fff;
+  }
 }
 
 .theme-toggle:focus {
@@ -172,9 +175,11 @@
   color: #e0e0e0;
 }
 
-[data-theme="dark"] .theme-toggle:hover {
-  background-color: var(--first-color);
-  color: #fff;
+@media (hover:hover){
+  [data-theme="dark"] .theme-toggle:hover {
+    background-color: var(--first-color);
+    color: #fff;
+  }
 }
 
 /* ===== View pill: Projects | Full site (centered in the header) ===== */
@@ -820,7 +825,7 @@ img {
 }
 
 .live-dot.is-visible {
-  animation: live-pulse 1.4s ease-out 2;
+  animation: live-pulse 1.8s ease-out infinite;
 }
 
 @keyframes live-pulse {
