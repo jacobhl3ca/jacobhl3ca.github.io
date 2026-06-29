@@ -334,11 +334,10 @@
     font-size:.82rem;font-weight:600;padding:.5rem .95rem;border-radius:999px;text-decoration:none;
     transition:transform .2s ease,filter .2s ease,border-color .2s ease,color .2s ease;}
   .proj-toptag i{font-size:1.15rem;}
-  .proj-toptag .toplink{background:var(--first-color);color:#fff;}
-  .proj-toptag .toplink:hover{transform:translateY(-1px);filter:brightness(1.06);}
-  .proj-toptag .topchip{background:transparent;border:1px solid #a6a6a6;color:var(--second-color);}
-  [data-theme="dark"] .proj-toptag .topchip{color:#e0e0e0;}
-  .proj-toptag .topchip:hover{border-color:var(--first-color);color:var(--first-color);}
+  /* both CTAs use the same dark outline style (Ship '26 look) */
+  .proj-toptag .toplink,.proj-toptag .topchip{background:transparent;border:1px solid #a6a6a6;color:var(--second-color);}
+  [data-theme="dark"] .proj-toptag .toplink,[data-theme="dark"] .proj-toptag .topchip{color:#e0e0e0;}
+  .proj-toptag .toplink:hover,.proj-toptag .topchip:hover{border-color:var(--first-color);color:var(--first-color);transform:translateY(-1px);}
 
   /* ---- ROW CARD (mirrors .work__img shadow/radius, laid out horizontally) ---- */
   .proj-row{
@@ -381,14 +380,15 @@
   .proj-info .work__cta{margin-top:auto;justify-content:flex-start;padding-top:.8rem;}
   .proj-info img.app-store-badge{height:40px;width:auto;}
 
-  /* CTA + expand-arrow share one bottom row: favicon pinned left, App Store CENTERED, chevron pinned right */
-  .proj-info .proj-actions{flex-wrap:nowrap;gap:.55rem;align-items:center;justify-content:space-between;}
-  /* every button gets the App Store badge's white outline + matching 40px height */
-  .proj-actions .site-link{width:40px;height:40px;border-radius:8px;background:#000;border:1px solid #fff;}
+  /* CTA + expand-arrow share one bottom row. Desktop: favicon + App Store grouped left, chevron pinned right.
+     Mobile only: App Store centers (space-between) — see the @media block below. */
+  .proj-info .proj-actions{flex-wrap:nowrap;gap:.55rem;align-items:center;justify-content:flex-start;}
+  /* every button gets the App Store badge's grey (#a6a6a6) outline + matching 40px height */
+  .proj-actions .site-link{width:40px;height:40px;border-radius:8px;background:#000;border:1px solid #a6a6a6;}
   .proj-actions .site-link img.favicon{width:22px;height:22px;border-radius:6px;} /* round off stray white image corners */
-  .proj-actions .mac-badge,.proj-actions .gh-link{height:40px;border-color:#fff;}
-  .proj-chev{flex:0 0 auto;width:40px;height:40px;border-radius:8px;cursor:pointer;
-    border:1px solid #fff;background:#000;color:#fff;
+  .proj-actions .mac-badge,.proj-actions .gh-link{height:40px;border-color:#a6a6a6;}
+  .proj-chev{flex:0 0 auto;width:40px;height:40px;border-radius:8px;cursor:pointer;margin-left:auto;
+    border:1px solid #a6a6a6;background:#000;color:#fff;
     display:flex;align-items:center;justify-content:center;transition:all .25s ease;}
   .proj-chev i{font-size:1.5rem;line-height:1;transition:transform .25s ease;}
   .proj-chev:hover{color:var(--first-color);border-color:var(--first-color);}
@@ -513,7 +513,9 @@
     .proj-thumb{flex:0 0 120px;}            /* stretches to the (now shorter) card height */
     .proj-title{font-size:1.02rem;}
     .proj-head{gap:.8rem;padding:.7rem;}
-    .proj-actions{gap:.45rem;}
+    /* mobile only: App Store centers between favicon (left) and chevron (right) */
+    .proj-info .proj-actions{justify-content:space-between;gap:.45rem;}
+    .proj-chev{margin-left:0;}
     /* keep the favicon box, App Store badge, Mac badge and chevron all the same (smaller) height */
     .proj-info img.app-store-badge{height:34px;}
     .proj-actions .site-link{width:34px;height:34px;}
@@ -971,11 +973,6 @@ const MAIN = [
     one:"Bulk unpin or close Safari pinned tabs — a macOS menu-bar app.",
     full:"A menu-bar app I built to bulk unpin or close Safari pinned tabs in one sweep — it auto-detects your pinned tabs and clears them (press Space to stop).",
     download:"https://github.com/jacobhl3ca/safari-pinned-tab-automation/releases/latest/download/TidyTab.dmg" },
-  // PREVIEW DUP — second TidyTab card so Jacob can see the official "Download on the Mac App Store" badge style. Remove if not wanted.
-  { title:"TidyTab", live:false, img:"assets/img/tidytab.png",
-    one:"Bulk unpin or close Safari pinned tabs — a macOS menu-bar app.",
-    full:"A menu-bar app I built to bulk unpin or close Safari pinned tabs in one sweep — it auto-detects your pinned tabs and clears them (press Space to stop).",
-    mas:"https://github.com/jacobhl3ca/safari-pinned-tab-automation/releases/latest/download/TidyTab.dmg" },
 ];
 const MORE = [
   { title:"Spotify Analytics", img:"assets/img/spotify_monthly.png",
