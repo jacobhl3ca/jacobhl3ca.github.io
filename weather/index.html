@@ -486,7 +486,7 @@ function render(w, aqi, geo) {
 
   // Hourly rain
   html += `<div class="card">
-    <h2 class="section-title">☂️ Rain Chance — Next 12h</h2>
+    <h2 class="section-title"><span aria-hidden="true">☂️</span> Rain Chance — Next 12h</h2>
     <div class="hourly-row">
       ${hourly.map(h => {
         const pop = h.pop;
@@ -502,7 +502,7 @@ function render(w, aqi, geo) {
 
   // 5-day forecast
   html += `<div class="card">
-    <h2 class="section-title">📅 5-Day Forecast</h2>
+    <h2 class="section-title"><span aria-hidden="true">📅</span> 5-Day Forecast</h2>
     ${dailyRows.map(d => {
       return `<div class="forecast-row">
         <div class="forecast-day">${d.day}</div>
