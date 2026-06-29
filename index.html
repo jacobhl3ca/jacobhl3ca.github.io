@@ -1005,7 +1005,10 @@ document.querySelectorAll('.proj-head').forEach(h=>{
     if(e.target.closest('a')) return;                     // let the site / App Store links work
     const open = h.closest('.proj-row').classList.toggle('open');
     const chev = h.querySelector('.proj-chev');
-    if(chev) chev.setAttribute('aria-expanded', open); // mirror collapsed/expanded state to assistive tech
+    if(chev){
+      chev.setAttribute('aria-expanded', open); // mirror collapsed/expanded state to assistive tech
+      chev.setAttribute('aria-label', open ? 'Hide details' : 'Show details'); // keep the action label in sync with the state
+    }
   });
 });
 
