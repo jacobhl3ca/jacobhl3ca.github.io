@@ -328,16 +328,23 @@
         </style>
         <style id="proj-rows-css">
   .proj-wrap{max-width:780px;margin:0 auto;padding:0 1.5rem}
-  /* tech-crowd CTA above the Projects title (sits in the section's existing top padding) */
-  .proj-toptag{display:flex;gap:.6rem;justify-content:center;flex-wrap:wrap;margin:0 0 1.4rem;}
-  .proj-toptag a{display:inline-flex;align-items:center;gap:.45rem;font-family:var(--body-font);
-    font-size:.82rem;font-weight:600;padding:.5rem .95rem;border-radius:999px;text-decoration:none;
-    transition:transform .2s ease,filter .2s ease,border-color .2s ease,color .2s ease;}
-  .proj-toptag i{font-size:1.15rem;}
-  /* both CTAs use the same dark outline style (Ship '26 look) */
-  .proj-toptag .toplink,.proj-toptag .topchip{background:transparent;border:1px solid #a6a6a6;color:var(--second-color);}
-  [data-theme="dark"] .proj-toptag .toplink,[data-theme="dark"] .proj-toptag .topchip{color:#e0e0e0;}
-  .proj-toptag .toplink:hover,.proj-toptag .topchip:hover{border-color:var(--first-color);color:var(--first-color);transform:translateY(-1px);}
+  /* shift the title up so the gap above it ≈ the gap down to the first card */
+  #Projects{padding-top:1.5rem;}
+  /* Projects title (centered) with the LinkedIn CTA pinned top-right, next to it */
+  .proj-head-row{position:relative;display:flex;justify-content:center;align-items:center;margin-bottom:1.2rem;}
+  .proj-head-row .section-title{margin:0;}
+  .proj-head-row .toplink{position:absolute;right:0;top:50%;transform:translateY(-50%);
+    display:inline-flex;align-items:center;gap:.45rem;font-family:var(--body-font);font-size:.82rem;font-weight:600;
+    padding:.5rem .95rem;border-radius:999px;text-decoration:none;background:transparent;border:1px solid #a6a6a6;
+    color:var(--second-color);transition:border-color .2s ease,color .2s ease,transform .2s ease;white-space:nowrap;}
+  [data-theme="dark"] .proj-head-row .toplink{color:#e0e0e0;}
+  .proj-head-row .toplink:hover{border-color:var(--first-color);color:var(--first-color);}
+  .proj-head-row .toplink i{font-size:1.15rem;}
+  @media(max-width:600px){
+    /* compact the button ("LinkedIn") so it fits top-right beside the centered title */
+    .proj-head-row .toplink{font-size:.74rem;padding:.42rem .7rem;gap:.3rem;}
+    .proj-head-row .toplink .tl-full{display:none;}
+  }
 
   /* ---- ROW CARD (mirrors .work__img shadow/radius, laid out horizontally) ---- */
   .proj-row{
@@ -703,13 +710,10 @@
             
             <section class="work section" id="Projects" aria-labelledby="projects-heading">
 
-                <!-- tech-crowd CTA, tucked into the existing space above the title -->
-                <div class="proj-toptag">
-                    <a class="toplink" href="https://www.linkedin.com/in/jacobhl/" target="_blank" rel="noopener noreferrer"><i class='bx bxl-linkedin' aria-hidden="true"></i> Let's connect on LinkedIn</a>
-                    <a class="topchip" href="https://vercel.com/ship" target="_blank" rel="noopener noreferrer"><i class='bx bx-rocket' aria-hidden="true"></i> See you at Ship '26</a>
+                <div class="proj-head-row">
+                    <h2 class="section-title" id="projects-heading">Projects</h2>
+                    <a class="toplink" href="https://www.linkedin.com/in/jacobhl/" target="_blank" rel="noopener noreferrer"><i class='bx bxl-linkedin' aria-hidden="true"></i> <span class="tl-full">Connect on </span>LinkedIn</a>
                 </div>
-
-                <h2 class="section-title" id="projects-heading">Projects</h2>
 
                 <div class="proj-wrap">
                     <div id="main-rows"></div>
@@ -952,15 +956,19 @@ const MAIN = [
     one:"Watch sports highlights without seeing the score.",
     full:"Watch sports highlights without seeing the score. Covers MLB, NBA, NHL, NFL, soccer, tennis and more with score-hidden cards, embedded highlights, and a unified news view — without spoiling anything you haven't watched.",
     site:"https://hidescore.com", appstore:"https://apps.apple.com/app/hidescore/id6766885311" },
-  { title:"Tonight NYC", live:true, img:"assets/img/tonightnyc-app.png", url:"https://tonightnyc.com",
+  { title:"Tonight NYC", live:true, img:"assets/img/tonightnyc-app.png", pos:"top", url:"https://tonightnyc.com",
     one:"Every NYC comedy show, filtered to your favorite comedians.",
     full:"No more digging for comedy showtimes, stick to your favorite comedians. Includes every NYC show from the Comedy Cellar, The Stand, and more, filtered your way. Mark favorites and skips, see which set to attend at a glance, and book directly.",
     site:"https://tonightnyc.com", appstore:"https://apps.apple.com/app/id6763027650" },
-  { title:"Subway Times", live:true, img:"assets/img/subwaytimes-app.png", url:"https://subwaytimes.com",
+  { title:"Subway Times", live:true, img:"assets/img/subwaytimes-app.png", pos:"top", url:"https://subwaytimes.com",
     one:"Real-time NYC subway arrivals, faster than Maps.",
     full:"Quicker than Google Maps for simple departures, especially from your home station. Real-time NYC subway arrivals, where you can favorite your stations, see countdown timers down to the second, and get out the door faster.",
     site:"https://subwaytimes.com" },
   { title:"David Licht", live:true, img:"assets/img/davidlicht-app.png", url:"https://davidlicht.com",
+    one:"A showcase site for my dad — five decades of drumming.",
+    full:"A showcase site I built for my dad — a drummer for five decades, from downtown NYC noise bands to the Grammy-winning Klezmatics. His story, music, and photos in one place.",
+    site:"https://davidlicht.com" },
+  { title:"David Licht (old pic — compare)", live:true, img:"assets/img/davidlicht.jpg", url:"https://davidlicht.com",
     one:"A showcase site for my dad — five decades of drumming.",
     full:"A showcase site I built for my dad — a drummer for five decades, from downtown NYC noise bands to the Grammy-winning Klezmatics. His story, music, and photos in one place.",
     site:"https://davidlicht.com" },
