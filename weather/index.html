@@ -192,6 +192,11 @@ body {
 .aqi-bar { display:flex; height:8px; border-radius:4px; overflow:hidden; margin-top:8px; gap:2px; }
 .aqi-seg { flex:1; border-radius:4px; }
 
+/* Data-source attribution: Open-Meteo's free API data is licensed CC BY 4.0, which requires credit. */
+.attribution { text-align:center; margin-top:32px; padding-bottom:24px; color:var(--text-dim); font-size:12px; }
+.attribution a { color:var(--accent); text-decoration:none; }
+.attribution a:hover { text-decoration:underline; }
+
 /* Visually hidden but available to assistive tech (gives the page a programmatic heading) */
 .visually-hidden {
   position:absolute; width:1px; height:1px; padding:0; margin:-1px;
@@ -220,6 +225,11 @@ body {
     </noscript>
   </div>
 </main>
+
+<!-- Open-Meteo requires attribution: its weather/air-quality data is published under CC BY 4.0. -->
+<footer class="attribution">
+  Weather &amp; air-quality data by <a href="https://open-meteo.com/" target="_blank" rel="noopener">Open-Meteo.com</a> (CC&nbsp;BY&nbsp;4.0)
+</footer>
 
 <script>
 const WMO_ICONS = {
