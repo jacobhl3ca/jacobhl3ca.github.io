@@ -22,6 +22,10 @@
                 }
                 if (localStorage.getItem('theme') === 'light') {
                     document.documentElement.removeAttribute('data-theme');
+                    // Sync the mobile address-bar colour to the light header before first paint
+                    // (main.js does this too, but only later at the end of <body>).
+                    var tc = document.querySelector('meta[name="theme-color"]');
+                    if (tc) tc.setAttribute('content', '#ffffff');
                 }
             } catch (e) {
                 document.documentElement.classList.add('projects-only');
