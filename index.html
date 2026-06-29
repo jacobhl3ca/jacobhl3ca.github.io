@@ -354,6 +354,11 @@
   .proj-thumb.no-live{cursor:pointer;}
   .proj-thumb.no-live:hover img{transform:none;}
   .proj-thumb.no-live .proj-cue{display:none;}
+  /* Live thumbnails are role=button/tabindex=0 (they open the preview), so keyboard users can
+     focus them — give them a visible accent ring (matches the nav/.hourly-row focus convention; WCAG 2.4.7).
+     :focus-visible only, so mouse/touch clicks show no extra ring and the layout is unchanged. */
+  .proj-thumb[role="button"]:focus{outline:none;}
+  .proj-thumb[role="button"]:focus-visible{outline:2px solid var(--first-color);outline-offset:2px;}
 
   .proj-info{flex:1 1 auto;min-width:0;display:flex;flex-direction:column;}
   .proj-title{display:flex;align-items:center;font-size:1.15rem;font-weight:var(--font-semi);
