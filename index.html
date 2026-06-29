@@ -689,7 +689,7 @@
                         <span id="moreLabel">Private projects</span>
                         <i class='bx bx-chevron-down' aria-hidden="true"></i>
                     </button>
-                    <div class="more-wrap" id="moreWrap"><div class="more-inner"><div class="padtop">
+                    <div class="more-wrap" id="moreWrap" inert><div class="more-inner"><div class="padtop">
                         <div id="more-rows"></div>
                     </div></div></div>
                 </div>
@@ -1099,6 +1099,10 @@ const mt=document.getElementById('moreToggle'), mw=document.getElementById('more
 mt.addEventListener('click', ()=>{
   const open=mw.classList.toggle('open'); mt.classList.toggle('open',open);
   mt.setAttribute('aria-expanded', open); // mirror collapsed/expanded state to assistive tech
+  // Collapsed, the panel is zero-height but its project rows stay in the DOM with focusable
+  // chevron buttons; mark it inert so keyboard focus and assistive tech skip the hidden rows
+  // (inert is a no-op in older browsers, so behaviour there is unchanged).
+  if(open) mw.removeAttribute('inert'); else mw.setAttribute('inert','');
   ml.textContent = open ? 'Hide private projects' : 'Private projects';
 });
 })();
