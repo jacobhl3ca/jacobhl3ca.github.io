@@ -395,14 +395,14 @@ function render(w, aqi, geo) {
   const willRain = hourly.some(h => h.pop > 40);
   let alertClass = '', alertMsg = '';
   if (windSpeed >= 25 || gusts >= 40) {
-    alertClass = 'warning'; alertMsg = `⚠️ High wind advisory — gusts up to ${gusts || windSpeed} mph. Secure loose items.`;
+    alertClass = 'warning'; alertMsg = `<span aria-hidden="true">⚠️</span> High wind advisory — gusts up to ${gusts || windSpeed} mph. Secure loose items.`;
   } else if (temp <= 20) {
-    alertClass = 'danger'; alertMsg = `🥶 Extreme cold — frostbite risk. Layer up and limit exposure.`;
+    alertClass = 'danger'; alertMsg = `<span aria-hidden="true">🥶</span> Extreme cold — frostbite risk. Layer up and limit exposure.`;
   } else if (temp >= 95 && humidity >= 60) {
-    alertClass = 'danger'; alertMsg = `🔥 Excessive heat + humidity — heat stroke risk. Stay indoors if possible.`;
+    alertClass = 'danger'; alertMsg = `<span aria-hidden="true">🔥</span> Excessive heat + humidity — heat stroke risk. Stay indoors if possible.`;
   } else if (willRain) {
     const rainH = hourly.find(h => h.pop > 40);
-    alertClass = 'info'; alertMsg = `☂️ Rain likely around ${fmtHour(rainH.time)} — grab an umbrella before heading out.`;
+    alertClass = 'info'; alertMsg = `<span aria-hidden="true">☂️</span> Rain likely around ${fmtHour(rainH.time)} — grab an umbrella before heading out.`;
   }
   // Update the persistent aria-live banner in place (rather than replacing it via outerHTML)
   // so screen readers announce the alert; clear the inline display the reset path set so the
@@ -516,10 +516,10 @@ function render(w, aqi, geo) {
   // NYC tip
   html += `<div class="card" style="text-align:center;">
     <div style="font-size:12px;color:var(--text-dim);">
-      ${temp <= 35 ? '🧤 NYC Tip: Watch for icy sidewalks, especially bridge overpasses and shaded blocks.' :
-        temp >= 90 ? '🚰 NYC Tip: Cooling centers are open. Stay near AC — check NYC.gov for locations.' :
-        willRain ? '🚇 NYC Tip: Expect crowded subways. Leave 10 min early and bring an umbrella.' :
-        '🏙️ NYC Tip: Great day to walk — Central Park and the High Line are calling.'}
+      ${temp <= 35 ? '<span aria-hidden="true">🧤</span> NYC Tip: Watch for icy sidewalks, especially bridge overpasses and shaded blocks.' :
+        temp >= 90 ? '<span aria-hidden="true">🚰</span> NYC Tip: Cooling centers are open. Stay near AC — check NYC.gov for locations.' :
+        willRain ? '<span aria-hidden="true">🚇</span> NYC Tip: Expect crowded subways. Leave 10 min early and bring an umbrella.' :
+        '<span aria-hidden="true">🏙️</span> NYC Tip: Great day to walk — Central Park and the High Line are calling.'}
     </div>
   </div>`;
 
