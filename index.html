@@ -1033,7 +1033,7 @@ function ctaHTML(p){
   return h; // inner links only — wrapped by the .proj-actions row (with the chevron) in rowHTML
 }
 function rowHTML(p){
-  const dot = (p.live || p.download || p.mas) ? '<span class="live-dot is-visible" title="Live"></span>' : '';
+  const dot = (p.live || p.download || p.mas) ? '<span class="live-dot is-visible" role="img" aria-label="Live" title="Live"></span>' : '';
   const thumbCls = (p.live?'':'no-live') + (p.pos==='top'?' pos-top':'');
   return `
   <div class="proj-row">
