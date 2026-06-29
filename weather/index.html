@@ -204,7 +204,7 @@ body {
   <h1 class="visually-hidden">Weather Dashboard</h1>
   <div class="search-bar" role="search" aria-label="City weather search">
     <input type="text" id="cityInput" placeholder="Search city..." value="New York, NY" aria-label="Search for a city" enterkeyhint="search" autocapitalize="words" autocorrect="off" spellcheck="false">
-    <button onclick="fetchWeather()">Search</button>
+    <button type="button" onclick="fetchWeather()">Search</button>
   </div>
   <div id="alertsBanner" class="alerts-banner" aria-live="polite" aria-atomic="true"></div>
   <!-- Persistent polite live region: the loading spinner (role=status) is wiped when results
