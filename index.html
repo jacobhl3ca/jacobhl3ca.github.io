@@ -550,9 +550,8 @@
     .proj-thumb{flex:0 0 120px;}            /* stretches to the (now shorter) card height */
     .proj-title{font-size:1.02rem;}
     .proj-head{gap:.8rem;padding:.7rem;}
-    /* mobile only: App Store centers between favicon (left) and chevron (right) */
-    .proj-info .proj-actions{justify-content:space-between;gap:.45rem;}
-    .proj-chev{margin-left:0;}
+    /* App Store always sits next to the favicon (arrow stays pinned right) — never centered */
+    .proj-info .proj-actions{gap:.45rem;}
     /* keep the favicon box, App Store badge, Mac badge and chevron all the same (smaller) height */
     .proj-info img.app-store-badge{height:34px;}
     .proj-actions .site-link{width:34px;height:34px;}
