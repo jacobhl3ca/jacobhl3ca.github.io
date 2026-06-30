@@ -442,6 +442,7 @@ function render(w, aqi, geo) {
 
   // Hero
   html += `<div class="card hero">
+    <h2 class="visually-hidden">Current conditions in ${geo.name}</h2>
     <div class="hero-left">
       <div class="hero-icon" aria-hidden="true">${getIcon(weatherCode, isDay)}</div>
       <div>
