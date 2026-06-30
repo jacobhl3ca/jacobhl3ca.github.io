@@ -10,6 +10,7 @@
         <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin> <!-- early-connect to the boxicons CDN (CSS + icon font) -->
         <link rel="preconnect" href="https://fonts.googleapis.com"> <!-- early-connect to Google Fonts CSS (styles.css @imports Poppins from here, on the critical path) -->
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin> <!-- early-connect to the Google Fonts file host; crossorigin so the warmed socket is reused for the CORS woff2 fetch -->
+        <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap"> <!-- styles.css @imports Poppins, but @import isn't discoverable until styles.css has downloaded + parsed, so the font CSS fetch is serialized on the critical path; preload it (same URL) so the browser fetches it in parallel up front and the @import then resolves from cache. Mirrors index.html. No visual change. -->
         <link href='https://cdn.jsdelivr.net/npm/boxicons@2.0.5/css/boxicons.min.css' rel='stylesheet'>
         <script>
             // Apply the saved theme before paint so light-mode users don't see a dark flash
