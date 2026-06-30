@@ -565,18 +565,6 @@ const codeSnippets = [
 ];
 let codeIdx = 0;
 
-function handleSkillsClick(e) {
-    const snippet = codeSnippets[codeIdx % codeSnippets.length];
-    codeIdx++;
-    const popup = document.createElement('div');
-    popup.classList.add('code-popup');
-    popup.textContent = snippet;
-    popup.style.left = e.clientX + 'px';
-    popup.style.top = e.clientY + 'px';
-    document.body.appendChild(popup);
-    setTimeout(() => popup.remove(), 1900);
-}
-
 (function() {
     const el = document.getElementById('skills-photo');
     if (!el) return; // photo only exists on the homepage
