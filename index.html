@@ -6,9 +6,11 @@
         <meta name="theme-color" content="#090f20">
         <link rel="stylesheet" href="assets/css/styles.css">
         <link rel="icon" type="image/x-icon" href="assets/img/favicon.ico">
-        <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin> <!-- early-connect to the boxicons CDN (CSS + icon font) -->
+        <link rel="preconnect" href="https://cdn.jsdelivr.net"> <!-- early-connect for the render-blocking boxicons CSS fetch (non-CORS, so it can't reuse the crossorigin socket below) -->
+        <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin> <!-- early-connect for the boxicons icon font (CORS woff2, crossorigin so the warmed socket is reused) -->
         <link rel="preconnect" href="https://fonts.googleapis.com"> <!-- early-connect to Google Fonts CSS (styles.css @imports Poppins from here, on the critical path) -->
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin> <!-- early-connect to the Google Fonts file host; crossorigin so the warmed socket is reused for the CORS woff2 fetch -->
+        <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap"> <!-- styles.css @imports Poppins, but @import isn't discoverable until styles.css has downloaded + parsed, so the font CSS fetch is serialized on the critical path; preload it (same URL) so the browser fetches it in parallel up front and the @import then resolves from cache. No visual change. -->
         <link rel="dns-prefetch" href="//gc.zgo.at"> <!-- resolve the GoatCounter analytics host ahead of the async count.js fetch at end of body -->
         <link rel="dns-prefetch" href="//stats.hidescore.com"> <!-- resolve the self-hosted Umami analytics host ahead of its deferred script.js fetch at end of body -->
         <link href='https://cdn.jsdelivr.net/npm/boxicons@2.0.5/css/boxicons.min.css' rel='stylesheet'> <!-- icons -->
@@ -35,7 +37,7 @@
         <meta name="description" content="Data analytics leader and web developer specializing in Python, SQL, Tableau, React, and Next.js. Turning data into things people actually use.">
         <meta name="keywords" content="analytics manager, data analytics, Python, SQL, Tableau, automation, dashboard design, data visualization, ETL, BigQuery, JavaScript, React, Node.js, Next.js, web development">
         <meta name="author" content="Jacob Heifetz-Licht">
-        <meta name="robots" content="index, follow">
+        <meta name="robots" content="index, follow, max-image-preview:large">
         <!-- Open Graph meta tags for link previews -->
         <meta property="og:title" content="Jacob Heifetz-Licht — Analytics Manager">
         <!-- <meta property="og:title" content="Jacob Heifetz-Licht — Analytics Engineer"> -->
@@ -62,6 +64,7 @@
             "name": "Jacob Heifetz-Licht",
             "url": "https://jacobhl.com/",
             "image": "https://jacobhl.com/assets/img/about.jpg",
+            "email": "hi@jacobhl.com",
             "jobTitle": "Analytics Manager",
             "description": "Data analytics leader and web developer specializing in Python, SQL, Tableau, React, and Next.js.",
             "sameAs": [
@@ -379,6 +382,11 @@
   .proj-thumb.no-live{cursor:pointer;}
   .proj-thumb.no-live:hover img{transform:none;}
   .proj-thumb.no-live .proj-cue{display:none;}
+  /* Live thumbnails are role=button/tabindex=0 (they open the preview), so keyboard users can
+     focus them — give them a visible accent ring (matches the nav/.hourly-row focus convention; WCAG 2.4.7).
+     :focus-visible only, so mouse/touch clicks show no extra ring and the layout is unchanged. */
+  .proj-thumb[role="button"]:focus{outline:none;}
+  .proj-thumb[role="button"]:focus-visible{outline:2px solid var(--first-color);outline-offset:2px;}
 
   .proj-info{flex:1 1 auto;min-width:0;display:flex;flex-direction:column;}
   .proj-title{display:flex;align-items:center;font-size:1.15rem;font-weight:var(--font-semi);
@@ -744,7 +752,7 @@
                         <span id="moreLabel">Private projects</span>
                         <i class='bx bx-chevron-down' aria-hidden="true"></i>
                     </button>
-                    <div class="more-wrap" id="moreWrap"><div class="more-inner"><div class="padtop">
+                    <div class="more-wrap" id="moreWrap" inert><div class="more-inner"><div class="padtop">
                         <div id="more-rows"></div>
                     </div></div></div>
                 </div>
@@ -1034,7 +1042,7 @@ function ctaHTML(p){
   return h; // inner links only — wrapped by the .proj-actions row (with the chevron) in rowHTML
 }
 function rowHTML(p){
-  const dot = (p.live || p.download || p.mas) ? '<span class="live-dot is-visible" title="Live"></span>' : '';
+  const dot = (p.live || p.download || p.mas) ? '<span class="live-dot is-visible" role="img" aria-label="Live" title="Live"></span>' : '';
   const thumbCls = (p.live?'':'no-live') + (p.pos==='top'?' pos-top':'');
   return `
   <div class="proj-row">
@@ -1055,7 +1063,7 @@ function rowHTML(p){
         </div>
       </div>
     </div>
-    <div class="proj-detail"><div class="proj-detail-in"><div class="pad">
+    <div class="proj-detail" inert><div class="proj-detail-in"><div class="pad">
       <p>${p.full}</p>
     </div></div></div>
   </div>`;
@@ -1070,7 +1078,14 @@ document.querySelectorAll('.proj-head').forEach(h=>{
   h.addEventListener('click', e=>{
     if(e.target.closest('.proj-thumb[data-url]')) return; // only LIVE thumbnails open the preview
     if(e.target.closest('a')) return;                     // let the site / App Store links work
-    const open = h.closest('.proj-row').classList.toggle('open');
+    const row = h.closest('.proj-row');
+    const open = row.classList.toggle('open');
+    // Collapsed, .proj-detail is zero-height (grid-template-rows:0fr + overflow:hidden) but its
+    // description text stays in the DOM and is still announced by assistive tech; mark it inert
+    // when collapsed so AT matches the chevron's aria-expanded state (inert is a no-op in older
+    // browsers, so behaviour there is unchanged). Mirrors the "Private projects" panel above.
+    const detail = row.querySelector('.proj-detail');
+    if(detail){ if(open) detail.removeAttribute('inert'); else detail.setAttribute('inert',''); }
     const chev = h.querySelector('.proj-chev');
     if(chev){
       chev.setAttribute('aria-expanded', open); // mirror collapsed/expanded state to assistive tech
@@ -1092,7 +1107,10 @@ function navigate(url, push){
   if(push && currentUrl && currentUrl!==url) backStack.push(currentUrl);
   currentUrl=url; updateBack();
   mLoad.classList.remove('hidden'); mLoadTxt.innerHTML='Loading preview…';
-  frame.src=url; mUrl.value=url; mOpen.href=url;
+  // Give the iframe a per-site accessible name (its static title is generic "Live preview"),
+  // so screen-reader users entering the frame hear which site this preview is showing.
+  let _host=url; try{ _host=new URL(url).hostname.replace(/^www\./,''); }catch(e){}
+  frame.src=url; frame.title='Live preview of '+_host; mUrl.value=url; mOpen.href=url;
   clearTimeout(loadTimer);
   loadTimer=setTimeout(()=>{ mLoadTxt.innerHTML=`Taking a while — <a href="${url}" target="_blank" rel="noopener">open ${url} ↗</a>`; }, 6000);
 }
@@ -1160,6 +1178,10 @@ const mt=document.getElementById('moreToggle'), mw=document.getElementById('more
 mt.addEventListener('click', ()=>{
   const open=mw.classList.toggle('open'); mt.classList.toggle('open',open);
   mt.setAttribute('aria-expanded', open); // mirror collapsed/expanded state to assistive tech
+  // Collapsed, the panel is zero-height but its project rows stay in the DOM with focusable
+  // chevron buttons; mark it inert so keyboard focus and assistive tech skip the hidden rows
+  // (inert is a no-op in older browsers, so behaviour there is unchanged).
+  if(open) mw.removeAttribute('inert'); else mw.setAttribute('inert','');
   ml.textContent = open ? 'Hide private projects' : 'Private projects';
 });
 })();

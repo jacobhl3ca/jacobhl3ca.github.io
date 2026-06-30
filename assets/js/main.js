@@ -565,18 +565,6 @@ const codeSnippets = [
 ];
 let codeIdx = 0;
 
-function handleSkillsClick(e) {
-    const snippet = codeSnippets[codeIdx % codeSnippets.length];
-    codeIdx++;
-    const popup = document.createElement('div');
-    popup.classList.add('code-popup');
-    popup.textContent = snippet;
-    popup.style.left = e.clientX + 'px';
-    popup.style.top = e.clientY + 'px';
-    document.body.appendChild(popup);
-    setTimeout(() => popup.remove(), 1900);
-}
-
 (function() {
     const el = document.getElementById('skills-photo');
     if (!el) return; // photo only exists on the homepage
@@ -749,11 +737,16 @@ function requestResume() {
     const emailInput = form.querySelector('input[name="email"]');
     const messageInput = form.querySelector('textarea[name="message"]');
 
-    nameInput.value = 'Your Name';
-    emailInput.value = 'your@email.com';
-    messageInput.value = 'Hi Jacob,\n\nI\'d love a copy of your resume.\n\nThanks!';
+    // Pre-fill only the message (and only if empty, so a half-written one isn't clobbered).
+    // Leave name/email untouched: their placeholders already show the format, and overwriting
+    // them with placeholder-looking strings ("Your Name"/"your@email.com") meant a user had to
+    // delete that junk first — or, if they'd already typed real values, lost them.
+    if (!messageInput.value.trim()) {
+        messageInput.value = 'Hi Jacob,\n\nI\'d love a copy of your resume.\n\nThanks!';
+    }
 
-    nameInput.focus();
+    // Focus the first field still needing input so they can start typing right away.
+    (!nameInput.value.trim() ? nameInput : !emailInput.value.trim() ? emailInput : messageInput).focus();
 }
 
 /*===== CONTACT FORM SUBMIT =====*/
