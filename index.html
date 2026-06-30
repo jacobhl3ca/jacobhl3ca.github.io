@@ -1059,7 +1059,7 @@ function rowHTML(p){
         </div>
       </div>
     </div>
-    <div class="proj-detail"><div class="proj-detail-in"><div class="pad">
+    <div class="proj-detail" inert><div class="proj-detail-in"><div class="pad">
       <p>${p.full}</p>
     </div></div></div>
   </div>`;
@@ -1074,7 +1074,14 @@ document.querySelectorAll('.proj-head').forEach(h=>{
   h.addEventListener('click', e=>{
     if(e.target.closest('.proj-thumb[data-url]')) return; // only LIVE thumbnails open the preview
     if(e.target.closest('a')) return;                     // let the site / App Store links work
-    const open = h.closest('.proj-row').classList.toggle('open');
+    const row = h.closest('.proj-row');
+    const open = row.classList.toggle('open');
+    // Collapsed, .proj-detail is zero-height (grid-template-rows:0fr + overflow:hidden) but its
+    // description text stays in the DOM and is still announced by assistive tech; mark it inert
+    // when collapsed so AT matches the chevron's aria-expanded state (inert is a no-op in older
+    // browsers, so behaviour there is unchanged). Mirrors the "Private projects" panel above.
+    const detail = row.querySelector('.proj-detail');
+    if(detail){ if(open) detail.removeAttribute('inert'); else detail.setAttribute('inert',''); }
     const chev = h.querySelector('.proj-chev');
     if(chev){
       chev.setAttribute('aria-expanded', open); // mirror collapsed/expanded state to assistive tech
