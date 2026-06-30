@@ -328,8 +328,10 @@
         </style>
         <style id="proj-rows-css">
   .proj-wrap{max-width:780px;margin:0 auto;padding:0 1.5rem}
-  /* shift the title up so the gap above it ≈ the gap down to the first card */
-  #Projects{padding-top:1.5rem;}
+  /* balance the gaps: above the title ≈ below the first card, and trim the space under "Private projects" */
+  #Projects{padding-top:1.5rem;padding-bottom:1.25rem;}
+  /* drop the bright-blue underline bar under the Projects title */
+  .proj-head-row .section-title::after{display:none;}
   /* Projects title (centered) with the LinkedIn CTA pinned top-right, next to it */
   .proj-head-row{position:relative;display:flex;justify-content:center;align-items:center;margin-bottom:1.2rem;}
   .proj-head-row .section-title{margin:0;}
@@ -394,9 +396,11 @@
   .proj-actions .site-link{width:40px;height:40px;border-radius:8px;background:#000;border:1px solid #a6a6a6;}
   .proj-actions .site-link img.favicon{width:22px;height:22px;border-radius:6px;} /* round off stray white image corners */
   .proj-actions .mac-badge,.proj-actions .gh-link{height:40px;border-color:#a6a6a6;}
+  /* arrow background = the card colour so it blends in (only the grey outline reads) */
   .proj-chev{flex:0 0 auto;width:40px;height:40px;border-radius:8px;cursor:pointer;margin-left:auto;
-    border:1px solid #a6a6a6;background:#000;color:#fff;
+    border:1px solid #a6a6a6;background:transparent;color:var(--second-color);
     display:flex;align-items:center;justify-content:center;transition:all .25s ease;}
+  [data-theme="dark"] .proj-chev{color:#e0e0e0;}
   .proj-chev i{font-size:1.5rem;line-height:1;transition:transform .25s ease;}
   .proj-chev:hover{color:var(--first-color);border-color:var(--first-color);}
   [data-theme="dark"] .proj-chev{color:#e0e0e0;}
@@ -528,6 +532,11 @@
     .proj-actions .site-link{width:34px;height:34px;}
     .proj-actions .site-link img.favicon{width:19px;height:19px;}
     .proj-actions .mac-badge,.proj-actions .gh-link{height:34px;}
+    /* keep the wider "Mac App Store" badge from pushing the arrow off the row on mobile */
+    .proj-actions .mas-badge{padding:0 9px;gap:6px;}
+    .proj-actions .mas-badge i{width:1.4rem;height:1.4rem;font-size:1.4rem;}
+    .proj-actions .mas-badge .mb-top{font-size:.46rem;}
+    .proj-actions .mas-badge .mb-big{font-size:.74rem;}
     .proj-chev{width:34px;height:34px;}
     .proj-chev i{font-size:1.3rem;}
   }
@@ -964,11 +973,7 @@ const MAIN = [
     one:"Real-time NYC subway arrivals, faster than Maps.",
     full:"Quicker than Google Maps for simple departures, especially from your home station. Real-time NYC subway arrivals, where you can favorite your stations, see countdown timers down to the second, and get out the door faster.",
     site:"https://subwaytimes.com" },
-  { title:"David Licht", live:true, img:"assets/img/davidlicht-app.png", url:"https://davidlicht.com",
-    one:"A showcase site for my dad — five decades of drumming.",
-    full:"A showcase site I built for my dad — a drummer for five decades, from downtown NYC noise bands to the Grammy-winning Klezmatics. His story, music, and photos in one place.",
-    site:"https://davidlicht.com" },
-  { title:"David Licht (old pic — compare)", live:true, img:"assets/img/davidlicht.jpg", url:"https://davidlicht.com",
+  { title:"David Licht", live:true, img:"assets/img/davidlicht-app.png", imgWide:"assets/img/davidlicht.jpg", url:"https://davidlicht.com",
     one:"A showcase site for my dad — five decades of drumming.",
     full:"A showcase site I built for my dad — a drummer for five decades, from downtown NYC noise bands to the Grammy-winning Klezmatics. His story, music, and photos in one place.",
     site:"https://davidlicht.com" },
@@ -980,7 +985,7 @@ const MAIN = [
   { title:"TidyTab", live:false, img:"assets/img/tidytab.png",
     one:"Bulk unpin or close Safari pinned tabs — a macOS menu-bar app.",
     full:"A menu-bar app I built to bulk unpin or close Safari pinned tabs in one sweep — it auto-detects your pinned tabs and clears them (press Space to stop).",
-    download:"https://github.com/jacobhl3ca/safari-pinned-tab-automation/releases/latest/download/TidyTab.dmg" },
+    mas:"https://github.com/jacobhl3ca/safari-pinned-tab-automation/releases/latest/download/TidyTab.dmg" },
 ];
 const MORE = [
   { title:"Spotify Analytics", img:"assets/img/spotify_monthly.png",
@@ -1034,7 +1039,9 @@ function rowHTML(p){
   <div class="proj-row">
     <div class="proj-head">
       <div class="proj-thumb ${thumbCls}" ${p.live?`data-url="${p.url}" role="button" tabindex="0" aria-label="Open live preview of ${p.title}"`:''}>
-        <img src="${p.img}" alt="${p.live ? '' : p.title + ' screenshot'}" loading="lazy" decoding="async">
+        ${p.imgWide
+          ? `<picture><source media="(min-width:768px)" srcset="${p.imgWide}"><img src="${p.img}" alt="${p.live ? '' : p.title + ' screenshot'}" loading="lazy" decoding="async"></picture>`
+          : `<img src="${p.img}" alt="${p.live ? '' : p.title + ' screenshot'}" loading="lazy" decoding="async">`}
         <span class="proj-zoom" aria-hidden="true"><i class='bx bx-search'></i></span>
         <div class="proj-cue"><span><i class='bx bx-expand-alt' aria-hidden="true"></i> Preview</span></div>
       </div>
