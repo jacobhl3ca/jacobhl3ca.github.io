@@ -332,19 +332,21 @@
         <style id="proj-rows-css">
   .proj-wrap{max-width:780px;margin:0 auto;padding:0 1.5rem}
   /* LinkedIn = just the icon, top-right above the first card, aligned to the cards (not the window edge) */
-  .proj-linkedin{display:flex;width:40px;height:40px;margin:0 0 .85rem auto;align-items:center;justify-content:center;
+  .proj-linkedin{display:flex;width:40px;height:40px;margin:0 0 .5rem auto;align-items:center;justify-content:center;
     border-radius:50%;border:1px solid #a6a6a6;background:transparent;color:var(--second-color);text-decoration:none;
     transition:border-color .2s ease,color .2s ease,transform .2s ease;}
   [data-theme="dark"] .proj-linkedin{color:#e0e0e0;}
   .proj-linkedin:hover{border-color:var(--first-color);color:var(--first-color);transform:translateY(-1px);}
   .proj-linkedin i{font-size:1.45rem;line-height:1;}
-  /* projects-only view starts at this section, under the 72px fixed header — clear it,
-     then leave a gap above the title ≈ the gap below it. Trim the bottom too. */
-  #Projects{padding-top:calc(72px + 1.2rem);padding-bottom:1.25rem;}
+  /* projects-only view starts at this section, just under the fixed header — clear it with a
+     small gap. The header is ~48px on narrow widths and 72px on desktop, so match it per-width
+     (a flat 72px left a big dead band on phones/narrow windows). */
+  #Projects{padding-top:calc(48px + 0.55rem);padding-bottom:1.1rem;}
+  @media(min-width:768px){ #Projects{padding-top:calc(72px + 0.55rem); } }
   /* drop the bright-blue underline bar under the Projects title */
   .proj-head-row .section-title::after{display:none;}
   /* Projects title (centered) with the LinkedIn CTA pinned top-right, next to it */
-  .proj-head-row{position:relative;display:flex;justify-content:center;align-items:center;margin-bottom:1.2rem;}
+  .proj-head-row{position:relative;display:flex;justify-content:center;align-items:center;margin-bottom:0.55rem;}
   .proj-head-row .section-title{margin:0;}
   .proj-head-row .toplink{position:absolute;right:0;top:50%;transform:translateY(-50%);
     display:inline-flex;align-items:center;gap:.45rem;font-family:var(--body-font);font-size:.82rem;font-weight:600;
