@@ -331,6 +331,13 @@
         </style>
         <style id="proj-rows-css">
   .proj-wrap{max-width:780px;margin:0 auto;padding:0 1.5rem}
+  /* LinkedIn = just the icon, top-right above the first card, aligned to the cards (not the window edge) */
+  .proj-linkedin{display:flex;width:40px;height:40px;margin:0 0 .85rem auto;align-items:center;justify-content:center;
+    border-radius:50%;border:1px solid #a6a6a6;background:transparent;color:var(--second-color);text-decoration:none;
+    transition:border-color .2s ease,color .2s ease,transform .2s ease;}
+  [data-theme="dark"] .proj-linkedin{color:#e0e0e0;}
+  .proj-linkedin:hover{border-color:var(--first-color);color:var(--first-color);transform:translateY(-1px);}
+  .proj-linkedin i{font-size:1.45rem;line-height:1;}
   /* projects-only view starts at this section, under the 72px fixed header — clear it,
      then leave a gap above the title ≈ the gap below it. Trim the bottom too. */
   #Projects{padding-top:calc(72px + 1.2rem);padding-bottom:1.25rem;}
@@ -730,10 +737,10 @@
 
                 <div class="proj-head-row">
                     <h2 class="section-title" id="projects-heading">Projects</h2>
-                    <a class="toplink" href="https://www.linkedin.com/in/jacobhl/" target="_blank" rel="noopener noreferrer"><i class='bx bxl-linkedin' aria-hidden="true"></i> <span class="tl-full">Connect on </span>LinkedIn</a>
                 </div>
 
                 <div class="proj-wrap">
+                    <a class="proj-linkedin" href="https://www.linkedin.com/in/jacobhl/" target="_blank" rel="noopener noreferrer" aria-label="Connect with me on LinkedIn" title="Connect on LinkedIn"><i class='bx bxl-linkedin' aria-hidden="true"></i></a>
                     <div id="main-rows"></div>
                     <noscript>
                         <!-- The project cards above are built by JavaScript, so with scripting disabled
@@ -974,7 +981,7 @@ const MAIN = [
     one:"Watch sports highlights without seeing the score.",
     full:"Watch sports highlights without seeing the score. Covers MLB, NBA, NHL, NFL, soccer, tennis and more with score-hidden cards, embedded highlights, and a unified news view — without spoiling anything you haven't watched.",
     site:"https://hidescore.com", appstore:"https://apps.apple.com/app/hidescore/id6766885311" },
-  { title:"Tonight NYC", live:true, img:"assets/img/tonightnyc-app.png", pos:"top", url:"https://tonightnyc.com",
+  { title:"Tonight NYC", live:true, img:"assets/img/tonightnyc-app.png", imgWide:"assets/img/tonightnyc-wide.png", url:"https://tonightnyc.com",
     one:"Every NYC comedy show, filtered to your favorite comedians.",
     full:"No more digging for comedy showtimes, stick to your favorite comedians. Includes every NYC show from the Comedy Cellar, The Stand, and more, filtered your way. Mark favorites and skips, see which set to attend at a glance, and book directly.",
     site:"https://tonightnyc.com", appstore:"https://apps.apple.com/app/id6763027650" },
