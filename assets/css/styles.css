@@ -958,6 +958,15 @@ img {
   outline: none;
   margin-bottom: var(--mb-4);
 }
+/* Keyboard focus indicator for the contact form. The fields and Send button set
+   outline:none with no replacement, so keyboard users got no visible focus state
+   (WCAG 2.4.7). Scope to :focus-visible — mouse/touch focus shows no ring, so the
+   look is unchanged — and reuse the accent outline already used by .proj-thumb. */
+.contact__input:focus-visible,
+.contact__button:focus-visible {
+  outline: 2px solid var(--first-color);
+  outline-offset: 2px;
+}
 .contact__input::placeholder {
   color: #9aa0ab;
   font-weight: 400;
