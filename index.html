@@ -528,6 +528,14 @@
   /* iframe sits ON TOP (z-index 2) with a transparent bg; the loader is BEHIND it (z-index 1),
      so the moment the site paints it covers the spinner — the overlay can never hide a working site */
   .modal-frame{position:absolute;inset:0;border:0;width:100%;height:100%;background:transparent;z-index:2;}
+  /* "Press Esc to exit" hint — shown only while the pointer/focus is inside the cross-origin
+     preview iframe (.frame-focused), since that's when a plain Esc can't reach the parent. */
+  .esc-hint{position:absolute;top:10px;right:10px;z-index:3;display:none;align-items:center;gap:.4rem;
+    padding:.32rem .6rem;border:0;border-radius:7px;cursor:pointer;font:inherit;font-size:.74rem;
+    color:#e6e9ef;background:rgba(12,14,18,.82);backdrop-filter:blur(6px);box-shadow:0 2px 10px rgba(0,0,0,.4);}
+  .esc-hint kbd{font:inherit;font-size:.7rem;padding:.05rem .34rem;border-radius:4px;background:#2a3242;color:#fff;}
+  .esc-hint:hover{background:rgba(20,24,30,.95);}
+  .modal.frame-focused .esc-hint{display:inline-flex;}
   .modal-load{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;
     gap:.7rem;background:#0c0e12;color:#9aa3b4;font-size:.85rem;z-index:1;transition:opacity .25s ease;}
   .modal-load.hidden{opacity:0;pointer-events:none;}
@@ -971,6 +979,7 @@
       <button class="fs-back" id="fsBack" title="Back to projects"><i class='bx bx-arrow-back' aria-hidden="true"></i> Back</button>
       <div class="modal-load" id="modalLoad"><div class="spin"></div><span id="modalLoadTxt">Loading preview…</span></div>
       <iframe class="modal-frame" id="modalFrame" title="Live preview" referrerpolicy="no-referrer-when-downgrade"></iframe>
+      <button class="esc-hint" id="escHint" type="button" title="Exit preview">Press <kbd>Esc</kbd> to exit</button>
     </div>
   </div>
 </div>
@@ -1170,6 +1179,28 @@ document.getElementById('urlForm').addEventListener('submit', e=>{
 });
 modal.addEventListener('click', e=>{ if(e.target===modal) closeModal(); });
 document.addEventListener('keydown', e=>{ if(e.key==='Escape'){ if(modal.classList.contains('fullscreen')) setFullscreen(false); else closeModal(); } });
+// Esc-while-inside-the-preview fix: once the user clicks into the cross-origin iframe,
+// keystrokes go to that frame and never reach the parent's Esc handler above. We can't
+// read keys across origins, so instead we RECLAIM keyboard focus to the dialog the moment
+// the pointer comes back over the modal chrome (the toolbar / margins around the iframe —
+// mousemove never fires while the pointer is over the iframe itself). After that nudge the
+// next Esc lands on the parent and closes the preview. A persistent hint tells the user.
+let frameFocused=false;
+window.addEventListener('blur', ()=>{
+  if(modal.classList.contains('open') && document.activeElement===frame){
+    frameFocused=true; modal.classList.add('frame-focused');
+  }
+});
+window.addEventListener('focus', ()=>{ frameFocused=false; modal.classList.remove('frame-focused'); });
+function reclaimFocus(){
+  if(!frameFocused) return;
+  frameFocused=false; modal.classList.remove('frame-focused');
+  document.getElementById('modalClose').focus({preventScroll:true});
+}
+modal.addEventListener('mousemove', reclaimFocus);
+modal.addEventListener('mouseenter', reclaimFocus);
+// Clicking the hint itself just gets out.
+document.getElementById('escHint').addEventListener('click', closeModal);
 // Trap Tab focus inside the open preview dialog so keyboard users can't tab out to the page behind it (WAI-ARIA modal-dialog pattern).
 modal.addEventListener('keydown', e=>{
   if(e.key!=='Tab' || !modal.classList.contains('open')) return;
