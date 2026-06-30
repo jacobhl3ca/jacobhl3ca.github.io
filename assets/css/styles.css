@@ -967,13 +967,18 @@ img {
   outline: 2px solid var(--first-color);
   outline-offset: 2px;
 }
+/* These placeholders double as the fields' only visible labels (the inputs have no
+   <label>, just aria-label for AT), so their text must meet WCAG 1.4.3 (4.5:1) for
+   low-vision sighted users. The previous greys failed on white (#9aa0ab ≈ 2.6:1) and
+   were borderline on the dark card (#7c8190 ≈ 4.3:1); nudged just enough to pass
+   (4.8:1 / 4.9:1) while staying visibly muted — no layout or design change. */
 .contact__input::placeholder {
-  color: #9aa0ab;
+  color: #6b7280;
   font-weight: 400;
   opacity: 1;
 }
 [data-theme="dark"] .contact__input::placeholder {
-  color: #7c8190;
+  color: #868b9a;
 }
 /* Instant theme switch — suppress transitions only while toggling so colors swap immediately */
 html.theme-switching * {
