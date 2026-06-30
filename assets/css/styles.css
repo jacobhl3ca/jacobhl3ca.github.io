@@ -691,6 +691,15 @@ img {
 .button:hover {
   box-shadow: 0px 10px 36px rgba(0, 0, 0, 0.15);
 }
+/* Keyboard focus indicator for the primary CTA buttons (home "Contact",
+   404 "Back to Home"). Every other interactive element already ships the
+   branded accent ring, but .button fell back to the inconsistent UA default
+   outline. Scope to :focus-visible so mouse/touch focus shows no ring (look
+   unchanged); the outline follows the button's 0.5rem radius. WCAG 2.4.7. */
+.button:focus-visible {
+  outline: 2px solid var(--first-color);
+  outline-offset: 2px;
+}
 
 /* ===== ABOUT =====*/
 .about__container {
