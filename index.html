@@ -330,23 +330,22 @@
   .proj-wrap{max-width:780px;margin:0 auto;padding:0 1.5rem}
   /* projects-only view starts at this section, under the 72px fixed header — clear it,
      then leave a gap above the title ≈ the gap below it. Trim the bottom too. */
-  #Projects{padding-top:calc(72px + 1.2rem);padding-bottom:1.25rem;}
+  #Projects{padding-top:calc(72px + 0.4rem);padding-bottom:1.25rem;}
   /* drop the bright-blue underline bar under the Projects title */
   .proj-head-row .section-title::after{display:none;}
   /* Projects title (centered) with the LinkedIn CTA pinned top-right, next to it */
   .proj-head-row{position:relative;display:flex;justify-content:center;align-items:center;margin-bottom:1.2rem;}
   .proj-head-row .section-title{margin:0;}
-  .proj-head-row .toplink{position:absolute;right:0;top:50%;transform:translateY(-50%);
-    display:inline-flex;align-items:center;gap:.45rem;font-family:var(--body-font);font-size:.82rem;font-weight:600;
-    padding:.5rem .95rem;border-radius:999px;text-decoration:none;background:transparent;border:1px solid #a6a6a6;
+  .proj-head-row .toplink{position:absolute;right:1.5rem;top:50%;transform:translateY(-50%);
+    display:inline-flex;align-items:center;gap:0;font-family:var(--body-font);font-size:.82rem;font-weight:600;
+    padding:.5rem;border-radius:999px;text-decoration:none;background:transparent;border:1px solid #a6a6a6;
     color:var(--second-color);transition:border-color .2s ease,color .2s ease,transform .2s ease;white-space:nowrap;}
   [data-theme="dark"] .proj-head-row .toplink{color:#e0e0e0;}
   .proj-head-row .toplink:hover{border-color:var(--first-color);color:var(--first-color);}
   .proj-head-row .toplink i{font-size:1.15rem;}
   @media(max-width:600px){
-    /* compact the button ("LinkedIn") so it fits top-right beside the centered title */
-    .proj-head-row .toplink{font-size:.74rem;padding:.42rem .7rem;gap:.3rem;}
-    .proj-head-row .toplink .tl-full{display:none;}
+    /* keep the icon button snug top-right beside the centered title */
+    .proj-head-row .toplink{padding:.42rem;gap:0;}
   }
 
   /* ---- ROW CARD (mirrors .work__img shadow/radius, laid out horizontally) ---- */
@@ -580,64 +579,6 @@
             </nav>
         </header>
         <main class="l-main" id="main-content" tabindex="-1">
-            <!--===== CLAUDE CODE USAGE — TEMPORARILY DISABLED 2026-06-17 (remove the two ccu-disabled comment lines to re-enable) =====-->
-            <!-- ccu-disabled
-            <section class="ccu-section" id="ccu" style="display:none" aria-label="My Claude Code usage">
-              <style>
-                .ccu-section{padding:5rem 1.25rem 1rem;text-align:center}
-                .ccu-wrap{max-width:760px;margin:0 auto}
-                .ccu-eyebrow{font-size:.78rem;letter-spacing:.12em;text-transform:uppercase;color:var(--text-color,#8b94a0);margin:0 0 1.1rem;display:flex;gap:.5rem;align-items:center;justify-content:center}
-                .ccu-dot{width:7px;height:7px;border-radius:50%;background:#34d399;animation:ccu-pulse 2s infinite}
-                @keyframes ccu-pulse{0%{box-shadow:0 0 0 0 rgba(52,211,153,.5)}70%{box-shadow:0 0 0 7px rgba(52,211,153,0)}100%{box-shadow:0 0 0 0 rgba(52,211,153,0)}}
-                .ccu-r{display:inline-flex;gap:3px;border:1px solid color-mix(in srgb,var(--first-color) 35%,transparent);border-radius:999px;padding:3px;margin-bottom:1.6rem}
-                .ccu-r button{border:0;background:transparent;color:var(--text-color,#8b94a0);font:600 .8rem var(--body-font,system-ui);padding:.4rem .95rem;border-radius:999px;cursor:pointer;transition:.2s}
-                .ccu-r button.on{background:var(--first-color);color:#fff}
-                .ccu-h{display:flex;gap:3.5rem;justify-content:center;flex-wrap:wrap}
-                .ccu-num{font-size:3.1rem;font-weight:700;line-height:1;font-variant-numeric:tabular-nums;color:var(--first-color)}
-                .ccu-lab{font-size:.74rem;letter-spacing:.08em;text-transform:uppercase;color:var(--text-color,#8b94a0);margin-top:.5rem}
-                .ccu-sub{font-size:.68rem;color:var(--text-color,#8b94a0);opacity:.7;margin-top:.15rem}
-                .ccu-more{display:flex;flex-wrap:wrap;gap:.9rem 1.9rem;justify-content:center;margin-top:2rem;padding-top:1.4rem;border-top:1px solid color-mix(in srgb,var(--first-color) 18%,transparent)}
-                .ccu-more div{min-width:82px}
-                .ccu-more b{display:block;font-size:1.35rem;font-weight:650;font-variant-numeric:tabular-nums;color:var(--title-color,inherit)}
-                .ccu-more span{font-size:.66rem;letter-spacing:.04em;text-transform:uppercase;color:var(--text-color,#8b94a0)}
-                .ccu-u{font-size:.66rem;color:var(--text-color,#8b94a0);opacity:.6;margin-top:1.3rem}
-                @media(max-width:560px){.ccu-h{gap:2rem}.ccu-num{font-size:2.3rem}}
-              </style>
-              <div class="ccu-wrap">
-                <p class="ccu-eyebrow"><span class="ccu-dot"></span> Live · my Claude Code usage</p>
-                <div class="ccu-r" role="group" aria-label="Usage time range"><button type="button" data-r="today" aria-pressed="false">Today</button><button type="button" data-r="d7" aria-pressed="false">7 days</button><button type="button" data-r="d30" class="on" aria-pressed="true">30 days</button><button type="button" data-r="all" aria-pressed="false">All time</button></div>
-                <div class="ccu-h">
-                  <div><div class="ccu-num" id="ccu-m">0</div><div class="ccu-lab">Messages</div><div class="ccu-sub">prompts I've sent</div></div>
-                  <div><div class="ccu-num" id="ccu-t">0</div><div class="ccu-lab">Tokens</div><div class="ccu-sub">processed</div></div>
-                </div>
-                <div class="ccu-more">
-                  <div><b id="ccu-turns">0</b><span>AI turns</span></div>
-                  <div><b id="ccu-tools">0</b><span>tool runs</span></div>
-                  <div><b id="ccu-convos">0</b><span>conversations</span></div>
-                  <div><b id="ccu-written">0</b><span>tokens written</span></div>
-                  <div><b id="ccu-days">0</b><span>active days</span></div>
-                </div>
-                <p class="ccu-u" id="ccu-u"></p>
-              </div>
-              <script>
-              (function(){
-                var FEED="https://gist.githubusercontent.com/jacobhl3ca/484da555aac44cf90b41ca36174a1dfe/raw/usage-public.json";
-                function ab(n){return n>=1e9?(n/1e9).toFixed(2)+"B":n>=1e6?(n/1e6).toFixed(1)+"M":n>=1e3?(n/1e3).toFixed(1)+"K":(""+n);}
-                function L(n){return n.toLocaleString();}
-                function anim(el,to,fmt){var t0=performance.now(),from=el._v||0;el._v=to;(function f(t){var k=Math.min(1,(t-t0)/650);k=1-Math.pow(1-k,3);el.textContent=fmt(Math.round(from+(to-from)*k));if(k<1)requestAnimationFrame(f);})(t0);}
-                fetch(FEED,{cache:"no-store"}).then(function(r){return r.json();}).then(function(D){
-                  var BY=D.by_day,CUT=D.cutoffs;
-                  function rng(r){var o={p:0,a:0,t:0,tr:0,o:0,s:0,days:0};BY.forEach(function(x){if(r==="all"||x.d>=CUT[r]){o.p+=x.p;o.a+=x.a;o.t+=x.t;o.tr+=x.tr;o.o+=x.o;o.s+=x.s;if(x.p||x.t)o.days++;}});return o;}
-                  function show(r){var s=rng(r);anim(document.getElementById("ccu-m"),s.p,L);anim(document.getElementById("ccu-t"),s.a,ab);document.getElementById("ccu-turns").textContent=L(s.t);document.getElementById("ccu-tools").textContent=L(s.tr);document.getElementById("ccu-convos").textContent=L(s.s);document.getElementById("ccu-written").textContent=ab(s.o);document.getElementById("ccu-days").textContent=L(s.days);}
-                  Array.prototype.forEach.call(document.querySelectorAll(".ccu-r button"),function(b){b.onclick=function(){Array.prototype.forEach.call(document.querySelectorAll(".ccu-r button"),function(x){x.classList.remove("on");x.setAttribute("aria-pressed","false");});b.classList.add("on");b.setAttribute("aria-pressed","true");show(b.dataset.r);};});
-                  document.getElementById("ccu-u").textContent="updated "+D.updated+" · auto-refreshes";
-                  document.getElementById("ccu").style.display="";
-                  show("d30");
-                }).catch(function(){});
-              })();
-              </script>
-            </section>
-            ccu-disabled -->
             <!--===== HOME =====-->
             <section class="home bd-grid" id="home" aria-labelledby="home-heading">
                 <div class="home__data">
@@ -722,7 +663,7 @@
 
                 <div class="proj-head-row">
                     <h2 class="section-title" id="projects-heading">Projects</h2>
-                    <a class="toplink" href="https://www.linkedin.com/in/jacobhl/" target="_blank" rel="noopener noreferrer"><i class='bx bxl-linkedin' aria-hidden="true"></i> <span class="tl-full">Connect on </span>LinkedIn</a>
+                    <a class="toplink" href="https://www.linkedin.com/in/jacobhl/" target="_blank" rel="noopener noreferrer" aria-label="Connect on LinkedIn"><i class='bx bxl-linkedin' aria-hidden="true"></i></a>
                 </div>
 
                 <div class="proj-wrap">
@@ -986,7 +927,7 @@ const MAIN = [
   { title:"TidyTab", live:false, img:"assets/img/tidytab.png",
     one:"Bulk unpin or close Safari pinned tabs — a macOS menu-bar app.",
     full:"A menu-bar app I built to bulk unpin or close Safari pinned tabs in one sweep — it auto-detects your pinned tabs and clears them (press Space to stop).",
-    mas:"https://github.com/jacobhl3ca/safari-pinned-tab-automation/releases/latest/download/TidyTab.dmg" },
+    download:"https://github.com/jacobhl3ca/safari-pinned-tab-automation/releases/latest/download/TidyTab.dmg" },
 ];
 const MORE = [
   { title:"Spotify Analytics", img:"assets/img/spotify_monthly.png",
