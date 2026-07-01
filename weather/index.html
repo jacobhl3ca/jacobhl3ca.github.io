@@ -531,15 +531,21 @@ function render(w, aqi, geo) {
     }).join('')}
   </div>`;
 
-  // NYC tip
-  html += `<div class="card" style="text-align:center;">
-    <div style="font-size:12px;color:var(--text-dim);">
-      ${temp <= 35 ? '<span aria-hidden="true">🧤</span> NYC Tip: Watch for icy sidewalks, especially bridge overpasses and shaded blocks.' :
-        temp >= 90 ? '<span aria-hidden="true">🚰</span> NYC Tip: Cooling centers are open. Stay near AC — check NYC.gov for locations.' :
-        willRain ? '<span aria-hidden="true">🚇</span> NYC Tip: Expect crowded subways. Leave 10 min early and bring an umbrella.' :
-        '<span aria-hidden="true">🏙️</span> NYC Tip: Great day to walk — Central Park and the High Line are calling.'}
-    </div>
-  </div>`;
+  // NYC tip — the dashboard is NYC-themed (defaults to New York), and the advice below is
+  // NYC-specific (subways, Central Park, the High Line), so only show it when the loaded
+  // location is actually New York. For any other searched city ("Search any city") this card
+  // would be misleading, so it's omitted rather than shown with the wrong locale's tips.
+  const isNYC = /^New York,/.test(geo.name || '');
+  if (isNYC) {
+    html += `<div class="card" style="text-align:center;">
+      <div style="font-size:12px;color:var(--text-dim);">
+        ${temp <= 35 ? '<span aria-hidden="true">🧤</span> NYC Tip: Watch for icy sidewalks, especially bridge overpasses and shaded blocks.' :
+          temp >= 90 ? '<span aria-hidden="true">🚰</span> NYC Tip: Cooling centers are open. Stay near AC — check NYC.gov for locations.' :
+          willRain ? '<span aria-hidden="true">🚇</span> NYC Tip: Expect crowded subways. Leave 10 min early and bring an umbrella.' :
+          '<span aria-hidden="true">🏙️</span> NYC Tip: Great day to walk — Central Park and the High Line are calling.'}
+      </div>
+    </div>`;
+  }
 
   document.getElementById('content').innerHTML = html;
 }
