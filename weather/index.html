@@ -94,6 +94,8 @@ body {
   font-size:15px; font-weight:600; cursor:pointer; transition:opacity .2s;
 }
 .search-bar button:hover { opacity:.85; }
+/* Keyboard focus: give the Search button the same branded accent ring the input focus and hourly row use, instead of the inconsistent UA-default outline (WCAG 2.4.7). The offset keeps a dark gap so the ring stays visible against the same-accent button. */
+.search-bar button:focus-visible { outline:2px solid var(--accent); outline-offset:3px; }
 
 .card {
   background:var(--card); border:1px solid var(--card-border);
