@@ -691,6 +691,15 @@ img {
 .button:hover {
   box-shadow: 0px 10px 36px rgba(0, 0, 0, 0.15);
 }
+/* Keyboard focus indicator for the primary CTA buttons (home "Contact",
+   404 "Back to Home"). Every other interactive element already ships the
+   branded accent ring, but .button fell back to the inconsistent UA default
+   outline. Scope to :focus-visible so mouse/touch focus shows no ring (look
+   unchanged); the outline follows the button's 0.5rem radius. WCAG 2.4.7. */
+.button:focus-visible {
+  outline: 2px solid var(--first-color);
+  outline-offset: 2px;
+}
 
 /* ===== ABOUT =====*/
 .about__container {
@@ -946,6 +955,22 @@ img {
   color: #e0e0e0;
 }
 
+/* Keyboard focus indicator for the project-card action controls and the header view-mode
+   pills. These were the interactive elements still falling back to the inconsistent
+   browser-default focus outline while every other element on the site ships the branded
+   accent ring (WCAG 2.4.7 Focus Visible). Scoped to :focus-visible so mouse/touch focus
+   shows no ring (look unchanged); the outline follows each element's own border-radius.
+   Mirrors the existing .button / .contact__input / .nav__link focus convention. */
+.site-link:focus-visible,
+.app-store-badge-link:focus-visible,
+.mac-badge:focus-visible,
+.gh-link:focus-visible,
+.proj-chev:focus-visible,
+.view-pill__btn:focus-visible {
+  outline: 2px solid var(--first-color);
+  outline-offset: 2px;
+}
+
 /* ===== CONTACT =====*/
 .contact__input {
   width: 100%;
@@ -958,13 +983,27 @@ img {
   outline: none;
   margin-bottom: var(--mb-4);
 }
+/* Keyboard focus indicator for the contact form. The fields and Send button set
+   outline:none with no replacement, so keyboard users got no visible focus state
+   (WCAG 2.4.7). Scope to :focus-visible — mouse/touch focus shows no ring, so the
+   look is unchanged — and reuse the accent outline already used by .proj-thumb. */
+.contact__input:focus-visible,
+.contact__button:focus-visible {
+  outline: 2px solid var(--first-color);
+  outline-offset: 2px;
+}
+/* These placeholders double as the fields' only visible labels (the inputs have no
+   <label>, just aria-label for AT), so their text must meet WCAG 1.4.3 (4.5:1) for
+   low-vision sighted users. The previous greys failed on white (#9aa0ab ≈ 2.6:1) and
+   were borderline on the dark card (#7c8190 ≈ 4.3:1); nudged just enough to pass
+   (4.8:1 / 4.9:1) while staying visibly muted — no layout or design change. */
 .contact__input::placeholder {
-  color: #9aa0ab;
+  color: #6b7280;
   font-weight: 400;
   opacity: 1;
 }
 [data-theme="dark"] .contact__input::placeholder {
-  color: #7c8190;
+  color: #868b9a;
 }
 /* Instant theme switch — suppress transitions only while toggling so colors swap immediately */
 html.theme-switching * {

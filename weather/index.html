@@ -8,7 +8,7 @@
 <title>Weather Dashboard — NYC</title>
 <meta name="description" content="A live weather dashboard with current conditions, hourly rain chance, a 5-day forecast, air quality, and sun times. Search any city — defaults to New York, NY.">
 <meta name="author" content="Jacob Heifetz-Licht">
-<meta name="robots" content="index, follow">
+<meta name="robots" content="index, follow, max-image-preview:large">
 <link rel="canonical" href="https://jacobhl.com/weather/">
 <!-- Structured data so search engines understand this is a free, browser-based weather app (mirrors the Person schema on the main site) -->
 <script type="application/ld+json">
@@ -94,6 +94,8 @@ body {
   font-size:15px; font-weight:600; cursor:pointer; transition:opacity .2s;
 }
 .search-bar button:hover { opacity:.85; }
+/* Keyboard focus: give the Search button the same branded accent ring the input focus and hourly row use, instead of the inconsistent UA-default outline (WCAG 2.4.7). The offset keeps a dark gap so the ring stays visible against the same-accent button. */
+.search-bar button:focus-visible { outline:2px solid var(--accent); outline-offset:3px; }
 
 .card {
   background:var(--card); border:1px solid var(--card-border);
@@ -491,9 +493,9 @@ function render(w, aqi, geo) {
     <div class="stat-label">Sunrise / Sunset</div>
     <div class="sun-bar"><div class="sun-dot" style="left:calc(${sunProg}% - 7px)"></div></div>
     <div class="sun-times">
-      <span>↑ ${fmtTime(sunrise)}</span>
+      <span><span aria-hidden="true">↑</span><span class="visually-hidden">Sunrise: </span> ${fmtTime(sunrise)}</span>
       <span>${dlH}h ${dlM}m daylight</span>
-      <span>↓ ${fmtTime(sunset)}</span>
+      <span><span aria-hidden="true">↓</span><span class="visually-hidden">Sunset: </span> ${fmtTime(sunset)}</span>
     </div>
   </div>`;
 
@@ -523,7 +525,7 @@ function render(w, aqi, geo) {
         <div class="forecast-day">${d.day}</div>
         <div class="forecast-icon" aria-hidden="true">${getIcon(d.code, true)}</div>
         <div class="forecast-desc">${getDesc(d.code)}${d.pop > 20 ? ' · ' + d.pop + '% rain' : ''}</div>
-        <div class="forecast-temps"><span class="hi">${d.hi}°</span> / <span class="lo">${d.lo}°</span></div>
+        <div class="forecast-temps"><span class="hi"><span class="visually-hidden">High: </span>${d.hi}°</span> <span aria-hidden="true">/</span> <span class="lo"><span class="visually-hidden">Low: </span>${d.lo}°</span></div>
       </div>`;
     }).join('')}
   </div>`;

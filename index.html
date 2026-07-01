@@ -571,7 +571,7 @@
         <a href="#main-content" class="skip-link">Skip to main content</a>
         <!--===== HEADER =====-->
         <header class="l-header">
-            <nav class="nav bd-grid">
+            <nav class="nav bd-grid" aria-label="Primary"> <!-- name the primary navigation landmark so screen-reader landmark menus read "Primary navigation" instead of a generic, unlabeled "navigation" -->
                 <div>
                     <a href="#home" class="nav__logo">Jacob</a>
                 </div>
@@ -597,7 +597,7 @@
                     <button id="theme-toggle" class="theme-toggle" aria-label="Switch to light mode" style="position: relative; top: 0;">
                         <i class='bx bx-sun' id="theme-icon" aria-hidden="true"></i>
                     </button>
-                    <div class="nav__toggle" id="nav-toggle" role="button" aria-label="Toggle navigation menu" aria-controls="nav-menu">
+                    <div class="nav__toggle" id="nav-toggle" role="button" tabindex="0" aria-label="Toggle navigation menu" aria-controls="nav-menu" aria-expanded="false">
                         <i class='bx bx-menu' aria-hidden="true"></i>
                     </div>
                 </div>
@@ -675,7 +675,7 @@
                     <a href="https://www.linkedin.com/in/jacobhl/" class="home__social-icon" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn profile"><i class='bx bxl-linkedin' aria-hidden="true"></i></a>
                     <a href="https://github.com/jacobhl3ca" class="home__social-icon" target="_blank" rel="noopener noreferrer" aria-label="GitHub profile"><i class='bx bxl-github' aria-hidden="true"></i></a>
                     <a href="mailto:hi@jacobhl.com" class="home__social-icon" aria-label="Send email" style="margin-bottom: 0.75rem;"><i class='bx bx-envelope' aria-hidden="true"></i></a>
-                    <a href="#contact" class="home__social-icon" onclick="requestResume()" aria-label="Request resume"><i class='bx bx-file' aria-hidden="true"></i></a>
+                    <a href="#contact" class="home__social-icon" onclick="event.preventDefault(); requestResume()" aria-label="Request resume"><i class='bx bx-file' aria-hidden="true"></i></a> <!-- preventDefault so the browser's instant #contact fragment jump doesn't fight requestResume()'s own reduced-motion-aware smooth scroll, reset the focus it just placed in the form, or pollute the URL with #contact. The plain href stays as the no-JS fallback (onclick won't run then). -->
                 </div>
 
                 <div class="home__img">
@@ -1011,7 +1011,7 @@ const MAIN = [
   { title:"TidyTab", live:false, img:"assets/img/tidytab.png",
     one:"Bulk unpin or close Safari pinned tabs — a macOS menu-bar app.",
     full:"A menu-bar app I built to bulk unpin or close Safari pinned tabs in one sweep — it auto-detects your pinned tabs and clears them (press Space to stop).",
-    mas:"https://github.com/jacobhl3ca/safari-pinned-tab-automation/releases/latest/download/TidyTab.dmg" },
+    download:"https://github.com/jacobhl3ca/safari-pinned-tab-automation/releases/latest/download/TidyTab.dmg" },
 ];
 const MORE = [
   { title:"Spotify Analytics", img:"assets/img/spotify_monthly.png",
@@ -1058,17 +1058,24 @@ function ctaHTML(p){
   if(p.github) h+=`<a href="${p.github}" target="_blank" rel="noopener" class="gh-link" aria-label="View the ${p.title} source on GitHub"><i class='bx bxl-github' aria-hidden="true"></i>GitHub</a>`;
   return h; // inner links only — wrapped by the .proj-actions row (with the chevron) in rowHTML
 }
-function rowHTML(p){
+function rowHTML(p, eager){
   const dot = (p.live || p.download || p.mas) ? '<span class="live-dot is-visible" role="img" aria-label="Live" title="Live"></span>' : '';
   const thumbCls = (p.live?'':'no-live') + (p.pos==='top'?' pos-top':'');
+  // The first project card sits above the fold in the default projects-only view, so its
+  // thumbnail is the likely LCP element — load it eagerly (lazy-loading an above-the-fold
+  // image is a known LCP anti-pattern). Every other card stays lazy.
+  const imgLoad = eager ? 'loading="eager"' : 'loading="lazy"';
+  // Stable, unique id per project (titles are unique across both lists) so the chevron toggle can
+  // point at the panel it expands via aria-controls, mirroring the #moreToggle → #moreWrap wiring.
+  const detailId = 'proj-detail-' + p.title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
   return `
   <div class="proj-row">
     <div class="proj-head">
       <div class="proj-thumb ${thumbCls}" ${p.live?`data-url="${p.url}" role="button" tabindex="0" aria-label="Open live preview of ${p.title}"`:''}>
         ${p.imgWide
-          ? `<picture><source media="(min-width:768px)" srcset="${p.imgWide}"><img src="${p.img}" alt="${p.live ? '' : p.title + ' screenshot'}" loading="lazy" decoding="async"></picture>`
-          : `<img src="${p.img}" alt="${p.live ? '' : p.title + ' screenshot'}" loading="lazy" decoding="async">`}
-        <span class="proj-zoom" aria-hidden="true"><i class='bx bx-search'></i></span>
+          ? `<picture><source media="(min-width:768px)" srcset="${p.imgWide}"><img src="${p.img}" alt="${p.live ? '' : p.title + ' screenshot'}" ${imgLoad} decoding="async"></picture>`
+          : `<img src="${p.img}" alt="${p.live ? '' : p.title + ' screenshot'}" ${imgLoad} decoding="async">`}
+        <span class="proj-zoom" aria-hidden="true"><i class='bx bx-search' aria-hidden="true"></i></span>
         <div class="proj-cue"><span><i class='bx bx-expand-alt' aria-hidden="true"></i> Preview</span></div>
       </div>
       <div class="proj-info">
@@ -1076,18 +1083,18 @@ function rowHTML(p){
         <p class="proj-one">${p.one}</p>
         <div class="work__cta proj-actions">
           ${ctaHTML(p)}
-          <button class="proj-chev" aria-label="Show details" aria-expanded="false"><i class='bx bx-chevron-down' aria-hidden="true"></i></button>
+          <button class="proj-chev" aria-label="Show details" aria-expanded="false" aria-controls="${detailId}"><i class='bx bx-chevron-down' aria-hidden="true"></i></button>
         </div>
       </div>
     </div>
-    <div class="proj-detail" inert><div class="proj-detail-in"><div class="pad">
+    <div class="proj-detail" id="${detailId}" inert><div class="proj-detail-in"><div class="pad">
       <p>${p.full}</p>
     </div></div></div>
   </div>`;
 }
 
-document.getElementById('main-rows').innerHTML = MAIN.map(rowHTML).join('');
-document.getElementById('more-rows').innerHTML = MORE.map(rowHTML).join('');
+document.getElementById('main-rows').innerHTML = MAIN.map((p, i) => rowHTML(p, i === 0)).join(''); // eager-load only the first (above-the-fold) card's image
+document.getElementById('more-rows').innerHTML = MORE.map(p => rowHTML(p, false)).join(''); // "Private projects" panel starts collapsed/inert — keep all its images lazy
 
 // click anywhere on the card toggles expand — EXCEPT a live thumbnail (opens preview) and CTA links.
 // "Other projects" have no live preview, so clicking their thumbnail expands the card like the rest.

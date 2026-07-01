@@ -27,6 +27,22 @@
         </script>
         <title>Page Not Found — Jacob Heifetz-Licht</title>
         <meta name="description" content="The page you're looking for doesn't exist or has been moved. Head back to jacobhl.com — the portfolio of Jacob Heifetz-Licht, analytics manager and web developer.">
+        <!-- Open Graph / Twitter meta so a shared or mistyped jacobhl.com link (which serves this 404) still gets a branded preview instead of a blank one. og:url is intentionally omitted since this page is served for many different URLs. Mirrors index.html. -->
+        <meta property="og:title" content="Page Not Found — Jacob Heifetz-Licht">
+        <meta property="og:description" content="This page doesn't exist or has been moved. Head back to jacobhl.com — the portfolio of Jacob Heifetz-Licht, analytics manager and web developer.">
+        <meta property="og:image" content="https://jacobhl.com/assets/img/og_image.png">
+        <meta property="og:image:type" content="image/png">
+        <meta property="og:image:width" content="1200">
+        <meta property="og:image:height" content="630">
+        <meta property="og:image:alt" content="Jacob Heifetz-Licht — Analytics Manager and web developer">
+        <meta property="og:type" content="website">
+        <meta property="og:site_name" content="Jacob Heifetz-Licht">
+        <meta property="og:locale" content="en_US">
+        <meta name="twitter:card" content="summary_large_image">
+        <meta name="twitter:title" content="Page Not Found — Jacob Heifetz-Licht">
+        <meta name="twitter:description" content="This page doesn't exist or has been moved. Head back to jacobhl.com — the portfolio of Jacob Heifetz-Licht, analytics manager and web developer.">
+        <meta name="twitter:image" content="https://jacobhl.com/assets/img/og_image.png">
+        <meta name="twitter:image:alt" content="Jacob Heifetz-Licht — Analytics Manager and web developer">
         <style>
             .error-page {
                 display: flex;
@@ -72,7 +88,7 @@
         <a href="#main-content" class="skip-link">Skip to main content</a>
         <!--===== HEADER =====-->
         <header class="l-header">
-            <nav class="nav bd-grid">
+            <nav class="nav bd-grid" aria-label="Primary"> <!-- name the primary navigation landmark so screen-reader landmark menus read "Primary navigation" instead of a generic, unlabeled "navigation" (mirrors index.html) -->
                 <div>
                     <a href="/" class="nav__logo">Jacob</a>
                 </div>
@@ -89,7 +105,7 @@
                     <button id="theme-toggle" class="theme-toggle" aria-label="Switch to light mode" style="position: relative; top: -2px;">
                         <i class='bx bx-sun' id="theme-icon" aria-hidden="true"></i>
                     </button>
-                    <div class="nav__toggle" id="nav-toggle" role="button" aria-label="Toggle navigation menu" aria-controls="nav-menu">
+                    <div class="nav__toggle" id="nav-toggle" role="button" tabindex="0" aria-label="Toggle navigation menu" aria-controls="nav-menu" aria-expanded="false"> <!-- baseline tabindex + collapsed state so the toggle is keyboard-focusable and its state is announced before/independent of main.js (mirrors index.html; main.js's guard prevents double-setting) -->
                         <i class='bx bx-menu' aria-hidden="true"></i>
                     </div>
                 </div>
