@@ -525,7 +525,7 @@ function render(w, aqi, geo) {
         <div class="forecast-day">${d.day}</div>
         <div class="forecast-icon" aria-hidden="true">${getIcon(d.code, true)}</div>
         <div class="forecast-desc">${getDesc(d.code)}${d.pop > 20 ? ' · ' + d.pop + '% rain' : ''}</div>
-        <div class="forecast-temps"><span class="hi">${d.hi}°</span> / <span class="lo">${d.lo}°</span></div>
+        <div class="forecast-temps"><span class="hi"><span class="visually-hidden">High: </span>${d.hi}°</span> <span aria-hidden="true">/</span> <span class="lo"><span class="visually-hidden">Low: </span>${d.lo}°</span></div>
       </div>`;
     }).join('')}
   </div>`;
