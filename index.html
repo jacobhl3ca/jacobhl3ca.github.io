@@ -332,7 +332,7 @@
         <style id="proj-rows-css">
   .proj-wrap{max-width:780px;margin:0 auto;padding:0 1.5rem}
   /* LinkedIn = just the icon, pinned top-right in the Projects title row */
-  .proj-linkedin{display:flex;width:40px;height:40px;position:absolute;right:0;top:50%;transform:translateY(-50%);
+  .proj-linkedin{display:flex;width:40px;height:40px;position:absolute;right:1.5rem;top:50%;transform:translateY(-50%);
     align-items:center;justify-content:center;
     border-radius:50%;border:1px solid #a6a6a6;background:transparent;color:var(--second-color);text-decoration:none;
     transition:border-color .2s ease,color .2s ease,transform .2s ease;}
@@ -342,15 +342,15 @@
   /* projects-only view starts at this section, just under the fixed header — clear it with a
      small gap. The header is ~48px on narrow widths and 72px on desktop, so match it per-width
      (a flat 72px left a big dead band on phones/narrow windows). */
-  #Projects{padding-top:calc(48px + 0.85rem);padding-bottom:1.4rem;}
-  @media(min-width:768px){ #Projects{padding-top:calc(72px + 0.85rem); } }
+  #Projects{padding-top:calc(48px + 0.65rem);padding-bottom:1.1rem;}
+  @media(min-width:768px){ #Projects{padding-top:calc(72px + 0.65rem); } }
   /* drop the bright-blue underline bar under the Projects title */
   .proj-head-row .section-title::after{display:none;}
   /* Projects title (centered); the LinkedIn CTA is positioned relative to the SAME
      max-width/padding as .proj-wrap so it lands above the first card's right corner,
      not the window edge, at every viewport width. */
   .proj-head-row{position:relative;display:flex;justify-content:center;align-items:center;
-    max-width:780px;margin:0 auto 0.9rem;padding:0 1.5rem;box-sizing:border-box;}
+    max-width:780px;margin:0 auto 0.7rem;padding:0 1.5rem;box-sizing:border-box;}
   .proj-head-row .section-title{margin:0;}
   .proj-head-row .toplink{position:absolute;right:0;top:50%;transform:translateY(-50%);
     display:inline-flex;align-items:center;gap:.45rem;font-family:var(--body-font);font-size:.82rem;font-weight:600;
