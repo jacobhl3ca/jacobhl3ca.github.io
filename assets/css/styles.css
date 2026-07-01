@@ -955,6 +955,22 @@ img {
   color: #e0e0e0;
 }
 
+/* Keyboard focus indicator for the project-card action controls and the header view-mode
+   pills. These were the interactive elements still falling back to the inconsistent
+   browser-default focus outline while every other element on the site ships the branded
+   accent ring (WCAG 2.4.7 Focus Visible). Scoped to :focus-visible so mouse/touch focus
+   shows no ring (look unchanged); the outline follows each element's own border-radius.
+   Mirrors the existing .button / .contact__input / .nav__link focus convention. */
+.site-link:focus-visible,
+.app-store-badge-link:focus-visible,
+.mac-badge:focus-visible,
+.gh-link:focus-visible,
+.proj-chev:focus-visible,
+.view-pill__btn:focus-visible {
+  outline: 2px solid var(--first-color);
+  outline-offset: 2px;
+}
+
 /* ===== CONTACT =====*/
 .contact__input {
   width: 100%;
