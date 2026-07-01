@@ -331,12 +331,13 @@
         </style>
         <style id="proj-rows-css">
   .proj-wrap{max-width:780px;margin:0 auto;padding:0 1.5rem}
-  /* LinkedIn = just the icon, top-right above the first card, aligned to the cards (not the window edge) */
-  .proj-linkedin{display:flex;width:40px;height:40px;margin:0 0 .5rem auto;align-items:center;justify-content:center;
+  /* LinkedIn = just the icon, pinned top-right in the Projects title row */
+  .proj-linkedin{display:flex;width:40px;height:40px;position:absolute;right:0;top:50%;transform:translateY(-50%);
+    align-items:center;justify-content:center;
     border-radius:50%;border:1px solid #a6a6a6;background:transparent;color:var(--second-color);text-decoration:none;
     transition:border-color .2s ease,color .2s ease,transform .2s ease;}
   [data-theme="dark"] .proj-linkedin{color:#e0e0e0;}
-  .proj-linkedin:hover{border-color:var(--first-color);color:var(--first-color);transform:translateY(-1px);}
+  .proj-linkedin:hover{border-color:var(--first-color);color:var(--first-color);transform:translateY(-50%) translateY(-1px);}
   .proj-linkedin i{font-size:1.45rem;line-height:1;}
   /* projects-only view starts at this section, just under the fixed header — clear it with a
      small gap. The header is ~48px on narrow widths and 72px on desktop, so match it per-width
@@ -746,10 +747,10 @@
 
                 <div class="proj-head-row">
                     <h2 class="section-title" id="projects-heading">Projects</h2>
+                    <a class="proj-linkedin" href="https://www.linkedin.com/in/jacobhl/" target="_blank" rel="noopener noreferrer" aria-label="Connect with me on LinkedIn" title="Connect on LinkedIn"><i class='bx bxl-linkedin' aria-hidden="true"></i></a>
                 </div>
 
                 <div class="proj-wrap">
-                    <a class="proj-linkedin" href="https://www.linkedin.com/in/jacobhl/" target="_blank" rel="noopener noreferrer" aria-label="Connect with me on LinkedIn" title="Connect on LinkedIn"><i class='bx bxl-linkedin' aria-hidden="true"></i></a>
                     <div id="main-rows"></div>
                     <noscript>
                         <!-- The project cards above are built by JavaScript, so with scripting disabled
