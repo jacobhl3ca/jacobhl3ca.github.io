@@ -1065,6 +1065,9 @@ function rowHTML(p, eager){
   // thumbnail is the likely LCP element — load it eagerly (lazy-loading an above-the-fold
   // image is a known LCP anti-pattern). Every other card stays lazy.
   const imgLoad = eager ? 'loading="eager"' : 'loading="lazy"';
+  // Stable, unique id per project (titles are unique across both lists) so the chevron toggle can
+  // point at the panel it expands via aria-controls, mirroring the #moreToggle → #moreWrap wiring.
+  const detailId = 'proj-detail-' + p.title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
   return `
   <div class="proj-row">
     <div class="proj-head">
@@ -1080,11 +1083,11 @@ function rowHTML(p, eager){
         <p class="proj-one">${p.one}</p>
         <div class="work__cta proj-actions">
           ${ctaHTML(p)}
-          <button class="proj-chev" aria-label="Show details" aria-expanded="false"><i class='bx bx-chevron-down' aria-hidden="true"></i></button>
+          <button class="proj-chev" aria-label="Show details" aria-expanded="false" aria-controls="${detailId}"><i class='bx bx-chevron-down' aria-hidden="true"></i></button>
         </div>
       </div>
     </div>
-    <div class="proj-detail" inert><div class="proj-detail-in"><div class="pad">
+    <div class="proj-detail" id="${detailId}" inert><div class="proj-detail-in"><div class="pad">
       <p>${p.full}</p>
     </div></div></div>
   </div>`;
