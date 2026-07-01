@@ -1068,7 +1068,7 @@ function rowHTML(p){
         ${p.imgWide
           ? `<picture><source media="(min-width:768px)" srcset="${p.imgWide}"><img src="${p.img}" alt="${p.live ? '' : p.title + ' screenshot'}" loading="lazy" decoding="async"></picture>`
           : `<img src="${p.img}" alt="${p.live ? '' : p.title + ' screenshot'}" loading="lazy" decoding="async">`}
-        <span class="proj-zoom" aria-hidden="true"><i class='bx bx-search'></i></span>
+        <span class="proj-zoom" aria-hidden="true"><i class='bx bx-search' aria-hidden="true"></i></span>
         <div class="proj-cue"><span><i class='bx bx-expand-alt' aria-hidden="true"></i> Preview</span></div>
       </div>
       <div class="proj-info">
