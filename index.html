@@ -675,7 +675,7 @@
                     <a href="https://www.linkedin.com/in/jacobhl/" class="home__social-icon" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn profile"><i class='bx bxl-linkedin' aria-hidden="true"></i></a>
                     <a href="https://github.com/jacobhl3ca" class="home__social-icon" target="_blank" rel="noopener noreferrer" aria-label="GitHub profile"><i class='bx bxl-github' aria-hidden="true"></i></a>
                     <a href="mailto:hi@jacobhl.com" class="home__social-icon" aria-label="Send email" style="margin-bottom: 0.75rem;"><i class='bx bx-envelope' aria-hidden="true"></i></a>
-                    <a href="#contact" class="home__social-icon" onclick="requestResume()" aria-label="Request resume"><i class='bx bx-file' aria-hidden="true"></i></a>
+                    <a href="#contact" class="home__social-icon" onclick="event.preventDefault(); requestResume()" aria-label="Request resume"><i class='bx bx-file' aria-hidden="true"></i></a> <!-- preventDefault so the browser's instant #contact fragment jump doesn't fight requestResume()'s own reduced-motion-aware smooth scroll, reset the focus it just placed in the form, or pollute the URL with #contact. The plain href stays as the no-JS fallback (onclick won't run then). -->
                 </div>
 
                 <div class="home__img">
