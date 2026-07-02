@@ -401,9 +401,15 @@ function render(w, aqi, geo) {
 
   const uvMax = w.daily.uv_index_max[0];
 
-  // Next 24 hours of hourly data
-  const nowHour = new Date().getHours();
-  const hourlyStart = w.hourly.time.findIndex(t => new Date(t).getHours() >= nowHour && new Date(t) >= new Date(new Date().toDateString()));
+  // Next 12 hours of hourly data. The API returns hourly times in the SEARCHED CITY's timezone
+  // (we pass timezone=geo.tz), so anchor "now" to the city's own clock via w.current.time rather
+  // than the browser's — otherwise the window started at the viewer's local hour and was shifted
+  // for any city in a different timezone (e.g. searching Tokyo from New York). Compare the ISO
+  // "YYYY-MM-DDTHH" hour prefixes so it's a pure string match, immune to how new Date() localizes
+  // these offset-less stamps. (|| '') falls back to the first slot if current.time is ever absent.
+  const cityNowHour = (c.time || '').slice(0, 13);
+  let hourlyStart = w.hourly.time.findIndex(t => t.slice(0, 13) >= cityNowHour);
+  if (hourlyStart === -1) hourlyStart = 0; // defensive: never let the loop start at index -1
   const hourly = [];
   for (let i = hourlyStart; i < Math.min(hourlyStart + 12, w.hourly.time.length); i++) {
     hourly.push({
