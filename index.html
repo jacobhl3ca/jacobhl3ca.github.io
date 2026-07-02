@@ -603,6 +603,24 @@
                     <button id="theme-toggle" class="theme-toggle" aria-label="Switch to light mode" style="position: relative; top: 0;">
                         <i class='bx bx-sun' id="theme-icon" aria-hidden="true"></i>
                     </button>
+                    <script>
+                        // Correct the theme toggle's baseline state for returning light-mode users,
+                        // before paint and before main.js loads at end of <body>. The button is hardcoded
+                        // in its dark-mode state (sun icon + "Switch to light mode"), but the inline <head>
+                        // script has already applied the saved light theme — so without this the toggle
+                        // briefly shows the wrong icon and, more importantly, announces the wrong action to
+                        // assistive tech ("Switch to light mode" while the page is already light). main.js
+                        // re-applies the same state later (classList.replace is a no-op when the class is
+                        // absent, and the aria-label is identical), so this only removes the flash/mismatch.
+                        try {
+                            if (localStorage.getItem('theme') === 'light') {
+                                var _ti = document.getElementById('theme-icon');
+                                if (_ti) _ti.classList.replace('bx-sun', 'bx-moon');
+                                var _tt = document.getElementById('theme-toggle');
+                                if (_tt) _tt.setAttribute('aria-label', 'Switch to dark mode');
+                            }
+                        } catch (e) {}
+                    </script>
                     <div class="nav__toggle" id="nav-toggle" role="button" tabindex="0" aria-label="Toggle navigation menu" aria-controls="nav-menu" aria-expanded="false">
                         <i class='bx bx-menu' aria-hidden="true"></i>
                     </div>
