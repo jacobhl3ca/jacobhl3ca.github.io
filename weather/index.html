@@ -235,6 +235,12 @@ body {
 
 <!-- Open-Meteo requires attribution: its weather/air-quality data is published under CC BY 4.0. -->
 <footer class="attribution">
+  <!-- This dashboard is reachable by direct URL / search (it's in the sitemap and canonical'd) but
+       isn't linked from the portfolio, so without this a JS-enabled visitor has no way back to the
+       main site — the /-link in the <noscript> block only shows when JavaScript is disabled. Uses
+       the existing .attribution link styling; the arrow is decorative, so it's aria-hidden (mirrors
+       the ↑/↓ sun-times markup). -->
+  <a href="/"><span aria-hidden="true">&larr;</span> Back to jacobhl.com</a><br>
   Weather &amp; air-quality data by <a href="https://open-meteo.com/" target="_blank" rel="noopener">Open-Meteo.com</a> (CC&nbsp;BY&nbsp;4.0)
 </footer>
 
