@@ -388,7 +388,12 @@ function render(w, aqi, geo) {
     else if (usAqi <= 100) { aqiInfo.text = 'Moderate'; aqiInfo.color = '#f59e0b'; aqiInfo.aqi = 2; }
     else if (usAqi <= 150) { aqiInfo.text = 'Unhealthy (Sensitive)'; aqiInfo.color = '#f97316'; aqiInfo.aqi = 3; }
     else if (usAqi <= 200) { aqiInfo.text = 'Unhealthy'; aqiInfo.color = '#ef4444'; aqiInfo.aqi = 4; }
-    else { aqiInfo.text = 'Very Unhealthy'; aqiInfo.color = '#7c3aed'; aqiInfo.aqi = 5; }
+    else if (usAqi <= 300) { aqiInfo.text = 'Very Unhealthy'; aqiInfo.color = '#7c3aed'; aqiInfo.aqi = 5; }
+    // US AQI tops out at a distinct "Hazardous" band (301+), reached during wildfire smoke or in
+    // heavily polluted cities. Without this the dashboard mislabeled such readings as "Very
+    // Unhealthy". Keep aqi:5 so the 5-segment bar stays fully filled (no layout change); use the
+    // official EPA maroon so the value/segment colour reflects the more severe category.
+    else { aqiInfo.text = 'Hazardous'; aqiInfo.color = '#7e0023'; aqiInfo.aqi = 5; }
   }
 
   const sunrise = w.daily.sunrise[0];
