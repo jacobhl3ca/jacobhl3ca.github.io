@@ -48,11 +48,12 @@
 <meta name="twitter:image:alt" content="Jacob Heifetz-Licht — portfolio link preview">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
 <!-- Warm up TLS connections to the Open-Meteo APIs: geocoding gates the weather + air-quality fetches on first load, so preconnecting shaves the connection setup off the critical path. crossorigin so the socket is reused for the CORS JSON requests. -->
 <link rel="preconnect" href="https://geocoding-api.open-meteo.com" crossorigin>
 <link rel="preconnect" href="https://api.open-meteo.com" crossorigin>
 <link rel="preconnect" href="https://air-quality-api.open-meteo.com" crossorigin>
+<link rel="dns-prefetch" href="//gc.zgo.at"> <!-- resolve the GoatCounter analytics host ahead of the async count.js fetch at end of body (mirrors index.html) -->
 <style>
 :root {
   /* Dark-only dashboard: tell the browser to render UA chrome (scrollbars, the
@@ -335,15 +336,21 @@ async function fetchWeather() {
       `forecast_days=7`
     ].join('&');
 
-    const [weatherRes, aqiRes] = await Promise.all([
-      fetch(`https://api.open-meteo.com/v1/forecast?${params}`),
-      fetch(`https://air-quality-api.open-meteo.com/v1/air-quality?latitude=${geo.lat}&longitude=${geo.lon}&current=pm2_5,pm10,us_aqi&timezone=${encodeURIComponent(geo.tz)}`)
-    ]);
+    // Kick off both requests in parallel. Weather is required; air quality is optional and must
+    // degrade gracefully, so resolve the AQI request to null on ANY failure (network error,
+    // non-OK response, or bad JSON) instead of letting it reject. A shared Promise.all would
+    // have failed the whole dashboard when only the air-quality request errored — render()
+    // already tolerates a null aqi (optional chaining → "N/A"), so this restores the intended
+    // graceful degradation without breaking the current-conditions view.
+    const weatherPromise = fetch(`https://api.open-meteo.com/v1/forecast?${params}`);
+    const aqiPromise = fetch(`https://air-quality-api.open-meteo.com/v1/air-quality?latitude=${geo.lat}&longitude=${geo.lon}&current=pm2_5,pm10,us_aqi&timezone=${encodeURIComponent(geo.tz)}`)
+      .then(r => r.ok ? r.json() : null)
+      .catch(() => null);
 
-    // Weather data is required; air quality degrades gracefully (handled via optional chaining below).
+    const weatherRes = await weatherPromise;
     if (!weatherRes.ok) throw new Error('Could not load weather data. Please try again in a moment.');
     const weather = await weatherRes.json();
-    const aqi = await aqiRes.json();
+    const aqi = await aqiPromise;
     render(weather, aqi, geo);
   } catch (err) {
     document.getElementById('content').innerHTML = `<div class="card" role="alert" style="text-align:center;color:var(--danger);">${err.message}</div>`;
@@ -530,15 +537,21 @@ function render(w, aqi, geo) {
     }).join('')}
   </div>`;
 
-  // NYC tip
-  html += `<div class="card" style="text-align:center;">
-    <div style="font-size:12px;color:var(--text-dim);">
-      ${temp <= 35 ? '<span aria-hidden="true">🧤</span> NYC Tip: Watch for icy sidewalks, especially bridge overpasses and shaded blocks.' :
-        temp >= 90 ? '<span aria-hidden="true">🚰</span> NYC Tip: Cooling centers are open. Stay near AC — check NYC.gov for locations.' :
-        willRain ? '<span aria-hidden="true">🚇</span> NYC Tip: Expect crowded subways. Leave 10 min early and bring an umbrella.' :
-        '<span aria-hidden="true">🏙️</span> NYC Tip: Great day to walk — Central Park and the High Line are calling.'}
-    </div>
-  </div>`;
+  // NYC tip — the dashboard is NYC-themed (defaults to New York), and the advice below is
+  // NYC-specific (subways, Central Park, the High Line), so only show it when the loaded
+  // location is actually New York. For any other searched city ("Search any city") this card
+  // would be misleading, so it's omitted rather than shown with the wrong locale's tips.
+  const isNYC = /^New York,/.test(geo.name || '');
+  if (isNYC) {
+    html += `<div class="card" style="text-align:center;">
+      <div style="font-size:12px;color:var(--text-dim);">
+        ${temp <= 35 ? '<span aria-hidden="true">🧤</span> NYC Tip: Watch for icy sidewalks, especially bridge overpasses and shaded blocks.' :
+          temp >= 90 ? '<span aria-hidden="true">🚰</span> NYC Tip: Cooling centers are open. Stay near AC — check NYC.gov for locations.' :
+          willRain ? '<span aria-hidden="true">🚇</span> NYC Tip: Expect crowded subways. Leave 10 min early and bring an umbrella.' :
+          '<span aria-hidden="true">🏙️</span> NYC Tip: Great day to walk — Central Park and the High Line are calling.'}
+      </div>
+    </div>`;
+  }
 
   document.getElementById('content').innerHTML = html;
 }

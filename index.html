@@ -11,6 +11,8 @@
         <link rel="preconnect" href="https://fonts.googleapis.com"> <!-- early-connect to Google Fonts CSS (styles.css @imports Poppins from here, on the critical path) -->
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin> <!-- early-connect to the Google Fonts file host; crossorigin so the warmed socket is reused for the CORS woff2 fetch -->
         <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap"> <!-- styles.css @imports Poppins, but @import isn't discoverable until styles.css has downloaded + parsed, so the font CSS fetch is serialized on the critical path; preload it (same URL) so the browser fetches it in parallel up front and the @import then resolves from cache. No visual change. -->
+        <link rel="preload" as="image" href="assets/img/hidescore-wide.png" media="(min-width:768px)" fetchpriority="high"> <!-- LCP preload (desktop ≥768px): the first project card's thumbnail is the projects-only LCP, but the project rows are built by the inline script near </body>, so the preload scanner can't discover this image during head parse — the fetchpriority="high" already on the <img> only helps once it's discovered (late). Preload the matching responsive source so the fetch starts during head parse. Mirrors the <picture> breakpoint below. No visual change. -->
+        <link rel="preload" as="image" href="assets/img/hidescore-app.png" media="(max-width:767.98px)" fetchpriority="high"> <!-- LCP preload (mobile <768px): same as above for the default <picture> source. The two media queries are mutually exclusive, so only the one image the browser will actually render is ever preloaded (no wasted bytes). -->
         <link rel="dns-prefetch" href="//gc.zgo.at"> <!-- resolve the GoatCounter analytics host ahead of the async count.js fetch at end of body -->
         <link rel="dns-prefetch" href="//stats.hidescore.com"> <!-- resolve the self-hosted Umami analytics host ahead of its deferred script.js fetch at end of body -->
         <link href='https://cdn.jsdelivr.net/npm/boxicons@2.0.5/css/boxicons.min.css' rel='stylesheet'> <!-- icons -->
@@ -684,7 +686,7 @@
 
                 <div class="home__img">
                     <div class="home__circle clickable-img" id="home-photo">
-                        <img src="assets/img/header.png" alt="Jacob Heifetz-Licht" class="home__circle-img" width="705" height="800" fetchpriority="high">
+                        <img src="assets/img/header.png" alt="Jacob Heifetz-Licht" class="home__circle-img" width="705" height="800" loading="lazy" decoding="async">
                     </div>
                 </div>
             </section>
@@ -814,7 +816,7 @@
 
                         <!--
                         <div class="skills__category">
-                            <h3 class="skills__category-title"><i class='bx bx-globe skills__icon' aria-hidden="true"></i> Web Development</h3>
+                            <h4 class="skills__category-title"><i class='bx bx-globe skills__icon' aria-hidden="true"></i> Web Development</h4>
                             <div class="skills__tags">
                                 <span class="skills__tag">JavaScript</span>
                                 <span class="skills__tag">React</span>
@@ -875,7 +877,7 @@
 
                         <!--
                         <div class="skills__category">
-                            <h3 class="skills__category-title"><i class='bx bx-certification skills__icon' aria-hidden="true"></i> Certifications</h3>
+                            <h4 class="skills__category-title"><i class='bx bx-certification skills__icon' aria-hidden="true"></i> Certifications</h4>
                             <div class="skills__tags">
                                 <span class="skills__tag">Automate the Boring Stuff with Python</span>
                                 <span class="skills__tag">Tableau Desktop Specialist</span>
@@ -1056,7 +1058,7 @@ function ctaHTML(p){
     const _fav = USE_FAVICONS && FAVICONS[_d];
     const _inner = _fav ? `<img class="favicon" src="${_fav}" alt="" loading="lazy">` : `<i class='bx bx-globe' aria-hidden="true"></i>`;
     h+=`<a href="${p.site}" target="_blank" rel="noopener" class="site-link" title="Visit website" aria-label="Visit the ${p.title} website">${_inner}</a>`; }
-  if(p.appstore) h+=`<a href="${p.appstore}" target="_blank" rel="noopener" class="app-store-badge-link" aria-label="Download ${p.title} on the App Store"><img src="assets/img/app-store-badge.svg" alt="" class="app-store-badge"></a>`;
+  if(p.appstore) h+=`<a href="${p.appstore}" target="_blank" rel="noopener" class="app-store-badge-link" aria-label="Download ${p.title} on the App Store"><img src="assets/img/app-store-badge.svg" alt="" class="app-store-badge" width="120" height="40" decoding="async"></a>`;
   if(p.download) h+=`<a href="${p.download}" class="mac-badge" title="Download TidyTab for macOS (.dmg, notarized)"><i class='bx bxl-apple' aria-hidden="true"></i><span class="mb-txt"><span class="mb-top">Download for</span><span class="mb-big">Mac</span></span></a>`;
   if(p.mas) h+=`<a href="${p.mas}" class="mac-badge mas-badge" title="Download on the Mac App Store"><i class='bx bxl-apple' aria-hidden="true"></i><span class="mb-txt"><span class="mb-top">Download on the</span><span class="mb-big">Mac App Store</span></span></a>`;
   if(p.github) h+=`<a href="${p.github}" target="_blank" rel="noopener" class="gh-link" aria-label="View the ${p.title} source on GitHub"><i class='bx bxl-github' aria-hidden="true"></i>GitHub</a>`;
@@ -1067,8 +1069,11 @@ function rowHTML(p, eager){
   const thumbCls = (p.live?'':'no-live') + (p.pos==='top'?' pos-top':'');
   // The first project card sits above the fold in the default projects-only view, so its
   // thumbnail is the likely LCP element — load it eagerly (lazy-loading an above-the-fold
-  // image is a known LCP anti-pattern). Every other card stays lazy.
-  const imgLoad = eager ? 'loading="eager"' : 'loading="lazy"';
+  // image is a known LCP anti-pattern) and give it fetchpriority="high" so the browser pulls
+  // it forward in the fetch queue instead of at default priority (the recommended LCP-image
+  // pairing; safe now that the hero portrait is lazy and no longer claims high priority).
+  // Every other card stays lazy at default priority.
+  const imgLoad = eager ? 'loading="eager" fetchpriority="high"' : 'loading="lazy"';
   // Stable, unique id per project (titles are unique across both lists) so the chevron toggle can
   // point at the panel it expands via aria-controls, mirroring the #moreToggle → #moreWrap wiring.
   const detailId = 'proj-detail-' + p.title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
@@ -1142,13 +1147,27 @@ function navigate(url, push){
   clearTimeout(loadTimer);
   loadTimer=setTimeout(()=>{ mLoadTxt.innerHTML=`Taking a while — <a href="${url}" target="_blank" rel="noopener">open ${url} ↗</a>`; }, 6000);
 }
+// WAI-ARIA modal-dialog pattern: while the preview is open, hide the rest of the page from
+// assistive tech and keyboard/pointer input, complementing the Tab focus-trap below. The Tab
+// trap only stops keyboard tabbing; a screen-reader virtual cursor could still wander into the
+// content behind the overlay. Marking the landmark siblings inert removes them from the
+// accessibility tree AND makes them unfocusable. The dialog (#modal) lives outside these
+// containers, so it stays fully interactive. inert is a no-op in older browsers (graceful
+// fallback to today's focus-trap-only behaviour), matching the proj-detail / moreWrap panels.
+function setBackgroundInert(on){
+  document.querySelectorAll('.l-header, #main-content, .footer, #scrollDown, #backToTop').forEach(el=>{
+    if(on) el.setAttribute('inert',''); else el.removeAttribute('inert');
+  });
+}
 function openModal(url, srcEl){ sourceThumb=srcEl||null; backStack=[]; modal.classList.remove('fullscreen'); card.classList.remove('minimizing');
   card.style.transform=''; card.style.opacity=''; card.style.transformOrigin='';
   navigate(url,false); modal.classList.add('open'); document.body.style.overflow='hidden';
+  setBackgroundInert(true);   // hide the page behind the dialog from AT + keyboard
   document.getElementById('modalClose').focus(); }   // move focus into the dialog for keyboard/AT users
 function closeModal(){ modal.classList.remove('open','fullscreen'); card.classList.remove('minimizing');
   card.style.transform=''; card.style.opacity=''; card.style.transformOrigin='';
   frame.src='about:blank'; document.body.style.overflow=''; clearTimeout(loadTimer);
+  setBackgroundInert(false);   // restore the page BEFORE returning focus (an inert element can't take focus)
   if(sourceThumb) sourceThumb.focus(); }   // return focus to the thumbnail that opened the preview
 function reload(){ if(currentUrl) navigate(currentUrl,false); }
 function goBack(){ if(backStack.length) navigate(backStack.pop(), false); }
