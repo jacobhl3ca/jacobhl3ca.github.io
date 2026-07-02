@@ -1067,8 +1067,11 @@ function rowHTML(p, eager){
   const thumbCls = (p.live?'':'no-live') + (p.pos==='top'?' pos-top':'');
   // The first project card sits above the fold in the default projects-only view, so its
   // thumbnail is the likely LCP element — load it eagerly (lazy-loading an above-the-fold
-  // image is a known LCP anti-pattern). Every other card stays lazy.
-  const imgLoad = eager ? 'loading="eager"' : 'loading="lazy"';
+  // image is a known LCP anti-pattern) and give it fetchpriority="high" so the browser pulls
+  // it forward in the fetch queue instead of at default priority (the recommended LCP-image
+  // pairing; safe now that the hero portrait is lazy and no longer claims high priority).
+  // Every other card stays lazy at default priority.
+  const imgLoad = eager ? 'loading="eager" fetchpriority="high"' : 'loading="lazy"';
   // Stable, unique id per project (titles are unique across both lists) so the chevron toggle can
   // point at the panel it expands via aria-controls, mirroring the #moreToggle → #moreWrap wiring.
   const detailId = 'proj-detail-' + p.title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
