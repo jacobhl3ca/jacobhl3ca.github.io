@@ -487,7 +487,10 @@ function render(w, aqi, geo) {
         Humidity: ${humidity}%<br>
         Wind: ${windSpeed} mph ${windD}${gusts ? '<br>Gusts: ' + gusts + ' mph' : ''}<br>
         Pressure: ${pressure} inHg<br>
-        UV Index: ${uvMax} ${uvMax <= 2 ? '(Low)' : uvMax <= 5 ? '(Moderate)' : uvMax <= 7 ? '(High)' : '(Very High)'}
+        <!-- EPA UV Index scale tops out at a distinct "Extreme" band (11+), reached at high
+             altitude/near the equator or under ozone-thinned skies. Without this, such readings
+             were mislabeled "Very High". Mirrors the AQI "Hazardous" band fix. -->
+        UV Index: ${uvMax} ${uvMax <= 2 ? '(Low)' : uvMax <= 5 ? '(Moderate)' : uvMax <= 7 ? '(High)' : uvMax <= 10 ? '(Very High)' : '(Extreme)'}
       </div>
     </div>
   </div>`;
