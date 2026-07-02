@@ -393,7 +393,15 @@ function render(w, aqi, geo) {
 
   const sunrise = w.daily.sunrise[0];
   const sunset = w.daily.sunset[0];
-  const now = new Date();
+  // Anchor "now" to the SEARCHED CITY's clock, not the viewer's. sunrise/sunset are offset-less
+  // ISO stamps in the city's timezone (we pass timezone=geo.tz), and sunProgress parses them via
+  // new Date() — i.e. as browser-local wall-clock. So compare them against the city's current
+  // local time (w.current.time, parsed the same offset-less way), not the browser's real instant.
+  // With new Date() the sun-arc dot was placed by the viewer's clock, so it sat at the wrong spot
+  // for any city in a different timezone (e.g. Tokyo viewed from New York). Mirrors the hourly-
+  // window fix. Falls back to the browser clock if current.time is ever absent. No visual change
+  // for same-timezone use.
+  const now = c.time ? new Date(c.time) : new Date();
   const sunProg = sunProgress(sunrise, sunset, now);
   const daylightSec = (new Date(sunset) - new Date(sunrise)) / 1000;
   const dlH = Math.floor(daylightSec/3600);
