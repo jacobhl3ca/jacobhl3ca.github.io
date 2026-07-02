@@ -335,7 +335,10 @@ async function fetchWeather() {
       `wind_speed_unit=mph`,
       `precipitation_unit=inch`,
       `timezone=${encodeURIComponent(geo.tz)}`,
-      `forecast_days=7`
+      // render() reads daily indices 0–5 only (index 0 for sun times/UV, 1–5 for the "5-Day
+      // Forecast"), and the hourly card shows just a 12h window — so the 7th forecast day was
+      // fetched (as a daily row AND ~24 extra hourly entries) but never used. Request 6.
+      `forecast_days=6`
     ].join('&');
 
     // Kick off both requests in parallel. Weather is required; air quality is optional and must
