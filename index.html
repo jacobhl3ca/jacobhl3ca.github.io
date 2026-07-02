@@ -1147,13 +1147,27 @@ function navigate(url, push){
   clearTimeout(loadTimer);
   loadTimer=setTimeout(()=>{ mLoadTxt.innerHTML=`Taking a while — <a href="${url}" target="_blank" rel="noopener">open ${url} ↗</a>`; }, 6000);
 }
+// WAI-ARIA modal-dialog pattern: while the preview is open, hide the rest of the page from
+// assistive tech and keyboard/pointer input, complementing the Tab focus-trap below. The Tab
+// trap only stops keyboard tabbing; a screen-reader virtual cursor could still wander into the
+// content behind the overlay. Marking the landmark siblings inert removes them from the
+// accessibility tree AND makes them unfocusable. The dialog (#modal) lives outside these
+// containers, so it stays fully interactive. inert is a no-op in older browsers (graceful
+// fallback to today's focus-trap-only behaviour), matching the proj-detail / moreWrap panels.
+function setBackgroundInert(on){
+  document.querySelectorAll('.l-header, #main-content, .footer, #scrollDown, #backToTop').forEach(el=>{
+    if(on) el.setAttribute('inert',''); else el.removeAttribute('inert');
+  });
+}
 function openModal(url, srcEl){ sourceThumb=srcEl||null; backStack=[]; modal.classList.remove('fullscreen'); card.classList.remove('minimizing');
   card.style.transform=''; card.style.opacity=''; card.style.transformOrigin='';
   navigate(url,false); modal.classList.add('open'); document.body.style.overflow='hidden';
+  setBackgroundInert(true);   // hide the page behind the dialog from AT + keyboard
   document.getElementById('modalClose').focus(); }   // move focus into the dialog for keyboard/AT users
 function closeModal(){ modal.classList.remove('open','fullscreen'); card.classList.remove('minimizing');
   card.style.transform=''; card.style.opacity=''; card.style.transformOrigin='';
   frame.src='about:blank'; document.body.style.overflow=''; clearTimeout(loadTimer);
+  setBackgroundInert(false);   // restore the page BEFORE returning focus (an inert element can't take focus)
   if(sourceThumb) sourceThumb.focus(); }   // return focus to the thumbnail that opened the preview
 function reload(){ if(currentUrl) navigate(currentUrl,false); }
 function goBack(){ if(backStack.length) navigate(backStack.pop(), false); }
