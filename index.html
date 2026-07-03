@@ -89,9 +89,8 @@
             .clickable-img.bg-removed {
                 mix-blend-mode: screen;
             }
-            [data-theme="dark"] .clickable-img.bg-removed {
-                mix-blend-mode: screen;
-            }
+            /* Light mode only: the base rule above already gives dark mode its "screen"
+               blend, so only the light theme needs to override it to "multiply". */
             html:not([data-theme="dark"]) .clickable-img.bg-removed {
                 mix-blend-mode: multiply;
             }
