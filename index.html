@@ -340,6 +340,11 @@
     transition:border-color .2s ease,color .2s ease,transform .2s ease;}
   [data-theme="dark"] .proj-linkedin{color:#e0e0e0;}
   .proj-linkedin:hover{border-color:var(--first-color);color:var(--first-color);transform:translateY(-50%) translateY(-1px);}
+  /* Branded focus ring so keyboard users get the same accent outline as the rest of the site
+     instead of the inconsistent browser default (WCAG 2.4.7). :focus-visible only, so mouse/touch
+     clicks show no ring and the look is unchanged; the outline follows the button's circular shape. */
+  .proj-linkedin:focus{outline:none;}
+  .proj-linkedin:focus-visible{outline:2px solid var(--first-color);outline-offset:2px;}
   .proj-linkedin i{font-size:1.45rem;line-height:1;}
   /* projects-only view starts at this section, just under the fixed header — clear it with a
      small gap. The header is ~48px on narrow widths and 72px on desktop, so match it per-width
@@ -473,6 +478,11 @@
     color:var(--second-color);padding:.65rem 1.5rem;transition:all .25s ease;}
   [data-theme="dark"] .more-toggle{color:#e0e0e0;}
   .more-toggle:hover{color:var(--first-color);border-color:var(--first-color);}
+  /* Branded focus ring to match the rest of the site's controls instead of the browser default
+     (WCAG 2.4.7). :focus-visible only, so mouse/touch focus shows no ring; the outline follows
+     the button's pill radius. */
+  .more-toggle:focus{outline:none;}
+  .more-toggle:focus-visible{outline:2px solid var(--first-color);outline-offset:2px;}
   .more-toggle i{font-size:1.4rem;transition:transform .3s ease;}
   .more-toggle.open i{transform:rotate(180deg);}
   .more-wrap{display:grid;grid-template-rows:0fr;transition:grid-template-rows .35s ease;}
