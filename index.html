@@ -724,7 +724,7 @@
 
                 <div class="home__img">
                     <div class="home__circle clickable-img" id="home-photo">
-                        <img src="assets/img/header.png" alt="Jacob Heifetz-Licht" class="home__circle-img" width="705" height="800" loading="lazy" decoding="async">
+                        <img src="assets/img/header.png" alt="Jacob Heifetz-Licht" class="home__circle-img" width="705" height="800" fetchpriority="high" decoding="async"> <!-- Hero image: the home section is the first section and this is the largest above-the-fold element (on mobile the .home__img flex order:-1 even renders it first), so it's the page LCP. It was loading="lazy" — a known LCP anti-pattern that defers the fetch until layout, delaying paint. This <img> is static markup, so the preload scanner finds it during head parse; making it eager (default) + fetchpriority="high" pulls it forward, matching the project-card LCP pattern near </body>. No visual change. -->
                     </div>
                 </div>
             </section>
