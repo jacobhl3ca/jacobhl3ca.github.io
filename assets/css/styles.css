@@ -701,6 +701,19 @@ img {
   outline-offset: 2px;
 }
 
+/* Keyboard focus indicator for the remaining icon controls: the hero social/
+   resume links, the footer social links, and the mobile nav (hamburger) toggle.
+   These were the last interactive elements still falling back to the inconsistent
+   browser-default focus outline while every other element ships the branded accent
+   ring (WCAG 2.4.7 Focus Visible). Scoped to :focus-visible so mouse/touch focus
+   shows no ring (look unchanged). Mirrors the .button / CTA / theme-toggle convention. */
+.home__social-icon:focus-visible,
+.footer__icon:focus-visible,
+.nav__toggle:focus-visible {
+  outline: 2px solid var(--first-color);
+  outline-offset: 2px;
+}
+
 /* ===== ABOUT =====*/
 .about__container {
   row-gap: 2rem;
