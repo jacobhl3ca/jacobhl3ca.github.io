@@ -1088,7 +1088,7 @@ function ctaHTML(p){
   let h='';
   if(p.site){ const _d=(()=>{try{return new URL(p.site).hostname.replace(/^www\./,'')}catch(e){return ''}})();
     const _fav = USE_FAVICONS && FAVICONS[_d];
-    const _inner = _fav ? `<img class="favicon" src="${_fav}" alt="" loading="lazy">` : `<i class='bx bx-globe' aria-hidden="true"></i>`;
+    const _inner = _fav ? `<img class="favicon" src="${_fav}" alt="" width="20" height="20" loading="lazy" decoding="async">` : `<i class='bx bx-globe' aria-hidden="true"></i>`;
     h+=`<a href="${p.site}" target="_blank" rel="noopener" class="site-link" title="Visit website" aria-label="Visit the ${p.title} website">${_inner}</a>`; }
   if(p.appstore) h+=`<a href="${p.appstore}" target="_blank" rel="noopener" class="app-store-badge-link" aria-label="Download ${p.title} on the App Store"><img src="assets/img/app-store-badge.svg" alt="" class="app-store-badge" width="120" height="40" decoding="async"></a>`;
   if(p.download) h+=`<a href="${p.download}" class="mac-badge" title="Download TidyTab for macOS (.dmg, notarized)"><i class='bx bxl-apple' aria-hidden="true"></i><span class="mb-txt"><span class="mb-top">Download for</span><span class="mb-big">Mac</span></span></a>`;
