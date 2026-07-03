@@ -140,21 +140,26 @@ function setThemeColor(theme) {
 // HTML defaults to data-theme="dark" and sun icon; only switch to light if user previously chose light
 if (currentTheme === 'light') {
     document.documentElement.removeAttribute('data-theme');
-    themeIcon.classList.replace('bx-sun', 'bx-moon');
-    themeToggle.setAttribute('aria-label', 'Switch to dark mode');
+    if (themeIcon) themeIcon.classList.replace('bx-sun', 'bx-moon');
+    if (themeToggle) themeToggle.setAttribute('aria-label', 'Switch to dark mode');
     setThemeImages('light');
     setThemeColor('light');
 } else {
     document.documentElement.setAttribute('data-theme', 'dark');
-    themeIcon.classList.replace('bx-moon', 'bx-sun');
-    themeToggle.setAttribute('aria-label', 'Switch to light mode');
+    if (themeIcon) themeIcon.classList.replace('bx-moon', 'bx-sun');
+    if (themeToggle) themeToggle.setAttribute('aria-label', 'Switch to light mode');
     setThemeColor('dark');
     if (currentTheme !== 'dark') {
         safeSetItem('theme', 'dark');
     }
 }
 
-themeToggle.addEventListener('click', () => {
+// Guard the toggle wiring: this block runs first in main.js, so an uncaught throw here
+// (were the toggle markup ever renamed/removed) would halt the rest of the file — nav,
+// scroll reveal, contact-form submit, scroll arrows. Every other DOM dependency below is
+// already guarded this way; the toggle exists on every page that loads main.js today, so
+// this is purely defensive with no behavior change.
+if (themeToggle) themeToggle.addEventListener('click', () => {
     const root = document.documentElement;
     root.classList.add('theme-switching'); // make the swap instant (no color-transition lag)
     const currentTheme = root.getAttribute('data-theme');
