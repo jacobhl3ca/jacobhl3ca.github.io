@@ -340,6 +340,11 @@
     transition:border-color .2s ease,color .2s ease,transform .2s ease;}
   [data-theme="dark"] .proj-linkedin{color:#e0e0e0;}
   .proj-linkedin:hover{border-color:var(--first-color);color:var(--first-color);transform:translateY(-50%) translateY(-1px);}
+  /* Branded focus ring so keyboard users get the same accent outline as the rest of the site
+     instead of the inconsistent browser default (WCAG 2.4.7). :focus-visible only, so mouse/touch
+     clicks show no ring and the look is unchanged; the outline follows the button's circular shape. */
+  .proj-linkedin:focus{outline:none;}
+  .proj-linkedin:focus-visible{outline:2px solid var(--first-color);outline-offset:2px;}
   .proj-linkedin i{font-size:1.45rem;line-height:1;}
   /* projects-only view starts at this section, just under the fixed header — clear it with a
      small gap. The header is ~48px on narrow widths and 72px on desktop, so match it per-width
@@ -427,7 +432,6 @@
   [data-theme="dark"] .proj-chev{color:#e0e0e0;}
   .proj-chev i{font-size:1.5rem;line-height:1;transition:transform .25s ease;}
   .proj-chev:hover{color:var(--first-color);border-color:var(--first-color);}
-  [data-theme="dark"] .proj-chev{color:#e0e0e0;}
   .proj-row.open .proj-chev{color:var(--first-color);border-color:var(--first-color);}
   .proj-row.open .proj-chev i{transform:rotate(180deg);}
 
@@ -473,6 +477,11 @@
     color:var(--second-color);padding:.65rem 1.5rem;transition:all .25s ease;}
   [data-theme="dark"] .more-toggle{color:#e0e0e0;}
   .more-toggle:hover{color:var(--first-color);border-color:var(--first-color);}
+  /* Branded focus ring to match the rest of the site's controls instead of the browser default
+     (WCAG 2.4.7). :focus-visible only, so mouse/touch focus shows no ring; the outline follows
+     the button's pill radius. */
+  .more-toggle:focus{outline:none;}
+  .more-toggle:focus-visible{outline:2px solid var(--first-color);outline-offset:2px;}
   .more-toggle i{font-size:1.4rem;transition:transform .3s ease;}
   .more-toggle.open i{transform:rotate(180deg);}
   .more-wrap{display:grid;grid-template-rows:0fr;transition:grid-template-rows .35s ease;}
@@ -544,6 +553,17 @@
   .esc-hint kbd{font:inherit;font-size:.7rem;padding:.05rem .34rem;border-radius:4px;background:#2a3242;color:#fff;}
   .esc-hint:hover{background:rgba(20,24,30,.95);}
   .modal.frame-focused .esc-hint{display:inline-flex;}
+  /* Branded keyboard-focus ring for the live-preview dialog's toolbar controls, matching the accent
+     :focus-visible ring the rest of the site ships (WCAG 2.4.7 Focus Visible). The modal is
+     aria-modal="true", so keyboard users who open a project preview tab straight through these — the
+     traffic-light dots, back/reload, open-in-new-tab and close controls — yet they were the only
+     interactive elements still falling back to the low-contrast browser-default outline against the
+     dark bar. Scoped to :focus-visible so mouse/touch focus shows no ring — the look is unchanged. */
+  .modal-bar .dots .dot:focus,.nav-btn:focus,.modal-bar a.openext:focus,
+  .modal-bar button.mclose:focus,.fs-back:focus,.esc-hint:focus{outline:none;}
+  .modal-bar .dots .dot:focus-visible,.nav-btn:focus-visible,.modal-bar a.openext:focus-visible,
+  .modal-bar button.mclose:focus-visible,.fs-back:focus-visible,.esc-hint:focus-visible{
+    outline:2px solid var(--first-color);outline-offset:2px;}
   .modal-load{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;
     gap:.7rem;background:#0c0e12;color:#9aa3b4;font-size:.85rem;z-index:1;transition:opacity .25s ease;}
   .modal-load.hidden{opacity:0;pointer-events:none;}
@@ -584,7 +604,7 @@
                 <div class="nav__menu" id="nav-menu">
                     <ul class="nav__list">
 
-                        <li class="nav__item"><a href="#home" class="nav__link active-link">Home</a></li>
+                        <li class="nav__item"><a href="#home" class="nav__link active-link" aria-current="page">Home</a></li> <!-- baseline aria-current to match the hardcoded active-link class, so AT announces Home as the current section before/independent of main.js's scrollActive() (which manages this pair dynamically thereafter) -->
                         <li class="nav__item"><a href="#about" class="nav__link">About</a></li>
 
                         <!-- Update Periodically -->
@@ -600,9 +620,27 @@
                         <button type="button" class="view-pill__btn is-active" data-view="projects" aria-pressed="true">Projects</button>
                         <button type="button" class="view-pill__btn" data-view="full" aria-pressed="false">Full site</button>
                     </div>
-                    <button id="theme-toggle" class="theme-toggle" aria-label="Switch to light mode" style="position: relative; top: 0;">
+                    <button type="button" id="theme-toggle" class="theme-toggle" aria-label="Switch to light mode" style="position: relative; top: 0;">
                         <i class='bx bx-sun' id="theme-icon" aria-hidden="true"></i>
                     </button>
+                    <script>
+                        // Correct the theme toggle's baseline state for returning light-mode users,
+                        // before paint and before main.js loads at end of <body>. The button is hardcoded
+                        // in its dark-mode state (sun icon + "Switch to light mode"), but the inline <head>
+                        // script has already applied the saved light theme — so without this the toggle
+                        // briefly shows the wrong icon and, more importantly, announces the wrong action to
+                        // assistive tech ("Switch to light mode" while the page is already light). main.js
+                        // re-applies the same state later (classList.replace is a no-op when the class is
+                        // absent, and the aria-label is identical), so this only removes the flash/mismatch.
+                        try {
+                            if (localStorage.getItem('theme') === 'light') {
+                                var _ti = document.getElementById('theme-icon');
+                                if (_ti) _ti.classList.replace('bx-sun', 'bx-moon');
+                                var _tt = document.getElementById('theme-toggle');
+                                if (_tt) _tt.setAttribute('aria-label', 'Switch to dark mode');
+                            }
+                        } catch (e) {}
+                    </script>
                     <div class="nav__toggle" id="nav-toggle" role="button" tabindex="0" aria-label="Toggle navigation menu" aria-controls="nav-menu" aria-expanded="false">
                         <i class='bx bx-menu' aria-hidden="true"></i>
                     </div>
@@ -686,7 +724,7 @@
 
                 <div class="home__img">
                     <div class="home__circle clickable-img" id="home-photo">
-                        <img src="assets/img/header.png" alt="Jacob Heifetz-Licht" class="home__circle-img" width="705" height="800" loading="lazy" decoding="async">
+                        <img src="assets/img/header.png" alt="Jacob Heifetz-Licht" class="home__circle-img" width="705" height="800" fetchpriority="high" decoding="async"> <!-- Hero image: the home section is the first section and this is the largest above-the-fold element (on mobile the .home__img flex order:-1 even renders it first), so it's the page LCP. It was loading="lazy" — a known LCP anti-pattern that defers the fetch until layout, delaying paint. This <img> is static markup, so the preload scanner finds it during head parse; making it eager (default) + fetchpriority="high" pulls it forward, matching the project-card LCP pattern near </body>. No visual change. -->
                     </div>
                 </div>
             </section>
@@ -770,7 +808,7 @@
                         </ul>
                     </noscript>
 
-                    <button class="more-toggle" id="moreToggle" aria-expanded="false" aria-controls="moreWrap">
+                    <button type="button" class="more-toggle" id="moreToggle" aria-expanded="false" aria-controls="moreWrap">
                         <span id="moreLabel">Private projects</span>
                         <i class='bx bx-chevron-down' aria-hidden="true"></i>
                     </button>
@@ -805,12 +843,12 @@
                         END V2 -->
 
                         <div class="skills__category">
-                            <h4 class="skills__category-title"><i class='bx bx-code-alt skills__icon' aria-hidden="true"></i> Languages & Scripting</h4>
-                            <div class="skills__tags">
-                                <span class="skills__tag">Python</span>
-                                <span class="skills__tag">SQL</span>
-                                <span class="skills__tag">Google Apps Script</span>
-                                <span class="skills__tag">HTML / CSS</span>
+                            <h4 class="skills__category-title" id="skills-cat-langs"><i class='bx bx-code-alt skills__icon' aria-hidden="true"></i> Languages & Scripting</h4>
+                            <div class="skills__tags" role="list" aria-labelledby="skills-cat-langs"> <!-- expose the styled pills as a list so screen readers announce them as grouped, countable items (WCAG 1.3.1) rather than run-together text; role has no visual effect -->
+                                <span class="skills__tag" role="listitem">Python</span>
+                                <span class="skills__tag" role="listitem">SQL</span>
+                                <span class="skills__tag" role="listitem">Google Apps Script</span>
+                                <span class="skills__tag" role="listitem">HTML / CSS</span>
                             </div>
                         </div>
 
@@ -828,48 +866,48 @@
                         -->
 
                         <div class="skills__category">
-                            <h4 class="skills__category-title"><i class='bx bx-bar-chart-alt-2 skills__icon' aria-hidden="true"></i> Data & Visualization</h4>
-                            <div class="skills__tags">
-                                <span class="skills__tag">Tableau</span>
-                                <span class="skills__tag">Looker</span>
-                                <span class="skills__tag">Qlik</span>
-                                <span class="skills__tag">Datorama</span>
-                                <span class="skills__tag">Mode Analytics</span>
-                                <span class="skills__tag">Excel</span>
-                                <span class="skills__tag">Google Sheets</span>
+                            <h4 class="skills__category-title" id="skills-cat-dataviz"><i class='bx bx-bar-chart-alt-2 skills__icon' aria-hidden="true"></i> Data & Visualization</h4>
+                            <div class="skills__tags" role="list" aria-labelledby="skills-cat-dataviz">
+                                <span class="skills__tag" role="listitem">Tableau</span>
+                                <span class="skills__tag" role="listitem">Looker</span>
+                                <span class="skills__tag" role="listitem">Qlik</span>
+                                <span class="skills__tag" role="listitem">Datorama</span>
+                                <span class="skills__tag" role="listitem">Mode Analytics</span>
+                                <span class="skills__tag" role="listitem">Excel</span>
+                                <span class="skills__tag" role="listitem">Google Sheets</span>
                             </div>
                         </div>
 
                         <div class="skills__category">
-                            <h4 class="skills__category-title"><i class='bx bx-data skills__icon' aria-hidden="true"></i> Analytics Platforms</h4>
-                            <div class="skills__tags">
-                                <span class="skills__tag">BigQuery</span>
-                                <span class="skills__tag">GA4</span>
-                                <span class="skills__tag">Adobe Analytics</span>
-                                <span class="skills__tag">Google Data Studio</span>
+                            <h4 class="skills__category-title" id="skills-cat-platforms"><i class='bx bx-data skills__icon' aria-hidden="true"></i> Analytics Platforms</h4>
+                            <div class="skills__tags" role="list" aria-labelledby="skills-cat-platforms">
+                                <span class="skills__tag" role="listitem">BigQuery</span>
+                                <span class="skills__tag" role="listitem">GA4</span>
+                                <span class="skills__tag" role="listitem">Adobe Analytics</span>
+                                <span class="skills__tag" role="listitem">Google Data Studio</span>
                             </div>
                         </div>
 
                         <div class="skills__category">
-                            <h4 class="skills__category-title"><i class='bx bx-cog skills__icon' aria-hidden="true"></i> Automation & Infrastructure</h4>
-                            <div class="skills__tags">
-                                <span class="skills__tag">Process Automation</span>
-                                <span class="skills__tag">ETL Pipelines</span>
-                                <span class="skills__tag">APIs</span>
-                                <span class="skills__tag">Docker</span>
-                                <span class="skills__tag">Linux</span>
-                                <span class="skills__tag">Git</span>
+                            <h4 class="skills__category-title" id="skills-cat-automation"><i class='bx bx-cog skills__icon' aria-hidden="true"></i> Automation & Infrastructure</h4>
+                            <div class="skills__tags" role="list" aria-labelledby="skills-cat-automation">
+                                <span class="skills__tag" role="listitem">Process Automation</span>
+                                <span class="skills__tag" role="listitem">ETL Pipelines</span>
+                                <span class="skills__tag" role="listitem">APIs</span>
+                                <span class="skills__tag" role="listitem">Docker</span>
+                                <span class="skills__tag" role="listitem">Linux</span>
+                                <span class="skills__tag" role="listitem">Git</span>
                             </div>
                         </div>
 
                         <div class="skills__category">
-                            <h4 class="skills__category-title"><i class='bx bx-bulb skills__icon' aria-hidden="true"></i> Strategy & Leadership</h4>
-                            <div class="skills__tags">
-                                <span class="skills__tag">Analytics Strategy</span>
-                                <span class="skills__tag">Stakeholder Communication</span>
-                                <span class="skills__tag">Data Storytelling</span>
-                                <span class="skills__tag">Dashboard Design</span>
-                                <span class="skills__tag">Cross-functional Collaboration</span>
+                            <h4 class="skills__category-title" id="skills-cat-strategy"><i class='bx bx-bulb skills__icon' aria-hidden="true"></i> Strategy & Leadership</h4>
+                            <div class="skills__tags" role="list" aria-labelledby="skills-cat-strategy">
+                                <span class="skills__tag" role="listitem">Analytics Strategy</span>
+                                <span class="skills__tag" role="listitem">Stakeholder Communication</span>
+                                <span class="skills__tag" role="listitem">Data Storytelling</span>
+                                <span class="skills__tag" role="listitem">Dashboard Design</span>
+                                <span class="skills__tag" role="listitem">Cross-functional Collaboration</span>
                                 <!-- <span class="skills__tag">Media Strategy</span> -->
                                 <!-- <span class="skills__tag">Roadmap Planning</span> -->
                             </div>
@@ -931,12 +969,12 @@
         </footer>
 
         <!-- Scroll down arrow -->
-        <button class="scroll-down-arrow" id="scrollDown" aria-label="Scroll down">
+        <button type="button" class="scroll-down-arrow" id="scrollDown" aria-label="Scroll down">
             <i class='bx bx-chevron-down' aria-hidden="true"></i>
         </button>
 
         <!-- Back to top button -->
-        <button class="back-to-top" id="backToTop" aria-label="Back to top">
+        <button type="button" class="back-to-top" id="backToTop" aria-label="Back to top">
             <i class='bx bx-chevron-up' aria-hidden="true"></i>
         </button>
 
@@ -972,18 +1010,18 @@
   <div class="modal-card">
     <div class="modal-bar">
       <div class="dots">
-        <button class="dot red" id="dotClose" title="Close" aria-label="Close preview"><svg viewBox="0 0 12 12" aria-hidden="true"><path d="M3.8 3.8 L8.2 8.2 M8.2 3.8 L3.8 8.2"/></svg></button>
-        <button class="dot yellow" id="dotMin" title="Minimize" aria-label="Minimize preview"><svg viewBox="0 0 12 12" aria-hidden="true"><path d="M3.3 6 H8.7"/></svg></button>
-        <button class="dot green" id="dotExpand" title="Full screen" aria-label="Full screen preview"><svg viewBox="0 0 12 12" aria-hidden="true"><path class="fill" d="M3 3 L3 7 L7 3 Z"/><path class="fill" d="M9 9 L9 5 L5 9 Z"/></svg></button>
+        <button type="button" class="dot red" id="dotClose" title="Close" aria-label="Close preview"><svg viewBox="0 0 12 12" aria-hidden="true"><path d="M3.8 3.8 L8.2 8.2 M8.2 3.8 L3.8 8.2"/></svg></button>
+        <button type="button" class="dot yellow" id="dotMin" title="Minimize" aria-label="Minimize preview"><svg viewBox="0 0 12 12" aria-hidden="true"><path d="M3.3 6 H8.7"/></svg></button>
+        <button type="button" class="dot green" id="dotExpand" title="Full screen" aria-label="Full screen preview"><svg viewBox="0 0 12 12" aria-hidden="true"><path class="fill" d="M3 3 L3 7 L7 3 Z"/><path class="fill" d="M9 9 L9 5 L5 9 Z"/></svg></button>
       </div>
-      <button class="nav-btn" id="navBack" title="Back" aria-label="Back" style="display:none;"><i class='bx bx-chevron-left' aria-hidden="true"></i></button>
-      <button class="nav-btn" id="navReload" title="Reload" aria-label="Reload"><i class='bx bx-revision' aria-hidden="true"></i></button>
+      <button type="button" class="nav-btn" id="navBack" title="Back" aria-label="Back" style="display:none;"><i class='bx bx-chevron-left' aria-hidden="true"></i></button>
+      <button type="button" class="nav-btn" id="navReload" title="Reload" aria-label="Reload"><i class='bx bx-revision' aria-hidden="true"></i></button>
       <form class="url-form" id="urlForm"><input class="modal-url" id="modalUrl" type="text" spellcheck="false" autocomplete="off" aria-label="Preview address"></form>
       <a class="openext" id="modalOpen" target="_blank" rel="noopener" title="Open in new tab" aria-label="Open preview in new tab"><i class='bx bx-link-external' aria-hidden="true"></i></a>
-      <button class="mclose" id="modalClose" title="Close" aria-label="Close preview"><span aria-hidden="true">×</span></button>
+      <button type="button" class="mclose" id="modalClose" title="Close" aria-label="Close preview"><span aria-hidden="true">×</span></button>
     </div>
     <div class="modal-body">
-      <button class="fs-back" id="fsBack" title="Back to projects"><i class='bx bx-arrow-back' aria-hidden="true"></i> Back</button>
+      <button type="button" class="fs-back" id="fsBack" title="Back to projects"><i class='bx bx-arrow-back' aria-hidden="true"></i> Back</button>
       <div class="modal-load" id="modalLoad"><div class="spin"></div><span id="modalLoadTxt">Loading preview…</span></div>
       <iframe class="modal-frame" id="modalFrame" title="Live preview" referrerpolicy="no-referrer-when-downgrade"></iframe>
       <button class="esc-hint" id="escHint" type="button" title="Exit preview">Press <kbd>Esc</kbd> to exit</button>
@@ -1092,7 +1130,7 @@ function rowHTML(p, eager){
         <p class="proj-one">${p.one}</p>
         <div class="work__cta proj-actions">
           ${ctaHTML(p)}
-          <button class="proj-chev" aria-label="Show details" aria-expanded="false" aria-controls="${detailId}"><i class='bx bx-chevron-down' aria-hidden="true"></i></button>
+          <button type="button" class="proj-chev" aria-label="Show details" aria-expanded="false" aria-controls="${detailId}"><i class='bx bx-chevron-down' aria-hidden="true"></i></button>
         </div>
       </div>
     </div>

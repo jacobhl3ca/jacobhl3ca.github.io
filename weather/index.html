@@ -135,7 +135,9 @@ body {
   .hero-right { text-align:center; }
 }
 
-.stat-label { font-size:11px; text-transform:uppercase; letter-spacing:1px; color:var(--text-dim); margin-bottom:6px; }
+/* Also used on the <h2> stat-card labels (Humidity / Air Quality / Sunrise), so reset the
+   heading UA defaults (bold + top margin) to keep these rendering exactly as the old <div>s did. */
+.stat-label { font-size:11px; font-weight:400; text-transform:uppercase; letter-spacing:1px; color:var(--text-dim); margin:0 0 6px; }
 .stat-value { font-size:24px; font-weight:600; }
 .stat-sub { font-size:12px; color:var(--text-dim); margin-top:2px; }
 .stat-icon { font-size:20px; margin-bottom:8px; }
@@ -235,6 +237,12 @@ body {
 
 <!-- Open-Meteo requires attribution: its weather/air-quality data is published under CC BY 4.0. -->
 <footer class="attribution">
+  <!-- This dashboard is reachable by direct URL / search (it's in the sitemap and canonical'd) but
+       isn't linked from the portfolio, so without this a JS-enabled visitor has no way back to the
+       main site — the /-link in the <noscript> block only shows when JavaScript is disabled. Uses
+       the existing .attribution link styling; the arrow is decorative, so it's aria-hidden (mirrors
+       the ↑/↓ sun-times markup). -->
+  <a href="/"><span aria-hidden="true">&larr;</span> Back to jacobhl.com</a><br>
   Weather &amp; air-quality data by <a href="https://open-meteo.com/" target="_blank" rel="noopener">Open-Meteo.com</a> (CC&nbsp;BY&nbsp;4.0)
 </footer>
 
@@ -327,13 +335,18 @@ async function fetchWeather() {
     const params = [
       `latitude=${geo.lat}`, `longitude=${geo.lon}`,
       `current=temperature_2m,relative_humidity_2m,apparent_temperature,weather_code,wind_speed_10m,wind_direction_10m,wind_gusts_10m,surface_pressure,is_day`,
-      `hourly=temperature_2m,precipitation_probability,weather_code,is_day`,
+      // Hourly card renders only rain chance + an icon (see render()), so request just those
+      // fields — hourly temperature_2m was fetched for all 168 forecast hours but never used.
+      `hourly=precipitation_probability,weather_code,is_day`,
       `daily=weather_code,temperature_2m_max,temperature_2m_min,sunrise,sunset,uv_index_max,precipitation_probability_max`,
       `temperature_unit=fahrenheit`,
       `wind_speed_unit=mph`,
       `precipitation_unit=inch`,
       `timezone=${encodeURIComponent(geo.tz)}`,
-      `forecast_days=7`
+      // render() reads daily indices 0–5 only (index 0 for sun times/UV, 1–5 for the "5-Day
+      // Forecast"), and the hourly card shows just a 12h window — so the 7th forecast day was
+      // fetched (as a daily row AND ~24 extra hourly entries) but never used. Request 6.
+      `forecast_days=6`
     ].join('&');
 
     // Kick off both requests in parallel. Weather is required; air quality is optional and must
@@ -388,12 +401,25 @@ function render(w, aqi, geo) {
     else if (usAqi <= 100) { aqiInfo.text = 'Moderate'; aqiInfo.color = '#f59e0b'; aqiInfo.aqi = 2; }
     else if (usAqi <= 150) { aqiInfo.text = 'Unhealthy (Sensitive)'; aqiInfo.color = '#f97316'; aqiInfo.aqi = 3; }
     else if (usAqi <= 200) { aqiInfo.text = 'Unhealthy'; aqiInfo.color = '#ef4444'; aqiInfo.aqi = 4; }
-    else { aqiInfo.text = 'Very Unhealthy'; aqiInfo.color = '#7c3aed'; aqiInfo.aqi = 5; }
+    else if (usAqi <= 300) { aqiInfo.text = 'Very Unhealthy'; aqiInfo.color = '#7c3aed'; aqiInfo.aqi = 5; }
+    // US AQI tops out at a distinct "Hazardous" band (301+), reached during wildfire smoke or in
+    // heavily polluted cities. Without this the dashboard mislabeled such readings as "Very
+    // Unhealthy". Keep aqi:5 so the 5-segment bar stays fully filled (no layout change); use the
+    // official EPA maroon so the value/segment colour reflects the more severe category.
+    else { aqiInfo.text = 'Hazardous'; aqiInfo.color = '#7e0023'; aqiInfo.aqi = 5; }
   }
 
   const sunrise = w.daily.sunrise[0];
   const sunset = w.daily.sunset[0];
-  const now = new Date();
+  // Anchor "now" to the SEARCHED CITY's clock, not the viewer's. sunrise/sunset are offset-less
+  // ISO stamps in the city's timezone (we pass timezone=geo.tz), and sunProgress parses them via
+  // new Date() — i.e. as browser-local wall-clock. So compare them against the city's current
+  // local time (w.current.time, parsed the same offset-less way), not the browser's real instant.
+  // With new Date() the sun-arc dot was placed by the viewer's clock, so it sat at the wrong spot
+  // for any city in a different timezone (e.g. Tokyo viewed from New York). Mirrors the hourly-
+  // window fix. Falls back to the browser clock if current.time is ever absent. No visual change
+  // for same-timezone use.
+  const now = c.time ? new Date(c.time) : new Date();
   const sunProg = sunProgress(sunrise, sunset, now);
   const daylightSec = (new Date(sunset) - new Date(sunrise)) / 1000;
   const dlH = Math.floor(daylightSec/3600);
@@ -401,9 +427,15 @@ function render(w, aqi, geo) {
 
   const uvMax = w.daily.uv_index_max[0];
 
-  // Next 24 hours of hourly data
-  const nowHour = new Date().getHours();
-  const hourlyStart = w.hourly.time.findIndex(t => new Date(t).getHours() >= nowHour && new Date(t) >= new Date(new Date().toDateString()));
+  // Next 12 hours of hourly data. The API returns hourly times in the SEARCHED CITY's timezone
+  // (we pass timezone=geo.tz), so anchor "now" to the city's own clock via w.current.time rather
+  // than the browser's — otherwise the window started at the viewer's local hour and was shifted
+  // for any city in a different timezone (e.g. searching Tokyo from New York). Compare the ISO
+  // "YYYY-MM-DDTHH" hour prefixes so it's a pure string match, immune to how new Date() localizes
+  // these offset-less stamps. (|| '') falls back to the first slot if current.time is ever absent.
+  const cityNowHour = (c.time || '').slice(0, 13);
+  let hourlyStart = w.hourly.time.findIndex(t => t.slice(0, 13) >= cityNowHour);
+  if (hourlyStart === -1) hourlyStart = 0; // defensive: never let the loop start at index -1
   const hourly = [];
   for (let i = hourlyStart; i < Math.min(hourlyStart + 12, w.hourly.time.length); i++) {
     hourly.push({
@@ -437,11 +469,15 @@ function render(w, aqi, geo) {
 
   // Daily forecast
   const days = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+  // Full weekday names for screen readers — the visible column shows the 3-letter abbreviation,
+  // but "Mon"/"Tue" are announced ambiguously by assistive tech, so expose the full name too.
+  const daysFull = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
   const dailyRows = [];
   for (let i = 1; i < Math.min(6, w.daily.time.length); i++) {
     const d = new Date(w.daily.time[i] + 'T12:00:00');
     dailyRows.push({
       day: days[d.getDay()],
+      dayFull: daysFull[d.getDay()],
       code: w.daily.weather_code[i],
       hi: Math.round(w.daily.temperature_2m_max[i]),
       lo: Math.round(w.daily.temperature_2m_min[i]),
@@ -468,7 +504,13 @@ function render(w, aqi, geo) {
         Humidity: ${humidity}%<br>
         Wind: ${windSpeed} mph ${windD}${gusts ? '<br>Gusts: ' + gusts + ' mph' : ''}<br>
         Pressure: ${pressure} inHg<br>
-        UV Index: ${uvMax} ${uvMax <= 2 ? '(Low)' : uvMax <= 5 ? '(Moderate)' : uvMax <= 7 ? '(High)' : '(Very High)'}
+        <!-- EPA UV Index scale tops out at a distinct "Extreme" band (11+), reached at high
+             altitude/near the equator or under ozone-thinned skies. Without this, such readings
+             were mislabeled "Very High". Mirrors the AQI "Hazardous" band fix.
+             Open-Meteo can return null for uv_index_max (e.g. polar-night days with no UV model
+             value); guard it so the hero shows "N/A" instead of the literal "null (Low)", mirroring
+             the AQI null → "N/A" handling above. -->
+        UV Index: ${uvMax != null ? `${uvMax} ${uvMax <= 2 ? '(Low)' : uvMax <= 5 ? '(Moderate)' : uvMax <= 7 ? '(High)' : uvMax <= 10 ? '(Very High)' : '(Extreme)'}` : 'N/A'}
       </div>
     </div>
   </div>`;
@@ -479,7 +521,7 @@ function render(w, aqi, geo) {
   // Humidity comfort
   html += `<div class="card">
     <div class="stat-icon" aria-hidden="true">💧</div>
-    <div class="stat-label">Humidity Comfort</div>
+    <h2 class="stat-label">Humidity Comfort</h2>
     <div class="stat-value">${humidity}%</div>
     <div class="stat-sub">${comfort.label}</div>
     <div class="comfort-meter">${[1,2,3,4].map(i => `<div class="comfort-seg ${i <= comfort.level ? comfort.cls : ''}"></div>`).join('')}</div>
@@ -488,7 +530,7 @@ function render(w, aqi, geo) {
   // AQI
   html += `<div class="card">
     <div class="stat-icon" aria-hidden="true">🌬️</div>
-    <div class="stat-label">Air Quality${usAqi != null ? ' (US AQI: '+usAqi+')' : ''}</div>
+    <h2 class="stat-label">Air Quality${usAqi != null ? ' (US AQI: '+usAqi+')' : ''}</h2>
     <div class="stat-value" style="color:${aqiInfo.color}">${aqiInfo.text}</div>
     <div class="stat-sub">${pm25 != null ? 'PM2.5: ' + pm25.toFixed(1) + ' µg/m³' : ''}</div>
     <div class="aqi-bar">${[1,2,3,4,5].map(i => `<div class="aqi-seg" style="background:${i <= aqiInfo.aqi ? aqiInfo.color : 'rgba(255,255,255,.08)'}"></div>`).join('')}</div>
@@ -497,7 +539,7 @@ function render(w, aqi, geo) {
   // Sunrise/Sunset
   html += `<div class="card">
     <div class="stat-icon" aria-hidden="true">🌅</div>
-    <div class="stat-label">Sunrise / Sunset</div>
+    <h2 class="stat-label">Sunrise / Sunset</h2>
     <div class="sun-bar"><div class="sun-dot" style="left:calc(${sunProg}% - 7px)"></div></div>
     <div class="sun-times">
       <span><span aria-hidden="true">↑</span><span class="visually-hidden">Sunrise: </span> ${fmtTime(sunrise)}</span>
@@ -527,14 +569,16 @@ function render(w, aqi, geo) {
   // 5-day forecast
   html += `<div class="card">
     <h2 class="section-title"><span aria-hidden="true">📅</span> 5-Day Forecast</h2>
+    <div class="forecast-list" role="list" aria-label="5-day forecast">
     ${dailyRows.map(d => {
-      return `<div class="forecast-row">
-        <div class="forecast-day">${d.day}</div>
+      return `<div class="forecast-row" role="listitem">
+        <div class="forecast-day"><span class="visually-hidden">${d.dayFull}</span><span aria-hidden="true">${d.day}</span></div>
         <div class="forecast-icon" aria-hidden="true">${getIcon(d.code, true)}</div>
         <div class="forecast-desc">${getDesc(d.code)}${d.pop > 20 ? ' · ' + d.pop + '% rain' : ''}</div>
         <div class="forecast-temps"><span class="hi"><span class="visually-hidden">High: </span>${d.hi}°</span> <span aria-hidden="true">/</span> <span class="lo"><span class="visually-hidden">Low: </span>${d.lo}°</span></div>
       </div>`;
     }).join('')}
+    </div>
   </div>`;
 
   // NYC tip — the dashboard is NYC-themed (defaults to New York), and the advice below is
