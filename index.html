@@ -620,7 +620,7 @@
                         <button type="button" class="view-pill__btn is-active" data-view="projects" aria-pressed="true">Projects</button>
                         <button type="button" class="view-pill__btn" data-view="full" aria-pressed="false">Full site</button>
                     </div>
-                    <button id="theme-toggle" class="theme-toggle" aria-label="Switch to light mode" style="position: relative; top: 0;">
+                    <button type="button" id="theme-toggle" class="theme-toggle" aria-label="Switch to light mode" style="position: relative; top: 0;">
                         <i class='bx bx-sun' id="theme-icon" aria-hidden="true"></i>
                     </button>
                     <script>
@@ -808,7 +808,7 @@
                         </ul>
                     </noscript>
 
-                    <button class="more-toggle" id="moreToggle" aria-expanded="false" aria-controls="moreWrap">
+                    <button type="button" class="more-toggle" id="moreToggle" aria-expanded="false" aria-controls="moreWrap">
                         <span id="moreLabel">Private projects</span>
                         <i class='bx bx-chevron-down' aria-hidden="true"></i>
                     </button>
@@ -969,12 +969,12 @@
         </footer>
 
         <!-- Scroll down arrow -->
-        <button class="scroll-down-arrow" id="scrollDown" aria-label="Scroll down">
+        <button type="button" class="scroll-down-arrow" id="scrollDown" aria-label="Scroll down">
             <i class='bx bx-chevron-down' aria-hidden="true"></i>
         </button>
 
         <!-- Back to top button -->
-        <button class="back-to-top" id="backToTop" aria-label="Back to top">
+        <button type="button" class="back-to-top" id="backToTop" aria-label="Back to top">
             <i class='bx bx-chevron-up' aria-hidden="true"></i>
         </button>
 
@@ -1010,18 +1010,18 @@
   <div class="modal-card">
     <div class="modal-bar">
       <div class="dots">
-        <button class="dot red" id="dotClose" title="Close" aria-label="Close preview"><svg viewBox="0 0 12 12" aria-hidden="true"><path d="M3.8 3.8 L8.2 8.2 M8.2 3.8 L3.8 8.2"/></svg></button>
-        <button class="dot yellow" id="dotMin" title="Minimize" aria-label="Minimize preview"><svg viewBox="0 0 12 12" aria-hidden="true"><path d="M3.3 6 H8.7"/></svg></button>
-        <button class="dot green" id="dotExpand" title="Full screen" aria-label="Full screen preview"><svg viewBox="0 0 12 12" aria-hidden="true"><path class="fill" d="M3 3 L3 7 L7 3 Z"/><path class="fill" d="M9 9 L9 5 L5 9 Z"/></svg></button>
+        <button type="button" class="dot red" id="dotClose" title="Close" aria-label="Close preview"><svg viewBox="0 0 12 12" aria-hidden="true"><path d="M3.8 3.8 L8.2 8.2 M8.2 3.8 L3.8 8.2"/></svg></button>
+        <button type="button" class="dot yellow" id="dotMin" title="Minimize" aria-label="Minimize preview"><svg viewBox="0 0 12 12" aria-hidden="true"><path d="M3.3 6 H8.7"/></svg></button>
+        <button type="button" class="dot green" id="dotExpand" title="Full screen" aria-label="Full screen preview"><svg viewBox="0 0 12 12" aria-hidden="true"><path class="fill" d="M3 3 L3 7 L7 3 Z"/><path class="fill" d="M9 9 L9 5 L5 9 Z"/></svg></button>
       </div>
-      <button class="nav-btn" id="navBack" title="Back" aria-label="Back" style="display:none;"><i class='bx bx-chevron-left' aria-hidden="true"></i></button>
-      <button class="nav-btn" id="navReload" title="Reload" aria-label="Reload"><i class='bx bx-revision' aria-hidden="true"></i></button>
+      <button type="button" class="nav-btn" id="navBack" title="Back" aria-label="Back" style="display:none;"><i class='bx bx-chevron-left' aria-hidden="true"></i></button>
+      <button type="button" class="nav-btn" id="navReload" title="Reload" aria-label="Reload"><i class='bx bx-revision' aria-hidden="true"></i></button>
       <form class="url-form" id="urlForm"><input class="modal-url" id="modalUrl" type="text" spellcheck="false" autocomplete="off" aria-label="Preview address"></form>
       <a class="openext" id="modalOpen" target="_blank" rel="noopener" title="Open in new tab" aria-label="Open preview in new tab"><i class='bx bx-link-external' aria-hidden="true"></i></a>
-      <button class="mclose" id="modalClose" title="Close" aria-label="Close preview"><span aria-hidden="true">×</span></button>
+      <button type="button" class="mclose" id="modalClose" title="Close" aria-label="Close preview"><span aria-hidden="true">×</span></button>
     </div>
     <div class="modal-body">
-      <button class="fs-back" id="fsBack" title="Back to projects"><i class='bx bx-arrow-back' aria-hidden="true"></i> Back</button>
+      <button type="button" class="fs-back" id="fsBack" title="Back to projects"><i class='bx bx-arrow-back' aria-hidden="true"></i> Back</button>
       <div class="modal-load" id="modalLoad"><div class="spin"></div><span id="modalLoadTxt">Loading preview…</span></div>
       <iframe class="modal-frame" id="modalFrame" title="Live preview" referrerpolicy="no-referrer-when-downgrade"></iframe>
       <button class="esc-hint" id="escHint" type="button" title="Exit preview">Press <kbd>Esc</kbd> to exit</button>
@@ -1130,7 +1130,7 @@ function rowHTML(p, eager){
         <p class="proj-one">${p.one}</p>
         <div class="work__cta proj-actions">
           ${ctaHTML(p)}
-          <button class="proj-chev" aria-label="Show details" aria-expanded="false" aria-controls="${detailId}"><i class='bx bx-chevron-down' aria-hidden="true"></i></button>
+          <button type="button" class="proj-chev" aria-label="Show details" aria-expanded="false" aria-controls="${detailId}"><i class='bx bx-chevron-down' aria-hidden="true"></i></button>
         </div>
       </div>
     </div>
