@@ -544,6 +544,17 @@
   .esc-hint kbd{font:inherit;font-size:.7rem;padding:.05rem .34rem;border-radius:4px;background:#2a3242;color:#fff;}
   .esc-hint:hover{background:rgba(20,24,30,.95);}
   .modal.frame-focused .esc-hint{display:inline-flex;}
+  /* Branded keyboard-focus ring for the live-preview dialog's toolbar controls, matching the accent
+     :focus-visible ring the rest of the site ships (WCAG 2.4.7 Focus Visible). The modal is
+     aria-modal="true", so keyboard users who open a project preview tab straight through these — the
+     traffic-light dots, back/reload, open-in-new-tab and close controls — yet they were the only
+     interactive elements still falling back to the low-contrast browser-default outline against the
+     dark bar. Scoped to :focus-visible so mouse/touch focus shows no ring — the look is unchanged. */
+  .modal-bar .dots .dot:focus,.nav-btn:focus,.modal-bar a.openext:focus,
+  .modal-bar button.mclose:focus,.fs-back:focus,.esc-hint:focus{outline:none;}
+  .modal-bar .dots .dot:focus-visible,.nav-btn:focus-visible,.modal-bar a.openext:focus-visible,
+  .modal-bar button.mclose:focus-visible,.fs-back:focus-visible,.esc-hint:focus-visible{
+    outline:2px solid var(--first-color);outline-offset:2px;}
   .modal-load{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;
     gap:.7rem;background:#0c0e12;color:#9aa3b4;font-size:.85rem;z-index:1;transition:opacity .25s ease;}
   .modal-load.hidden{opacity:0;pointer-events:none;}
