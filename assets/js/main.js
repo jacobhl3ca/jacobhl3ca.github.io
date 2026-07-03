@@ -757,12 +757,24 @@ function requestResume() {
 /*===== CONTACT FORM SUBMIT =====*/
 const contactForm = document.querySelector('.contact__form');
 if (contactForm) {
+    // Screen-reader status region: on submit the button is set disabled (which drops it
+    // from the accessibility tree), so its visible "Sending…/Sent!/Error" text change is
+    // never announced — screen-reader users get no feedback that the message went through.
+    // Mirror the button's state into a polite live region, created once up front so AT
+    // registers it before the first update. Mirrors the weather dashboard's #srStatus.
+    const srStatus = document.createElement('div');
+    srStatus.setAttribute('role', 'status');
+    srStatus.setAttribute('aria-live', 'polite');
+    srStatus.style.cssText = 'position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0;';
+    contactForm.appendChild(srStatus);
+
     contactForm.addEventListener('submit', function(e) {
         e.preventDefault();
         const btn = contactForm.querySelector('.contact__button');
         const origText = btn.textContent;
         btn.textContent = 'Sending...';
         btn.disabled = true;
+        srStatus.textContent = 'Sending your message…';
 
         fetch(contactForm.action, {
             method: 'POST',
@@ -774,15 +786,18 @@ if (contactForm) {
                 btn.textContent = 'Sent!';
                 btn.style.transition = 'none';
                 btn.style.background = '#28a745';
+                srStatus.textContent = 'Message sent — thanks! I\'ll get back to you soon.';
                 setTimeout(() => { btn.textContent = origText; btn.disabled = false; btn.style.background = ''; btn.style.transition = ''; }, 4000);
             } else {
                 btn.textContent = 'Error — try again';
                 btn.style.background = '#dc3545';
+                srStatus.textContent = 'Something went wrong sending your message. Please try again.';
                 setTimeout(() => { btn.textContent = origText; btn.disabled = false; btn.style.background = ''; }, 3000);
             }
         }).catch(() => {
             btn.textContent = 'Error — try again';
             btn.style.background = '#dc3545';
+            srStatus.textContent = 'Something went wrong sending your message. Please try again.';
             setTimeout(() => { btn.textContent = origText; btn.disabled = false; btn.style.background = ''; }, 3000);
         });
     });
