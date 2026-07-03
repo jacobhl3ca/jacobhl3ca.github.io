@@ -469,11 +469,15 @@ function render(w, aqi, geo) {
 
   // Daily forecast
   const days = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+  // Full weekday names for screen readers — the visible column shows the 3-letter abbreviation,
+  // but "Mon"/"Tue" are announced ambiguously by assistive tech, so expose the full name too.
+  const daysFull = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
   const dailyRows = [];
   for (let i = 1; i < Math.min(6, w.daily.time.length); i++) {
     const d = new Date(w.daily.time[i] + 'T12:00:00');
     dailyRows.push({
       day: days[d.getDay()],
+      dayFull: daysFull[d.getDay()],
       code: w.daily.weather_code[i],
       hi: Math.round(w.daily.temperature_2m_max[i]),
       lo: Math.round(w.daily.temperature_2m_min[i]),
@@ -565,14 +569,16 @@ function render(w, aqi, geo) {
   // 5-day forecast
   html += `<div class="card">
     <h2 class="section-title"><span aria-hidden="true">📅</span> 5-Day Forecast</h2>
+    <div class="forecast-list" role="list" aria-label="5-day forecast">
     ${dailyRows.map(d => {
-      return `<div class="forecast-row">
-        <div class="forecast-day">${d.day}</div>
+      return `<div class="forecast-row" role="listitem">
+        <div class="forecast-day"><span class="visually-hidden">${d.dayFull}</span><span aria-hidden="true">${d.day}</span></div>
         <div class="forecast-icon" aria-hidden="true">${getIcon(d.code, true)}</div>
         <div class="forecast-desc">${getDesc(d.code)}${d.pop > 20 ? ' · ' + d.pop + '% rain' : ''}</div>
         <div class="forecast-temps"><span class="hi"><span class="visually-hidden">High: </span>${d.hi}°</span> <span aria-hidden="true">/</span> <span class="lo"><span class="visually-hidden">Low: </span>${d.lo}°</span></div>
       </div>`;
     }).join('')}
+    </div>
   </div>`;
 
   // NYC tip — the dashboard is NYC-themed (defaults to New York), and the advice below is
