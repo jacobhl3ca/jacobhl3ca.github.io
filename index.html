@@ -15,6 +15,7 @@
         <link rel="preload" as="image" href="assets/img/hidescore-app.png" media="(max-width:767.98px)" fetchpriority="high"> <!-- LCP preload (mobile <768px): same as above for the default <picture> source. The two media queries are mutually exclusive, so only the one image the browser will actually render is ever preloaded (no wasted bytes). -->
         <link rel="dns-prefetch" href="//gc.zgo.at"> <!-- resolve the GoatCounter analytics host ahead of the async count.js fetch at end of body -->
         <link rel="dns-prefetch" href="//stats.hidescore.com"> <!-- resolve the self-hosted Umami analytics host ahead of its deferred script.js fetch at end of body -->
+        <link rel="dns-prefetch" href="//formspree.io"> <!-- resolve the Formspree host ahead of the contact form's on-submit POST (assets/js/main.js) so the DNS lookup isn't on the send path -->
         <link href='https://cdn.jsdelivr.net/npm/boxicons@2.0.5/css/boxicons.min.css' rel='stylesheet'> <!-- icons -->
         <script>
             // Default view = projects-only (set before paint to avoid flash); honor saved preference.
