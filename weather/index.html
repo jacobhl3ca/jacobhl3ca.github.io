@@ -135,7 +135,9 @@ body {
   .hero-right { text-align:center; }
 }
 
-.stat-label { font-size:11px; text-transform:uppercase; letter-spacing:1px; color:var(--text-dim); margin-bottom:6px; }
+/* Also used on the <h2> stat-card labels (Humidity / Air Quality / Sunrise), so reset the
+   heading UA defaults (bold + top margin) to keep these rendering exactly as the old <div>s did. */
+.stat-label { font-size:11px; font-weight:400; text-transform:uppercase; letter-spacing:1px; color:var(--text-dim); margin:0 0 6px; }
 .stat-value { font-size:24px; font-weight:600; }
 .stat-sub { font-size:12px; color:var(--text-dim); margin-top:2px; }
 .stat-icon { font-size:20px; margin-bottom:8px; }
@@ -515,7 +517,7 @@ function render(w, aqi, geo) {
   // Humidity comfort
   html += `<div class="card">
     <div class="stat-icon" aria-hidden="true">💧</div>
-    <div class="stat-label">Humidity Comfort</div>
+    <h2 class="stat-label">Humidity Comfort</h2>
     <div class="stat-value">${humidity}%</div>
     <div class="stat-sub">${comfort.label}</div>
     <div class="comfort-meter">${[1,2,3,4].map(i => `<div class="comfort-seg ${i <= comfort.level ? comfort.cls : ''}"></div>`).join('')}</div>
@@ -524,7 +526,7 @@ function render(w, aqi, geo) {
   // AQI
   html += `<div class="card">
     <div class="stat-icon" aria-hidden="true">🌬️</div>
-    <div class="stat-label">Air Quality${usAqi != null ? ' (US AQI: '+usAqi+')' : ''}</div>
+    <h2 class="stat-label">Air Quality${usAqi != null ? ' (US AQI: '+usAqi+')' : ''}</h2>
     <div class="stat-value" style="color:${aqiInfo.color}">${aqiInfo.text}</div>
     <div class="stat-sub">${pm25 != null ? 'PM2.5: ' + pm25.toFixed(1) + ' µg/m³' : ''}</div>
     <div class="aqi-bar">${[1,2,3,4,5].map(i => `<div class="aqi-seg" style="background:${i <= aqiInfo.aqi ? aqiInfo.color : 'rgba(255,255,255,.08)'}"></div>`).join('')}</div>
@@ -533,7 +535,7 @@ function render(w, aqi, geo) {
   // Sunrise/Sunset
   html += `<div class="card">
     <div class="stat-icon" aria-hidden="true">🌅</div>
-    <div class="stat-label">Sunrise / Sunset</div>
+    <h2 class="stat-label">Sunrise / Sunset</h2>
     <div class="sun-bar"><div class="sun-dot" style="left:calc(${sunProg}% - 7px)"></div></div>
     <div class="sun-times">
       <span><span aria-hidden="true">↑</span><span class="visually-hidden">Sunrise: </span> ${fmtTime(sunrise)}</span>
