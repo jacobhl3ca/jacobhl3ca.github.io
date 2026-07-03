@@ -937,7 +937,8 @@
                         <input type="text" name="name" placeholder="Your Name" class="contact__input" aria-label="Your name" autocomplete="name" required>
                         <input type="email" name="email" placeholder="your@email.com" class="contact__input" aria-label="Your email address" autocomplete="email" required>
                         <textarea name="message" placeholder="Your Message" class="contact__input" aria-label="Your message" rows="10" required></textarea>
-                        <button type="submit" class="contact__button button" aria-live="polite">Send</button>
+                        <!-- No aria-live here: the button is set disabled on submit (dropping it from the a11y tree), and main.js mirrors the "Sending…/Sent!/Error" status into a dedicated visually-hidden #srStatus live region. Keeping aria-live on the button too caused a redundant/inconsistent double announcement. -->
+                        <button type="submit" class="contact__button button">Send</button>
                     </form>
                 </div>
             </section>
