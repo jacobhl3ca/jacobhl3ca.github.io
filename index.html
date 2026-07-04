@@ -1181,6 +1181,13 @@ function navigate(url, push){
   // so screen-reader users entering the frame hear which site this preview is showing.
   let _host=url; try{ _host=new URL(url).hostname.replace(/^www\./,''); }catch(e){}
   frame.src=url; frame.title='Live preview of '+_host; mUrl.value=url; mOpen.href=url;
+  // Match the dialog's accessible name to the site being previewed. The container's static
+  // aria-label is the generic "Live site preview", so a screen-reader user opening the preview
+  // (focus lands on the close button) hears "Live site preview dialog" without learning which
+  // project it is. Name it per-host — mirroring the iframe title set just above — so the dialog
+  // announces the actual site. Set here (openModal calls navigate on open) so it's fresh at open
+  // time and stays correct as the user navigates within the preview.
+  modal.setAttribute('aria-label', 'Live preview of '+_host);
   clearTimeout(loadTimer);
   // Build the fallback link via DOM APIs rather than innerHTML: `url` can come from the user-typed
   // preview address bar (navigate(u,true) below), so interpolating it into an HTML string is a
