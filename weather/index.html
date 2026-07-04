@@ -369,7 +369,16 @@ async function fetchWeather() {
     const aqi = await aqiPromise;
     render(weather, aqi, geo);
   } catch (err) {
-    document.getElementById('content').innerHTML = `<div class="card" role="alert" style="text-align:center;color:var(--danger);">${err.message}</div>`;
+    // Network-level failures (offline, DNS/CORS block, request aborted) reject fetch() with a
+    // TypeError whose browser-generated message ("Failed to fetch" / "NetworkError when attempting
+    // to fetch resource.") was being shown to the user verbatim — inconsistent with the friendly,
+    // actionable strings the other error paths throw (all plain Errors). Map that case to a
+    // matching connection message; keep showing our own Error messages ("City not found…", etc.)
+    // as-is. Static strings only (no user input echoed), mirroring the geocode-error hardening.
+    const msg = (err instanceof TypeError)
+      ? 'Could not connect — check your internet connection and try again.'
+      : err.message;
+    document.getElementById('content').innerHTML = `<div class="card" role="alert" style="text-align:center;color:var(--danger);">${msg}</div>`;
   }
 }
 
