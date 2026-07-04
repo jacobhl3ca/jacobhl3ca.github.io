@@ -1115,7 +1115,7 @@ function rowHTML(p, eager){
   return `
   <div class="proj-row">
     <div class="proj-head">
-      <div class="proj-thumb ${thumbCls}" ${p.live?`data-url="${p.url}" role="button" tabindex="0" aria-label="Open live preview of ${p.title}"`:''}>
+      <div class="proj-thumb ${thumbCls}" ${p.live?`data-url="${p.url}" role="button" tabindex="0" aria-haspopup="dialog" aria-label="Open live preview of ${p.title}"`:''}>
         ${p.imgWide
           ? `<picture><source media="(min-width:768px)" srcset="${p.imgWide}"><img src="${p.img}" alt="${p.live ? '' : p.title + ' screenshot'}" ${imgLoad} decoding="async"></picture>`
           : `<img src="${p.img}" alt="${p.live ? '' : p.title + ' screenshot'}" ${imgLoad} decoding="async">`}
