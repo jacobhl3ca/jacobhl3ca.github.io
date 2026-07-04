@@ -584,7 +584,12 @@ function render(w, aqi, geo) {
                in the hero (.hero-condition) and 5-day rows (.forecast-desc). Positioned absolute, so
                no visual/layout change to the strip. -->
           <span class="visually-hidden">${getDesc(h.code)}, </span>
-          <div class="chance" style="color:${popColor}">${pop}%</div>
+          <!-- The bare "40%" reads ambiguously on its own to a screen reader (percent of what?).
+               Sighted users get "rain chance" from the section heading + the ☂️ icon; give SR users
+               the same qualifier inline so each hour is self-describing when navigated element by
+               element. Mirrors the visually-hidden "High:/Low:/Sunrise:/Sunset:" labels elsewhere on
+               this page and the "% rain" wording in the 5-day rows. Positioned absolute — no visual change. -->
+          <div class="chance" style="color:${popColor}"><span class="visually-hidden">Rain chance: </span>${pop}%</div>
         </div>`;
       }).join('')}
     </div>
