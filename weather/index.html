@@ -577,6 +577,12 @@ function render(w, aqi, geo) {
         return `<div class="hourly-item">
           <div class="time">${fmtHour(h.time)}</div>
           <div class="icon" aria-hidden="true">${getIcon(h.code, h.isDay)}</div>
+          <!-- The per-hour condition icon above is aria-hidden (decorative emoji), so screen-reader
+               users got only the time + rain %, missing the sky condition that sighted users read
+               from the icon. Add it as a visually-hidden label — mirrors getDesc() already surfaced
+               in the hero (.hero-condition) and 5-day rows (.forecast-desc). Positioned absolute, so
+               no visual/layout change to the strip. -->
+          <span class="visually-hidden">${getDesc(h.code)}, </span>
           <div class="chance" style="color:${popColor}">${pop}%</div>
         </div>`;
       }).join('')}
