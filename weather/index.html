@@ -4,6 +4,8 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="theme-color" content="#0b1121">
+<!-- Declare the supported colour scheme to the UA up front. color-scheme is otherwise only set inside the render-blocking inline <style> (:root { color-scheme: dark }), so before that CSS parses the browser doesn't know this is a dark-only page and paints the root canvas/scrollbars with the OS default (a brief light flash). This dashboard has no theme toggle, so "dark" (matching the CSS) is correct. No visual change to the settled page. -->
+<meta name="color-scheme" content="dark">
 <link rel="icon" type="image/x-icon" href="/assets/img/favicon.ico">
 <title>Weather Dashboard — NYC</title>
 <meta name="description" content="A live weather dashboard with current conditions, hourly rain chance, a 5-day forecast, air quality, and sun times. Search any city — defaults to New York, NY.">
