@@ -85,6 +85,20 @@
             "knowsAbout": ["Data Analytics", "Python", "SQL", "Tableau", "ETL", "BigQuery", "Automation", "Dashboard Design", "JavaScript", "React", "Node.js", "Next.js", "Web Development"]
         }
         </script>
+        <!-- WebSite entity: gives the site itself a stable node distinct from the Person, and names the Person (via the same #person @id) as its author/publisher — a recognized structured-data pattern that helps search engines model "this site" as one entity (Knowledge Graph / sitelinks eligibility) and links it to its owner. Continues the #person linked-data pattern; pure metadata, no visual change. -->
+        <script type="application/ld+json">
+        {
+            "@context": "https://schema.org",
+            "@type": "WebSite",
+            "@id": "https://jacobhl.com/#website",
+            "url": "https://jacobhl.com/",
+            "name": "Jacob Heifetz-Licht",
+            "description": "Data analytics leader and web developer specializing in Python, SQL, Tableau, React, and Next.js. Turning data into things people actually use.",
+            "inLanguage": "en-US",
+            "author": { "@id": "https://jacobhl.com/#person" },
+            "publisher": { "@id": "https://jacobhl.com/#person" }
+        }
+        </script>
         <style>
 
             .clickable-img {
