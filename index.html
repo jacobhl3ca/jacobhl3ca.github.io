@@ -1178,7 +1178,16 @@ function navigate(url, push){
   let _host=url; try{ _host=new URL(url).hostname.replace(/^www\./,''); }catch(e){}
   frame.src=url; frame.title='Live preview of '+_host; mUrl.value=url; mOpen.href=url;
   clearTimeout(loadTimer);
-  loadTimer=setTimeout(()=>{ mLoadTxt.innerHTML=`Taking a while — <a href="${url}" target="_blank" rel="noopener">open ${url} ↗</a>`; }, 6000);
+  // Build the fallback link via DOM APIs rather than innerHTML: `url` can come from the user-typed
+  // preview address bar (navigate(u,true) below), so interpolating it into an HTML string is a
+  // self-XSS vector — the .href setter and textContent treat it as inert data instead. Same
+  // concern the weather dashboard guards against when rendering user input. Renders identically.
+  loadTimer=setTimeout(()=>{
+    mLoadTxt.textContent='Taking a while — ';
+    const _a=document.createElement('a');
+    _a.href=url; _a.target='_blank'; _a.rel='noopener'; _a.textContent='open '+url+' ↗';
+    mLoadTxt.appendChild(_a);
+  }, 6000);
 }
 // WAI-ARIA modal-dialog pattern: while the preview is open, hide the rest of the page from
 // assistive tech and keyboard/pointer input, complementing the Tab focus-trap below. The Tab
