@@ -317,7 +317,7 @@ async function geocode(city) {
   const res = await fetch(`https://geocoding-api.open-meteo.com/v1/search?name=${encodeURIComponent(cleanCity)}&count=5&language=en&format=json`);
   if (!res.ok) throw new Error('Could not reach the location service. Please try again.');
   const data = await res.json();
-  if (!data.results?.length) throw new Error('City not found');
+  if (!data.results?.length) throw new Error('City not found — check the spelling and try another city.');
   const usResult = data.results.find(r => r.country_code === 'US') || data.results[0];
   const r = usResult;
   return { lat:r.latitude, lon:r.longitude, name:r.admin1 ? `${r.name}, ${r.admin1}` : `${r.name}, ${r.country}`, tz:r.timezone };
