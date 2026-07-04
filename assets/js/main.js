@@ -140,21 +140,26 @@ function setThemeColor(theme) {
 // HTML defaults to data-theme="dark" and sun icon; only switch to light if user previously chose light
 if (currentTheme === 'light') {
     document.documentElement.removeAttribute('data-theme');
-    themeIcon.classList.replace('bx-sun', 'bx-moon');
-    themeToggle.setAttribute('aria-label', 'Switch to dark mode');
+    if (themeIcon) themeIcon.classList.replace('bx-sun', 'bx-moon');
+    if (themeToggle) themeToggle.setAttribute('aria-label', 'Switch to dark mode');
     setThemeImages('light');
     setThemeColor('light');
 } else {
     document.documentElement.setAttribute('data-theme', 'dark');
-    themeIcon.classList.replace('bx-moon', 'bx-sun');
-    themeToggle.setAttribute('aria-label', 'Switch to light mode');
+    if (themeIcon) themeIcon.classList.replace('bx-moon', 'bx-sun');
+    if (themeToggle) themeToggle.setAttribute('aria-label', 'Switch to light mode');
     setThemeColor('dark');
     if (currentTheme !== 'dark') {
         safeSetItem('theme', 'dark');
     }
 }
 
-themeToggle.addEventListener('click', () => {
+// Guard the toggle wiring: this block runs first in main.js, so an uncaught throw here
+// (were the toggle markup ever renamed/removed) would halt the rest of the file — nav,
+// scroll reveal, contact-form submit, scroll arrows. Every other DOM dependency below is
+// already guarded this way; the toggle exists on every page that loads main.js today, so
+// this is purely defensive with no behavior change.
+if (themeToggle) themeToggle.addEventListener('click', () => {
     const root = document.documentElement;
     root.classList.add('theme-switching'); // make the swap instant (no color-transition lag)
     const currentTheme = root.getAttribute('data-theme');
@@ -234,29 +239,39 @@ const revealElements = document.querySelectorAll(
   '.contact__input, .contact__button'
 );
 
-revealElements.forEach(el => el.classList.add('reveal'));
+// Only run the hide-then-reveal enhancement when IntersectionObserver is available. Adding the
+// .reveal class sets opacity:0, and the observer is what adds .visible to fade each element in —
+// so if the observer is missing (unsupported browsers) or its construction throws, that .visible
+// is never applied and the reveal content (section titles, about/skills text, contact form) would
+// stay permanently invisible. Worse, an uncaught throw here at top level would halt the rest of
+// main.js below (contact-form submit, scroll arrows, live-dot observer). Guard the whole block so
+// unsupported browsers simply keep the default visible layout. Mirrors the live-dot observer's
+// feature guard further down; no change in modern browsers.
+if ('IntersectionObserver' in window) {
+  revealElements.forEach(el => el.classList.add('reveal'));
 
-const revealObserver = new IntersectionObserver((entries) => {
-  entries.forEach(entry => {
-    if (entry.isIntersecting) {
-      entry.target.classList.add('visible');
-      revealObserver.unobserve(entry.target);
+  const revealObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        revealObserver.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.15 });
+
+  // Stagger siblings so they cascade
+  let lastParent = null;
+  let staggerIndex = 0;
+  revealElements.forEach(el => {
+    if (el.parentElement !== lastParent) {
+      lastParent = el.parentElement;
+      staggerIndex = 0;
     }
+    el.style.transitionDelay = (staggerIndex * 0.1) + 's';
+    staggerIndex++;
+    revealObserver.observe(el);
   });
-}, { threshold: 0.15 });
-
-// Stagger siblings so they cascade
-let lastParent = null;
-let staggerIndex = 0;
-revealElements.forEach(el => {
-  if (el.parentElement !== lastParent) {
-    lastParent = el.parentElement;
-    staggerIndex = 0;
-  }
-  el.style.transitionDelay = (staggerIndex * 0.1) + 's';
-  staggerIndex++;
-  revealObserver.observe(el);
-});
+}
 
 /*===== IMAGE CLICK EFFECTS (confetti, bursts, mega-explosion) =====*/
 function spawnConfetti(x, y, count) {
@@ -752,12 +767,24 @@ function requestResume() {
 /*===== CONTACT FORM SUBMIT =====*/
 const contactForm = document.querySelector('.contact__form');
 if (contactForm) {
+    // Screen-reader status region: on submit the button is set disabled (which drops it
+    // from the accessibility tree), so its visible "Sending…/Sent!/Error" text change is
+    // never announced — screen-reader users get no feedback that the message went through.
+    // Mirror the button's state into a polite live region, created once up front so AT
+    // registers it before the first update. Mirrors the weather dashboard's #srStatus.
+    const srStatus = document.createElement('div');
+    srStatus.setAttribute('role', 'status');
+    srStatus.setAttribute('aria-live', 'polite');
+    srStatus.style.cssText = 'position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0;';
+    contactForm.appendChild(srStatus);
+
     contactForm.addEventListener('submit', function(e) {
         e.preventDefault();
         const btn = contactForm.querySelector('.contact__button');
         const origText = btn.textContent;
         btn.textContent = 'Sending...';
         btn.disabled = true;
+        srStatus.textContent = 'Sending your message…';
 
         fetch(contactForm.action, {
             method: 'POST',
@@ -769,15 +796,18 @@ if (contactForm) {
                 btn.textContent = 'Sent!';
                 btn.style.transition = 'none';
                 btn.style.background = '#28a745';
+                srStatus.textContent = 'Message sent — thanks! I\'ll get back to you soon.';
                 setTimeout(() => { btn.textContent = origText; btn.disabled = false; btn.style.background = ''; btn.style.transition = ''; }, 4000);
             } else {
                 btn.textContent = 'Error — try again';
                 btn.style.background = '#dc3545';
+                srStatus.textContent = 'Something went wrong sending your message. Please try again.';
                 setTimeout(() => { btn.textContent = origText; btn.disabled = false; btn.style.background = ''; }, 3000);
             }
         }).catch(() => {
             btn.textContent = 'Error — try again';
             btn.style.background = '#dc3545';
+            srStatus.textContent = 'Something went wrong sending your message. Please try again.';
             setTimeout(() => { btn.textContent = origText; btn.disabled = false; btn.style.background = ''; }, 3000);
         });
     });

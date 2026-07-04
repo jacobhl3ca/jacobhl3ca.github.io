@@ -4,6 +4,8 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="theme-color" content="#0b1121">
+<!-- Declare the supported colour scheme to the UA up front. color-scheme is otherwise only set inside the render-blocking inline <style> (:root { color-scheme: dark }), so before that CSS parses the browser doesn't know this is a dark-only page and paints the root canvas/scrollbars with the OS default (a brief light flash). This dashboard has no theme toggle, so "dark" (matching the CSS) is correct. No visual change to the settled page. -->
+<meta name="color-scheme" content="dark">
 <link rel="icon" type="image/x-icon" href="/assets/img/favicon.ico">
 <title>Weather Dashboard — NYC</title>
 <meta name="description" content="A live weather dashboard with current conditions, hourly rain chance, a 5-day forecast, air quality, and sun times. Search any city — defaults to New York, NY.">
@@ -17,11 +19,17 @@
     "@type": "WebApplication",
     "name": "Weather Dashboard",
     "url": "https://jacobhl.com/weather/",
+    "image": "https://jacobhl.com/assets/img/og_image.png",
     "description": "A live weather dashboard with current conditions, hourly rain chance, a 5-day forecast, air quality, and sun times. Search any city — defaults to New York, NY.",
     "applicationCategory": "UtilitiesApplication",
     "operatingSystem": "Web browser",
     "browserRequirements": "Requires JavaScript",
     "isAccessibleForFree": true,
+    "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+    },
     "author": {
         "@type": "Person",
         "name": "Jacob Heifetz-Licht",
@@ -316,7 +324,7 @@ async function geocode(city) {
   const res = await fetch(`https://geocoding-api.open-meteo.com/v1/search?name=${encodeURIComponent(cleanCity)}&count=5&language=en&format=json`);
   if (!res.ok) throw new Error('Could not reach the location service. Please try again.');
   const data = await res.json();
-  if (!data.results?.length) throw new Error('City not found');
+  if (!data.results?.length) throw new Error('City not found — check the spelling and try another city.');
   const usResult = data.results.find(r => r.country_code === 'US') || data.results[0];
   const r = usResult;
   return { lat:r.latitude, lon:r.longitude, name:r.admin1 ? `${r.name}, ${r.admin1}` : `${r.name}, ${r.country}`, tz:r.timezone };
@@ -366,7 +374,16 @@ async function fetchWeather() {
     const aqi = await aqiPromise;
     render(weather, aqi, geo);
   } catch (err) {
-    document.getElementById('content').innerHTML = `<div class="card" role="alert" style="text-align:center;color:var(--danger);">${err.message}</div>`;
+    // Network-level failures (offline, DNS/CORS block, request aborted) reject fetch() with a
+    // TypeError whose browser-generated message ("Failed to fetch" / "NetworkError when attempting
+    // to fetch resource.") was being shown to the user verbatim — inconsistent with the friendly,
+    // actionable strings the other error paths throw (all plain Errors). Map that case to a
+    // matching connection message; keep showing our own Error messages ("City not found…", etc.)
+    // as-is. Static strings only (no user input echoed), mirroring the geocode-error hardening.
+    const msg = (err instanceof TypeError)
+      ? 'Could not connect — check your internet connection and try again.'
+      : err.message;
+    document.getElementById('content').innerHTML = `<div class="card" role="alert" style="text-align:center;color:var(--danger);">${msg}</div>`;
   }
 }
 
@@ -560,6 +577,12 @@ function render(w, aqi, geo) {
         return `<div class="hourly-item">
           <div class="time">${fmtHour(h.time)}</div>
           <div class="icon" aria-hidden="true">${getIcon(h.code, h.isDay)}</div>
+          <!-- The per-hour condition icon above is aria-hidden (decorative emoji), so screen-reader
+               users got only the time + rain %, missing the sky condition that sighted users read
+               from the icon. Add it as a visually-hidden label — mirrors getDesc() already surfaced
+               in the hero (.hero-condition) and 5-day rows (.forecast-desc). Positioned absolute, so
+               no visual/layout change to the strip. -->
+          <span class="visually-hidden">${getDesc(h.code)}, </span>
           <div class="chance" style="color:${popColor}">${pop}%</div>
         </div>`;
       }).join('')}

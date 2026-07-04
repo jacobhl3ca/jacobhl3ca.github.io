@@ -4,6 +4,8 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta name="theme-color" content="#090f20">
+        <!-- Declare supported colour schemes to the UA up front. color-scheme is otherwise only set inside the render-blocking styles.css (:root=light, [data-theme="dark"]=dark), so before that CSS loads the browser doesn't know this is a dark-default page and paints the root canvas/scrollbars with the OS default (a brief light flash for the majority dark view). "dark light" matches the document's literal default (<html data-theme="dark">) while still advertising light-mode support; the CSS color-scheme rules take over once loaded. No visual change to the settled page. -->
+        <meta name="color-scheme" content="dark light">
         <link rel="stylesheet" href="assets/css/styles.css">
         <link rel="icon" type="image/x-icon" href="assets/img/favicon.ico">
         <link rel="preconnect" href="https://cdn.jsdelivr.net"> <!-- early-connect for the render-blocking boxicons CSS fetch (non-CORS, so it can't reuse the crossorigin socket below) -->
@@ -15,6 +17,7 @@
         <link rel="preload" as="image" href="assets/img/hidescore-app.png" media="(max-width:767.98px)" fetchpriority="high"> <!-- LCP preload (mobile <768px): same as above for the default <picture> source. The two media queries are mutually exclusive, so only the one image the browser will actually render is ever preloaded (no wasted bytes). -->
         <link rel="dns-prefetch" href="//gc.zgo.at"> <!-- resolve the GoatCounter analytics host ahead of the async count.js fetch at end of body -->
         <link rel="dns-prefetch" href="//stats.hidescore.com"> <!-- resolve the self-hosted Umami analytics host ahead of its deferred script.js fetch at end of body -->
+        <link rel="dns-prefetch" href="//formspree.io"> <!-- resolve the Formspree host ahead of the contact form's on-submit POST (assets/js/main.js) so the DNS lookup isn't on the send path -->
         <link href='https://cdn.jsdelivr.net/npm/boxicons@2.0.5/css/boxicons.min.css' rel='stylesheet'> <!-- icons -->
         <script>
             // Default view = projects-only (set before paint to avoid flash); honor saved preference.
@@ -89,9 +92,8 @@
             .clickable-img.bg-removed {
                 mix-blend-mode: screen;
             }
-            [data-theme="dark"] .clickable-img.bg-removed {
-                mix-blend-mode: screen;
-            }
+            /* Light mode only: the base rule above already gives dark mode its "screen"
+               blend, so only the light theme needs to override it to "multiply". */
             html:not([data-theme="dark"]) .clickable-img.bg-removed {
                 mix-blend-mode: multiply;
             }
@@ -130,12 +132,6 @@
                 white-space: nowrap;
                 box-shadow: 0 4px 16px rgba(0,0,0,0.3);
                 animation: code-float 1.8s ease-out forwards;
-            }
-            html:not([data-theme="dark"]) .code-popup {
-                background: rgba(30, 30, 60, 0.92);
-                color: #43e97b;
-                border-color: rgba(67, 233, 123, 0.4);
-                box-shadow: 0 4px 16px rgba(0,0,0,0.3);
             }
             @keyframes code-float {
                 0% { opacity: 0; transform: translateY(0) scale(0.7); }
@@ -797,14 +793,16 @@
                     <div id="main-rows"></div>
                     <noscript>
                         <!-- The project cards above are built by JavaScript, so with scripting disabled
-                             (or for crawlers that don't run JS) #main-rows is empty. List the live
-                             projects as plain links so the core content and its SEO value aren't lost. -->
+                             (or for crawlers that don't run JS) #main-rows is empty. List the projects
+                             as plain links so the core content and its SEO value aren't lost. Mirrors the
+                             MAIN[] array; TidyTab has no website, so it links to its browsable GitHub repo. -->
                         <ul style="list-style:none;margin:0;padding:0;line-height:1.6;color:var(--text-color,#8b94a0);">
                             <li><a href="https://hidescore.com" target="_blank" rel="noopener noreferrer">HideScore</a> — Watch sports highlights without seeing the score.</li>
                             <li><a href="https://tonightnyc.com" target="_blank" rel="noopener noreferrer">Tonight NYC</a> — Every NYC comedy show, filtered to your favorite comedians.</li>
                             <li><a href="https://subwaytimes.com" target="_blank" rel="noopener noreferrer">Subway Times</a> — Real-time NYC subway arrivals, faster than Maps.</li>
                             <li><a href="https://davidlicht.com" target="_blank" rel="noopener noreferrer">David Licht</a> — A showcase site for my dad — five decades of drumming.</li>
                             <li><a href="https://theisland.nyc" target="_blank" rel="noopener noreferrer">The Island</a> — Everything happening on NYC's Roosevelt Island, in one place.</li>
+                            <li><a href="https://github.com/jacobhl3ca/safari-pinned-tab-automation" target="_blank" rel="noopener noreferrer">TidyTab</a> — Bulk unpin or close Safari pinned tabs, a macOS menu-bar app.</li>
                         </ul>
                     </noscript>
 
@@ -943,7 +941,8 @@
                         <input type="text" name="name" placeholder="Your Name" class="contact__input" aria-label="Your name" autocomplete="name" required>
                         <input type="email" name="email" placeholder="your@email.com" class="contact__input" aria-label="Your email address" autocomplete="email" required>
                         <textarea name="message" placeholder="Your Message" class="contact__input" aria-label="Your message" rows="10" required></textarea>
-                        <button type="submit" class="contact__button button" aria-live="polite">Send</button>
+                        <!-- No aria-live here: the button is set disabled on submit (dropping it from the a11y tree), and main.js mirrors the "Sending…/Sent!/Error" status into a dedicated visually-hidden #srStatus live region. Keeping aria-live on the button too caused a redundant/inconsistent double announcement. -->
+                        <button type="submit" class="contact__button button">Send</button>
                     </form>
                 </div>
             </section>
@@ -1094,7 +1093,7 @@ function ctaHTML(p){
   let h='';
   if(p.site){ const _d=(()=>{try{return new URL(p.site).hostname.replace(/^www\./,'')}catch(e){return ''}})();
     const _fav = USE_FAVICONS && FAVICONS[_d];
-    const _inner = _fav ? `<img class="favicon" src="${_fav}" alt="" loading="lazy">` : `<i class='bx bx-globe' aria-hidden="true"></i>`;
+    const _inner = _fav ? `<img class="favicon" src="${_fav}" alt="" width="20" height="20" loading="lazy" decoding="async">` : `<i class='bx bx-globe' aria-hidden="true"></i>`;
     h+=`<a href="${p.site}" target="_blank" rel="noopener" class="site-link" title="Visit website" aria-label="Visit the ${p.title} website">${_inner}</a>`; }
   if(p.appstore) h+=`<a href="${p.appstore}" target="_blank" rel="noopener" class="app-store-badge-link" aria-label="Download ${p.title} on the App Store"><img src="assets/img/app-store-badge.svg" alt="" class="app-store-badge" width="120" height="40" decoding="async"></a>`;
   if(p.download) h+=`<a href="${p.download}" class="mac-badge" title="Download TidyTab for macOS (.dmg, notarized)"><i class='bx bxl-apple' aria-hidden="true"></i><span class="mb-txt"><span class="mb-top">Download for</span><span class="mb-big">Mac</span></span></a>`;
@@ -1118,7 +1117,7 @@ function rowHTML(p, eager){
   return `
   <div class="proj-row">
     <div class="proj-head">
-      <div class="proj-thumb ${thumbCls}" ${p.live?`data-url="${p.url}" role="button" tabindex="0" aria-label="Open live preview of ${p.title}"`:''}>
+      <div class="proj-thumb ${thumbCls}" ${p.live?`data-url="${p.url}" role="button" tabindex="0" aria-haspopup="dialog" aria-label="Open live preview of ${p.title}"`:''}>
         ${p.imgWide
           ? `<picture><source media="(min-width:768px)" srcset="${p.imgWide}"><img src="${p.img}" alt="${p.live ? '' : p.title + ' screenshot'}" ${imgLoad} decoding="async"></picture>`
           : `<img src="${p.img}" alt="${p.live ? '' : p.title + ' screenshot'}" ${imgLoad} decoding="async">`}
@@ -1182,8 +1181,24 @@ function navigate(url, push){
   // so screen-reader users entering the frame hear which site this preview is showing.
   let _host=url; try{ _host=new URL(url).hostname.replace(/^www\./,''); }catch(e){}
   frame.src=url; frame.title='Live preview of '+_host; mUrl.value=url; mOpen.href=url;
+  // Match the dialog's accessible name to the site being previewed. The container's static
+  // aria-label is the generic "Live site preview", so a screen-reader user opening the preview
+  // (focus lands on the close button) hears "Live site preview dialog" without learning which
+  // project it is. Name it per-host — mirroring the iframe title set just above — so the dialog
+  // announces the actual site. Set here (openModal calls navigate on open) so it's fresh at open
+  // time and stays correct as the user navigates within the preview.
+  modal.setAttribute('aria-label', 'Live preview of '+_host);
   clearTimeout(loadTimer);
-  loadTimer=setTimeout(()=>{ mLoadTxt.innerHTML=`Taking a while — <a href="${url}" target="_blank" rel="noopener">open ${url} ↗</a>`; }, 6000);
+  // Build the fallback link via DOM APIs rather than innerHTML: `url` can come from the user-typed
+  // preview address bar (navigate(u,true) below), so interpolating it into an HTML string is a
+  // self-XSS vector — the .href setter and textContent treat it as inert data instead. Same
+  // concern the weather dashboard guards against when rendering user input. Renders identically.
+  loadTimer=setTimeout(()=>{
+    mLoadTxt.textContent='Taking a while — ';
+    const _a=document.createElement('a');
+    _a.href=url; _a.target='_blank'; _a.rel='noopener'; _a.textContent='open '+url+' ↗';
+    mLoadTxt.appendChild(_a);
+  }, 6000);
 }
 // WAI-ARIA modal-dialog pattern: while the preview is open, hide the rest of the page from
 // assistive tech and keyboard/pointer input, complementing the Tab focus-trap below. The Tab
