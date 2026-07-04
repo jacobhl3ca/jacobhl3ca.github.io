@@ -239,29 +239,39 @@ const revealElements = document.querySelectorAll(
   '.contact__input, .contact__button'
 );
 
-revealElements.forEach(el => el.classList.add('reveal'));
+// Only run the hide-then-reveal enhancement when IntersectionObserver is available. Adding the
+// .reveal class sets opacity:0, and the observer is what adds .visible to fade each element in —
+// so if the observer is missing (unsupported browsers) or its construction throws, that .visible
+// is never applied and the reveal content (section titles, about/skills text, contact form) would
+// stay permanently invisible. Worse, an uncaught throw here at top level would halt the rest of
+// main.js below (contact-form submit, scroll arrows, live-dot observer). Guard the whole block so
+// unsupported browsers simply keep the default visible layout. Mirrors the live-dot observer's
+// feature guard further down; no change in modern browsers.
+if ('IntersectionObserver' in window) {
+  revealElements.forEach(el => el.classList.add('reveal'));
 
-const revealObserver = new IntersectionObserver((entries) => {
-  entries.forEach(entry => {
-    if (entry.isIntersecting) {
-      entry.target.classList.add('visible');
-      revealObserver.unobserve(entry.target);
+  const revealObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        revealObserver.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.15 });
+
+  // Stagger siblings so they cascade
+  let lastParent = null;
+  let staggerIndex = 0;
+  revealElements.forEach(el => {
+    if (el.parentElement !== lastParent) {
+      lastParent = el.parentElement;
+      staggerIndex = 0;
     }
+    el.style.transitionDelay = (staggerIndex * 0.1) + 's';
+    staggerIndex++;
+    revealObserver.observe(el);
   });
-}, { threshold: 0.15 });
-
-// Stagger siblings so they cascade
-let lastParent = null;
-let staggerIndex = 0;
-revealElements.forEach(el => {
-  if (el.parentElement !== lastParent) {
-    lastParent = el.parentElement;
-    staggerIndex = 0;
-  }
-  el.style.transitionDelay = (staggerIndex * 0.1) + 's';
-  staggerIndex++;
-  revealObserver.observe(el);
-});
+}
 
 /*===== IMAGE CLICK EFFECTS (confetti, bursts, mega-explosion) =====*/
 function spawnConfetti(x, y, count) {
