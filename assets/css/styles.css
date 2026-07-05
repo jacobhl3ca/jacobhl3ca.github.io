@@ -544,9 +544,19 @@ img {
     height: 100%;
     padding: 2rem;
     background-color: var(--second-color);
-    transition: 0.5s;
+    /* Closed off-canvas menu: also hide it from the tab order + accessibility tree.
+       right:-100% only moves the panel off-screen, leaving its links keyboard-focusable
+       and screen-reader reachable (WCAG 2.4.3). visibility:hidden removes them; the 0.5s
+       visibility delay lets the slide-out finish before it hides, and .nav__menu.show
+       below flips it back on immediately when opening — so the animation is unchanged. */
+    visibility: hidden;
+    transition: right 0.5s, visibility 0s linear 0.5s;
   }
-  
+  .nav__menu.show {
+    visibility: visible;
+    transition: right 0.5s, visibility 0s;
+  }
+
   [data-theme="dark"] .nav__menu {
     background-color: var(--container-bg);
   }
@@ -1225,5 +1235,37 @@ html.theme-switching * {
   .reveal {
     opacity: 1;
     transform: none;
+  }
+}
+
+/* Print: the site had no print styles, so saving the portfolio as a PDF (which
+   recruiters do) otherwise prints the dark-theme UI — light text that all but
+   vanishes on white paper — along with interactive-only chrome (the sticky nav,
+   theme/view toggles, the floating scroll buttons, and the live-preview modal).
+   Force a clean, ink-friendly light rendering and drop the on-screen-only
+   controls. Print media only — no effect on the rendered site. */
+@media print {
+  /* Legible on white paper regardless of the on-screen theme. */
+  html, body,
+  [data-theme="dark"] body {
+    background: #fff !important;
+    color: #000 !important;
+  }
+  [data-theme="dark"] *,
+  [data-theme="dark"] *::before,
+  [data-theme="dark"] *::after {
+    color: #000 !important;
+    background-color: transparent !important;
+    box-shadow: none !important;
+  }
+  /* Interactive-only chrome that shouldn't appear on paper. */
+  .l-header, .nav__toggle, .theme-toggle, .view-pill,
+  .scroll-down-arrow, .back-to-top, .modal,
+  .proj-cue, .proj-zoom {
+    display: none !important;
+  }
+  a {
+    color: #000 !important;
+    text-decoration: underline;
   }
 }

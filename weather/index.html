@@ -12,15 +12,19 @@
 <meta name="author" content="Jacob Heifetz-Licht">
 <meta name="robots" content="index, follow, max-image-preview:large">
 <link rel="canonical" href="https://jacobhl.com/weather/">
-<!-- Structured data so search engines understand this is a free, browser-based weather app (mirrors the Person schema on the main site) -->
+<!-- Structured data so search engines understand this is a free, browser-based weather app. Tie this sub-page's node into the site's linked-data graph the same way the homepage's ProfilePage does: isPartOf the WebSite (#website, defined on index.html) and authored by the Person (#person) — a cross-page @id reference search engines merge site-wide (the author @id already relies on this). inLanguage matches the en-US the homepage's WebSite/ProfilePage nodes declare. Pure metadata, no visual change. -->
 <script type="application/ld+json">
 {
     "@context": "https://schema.org",
     "@type": "WebApplication",
+    "@id": "https://jacobhl.com/weather/#webapp",
     "name": "Weather Dashboard",
     "url": "https://jacobhl.com/weather/",
+    "mainEntityOfPage": "https://jacobhl.com/weather/",
     "image": "https://jacobhl.com/assets/img/og_image.png",
     "description": "A live weather dashboard with current conditions, hourly rain chance, a 5-day forecast, air quality, and sun times. Search any city — defaults to New York, NY.",
+    "inLanguage": "en-US",
+    "isPartOf": { "@id": "https://jacobhl.com/#website" },
     "applicationCategory": "UtilitiesApplication",
     "operatingSystem": "Web browser",
     "browserRequirements": "Requires JavaScript",
@@ -32,9 +36,31 @@
     },
     "author": {
         "@type": "Person",
+        "@id": "https://jacobhl.com/#person",
         "name": "Jacob Heifetz-Licht",
         "url": "https://jacobhl.com"
     }
+}
+</script>
+<!-- Breadcrumb trail: this dashboard is a sub-page that's independently indexed (it's in the sitemap and canonical'd) but sits one level under the homepage — the visible "← Back to jacobhl.com" link is its informal breadcrumb. Formalize that Home → Weather Dashboard hierarchy so search engines can model the page's place in the site and show a breadcrumb in results instead of the raw URL. Continues the site's linked-data pattern (Person → WebSite → WebApplication). Pure metadata, no visual change. -->
+<script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+        {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "Home",
+            "item": "https://jacobhl.com/"
+        },
+        {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "Weather Dashboard",
+            "item": "https://jacobhl.com/weather/"
+        }
+    ]
 }
 </script>
 <!-- Open Graph / Twitter meta for link previews -->
@@ -283,6 +309,15 @@ function getIcon(code, isDay) {
 }
 function getDesc(code) { return WMO_DESC[code] || 'Unknown'; }
 
+// Geocoded place names come from the Open-Meteo geocoding API (external data) but are rendered
+// into the hero card via innerHTML in render() below. Escape the HTML-special characters so an
+// unexpected or compromised API response can't inject markup — defense-in-depth mirroring the
+// self-XSS guard the preview code on the homepage already applies to user-typed input. Real
+// place names contain none of these characters, so the rendered output is unchanged.
+function escHtml(s) {
+  return String(s).replace(/[&<>"']/g, c => ({ '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;', "'":'&#39;' }[c]));
+}
+
 function windDir(deg) {
   const dirs = ['N','NE','E','SE','S','SW','W','NW'];
   return dirs[Math.round(deg / 45) % 8];
@@ -506,7 +541,7 @@ function render(w, aqi, geo) {
 
   // Hero
   html += `<div class="card hero">
-    <h2 class="visually-hidden">Current conditions in ${geo.name}</h2>
+    <h2 class="visually-hidden">Current conditions in ${escHtml(geo.name)}</h2>
     <div class="hero-left">
       <div class="hero-icon" aria-hidden="true">${getIcon(weatherCode, isDay)}</div>
       <div>
@@ -517,7 +552,7 @@ function render(w, aqi, geo) {
     <div class="hero-right">
       <div class="hero-condition">${getDesc(weatherCode)}</div>
       <div class="hero-detail">
-        ${geo.name}<br>
+        ${escHtml(geo.name)}<br>
         Humidity: ${humidity}%<br>
         Wind: ${windSpeed} mph ${windD}${gusts ? '<br>Gusts: ' + gusts + ' mph' : ''}<br>
         Pressure: ${pressure} inHg<br>
@@ -573,7 +608,12 @@ function render(w, aqi, geo) {
     <div class="hourly-row" tabindex="0" role="group" aria-label="Hourly rain-chance forecast — scroll horizontally to see all 12 hours">
       ${hourly.map(h => {
         const pop = h.pop;
-        const popColor = pop >= 60 ? '#ef4444' : pop >= 30 ? '#f59e0b' : '#22c55e';
+        // Open-Meteo can return null for an hourly precipitation_probability (some models/hours
+        // omit it); guard it so the strip shows a dim "N/A" instead of the literal "null%",
+        // mirroring the hero's UV/AQI null → "N/A" handling and the 5-day row, which already
+        // drops a null rain chance. Real forecast hours always carry a value, so no visual change.
+        const hasPop = pop != null;
+        const popColor = hasPop ? (pop >= 60 ? '#ef4444' : pop >= 30 ? '#f59e0b' : '#22c55e') : 'var(--text-dim)';
         return `<div class="hourly-item">
           <div class="time">${fmtHour(h.time)}</div>
           <div class="icon" aria-hidden="true">${getIcon(h.code, h.isDay)}</div>
@@ -583,7 +623,12 @@ function render(w, aqi, geo) {
                in the hero (.hero-condition) and 5-day rows (.forecast-desc). Positioned absolute, so
                no visual/layout change to the strip. -->
           <span class="visually-hidden">${getDesc(h.code)}, </span>
-          <div class="chance" style="color:${popColor}">${pop}%</div>
+          <!-- The bare "40%" reads ambiguously on its own to a screen reader (percent of what?).
+               Sighted users get "rain chance" from the section heading + the ☂️ icon; give SR users
+               the same qualifier inline so each hour is self-describing when navigated element by
+               element. Mirrors the visually-hidden "High:/Low:/Sunrise:/Sunset:" labels elsewhere on
+               this page and the "% rain" wording in the 5-day rows. Positioned absolute — no visual change. -->
+          <div class="chance" style="color:${popColor}"><span class="visually-hidden">Rain chance: </span>${hasPop ? pop + '%' : 'N/A'}</div>
         </div>`;
       }).join('')}
     </div>

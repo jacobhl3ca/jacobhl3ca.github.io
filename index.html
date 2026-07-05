@@ -66,8 +66,10 @@
         {
             "@context": "https://schema.org",
             "@type": "Person",
+            "@id": "https://jacobhl.com/#person",
             "name": "Jacob Heifetz-Licht",
             "url": "https://jacobhl.com/",
+            "mainEntityOfPage": { "@id": "https://jacobhl.com/#webpage" },
             "image": "https://jacobhl.com/assets/img/about.jpg",
             "email": "hi@jacobhl.com",
             "jobTitle": "Analytics Manager",
@@ -83,7 +85,48 @@
             "knowsAbout": ["Data Analytics", "Python", "SQL", "Tableau", "ETL", "BigQuery", "Automation", "Dashboard Design", "JavaScript", "React", "Node.js", "Next.js", "Web Development"]
         }
         </script>
+        <!-- WebSite entity: gives the site itself a stable node distinct from the Person, and names the Person (via the same #person @id) as its author/publisher — a recognized structured-data pattern that helps search engines model "this site" as one entity (Knowledge Graph / sitelinks eligibility) and links it to its owner. Continues the #person linked-data pattern; pure metadata, no visual change. -->
+        <script type="application/ld+json">
+        {
+            "@context": "https://schema.org",
+            "@type": "WebSite",
+            "@id": "https://jacobhl.com/#website",
+            "url": "https://jacobhl.com/",
+            "name": "Jacob Heifetz-Licht",
+            "description": "Data analytics leader and web developer specializing in Python, SQL, Tableau, React, and Next.js. Turning data into things people actually use.",
+            "inLanguage": "en-US",
+            "author": { "@id": "https://jacobhl.com/#person" },
+            "publisher": { "@id": "https://jacobhl.com/#person" }
+        }
+        </script>
+        <!-- ProfilePage entity: the homepage is Jacob's primary profile page, so give it an explicit page node (ProfilePage is a WebPage subtype). It sits inside the site (isPartOf #website) and is *about* / has as its mainEntity the Person (#person). This ties together the two nodes the site already declares — Person (#person) and WebSite (#website) — via the page that connects them, the recognized "WebSite → WebPage → about Person" structured-data pattern for a site's primary entity page. Pure metadata, no visual change. -->
+        <script type="application/ld+json">
+        {
+            "@context": "https://schema.org",
+            "@type": "ProfilePage",
+            "@id": "https://jacobhl.com/#webpage",
+            "url": "https://jacobhl.com/",
+            "name": "Jacob Heifetz-Licht — Analytics Manager",
+            "isPartOf": { "@id": "https://jacobhl.com/#website" },
+            "about": { "@id": "https://jacobhl.com/#person" },
+            "mainEntity": { "@id": "https://jacobhl.com/#person" },
+            "inLanguage": "en-US"
+        }
+        </script>
         <style>
+
+            /* Default view = projects-only, where #home (the visible <h1>) is display:none — so
+               that view, which every first-time visitor and JS crawler sees, would otherwise have
+               NO top-level heading (its first heading is the "Projects" <h2>). This visually-hidden
+               <h1> gives the projects-only view a proper page heading for assistive tech and SEO.
+               It's shown ONLY in projects-only mode, so the full-site view keeps its single visible
+               hero <h1> and the document never has two. No visual change in either view. */
+            .projects-only-h1 {
+                position: absolute; width: 1px; height: 1px;
+                padding: 0; margin: -1px; overflow: hidden;
+                clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0;
+            }
+            html:not(.projects-only) .projects-only-h1 { display: none; }
 
             .clickable-img {
                 cursor: pointer;
@@ -278,6 +321,17 @@
             .back-to-top:hover {
                 transform: translateY(-3px);
                 box-shadow: 0 4px 20px rgba(0,0,0,0.25);
+            }
+            /* Keyboard focus indicator for the two floating scroll buttons. They set
+               border:none but no outline replacement, so keyboard users only got the
+               inconsistent UA default ring on these circular, accent-filled controls —
+               every other interactive element on the site ships the branded accent
+               outline (WCAG 2.4.7). Scope to :focus-visible so mouse/touch focus shows
+               no ring (look unchanged); reuses the same 2px accent outline used site-wide. */
+            .scroll-down-arrow:focus-visible,
+            .back-to-top:focus-visible {
+                outline: 2px solid var(--first-color);
+                outline-offset: 2px;
             }
 
             /* Easter egg */
@@ -647,6 +701,11 @@
             </nav>
         </header>
         <main class="l-main" id="main-content" tabindex="-1">
+            <!-- Top-level page heading for the default projects-only view (see .projects-only-h1 in
+                 the head styles): #home carries the visible <h1>, but it's display:none in that view,
+                 so this gives the page a proper <h1> for assistive tech and SEO. Hidden in full-site
+                 view so the visible hero <h1> stays the only one. -->
+            <h1 class="projects-only-h1">Jacob Heifetz-Licht — Analytics Manager</h1>
             <!--===== CLAUDE CODE USAGE — TEMPORARILY DISABLED 2026-06-17 (remove the two ccu-disabled comment lines to re-enable) =====-->
             <!-- ccu-disabled
             <section class="ccu-section" id="ccu" style="display:none" aria-label="My Claude Code usage">
@@ -723,7 +782,7 @@
 
                 <div class="home__img">
                     <div class="home__circle clickable-img" id="home-photo">
-                        <img src="assets/img/header.png" alt="Jacob Heifetz-Licht" class="home__circle-img" width="705" height="800" fetchpriority="high" decoding="async"> <!-- Hero image: the home section is the first section and this is the largest above-the-fold element (on mobile the .home__img flex order:-1 even renders it first), so it's the page LCP. It was loading="lazy" — a known LCP anti-pattern that defers the fetch until layout, delaying paint. This <img> is static markup, so the preload scanner finds it during head parse; making it eager (default) + fetchpriority="high" pulls it forward, matching the project-card LCP pattern near </body>. No visual change. -->
+                        <img src="assets/img/header.png" alt="Jacob Heifetz-Licht" class="home__circle-img" width="705" height="800" loading="lazy" decoding="async"> <!-- Hero portrait (391KB). The #home section is display:none in the default projects-only view that every first-time visitor sees, so this is NOT the page LCP there — the first project thumbnail is (it carries fetchpriority="high" + a head preload). loading="lazy" means projects-only visitors skip this hidden download entirely (a display:none image has no layout box, so it never enters the viewport), while full-site visitors — where #home sits atop the initial viewport — still get it immediately, since browsers don't defer a lazy image that's already in view. Eager + fetchpriority="high" here would instead force the hidden 391KB fetch at high priority, stealing early bandwidth from render-critical CSS/fonts and the real project-card LCP. No visual change in either view. -->
                     </div>
                 </div>
             </section>
@@ -941,7 +1000,8 @@
                     <form action="https://formspree.io/f/mkgqkgyr" method="POST" class="contact__form">
                         <!-- Formspree honeypot: hidden from people, but bots fill it in — those submissions are silently discarded as spam. Kept out of the tab order and the accessibility tree. -->
                         <input type="text" name="_gotcha" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden;">
-                        <input type="text" name="name" placeholder="Your Name" class="contact__input" aria-label="Your name" autocomplete="name" required>
+                        <!-- Mobile-input hints for a proper-name field: capitalize each word (matches how names are written), turn off autocorrect so an unusual surname isn't "corrected" into a dictionary word as it's typed (iOS Safari autocorrects text inputs by default), and turn off spellcheck so real names aren't flagged with red squiggles. All editable hints, no visual change on desktop. Mirrors the weather dashboard's search input (autocapitalize + autocorrect + spellcheck). -->
+                        <input type="text" name="name" placeholder="Your Name" class="contact__input" aria-label="Your name" autocomplete="name" autocapitalize="words" autocorrect="off" spellcheck="false" required>
                         <input type="email" name="email" placeholder="your@email.com" class="contact__input" aria-label="Your email address" autocomplete="email" required>
                         <textarea name="message" placeholder="Your Message" class="contact__input" aria-label="Your message" rows="10" required></textarea>
                         <!-- No aria-live here: the button is set disabled on submit (dropping it from the a11y tree), and main.js mirrors the "Sending…/Sent!/Error" status into a dedicated visually-hidden #srStatus live region. Keeping aria-live on the button too caused a redundant/inconsistent double announcement. -->
