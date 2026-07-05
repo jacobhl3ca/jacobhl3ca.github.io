@@ -608,7 +608,12 @@ function render(w, aqi, geo) {
     <div class="hourly-row" tabindex="0" role="group" aria-label="Hourly rain-chance forecast — scroll horizontally to see all 12 hours">
       ${hourly.map(h => {
         const pop = h.pop;
-        const popColor = pop >= 60 ? '#ef4444' : pop >= 30 ? '#f59e0b' : '#22c55e';
+        // Open-Meteo can return null for an hourly precipitation_probability (some models/hours
+        // omit it); guard it so the strip shows a dim "N/A" instead of the literal "null%",
+        // mirroring the hero's UV/AQI null → "N/A" handling and the 5-day row, which already
+        // drops a null rain chance. Real forecast hours always carry a value, so no visual change.
+        const hasPop = pop != null;
+        const popColor = hasPop ? (pop >= 60 ? '#ef4444' : pop >= 30 ? '#f59e0b' : '#22c55e') : 'var(--text-dim)';
         return `<div class="hourly-item">
           <div class="time">${fmtHour(h.time)}</div>
           <div class="icon" aria-hidden="true">${getIcon(h.code, h.isDay)}</div>
@@ -623,7 +628,7 @@ function render(w, aqi, geo) {
                the same qualifier inline so each hour is self-describing when navigated element by
                element. Mirrors the visually-hidden "High:/Low:/Sunrise:/Sunset:" labels elsewhere on
                this page and the "% rain" wording in the 5-day rows. Positioned absolute — no visual change. -->
-          <div class="chance" style="color:${popColor}"><span class="visually-hidden">Rain chance: </span>${pop}%</div>
+          <div class="chance" style="color:${popColor}"><span class="visually-hidden">Rain chance: </span>${hasPop ? pop + '%' : 'N/A'}</div>
         </div>`;
       }).join('')}
     </div>
