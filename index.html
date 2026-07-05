@@ -534,9 +534,12 @@
     color:#9aa3b4;text-decoration:none;border-radius:6px;transition:all .2s ease;}
   .modal-bar a.openext:hover{color:var(--first-color);background:#1a1f29;}
   .modal-bar a.openext i{font-size:1.2rem;}
-  .modal-bar button.mclose{flex:0 0 auto;background:none;border:0;color:#9aa3b4;font-size:1.35rem;cursor:pointer;
-    display:inline-flex;align-items:center;justify-content:center;width:30px;height:30px;line-height:1;padding:0;}
-  .modal-bar button.mclose:hover{color:#fff;}
+  /* boxicon (not a raw × glyph) so it centers in its 30×30 box exactly like a.openext does */
+  .modal-bar button.mclose{flex:0 0 auto;background:none;border:0;color:#9aa3b4;cursor:pointer;
+    display:inline-flex;align-items:center;justify-content:center;width:30px;height:30px;line-height:1;padding:0;
+    border-radius:6px;transition:all .2s ease;}
+  .modal-bar button.mclose i{font-size:1.35rem;}
+  .modal-bar button.mclose:hover{color:#fff;background:#1a1f29;}
   .modal-body{flex:1;position:relative;background:#0c0e12;}
   /* iframe sits ON TOP (z-index 2) with a transparent bg; the loader is BEHIND it (z-index 1),
      so the moment the site paints it covers the spinner — the overlay can never hide a working site */
@@ -1017,7 +1020,7 @@
       <button type="button" class="nav-btn" id="navReload" title="Reload" aria-label="Reload"><i class='bx bx-revision' aria-hidden="true"></i></button>
       <form class="url-form" id="urlForm"><input class="modal-url" id="modalUrl" type="text" spellcheck="false" autocomplete="off" aria-label="Preview address"></form>
       <a class="openext" id="modalOpen" target="_blank" rel="noopener" title="Open in new tab" aria-label="Open preview in new tab"><i class='bx bx-link-external' aria-hidden="true"></i></a>
-      <button type="button" class="mclose" id="modalClose" title="Close" aria-label="Close preview"><span aria-hidden="true">×</span></button>
+      <button type="button" class="mclose" id="modalClose" title="Close" aria-label="Close preview"><i class='bx bx-x' aria-hidden="true"></i></button>
     </div>
     <div class="modal-body">
       <button type="button" class="fs-back" id="fsBack" title="Back to projects"><i class='bx bx-arrow-back' aria-hidden="true"></i> Back</button>
