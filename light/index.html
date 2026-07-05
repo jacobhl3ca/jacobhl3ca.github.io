@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- Declare the colour scheme to the UA up front. This entry page forces light mode (it sets theme=light below, then redirects), so "light" is correct — it stops OS-dark browsers painting the root canvas/scrollbars dark for the brief redirect paint. Mirrors the color-scheme declarations on index.html, 404.html, and weather/index.html; completes the site-wide pattern. No visual change. -->
     <meta name="color-scheme" content="light">
+    <!-- Root-absolute favicon so this /light/ entry page shows the site icon instead of firing a 404 for the default /favicon.ico while it's briefly displayed. Mirrors the icon links on index.html, 404.html, and weather/index.html; completes the site-wide pattern. No visual change. -->
+    <link rel="icon" type="image/x-icon" href="/assets/img/favicon.ico">
     <!-- No-JS fallback: redirect to the main site even when scripting is disabled (the script below handles the JS path) -->
     <meta http-equiv="refresh" content="0; url=/">
     <title>Jacob Heifetz-Licht</title>
