@@ -309,6 +309,15 @@ function getIcon(code, isDay) {
 }
 function getDesc(code) { return WMO_DESC[code] || 'Unknown'; }
 
+// Geocoded place names come from the Open-Meteo geocoding API (external data) but are rendered
+// into the hero card via innerHTML in render() below. Escape the HTML-special characters so an
+// unexpected or compromised API response can't inject markup — defense-in-depth mirroring the
+// self-XSS guard the preview code on the homepage already applies to user-typed input. Real
+// place names contain none of these characters, so the rendered output is unchanged.
+function escHtml(s) {
+  return String(s).replace(/[&<>"']/g, c => ({ '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;', "'":'&#39;' }[c]));
+}
+
 function windDir(deg) {
   const dirs = ['N','NE','E','SE','S','SW','W','NW'];
   return dirs[Math.round(deg / 45) % 8];
@@ -532,7 +541,7 @@ function render(w, aqi, geo) {
 
   // Hero
   html += `<div class="card hero">
-    <h2 class="visually-hidden">Current conditions in ${geo.name}</h2>
+    <h2 class="visually-hidden">Current conditions in ${escHtml(geo.name)}</h2>
     <div class="hero-left">
       <div class="hero-icon" aria-hidden="true">${getIcon(weatherCode, isDay)}</div>
       <div>
@@ -543,7 +552,7 @@ function render(w, aqi, geo) {
     <div class="hero-right">
       <div class="hero-condition">${getDesc(weatherCode)}</div>
       <div class="hero-detail">
-        ${geo.name}<br>
+        ${escHtml(geo.name)}<br>
         Humidity: ${humidity}%<br>
         Wind: ${windSpeed} mph ${windD}${gusts ? '<br>Gusts: ' + gusts + ' mph' : ''}<br>
         Pressure: ${pressure} inHg<br>
