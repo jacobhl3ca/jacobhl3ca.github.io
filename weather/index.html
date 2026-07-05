@@ -12,7 +12,7 @@
 <meta name="author" content="Jacob Heifetz-Licht">
 <meta name="robots" content="index, follow, max-image-preview:large">
 <link rel="canonical" href="https://jacobhl.com/weather/">
-<!-- Structured data so search engines understand this is a free, browser-based weather app (mirrors the Person schema on the main site) -->
+<!-- Structured data so search engines understand this is a free, browser-based weather app. Tie this sub-page's node into the site's linked-data graph the same way the homepage's ProfilePage does: isPartOf the WebSite (#website, defined on index.html) and authored by the Person (#person) — a cross-page @id reference search engines merge site-wide (the author @id already relies on this). inLanguage matches the en-US the homepage's WebSite/ProfilePage nodes declare. Pure metadata, no visual change. -->
 <script type="application/ld+json">
 {
     "@context": "https://schema.org",
@@ -23,6 +23,8 @@
     "mainEntityOfPage": "https://jacobhl.com/weather/",
     "image": "https://jacobhl.com/assets/img/og_image.png",
     "description": "A live weather dashboard with current conditions, hourly rain chance, a 5-day forecast, air quality, and sun times. Search any city — defaults to New York, NY.",
+    "inLanguage": "en-US",
+    "isPartOf": { "@id": "https://jacobhl.com/#website" },
     "applicationCategory": "UtilitiesApplication",
     "operatingSystem": "Web browser",
     "browserRequirements": "Requires JavaScript",
