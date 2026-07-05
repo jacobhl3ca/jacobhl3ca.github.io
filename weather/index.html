@@ -40,6 +40,27 @@
     }
 }
 </script>
+<!-- Breadcrumb trail: this dashboard is a sub-page that's independently indexed (it's in the sitemap and canonical'd) but sits one level under the homepage — the visible "← Back to jacobhl.com" link is its informal breadcrumb. Formalize that Home → Weather Dashboard hierarchy so search engines can model the page's place in the site and show a breadcrumb in results instead of the raw URL. Continues the site's linked-data pattern (Person → WebSite → WebApplication). Pure metadata, no visual change. -->
+<script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+        {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "Home",
+            "item": "https://jacobhl.com/"
+        },
+        {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "Weather Dashboard",
+            "item": "https://jacobhl.com/weather/"
+        }
+    ]
+}
+</script>
 <!-- Open Graph / Twitter meta for link previews -->
 <meta property="og:title" content="Weather Dashboard — NYC">
 <meta property="og:description" content="A live weather dashboard with current conditions, hourly rain chance, a 5-day forecast, air quality, and sun times. Search any city — defaults to New York, NY.">
