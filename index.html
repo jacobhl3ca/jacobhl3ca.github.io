@@ -979,7 +979,8 @@
                     <form action="https://formspree.io/f/mkgqkgyr" method="POST" class="contact__form">
                         <!-- Formspree honeypot: hidden from people, but bots fill it in — those submissions are silently discarded as spam. Kept out of the tab order and the accessibility tree. -->
                         <input type="text" name="_gotcha" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden;">
-                        <input type="text" name="name" placeholder="Your Name" class="contact__input" aria-label="Your name" autocomplete="name" required>
+                        <!-- Mobile-input hints for a proper-name field: capitalize each word (matches how names are written) and turn off spellcheck so real names aren't flagged with red squiggles. Both are editable hints, no visual change on desktop. Mirrors the weather dashboard's search input. -->
+                        <input type="text" name="name" placeholder="Your Name" class="contact__input" aria-label="Your name" autocomplete="name" autocapitalize="words" spellcheck="false" required>
                         <input type="email" name="email" placeholder="your@email.com" class="contact__input" aria-label="Your email address" autocomplete="email" required>
                         <textarea name="message" placeholder="Your Message" class="contact__input" aria-label="Your message" rows="10" required></textarea>
                         <!-- No aria-live here: the button is set disabled on submit (dropping it from the a11y tree), and main.js mirrors the "Sending…/Sent!/Error" status into a dedicated visually-hidden #srStatus live region. Keeping aria-live on the button too caused a redundant/inconsistent double announcement. -->
