@@ -99,6 +99,20 @@
             "publisher": { "@id": "https://jacobhl.com/#person" }
         }
         </script>
+        <!-- ProfilePage entity: the homepage is Jacob's primary profile page, so give it an explicit page node (ProfilePage is a WebPage subtype). It sits inside the site (isPartOf #website) and is *about* / has as its mainEntity the Person (#person). This ties together the two nodes the site already declares — Person (#person) and WebSite (#website) — via the page that connects them, the recognized "WebSite → WebPage → about Person" structured-data pattern for a site's primary entity page. Pure metadata, no visual change. -->
+        <script type="application/ld+json">
+        {
+            "@context": "https://schema.org",
+            "@type": "ProfilePage",
+            "@id": "https://jacobhl.com/#webpage",
+            "url": "https://jacobhl.com/",
+            "name": "Jacob Heifetz-Licht — Analytics Manager",
+            "isPartOf": { "@id": "https://jacobhl.com/#website" },
+            "about": { "@id": "https://jacobhl.com/#person" },
+            "mainEntity": { "@id": "https://jacobhl.com/#person" },
+            "inLanguage": "en-US"
+        }
+        </script>
         <style>
 
             .clickable-img {
