@@ -1289,4 +1289,16 @@ html.theme-switching * {
     color: #000 !important;
     text-decoration: underline;
   }
+  /* Reveal external destinations on paper. Several project CTAs are icon/badge-only
+     links (a favicon or the App Store badge, no visible text), so a printed PDF would
+     otherwise show a project's write-up with no way to tell where its "Visit website"
+     link actually goes. Print the href after each external link so the URLs survive.
+     Scoped to http(s) only — in-page section anchors (#about, #contact) and the mailto
+     link stay clean, since their targets are already obvious from the link text. */
+  a[href^="http"]::after {
+    content: " (" attr(href) ")";
+    font-size: 0.85em;
+    font-weight: normal;
+    word-break: break-all;
+  }
 }
