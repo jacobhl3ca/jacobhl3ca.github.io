@@ -1329,7 +1329,12 @@ document.getElementById('urlForm').addEventListener('submit', e=>{
   navigate(u, true); mUrl.blur();   // typed/searched URL records history → back button appears
 });
 modal.addEventListener('click', e=>{ if(e.target===modal) closeModal(); });
-document.addEventListener('keydown', e=>{ if(e.key==='Escape'){ if(modal.classList.contains('fullscreen')) setFullscreen(false); else closeModal(); } });
+// Guard on modal.open: this global Esc handler otherwise ran closeModal() on EVERY Escape
+// press, even with no preview open. closeModal() ends with `sourceThumb.focus()`, and
+// sourceThumb keeps referencing the last-previewed thumbnail after close — so once a user had
+// opened+closed a preview, pressing Esc anywhere (e.g. while typing in the contact form) yanked
+// focus back to that project thumbnail and scrolled it into view. Only act while a preview is open.
+document.addEventListener('keydown', e=>{ if(e.key==='Escape' && modal.classList.contains('open')){ if(modal.classList.contains('fullscreen')) setFullscreen(false); else closeModal(); } });
 // Esc-while-inside-the-preview fix: once the user clicks into the cross-origin iframe,
 // keystrokes go to that frame and never reach the parent's Esc handler above. We can't
 // read keys across origins, so instead we RECLAIM keyboard focus to the dialog the moment
