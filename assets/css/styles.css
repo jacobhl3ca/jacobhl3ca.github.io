@@ -1264,6 +1264,16 @@ html.theme-switching * {
   .proj-cue, .proj-zoom {
     display: none !important;
   }
+  /* Each project's full write-up lives in a detail panel that's collapsed to zero
+     height on screen (grid-template-rows:0fr, revealed by the chevron), and the
+     whole "Private projects" list is collapsed the same way — so a recruiter saving
+     this page as a PDF would otherwise get only the one-line summaries, with the
+     private projects missing entirely. Expand both on paper so the printed PDF
+     carries every project's complete description, and drop the now-purposeless
+     expand/collapse controls (on-screen-only chrome, like the nav/toggles above). */
+  .proj-detail, .more-wrap { grid-template-rows: 1fr !important; }
+  .proj-detail-in, .more-inner { overflow: visible !important; }
+  .proj-chev, .more-toggle { display: none !important; }
   a {
     color: #000 !important;
     text-decoration: underline;
