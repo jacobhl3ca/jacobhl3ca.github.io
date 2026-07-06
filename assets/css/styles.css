@@ -398,6 +398,12 @@ html.projects-only #nav-toggle {
 
 html {
   scroll-behavior: smooth;
+  /* Offset in-page anchor jumps by the fixed header's height so a clicked nav
+     link (#about, #skills, #contact, …) lands the section heading just below the
+     bar instead of scrolled up behind it. .l-header is position:fixed and its
+     .nav is --header-height tall here (the mobile bar); the desktop bar is taller,
+     overridden in the ≥768px block. No visual change until an anchor is followed. */
+  scroll-padding-top: var(--header-height);
 }
 
 body {
@@ -1159,6 +1165,11 @@ html.theme-switching * {
   }
   .nav {
     height: calc(var(--header-height) + 1.5rem);
+  }
+  /* Match scroll-padding-top to the taller desktop header (the .nav height above)
+     so anchor-linked section headings clear the fixed bar at this breakpoint too. */
+  html {
+    scroll-padding-top: calc(var(--header-height) + 1.5rem);
   }
   .nav__list {
     display: flex;
