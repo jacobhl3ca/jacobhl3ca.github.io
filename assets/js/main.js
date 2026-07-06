@@ -18,6 +18,16 @@ const showMenu = (toggleId, navId) =>{
                 toggleMenu()
             }
         })
+        // Escape closes the open menu and returns focus to the toggle (disclosure-widget
+        // convention), so a keyboard/mobile user who opened it can dismiss without tabbing
+        // through every link. No-op when the menu is closed. Mirrors the preview modal's Esc-to-close.
+        document.addEventListener('keydown', (e)=>{
+            if(e.key === 'Escape' && nav.classList.contains('show')){
+                nav.classList.remove('show')
+                toggle.setAttribute('aria-expanded', 'false')
+                toggle.focus()
+            }
+        })
     }
 }
 showMenu('nav-toggle','nav-menu')

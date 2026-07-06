@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en-US">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,7 +10,8 @@
 <title>Weather Dashboard — NYC</title>
 <meta name="description" content="A live weather dashboard with current conditions, hourly rain chance, a 5-day forecast, air quality, and sun times. Search any city — defaults to New York, NY.">
 <meta name="author" content="Jacob Heifetz-Licht">
-<meta name="robots" content="index, follow, max-image-preview:large">
+<!-- max-snippet:-1 explicitly lets Google use a text snippet of any length in results (the default is a search-engine-chosen limit) so the dashboard's description can show in full; completes the max-* preview directive set alongside max-image-preview:large. Mirrors index.html, the site's only other indexed page. No visual change. -->
+<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">
 <link rel="canonical" href="https://jacobhl.com/weather/">
 <!-- Structured data so search engines understand this is a free, browser-based weather app. Tie this sub-page's node into the site's linked-data graph the same way the homepage's ProfilePage does: isPartOf the WebSite (#website, defined on index.html) and authored by the Person (#person) — a cross-page @id reference search engines merge site-wide (the author @id already relies on this). inLanguage matches the en-US the homepage's WebSite/ProfilePage nodes declare. Pure metadata, no visual change. -->
 <script type="application/ld+json">

@@ -43,7 +43,8 @@
         <meta name="description" content="Data analytics leader and web developer specializing in Python, SQL, Tableau, React, and Next.js. Turning data into things people actually use.">
         <meta name="keywords" content="analytics manager, data analytics, Python, SQL, Tableau, automation, dashboard design, data visualization, ETL, BigQuery, JavaScript, React, Node.js, Next.js, web development">
         <meta name="author" content="Jacob Heifetz-Licht">
-        <meta name="robots" content="index, follow, max-image-preview:large">
+        <!-- max-snippet:-1 explicitly lets Google use a text snippet of any length in results (the default is a search-engine-chosen limit) so the description/intro can show in full; completes the max-* preview directive set alongside the max-image-preview:large already declared. No visual change. -->
+        <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">
         <!-- Open Graph meta tags for link previews -->
         <meta property="og:title" content="Jacob Heifetz-Licht — Analytics Manager">
         <!-- <meta property="og:title" content="Jacob Heifetz-Licht — Analytics Engineer"> -->
@@ -865,7 +866,7 @@
                             <li><a href="https://subwaytimes.com" target="_blank" rel="noopener noreferrer">Subway Times</a> — Real-time NYC subway arrivals, faster than Maps.</li>
                             <li><a href="https://davidlicht.com" target="_blank" rel="noopener noreferrer">David Licht</a> — A showcase site for my dad — five decades of drumming.</li>
                             <li><a href="https://theisland.nyc" target="_blank" rel="noopener noreferrer">The Island</a> — Everything happening on NYC's Roosevelt Island, in one place.</li>
-                            <li><a href="https://github.com/jacobhl3ca/safari-pinned-tab-automation" target="_blank" rel="noopener noreferrer">TidyTab</a> — Bulk unpin or close Safari pinned tabs, a macOS menu-bar app.</li>
+                            <li><a href="https://github.com/jacobhl3ca/safari-pinned-tab-automation" target="_blank" rel="noopener noreferrer">TidyTab</a> — Bulk unpin or close Safari pinned tabs — a macOS menu-bar app.</li>
                         </ul>
                     </noscript>
 
@@ -1080,7 +1081,8 @@
       </div>
       <button type="button" class="nav-btn" id="navBack" title="Back" aria-label="Back" style="display:none;"><i class='bx bx-chevron-left' aria-hidden="true"></i></button>
       <button type="button" class="nav-btn" id="navReload" title="Reload" aria-label="Reload"><i class='bx bx-revision' aria-hidden="true"></i></button>
-      <form class="url-form" id="urlForm"><input class="modal-url" id="modalUrl" type="text" spellcheck="false" autocomplete="off" aria-label="Preview address"></form>
+      <!-- Mobile-input hints for the editable preview address bar, mirroring the contact fields: inputmode="url" gives mobile users the URL-optimized keyboard (dedicated "/", ".", and ".com" keys) instead of the plain text one, autocapitalize="off" stops the first character of an address being capitalized as it's typed, and autocorrect="off" stops iOS "correcting" a URL mid-entry. type stays "text" (not "url") because the submit handler prepends https:// to a bare domain, which native type="url" validation would otherwise reject. All editable hints, no visual change on desktop. -->
+      <form class="url-form" id="urlForm"><input class="modal-url" id="modalUrl" type="text" inputmode="url" spellcheck="false" autocomplete="off" autocapitalize="off" autocorrect="off" aria-label="Preview address"></form>
       <a class="openext" id="modalOpen" target="_blank" rel="noopener" title="Open in new tab" aria-label="Open preview in new tab"><i class='bx bx-link-external' aria-hidden="true"></i></a>
       <button type="button" class="mclose" id="modalClose" title="Close" aria-label="Close preview"><i class='bx bx-x' aria-hidden="true"></i></button>
     </div>
@@ -1160,7 +1162,7 @@ function ctaHTML(p){
     const _fav = USE_FAVICONS && FAVICONS[_d];
     const _inner = _fav ? `<img class="favicon" src="${_fav}" alt="" width="20" height="20" loading="lazy" decoding="async">` : `<i class='bx bx-globe' aria-hidden="true"></i>`;
     h+=`<a href="${p.site}" target="_blank" rel="noopener" class="site-link" title="Visit website" aria-label="Visit the ${p.title} website">${_inner}</a>`; }
-  if(p.appstore) h+=`<a href="${p.appstore}" target="_blank" rel="noopener" class="app-store-badge-link" aria-label="Download ${p.title} on the App Store"><img src="assets/img/app-store-badge.svg" alt="" class="app-store-badge" width="120" height="40" decoding="async"></a>`;
+  if(p.appstore) h+=`<a href="${p.appstore}" target="_blank" rel="noopener" class="app-store-badge-link" aria-label="Download ${p.title} on the App Store"><img src="assets/img/app-store-badge.svg" alt="" class="app-store-badge" width="120" height="40" loading="lazy" decoding="async"></a>`;
   if(p.download) h+=`<a href="${p.download}" class="mac-badge" title="Download TidyTab for macOS (.dmg, notarized)"><i class='bx bxl-apple' aria-hidden="true"></i><span class="mb-txt"><span class="mb-top">Download for</span><span class="mb-big">Mac</span></span></a>`;
   if(p.mas) h+=`<a href="${p.mas}" class="mac-badge mas-badge" title="Download on the Mac App Store"><i class='bx bxl-apple' aria-hidden="true"></i><span class="mb-txt"><span class="mb-top">Download on the</span><span class="mb-big">Mac App Store</span></span></a>`;
   if(p.github) h+=`<a href="${p.github}" target="_blank" rel="noopener" class="gh-link" aria-label="View the ${p.title} source on GitHub"><i class='bx bxl-github' aria-hidden="true"></i>GitHub</a>`;
@@ -1327,7 +1329,12 @@ document.getElementById('urlForm').addEventListener('submit', e=>{
   navigate(u, true); mUrl.blur();   // typed/searched URL records history → back button appears
 });
 modal.addEventListener('click', e=>{ if(e.target===modal) closeModal(); });
-document.addEventListener('keydown', e=>{ if(e.key==='Escape'){ if(modal.classList.contains('fullscreen')) setFullscreen(false); else closeModal(); } });
+// Guard on modal.open: this global Esc handler otherwise ran closeModal() on EVERY Escape
+// press, even with no preview open. closeModal() ends with `sourceThumb.focus()`, and
+// sourceThumb keeps referencing the last-previewed thumbnail after close — so once a user had
+// opened+closed a preview, pressing Esc anywhere (e.g. while typing in the contact form) yanked
+// focus back to that project thumbnail and scrolled it into view. Only act while a preview is open.
+document.addEventListener('keydown', e=>{ if(e.key==='Escape' && modal.classList.contains('open')){ if(modal.classList.contains('fullscreen')) setFullscreen(false); else closeModal(); } });
 // Esc-while-inside-the-preview fix: once the user clicks into the cross-origin iframe,
 // keystrokes go to that frame and never reach the parent's Esc handler above. We can't
 // read keys across origins, so instead we RECLAIM keyboard focus to the dialog the moment
