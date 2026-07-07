@@ -919,13 +919,13 @@
 
                         <!--
                         <div class="skills__category">
-                            <h4 class="skills__category-title"><i class='bx bx-globe skills__icon' aria-hidden="true"></i> Web Development</h4>
-                            <div class="skills__tags">
-                                <span class="skills__tag">JavaScript</span>
-                                <span class="skills__tag">React</span>
-                                <span class="skills__tag">Node.js</span>
-                                <span class="skills__tag">Next.js</span>
-                                <span class="skills__tag">Vercel</span>
+                            <h4 class="skills__category-title" id="skills-cat-webdev"><i class='bx bx-globe skills__icon' aria-hidden="true"></i> Web Development</h4>
+                            <div class="skills__tags" role="list" aria-labelledby="skills-cat-webdev"> <!-- expose the styled pills as a list so screen readers announce them as grouped, countable items (WCAG 1.3.1) rather than run-together text; this was the only live skills category missing the treatment its siblings already carry. role has no visual effect -->
+                                <span class="skills__tag" role="listitem">JavaScript</span>
+                                <span class="skills__tag" role="listitem">React</span>
+                                <span class="skills__tag" role="listitem">Node.js</span>
+                                <span class="skills__tag" role="listitem">Next.js</span>
+                                <span class="skills__tag" role="listitem">Vercel</span>
                             </div>
                         </div>
                         -->
