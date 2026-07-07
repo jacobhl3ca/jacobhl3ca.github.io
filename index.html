@@ -405,6 +405,11 @@
      (a flat 72px left a big dead band on phones/narrow windows). */
   #Projects{padding-top:calc(48px + 0.65rem);padding-bottom:1.1rem;}
   @media(min-width:768px){ #Projects{padding-top:calc(72px + 0.65rem); } }
+  /* On narrow widths <body> already has margin-top:var(--header-height) clearing the fixed nav,
+     so the 48px baked into the padding above double-counts it — leaving a ~58px dead band above the
+     title in projects-only view. Scope a small gap (matching the desktop 0.65rem) to projects-only;
+     full-site view keeps the padding above as normal inter-section spacing. */
+  @media(max-width:767px){ html.projects-only #Projects{padding-top:0.65rem; } }
   /* drop the bright-blue underline bar under the Projects title */
   .proj-head-row .section-title::after{display:none;}
   /* Projects title (centered); the LinkedIn CTA is positioned relative to the SAME
