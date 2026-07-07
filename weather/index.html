@@ -366,9 +366,18 @@ async function geocode(city) {
   return { lat:r.latitude, lon:r.longitude, name:r.admin1 ? `${r.name}, ${r.admin1}` : `${r.name}, ${r.country}`, tz:r.timezone };
 }
 
+// Sequence guard for concurrent searches: a rapid second search — or the on-load fetch
+// racing a fast first search — puts two requests in flight at once, and without this
+// whichever RESOLVES last wins, so a slow earlier request can clobber the newer city's
+// result with stale data (e.g. type "Tokyo", then "London": if Tokyo's response lands
+// later it overwrites London's). Tag each call with an incrementing id and ignore any
+// response or error a newer search has already superseded. No change to the common
+// single-search path.
+let requestSeq = 0;
 async function fetchWeather() {
   const city = document.getElementById('cityInput').value.trim();
   if (!city) return;
+  const seq = ++requestSeq;
   document.getElementById('content').innerHTML = '<div class="loading" role="status"><div class="spinner" aria-hidden="true"></div><br>Loading weather data...</div>';
   document.getElementById('alertsBanner').className = 'alerts-banner';
   document.getElementById('alertsBanner').innerHTML = '';
@@ -408,8 +417,10 @@ async function fetchWeather() {
     if (!weatherRes.ok) throw new Error('Could not load weather data. Please try again in a moment.');
     const weather = await weatherRes.json();
     const aqi = await aqiPromise;
+    if (seq !== requestSeq) return; // a newer search superseded this response — don't render stale data
     render(weather, aqi, geo);
   } catch (err) {
+    if (seq !== requestSeq) return; // stale error from a superseded search — leave the newer request's UI intact
     // Network-level failures (offline, DNS/CORS block, request aborted) reject fetch() with a
     // TypeError whose browser-generated message ("Failed to fetch" / "NetworkError when attempting
     // to fetch resource.") was being shown to the user verbatim — inconsistent with the friendly,
