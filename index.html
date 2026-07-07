@@ -70,6 +70,8 @@
             "@type": "Person",
             "@id": "https://jacobhl.com/#person",
             "name": "Jacob Heifetz-Licht",
+            "givenName": "Jacob",
+            "familyName": "Heifetz-Licht",
             "url": "https://jacobhl.com/",
             "mainEntityOfPage": { "@id": "https://jacobhl.com/#webpage" },
             "image": "https://jacobhl.com/assets/img/about.jpg",
@@ -776,8 +778,9 @@
                 </div>
 
                 <div class="home__social">
-                    <a href="https://www.linkedin.com/in/jacobhl/" class="home__social-icon" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn profile"><i class='bx bxl-linkedin' aria-hidden="true"></i></a>
-                    <a href="https://github.com/jacobhl3ca" class="home__social-icon" target="_blank" rel="noopener noreferrer" aria-label="GitHub profile"><i class='bx bxl-github' aria-hidden="true"></i></a>
+                    <!-- rel="me" marks these as Jacob's own verified identity profiles — the HTML-level companion to the LinkedIn/GitHub URLs already declared as sameAs in the JSON-LD Person node above. It's the identity/authorship signal read by search engines and rel-me consumers (IndieAuth, Mastodon verification); keeping rel="me" in sync with sameAs is the standard practice. Additive rel token — no visual change, no behaviour change (noopener/noreferrer are preserved). Applied to every link to these two profiles site-wide (footer + Projects row below). -->
+                    <a href="https://www.linkedin.com/in/jacobhl/" class="home__social-icon" target="_blank" rel="me noopener noreferrer" aria-label="LinkedIn profile"><i class='bx bxl-linkedin' aria-hidden="true"></i></a>
+                    <a href="https://github.com/jacobhl3ca" class="home__social-icon" target="_blank" rel="me noopener noreferrer" aria-label="GitHub profile"><i class='bx bxl-github' aria-hidden="true"></i></a>
                     <a href="mailto:hi@jacobhl.com" class="home__social-icon" aria-label="Send email" style="margin-bottom: 0.75rem;"><i class='bx bx-envelope' aria-hidden="true"></i></a>
                     <a href="#contact" class="home__social-icon" onclick="event.preventDefault(); requestResume()" aria-label="Request resume"><i class='bx bx-file' aria-hidden="true"></i></a> <!-- preventDefault so the browser's instant #contact fragment jump doesn't fight requestResume()'s own reduced-motion-aware smooth scroll, reset the focus it just placed in the form, or pollute the URL with #contact. The plain href stays as the no-JS fallback (onclick won't run then). -->
                 </div>
@@ -850,7 +853,7 @@
 
                 <div class="proj-head-row">
                     <h2 class="section-title" id="projects-heading">Projects</h2>
-                    <a class="proj-linkedin" href="https://www.linkedin.com/in/jacobhl/" target="_blank" rel="noopener noreferrer" aria-label="Connect with me on LinkedIn" title="Connect on LinkedIn"><i class='bx bxl-linkedin' aria-hidden="true"></i></a>
+                    <a class="proj-linkedin" href="https://www.linkedin.com/in/jacobhl/" target="_blank" rel="me noopener noreferrer" aria-label="Connect with me on LinkedIn" title="Connect on LinkedIn"><i class='bx bxl-linkedin' aria-hidden="true"></i></a>
                 </div>
 
                 <div class="proj-wrap">
@@ -916,13 +919,13 @@
 
                         <!--
                         <div class="skills__category">
-                            <h4 class="skills__category-title"><i class='bx bx-globe skills__icon' aria-hidden="true"></i> Web Development</h4>
-                            <div class="skills__tags">
-                                <span class="skills__tag">JavaScript</span>
-                                <span class="skills__tag">React</span>
-                                <span class="skills__tag">Node.js</span>
-                                <span class="skills__tag">Next.js</span>
-                                <span class="skills__tag">Vercel</span>
+                            <h4 class="skills__category-title" id="skills-cat-webdev"><i class='bx bx-globe skills__icon' aria-hidden="true"></i> Web Development</h4>
+                            <div class="skills__tags" role="list" aria-labelledby="skills-cat-webdev"> <!-- expose the styled pills as a list so screen readers announce them as grouped, countable items (WCAG 1.3.1) rather than run-together text; this was the only live skills category missing the treatment its siblings already carry. role has no visual effect -->
+                                <span class="skills__tag" role="listitem">JavaScript</span>
+                                <span class="skills__tag" role="listitem">React</span>
+                                <span class="skills__tag" role="listitem">Node.js</span>
+                                <span class="skills__tag" role="listitem">Next.js</span>
+                                <span class="skills__tag" role="listitem">Vercel</span>
                             </div>
                         </div>
                         -->
@@ -1002,6 +1005,8 @@
                     <form action="https://formspree.io/f/mkgqkgyr" method="POST" class="contact__form">
                         <!-- Formspree honeypot: hidden from people, but bots fill it in — those submissions are silently discarded as spam. Kept out of the tab order and the accessibility tree. -->
                         <input type="text" name="_gotcha" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden;">
+                        <!-- Formspree reads a field named _subject to set the notification email's subject line; without it these submissions land in Jacob's inbox under Formspree's generic default ("New submission from your form"), indistinguishable from other forms. A fixed, identifiable subject makes portfolio contact messages easy to spot and filter. Hidden fixed value, kept out of the tab order and the accessibility tree — no visual or user-facing behaviour change. -->
+                        <input type="hidden" name="_subject" value="New message from jacobhl.com" tabindex="-1" aria-hidden="true">
                         <!-- Mobile-input hints for a proper-name field: capitalize each word (matches how names are written), turn off autocorrect so an unusual surname isn't "corrected" into a dictionary word as it's typed (iOS Safari autocorrects text inputs by default), and turn off spellcheck so real names aren't flagged with red squiggles. All editable hints, no visual change on desktop. Mirrors the weather dashboard's search input (autocapitalize + autocorrect + spellcheck). -->
                         <input type="text" name="name" placeholder="Your Name" class="contact__input" aria-label="Your name" autocomplete="name" autocapitalize="words" autocorrect="off" spellcheck="false" required>
                         <!-- Mobile-input hints for the email field, mirroring the name field above: turn off autocapitalize so the local part isn't capitalized as it's typed, autocorrect off so an address isn't "corrected" mid-entry (iOS autocorrects text inputs by default), and spellcheck off so email addresses aren't flagged with red squiggles. type="email" already picks the right keyboard; these just stop the input being mangled. All editable hints, no visual change on desktop. -->
@@ -1020,9 +1025,9 @@
             <p class="footer__title">Jacob</p>
             <div class="footer__social">
 
-                <a href="https://www.linkedin.com/in/jacobhl/" class="footer__icon" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn profile"><i class='bx bxl-linkedin' aria-hidden="true"></i></a>
+                <a href="https://www.linkedin.com/in/jacobhl/" class="footer__icon" target="_blank" rel="me noopener noreferrer" aria-label="LinkedIn profile"><i class='bx bxl-linkedin' aria-hidden="true"></i></a>
 
-                <a href="https://github.com/jacobhl3ca" class="footer__icon" target="_blank" rel="noopener noreferrer" aria-label="GitHub profile"><i class='bx bxl-github' aria-hidden="true"></i></a>
+                <a href="https://github.com/jacobhl3ca" class="footer__icon" target="_blank" rel="me noopener noreferrer" aria-label="GitHub profile"><i class='bx bxl-github' aria-hidden="true"></i></a>
 
                 <a href="mailto:hi@jacobhl.com" class="footer__icon" aria-label="Send email"><i class='bx bx-envelope' aria-hidden="true"></i></a>
 

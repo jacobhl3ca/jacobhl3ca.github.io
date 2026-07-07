@@ -150,8 +150,9 @@
         <footer class="footer">
             <p class="footer__title">Jacob</p>
             <div class="footer__social">
-                <a href="https://www.linkedin.com/in/jacobhl/" class="footer__icon" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn profile"><i class='bx bxl-linkedin' aria-hidden="true"></i></a>
-                <a href="https://github.com/jacobhl3ca" class="footer__icon" target="_blank" rel="noopener noreferrer" aria-label="GitHub profile"><i class='bx bxl-github' aria-hidden="true"></i></a>
+                <!-- rel="me" marks these as Jacob's own verified identity profiles — the HTML-level identity/authorship signal read by rel-me consumers (IndieAuth, Mastodon verification), which crawl any reachable page of the domain regardless of its noindex status. index.html already carries rel="me" on every link to these two profiles; the 404 footer was the one page site-wide still missing it. Additive rel token — no visual or behaviour change (noopener/noreferrer preserved). -->
+                <a href="https://www.linkedin.com/in/jacobhl/" class="footer__icon" target="_blank" rel="me noopener noreferrer" aria-label="LinkedIn profile"><i class='bx bxl-linkedin' aria-hidden="true"></i></a>
+                <a href="https://github.com/jacobhl3ca" class="footer__icon" target="_blank" rel="me noopener noreferrer" aria-label="GitHub profile"><i class='bx bxl-github' aria-hidden="true"></i></a>
                 <a href="mailto:hi@jacobhl.com" class="footer__icon" aria-label="Send email"><i class='bx bx-envelope' aria-hidden="true"></i></a>
                 <a href="/#contact" class="footer__icon" aria-label="Contact"><i class='bx bx-file' aria-hidden="true"></i></a>
             </div>
