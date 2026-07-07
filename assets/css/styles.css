@@ -600,6 +600,16 @@ img {
 .nav__logo {
   color: var(--second-color);
 }
+/* Keyboard focus indicator for the header wordmark link, matching the branded accent
+   :focus-visible ring the rest of the header (nav links, theme/menu toggles) already ships
+   instead of the inconsistent browser-default outline (WCAG 2.4.7 Focus Visible). The "Jacob"
+   logo was the one focusable header control still falling back to the UA default. Scoped to
+   :focus-visible so mouse/touch focus shows no ring — the look is unchanged. Mirrors .nav__link. */
+.nav__logo:focus { outline: none; }
+.nav__logo:focus-visible {
+  outline: 2px solid var(--first-color);
+  outline-offset: 2px;
+}
 .nav__toggle {
   color: var(--second-color);
   font-size: 1.5rem;
