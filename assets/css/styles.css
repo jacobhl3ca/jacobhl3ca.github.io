@@ -205,7 +205,10 @@
   font-weight: var(--font-semi);
   color: var(--second-color);
   padding: 5px 14px;
-  line-height: 1.45;
+  /* 1.5 (not 1.45) so btn = 18+10 = 28px and the pill = 36px even; with the even nav heights
+     (48/72px) the pill's top:50% + translate(-50%) lands on a whole pixel, so the active
+     highlight's top & bottom edges anti-alias identically instead of looking uneven. */
+  line-height: 1.5;
   border-radius: 999px;
   white-space: nowrap;
   transition: background-color 0.25s ease, color 0.25s ease;
