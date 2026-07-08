@@ -241,6 +241,8 @@ body {
 .attribution { text-align:center; margin-top:32px; padding-bottom:24px; color:var(--text-dim); font-size:12px; }
 .attribution a { color:var(--accent); text-decoration:none; }
 .attribution a:hover { text-decoration:underline; }
+/* Keyboard focus: give the attribution links the same branded accent ring the Search button and hourly row already use, instead of the inconsistent UA-default outline (WCAG 2.4.7). These two footer links ("Back to jacobhl.com" and the Open-Meteo credit) were the only interactive controls on this page still on the browser default, so this completes the page's focus-visible treatment. Scoped to :focus-visible, so mouse/touch focus shows no ring and the hover underline is unchanged. */
+.attribution a:focus-visible { outline:2px solid var(--accent); outline-offset:3px; border-radius:4px; }
 
 /* Visually hidden but available to assistive tech (gives the page a programmatic heading) */
 .visually-hidden {
