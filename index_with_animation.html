@@ -4,6 +4,10 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <!-- Tint the mobile browser chrome (address bar / status bar) to match this dark-default page. Mirrors the theme-color already on index.html, 404.html, weather/, and light/ — this animated homepage variant was the one page site-wide still missing it. #090f20 matches index.html's dark chrome. No visual change to page content. -->
+        <meta name="theme-color" content="#090f20">
+        <!-- Declare supported colour schemes to the UA up front. color-scheme is otherwise only set inside the render-blocking styles.css (:root=light, [data-theme="dark"]=dark), so before that CSS loads the browser doesn't know this is a dark-default page (<html data-theme="dark">) and paints the root canvas/scrollbars with the OS default — a brief light flash. "dark light" matches the document's default while still advertising light-mode support; the CSS color-scheme rules take over once loaded. Completes the site-wide pattern already on index.html, 404.html, weather/, and light/. No visual change to the settled page. -->
+        <meta name="color-scheme" content="dark light">
         <link rel="stylesheet" href="assets/css/styles.css">
         <link rel="icon" type="image/x-icon" href="assets/img/favicon.ico">
         <link href='https://cdn.jsdelivr.net/npm/boxicons@2.0.5/css/boxicons.min.css' rel='stylesheet'> <!-- icons -->
