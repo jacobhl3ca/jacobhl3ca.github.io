@@ -304,11 +304,11 @@
                     </ul>
                 </div>
                 <div style="display: flex; align-items: center;">
-                    <button id="theme-toggle" class="theme-toggle" style="position: relative; top: -2px;">
-                        <i class='bx bx-sun' id="theme-icon"></i>
+                    <button type="button" id="theme-toggle" class="theme-toggle" aria-label="Switch to light mode" style="position: relative; top: -2px;">
+                        <i class='bx bx-sun' id="theme-icon" aria-hidden="true"></i>
                     </button>
                     <div class="nav__toggle" id="nav-toggle" role="button" aria-label="Toggle navigation menu">
-                        <i class='bx bx-menu'></i>
+                        <i class='bx bx-menu' aria-hidden="true"></i>
                     </div>
                 </div>
             </nav>
@@ -324,10 +324,10 @@
                 </div>
 
                 <div class="home__social">
-                    <a href="https://www.linkedin.com/in/jacobhl/" class="home__social-icon" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn profile"><i class='bx bxl-linkedin'></i></a>
-                    <a href="https://github.com/jacobhl3ca" class="home__social-icon" target="_blank" rel="noopener noreferrer" aria-label="GitHub profile"><i class='bx bxl-github' ></i></a>
-                    <a href="#" onclick="window.location='mail'+'to:'+'hi'+'@'+'jacobhl'+'.com';return false;" class="home__social-icon" target="_blank" aria-label="Send email"><i class='bx bx-envelope'></i></a>
-                    <a href="#contact" class="home__social-icon" onclick="requestResume()" aria-label="Request resume"><i class='bx bx-file'></i></a>
+                    <a href="https://www.linkedin.com/in/jacobhl/" class="home__social-icon" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn profile"><i class='bx bxl-linkedin' aria-hidden="true"></i></a>
+                    <a href="https://github.com/jacobhl3ca" class="home__social-icon" target="_blank" rel="noopener noreferrer" aria-label="GitHub profile"><i class='bx bxl-github' aria-hidden="true"></i></a>
+                    <a href="#" onclick="window.location='mail'+'to:'+'hi'+'@'+'jacobhl'+'.com';return false;" class="home__social-icon" target="_blank" aria-label="Send email"><i class='bx bx-envelope' aria-hidden="true"></i></a>
+                    <a href="#contact" class="home__social-icon" onclick="requestResume()" aria-label="Request resume"><i class='bx bx-file' aria-hidden="true"></i></a>
                 </div>
 
                 <div class="home__img">
@@ -391,7 +391,7 @@
                         </p>
 
                         <div class="skills__category">
-                            <h3 class="skills__category-title"><i class='bx bx-code-alt skills__icon'></i> Languages & Scripting</h3>
+                            <h3 class="skills__category-title"><i class='bx bx-code-alt skills__icon' aria-hidden="true"></i> Languages & Scripting</h3>
                             <div class="skills__tags">
                                 <span class="skills__tag">Python</span>
                                 <span class="skills__tag">SQL</span>
@@ -401,7 +401,7 @@
                         </div>
 
                         <div class="skills__category">
-                            <h3 class="skills__category-title"><i class='bx bx-bar-chart-alt-2 skills__icon'></i> Data & Visualization</h3>
+                            <h3 class="skills__category-title"><i class='bx bx-bar-chart-alt-2 skills__icon' aria-hidden="true"></i> Data & Visualization</h3>
                             <div class="skills__tags">
                                 <span class="skills__tag">Tableau</span>
                                 <span class="skills__tag">Looker</span>
@@ -414,7 +414,7 @@
                         </div>
 
                         <div class="skills__category">
-                            <h3 class="skills__category-title"><i class='bx bx-data skills__icon'></i> Analytics Platforms</h3>
+                            <h3 class="skills__category-title"><i class='bx bx-data skills__icon' aria-hidden="true"></i> Analytics Platforms</h3>
                             <div class="skills__tags">
                                 <span class="skills__tag">BigQuery</span>
                                 <span class="skills__tag">GA4</span>
@@ -424,7 +424,7 @@
                         </div>
 
                         <div class="skills__category">
-                            <h3 class="skills__category-title"><i class='bx bx-cog skills__icon'></i> Automation & Infrastructure</h3>
+                            <h3 class="skills__category-title"><i class='bx bx-cog skills__icon' aria-hidden="true"></i> Automation & Infrastructure</h3>
                             <div class="skills__tags">
                                 <span class="skills__tag">Process Automation</span>
                                 <span class="skills__tag">ETL Pipelines</span>
@@ -436,7 +436,7 @@
                         </div>
 
                         <div class="skills__category">
-                            <h3 class="skills__category-title"><i class='bx bx-bulb skills__icon'></i> Strategy & Leadership</h3>
+                            <h3 class="skills__category-title"><i class='bx bx-bulb skills__icon' aria-hidden="true"></i> Strategy & Leadership</h3>
                             <div class="skills__tags">
                                 <span class="skills__tag">Analytics Strategy</span>
                                 <span class="skills__tag">Stakeholder Communication</span>
@@ -450,7 +450,7 @@
 
                         <!--
                         <div class="skills__category">
-                            <h3 class="skills__category-title"><i class='bx bx-certification skills__icon'></i> Certifications</h3>
+                            <h3 class="skills__category-title"><i class='bx bx-certification skills__icon' aria-hidden="true"></i> Certifications</h3>
                             <div class="skills__tags">
                                 <span class="skills__tag">Automate the Boring Stuff with Python</span>
                                 <span class="skills__tag">Tableau Desktop Specialist</span>
@@ -738,13 +738,13 @@
             <p class="footer__title">Jacob</p>
             <div class="footer__social">
 
-                <a href="https://www.linkedin.com/in/jacobhl/" class="footer__icon" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn profile"><i class='bx bxl-linkedin' ></i></a>
+                <a href="https://www.linkedin.com/in/jacobhl/" class="footer__icon" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn profile"><i class='bx bxl-linkedin' aria-hidden="true"></i></a>
 
-                <a href="https://github.com/jacobhl3ca" class="footer__icon" target="_blank" rel="noopener noreferrer" aria-label="GitHub profile"><i class='bx bxl-github' ></i></a>
+                <a href="https://github.com/jacobhl3ca" class="footer__icon" target="_blank" rel="noopener noreferrer" aria-label="GitHub profile"><i class='bx bxl-github' aria-hidden="true"></i></a>
 
-                <a href="#" onclick="window.location='mail'+'to:'+'hi'+'@'+'jacobhl'+'.com';return false;" class="footer__icon" target="_blank" aria-label="Send email"><i class='bx bx-envelope'></i></a>
+                <a href="#" onclick="window.location='mail'+'to:'+'hi'+'@'+'jacobhl'+'.com';return false;" class="footer__icon" target="_blank" aria-label="Send email"><i class='bx bx-envelope' aria-hidden="true"></i></a>
 
-                <a href="#contact" class="footer__icon" onclick="requestResume()" aria-label="Request resume"><i class='bx bx-file'></i></a>
+                <a href="#contact" class="footer__icon" onclick="requestResume()" aria-label="Request resume"><i class='bx bx-file' aria-hidden="true"></i></a>
 
             </div>
 
@@ -754,12 +754,12 @@
 
         <!-- Scroll down arrow -->
         <button class="scroll-down-arrow" id="scrollDown" aria-label="Scroll down">
-            <i class='bx bx-chevron-down'></i>
+            <i class='bx bx-chevron-down' aria-hidden="true"></i>
         </button>
 
         <!-- Back to top button -->
         <button class="back-to-top" id="backToTop" aria-label="Back to top">
-            <i class='bx bx-chevron-up'></i>
+            <i class='bx bx-chevron-up' aria-hidden="true"></i>
         </button>
 
         <!-- Easter egg (uncomment to enable)
