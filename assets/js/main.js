@@ -392,6 +392,10 @@ function spawnBurst(x, y, style) {
 
 function megaExplosion() {
     const overlay = document.createElement('div');
+    // Decorative easter-egg flourish: hide the "MEGA-EXPLOSION" text from assistive tech so a
+    // screen reader doesn't announce it. Matches the site-wide convention of aria-hidden on every
+    // decorative element (icons, arrows, spinner). The separate flash overlay carries no text.
+    overlay.setAttribute('aria-hidden', 'true');
     overlay.style.cssText = 'position:fixed;inset:0;z-index:99999;pointer-events:none;display:flex;align-items:center;justify-content:center;';
     const text = document.createElement('div');
     text.textContent = 'MEGA-EXPLOSION';
@@ -617,6 +621,10 @@ let codeIdx = 0;
         codeIdx++;
         const popup = document.createElement('div');
         popup.classList.add('code-popup');
+        // Decorative easter-egg flourish: hide the injected snippet text from assistive tech so a
+        // screen reader doesn't announce stray code ("SELECT * FROM …") mid-page. Matches the
+        // site-wide convention of aria-hidden on every decorative element (icons, arrows, spinner).
+        popup.setAttribute('aria-hidden', 'true');
         popup.textContent = snippet;
         popup.style.left = mouseX + 'px';
         popup.style.top = mouseY + 'px';
