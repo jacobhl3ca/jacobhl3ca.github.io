@@ -4,6 +4,10 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <!-- Tint the mobile browser chrome (address bar / status bar) to match this dark-default page. Mirrors the theme-color already on index.html, 404.html, weather/, and light/ — this animated homepage variant was the one page site-wide still missing it. #090f20 matches index.html's dark chrome. No visual change to page content. -->
+        <meta name="theme-color" content="#090f20">
+        <!-- Declare supported colour schemes to the UA up front. color-scheme is otherwise only set inside the render-blocking styles.css (:root=light, [data-theme="dark"]=dark), so before that CSS loads the browser doesn't know this is a dark-default page (<html data-theme="dark">) and paints the root canvas/scrollbars with the OS default — a brief light flash. "dark light" matches the document's default while still advertising light-mode support; the CSS color-scheme rules take over once loaded. Completes the site-wide pattern already on index.html, 404.html, weather/, and light/. No visual change to the settled page. -->
+        <meta name="color-scheme" content="dark light">
         <link rel="stylesheet" href="assets/css/styles.css">
         <link rel="icon" type="image/x-icon" href="assets/img/favicon.ico">
         <link href='https://cdn.jsdelivr.net/npm/boxicons@2.0.5/css/boxicons.min.css' rel='stylesheet'> <!-- icons -->
@@ -300,11 +304,11 @@
                     </ul>
                 </div>
                 <div style="display: flex; align-items: center;">
-                    <button id="theme-toggle" class="theme-toggle" style="position: relative; top: -2px;">
-                        <i class='bx bx-sun' id="theme-icon"></i>
+                    <button type="button" id="theme-toggle" class="theme-toggle" aria-label="Switch to light mode" style="position: relative; top: -2px;">
+                        <i class='bx bx-sun' id="theme-icon" aria-hidden="true"></i>
                     </button>
                     <div class="nav__toggle" id="nav-toggle" role="button" aria-label="Toggle navigation menu">
-                        <i class='bx bx-menu'></i>
+                        <i class='bx bx-menu' aria-hidden="true"></i>
                     </div>
                 </div>
             </nav>
@@ -320,10 +324,11 @@
                 </div>
 
                 <div class="home__social">
-                    <a href="https://www.linkedin.com/in/jacobhl/" class="home__social-icon" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn profile"><i class='bx bxl-linkedin'></i></a>
-                    <a href="https://github.com/jacobhl3ca" class="home__social-icon" target="_blank" rel="noopener noreferrer" aria-label="GitHub profile"><i class='bx bxl-github' ></i></a>
-                    <a href="#" onclick="window.location='mail'+'to:'+'hi'+'@'+'jacobhl'+'.com';return false;" class="home__social-icon" target="_blank" aria-label="Send email"><i class='bx bx-envelope'></i></a>
-                    <a href="#contact" class="home__social-icon" onclick="requestResume()" aria-label="Request resume"><i class='bx bx-file'></i></a>
+                    <a href="https://www.linkedin.com/in/jacobhl/" class="home__social-icon" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn profile"><i class='bx bxl-linkedin' aria-hidden="true"></i></a>
+                    <a href="https://github.com/jacobhl3ca" class="home__social-icon" target="_blank" rel="noopener noreferrer" aria-label="GitHub profile"><i class='bx bxl-github' aria-hidden="true"></i></a>
+                    <!-- No target="_blank": this mailto is handled entirely by the onclick, which returns false so the anchor never navigates and the target never fires — a dead, misleading attribute that also implied a mailto would open a blank browser tab. Mirrors the live index.html, whose equivalent email icon carries no target. The LinkedIn/GitHub icons above keep target="_blank" (real external navigations). No visual or behavioural change. -->
+                    <a href="#" onclick="window.location='mail'+'to:'+'hi'+'@'+'jacobhl'+'.com';return false;" class="home__social-icon" aria-label="Send email"><i class='bx bx-envelope' aria-hidden="true"></i></a>
+                    <a href="#contact" class="home__social-icon" onclick="requestResume()" aria-label="Request resume"><i class='bx bx-file' aria-hidden="true"></i></a>
                 </div>
 
                 <div class="home__img">
@@ -387,7 +392,7 @@
                         </p>
 
                         <div class="skills__category">
-                            <h3 class="skills__category-title"><i class='bx bx-code-alt skills__icon'></i> Languages & Scripting</h3>
+                            <h3 class="skills__category-title"><i class='bx bx-code-alt skills__icon' aria-hidden="true"></i> Languages & Scripting</h3>
                             <div class="skills__tags">
                                 <span class="skills__tag">Python</span>
                                 <span class="skills__tag">SQL</span>
@@ -397,7 +402,7 @@
                         </div>
 
                         <div class="skills__category">
-                            <h3 class="skills__category-title"><i class='bx bx-bar-chart-alt-2 skills__icon'></i> Data & Visualization</h3>
+                            <h3 class="skills__category-title"><i class='bx bx-bar-chart-alt-2 skills__icon' aria-hidden="true"></i> Data & Visualization</h3>
                             <div class="skills__tags">
                                 <span class="skills__tag">Tableau</span>
                                 <span class="skills__tag">Looker</span>
@@ -410,7 +415,7 @@
                         </div>
 
                         <div class="skills__category">
-                            <h3 class="skills__category-title"><i class='bx bx-data skills__icon'></i> Analytics Platforms</h3>
+                            <h3 class="skills__category-title"><i class='bx bx-data skills__icon' aria-hidden="true"></i> Analytics Platforms</h3>
                             <div class="skills__tags">
                                 <span class="skills__tag">BigQuery</span>
                                 <span class="skills__tag">GA4</span>
@@ -420,7 +425,7 @@
                         </div>
 
                         <div class="skills__category">
-                            <h3 class="skills__category-title"><i class='bx bx-cog skills__icon'></i> Automation & Infrastructure</h3>
+                            <h3 class="skills__category-title"><i class='bx bx-cog skills__icon' aria-hidden="true"></i> Automation & Infrastructure</h3>
                             <div class="skills__tags">
                                 <span class="skills__tag">Process Automation</span>
                                 <span class="skills__tag">ETL Pipelines</span>
@@ -432,7 +437,7 @@
                         </div>
 
                         <div class="skills__category">
-                            <h3 class="skills__category-title"><i class='bx bx-bulb skills__icon'></i> Strategy & Leadership</h3>
+                            <h3 class="skills__category-title"><i class='bx bx-bulb skills__icon' aria-hidden="true"></i> Strategy & Leadership</h3>
                             <div class="skills__tags">
                                 <span class="skills__tag">Analytics Strategy</span>
                                 <span class="skills__tag">Stakeholder Communication</span>
@@ -446,7 +451,7 @@
 
                         <!--
                         <div class="skills__category">
-                            <h3 class="skills__category-title"><i class='bx bx-certification skills__icon'></i> Certifications</h3>
+                            <h3 class="skills__category-title"><i class='bx bx-certification skills__icon' aria-hidden="true"></i> Certifications</h3>
                             <div class="skills__tags">
                                 <span class="skills__tag">Automate the Boring Stuff with Python</span>
                                 <span class="skills__tag">Tableau Desktop Specialist</span>
@@ -734,13 +739,14 @@
             <p class="footer__title">Jacob</p>
             <div class="footer__social">
 
-                <a href="https://www.linkedin.com/in/jacobhl/" class="footer__icon" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn profile"><i class='bx bxl-linkedin' ></i></a>
+                <a href="https://www.linkedin.com/in/jacobhl/" class="footer__icon" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn profile"><i class='bx bxl-linkedin' aria-hidden="true"></i></a>
 
-                <a href="https://github.com/jacobhl3ca" class="footer__icon" target="_blank" rel="noopener noreferrer" aria-label="GitHub profile"><i class='bx bxl-github' ></i></a>
+                <a href="https://github.com/jacobhl3ca" class="footer__icon" target="_blank" rel="noopener noreferrer" aria-label="GitHub profile"><i class='bx bxl-github' aria-hidden="true"></i></a>
 
-                <a href="#" onclick="window.location='mail'+'to:'+'hi'+'@'+'jacobhl'+'.com';return false;" class="footer__icon" target="_blank" aria-label="Send email"><i class='bx bx-envelope'></i></a>
+                <!-- No target="_blank" (mirrors the home email icon and the live index.html): the onclick handles the mailto and returns false, so the anchor never navigates and the target never fired — a dead, misleading attribute implying a mailto opens a blank tab. -->
+                <a href="#" onclick="window.location='mail'+'to:'+'hi'+'@'+'jacobhl'+'.com';return false;" class="footer__icon" aria-label="Send email"><i class='bx bx-envelope' aria-hidden="true"></i></a>
 
-                <a href="#contact" class="footer__icon" onclick="requestResume()" aria-label="Request resume"><i class='bx bx-file'></i></a>
+                <a href="#contact" class="footer__icon" onclick="requestResume()" aria-label="Request resume"><i class='bx bx-file' aria-hidden="true"></i></a>
 
             </div>
 
@@ -750,12 +756,12 @@
 
         <!-- Scroll down arrow -->
         <button class="scroll-down-arrow" id="scrollDown" aria-label="Scroll down">
-            <i class='bx bx-chevron-down'></i>
+            <i class='bx bx-chevron-down' aria-hidden="true"></i>
         </button>
 
         <!-- Back to top button -->
         <button class="back-to-top" id="backToTop" aria-label="Back to top">
-            <i class='bx bx-chevron-up'></i>
+            <i class='bx bx-chevron-up' aria-hidden="true"></i>
         </button>
 
         <!-- Easter egg (uncomment to enable)
