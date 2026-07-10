@@ -421,7 +421,7 @@
   .proj-head-row{position:relative;display:flex;justify-content:center;align-items:center;
     max-width:780px;margin:.25rem auto 1rem;padding:0 1.5rem;box-sizing:border-box;}
   .proj-head-row .section-title{margin:0;}
-  .proj-head-actions{position:absolute;right:0;top:50%;transform:translateY(-50%);
+  .proj-head-actions{position:absolute;right:1.5rem;top:50%;transform:translateY(-50%);
     display:inline-flex;align-items:center;gap:.45rem;}
   .proj-head-row .toplink{position:absolute;right:0;top:50%;transform:translateY(-50%);
     display:inline-flex;align-items:center;gap:.45rem;font-family:var(--body-font);font-size:.82rem;font-weight:600;
@@ -435,17 +435,23 @@
     .proj-head-row .toplink{font-size:.74rem;padding:.42rem .7rem;gap:.3rem;}
     .proj-head-row .toplink .tl-full{display:none;}
   }
-  .proj-appstore-all{display:inline-flex;align-items:center;justify-content:center;width:40px;height:40px;
+  .proj-appstore-all{display:inline-flex;align-items:center;justify-content:center;gap:.32rem;height:36px;
+    padding:0 .62rem;
     border:1px solid #a6a6a6;border-radius:8px;background:#000;color:#fff;text-decoration:none;
-    transition:border-color .2s ease,color .2s ease;}
-  .proj-appstore-all i{font-size:1.25rem;line-height:1;}
+    font-size:.78rem;font-weight:600;line-height:1;white-space:nowrap;transition:border-color .2s ease,color .2s ease;}
+  .proj-appstore-all i{font-size:1.02rem;line-height:1;}
   .proj-appstore-all:hover{border-color:var(--first-color);color:#fff;}
   @media(max-width:600px){
     .proj-head-row{margin:.35rem auto 1rem;padding:0 1rem;}
     .proj-head-actions{right:1rem;gap:.4rem;}
     .proj-head-row .section-title{font-size:1.42rem;}
-    .proj-appstore-all,.proj-linkedin{width:34px;height:34px;}
-    .proj-appstore-all i,.proj-linkedin i{font-size:1.15rem;}
+    .proj-appstore-all{height:32px;padding:0 .5rem;font-size:.72rem;gap:.25rem;}
+    .proj-linkedin{width:32px;height:32px;}
+    .proj-appstore-all i,.proj-linkedin i{font-size:1rem;}
+  }
+  @media(max-width:360px){
+    .proj-head-actions .proj-linkedin{display:none;}
+    .proj-appstore-all{padding:0 .48rem;}
   }
 
   /* ---- ROW CARD (mirrors .work__img shadow/radius, laid out horizontally) ---- */
@@ -876,7 +882,7 @@
                 <div class="proj-head-row">
                     <h2 class="section-title" id="projects-heading">Projects</h2>
                     <div class="proj-head-actions">
-                        <a class="proj-appstore-all" href="https://apps.apple.com/us/developer/jacob-heifetz-licht/id1895127194" target="_blank" rel="noopener noreferrer" aria-label="View all Jacob Heifetz-Licht apps on the App Store" title="App Store apps"><i class='bx bxl-apple' aria-hidden="true"></i></a>
+                        <a class="proj-appstore-all" href="https://apps.apple.com/us/developer/jacob-heifetz-licht/id1895127194" target="_blank" rel="noopener noreferrer" aria-label="View all Jacob Heifetz-Licht apps on the App Store" title="App Store apps"><i class='bx bxl-apple' aria-hidden="true"></i><span>Apps</span></a>
                         <a class="proj-linkedin" href="https://www.linkedin.com/in/jacobhl/" target="_blank" rel="me noopener noreferrer" aria-label="Connect with me on LinkedIn" title="Connect on LinkedIn"><i class='bx bxl-linkedin' aria-hidden="true"></i></a>
                     </div>
                 </div>
