@@ -347,6 +347,8 @@
                 opacity: 0.18;
                 transition: opacity 0.3s;
                 z-index: 98;
+                /* -webkit- prefix first (autoprefixer ordering): Safari added the unprefixed user-select only in 17.4, so on Safari/iOS ≤17.3 the unprefixed rule alone is ignored and this decorative easter-egg stays text-selectable (a stray tap-and-drag could highlight it). The prefixed variant restores the intended non-selectable behaviour there; no change where unprefixed is already supported. Mirrors the site's existing -webkit-backdrop-filter / -webkit-text-size-adjust prefixing. */
+                -webkit-user-select: none;
                 user-select: none;
                 line-height: 1;
             }
