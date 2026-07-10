@@ -431,6 +431,11 @@
     .proj-head-row .toplink{font-size:.74rem;padding:.42rem .7rem;gap:.3rem;}
     .proj-head-row .toplink .tl-full{display:none;}
   }
+  .proj-appstore-all{display:none;width:max-content;max-width:100%;align-items:center;justify-content:center;gap:.45rem;
+    margin:0 auto 1rem;padding:.56rem .95rem;border:1px solid #a6a6a6;border-radius:8px;
+    background:#000;color:#fff;text-decoration:none;font-size:.84rem;font-weight:600;line-height:1.1;}
+  .proj-appstore-all i{font-size:1.1rem;line-height:1;}
+  @media(max-width:767px),(hover:none){.proj-appstore-all{display:flex;}}
 
   /* ---- ROW CARD (mirrors .work__img shadow/radius, laid out horizontally) ---- */
   .proj-row{
@@ -863,6 +868,7 @@
                 </div>
 
                 <div class="proj-wrap">
+                    <a class="proj-appstore-all" href="https://apps.apple.com/us/developer/jacob-heifetz-licht/id1895127194" target="_blank" rel="noopener" aria-label="View all Jacob Heifetz-Licht apps on the App Store"><i class='bx bxl-apple' aria-hidden="true"></i>All App Store apps</a>
                     <div id="main-rows"></div>
                     <noscript>
                         <!-- The project cards above are built by JavaScript, so with scripting disabled
