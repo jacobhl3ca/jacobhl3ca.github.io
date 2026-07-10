@@ -431,11 +431,20 @@
     .proj-head-row .toplink{font-size:.74rem;padding:.42rem .7rem;gap:.3rem;}
     .proj-head-row .toplink .tl-full{display:none;}
   }
-  .proj-appstore-all{display:none;width:max-content;max-width:100%;align-items:center;justify-content:center;gap:.45rem;
-    margin:0 auto 1rem;padding:.56rem .95rem;border:1px solid #a6a6a6;border-radius:8px;
+  .proj-quicklinks{display:flex;justify-content:center;align-items:center;gap:.55rem;flex-wrap:wrap;margin:0 auto 1.15rem;}
+  .proj-appstore-all,.proj-linkedin-mobile{display:inline-flex;align-items:center;justify-content:center;
+    min-height:40px;padding:.58rem .95rem;border:1px solid #a6a6a6;border-radius:8px;
     background:#000;color:#fff;text-decoration:none;font-size:.84rem;font-weight:600;line-height:1.1;}
-  .proj-appstore-all i{font-size:1.1rem;line-height:1;}
-  @media(max-width:767px),(hover:none){.proj-appstore-all{display:flex;}}
+  .proj-appstore-all:hover,.proj-linkedin-mobile:hover{border-color:var(--first-color);color:#fff;}
+  .proj-linkedin-mobile{display:none;width:40px;padding:0;background:transparent;color:var(--second-color);}
+  [data-theme="dark"] .proj-linkedin-mobile{color:#e0e0e0;}
+  .proj-linkedin-mobile i{font-size:1.25rem;line-height:1;}
+  @media(max-width:600px){
+    .proj-head-row{margin-bottom:.55rem;}
+    .proj-head-row .proj-linkedin{display:none;}
+    .proj-quicklinks{margin-bottom:1rem;}
+    .proj-linkedin-mobile{display:inline-flex;}
+  }
 
   /* ---- ROW CARD (mirrors .work__img shadow/radius, laid out horizontally) ---- */
   .proj-row{
@@ -868,7 +877,10 @@
                 </div>
 
                 <div class="proj-wrap">
-                    <a class="proj-appstore-all" href="https://apps.apple.com/us/developer/jacob-heifetz-licht/id1895127194" target="_blank" rel="noopener" aria-label="View all Jacob Heifetz-Licht apps on the App Store"><i class='bx bxl-apple' aria-hidden="true"></i>All App Store apps</a>
+                    <div class="proj-quicklinks" aria-label="Project links">
+                        <a class="proj-appstore-all" href="https://apps.apple.com/us/developer/jacob-heifetz-licht/id1895127194" target="_blank" rel="noopener noreferrer" aria-label="View all Jacob Heifetz-Licht apps on the App Store">View all apps on the App Store</a>
+                        <a class="proj-linkedin-mobile" href="https://www.linkedin.com/in/jacobhl/" target="_blank" rel="me noopener noreferrer" aria-label="Connect with me on LinkedIn" title="Connect on LinkedIn"><i class='bx bxl-linkedin' aria-hidden="true"></i></a>
+                    </div>
                     <div id="main-rows"></div>
                     <noscript>
                         <!-- The project cards above are built by JavaScript, so with scripting disabled
