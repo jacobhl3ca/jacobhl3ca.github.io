@@ -400,6 +400,14 @@ html.projects-only #nav-toggle {
 }
 
 html {
+  /* Stop mobile browsers auto-inflating font sizes when the phone rotates to
+     landscape (iOS Safari / older Chrome "text auto-sizing"), which otherwise
+     enlarges text past the tuned type scale and can distort the layout. "100%"
+     disables only that automatic inflation — it does NOT block user-initiated
+     pinch/zoom, so there's no accessibility cost. No visual change in portrait
+     or on desktop. */
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
   scroll-behavior: smooth;
   /* Offset in-page anchor jumps by the fixed header's height so a clicked nav
      link (#about, #skills, #contact, …) lands the section heading just below the
