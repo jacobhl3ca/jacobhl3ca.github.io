@@ -419,6 +419,7 @@
   .proj-head-row{position:relative;display:flex;justify-content:center;align-items:center;
     max-width:780px;margin:0 auto 0.7rem;padding:0 1.5rem;box-sizing:border-box;}
   .proj-head-row .section-title{margin:0;}
+  .proj-title-actions{display:inline-flex;align-items:center;justify-content:center;gap:.7rem;}
   .proj-head-row .toplink{position:absolute;right:0;top:50%;transform:translateY(-50%);
     display:inline-flex;align-items:center;gap:.45rem;font-family:var(--body-font);font-size:.82rem;font-weight:600;
     padding:.5rem .95rem;border-radius:999px;text-decoration:none;background:transparent;border:1px solid #a6a6a6;
@@ -431,19 +432,16 @@
     .proj-head-row .toplink{font-size:.74rem;padding:.42rem .7rem;gap:.3rem;}
     .proj-head-row .toplink .tl-full{display:none;}
   }
-  .proj-quicklinks{display:flex;justify-content:center;align-items:center;gap:.55rem;flex-wrap:wrap;margin:0 auto 1.15rem;}
-  .proj-appstore-all,.proj-linkedin-mobile{display:inline-flex;align-items:center;justify-content:center;
-    min-height:40px;padding:.58rem .95rem;border:1px solid #a6a6a6;border-radius:8px;
-    background:#000;color:#fff;text-decoration:none;font-size:.84rem;font-weight:600;line-height:1.1;}
-  .proj-appstore-all:hover,.proj-linkedin-mobile:hover{border-color:var(--first-color);color:#fff;}
-  .proj-linkedin-mobile{display:none;width:40px;padding:0;background:transparent;color:var(--second-color);}
-  [data-theme="dark"] .proj-linkedin-mobile{color:#e0e0e0;}
-  .proj-linkedin-mobile i{font-size:1.25rem;line-height:1;}
+  .proj-appstore-all{display:inline-flex;align-items:center;justify-content:center;
+    min-height:32px;padding:.42rem .72rem;border:1px solid #a6a6a6;border-radius:8px;
+    background:#000;color:#fff;text-decoration:none;font-size:.78rem;font-weight:600;line-height:1.1;white-space:nowrap;}
+  .proj-appstore-all:hover{border-color:var(--first-color);color:#fff;}
   @media(max-width:600px){
-    .proj-head-row{margin-bottom:.55rem;}
+    .proj-head-row{margin-bottom:1rem;padding:0 1rem;}
     .proj-head-row .proj-linkedin{display:none;}
-    .proj-quicklinks{margin-bottom:1rem;}
-    .proj-linkedin-mobile{display:inline-flex;}
+    .proj-title-actions{gap:.55rem;}
+    .proj-head-row .section-title{font-size:1.42rem;}
+    .proj-appstore-all{min-height:30px;padding:.38rem .62rem;font-size:.74rem;}
   }
 
   /* ---- ROW CARD (mirrors .work__img shadow/radius, laid out horizontally) ---- */
@@ -872,15 +870,14 @@
             <section class="work section" id="Projects" aria-labelledby="projects-heading">
 
                 <div class="proj-head-row">
-                    <h2 class="section-title" id="projects-heading">Projects</h2>
+                    <div class="proj-title-actions">
+                        <h2 class="section-title" id="projects-heading">Projects</h2>
+                        <a class="proj-appstore-all" href="https://apps.apple.com/us/developer/jacob-heifetz-licht/id1895127194" target="_blank" rel="noopener noreferrer" aria-label="View all Jacob Heifetz-Licht apps on the App Store">App Store apps</a>
+                    </div>
                     <a class="proj-linkedin" href="https://www.linkedin.com/in/jacobhl/" target="_blank" rel="me noopener noreferrer" aria-label="Connect with me on LinkedIn" title="Connect on LinkedIn"><i class='bx bxl-linkedin' aria-hidden="true"></i></a>
                 </div>
 
                 <div class="proj-wrap">
-                    <div class="proj-quicklinks" aria-label="Project links">
-                        <a class="proj-appstore-all" href="https://apps.apple.com/us/developer/jacob-heifetz-licht/id1895127194" target="_blank" rel="noopener noreferrer" aria-label="View all Jacob Heifetz-Licht apps on the App Store">View all apps on the App Store</a>
-                        <a class="proj-linkedin-mobile" href="https://www.linkedin.com/in/jacobhl/" target="_blank" rel="me noopener noreferrer" aria-label="Connect with me on LinkedIn" title="Connect on LinkedIn"><i class='bx bxl-linkedin' aria-hidden="true"></i></a>
-                    </div>
                     <div id="main-rows"></div>
                     <noscript>
                         <!-- The project cards above are built by JavaScript, so with scripting disabled
