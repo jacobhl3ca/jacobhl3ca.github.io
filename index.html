@@ -884,7 +884,8 @@
                 <div class="proj-head-row">
                     <h2 class="section-title" id="projects-heading">Projects</h2>
                     <div class="proj-head-actions">
-                        <a class="proj-appstore-all" href="https://apps.apple.com/us/developer/jacob-heifetz-licht/id1895127194" target="_blank" rel="noopener noreferrer" aria-label="View all Jacob Heifetz-Licht apps on the App Store" title="App Store apps"><i class='bx bxl-apple' aria-hidden="true"></i><span>Apps</span></a>
+                        <!-- rel="me": this App Store developer profile is one of Jacob's own verified identity profiles and is already declared in the JSON-LD Person "sameAs" array above (alongside LinkedIn and GitHub). Those two profiles carry rel="me" on every link site-wide as the HTML-level companion to sameAs (see the home__social comment); this developer-profile link was the one sameAs member still missing it, so add it to complete that sameAs↔rel=me parity. Additive rel token — no visual or behaviour change (noopener/noreferrer preserved). -->
+                        <a class="proj-appstore-all" href="https://apps.apple.com/us/developer/jacob-heifetz-licht/id1895127194" target="_blank" rel="me noopener noreferrer" aria-label="View all Jacob Heifetz-Licht apps on the App Store" title="App Store apps"><i class='bx bxl-apple' aria-hidden="true"></i><span>Apps</span></a>
                         <a class="proj-linkedin" href="https://www.linkedin.com/in/jacobhl/" target="_blank" rel="me noopener noreferrer" aria-label="Connect with me on LinkedIn" title="Connect on LinkedIn"><i class='bx bxl-linkedin' aria-hidden="true"></i></a>
                     </div>
                 </div>
