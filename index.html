@@ -897,7 +897,8 @@
                              (or for crawlers that don't run JS) #main-rows is empty. List the projects
                              as plain links so the core content and its SEO value aren't lost. Mirrors the
                              MAIN[] array; TidyTab has no website, so it links to its browsable GitHub repo. -->
-                        <ul style="list-style:none;margin:0;padding:0;line-height:1.6;color:var(--text-color,#8b94a0);">
+                        <!-- Use the site's own theme-aware body-text token (--second-color) instead of a fixed mid-gray: --text-color is defined nowhere in the CSS, so the old value resolved to its literal #8b94a0 fallback, which on the light-mode white background gives only ~3:1 contrast — a WCAG 1.4.3 AA failure for normal text. --second-color is the body's text colour (dark navy in light mode, light in dark mode), so this list matches the rest of the page and passes contrast in both themes. Only the no-JS fallback is affected; the JS-rendered cards replace this entirely. -->
+                        <ul style="list-style:none;margin:0;padding:0;line-height:1.6;color:var(--second-color);">
                             <li><a href="https://hidescore.com" target="_blank" rel="noopener noreferrer">HideScore</a> — Watch sports highlights without seeing the score.</li>
                             <li><a href="https://tonightnyc.com" target="_blank" rel="noopener noreferrer">Tonight NYC</a> — Every NYC comedy show, filtered to your favorite comedians.</li>
                             <li><a href="https://subwaytimes.com" target="_blank" rel="noopener noreferrer">Subway Times</a> — Real-time NYC subway arrivals, faster than Maps.</li>
