@@ -285,7 +285,7 @@ html.projects-only #nav-toggle {
 }
 
 .password-modal-content {
-  background-color: var(--container-color);
+  background-color: #fff; /* light-mode container surface; the [data-theme="dark"] rule below swaps in --container-bg. Was var(--container-color), a token defined nowhere in this stylesheet, so the declaration was invalid and the modal content had no background in light mode. */
   margin: 15% auto;
   padding: 0;
   border-radius: 0.5rem;
@@ -310,7 +310,7 @@ html.projects-only #nav-toggle {
 
 .password-modal-header h3 {
   margin: 0;
-  color: var(--title-color);
+  color: var(--second-color); /* site body/heading token — theme-aware (dark navy in light mode, light in dark), so this reads correctly in both themes. Was var(--title-color), a token defined nowhere, so the colour was invalid and fell back to the inherited text colour. */
 }
 
 .password-modal-close {
@@ -318,7 +318,7 @@ html.projects-only #nav-toggle {
   border: none;
   font-size: 1.5rem;
   cursor: pointer;
-  color: var(--text-color);
+  color: var(--second-color); /* theme-aware body token (was the undefined var(--text-color)); :hover below still overrides to --first-color. */
   transition: color 0.3s ease;
 }
 
@@ -333,7 +333,7 @@ html.projects-only #nav-toggle {
 
 .password-modal-body p {
   margin-bottom: 1.5rem;
-  color: var(--text-color);
+  color: var(--second-color); /* theme-aware body token (was the undefined var(--text-color)). */
 }
 
 .password-input {
@@ -343,8 +343,8 @@ html.projects-only #nav-toggle {
   border-radius: 0.25rem;
   font-size: 1rem;
   margin-bottom: 1.5rem;
-  background-color: var(--container-color);
-  color: var(--title-color);
+  background-color: #fff; /* light-mode field surface; the [data-theme="dark"] rule below swaps in --body-bg. Was the undefined var(--container-color). */
+  color: var(--second-color); /* theme-aware body token (was the undefined var(--title-color)); the dark rule below sets its own #e0e0e0. */
   transition: border-color 0.3s ease;
 }
 
@@ -371,7 +371,7 @@ html.projects-only #nav-toggle {
 }
 
 .password-submit:hover {
-  background-color: var(--first-color-dark);
+  background-color: hsl(var(--hue-color), 89%, 52%); /* a darker shade of --first-color (which is hsl(var(--hue-color),89%,60%)) for the hover state. Was var(--first-color-dark), a token defined nowhere, so hovering produced no colour change. */
 }
 
 .password-error {
