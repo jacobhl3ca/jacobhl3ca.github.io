@@ -356,7 +356,7 @@
                     <a href="https://github.com/jacobhl3ca" class="home__social-icon" target="_blank" rel="noopener noreferrer" aria-label="GitHub profile"><i class='bx bxl-github' aria-hidden="true"></i></a>
                     <!-- No target="_blank": this mailto is handled entirely by the onclick, which returns false so the anchor never navigates and the target never fires — a dead, misleading attribute that also implied a mailto would open a blank browser tab. Mirrors the live index.html, whose equivalent email icon carries no target. The LinkedIn/GitHub icons above keep target="_blank" (real external navigations). No visual or behavioural change. -->
                     <a href="#" onclick="window.location='mail'+'to:'+'hi'+'@'+'jacobhl'+'.com';return false;" class="home__social-icon" aria-label="Send email"><i class='bx bx-envelope' aria-hidden="true"></i></a>
-                    <a href="#contact" class="home__social-icon" onclick="requestResume()" aria-label="Request resume"><i class='bx bx-file' aria-hidden="true"></i></a>
+                    <a href="#contact" class="home__social-icon" onclick="event.preventDefault(); requestResume()" aria-label="Request resume"><i class='bx bx-file' aria-hidden="true"></i></a> <!-- preventDefault so the browser's instant #contact fragment jump doesn't fight requestResume()'s own smooth scroll, reset the focus it places in the contact form, or append #contact to the URL. The plain href stays as the no-JS fallback (onclick won't run then). Mirrors index.html. -->
                 </div>
 
                 <div class="home__img">
@@ -774,7 +774,7 @@
                 <!-- No target="_blank" (mirrors the home email icon and the live index.html): the onclick handles the mailto and returns false, so the anchor never navigates and the target never fired — a dead, misleading attribute implying a mailto opens a blank tab. -->
                 <a href="#" onclick="window.location='mail'+'to:'+'hi'+'@'+'jacobhl'+'.com';return false;" class="footer__icon" aria-label="Send email"><i class='bx bx-envelope' aria-hidden="true"></i></a>
 
-                <a href="#contact" class="footer__icon" onclick="requestResume()" aria-label="Request resume"><i class='bx bx-file' aria-hidden="true"></i></a>
+                <a href="#contact" class="footer__icon" onclick="event.preventDefault(); requestResume()" aria-label="Request resume"><i class='bx bx-file' aria-hidden="true"></i></a> <!-- preventDefault so the browser's instant #contact fragment jump doesn't fight requestResume()'s own smooth scroll, reset the focus it places in the contact form, or append #contact to the URL. The plain href stays as the no-JS fallback (onclick won't run then). Mirrors index.html. -->
 
             </div>
 
