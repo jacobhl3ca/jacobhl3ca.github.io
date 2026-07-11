@@ -224,7 +224,12 @@ const scrollActive = () =>{
         const sectionHeight = current.offsetHeight,
               sectionTop = current.offsetTop - 58,
               sectionId = current.getAttribute('id'),
-              sectionsClass = document.querySelector('.nav__menu a[href*="' + sectionId + '"]')
+              // Exact-hash match (href="#id"), not a substring match (href*="id"): the nav link for
+              // each section is its "#id" anchor, so exact matching is what's meant. Substring
+              // matching silently mis-targets if one section id ever becomes a substring of another
+              // (e.g. a future "#skills-detail" alongside "#skills") — a hard-to-spot highlight bug.
+              // Behaviour is identical for the current ids; this only removes that latent footgun.
+              sectionsClass = document.querySelector('.nav__menu a[href="#' + sectionId + '"]')
 
         // Some sections (e.g. the hidden "ccu" section) have no matching nav link.
         if(!sectionsClass){ return }

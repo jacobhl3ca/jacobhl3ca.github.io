@@ -11,24 +11,28 @@
         <link rel="stylesheet" href="assets/css/styles.css">
         <link rel="icon" type="image/x-icon" href="assets/img/favicon.ico">
         <link href='https://cdn.jsdelivr.net/npm/boxicons@2.0.5/css/boxicons.min.css' rel='stylesheet'> <!-- icons -->
-        <title>Jacob Heifetz-Licht</title>
-        <meta name="description" content="Data analytics leader specializing in Python, SQL, Tableau, and automation. Turning complex data into actionable insights.">
-        <meta name="keywords" content="analytics manager, data analytics, Python, SQL, Tableau, automation, dashboard design, data visualization, ETL, BigQuery">
+        <!-- Match the homepage's title element (index.html) and this page's own og:title/twitter:title (all "Jacob Heifetz-Licht — Analytics Manager"): the plain page title was the one metadata field here still lagging with just the bare name, so this animated variant's browser tab/bookmark read differently than the homepage's. A prior run aligned this page's description and og/twitter tags; this completes the variant/homepage title consistency (same fix already applied to light/index.html). No visual change to page content. -->
+        <title>Jacob Heifetz-Licht — Analytics Manager</title>
+        <!-- Match the homepage's current messaging: index.html was repositioned to lead with web development (React/Next.js) alongside analytics, but this animated homepage variant kept the older analytics-only description. og:title/twitter:title here already mirror index.html; align the description (and its og/twitter copies below) too so a shared link to this page reflects the current positioning. A prior run made this same alignment on light/index.html. No visual change. -->
+        <meta name="description" content="Data analytics leader and web developer specializing in Python, SQL, Tableau, React, and Next.js. Turning data into things people actually use.">
+        <!-- Keep the keyword list in sync with index.html: the homepage was repositioned to lead with web development (React/Next.js) alongside analytics, and this variant's title/description/og tags were already aligned to that — the keywords meta was the one field here still carrying the older analytics-only list. Completes the variant/homepage metadata consistency (same fix already applied to light/index.html). No visual change. -->
+        <meta name="keywords" content="analytics manager, data analytics, Python, SQL, Tableau, automation, dashboard design, data visualization, ETL, BigQuery, JavaScript, React, Node.js, Next.js, web development">
         <meta name="author" content="Jacob Heifetz-Licht">
         <meta name="robots" content="noindex, follow">
         <!-- Open Graph meta tags for link previews -->
         <meta property="og:title" content="Jacob Heifetz-Licht — Analytics Manager">
         <!-- <meta property="og:title" content="Jacob Heifetz-Licht — Analytics Engineer"> -->
-        <meta property="og:description" content="Data analytics leader specializing in Python, SQL, Tableau, and automation. Turning complex data into actionable insights.">
+        <meta property="og:description" content="Data analytics leader and web developer specializing in Python, SQL, Tableau, React, and Next.js. Turning data into things people actually use.">
         <meta property="og:image" content="https://jacobhl.com/assets/img/og_image.png">
         <!-- Describe the share image for assistive tech reading a link preview of this page. Every other page (index.html, 404.html, weather/, light/) already pairs this same og_image.png with this exact alt; this animated homepage variant was the only one missing it. Same wording so the site's shared-link previews stay consistent. No visual change to the page itself. -->
         <meta property="og:image:alt" content="Jacob Heifetz-Licht — Analytics Manager and web developer">
-        <meta property="og:url" content="https://jacobhl.com">
+        <!-- Give og:url the same trailing-slash canonical form the rest of the site declares (index.html's og:url is https://jacobhl.com/, and /weather/ and /light/ likewise end in a slash). Social scrapers (Facebook, LinkedIn, Slack) key share/like aggregation off og:url, and the bare-domain string is a distinct key from the slash form the homepage uses — so a share of this variant would otherwise bucket separately from the real homepage. Matches index.html; the one og field on this page still lagging. No visual change. -->
+        <meta property="og:url" content="https://jacobhl.com/">
         <meta property="og:type" content="website">
         <!-- twitter:image here is the 1200×630 landscape og_image.png, which is the format the large-image card expects; "summary" would instead crop it to a small square thumbnail. Use summary_large_image so a shared link to this page gets the full-width banner preview — matching index.html, 404.html, weather/, and light/, which all pair this same image with summary_large_image. This alternate page was the only one still on the smaller card. No visual change to the page itself. -->
         <meta name="twitter:card" content="summary_large_image">
         <meta name="twitter:title" content="Jacob Heifetz-Licht — Analytics Manager">
-        <meta name="twitter:description" content="Data analytics leader specializing in Python, SQL, Tableau, and automation. Turning complex data into actionable insights.">
+        <meta name="twitter:description" content="Data analytics leader and web developer specializing in Python, SQL, Tableau, React, and Next.js. Turning data into things people actually use.">
         <meta name="twitter:image" content="https://jacobhl.com/assets/img/og_image.png">
         <!-- Alt text for the Twitter/X card image, mirroring og:image:alt above and the twitter:image:alt already on index.html, 404.html, weather/, and light/ — this page was the only one missing it. Gives assistive-tech users a description of the preview image on a shared link. No visual change. -->
         <meta name="twitter:image:alt" content="Jacob Heifetz-Licht — Analytics Manager and web developer">
@@ -284,6 +288,23 @@
                 25% { transform: translateX(-50%) translateY(-12px) scale(1); opacity: 1; }
                 80% { transform: translateX(-50%) translateY(-10px) scale(1); opacity: 1; }
                 100% { transform: translateX(-50%) translateY(-8px) scale(1); opacity: 0; }
+            }
+            /* Honor prefers-reduced-motion. This animation variant carries several CSS
+               animations (the infinite bounce-down scroll cue, the code-float popups, the
+               egg-hatch/bird-pop easter egg) plus the scroll-reveal transitions, but — unlike
+               the production styles.css and every other page — it had no reduced-motion guard,
+               so motion-sensitive visitors got the full animation set. Neutralize animations
+               and transitions and settle .reveal to its final state, mirroring the block in
+               assets/css/styles.css. Only affects users who request reduced motion; no change
+               to the default look. */
+            @media (prefers-reduced-motion: reduce) {
+                *, *::before, *::after {
+                    animation-duration: 0.01ms !important;
+                    animation-iteration-count: 1 !important;
+                    transition-duration: 0.01ms !important;
+                }
+                html { scroll-behavior: auto; }
+                .reveal { opacity: 1; transform: none; }
             }
         </style>
     </head>
@@ -787,484 +808,6 @@
 
         <!--===== MAIN JS =====-->
         <script src="assets/js/main.js"></script>
-
-        <script>
-
-            // --- Image click effects ---
-            function spawnConfetti(x, y, count) {
-                const colors = ['#6c63ff', '#ff6584', '#43e97b', '#f9d423', '#00d2ff', '#ff4e50', '#fc5c7d', '#4361ee'];
-                const shapes = ['circle', 'square', 'triangle'];
-                for (let i = 0; i < count; i++) {
-                    const el = document.createElement('div');
-                    el.classList.add('confetti-piece');
-                    const color = colors[Math.floor(Math.random() * colors.length)];
-                    const shape = shapes[Math.floor(Math.random() * shapes.length)];
-                    const size = 6 + Math.random() * 10;
-                    el.style.left = x + 'px';
-                    el.style.top = y + 'px';
-                    el.style.width = size + 'px';
-                    el.style.height = size + 'px';
-                    el.style.background = color;
-                    if (shape === 'circle') el.style.borderRadius = '50%';
-                    else if (shape === 'triangle') {
-                        el.style.width = '0'; el.style.height = '0';
-                        el.style.background = 'transparent';
-                        el.style.borderLeft = size/2 + 'px solid transparent';
-                        el.style.borderRight = size/2 + 'px solid transparent';
-                        el.style.borderBottom = size + 'px solid ' + color;
-                    }
-                    document.body.appendChild(el);
-                    const angle = (Math.PI * 2 * i / count) + (Math.random() - 0.5) * 0.8;
-                    const distance = 120 + Math.random() * 200;
-                    const dx = Math.cos(angle) * distance;
-                    const dy = Math.sin(angle) * distance - 80;
-                    const spin = (Math.random() - 0.5) * 1080;
-                    const duration = 800 + Math.random() * 600;
-                    el.animate([
-                        { opacity: 1, transform: 'translate(0, 0) rotate(0deg) scale(1)' },
-                        { opacity: 0.8, transform: `translate(${dx*0.4}px, ${dy*0.3}px) rotate(${spin*0.4}deg) scale(1.1)`, offset: 0.3 },
-                        { opacity: 0, transform: `translate(${dx}px, ${dy}px) rotate(${spin}deg) scale(0.2)` }
-                    ], { duration: duration, easing: 'cubic-bezier(0.25, 0.46, 0.45, 0.94)', fill: 'forwards' });
-                    setTimeout(() => el.remove(), duration + 100);
-                }
-            }
-
-            function wiggleElement(el) {
-                el.style.transition = 'transform 0.1s ease';
-                const steps = [
-                    'rotate(3deg) scale(1.05)',
-                    'rotate(-3deg) scale(1.05)',
-                    'rotate(2deg) scale(1.03)',
-                    'rotate(-2deg) scale(1.03)',
-                    'rotate(0deg) scale(1)',
-                ];
-                let i = 0;
-                const interval = setInterval(() => {
-                    if (i >= steps.length) { clearInterval(interval); el.style.transition = ''; el.style.transform = ''; return; }
-                    el.style.transform = steps[i]; i++;
-                }, 80);
-            }
-
-            let confettiClickCount = 0;
-
-            const burstStyles = [
-                { name: 'starburst', colors: ['#FFD700', '#FF4500', '#FF6347', '#FFA500', '#FFFF00'], shape: 'star', glow: true },
-                { name: 'hearts', colors: ['#FF1493', '#FF69B4', '#FF007F', '#DC143C', '#FF4081'], shape: 'heart', glow: false },
-                { name: 'neon', colors: ['#00FF41', '#00FFFF', '#FF00FF', '#FFFF00', '#7B68EE'], shape: 'circle', glow: true },
-                { name: 'firework', colors: ['#FF0000', '#FF7700', '#FFFF00', '#FFFFFF', '#00BFFF'], shape: 'spark', glow: true },
-                { name: 'confetti-rain', colors: ['#6c63ff', '#ff6584', '#43e97b', '#f9d423', '#fc5c7d'], shape: 'rect', glow: false },
-                { name: 'galaxy', colors: ['#9B59B6', '#3498DB', '#1ABC9C', '#E8DAEF', '#AED6F1'], shape: 'circle', glow: true },
-                { name: 'fire', colors: ['#FF4500', '#FF6600', '#FF8C00', '#FFD700', '#FFF8DC'], shape: 'triangle', glow: true },
-                { name: 'ocean', colors: ['#006994', '#00CED1', '#20B2AA', '#48D1CC', '#AFEEEE'], shape: 'circle', glow: true },
-                { name: 'rainbow', colors: ['#FF0000', '#FF7F00', '#FFFF00', '#00FF00', '#0000FF', '#8B00FF'], shape: 'mixed', glow: false },
-            ];
-
-            function spawnBurst(x, y, style) {
-                const count = 60 + Math.floor(Math.random() * 30);
-                for (let i = 0; i < count; i++) {
-                    const el = document.createElement('div');
-                    el.classList.add('confetti-piece');
-                    const color = style.colors[Math.floor(Math.random() * style.colors.length)];
-                    const size = 6 + Math.random() * 12;
-                    el.style.left = x + 'px';
-                    el.style.top = y + 'px';
-                    el.style.width = size + 'px';
-                    el.style.height = size + 'px';
-                    el.style.background = color;
-                    if (style.glow) el.style.boxShadow = `0 0 ${size}px ${color}`;
-
-                    const s = style.shape === 'mixed' ? ['circle','square','triangle'][i%3] : style.shape;
-                    if (s === 'circle') el.style.borderRadius = '50%';
-                    else if (s === 'star') el.style.clipPath = 'polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%)';
-                    else if (s === 'heart') el.style.clipPath = 'polygon(50% 85%, 15% 45%, 0% 25%, 5% 5%, 25% 0%, 50% 20%, 75% 0%, 95% 5%, 100% 25%, 85% 45%)';
-                    else if (s === 'spark') { el.style.width = '2px'; el.style.height = (size*1.5)+'px'; el.style.borderRadius = '1px'; }
-                    else if (s === 'rect') { el.style.width = (size*0.4)+'px'; el.style.height = (size*1.2)+'px'; }
-                    else if (s === 'triangle') { el.style.background = 'transparent'; el.style.borderLeft = size/2+'px solid transparent'; el.style.borderRight = size/2+'px solid transparent'; el.style.borderBottom = size+'px solid '+color; }
-
-                    document.body.appendChild(el);
-                    const angle = (Math.PI * 2 * i / count) + (Math.random() - 0.5) * 0.8;
-                    const distance = 150 + Math.random() * 250;
-                    const dx = Math.cos(angle) * distance;
-                    const dy = Math.sin(angle) * distance - 100;
-                    const spin = (Math.random() - 0.5) * 1440;
-                    const duration = 1000 + Math.random() * 800;
-                    el.animate([
-                        { opacity: 1, transform: 'translate(0, 0) rotate(0deg) scale(1)' },
-                        { opacity: 1, transform: `translate(${dx*0.5}px, ${dy*0.3}px) rotate(${spin*0.5}deg) scale(1.3)`, offset: 0.35 },
-                        { opacity: 0, transform: `translate(${dx}px, ${dy}px) rotate(${spin}deg) scale(0.1)` }
-                    ], { duration, easing: 'cubic-bezier(0.25, 0.46, 0.45, 0.94)', fill: 'forwards' });
-                    setTimeout(() => el.remove(), duration + 100);
-                }
-            }
-
-            function megaExplosion() {
-                const overlay = document.createElement('div');
-                overlay.style.cssText = 'position:fixed;inset:0;z-index:99999;pointer-events:none;display:flex;align-items:center;justify-content:center;';
-                const text = document.createElement('div');
-                text.textContent = 'MEGA-EXPLOSION';
-                text.style.cssText = `
-                    font-family: 'Impact', 'Arial Black', sans-serif;
-                    font-size: clamp(3rem, 12vw, 10rem);
-                    font-weight: 900;
-                    font-style: italic;
-                    color: #FF0000;
-                    text-shadow:
-                        0 0 20px #FF4500,
-                        0 0 40px #FFD700,
-                        0 0 80px #FF6347,
-                        4px 4px 0 #FFD700,
-                        -2px -2px 0 #FFA500;
-                    letter-spacing: 0.05em;
-                    -webkit-text-stroke: 2px #FFD700;
-                    opacity: 0;
-                    transform: scale(0.1) rotate(-10deg);
-                    white-space: nowrap;
-                `;
-                overlay.appendChild(text);
-                document.body.appendChild(overlay);
-
-                // Animate text in
-                text.animate([
-                    { opacity: 0, transform: 'scale(0.1) rotate(-10deg)', filter: 'blur(20px)' },
-                    { opacity: 1, transform: 'scale(1.15) rotate(2deg)', filter: 'blur(0px)', offset: 0.3 },
-                    { opacity: 1, transform: 'scale(1) rotate(0deg)', filter: 'blur(0px)', offset: 0.5 },
-                    { opacity: 1, transform: 'scale(1.05) rotate(-1deg)', filter: 'blur(0px)', offset: 0.7 },
-                    { opacity: 0, transform: 'scale(2) rotate(5deg)', filter: 'blur(10px)' }
-                ], { duration: 2500, easing: 'ease-out', fill: 'forwards' });
-
-                // Screen flash
-                const flash = document.createElement('div');
-                flash.style.cssText = 'position:fixed;inset:0;z-index:99998;pointer-events:none;background:white;';
-                document.body.appendChild(flash);
-                flash.animate([
-                    { opacity: 0.8 },
-                    { opacity: 0 }
-                ], { duration: 400, fill: 'forwards' });
-                setTimeout(() => flash.remove(), 500);
-
-                // Burst confetti from multiple points
-                const cx = window.innerWidth / 2, cy = window.innerHeight / 2;
-                for (let i = 0; i < 5; i++) {
-                    setTimeout(() => {
-                        const ox = cx + (Math.random() - 0.5) * window.innerWidth * 0.6;
-                        const oy = cy + (Math.random() - 0.5) * window.innerHeight * 0.4;
-                        spawnBurst(ox, oy, burstStyles[i % burstStyles.length]);
-                    }, i * 150);
-                }
-
-                setTimeout(() => overlay.remove(), 3000);
-            }
-
-            // Auto-fire: hold mousedown = accelerating confetti, bursts grow each 10, mega at 100
-            function setupAutoFire(el) {
-                let autoFireTimer = null;
-                let autoFireDelay = 300;
-                let mouseX = 0;
-                let mouseY = 0;
-
-                // Prevent browser image drag so mousedown works properly
-                el.setAttribute('draggable', 'false');
-                el.style.userSelect = 'none';
-                el.style.webkitUserSelect = 'none';
-
-                // Track mouse/touch position so confetti spawns at cursor/finger
-                window.addEventListener('mousemove', function(e) {
-                    mouseX = e.clientX;
-                    mouseY = e.clientY;
-                });
-                el.addEventListener('touchmove', function(e) {
-                    mouseX = e.touches[0].clientX;
-                    mouseY = e.touches[0].clientY;
-                    var target = document.elementFromPoint(mouseX, mouseY);
-                    if (!el.contains(target)) stopAutoFire();
-                }, { passive: true });
-
-                function fireOnce() {
-                    if (el.classList.contains('clickable-img')) {
-                        el.classList.toggle('bg-removed');
-                    }
-                    const centerX = mouseX;
-                    const centerY = mouseY;
-                    confettiClickCount++;
-
-                    if (confettiClickCount >= 100) {
-                        megaExplosion();
-                        confettiClickCount = 0;
-                        stopAutoFire();
-                        return;
-                    } else if (confettiClickCount % 10 === 0) {
-                        // Each 10th burst is bigger than the last
-                        const tier = Math.floor(confettiClickCount / 10); // 1-9
-                        const idx = (tier - 1) % burstStyles.length;
-                        // Scale burst count and distance by tier
-                        const origBurst = spawnBurst;
-                        const scaledCount = 60 + tier * 15;
-                        const scaledDist = 150 + tier * 30;
-                        // Spawn a scaled burst
-                        spawnScaledBurst(centerX, centerY, burstStyles[idx], scaledCount, scaledDist);
-                    } else {
-                        spawnConfetti(centerX, centerY, 40);
-                    }
-                    wiggleElement(el);
-                    autoFireDelay = Math.max(40, autoFireDelay * 0.92);
-                    autoFireTimer = setTimeout(fireOnce, autoFireDelay);
-                }
-
-                function startAutoFire(e) {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    if (autoFireTimer) return;
-                    // Set initial position from the click/touch point
-                    if (e.touches) {
-                        mouseX = e.touches[0].clientX;
-                        mouseY = e.touches[0].clientY;
-                    } else {
-                        mouseX = e.clientX;
-                        mouseY = e.clientY;
-                    }
-                    autoFireDelay = 300;
-                    fireOnce();
-                }
-
-                function stopAutoFire() {
-                    clearTimeout(autoFireTimer);
-                    autoFireTimer = null;
-                }
-
-                el.addEventListener('mousedown', startAutoFire);
-                el.addEventListener('touchstart', startAutoFire, { passive: false });
-                window.addEventListener('mouseup', stopAutoFire);
-                window.addEventListener('touchend', stopAutoFire);
-                window.addEventListener('touchcancel', stopAutoFire);
-                el.addEventListener('mouseleave', stopAutoFire);
-                // Block click so it doesn't fire after mouseup
-                el.addEventListener('click', e => e.preventDefault());
-            }
-
-            // Scaled burst: more particles and bigger spread for higher tiers
-            function spawnScaledBurst(x, y, style, count, maxDist) {
-                for (let i = 0; i < count; i++) {
-                    const el = document.createElement('div');
-                    el.classList.add('confetti-piece');
-                    const color = style.colors[Math.floor(Math.random() * style.colors.length)];
-                    const size = 6 + Math.random() * 14;
-                    el.style.left = x + 'px';
-                    el.style.top = y + 'px';
-                    el.style.width = size + 'px';
-                    el.style.height = size + 'px';
-                    el.style.background = color;
-                    if (style.glow) el.style.boxShadow = `0 0 ${size}px ${color}`;
-                    const s = style.shape === 'mixed' ? ['circle','square','triangle'][i%3] : style.shape;
-                    if (s === 'circle') el.style.borderRadius = '50%';
-                    else if (s === 'star') el.style.clipPath = 'polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%)';
-                    else if (s === 'heart') el.style.clipPath = 'polygon(50% 85%, 15% 45%, 0% 25%, 5% 5%, 25% 0%, 50% 20%, 75% 0%, 95% 5%, 100% 25%, 85% 45%)';
-                    else if (s === 'spark') { el.style.width = '2px'; el.style.height = (size*1.5)+'px'; el.style.borderRadius = '1px'; }
-                    else if (s === 'rect') { el.style.width = (size*0.4)+'px'; el.style.height = (size*1.2)+'px'; }
-                    else if (s === 'triangle') { el.style.background = 'transparent'; el.style.borderLeft = size/2+'px solid transparent'; el.style.borderRight = size/2+'px solid transparent'; el.style.borderBottom = size+'px solid '+color; }
-                    document.body.appendChild(el);
-                    const angle = (Math.PI * 2 * i / count) + (Math.random() - 0.5) * 0.8;
-                    const distance = maxDist + Math.random() * (maxDist * 0.6);
-                    const dx = Math.cos(angle) * distance;
-                    const dy = Math.sin(angle) * distance - 100;
-                    const spin = (Math.random() - 0.5) * 1440;
-                    const duration = 1000 + Math.random() * 800;
-                    el.animate([
-                        { opacity: 1, transform: 'translate(0, 0) rotate(0deg) scale(1)' },
-                        { opacity: 1, transform: `translate(${dx*0.5}px, ${dy*0.3}px) rotate(${spin*0.5}deg) scale(1.3)`, offset: 0.35 },
-                        { opacity: 0, transform: `translate(${dx}px, ${dy}px) rotate(${spin}deg) scale(0.1)` }
-                    ], { duration, easing: 'cubic-bezier(0.25, 0.46, 0.45, 0.94)', fill: 'forwards' });
-                    setTimeout(() => el.remove(), duration + 100);
-                }
-            }
-
-            setupAutoFire(document.getElementById('about-photo'));
-            setupAutoFire(document.getElementById('home-photo'));
-
-            const codeSnippets = [
-                'SELECT * FROM insights WHERE impact > 9000;',
-                'import pandas as pd',
-                'df.groupby("channel").agg({"revenue": "sum"})',
-                'for row in dataset: optimize(row)',
-                'CREATE VIEW kpi_dashboard AS ...',
-                'plt.plot(dates, conversions, color="blue")',
-                'docker compose up -d',
-                'git push origin main',
-                'def automate(boring_stuff):',
-                'WHERE date BETWEEN @start AND @end',
-                'pip install streamlit plotly',
-                'tableau.publish(workbook, server)',
-                'df["roi"] = df["revenue"] / df["cost"]',
-                'spark.sql("SELECT COUNT(*) FROM events")',
-                'echo "ETL pipeline complete"',
-                'requests.get(api_endpoint).json()',
-                'crontab -e  # schedule the magic',
-                'ALTER TABLE metrics ADD COLUMN trend FLOAT;',
-                'sns.heatmap(corr_matrix, annot=True)',
-                'print("Hello, recruiter!")',
-            ];
-            let codeIdx = 0;
-
-            function handleSkillsClick(e) {
-                const snippet = codeSnippets[codeIdx % codeSnippets.length];
-                codeIdx++;
-                const popup = document.createElement('div');
-                popup.classList.add('code-popup');
-                popup.textContent = snippet;
-                popup.style.left = e.clientX + 'px';
-                popup.style.top = e.clientY + 'px';
-                document.body.appendChild(popup);
-                setTimeout(() => popup.remove(), 1900);
-            }
-
-            // Auto-fire code snippets on hold (same mousedown logic as confetti)
-            (function() {
-                const el = document.getElementById('skills-photo');
-                let autoFireTimer = null;
-                let autoFireDelay = 350;
-                let mouseX = 0, mouseY = 0;
-
-                el.setAttribute('draggable', 'false');
-                el.style.userSelect = 'none';
-                el.style.webkitUserSelect = 'none';
-
-                window.addEventListener('mousemove', function(e) {
-                    mouseX = e.clientX;
-                    mouseY = e.clientY;
-                });
-                el.addEventListener('touchmove', function(e) {
-                    mouseX = e.touches[0].clientX;
-                    mouseY = e.touches[0].clientY;
-                    var target = document.elementFromPoint(mouseX, mouseY);
-                    if (!el.contains(target)) stopAutoFire();
-                }, { passive: true });
-
-                function fireOnce() {
-                    const snippet = codeSnippets[codeIdx % codeSnippets.length];
-                    codeIdx++;
-                    const popup = document.createElement('div');
-                    popup.classList.add('code-popup');
-                    popup.textContent = snippet;
-                    popup.style.left = mouseX + 'px';
-                    popup.style.top = mouseY + 'px';
-                    document.body.appendChild(popup);
-                    setTimeout(() => popup.remove(), 1900);
-                    autoFireDelay = Math.max(250, autoFireDelay * 0.93);
-                    autoFireTimer = setTimeout(fireOnce, autoFireDelay);
-                }
-
-                function startAutoFire(e) {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    if (autoFireTimer) return;
-                    if (e.touches) { mouseX = e.touches[0].clientX; mouseY = e.touches[0].clientY; }
-                    else { mouseX = e.clientX; mouseY = e.clientY; }
-                    autoFireDelay = 350;
-                    fireOnce();
-                }
-
-                function stopAutoFire() {
-                    clearTimeout(autoFireTimer);
-                    autoFireTimer = null;
-                }
-
-                el.addEventListener('mousedown', startAutoFire);
-                el.addEventListener('touchstart', startAutoFire, { passive: false });
-                window.addEventListener('mouseup', stopAutoFire);
-                window.addEventListener('touchend', stopAutoFire);
-                window.addEventListener('touchcancel', stopAutoFire);
-                el.addEventListener('mouseleave', stopAutoFire);
-                el.addEventListener('click', e => e.preventDefault());
-            })();
-
-            // Section navigation
-            const sectionIds = ['home', 'about', 'skills', 'Projects', 'contact'];
-            const scrollDownBtn = document.getElementById('scrollDown');
-            const backToTop = document.getElementById('backToTop');
-
-            // Show down arrow after 3s delay at top, hide on scroll, re-show when back at top
-            let downArrowTimer = setTimeout(() => {
-                scrollDownBtn.classList.add('visible');
-            }, 3000);
-
-            function getCurrentSectionIndex() {
-                const scrollPos = window.scrollY + window.innerHeight / 3;
-                for (let i = sectionIds.length - 1; i >= 0; i--) {
-                    const el = document.getElementById(sectionIds[i]);
-                    if (el && scrollPos >= el.offsetTop) return i;
-                }
-                return 0;
-            }
-
-            let backToTopTimer = null;
-            window.addEventListener('scroll', () => {
-                const idx = getCurrentSectionIndex();
-                const atContact = idx >= sectionIds.length - 1;
-                const atTop = window.scrollY < 10;
-
-                // Down arrow: hide on scroll, re-show with 3s delay at top
-                if (atTop) {
-                    if (!downArrowTimer && !scrollDownBtn.classList.contains('visible')) {
-                        downArrowTimer = setTimeout(() => {
-                            scrollDownBtn.classList.add('visible');
-                            downArrowTimer = null;
-                        }, 3000);
-                    }
-                } else {
-                    clearTimeout(downArrowTimer);
-                    downArrowTimer = null;
-                    scrollDownBtn.classList.remove('visible');
-                }
-
-                // Up arrow: show with 2s delay when at contact, hide otherwise
-                if (atContact) {
-                    if (!backToTopTimer && !backToTop.classList.contains('visible')) {
-                        backToTopTimer = setTimeout(() => {
-                            backToTop.classList.add('visible');
-                            backToTopTimer = null;
-                        }, 2000);
-                    }
-                } else {
-                    clearTimeout(backToTopTimer);
-                    backToTopTimer = null;
-                    backToTop.classList.remove('visible');
-                }
-            });
-
-            scrollDownBtn.addEventListener('click', () => {
-                const idx = getCurrentSectionIndex();
-                const nextIdx = Math.min(idx + 1, sectionIds.length - 1);
-                const target = document.getElementById(sectionIds[nextIdx]);
-                if (target) target.scrollIntoView({ behavior: 'smooth' });
-            });
-
-            backToTop.addEventListener('click', () => {
-                window.scrollTo({ top: 0, behavior: 'smooth' });
-            });
-
-            // Easter egg (uncomment to enable)
-            // const egg = document.getElementById('easterEgg');
-            // egg.addEventListener('click', () => {
-            //     if (egg.classList.contains('hatched')) return;
-            //     egg.classList.add('hatched');
-            //     setTimeout(() => egg.classList.remove('hatched'), 4000);
-            // });
-
-            // Confetti only on profile pics (about-photo, home-photo)
-
-            function requestResume() {
-                document.getElementById('contact').scrollIntoView({ behavior: 'smooth' });
-                const form = document.querySelector('.contact__form');
-                const nameInput = form.querySelector('input[name="name"]');
-                const emailInput = form.querySelector('input[name="email"]');
-                const messageInput = form.querySelector('textarea[name="message"]');
-
-                nameInput.value = 'Your Name';
-                emailInput.value = 'your@email.com';
-                messageInput.value = 'Hi Jacob,\n\nI\'d love a copy of your resume.\n\nThanks!';
-
-                nameInput.focus();
-            }
-        </script>
         
     </body>
 </html>
