@@ -56,6 +56,9 @@
         <!-- Give og:url the same trailing-slash canonical form the rest of the site declares (index.html's og:url is https://jacobhl.com/, and /weather/ and /light/ likewise end in a slash). Social scrapers (Facebook, LinkedIn, Slack) key share/like aggregation off og:url, and the bare-domain string is a distinct key from the slash form the homepage uses — so a share of this variant would otherwise bucket separately from the real homepage. Matches index.html; the one og field on this page still lagging. No visual change. -->
         <meta property="og:url" content="https://jacobhl.com/">
         <meta property="og:type" content="website">
+        <!-- Name the site and its locale for link previews, mirroring index.html's og block (and 404.html, weather/, light/, which all declare both): og:site_name gives Facebook/LinkedIn/Slack the site label shown above the card title, and og:locale=en_US matches the en-US this page already declares on <html> and the JSON-LD elsewhere. This animated homepage variant was the only page site-wide missing these two og fields; adding them completes the variant/homepage OG parity. No visual change to the page itself. -->
+        <meta property="og:site_name" content="Jacob Heifetz-Licht">
+        <meta property="og:locale" content="en_US">
         <!-- twitter:image here is the 1200×630 landscape og_image.png, which is the format the large-image card expects; "summary" would instead crop it to a small square thumbnail. Use summary_large_image so a shared link to this page gets the full-width banner preview — matching index.html, 404.html, weather/, and light/, which all pair this same image with summary_large_image. This alternate page was the only one still on the smaller card. No visual change to the page itself. -->
         <meta name="twitter:card" content="summary_large_image">
         <meta name="twitter:title" content="Jacob Heifetz-Licht — Analytics Manager">
