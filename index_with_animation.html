@@ -764,9 +764,10 @@
                 <h2 class="section-title">Contact</h2>
                 <div class="contact__container bd-grid">
                     <form action="https://formspree.io/f/mkgqkgyr" method="POST" class="contact__form">
-                        <input type="text" name="name" placeholder="Name" class="contact__input" required>
-                        <input type="email" name="email" placeholder="Email" class="contact__input" required>
-                        <textarea name="message" placeholder="Your Message" class="contact__input" rows="10" required></textarea>
+                        <!-- aria-label on each field so it has a stable accessible name: the placeholder is only a hint (it vanishes once the user types and is low-contrast), so placeholder-only inputs leave assistive-tech users without a reliable field name (WCAG 4.1.2). Mirrors the wording the live index.html contact form already uses ("Your name" / "Your email address" / "Your message"), bringing this animated variant to the same a11y baseline. No visual change. -->
+                        <input type="text" name="name" placeholder="Name" aria-label="Your name" class="contact__input" required>
+                        <input type="email" name="email" placeholder="Email" aria-label="Your email address" class="contact__input" required>
+                        <textarea name="message" placeholder="Your Message" aria-label="Your message" class="contact__input" rows="10" required></textarea>
                         <button type="submit" class="contact__button button">Send</button>
                     </form>
                 </div>
