@@ -10,7 +10,30 @@
         <meta name="color-scheme" content="dark light">
         <link rel="stylesheet" href="assets/css/styles.css">
         <link rel="icon" type="image/x-icon" href="assets/img/favicon.ico">
+        <!-- Resource hints mirroring index.html / 404.html: this variant loads the same render-blocking assets (boxicons from jsdelivr, and Poppins which styles.css @imports from Google Fonts) but was the only page site-wide with no connection warm-up, so every one of those sockets is opened serially on the critical path here. -->
+        <link rel="preconnect" href="https://cdn.jsdelivr.net"> <!-- early-connect for the render-blocking boxicons CSS fetch (non-CORS, so it can't reuse the crossorigin socket below) -->
+        <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin> <!-- early-connect for the boxicons icon font (CORS woff2, crossorigin so the warmed socket is reused) -->
+        <link rel="preconnect" href="https://fonts.googleapis.com"> <!-- early-connect to Google Fonts CSS (styles.css @imports Poppins from here, on the critical path) -->
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin> <!-- early-connect to the Google Fonts file host; crossorigin so the warmed socket is reused for the CORS woff2 fetch -->
+        <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap"> <!-- styles.css @imports Poppins, but @import isn't discoverable until styles.css has downloaded + parsed, so the font CSS fetch is serialized on the critical path; preload it (same URL) so the browser fetches it in parallel up front and the @import then resolves from cache. Kept identical to the @import so the preload still satisfies it. -->
+        <link rel="dns-prefetch" href="//formspree.io"> <!-- resolve the Formspree host ahead of the contact form's on-submit POST (assets/js/main.js) so the DNS lookup isn't on the send path -->
         <link href='https://cdn.jsdelivr.net/npm/boxicons@2.0.5/css/boxicons.min.css' rel='stylesheet'> <!-- icons -->
+        <script>
+            // Apply the saved theme before paint so light-mode users don't see a dark flash
+            // (the document defaults to data-theme="dark"; main.js loads at the end of <body>).
+            // The theme-color/color-scheme metas above only fix the UA-chrome flash; this fixes
+            // the actual page-content flash. Mirrors index.html and 404.html — this animated
+            // variant was the one page still missing the pre-paint theme handling.
+            try {
+                if (localStorage.getItem('theme') === 'light') {
+                    document.documentElement.removeAttribute('data-theme');
+                    // Sync the mobile address-bar colour to the light header before first paint
+                    // (main.js does this too, but only later at the end of <body>).
+                    var tc = document.querySelector('meta[name="theme-color"]');
+                    if (tc) tc.setAttribute('content', '#ffffff');
+                }
+            } catch (e) {}
+        </script>
         <!-- Match the homepage's title element (index.html) and this page's own og:title/twitter:title (all "Jacob Heifetz-Licht — Analytics Manager"): the plain page title was the one metadata field here still lagging with just the bare name, so this animated variant's browser tab/bookmark read differently than the homepage's. A prior run aligned this page's description and og/twitter tags; this completes the variant/homepage title consistency (same fix already applied to light/index.html). No visual change to page content. -->
         <title>Jacob Heifetz-Licht — Analytics Manager</title>
         <!-- Match the homepage's current messaging: index.html was repositioned to lead with web development (React/Next.js) alongside analytics, but this animated homepage variant kept the older analytics-only description. og:title/twitter:title here already mirror index.html; align the description (and its og/twitter copies below) too so a shared link to this page reflects the current positioning. A prior run made this same alignment on light/index.html. No visual change. -->
@@ -24,6 +47,10 @@
         <!-- <meta property="og:title" content="Jacob Heifetz-Licht — Analytics Engineer"> -->
         <meta property="og:description" content="Data analytics leader and web developer specializing in Python, SQL, Tableau, React, and Next.js. Turning data into things people actually use.">
         <meta property="og:image" content="https://jacobhl.com/assets/img/og_image.png">
+        <!-- Declare the share image's MIME type and pixel dimensions (the file is a 1200×630 PNG). Social scrapers (Facebook, LinkedIn, Slack) use these to reserve the correct card size and render the preview immediately on first share, instead of skipping the image or waiting to fetch-and-measure it. Every other page (index.html, 404.html, weather/, light/) already pairs this same og_image.png with these three tags; this animated homepage variant was the only one missing them. No visual change to the page itself. -->
+        <meta property="og:image:type" content="image/png">
+        <meta property="og:image:width" content="1200">
+        <meta property="og:image:height" content="630">
         <!-- Describe the share image for assistive tech reading a link preview of this page. Every other page (index.html, 404.html, weather/, light/) already pairs this same og_image.png with this exact alt; this animated homepage variant was the only one missing it. Same wording so the site's shared-link previews stay consistent. No visual change to the page itself. -->
         <meta property="og:image:alt" content="Jacob Heifetz-Licht — Analytics Manager and web developer">
         <!-- Give og:url the same trailing-slash canonical form the rest of the site declares (index.html's og:url is https://jacobhl.com/, and /weather/ and /light/ likewise end in a slash). Social scrapers (Facebook, LinkedIn, Slack) key share/like aggregation off og:url, and the bare-domain string is a distinct key from the slash form the homepage uses — so a share of this variant would otherwise bucket separately from the real homepage. Matches index.html; the one og field on this page still lagging. No visual change. -->
@@ -315,7 +342,7 @@
         <header class="l-header">
             <nav class="nav bd-grid">
                 <div>
-                    <a href="#" class="nav__logo">Jacob</a>
+                    <a href="#home" class="nav__logo">Jacob</a>
                 </div>
                 <div class="nav__menu" id="nav-menu">
                     <ul class="nav__list">
@@ -335,6 +362,25 @@
                     <button type="button" id="theme-toggle" class="theme-toggle" aria-label="Switch to light mode" style="position: relative; top: -2px;">
                         <i class='bx bx-sun' id="theme-icon" aria-hidden="true"></i>
                     </button>
+                    <script>
+                        // Correct the theme toggle's baseline state for returning light-mode users,
+                        // before paint and before main.js loads at end of <body>. The button is hardcoded
+                        // in its dark-mode state (sun icon + "Switch to light mode"), but the inline <head>
+                        // script has already applied the saved light theme — so without this the toggle
+                        // briefly shows the wrong icon and, more importantly, announces the wrong action to
+                        // assistive tech ("Switch to light mode" while the page is already light). main.js
+                        // re-applies the same state later (classList.replace is a no-op when the class is
+                        // absent, and the aria-label is identical), so this only removes the flash/mismatch.
+                        // Mirrors index.html and 404.html.
+                        try {
+                            if (localStorage.getItem('theme') === 'light') {
+                                var _ti = document.getElementById('theme-icon');
+                                if (_ti) _ti.classList.replace('bx-sun', 'bx-moon');
+                                var _tt = document.getElementById('theme-toggle');
+                                if (_tt) _tt.setAttribute('aria-label', 'Switch to dark mode');
+                            }
+                        } catch (e) {}
+                    </script>
                     <div class="nav__toggle" id="nav-toggle" role="button" aria-label="Toggle navigation menu">
                         <i class='bx bx-menu' aria-hidden="true"></i>
                     </div>
@@ -352,11 +398,12 @@
                 </div>
 
                 <div class="home__social">
-                    <a href="https://www.linkedin.com/in/jacobhl/" class="home__social-icon" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn profile"><i class='bx bxl-linkedin' aria-hidden="true"></i></a>
-                    <a href="https://github.com/jacobhl3ca" class="home__social-icon" target="_blank" rel="noopener noreferrer" aria-label="GitHub profile"><i class='bx bxl-github' aria-hidden="true"></i></a>
+                    <!-- rel="me" marks these as Jacob's own verified identity profiles — the HTML-level identity/authorship signal read by rel-me consumers (IndieAuth, Mastodon verification), which crawl any reachable page of the domain regardless of its noindex status. Every other page site-wide (index.html, 404.html) already carries rel="me" on every link to these two profiles; this directly-reachable animated homepage variant was the exception (both its home social row and footer). Additive rel token — no visual or behaviour change (noopener/noreferrer preserved). -->
+                    <a href="https://www.linkedin.com/in/jacobhl/" class="home__social-icon" target="_blank" rel="me noopener noreferrer" aria-label="LinkedIn profile"><i class='bx bxl-linkedin' aria-hidden="true"></i></a>
+                    <a href="https://github.com/jacobhl3ca" class="home__social-icon" target="_blank" rel="me noopener noreferrer" aria-label="GitHub profile"><i class='bx bxl-github' aria-hidden="true"></i></a>
                     <!-- No target="_blank": this mailto is handled entirely by the onclick, which returns false so the anchor never navigates and the target never fires — a dead, misleading attribute that also implied a mailto would open a blank browser tab. Mirrors the live index.html, whose equivalent email icon carries no target. The LinkedIn/GitHub icons above keep target="_blank" (real external navigations). No visual or behavioural change. -->
                     <a href="#" onclick="window.location='mail'+'to:'+'hi'+'@'+'jacobhl'+'.com';return false;" class="home__social-icon" aria-label="Send email"><i class='bx bx-envelope' aria-hidden="true"></i></a>
-                    <a href="#contact" class="home__social-icon" onclick="requestResume()" aria-label="Request resume"><i class='bx bx-file' aria-hidden="true"></i></a>
+                    <a href="#contact" class="home__social-icon" onclick="event.preventDefault(); requestResume()" aria-label="Request resume"><i class='bx bx-file' aria-hidden="true"></i></a> <!-- preventDefault so the browser's instant #contact fragment jump doesn't fight requestResume()'s own smooth scroll, reset the focus it places in the contact form, or append #contact to the URL. The plain href stays as the no-JS fallback (onclick won't run then). Mirrors index.html. -->
                 </div>
 
                 <div class="home__img">
@@ -373,7 +420,7 @@
                 <div class="about__container bd-grid">
                     <div class="about__img">
 
-                         <img src="assets/img/about.jpg" alt="Jacob Heifetz-Licht portrait" class="clickable-img" id="about-photo">
+                         <img loading="lazy" decoding="async" src="assets/img/about.jpg" alt="Jacob Heifetz-Licht portrait" class="clickable-img" id="about-photo">
 
                     </div>
                     <div>
@@ -492,7 +539,7 @@
                     </div>
                     
                     <div>              
-                        <img src="assets/img/skills.jpg" alt="Jacob working with data analytics tools" class="skills__img" id="skills-photo">
+                        <img loading="lazy" decoding="async" src="assets/img/skills.jpg" alt="Jacob working with data analytics tools" class="skills__img" id="skills-photo">
                     </div>
                 </div>
             </section>
@@ -507,7 +554,7 @@
 
                     <div class="work__img"> <!-- Spotify Analytics -->
                         <!-- <a href=""> -->
-                            <img src="assets/img/spotify_monthly.png" alt="Spotify Analytics" data-dark="assets/img/spotify_monthly.png" data-light="assets/img/spotify_monthly_light.png" id="project-spotify-analytics">
+                            <img loading="lazy" decoding="async" src="assets/img/spotify_monthly.png" alt="Spotify Analytics" data-dark="assets/img/spotify_monthly.png" data-light="assets/img/spotify_monthly_light.png" id="project-spotify-analytics">
                         <!-- </a> -->
                         <div class="work__description">
                             <center>
@@ -523,7 +570,7 @@
 
                     <div class="work__img"> <!-- Spotify Playlist Archiver -->
                         <!-- <a href=""> -->
-                            <img src="assets/img/spotify_archiver.png" alt="Spotify Playlist Archiver" style="object-fit: contain; background: #121212;" data-dark="assets/img/spotify_archiver.png" data-light="assets/img/spotify_archiver_light.png" id="project-spotify-archiver">
+                            <img loading="lazy" decoding="async" src="assets/img/spotify_archiver.png" alt="Spotify Playlist Archiver" style="object-fit: contain; background: #121212;" data-dark="assets/img/spotify_archiver.png" data-light="assets/img/spotify_archiver_light.png" id="project-spotify-archiver">
                         <!-- </a> -->
                         <div class="work__description">
                             <center>
@@ -539,7 +586,7 @@
 
                     <div class="work__img"> <!-- Personal Finance App -->
                         <!-- <a href=""> -->
-                            <img src="assets/img/finance_trend.png" alt="Personal Finance App" data-dark="assets/img/finance_trend.png" data-light="assets/img/finance_trend_light.png">
+                            <img loading="lazy" decoding="async" src="assets/img/finance_trend.png" alt="Personal Finance App" data-dark="assets/img/finance_trend.png" data-light="assets/img/finance_trend_light.png">
                         <!-- </a> -->
                         <div class="work__description">
                             <center>
@@ -554,7 +601,7 @@
                     </div>
 
                     <div class="work__img"> <!-- E-commerce Store -->
-                            <img src="assets/img/stripe_dark.svg" alt="E-commerce Store" style="object-fit: cover; background: #121212;" data-dark="assets/img/stripe_dark.svg" data-light="assets/img/stripe_light.svg">
+                            <img loading="lazy" decoding="async" src="assets/img/stripe_dark.svg" alt="E-commerce Store" style="object-fit: cover; background: #121212;" data-dark="assets/img/stripe_dark.svg" data-light="assets/img/stripe_light.svg">
                         <div class="work__description">
                             <center>
                                 <h3>
@@ -568,7 +615,7 @@
                     </div>
 
                     <div class="work__img"> <!-- Automation Utilities -->
-                            <img src="assets/img/automation_dark.svg" alt="Automation Utilities" style="object-fit: cover; background: #121212;" data-dark="assets/img/automation_dark.svg" data-light="assets/img/automation_light.svg">
+                            <img loading="lazy" decoding="async" src="assets/img/automation_dark.svg" alt="Automation Utilities" style="object-fit: cover; background: #121212;" data-dark="assets/img/automation_dark.svg" data-light="assets/img/automation_light.svg">
                         <div class="work__description">
                             <center>
                                 <h3>
@@ -586,7 +633,7 @@
 
                     <div class="work__img"> <!-- System Administration -->
                         <!-- <a href=""> -->
-                            <img src="assets/img/docker_dark.png" alt="System Administration" data-dark="assets/img/docker_dark.png" data-light="assets/img/docker_dark_light.png">
+                            <img loading="lazy" decoding="async" src="assets/img/docker_dark.png" alt="System Administration" data-dark="assets/img/docker_dark.png" data-light="assets/img/docker_dark_light.png">
                         <!-- </a> -->
                         <div class="work__description">
                             <center>
@@ -602,7 +649,7 @@
 
                     <!-- Safari Unpinner (commented out)
                     <div class="work__img">
-                            <img src="assets/img/unpin_safari.png" alt="Safari Unpinner" style="object-fit: cover;">
+                            <img loading="lazy" decoding="async" src="assets/img/unpin_safari.png" alt="Safari Unpinner" style="object-fit: cover;">
                         <div class="work__description">
                             <center>
                                 <h3>
@@ -618,7 +665,7 @@
 
                     <!-- Weather Dashboard (commented out)
                     <div class="work__img">
-                            <img src="assets/img/weather_real.png" alt="Weather Dashboard" style="object-fit: cover;">
+                            <img loading="lazy" decoding="async" src="assets/img/weather_real.png" alt="Weather Dashboard" style="object-fit: cover;">
                         <div class="work__description">
                             <center>
                                 <h3>
@@ -634,7 +681,7 @@
 
                     <!-- Coinbase Analytics (commented out)
                     <div class="work__img">
-                            <img src="assets/img/coinbase_dark.png" alt="Coinbase Analytics">
+                            <img loading="lazy" decoding="async" src="assets/img/coinbase_dark.png" alt="Coinbase Analytics">
                         <div class="work__description">
                             <center>
                                 <h3>
@@ -650,7 +697,7 @@
 
                     <!-- Data Analytics Dashboard (commented out)
                     <div class="work__img">
-                            <img src="assets/img/data_analytics_real.png" alt="Data Analytics Dashboard" style="object-fit: cover;">
+                            <img loading="lazy" decoding="async" src="assets/img/data_analytics_real.png" alt="Data Analytics Dashboard" style="object-fit: cover;">
                         <div class="work__description">
                             <center>
                                 <h3>
@@ -666,7 +713,7 @@
 
                     <!-- TaskMaster Mobile App (commented out)
                     <div class="work__img">
-                            <img src="assets/img/taskmaster_real.png" alt="TaskMaster Mobile App" style="object-fit: cover; background: #0d1117;">
+                            <img loading="lazy" decoding="async" src="assets/img/taskmaster_real.png" alt="TaskMaster Mobile App" style="object-fit: cover; background: #0d1117;">
                         <div class="work__description">
                             <center>
                                 <h3>
@@ -682,7 +729,7 @@
 
                     <!-- Terminal Snake Game (commented out)
                     <div class="work__img">
-                            <img src="assets/img/snake_real.png" alt="Terminal Snake Game" style="object-fit: cover;">
+                            <img loading="lazy" decoding="async" src="assets/img/snake_real.png" alt="Terminal Snake Game" style="object-fit: cover;">
                         <div class="work__description">
                             <center>
                                 <h3>
@@ -698,7 +745,7 @@
 
                     <!-- Surfing Cat Emoji (commented out)
                     <div class="work__img">
-                            <img src="assets/img/surfing_cat_real.png" alt="Surfing Cat Emoji Creator" style="object-fit: cover;">
+                            <img loading="lazy" decoding="async" src="assets/img/surfing_cat_real.png" alt="Surfing Cat Emoji Creator" style="object-fit: cover;">
                         <div class="work__description">
                             <center>
                                 <h3>
@@ -714,7 +761,7 @@
 
                     <!-- Beat Generator (commented out)
                     <div class="work__img">
-                            <img src="assets/img/beatgen_real.png" alt="Procedural Beat Generator" style="object-fit: cover;">
+                            <img loading="lazy" decoding="async" src="assets/img/beatgen_real.png" alt="Procedural Beat Generator" style="object-fit: cover;">
                         <div class="work__description">
                             <center>
                                 <h3>
@@ -730,7 +777,7 @@
 
                     <!-- Tigers App (commented out)
                     <div class="work__img">
-                            <img src="assets/img/tigers_real.png" alt="Detroit Tigers iOS App" style="object-fit: cover; background: #0d1117;">
+                            <img loading="lazy" decoding="async" src="assets/img/tigers_real.png" alt="Detroit Tigers iOS App" style="object-fit: cover; background: #0d1117;">
                         <div class="work__description">
                             <center>
                                 <h3>
@@ -752,9 +799,10 @@
                 <h2 class="section-title">Contact</h2>
                 <div class="contact__container bd-grid">
                     <form action="https://formspree.io/f/mkgqkgyr" method="POST" class="contact__form">
-                        <input type="text" name="name" placeholder="Name" class="contact__input" required>
-                        <input type="email" name="email" placeholder="Email" class="contact__input" required>
-                        <textarea name="message" placeholder="Your Message" class="contact__input" rows="10" required></textarea>
+                        <!-- aria-label on each field so it has a stable accessible name: the placeholder is only a hint (it vanishes once the user types and is low-contrast), so placeholder-only inputs leave assistive-tech users without a reliable field name (WCAG 4.1.2). Mirrors the wording the live index.html contact form already uses ("Your name" / "Your email address" / "Your message"), bringing this animated variant to the same a11y baseline. No visual change. -->
+                        <input type="text" name="name" placeholder="Name" aria-label="Your name" class="contact__input" required>
+                        <input type="email" name="email" placeholder="Email" aria-label="Your email address" class="contact__input" required>
+                        <textarea name="message" placeholder="Your Message" aria-label="Your message" class="contact__input" rows="10" required></textarea>
                         <button type="submit" class="contact__button button">Send</button>
                     </form>
                 </div>
@@ -767,14 +815,14 @@
             <p class="footer__title">Jacob</p>
             <div class="footer__social">
 
-                <a href="https://www.linkedin.com/in/jacobhl/" class="footer__icon" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn profile"><i class='bx bxl-linkedin' aria-hidden="true"></i></a>
+                <a href="https://www.linkedin.com/in/jacobhl/" class="footer__icon" target="_blank" rel="me noopener noreferrer" aria-label="LinkedIn profile"><i class='bx bxl-linkedin' aria-hidden="true"></i></a>
 
-                <a href="https://github.com/jacobhl3ca" class="footer__icon" target="_blank" rel="noopener noreferrer" aria-label="GitHub profile"><i class='bx bxl-github' aria-hidden="true"></i></a>
+                <a href="https://github.com/jacobhl3ca" class="footer__icon" target="_blank" rel="me noopener noreferrer" aria-label="GitHub profile"><i class='bx bxl-github' aria-hidden="true"></i></a>
 
                 <!-- No target="_blank" (mirrors the home email icon and the live index.html): the onclick handles the mailto and returns false, so the anchor never navigates and the target never fired — a dead, misleading attribute implying a mailto opens a blank tab. -->
                 <a href="#" onclick="window.location='mail'+'to:'+'hi'+'@'+'jacobhl'+'.com';return false;" class="footer__icon" aria-label="Send email"><i class='bx bx-envelope' aria-hidden="true"></i></a>
 
-                <a href="#contact" class="footer__icon" onclick="requestResume()" aria-label="Request resume"><i class='bx bx-file' aria-hidden="true"></i></a>
+                <a href="#contact" class="footer__icon" onclick="event.preventDefault(); requestResume()" aria-label="Request resume"><i class='bx bx-file' aria-hidden="true"></i></a> <!-- preventDefault so the browser's instant #contact fragment jump doesn't fight requestResume()'s own smooth scroll, reset the focus it places in the contact form, or append #contact to the URL. The plain href stays as the no-JS fallback (onclick won't run then). Mirrors index.html. -->
 
             </div>
 
