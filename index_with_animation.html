@@ -24,6 +24,10 @@
         <!-- <meta property="og:title" content="Jacob Heifetz-Licht — Analytics Engineer"> -->
         <meta property="og:description" content="Data analytics leader and web developer specializing in Python, SQL, Tableau, React, and Next.js. Turning data into things people actually use.">
         <meta property="og:image" content="https://jacobhl.com/assets/img/og_image.png">
+        <!-- Declare the share image's MIME type and pixel dimensions (the file is a 1200×630 PNG). Social scrapers (Facebook, LinkedIn, Slack) use these to reserve the correct card size and render the preview immediately on first share, instead of skipping the image or waiting to fetch-and-measure it. Every other page (index.html, 404.html, weather/, light/) already pairs this same og_image.png with these three tags; this animated homepage variant was the only one missing them. No visual change to the page itself. -->
+        <meta property="og:image:type" content="image/png">
+        <meta property="og:image:width" content="1200">
+        <meta property="og:image:height" content="630">
         <!-- Describe the share image for assistive tech reading a link preview of this page. Every other page (index.html, 404.html, weather/, light/) already pairs this same og_image.png with this exact alt; this animated homepage variant was the only one missing it. Same wording so the site's shared-link previews stay consistent. No visual change to the page itself. -->
         <meta property="og:image:alt" content="Jacob Heifetz-Licht — Analytics Manager and web developer">
         <!-- Give og:url the same trailing-slash canonical form the rest of the site declares (index.html's og:url is https://jacobhl.com/, and /weather/ and /light/ likewise end in a slash). Social scrapers (Facebook, LinkedIn, Slack) key share/like aggregation off og:url, and the bare-domain string is a distinct key from the slash form the homepage uses — so a share of this variant would otherwise bucket separately from the real homepage. Matches index.html; the one og field on this page still lagging. No visual change. -->
