@@ -1,5 +1,5 @@
 /*===== GOOGLE FONTS =====*/
-@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap"); /* include 500 (medium): .skills__tag pills and the .mac-badge "Mac" label declare font-weight:500, but it was never loaded here, so the browser synthesized it from 400 and rendered them lighter than designed. Matches the weather dashboard, which already loads 400;500;600;700. */
 /*===== VARIABLES CSS =====*/
 :root {
   /* Tell the browser the page is light by default so native UI (scrollbars,
