@@ -18,6 +18,22 @@
         <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap"> <!-- styles.css @imports Poppins, but @import isn't discoverable until styles.css has downloaded + parsed, so the font CSS fetch is serialized on the critical path; preload it (same URL) so the browser fetches it in parallel up front and the @import then resolves from cache. Kept identical to the @import so the preload still satisfies it. -->
         <link rel="dns-prefetch" href="//formspree.io"> <!-- resolve the Formspree host ahead of the contact form's on-submit POST (assets/js/main.js) so the DNS lookup isn't on the send path -->
         <link href='https://cdn.jsdelivr.net/npm/boxicons@2.0.5/css/boxicons.min.css' rel='stylesheet'> <!-- icons -->
+        <script>
+            // Apply the saved theme before paint so light-mode users don't see a dark flash
+            // (the document defaults to data-theme="dark"; main.js loads at the end of <body>).
+            // The theme-color/color-scheme metas above only fix the UA-chrome flash; this fixes
+            // the actual page-content flash. Mirrors index.html and 404.html — this animated
+            // variant was the one page still missing the pre-paint theme handling.
+            try {
+                if (localStorage.getItem('theme') === 'light') {
+                    document.documentElement.removeAttribute('data-theme');
+                    // Sync the mobile address-bar colour to the light header before first paint
+                    // (main.js does this too, but only later at the end of <body>).
+                    var tc = document.querySelector('meta[name="theme-color"]');
+                    if (tc) tc.setAttribute('content', '#ffffff');
+                }
+            } catch (e) {}
+        </script>
         <!-- Match the homepage's title element (index.html) and this page's own og:title/twitter:title (all "Jacob Heifetz-Licht — Analytics Manager"): the plain page title was the one metadata field here still lagging with just the bare name, so this animated variant's browser tab/bookmark read differently than the homepage's. A prior run aligned this page's description and og/twitter tags; this completes the variant/homepage title consistency (same fix already applied to light/index.html). No visual change to page content. -->
         <title>Jacob Heifetz-Licht — Analytics Manager</title>
         <!-- Match the homepage's current messaging: index.html was repositioned to lead with web development (React/Next.js) alongside analytics, but this animated homepage variant kept the older analytics-only description. og:title/twitter:title here already mirror index.html; align the description (and its og/twitter copies below) too so a shared link to this page reflects the current positioning. A prior run made this same alignment on light/index.html. No visual change. -->
@@ -346,6 +362,25 @@
                     <button type="button" id="theme-toggle" class="theme-toggle" aria-label="Switch to light mode" style="position: relative; top: -2px;">
                         <i class='bx bx-sun' id="theme-icon" aria-hidden="true"></i>
                     </button>
+                    <script>
+                        // Correct the theme toggle's baseline state for returning light-mode users,
+                        // before paint and before main.js loads at end of <body>. The button is hardcoded
+                        // in its dark-mode state (sun icon + "Switch to light mode"), but the inline <head>
+                        // script has already applied the saved light theme — so without this the toggle
+                        // briefly shows the wrong icon and, more importantly, announces the wrong action to
+                        // assistive tech ("Switch to light mode" while the page is already light). main.js
+                        // re-applies the same state later (classList.replace is a no-op when the class is
+                        // absent, and the aria-label is identical), so this only removes the flash/mismatch.
+                        // Mirrors index.html and 404.html.
+                        try {
+                            if (localStorage.getItem('theme') === 'light') {
+                                var _ti = document.getElementById('theme-icon');
+                                if (_ti) _ti.classList.replace('bx-sun', 'bx-moon');
+                                var _tt = document.getElementById('theme-toggle');
+                                if (_tt) _tt.setAttribute('aria-label', 'Switch to dark mode');
+                            }
+                        } catch (e) {}
+                    </script>
                     <div class="nav__toggle" id="nav-toggle" role="button" aria-label="Toggle navigation menu">
                         <i class='bx bx-menu' aria-hidden="true"></i>
                     </div>
