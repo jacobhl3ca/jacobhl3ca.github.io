@@ -94,7 +94,8 @@
 <body>
 <main>
   <div class="who">
-    <img src="assets/img/about.jpg" alt="Jacob">
+    <!-- Explicit width/height (matching the CSS-rendered 74x74 avatar box; the asset is square, 600x600 intrinsic) reserve the layout slot so the async image load can't shift the adjacent name/role text — this was the one content image site-wide still missing dimensions (Lighthouse "unsized-images"). decoding="async" keeps decode off the render path; alt expanded to the full name to match the site's other portraits. No visual change. -->
+    <img src="assets/img/about.jpg" alt="Jacob Heifetz-Licht" width="74" height="74" decoding="async">
     <div>
       <div class="n">Jacob Heifetz-Licht</div>
       <div class="r">Software developer · your neighbor in the building</div>
