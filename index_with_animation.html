@@ -386,7 +386,7 @@
                             }
                         } catch (e) {}
                     </script>
-                    <div class="nav__toggle" id="nav-toggle" role="button" aria-label="Toggle navigation menu">
+                    <div class="nav__toggle" id="nav-toggle" role="button" tabindex="0" aria-label="Toggle navigation menu" aria-controls="nav-menu" aria-expanded="false"> <!-- full ARIA parity with index.html's nav toggle: tabindex="0" makes the role=button div keyboard-focusable and aria-expanded="false" announces its closed state even in the pre-main.js window (main.js backfills both on load, but the static values match the canonical page); aria-controls="nav-menu" names the menu this button toggles and is NOT set by main.js, so declaring it here is a real accessibility gain for screen-reader users. No visual change. -->
                         <i class='bx bx-menu' aria-hidden="true"></i>
                     </div>
                 </div>
