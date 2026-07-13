@@ -1098,7 +1098,16 @@
 
 
         <!--===== MAIN JS =====-->
-        <script src="assets/js/main.js"></script>
+        <!-- defer: main.js is a ~30KB parser-blocking script sitting above ~350 lines of modal
+             markup + the project-render IIFE, so the parser stalls on its download/execute before
+             finishing that DOM. Deferring lets the browser keep parsing while main.js downloads in
+             parallel, then runs it after parse (still before DOMContentLoaded). Safe here: main.js
+             only wires static elements (nav, theme/view toggles, section scroll-spy, contact form)
+             that exist at parse start, its live-dot observer is a no-op (rows ship class="live-dot
+             is-visible"), and no inline script calls a main.js global — so nothing depends on it
+             running mid-parse. Consistent with the page's existing preload/preconnect/fetchpriority
+             work; no visual or behaviour change. -->
+        <script defer src="assets/js/main.js"></script>
 
         <!-- Inline JS moved to assets/js/main.js on 2026-03-27 -->
 

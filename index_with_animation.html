@@ -56,6 +56,9 @@
         <!-- Give og:url the same trailing-slash canonical form the rest of the site declares (index.html's og:url is https://jacobhl.com/, and /weather/ and /light/ likewise end in a slash). Social scrapers (Facebook, LinkedIn, Slack) key share/like aggregation off og:url, and the bare-domain string is a distinct key from the slash form the homepage uses — so a share of this variant would otherwise bucket separately from the real homepage. Matches index.html; the one og field on this page still lagging. No visual change. -->
         <meta property="og:url" content="https://jacobhl.com/">
         <meta property="og:type" content="website">
+        <!-- Name the site and its locale for link previews, mirroring index.html's og block (and 404.html, weather/, light/, which all declare both): og:site_name gives Facebook/LinkedIn/Slack the site label shown above the card title, and og:locale=en_US matches the en-US this page already declares on <html> and the JSON-LD elsewhere. This animated homepage variant was the only page site-wide missing these two og fields; adding them completes the variant/homepage OG parity. No visual change to the page itself. -->
+        <meta property="og:site_name" content="Jacob Heifetz-Licht">
+        <meta property="og:locale" content="en_US">
         <!-- twitter:image here is the 1200×630 landscape og_image.png, which is the format the large-image card expects; "summary" would instead crop it to a small square thumbnail. Use summary_large_image so a shared link to this page gets the full-width banner preview — matching index.html, 404.html, weather/, and light/, which all pair this same image with summary_large_image. This alternate page was the only one still on the smaller card. No visual change to the page itself. -->
         <meta name="twitter:card" content="summary_large_image">
         <meta name="twitter:title" content="Jacob Heifetz-Licht — Analytics Manager">
@@ -63,6 +66,8 @@
         <meta name="twitter:image" content="https://jacobhl.com/assets/img/og_image.png">
         <!-- Alt text for the Twitter/X card image, mirroring og:image:alt above and the twitter:image:alt already on index.html, 404.html, weather/, and light/ — this page was the only one missing it. Gives assistive-tech users a description of the preview image on a shared link. No visual change. -->
         <meta name="twitter:image:alt" content="Jacob Heifetz-Licht — Analytics Manager and web developer">
+        <!-- Canonical → the real homepage. This is a near-duplicate variant of the homepage (same title/hero/copy, only the intro animation differs) and is already noindex; point its canonical at https://jacobhl.com/ so any crawler that reaches it consolidates all ranking/duplicate signals onto the real homepage rather than treating this alternate URL as its own page. Consistent with the og:url above (already set to https://jacobhl.com/ so social shares aggregate with the homepage) and completes head parity with index.html, the only page here that declared a canonical. Pure metadata, no visual change. -->
+        <link rel="canonical" href="https://jacobhl.com/">
         <style>
             /* Override: cascade with 30px slide up */
             .reveal { opacity: 0; transform: translateY(30px); transition: opacity 0.6s ease, transform 0.6s ease; }
@@ -340,7 +345,7 @@
         <a href="#main-content" class="skip-link">Skip to main content</a>
         <!--===== HEADER =====-->
         <header class="l-header">
-            <nav class="nav bd-grid">
+            <nav class="nav bd-grid" aria-label="Primary"> <!-- name the primary navigation landmark so screen-reader landmark menus read "Primary navigation" instead of a generic, unlabeled "navigation" — this animated variant was the one page whose nav still lacked it (mirrors index.html and 404.html) -->
                 <div>
                     <a href="#home" class="nav__logo">Jacob</a>
                 </div>
@@ -381,7 +386,7 @@
                             }
                         } catch (e) {}
                     </script>
-                    <div class="nav__toggle" id="nav-toggle" role="button" aria-label="Toggle navigation menu">
+                    <div class="nav__toggle" id="nav-toggle" role="button" tabindex="0" aria-label="Toggle navigation menu" aria-controls="nav-menu" aria-expanded="false"> <!-- full ARIA parity with index.html's nav toggle: tabindex="0" makes the role=button div keyboard-focusable and aria-expanded="false" announces its closed state even in the pre-main.js window (main.js backfills both on load, but the static values match the canonical page); aria-controls="nav-menu" names the menu this button toggles and is NOT set by main.js, so declaring it here is a real accessibility gain for screen-reader users. No visual change. -->
                         <i class='bx bx-menu' aria-hidden="true"></i>
                     </div>
                 </div>
