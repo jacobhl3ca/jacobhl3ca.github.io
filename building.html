@@ -86,6 +86,18 @@
   .note{color:var(--muted);font-size:15px;margin-top:14px}
 
   footer{border-top:1px solid var(--line);margin-top:34px;padding-top:18px;color:var(--muted);font-size:14px}
+
+  /* Respect a reduced-motion preference. The only motion on this page is the
+     .wtile hover lift (translateY + shadow/border transition); neutralise it so
+     visitors who ask the OS to "reduce motion" get a static hover instead. This
+     is fully self-contained (its own inline styles, no styles.css), so it was
+     the one page site-wide still missing prefers-reduced-motion support — every
+     other page already has it (styles.css's global block covers index/404,
+     weather/ carries its own). No change for anyone who hasn't set the preference. */
+  @media (prefers-reduced-motion: reduce){
+    .wtile{transition:none}
+    .wtile:hover{transform:none}
+  }
   @media (max-width:720px){
     main{padding-top:30px}
     .grid,.work{grid-template-columns:1fr}
