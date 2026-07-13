@@ -66,6 +66,8 @@
         <meta name="twitter:image" content="https://jacobhl.com/assets/img/og_image.png">
         <!-- Alt text for the Twitter/X card image, mirroring og:image:alt above and the twitter:image:alt already on index.html, 404.html, weather/, and light/ — this page was the only one missing it. Gives assistive-tech users a description of the preview image on a shared link. No visual change. -->
         <meta name="twitter:image:alt" content="Jacob Heifetz-Licht — Analytics Manager and web developer">
+        <!-- Canonical → the real homepage. This is a near-duplicate variant of the homepage (same title/hero/copy, only the intro animation differs) and is already noindex; point its canonical at https://jacobhl.com/ so any crawler that reaches it consolidates all ranking/duplicate signals onto the real homepage rather than treating this alternate URL as its own page. Consistent with the og:url above (already set to https://jacobhl.com/ so social shares aggregate with the homepage) and completes head parity with index.html, the only page here that declared a canonical. Pure metadata, no visual change. -->
+        <link rel="canonical" href="https://jacobhl.com/">
         <style>
             /* Override: cascade with 30px slide up */
             .reveal { opacity: 0; transform: translateY(30px); transition: opacity 0.6s ease, transform 0.6s ease; }
