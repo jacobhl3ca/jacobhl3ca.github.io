@@ -5,6 +5,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <!-- Tint the mobile browser chrome (address bar / status bar) to match this page's light paper background, and give the tab the site favicon. This flyer/QR landing page was the only page site-wide still missing both — every other page (index.html, index_with_animation.html, 404.html, weather/, light/) already carries a theme-color and favicon link. #fffdf7 matches this page's --paper. No visual change to page content. -->
 <meta name="theme-color" content="#fffdf7">
+<!-- Declare the colour scheme to the UA up front. This is a light-only page (paper background --paper:#fffdf7, no theme toggle), but color-scheme is otherwise never set — so on an OS-dark browser the root canvas, scrollbars, and overscroll area paint with the dark OS default around the light design (a mismatched flash before CSS settles). "light" matches this page's paper background and theme-color. building.html was the only page site-wide still missing this — every other page (index.html, index_with_animation.html, 404.html, weather/, light/) already declares color-scheme. No visual change to the settled page. -->
+<meta name="color-scheme" content="light">
 <link rel="icon" type="image/x-icon" href="assets/img/favicon.ico">
 <title>Website or App Help from Jacob — Pay What You Want</title>
 <meta name="description" content="Pay-what-you-want website and app help from Jacob, a software developer in the building. See live work and send your idea.">
