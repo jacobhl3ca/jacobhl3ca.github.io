@@ -1,0 +1,134 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Website or App Help from Jacob — Pay What You Want</title>
+<meta name="description" content="Pay-what-you-want website and app help from Jacob, a software developer in the building. See live work and send your idea.">
+<style>
+  :root{
+    --ink:#141414; --muted:#5f6368; --paper:#fffdf7; --line:#e7ded0;
+    --blue:#2463eb; --green:#15803d; --gold:#b7791f;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif;
+    color:var(--ink);background:var(--paper);line-height:1.5}
+  main{max-width:940px;margin:0 auto;padding:44px 22px 70px}
+
+  .who{display:flex;align-items:center;gap:16px;margin-bottom:22px}
+  .who img{width:74px;height:74px;border-radius:50%;object-fit:cover;border:3px solid #fff;
+    box-shadow:0 4px 16px rgba(0,0,0,.15)}
+  .who .n{font-weight:800;font-size:19px;line-height:1.15}
+  .who .r{color:var(--muted);font-size:14px}
+  .who .badge{margin-left:auto;font-size:12px;font-weight:800;color:var(--green);
+    background:#e9f8ee;border:1px solid #bfe6cc;border-radius:999px;padding:6px 13px;white-space:nowrap}
+
+  .eyebrow{color:var(--blue);font-weight:800;letter-spacing:.12em;text-transform:uppercase;font-size:13px;margin-bottom:14px}
+  h1{margin:0 0 16px;font-family:Georgia,serif;font-size:clamp(40px,7vw,66px);line-height:1.03;max-width:800px}
+  h1 .pw{color:var(--green)}
+  .lead{font-size:clamp(18px,2.6vw,23px);color:#342f26;max-width:760px;margin:0 0 26px}
+
+  .panel{border:1px solid var(--line);background:#fff;border-radius:12px;padding:24px;margin:22px 0}
+  h2{margin:0 0 12px;font-size:22px}
+  ul{margin:0;padding-left:22px;color:#2f3135;font-size:17px}
+  li{margin:8px 0}
+  .grid{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+
+  /* live work tiles */
+  .worklabel{font-weight:800;font-size:14px;letter-spacing:.02em;text-transform:uppercase;color:var(--muted);margin:6px 0 12px}
+  .work{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+  .wtile{display:block;border:1px solid var(--line);border-radius:12px;padding:15px 16px;background:#fff;
+    text-decoration:none;color:inherit;transition:transform .15s,box-shadow .15s,border-color .15s}
+  .wtile:hover{transform:translateY(-3px);box-shadow:0 10px 24px rgba(0,0,0,.08);border-color:#cbd5e1}
+  .wtile b{display:block;font-size:16px;margin-bottom:3px}
+  .wtile span{font-size:13px;color:var(--muted)}
+  .wtile .u{display:block;margin-top:8px;font-family:ui-monospace,Menlo,monospace;font-size:12px;color:var(--blue)}
+
+  .steps{counter-reset:step;list-style:none;padding:0;margin:0}
+  .steps li{counter-increment:step;position:relative;padding-left:42px;margin:14px 0}
+  .steps li:before{content:counter(step);position:absolute;left:0;top:0;width:28px;height:28px;border-radius:50%;
+    background:#f5ead7;color:#6f4511;display:grid;place-items:center;font-weight:800}
+
+  .cta{display:flex;flex-wrap:wrap;gap:12px;align-items:center;margin-top:22px}
+  a.button{display:inline-flex;align-items:center;justify-content:center;min-height:50px;padding:13px 20px;
+    border-radius:10px;background:var(--ink);color:#fff;text-decoration:none;font-weight:800}
+  a.secondary{background:#fff;color:var(--ink);border:1px solid var(--line)}
+  .contactline{margin-top:14px;font-size:16px}
+  .contactline b{color:var(--ink)}
+  .contactline a{color:var(--blue);text-decoration:none;font-weight:700}
+  .note{color:var(--muted);font-size:15px;margin-top:14px}
+
+  footer{border-top:1px solid var(--line);margin-top:34px;padding-top:18px;color:var(--muted);font-size:14px}
+  @media (max-width:720px){
+    main{padding-top:30px}
+    .grid,.work{grid-template-columns:1fr}
+    .panel{padding:20px}
+    .who .badge{display:none}
+  }
+</style>
+</head>
+<body>
+<main>
+  <div class="who">
+    <img src="assets/img/about.jpg" alt="Jacob">
+    <div>
+      <div class="n">Jacob Heifetz-Licht</div>
+      <div class="r">Software developer · your neighbor in the building</div>
+    </div>
+    <div class="badge">10+ live projects shipped</div>
+  </div>
+
+  <div class="eyebrow">Pay what you want · you keep what I make</div>
+  <h1>Want a website or app? <span class="pw">Let's build it.</span></h1>
+  <p class="lead">I design and ship fast, modern websites and apps — the kind you'd expect from a studio, from someone a few floors away. I'm taking on a few real neighbor projects while I grow my portfolio.</p>
+
+  <section class="panel">
+    <div class="worklabel">A few things I've built — all live, tap to open</div>
+    <div class="work">
+      <a class="wtile" href="https://hidescore.com" target="_blank" rel="noopener"><b>hidescore</b><span>Spoiler-free sports scores & highlights (iOS + web)</span><span class="u">hidescore.com ↗</span></a>
+      <a class="wtile" href="https://theisland.nyc" target="_blank" rel="noopener"><b>The Island</b><span>Live Roosevelt Island guide — bus GPS, tram & subway times</span><span class="u">theisland.nyc ↗</span></a>
+      <a class="wtile" href="https://duelgoat.com" target="_blank" rel="noopener"><b>GOAT Format</b><span>Full online card-game platform, built from scratch</span><span class="u">duelgoat.com ↗</span></a>
+      <a class="wtile" href="https://subwaytimes.com" target="_blank" rel="noopener"><b>Subway Times</b><span>Fast live NYC subway arrivals, 497 station pages</span><span class="u">subwaytimes.com ↗</span></a>
+      <a class="wtile" href="https://tonightnyc.com" target="_blank" rel="noopener"><b>Tonight NYC</b><span>What's on tonight — comedy, jazz, events</span><span class="u">tonightnyc.com ↗</span></a>
+      <a class="wtile" href="https://davidlicht.com" target="_blank" rel="noopener"><b>Oral history</b><span>A polished personal / portfolio site</span><span class="u">davidlicht.com ↗</span></a>
+    </div>
+  </section>
+
+  <div class="grid">
+    <section class="panel">
+      <h2>Good fits</h2>
+      <ul>
+        <li>A website for a small business, service, or side project</li>
+        <li>A personal site, portfolio, menu, event page, or link page</li>
+        <li>A simple app, tracker, dashboard, or internal tool</li>
+        <li>A polished version of an idea you've had sitting around</li>
+      </ul>
+    </section>
+
+    <section class="panel">
+      <h2>How it works</h2>
+      <ol class="steps">
+        <li>Send me a few sentences about the idea.</li>
+        <li>We do a quick chat in the building or by phone.</li>
+        <li>I build a first version and you tell me what to change.</li>
+      </ol>
+    </section>
+  </div>
+
+  <section class="panel">
+    <h2>Pay what you want</h2>
+    <p>I'm doing this mainly for portfolio work and real practice, so there's no fixed price. If the finished thing is useful to you, pay whatever feels fair. If money is the blocker, say that up front.</p>
+    <p class="note">I'll only take a small number of projects so I can finish them properly.</p>
+    <div class="cta">
+      <a class="button" href="mailto:hi@jacobhl.com?subject=Building%20project%20idea&body=Hi%20Jacob%2C%0A%0AI%20saw%20your%20flyer%20in%20the%20building.%20I%20might%20want%20help%20with%3A%0A%0AThe%20rough%20idea%3A%0A%0AWhat%20it%20is%20for%3A%0A%0ABest%20way%20to%20reach%20me%3A%0A">Email the idea</a>
+      <a class="button secondary" href="sms:+18622952714">Text me</a>
+    </div>
+    <div class="contactline"><b>hi@jacobhl.com</b> · text <a href="sms:+18622952714">862-295-2714</a></div>
+  </section>
+
+  <footer>
+    Jacob Heifetz-Licht · neighbor, web/app developer · hi@jacobhl.com · 862-295-2714
+  </footer>
+</main>
+</body>
+</html>
