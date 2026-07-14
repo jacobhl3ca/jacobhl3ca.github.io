@@ -1274,7 +1274,7 @@ function rowHTML(p, eager){
 }
 
 document.getElementById('main-rows').innerHTML = MAIN.map((p, i) => rowHTML(p, i === 0)).join(''); // eager-load only the first (above-the-fold) card's image
-document.getElementById('more-rows').innerHTML = MORE.map(p => rowHTML(p, false)).join(''); // "Private projects" panel starts collapsed/inert — keep all its images lazy
+document.getElementById('more-rows').innerHTML = MORE.map(p => rowHTML(p, false)).join(''); // "Other projects" panel starts collapsed/inert — keep all its images lazy
 
 // click anywhere on the card toggles expand — EXCEPT a live thumbnail (opens preview) and CTA links.
 // "Other projects" have no live preview, so clicking their thumbnail expands the card like the rest.
@@ -1287,7 +1287,7 @@ document.querySelectorAll('.proj-head').forEach(h=>{
     // Collapsed, .proj-detail is zero-height (grid-template-rows:0fr + overflow:hidden) but its
     // description text stays in the DOM and is still announced by assistive tech; mark it inert
     // when collapsed so AT matches the chevron's aria-expanded state (inert is a no-op in older
-    // browsers, so behaviour there is unchanged). Mirrors the "Private projects" panel above.
+    // browsers, so behaviour there is unchanged). Mirrors the "Other projects" panel above.
     const detail = row.querySelector('.proj-detail');
     if(detail){ if(open) detail.removeAttribute('inert'); else detail.setAttribute('inert',''); }
     const chev = h.querySelector('.proj-chev');
