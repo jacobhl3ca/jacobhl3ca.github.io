@@ -206,7 +206,8 @@
       <a class="button" href="mailto:hi@jacobhl.com?subject=Building%20project%20idea&body=Hi%20Jacob%2C%0A%0AI%20saw%20your%20flyer%20in%20the%20building.%20I%20might%20want%20help%20with%3A%0A%0AThe%20rough%20idea%3A%0A%0AWhat%20it%20is%20for%3A%0A%0ABest%20way%20to%20reach%20me%3A%0A">Email the idea</a>
       <a class="button secondary" href="sms:+18622952714">Text me</a>
     </div>
-    <div class="contactline"><b>hi@jacobhl.com</b> · text <a href="sms:+18622952714">862-295-2714</a></div>
+    <!-- Make the primary email tappable, mirroring the sms: link beside it: on the phone this flyer/QR page targets, a neighbor expects to tap the address to open their mail app, but it was plain text (only the "Email the idea" button above and the phone number here were actionable). Wrapping the existing <b> in the mailto keeps the appearance identical — .contactline b's color:var(--ink) still styles the bold text (it wins over the anchor's blue for the text it directly targets), and .contactline a's text-decoration:none suppresses the underline — so this only adds the click target. No visual change. -->
+    <div class="contactline"><a href="mailto:hi@jacobhl.com"><b>hi@jacobhl.com</b></a> · text <a href="sms:+18622952714">862-295-2714</a></div>
   </section>
 
   <footer>
