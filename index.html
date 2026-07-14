@@ -909,7 +909,7 @@
                     </noscript>
 
                     <button type="button" class="more-toggle" id="moreToggle" aria-expanded="false" aria-controls="moreWrap">
-                        <span id="moreLabel">Private projects</span>
+                        <span id="moreLabel">Other projects</span>
                         <i class='bx bx-chevron-down' aria-hidden="true"></i>
                     </button>
                     <div class="more-wrap" id="moreWrap" inert><div class="more-inner"><div class="padtop">
@@ -1166,6 +1166,16 @@ const MAIN = [
     one:"Everything happening on NYC's Roosevelt Island, in one place.",
     full:"Everything happening on NYC's Roosevelt Island, in one place — real-time bus GPS, subway, tram, and ferry times, a restaurant guide, service alerts, an events newsletter, and an interactive map.",
     site:"https://theisland.nyc", appstore:"https://apps.apple.com/us/app/roosevelt-island/id6775979583" },
+  // PLACEHOLDER — uncomment to publish. Needs screenshot (assets/img/duelgoat-app.png).
+  // { title:"DuelGoat", live:true, img:"assets/img/duelgoat-app.png", url:"https://duelgoat.com",
+  //   one:"A browser recreation of GOAT-format Yu-Gi-Oh dueling.",
+  //   full:"A faithful browser recreation of GOAT-format Yu-Gi-Oh — the 2005 metagame competitive players still love — with the full card database, deck building, and online play.",
+  //   site:"https://duelgoat.com" },
+  // PLACEHOLDER — uncomment to publish. Needs screenshot (assets/img/islander-app.png).
+  // { title:"Islander", live:true, img:"assets/img/islander-app.png", url:"https://islander.theisland.nyc",
+  //   one:"A neighbor-help app for NYC's Roosevelt Island.",
+  //   full:"A neighbor-help app for Roosevelt Island — post what you need or offer a hand, from borrowing a tool to walking a dog, so favors stay local (Next.js, Supabase).",
+  //   site:"https://islander.theisland.nyc" },
   // ref (hidden from site): "Developer ID-signed and Apple-notarized, so it downloads and opens cleanly (Python, rumps, py2app)."
   { title:"TidyTab", live:false, img:"assets/img/tidytab.png",
     one:"Bulk unpin or close Safari pinned tabs — a macOS menu-bar app.",
@@ -1425,7 +1435,7 @@ mt.addEventListener('click', ()=>{
   // chevron buttons; mark it inert so keyboard focus and assistive tech skip the hidden rows
   // (inert is a no-op in older browsers, so behaviour there is unchanged).
   if(open) mw.removeAttribute('inert'); else mw.setAttribute('inert','');
-  ml.textContent = open ? 'Hide private projects' : 'Private projects';
+  ml.textContent = open ? 'Hide other projects' : 'Other projects';
 });
 })();
     </script>
