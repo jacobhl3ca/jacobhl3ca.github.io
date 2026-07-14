@@ -196,7 +196,8 @@
 
     <section class="panel">
       <h2>How it works</h2>
-      <ol class="steps">
+      <!-- role="list" restores the list semantics that list-style:none strips in Safari/VoiceOver (a known WebKit behaviour: a list with its markers removed is no longer exposed as a list, so a screen reader announces the steps as three loose sentences instead of "list, 3 items"). The .steps ol is the one styled list on the page that removes its markers, so it was the one spot still missing this — matching the site's existing role="list" pattern on its other marker-less lists (index.html's skills-tag pills, weather/'s forecast list). Adding role has no visual effect. -->
+      <ol class="steps" role="list">
         <li>Send me a few sentences about the idea.</li>
         <li>We do a quick chat in the building or by phone.</li>
         <li>I build a first version and you tell me what to change.</li>
