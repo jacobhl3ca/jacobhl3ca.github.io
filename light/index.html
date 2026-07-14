@@ -35,6 +35,8 @@
     <meta name="twitter:description" content="Data analytics leader and web developer specializing in Python, SQL, Tableau, React, and Next.js. Turning data into things people actually use.">
     <meta name="twitter:image" content="https://jacobhl.com/assets/img/og_image_centered.png">
     <meta name="twitter:image:alt" content="Jacob Heifetz-Licht — Analytics Manager and web developer">
+    <!-- Canonical → the homepage. This /light/ page is a noindex entry point whose only job is to force light mode and then redirect to / (see the meta refresh above and the script below), so its content is effectively the homepage's. Point the canonical at / to consolidate any signals for the /light/ URL onto the real page — mirroring the rel=canonical the site's other noindex homepage variant (index_with_animation.html) already carries. This /light/ page was the one homepage-variant still missing it; completes the canonical pattern across the noindex variants. No visual change to page content. -->
+    <link rel="canonical" href="https://jacobhl.com/">
     <script>
         // Force light mode and redirect to main site.
         // Guard localStorage (it can throw in private mode / when storage is blocked)

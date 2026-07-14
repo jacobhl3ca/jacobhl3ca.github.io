@@ -413,7 +413,8 @@
 
                 <div class="home__img">
                     <div class="home__circle clickable-img" id="home-photo">
-                        <img src="assets/img/header.png" alt="Jacob Heifetz-Licht" class="home__circle-img">
+                        <!-- Intrinsic width/height (705x800, the file's real size) reserve the hero portrait's layout box so its async decode can't shift the page (Lighthouse "unsized-images"/CLS). Same image + class as index.html, which already carries these exact dimensions, so the CSS-controlled rendered size is unchanged. This variant's portraits were the ones still unsized; mirrors index.html. No visual change. -->
+                        <img src="assets/img/header.png" alt="Jacob Heifetz-Licht" class="home__circle-img" width="705" height="800">
                     </div>
                 </div>
             </section>
@@ -425,7 +426,8 @@
                 <div class="about__container bd-grid">
                     <div class="about__img">
 
-                         <img loading="lazy" decoding="async" src="assets/img/about.jpg" alt="Jacob Heifetz-Licht portrait" class="clickable-img" id="about-photo">
+                         <!-- Intrinsic width/height (600x600 square, the file's real size) reserve the About portrait's box to prevent layout shift on load (Lighthouse "unsized-images"/CLS). Same image + class as index.html, which already declares these; the CSS-controlled rendered size is unchanged. No visual change. -->
+                         <img loading="lazy" decoding="async" src="assets/img/about.jpg" alt="Jacob Heifetz-Licht portrait" class="clickable-img" id="about-photo" width="600" height="600">
 
                     </div>
                     <div>
@@ -544,7 +546,8 @@
                     </div>
                     
                     <div>              
-                        <img loading="lazy" decoding="async" src="assets/img/skills.jpg" alt="Jacob working with data analytics tools" class="skills__img" id="skills-photo">
+                        <!-- Intrinsic width/height (640x426, the file's real size) reserve the Skills photo's box to prevent layout shift on load (Lighthouse "unsized-images"/CLS). Same image + class as index.html, which already declares these; the CSS-controlled rendered size is unchanged. No visual change. -->
+                        <img loading="lazy" decoding="async" src="assets/img/skills.jpg" alt="Jacob working with data analytics tools" class="skills__img" id="skills-photo" width="640" height="426">
                     </div>
                 </div>
             </section>
