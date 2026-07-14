@@ -124,13 +124,18 @@
 
   <section class="panel">
     <div class="worklabel">A few things I've built — all live, tap to open</div>
+    <!-- The trailing ↗ on each tile's URL is a decorative "opens externally" cue paired with the
+         visible domain, so hide it from assistive tech (aria-hidden) — otherwise a screen reader
+         announces "north-east arrow" after every domain. Matches the site's consistent decorative-
+         glyph pattern (weather/ and index.html wrap their ←/↑/↓ arrows and emoji the same way);
+         building.html's tiles were the one spot still leaking a bare arrow. No visual change. -->
     <div class="work">
-      <a class="wtile" href="https://hidescore.com" target="_blank" rel="noopener"><b>hidescore</b><span>Spoiler-free sports scores & highlights (iOS + web)</span><span class="u">hidescore.com ↗</span></a>
-      <a class="wtile" href="https://theisland.nyc" target="_blank" rel="noopener"><b>The Island</b><span>Live Roosevelt Island guide — bus GPS, tram & subway times</span><span class="u">theisland.nyc ↗</span></a>
-      <a class="wtile" href="https://duelgoat.com" target="_blank" rel="noopener"><b>GOAT Format</b><span>Full online card-game platform, built from scratch</span><span class="u">duelgoat.com ↗</span></a>
-      <a class="wtile" href="https://subwaytimes.com" target="_blank" rel="noopener"><b>Subway Times</b><span>Fast live NYC subway arrivals, 497 station pages</span><span class="u">subwaytimes.com ↗</span></a>
-      <a class="wtile" href="https://tonightnyc.com" target="_blank" rel="noopener"><b>Tonight NYC</b><span>What's on tonight — comedy, jazz, events</span><span class="u">tonightnyc.com ↗</span></a>
-      <a class="wtile" href="https://davidlicht.com" target="_blank" rel="noopener"><b>Oral history</b><span>A polished personal / portfolio site</span><span class="u">davidlicht.com ↗</span></a>
+      <a class="wtile" href="https://hidescore.com" target="_blank" rel="noopener"><b>hidescore</b><span>Spoiler-free sports scores & highlights (iOS + web)</span><span class="u">hidescore.com<span aria-hidden="true"> ↗</span></span></a>
+      <a class="wtile" href="https://theisland.nyc" target="_blank" rel="noopener"><b>The Island</b><span>Live Roosevelt Island guide — bus GPS, tram & subway times</span><span class="u">theisland.nyc<span aria-hidden="true"> ↗</span></span></a>
+      <a class="wtile" href="https://duelgoat.com" target="_blank" rel="noopener"><b>GOAT Format</b><span>Full online card-game platform, built from scratch</span><span class="u">duelgoat.com<span aria-hidden="true"> ↗</span></span></a>
+      <a class="wtile" href="https://subwaytimes.com" target="_blank" rel="noopener"><b>Subway Times</b><span>Fast live NYC subway arrivals, 497 station pages</span><span class="u">subwaytimes.com<span aria-hidden="true"> ↗</span></span></a>
+      <a class="wtile" href="https://tonightnyc.com" target="_blank" rel="noopener"><b>Tonight NYC</b><span>What's on tonight — comedy, jazz, events</span><span class="u">tonightnyc.com<span aria-hidden="true"> ↗</span></span></a>
+      <a class="wtile" href="https://davidlicht.com" target="_blank" rel="noopener"><b>Oral history</b><span>A polished personal / portfolio site</span><span class="u">davidlicht.com<span aria-hidden="true"> ↗</span></span></a>
     </div>
   </section>
 
