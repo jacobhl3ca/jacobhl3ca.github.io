@@ -123,7 +123,8 @@
   <p class="lead">I design and ship fast, modern websites and apps — the kind you'd expect from a studio, from someone a few floors away. I'm taking on a few real neighbor projects while I grow my portfolio.</p>
 
   <section class="panel">
-    <div class="worklabel">A few things I've built — all live, tap to open</div>
+    <!-- The live-work showcase was the one content panel on this page with no heading — the other three panels (Good fits / How it works / Pay what you want) each open with an <h2>, so a screen-reader user navigating by headings, or a crawler reading the outline, skipped straight past the portfolio proof (the flyer's most persuasive section). Promote this styled label from a <div> to an <h2> so the section is navigable and the heading order is h1 → h2×4. The .worklabel class (font-size/weight/margin) beats the h2 element rules by specificity, so it renders identically. No visual change. -->
+    <h2 class="worklabel">A few things I've built — all live, tap to open</h2>
     <!-- The trailing ↗ on each tile's URL is a decorative "opens externally" cue paired with the
          visible domain, so hide it from assistive tech (aria-hidden) — otherwise a screen reader
          announces "north-east arrow" after every domain. Matches the site's consistent decorative-
