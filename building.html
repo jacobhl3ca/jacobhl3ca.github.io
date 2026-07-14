@@ -15,6 +15,41 @@
 <meta name="author" content="Jacob Heifetz-Licht">
 <!-- Self-referential canonical: this page is a flyer/QR target, so it's routinely opened with tracking query params (?utm_*, QR analytics). Point every such variant at the clean URL so search engines index one copy, not duplicates. Mirrors the canonical present on every other page (index.html, weather/, light/). -->
 <link rel="canonical" href="https://jacobhl.com/building.html">
+<!-- Structured data: building.html is independently indexed (it's in sitemap.xml and self-canonical'd above) but was the one indexed page site-wide with no linked-data node. Give it a WebPage entity tied into the site's graph the same way weather/ ties in its WebApplication: isPartOf the WebSite (#website, defined on index.html) and authored by the Person (#person) — cross-page @id references search engines merge site-wide. inLanguage matches the en-US the homepage's nodes declare and this page's og:locale. Pure metadata, no visual change. -->
+<script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    "@id": "https://jacobhl.com/building.html#webpage",
+    "url": "https://jacobhl.com/building.html",
+    "name": "Website or App Help from Jacob — Pay What You Want",
+    "description": "Pay-what-you-want website and app help from Jacob, a software developer in the building. See live work and send your idea.",
+    "inLanguage": "en-US",
+    "isPartOf": { "@id": "https://jacobhl.com/#website" },
+    "author": { "@id": "https://jacobhl.com/#person" }
+}
+</script>
+<!-- Breadcrumb trail: this flyer/QR landing page is independently indexed but sits one level under the homepage (the same Home → sub-page shape weather/ formalizes). Model that hierarchy so search engines can show a breadcrumb in results instead of the raw building.html URL. Continues the site's linked-data pattern (Person → WebSite → WebPage). Pure metadata, no visual change. -->
+<script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+        {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "Home",
+            "item": "https://jacobhl.com/"
+        },
+        {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "Website or App Help",
+            "item": "https://jacobhl.com/building.html"
+        }
+    ]
+}
+</script>
 <!-- Social-share cards: this page is a flyer/QR target meant to be passed around (texted to a neighbor, dropped in a building group chat), so the link is far more likely to be shared than crawled. Without Open Graph / Twitter tags a shared link renders as a bare URL with no preview; every other page on the site already carries these. Reuses the site-wide og_image.png. Pure metadata, no visual change. -->
 <meta property="og:title" content="Website or App Help from Jacob — Pay What You Want">
 <meta property="og:description" content="Pay-what-you-want website and app help from Jacob, a software developer in the building. See live work and send your idea.">
