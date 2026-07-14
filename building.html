@@ -11,6 +11,8 @@
 <link rel="icon" type="image/x-icon" href="assets/img/favicon.ico">
 <title>Website or App Help from Jacob — Pay What You Want</title>
 <meta name="description" content="Pay-what-you-want website and app help from Jacob, a software developer in the building. See live work and send your idea.">
+<!-- Explicit indexing directive for this fully-indexed production page (it's in sitemap.xml, self-canonical'd, and carries OG/Twitter + JSON-LD). building.html was the one indexed page site-wide with no robots meta — both other indexed pages (index.html, weather/) declare this exact directive. index/follow keeps the default indexing explicit, while max-image-preview:large lets Google show a large image thumbnail and max-snippet:-1 lets the full description appear in results (the UA-chosen defaults are otherwise more conservative). Completes the site-wide indexed-page pattern. No visual change. -->
+<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">
 <!-- Name the document's author, consistent with every other page on the site (index.html, 404.html, weather/, and light/ all declare this) — building.html was the one page site-wide still missing it. Purely document metadata surfaced by some browsers, tools, and reader modes; no visual change and no effect on indexing. -->
 <meta name="author" content="Jacob Heifetz-Licht">
 <!-- Self-referential canonical: this page is a flyer/QR target, so it's routinely opened with tracking query params (?utm_*, QR analytics). Point every such variant at the clean URL so search engines index one copy, not duplicates. Mirrors the canonical present on every other page (index.html, weather/, light/). -->
