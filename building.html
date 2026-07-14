@@ -123,6 +123,11 @@
   .note{color:var(--muted);font-size:15px;margin-top:14px}
 
   footer{border-top:1px solid var(--line);margin-top:34px;padding-top:18px;color:var(--muted);font-size:14px}
+  /* Footer contact details are tappable (see the footer markup) but should read as
+     part of the muted footer line, not as default blue/underlined links — inherit the
+     footer colour and drop the underline so the actionable email/phone look identical
+     to the surrounding plain text. No visual change. */
+  footer a{color:inherit;text-decoration:none}
 
   /* Respect a reduced-motion preference. The only motion on this page is the
      .wtile hover lift (translateY + shadow/border transition); neutralise it so
@@ -210,8 +215,16 @@
     <div class="contactline"><a href="mailto:hi@jacobhl.com"><b>hi@jacobhl.com</b></a> · text <a href="sms:+18622952714">862-295-2714</a></div>
   </section>
 
+  <!-- Make the footer's email + phone tappable — this was the one contact line on the page
+       still plain text (the CTA's "Email the idea"/"Text me" buttons and the .contactline
+       above are already actionable). This flyer/QR page is opened almost entirely on phones,
+       where email addresses don't auto-link (only iOS auto-links bare phone numbers, and to a
+       call — not the text-first flow this page offers). mailto for the email; sms for the
+       phone, matching the two existing sms:+18622952714 links and the page's "text me" intent
+       (not a call). footer a{color:inherit;text-decoration:none} keeps the muted footer look
+       unchanged — the links look identical to the plain text they replace. No visual change. -->
   <footer>
-    Jacob Heifetz-Licht · neighbor, web/app developer · hi@jacobhl.com · 862-295-2714
+    Jacob Heifetz-Licht · neighbor, web/app developer · <a href="mailto:hi@jacobhl.com">hi@jacobhl.com</a> · <a href="sms:+18622952714">862-295-2714</a>
   </footer>
 </main>
 </body>
