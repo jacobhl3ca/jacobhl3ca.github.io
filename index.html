@@ -770,6 +770,8 @@
                 @keyframes ccu-pulse{0%{box-shadow:0 0 0 0 rgba(52,211,153,.5)}70%{box-shadow:0 0 0 7px rgba(52,211,153,0)}100%{box-shadow:0 0 0 0 rgba(52,211,153,0)}}
                 .ccu-r{display:inline-flex;gap:3px;border:1px solid color-mix(in srgb,var(--first-color) 35%,transparent);border-radius:999px;padding:3px;margin-bottom:1.6rem}
                 .ccu-r button{border:0;background:transparent;color:var(--text-color,#8b94a0);font:600 .8rem var(--body-font,system-ui);padding:.4rem .95rem;border-radius:999px;cursor:pointer;transition:.2s}
+                /* Keyboard focus ring for the usage time-range toggles (Today / 7 days / 30 days / All time): these were the one interactive control on the page still falling back to the inconsistent browser-default outline while every other element ships the branded :focus-visible accent ring (WCAG 2.4.7 Focus Visible). Scoped to :focus-visible so mouse/touch focus shows no ring — the look is unchanged; the outline follows the pill's border-radius. Mirrors the .view-pill__btn segmented-pill control (same padding:3px / border-radius:999px container), which already ships this exact ring. */
+                .ccu-r button:focus-visible{outline:2px solid var(--first-color);outline-offset:2px}
                 .ccu-r button.on{background:var(--first-color);color:#fff}
                 .ccu-h{display:flex;gap:3.5rem;justify-content:center;flex-wrap:wrap}
                 .ccu-num{font-size:3.1rem;font-weight:700;line-height:1;font-variant-numeric:tabular-nums;color:var(--first-color)}
