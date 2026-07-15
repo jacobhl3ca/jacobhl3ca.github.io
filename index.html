@@ -115,9 +115,11 @@
             "isPartOf": { "@id": "https://jacobhl.com/#website" },
             "about": { "@id": "https://jacobhl.com/#person" },
             "mainEntity": { "@id": "https://jacobhl.com/#person" },
-            "inLanguage": "en-US"
+            "inLanguage": "en-US",
+            "dateModified": "2026-07-14"
         }
         </script>
+        <!-- dateModified names the day the homepage last received a non-trivial content edit — the freshness signal Google's ProfilePage structured-data guidance recommends so it can tell how current the profile is. Kept in sync with this page's own sitemap.xml <lastmod> (2026-07-14) so the two freshness signals agree; date-only granularity mirrors the sitemap's. Pure metadata, no visual change. -->
         <style>
 
             /* Default view = projects-only, where #home (the visible <h1>) is display:none — so
@@ -443,6 +445,14 @@
     font-size:.78rem;font-weight:600;line-height:1;white-space:nowrap;transition:border-color .2s ease,color .2s ease;}
   .proj-appstore-all i{font-size:1.02rem;line-height:1;position:relative;top:-1px;}
   .proj-appstore-all:hover{border-color:var(--first-color);color:#fff;}
+  /* Keyboard focus indicator, mirroring the .proj-linkedin control right beside it (and the
+     site-wide branded-ring convention): the "Apps" App Store link was the one interactive
+     control in the Projects header still falling back to the inconsistent browser-default
+     outline (WCAG 2.4.7 Focus Visible). :focus-visible only, so mouse/touch clicks show no
+     ring and the look is unchanged; the 2px offset keeps the accent ring visible against the
+     button's black background. */
+  .proj-appstore-all:focus{outline:none;}
+  .proj-appstore-all:focus-visible{outline:2px solid var(--first-color);outline-offset:2px;}
   @media(max-width:600px){
     .proj-head-row{margin:.35rem auto 1rem;padding:0 1rem;}
     .proj-head-actions{right:1rem;gap:.4rem;}
@@ -619,6 +629,14 @@
     border-radius:6px;padding:.42rem .8rem;text-align:center;outline:none;font-family:var(--body-font);
     transition:border-color .2s ease, background .2s ease;}
   .modal-url:focus{border-color:var(--first-color);text-align:left;background:#11141a;}
+  /* Keyboard focus: the address input sets outline:none (above) and its only focus cue is the
+     1px accent border tint — weaker than the 2px accent ring the modal's other toolbar controls
+     (the traffic-light dots, back/reload, open-in-new-tab, close) already get on :focus-visible
+     below (WCAG 2.4.7 Focus Visible / 2.4.11 Focus Appearance). Add the same branded ring so every
+     control in the dialog toolbar behaves identically for keyboard users; scoped to :focus-visible
+     so mouse/touch focus keeps just the border tint (no visual change there). Mirrors the weather
+     search input's focus-visible rule and the toolbar-button rule below. */
+  .modal-url:focus-visible{outline:2px solid var(--first-color);outline-offset:2px;}
   .modal-bar a.openext{flex:0 0 auto;display:flex;align-items:center;justify-content:center;width:30px;height:30px;
     color:#9aa3b4;text-decoration:none;border-radius:6px;transition:all .2s ease;}
   .modal-bar a.openext:hover{color:var(--first-color);background:#1a1f29;}
@@ -906,6 +924,16 @@
                             <li><a href="https://davidlicht.com" target="_blank" rel="noopener noreferrer">David Licht</a> — A showcase site for my dad — five decades of drumming.</li>
                             <li><a href="https://theisland.nyc" target="_blank" rel="noopener noreferrer">The Island</a> — Everything happening on NYC's Roosevelt Island, in one place.</li>
                             <li><a href="https://github.com/jacobhl3ca/safari-pinned-tab-automation" target="_blank" rel="noopener noreferrer">TidyTab</a> — Bulk unpin or close Safari pinned tabs — a macOS menu-bar app.</li>
+                            <!-- The "Other projects" panel (#more-rows) is ALSO JS-built, so these MORE[] projects were
+                                 invisible to non-JS crawlers/scrapers and JS-disabled users — the toggle button reveals
+                                 nothing without scripting. Mirror the MORE[] array here for content/SEO parity with the
+                                 cards above. These have no live site, so they're plain text (name in <strong>) rather than
+                                 links, matching how the JS cards render them. The JS-rendered panel replaces all of this. -->
+                            <li><strong>Spotify Analytics</strong> — Interactive dashboard of my listening trends — beyond Wrapped.</li>
+                            <li><strong>Spotify Playlist Archiver</strong> — Auto-archives playlists that would otherwise disappear.</li>
+                            <li><strong>Personal Finance App</strong> — Daily budgeting, investment planning, and optimization.</li>
+                            <li><strong>E-commerce Store</strong> — Full-stack store with Stripe checkout.</li>
+                            <li><strong>System Administration</strong> — Self-hosted media &amp; web apps on a home Linux server.</li>
                         </ul>
                     </noscript>
 
@@ -1131,8 +1159,8 @@
       </div>
       <button type="button" class="nav-btn" id="navBack" title="Back" aria-label="Back" style="display:none;"><i class='bx bx-chevron-left' aria-hidden="true"></i></button>
       <button type="button" class="nav-btn" id="navReload" title="Reload" aria-label="Reload"><i class='bx bx-revision' aria-hidden="true"></i></button>
-      <!-- Mobile-input hints for the editable preview address bar, mirroring the contact fields: inputmode="url" gives mobile users the URL-optimized keyboard (dedicated "/", ".", and ".com" keys) instead of the plain text one, autocapitalize="off" stops the first character of an address being capitalized as it's typed, and autocorrect="off" stops iOS "correcting" a URL mid-entry. type stays "text" (not "url") because the submit handler prepends https:// to a bare domain, which native type="url" validation would otherwise reject. All editable hints, no visual change on desktop. -->
-      <form class="url-form" id="urlForm"><input class="modal-url" id="modalUrl" type="text" inputmode="url" spellcheck="false" autocomplete="off" autocapitalize="off" autocorrect="off" aria-label="Preview address"></form>
+      <!-- Mobile-input hints for the editable preview address bar, mirroring the contact fields: inputmode="url" gives mobile users the URL-optimized keyboard (dedicated "/", ".", and ".com" keys) instead of the plain text one, autocapitalize="off" stops the first character of an address being capitalized as it's typed, and autocorrect="off" stops iOS "correcting" a URL mid-entry. enterkeyhint="go" labels the on-screen Enter key "Go" (the standard address-bar action) since submitting this field navigates the preview to the typed URL — mirroring the weather search box's enterkeyhint="search"; it was the one input hint this field still lacked. type stays "text" (not "url") because the submit handler prepends https:// to a bare domain, which native type="url" validation would otherwise reject. All editable hints, no visual change on desktop. -->
+      <form class="url-form" id="urlForm"><input class="modal-url" id="modalUrl" type="text" inputmode="url" enterkeyhint="go" spellcheck="false" autocomplete="off" autocapitalize="off" autocorrect="off" aria-label="Preview address"></form>
       <a class="openext" id="modalOpen" target="_blank" rel="noopener" title="Open in new tab" aria-label="Open preview in new tab"><i class='bx bx-link-external' aria-hidden="true"></i></a>
       <button type="button" class="mclose" id="modalClose" title="Close" aria-label="Close preview"><i class='bx bx-x' aria-hidden="true"></i></button>
     </div>
@@ -1193,7 +1221,7 @@ const MORE = [
   { title:"Personal Finance App", img:"assets/img/finance_trend_crop.png",
     one:"Daily budgeting, investment planning, and optimization.",
     full:"Enables precise daily budgeting, investment planning, and optimization (Python, Apps Script)." },
-  { title:"E-commerce Store", img:"assets/img/stripe_dark.svg",
+  { title:"E-commerce Store", img:"assets/img/stripe_dark.svg", alt:"Stripe logo",
     one:"Full-stack store with Stripe checkout.",
     full:"Full-stack e-commerce site with Stripe payment processing and an Express.js backend (Node.js, Stripe API, HTML/CSS/JS)." },
   /* Automation Utilities — hidden for now (TidyTab is its own row); restore by uncommenting:
@@ -1202,7 +1230,7 @@ const MORE = [
     full:"macOS productivity automation suite including timesheet autofill via keystroke injection, system toggles (menu bar hide/show, dark/light mode, VPN connect/disconnect), keyboard backlight control, dock spacer grouping, and game re-roll automation (Python, AppleScript, Bash, PyAutoGUI). The Safari pinned-tab tool from this suite ships separately as TidyTab.",
     github:"https://github.com/jacobhl3ca/safari-pinned-tab-automation" },
   */
-  { title:"System Administration", img:"assets/img/docker_dark.png",
+  { title:"System Administration", img:"assets/img/docker_dark.png", alt:"Docker logo",
     one:"Self-hosted media & web apps on a home Linux server.",
     full:"Self-hosted web apps and network services on a home Linux server — a full Plex/Jellyfin media-automation stack (Radarr, Sonarr, Prowlarr, Bazarr, SABnzbd), a Homepage dashboard, Umami analytics, and Uptime Kuma monitoring, all containerized (Docker, Docker Compose)." },
 ];
@@ -1241,13 +1269,19 @@ function rowHTML(p, eager){
   // Stable, unique id per project (titles are unique across both lists) so the chevron toggle can
   // point at the panel it expands via aria-controls, mirroring the #moreToggle → #moreWrap wiring.
   const detailId = 'proj-detail-' + p.title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+  // Live thumbnails are interactive buttons whose aria-label already names the project, so their
+  // <img> is decorative (alt=""). Non-live tiles need descriptive alt: default to "<title> screenshot",
+  // but let a project supply an explicit `alt` when its thumbnail isn't a screenshot — the "E-commerce
+  // Store" and "System Administration" tiles use the Stripe / Docker logos, so "screenshot" mislabels
+  // them for screen-reader users. Factored into one expression (was duplicated across the two branches).
+  const altText = p.live ? '' : (p.alt || p.title + ' screenshot');
   return `
   <div class="proj-row">
     <div class="proj-head">
       <div class="proj-thumb ${thumbCls}" ${p.live?`data-url="${p.url}" role="button" tabindex="0" aria-haspopup="dialog" aria-label="Open live preview of ${p.title}"`:''}>
         ${p.imgWide
-          ? `<picture><source media="(min-width:768px)" srcset="${p.imgWide}"><img src="${p.img}" alt="${p.live ? '' : p.title + ' screenshot'}" ${imgLoad} decoding="async"></picture>`
-          : `<img src="${p.img}" alt="${p.live ? '' : p.title + ' screenshot'}" ${imgLoad} decoding="async">`}
+          ? `<picture><source media="(min-width:768px)" srcset="${p.imgWide}"><img src="${p.img}" alt="${altText}" ${imgLoad} decoding="async"></picture>`
+          : `<img src="${p.img}" alt="${altText}" ${imgLoad} decoding="async">`}
         <span class="proj-zoom" aria-hidden="true"><i class='bx bx-search' aria-hidden="true"></i></span>
         <div class="proj-cue"><span><i class='bx bx-expand-alt' aria-hidden="true"></i> Preview</span></div>
       </div>
@@ -1267,7 +1301,7 @@ function rowHTML(p, eager){
 }
 
 document.getElementById('main-rows').innerHTML = MAIN.map((p, i) => rowHTML(p, i === 0)).join(''); // eager-load only the first (above-the-fold) card's image
-document.getElementById('more-rows').innerHTML = MORE.map(p => rowHTML(p, false)).join(''); // "Private projects" panel starts collapsed/inert — keep all its images lazy
+document.getElementById('more-rows').innerHTML = MORE.map(p => rowHTML(p, false)).join(''); // "Other projects" panel starts collapsed/inert — keep all its images lazy
 
 // click anywhere on the card toggles expand — EXCEPT a live thumbnail (opens preview) and CTA links.
 // "Other projects" have no live preview, so clicking their thumbnail expands the card like the rest.
@@ -1280,7 +1314,7 @@ document.querySelectorAll('.proj-head').forEach(h=>{
     // Collapsed, .proj-detail is zero-height (grid-template-rows:0fr + overflow:hidden) but its
     // description text stays in the DOM and is still announced by assistive tech; mark it inert
     // when collapsed so AT matches the chevron's aria-expanded state (inert is a no-op in older
-    // browsers, so behaviour there is unchanged). Mirrors the "Private projects" panel above.
+    // browsers, so behaviour there is unchanged). Mirrors the "Other projects" panel above.
     const detail = row.querySelector('.proj-detail');
     if(detail){ if(open) detail.removeAttribute('inert'); else detail.setAttribute('inert',''); }
     const chev = h.querySelector('.proj-chev');
