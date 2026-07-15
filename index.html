@@ -627,6 +627,14 @@
     border-radius:6px;padding:.42rem .8rem;text-align:center;outline:none;font-family:var(--body-font);
     transition:border-color .2s ease, background .2s ease;}
   .modal-url:focus{border-color:var(--first-color);text-align:left;background:#11141a;}
+  /* Keyboard focus: the address input sets outline:none (above) and its only focus cue is the
+     1px accent border tint — weaker than the 2px accent ring the modal's other toolbar controls
+     (the traffic-light dots, back/reload, open-in-new-tab, close) already get on :focus-visible
+     below (WCAG 2.4.7 Focus Visible / 2.4.11 Focus Appearance). Add the same branded ring so every
+     control in the dialog toolbar behaves identically for keyboard users; scoped to :focus-visible
+     so mouse/touch focus keeps just the border tint (no visual change there). Mirrors the weather
+     search input's focus-visible rule and the toolbar-button rule below. */
+  .modal-url:focus-visible{outline:2px solid var(--first-color);outline-offset:2px;}
   .modal-bar a.openext{flex:0 0 auto;display:flex;align-items:center;justify-content:center;width:30px;height:30px;
     color:#9aa3b4;text-decoration:none;border-radius:6px;transition:all .2s ease;}
   .modal-bar a.openext:hover{color:var(--first-color);background:#1a1f29;}
