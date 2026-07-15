@@ -160,7 +160,15 @@
         </footer>
 
         <!--===== MAIN JS (handles theme toggle, nav, etc.) =====-->
-        <script src="/assets/js/main.js"></script>
+        <!-- defer: main.js is a parser-blocking script, so without it the parser stalls on its
+             download+execute before reaching the analytics tags just below — delaying the start of
+             the GoatCounter fetch. Deferring lets the parser finish immediately (kicking off those
+             fetches in parallel with main.js's download) and runs main.js after parse, still before
+             DOMContentLoaded. Safe here: main.js only wires static elements that already exist at
+             parse start (nav toggle, theme toggle), and the two inline scripts above manipulate the
+             DOM directly without calling any main.js global, so nothing depends on it running
+             mid-parse. Matches index.html, which defers this same script for the same reason. -->
+        <script defer src="/assets/js/main.js"></script>
 
         <!-- GoatCounter analytics -->
         <script data-goatcounter="https://jacobhl.goatcounter.com/count"
