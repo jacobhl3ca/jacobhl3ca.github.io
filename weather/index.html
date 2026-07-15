@@ -125,6 +125,13 @@ body {
   outline:none; transition:border-color .2s;
 }
 .search-bar input:focus { border-color:var(--accent); }
+/* Keyboard focus: the input sets outline:none and its only focus cue is the 1px border
+   tint above — weaker than the 2px accent ring the adjacent Search button and hourly row
+   already use (WCAG 2.4.7 / 2.4.11 Focus Appearance). Add the same branded ring on
+   :focus-visible so the two side-by-side controls behave identically for keyboard users;
+   scoped to :focus-visible so mouse/touch focus keeps just the border tint (no visual
+   change there). Mirrors the .search-bar button:focus-visible rule below. */
+.search-bar input:focus-visible { outline:2px solid var(--accent); outline-offset:2px; }
 .search-bar button {
   padding:14px 28px; border-radius:var(--radius); border:none;
   background:var(--accent); color:#fff; font-family:inherit;
