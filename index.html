@@ -1278,7 +1278,7 @@ function rowHTML(p, eager){
   // them for screen-reader users. Factored into one expression (was duplicated across the two branches).
   const altText = p.live ? '' : (p.alt || p.title + ' screenshot');
   return `
-  <div class="proj-row">
+  <div class="proj-row" role="listitem">
     <div class="proj-head">
       <div class="proj-thumb ${thumbCls}" ${p.live?`data-url="${p.url}" role="button" tabindex="0" aria-haspopup="dialog" aria-label="Open live preview of ${p.title}"`:''}>
         ${p.imgWide
@@ -1302,8 +1302,17 @@ function rowHTML(p, eager){
   </div>`;
 }
 
-document.getElementById('main-rows').innerHTML = MAIN.map((p, i) => rowHTML(p, i === 0)).join(''); // eager-load only the first (above-the-fold) card's image
-document.getElementById('more-rows').innerHTML = MORE.map(p => rowHTML(p, false)).join(''); // "Other projects" panel starts collapsed/inert — keep all its images lazy
+// Expose each project collection as a list (role="list", with role="listitem" on every .proj-row
+// in rowHTML) so assistive tech announces "list, N items" and lets users jump card-to-card — the
+// same grouping the noscript <ul> fallback and the skills-tag lists already give. Set here in JS
+// rather than in the markup so the role only applies once the cards are rendered: with scripting
+// off these containers stay empty and never expose a stray "list, 0 items" beside the noscript list.
+const mainRows = document.getElementById('main-rows');
+mainRows.setAttribute('role', 'list');
+mainRows.innerHTML = MAIN.map((p, i) => rowHTML(p, i === 0)).join(''); // eager-load only the first (above-the-fold) card's image
+const moreRows = document.getElementById('more-rows');
+moreRows.setAttribute('role', 'list');
+moreRows.innerHTML = MORE.map(p => rowHTML(p, false)).join(''); // "Other projects" panel starts collapsed/inert — keep all its images lazy
 
 // click anywhere on the card toggles expand — EXCEPT a live thumbnail (opens preview) and CTA links.
 // "Other projects" have no live preview, so clicking their thumbnail expands the card like the rest.
