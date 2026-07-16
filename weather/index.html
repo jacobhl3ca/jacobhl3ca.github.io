@@ -117,6 +117,19 @@ body {
 }
 .container { max-width:900px; margin:0 auto; }
 
+/* Branded text selection: highlighting text otherwise used the OS-default grey/blue
+   swatch — the one interactive-state colour on this dashboard not tied to the brand
+   accent (every focus ring here already uses var(--accent)). Tint the selection with
+   the brand cyan instead, with the near-black --bg as the selected-text colour so it
+   stays legible on the accent. This page is self-contained (its own inline styles, not
+   styles.css), so it was outside the reach of the site-wide ::selection styling on the
+   main pages; this completes that pattern here. Only affects the momentary highlight
+   during an active selection — no change to the resting design. */
+::selection {
+  background-color: var(--accent);
+  color: var(--bg);
+}
+
 .search-bar { display:flex; gap:12px; margin-bottom:24px; }
 .search-bar input {
   flex:1; padding:14px 20px; border-radius:var(--radius);
