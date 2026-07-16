@@ -85,11 +85,13 @@
             ],
             "alumniOf": {
                 "@type": "CollegeOrUniversity",
-                "name": "Rutgers University"
+                "name": "Rutgers University",
+                "url": "https://www.rutgers.edu/"
             },
             "knowsAbout": ["Data Analytics", "Python", "SQL", "Tableau", "ETL", "BigQuery", "Automation", "Dashboard Design", "JavaScript", "React", "Node.js", "Next.js", "Web Development"]
         }
         </script>
+        <!-- alumniOf.url points the "Rutgers University" node at the institution's official homepage so search engines can resolve the plain-text school name to the real organization entity (Knowledge Graph disambiguation) instead of guessing from the string alone — the same entity-linking role the Person node's sameAs array already plays for Jacob's LinkedIn/GitHub/App Store profiles. Standard structured-data practice for a named sub-entity; pure metadata, no visual change. -->
         <!-- WebSite entity: gives the site itself a stable node distinct from the Person, and names the Person (via the same #person @id) as its author/publisher — a recognized structured-data pattern that helps search engines model "this site" as one entity (Knowledge Graph / sitelinks eligibility) and links it to its owner. Continues the #person linked-data pattern; pure metadata, no visual change. -->
         <script type="application/ld+json">
         {
