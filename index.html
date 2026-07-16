@@ -710,7 +710,7 @@
                 <div class="nav__menu" id="nav-menu">
                     <ul class="nav__list">
 
-                        <li class="nav__item"><a href="#home" class="nav__link active-link" aria-current="page">Home</a></li> <!-- baseline aria-current to match the hardcoded active-link class, so AT announces Home as the current section before/independent of main.js's scrollActive() (which manages this pair dynamically thereafter) -->
+                        <li class="nav__item"><a href="#home" class="nav__link active-link" aria-current="location">Home</a></li> <!-- baseline aria-current to match the hardcoded active-link class, so AT announces Home as the current section before/independent of main.js's scrollActive() (which manages this pair dynamically thereafter). Uses the "location" token, not "page", to match what main.js now sets: these are in-page anchors (#home, #about, …) highlighted as the section scrolls into view, and per ARIA "page" means the current page within a SET of pages (breadcrumb / multi-page nav) — it misdescribes an in-document scroll position and is announced as "current page". "location" is the token defined for exactly this scroll-spy case. Keeping the baseline on "location" means no-JS users and the pre-main.js paint get the same correct token the running page uses (was "page", so the value briefly flipped once JS ran). No visual change. -->
                         <li class="nav__item"><a href="#about" class="nav__link">About</a></li>
 
                         <!-- Update Periodically -->
