@@ -85,11 +85,13 @@
             ],
             "alumniOf": {
                 "@type": "CollegeOrUniversity",
-                "name": "Rutgers University"
+                "name": "Rutgers University",
+                "url": "https://www.rutgers.edu/"
             },
             "knowsAbout": ["Data Analytics", "Python", "SQL", "Tableau", "ETL", "BigQuery", "Automation", "Dashboard Design", "JavaScript", "React", "Node.js", "Next.js", "Web Development"]
         }
         </script>
+        <!-- alumniOf.url points the "Rutgers University" node at the institution's official homepage so search engines can resolve the plain-text school name to the real organization entity (Knowledge Graph disambiguation) instead of guessing from the string alone — the same entity-linking role the Person node's sameAs array already plays for Jacob's LinkedIn/GitHub/App Store profiles. Standard structured-data practice for a named sub-entity; pure metadata, no visual change. -->
         <!-- WebSite entity: gives the site itself a stable node distinct from the Person, and names the Person (via the same #person @id) as its author/publisher — a recognized structured-data pattern that helps search engines model "this site" as one entity (Knowledge Graph / sitelinks eligibility) and links it to its owner. Continues the #person linked-data pattern; pure metadata, no visual change. -->
         <script type="application/ld+json">
         {
@@ -116,10 +118,10 @@
             "about": { "@id": "https://jacobhl.com/#person" },
             "mainEntity": { "@id": "https://jacobhl.com/#person" },
             "inLanguage": "en-US",
-            "dateModified": "2026-07-14"
+            "dateModified": "2026-07-15"
         }
         </script>
-        <!-- dateModified names the day the homepage last received a non-trivial content edit — the freshness signal Google's ProfilePage structured-data guidance recommends so it can tell how current the profile is. Kept in sync with this page's own sitemap.xml <lastmod> (2026-07-14) so the two freshness signals agree; date-only granularity mirrors the sitemap's. Pure metadata, no visual change. -->
+        <!-- dateModified names the day the homepage last received a non-trivial content edit — the freshness signal Google's ProfilePage structured-data guidance recommends so it can tell how current the profile is. Kept in sync with this page's own sitemap.xml <lastmod> (2026-07-15) so the two freshness signals agree; date-only granularity mirrors the sitemap's. Pure metadata, no visual change. -->
         <style>
 
             /* Default view = projects-only, where #home (the visible <h1>) is display:none — so
@@ -710,7 +712,7 @@
                 <div class="nav__menu" id="nav-menu">
                     <ul class="nav__list">
 
-                        <li class="nav__item"><a href="#home" class="nav__link active-link" aria-current="page">Home</a></li> <!-- baseline aria-current to match the hardcoded active-link class, so AT announces Home as the current section before/independent of main.js's scrollActive() (which manages this pair dynamically thereafter) -->
+                        <li class="nav__item"><a href="#home" class="nav__link active-link" aria-current="location">Home</a></li> <!-- baseline aria-current to match the hardcoded active-link class, so AT announces Home as the current section before/independent of main.js's scrollActive() (which manages this pair dynamically thereafter). Uses the "location" token, not "page", to match what main.js now sets: these are in-page anchors (#home, #about, …) highlighted as the section scrolls into view, and per ARIA "page" means the current page within a SET of pages (breadcrumb / multi-page nav) — it misdescribes an in-document scroll position and is announced as "current page". "location" is the token defined for exactly this scroll-spy case. Keeping the baseline on "location" means no-JS users and the pre-main.js paint get the same correct token the running page uses (was "page", so the value briefly flipped once JS ran). No visual change. -->
                         <li class="nav__item"><a href="#about" class="nav__link">About</a></li>
 
                         <!-- Update Periodically -->
@@ -770,6 +772,8 @@
                 @keyframes ccu-pulse{0%{box-shadow:0 0 0 0 rgba(52,211,153,.5)}70%{box-shadow:0 0 0 7px rgba(52,211,153,0)}100%{box-shadow:0 0 0 0 rgba(52,211,153,0)}}
                 .ccu-r{display:inline-flex;gap:3px;border:1px solid color-mix(in srgb,var(--first-color) 35%,transparent);border-radius:999px;padding:3px;margin-bottom:1.6rem}
                 .ccu-r button{border:0;background:transparent;color:var(--text-color,#8b94a0);font:600 .8rem var(--body-font,system-ui);padding:.4rem .95rem;border-radius:999px;cursor:pointer;transition:.2s}
+                /* Keyboard focus ring for the usage time-range toggles (Today / 7 days / 30 days / All time): these were the one interactive control on the page still falling back to the inconsistent browser-default outline while every other element ships the branded :focus-visible accent ring (WCAG 2.4.7 Focus Visible). Scoped to :focus-visible so mouse/touch focus shows no ring — the look is unchanged; the outline follows the pill's border-radius. Mirrors the .view-pill__btn segmented-pill control (same padding:3px / border-radius:999px container), which already ships this exact ring. */
+                .ccu-r button:focus-visible{outline:2px solid var(--first-color);outline-offset:2px}
                 .ccu-r button.on{background:var(--first-color);color:#fff}
                 .ccu-h{display:flex;gap:3.5rem;justify-content:center;flex-wrap:wrap}
                 .ccu-num{font-size:3.1rem;font-weight:700;line-height:1;font-variant-numeric:tabular-nums;color:var(--first-color)}
@@ -1276,7 +1280,7 @@ function rowHTML(p, eager){
   // them for screen-reader users. Factored into one expression (was duplicated across the two branches).
   const altText = p.live ? '' : (p.alt || p.title + ' screenshot');
   return `
-  <div class="proj-row">
+  <div class="proj-row" role="listitem">
     <div class="proj-head">
       <div class="proj-thumb ${thumbCls}" ${p.live?`data-url="${p.url}" role="button" tabindex="0" aria-haspopup="dialog" aria-label="Open live preview of ${p.title}"`:''}>
         ${p.imgWide
@@ -1300,8 +1304,17 @@ function rowHTML(p, eager){
   </div>`;
 }
 
-document.getElementById('main-rows').innerHTML = MAIN.map((p, i) => rowHTML(p, i === 0)).join(''); // eager-load only the first (above-the-fold) card's image
-document.getElementById('more-rows').innerHTML = MORE.map(p => rowHTML(p, false)).join(''); // "Other projects" panel starts collapsed/inert — keep all its images lazy
+// Expose each project collection as a list (role="list", with role="listitem" on every .proj-row
+// in rowHTML) so assistive tech announces "list, N items" and lets users jump card-to-card — the
+// same grouping the noscript <ul> fallback and the skills-tag lists already give. Set here in JS
+// rather than in the markup so the role only applies once the cards are rendered: with scripting
+// off these containers stay empty and never expose a stray "list, 0 items" beside the noscript list.
+const mainRows = document.getElementById('main-rows');
+mainRows.setAttribute('role', 'list');
+mainRows.innerHTML = MAIN.map((p, i) => rowHTML(p, i === 0)).join(''); // eager-load only the first (above-the-fold) card's image
+const moreRows = document.getElementById('more-rows');
+moreRows.setAttribute('role', 'list');
+moreRows.innerHTML = MORE.map(p => rowHTML(p, false)).join(''); // "Other projects" panel starts collapsed/inert — keep all its images lazy
 
 // click anywhere on the card toggles expand — EXCEPT a live thumbnail (opens preview) and CTA links.
 // "Other projects" have no live preview, so clicking their thumbnail expands the card like the rest.
