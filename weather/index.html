@@ -441,6 +441,13 @@ async function fetchWeather() {
     const msg = (err instanceof TypeError)
       ? 'Could not connect — check your internet connection and try again.'
       : err.message;
+    // Reset the tab title on failure. render() rewrites document.title to the loaded city on
+    // every success (e.g. "Tokyo, Japan — Weather Dashboard"), but the error path left it
+    // untouched — so after one good search, a later failed search (bad city, dropped network)
+    // showed the error card while the browser tab still read the previously-loaded city's name.
+    // Fall back to the neutral app title (matching the <h1> and the pre-load static title) so the
+    // tab reflects that no city is currently displayed. No effect on the success path.
+    document.title = 'Weather Dashboard';
     document.getElementById('content').innerHTML = `<div class="card" role="alert" style="text-align:center;color:var(--danger);">${msg}</div>`;
   }
 }
