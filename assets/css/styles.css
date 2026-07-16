@@ -52,6 +52,22 @@
   color: #e0e0e0;
 }
 
+/* Branded text selection: highlighting text otherwise used the OS-default grey/blue
+   swatch, the one interactive-state colour on the site not tied to the brand accent
+   (every focus ring already uses --first-color). Tint the selection with the brand
+   blue instead. Theme-aware for guaranteed legibility of the selected text: white on
+   the light-theme blue, and the near-black body background on the lighter dark-theme
+   blue. Only affects the momentary highlight during an active selection — no change
+   to the resting design. */
+::selection {
+  background-color: var(--first-color);
+  color: #fff;
+}
+[data-theme="dark"] ::selection {
+  background-color: var(--first-color);
+  color: var(--body-bg);
+}
+
 [data-theme="dark"] .l-header {
   background-color: var(--container-bg);
 }
