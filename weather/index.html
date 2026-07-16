@@ -372,8 +372,16 @@ async function geocode(city) {
   if (!res.ok) throw new Error('Could not reach the location service. Please try again.');
   const data = await res.json();
   if (!data.results?.length) throw new Error('City not found — check the spelling and try another city.');
-  const usResult = data.results.find(r => r.country_code === 'US') || data.results[0];
-  const r = usResult;
+  // Only prefer a US match when the query actually signalled a US location — i.e. it carried a
+  // trailing US-state code or "US"/"USA" (the same suffix cleanCity strips above). The old
+  // unconditional find(US) hijacked every ambiguous world city to its US namesake even with no
+  // hint: "London" resolved to London, Ohio and "Paris" to Paris, Texas instead of the far
+  // larger London, GB / Paris, FR the searcher almost certainly meant. When there's no US hint,
+  // fall through to results[0] — Open-Meteo already returns matches population-ranked, so
+  // "London" → London, GB while a bare "New York" still lands on NYC (its top result). The
+  // default "New York, NY" search and any explicit "City, ST" query keep resolving to the US city.
+  const usHinted = /,\s*(US|USA|[A-Z]{2})$/i.test(city);
+  const r = (usHinted && data.results.find(x => x.country_code === 'US')) || data.results[0];
   return { lat:r.latitude, lon:r.longitude, name:r.admin1 ? `${r.name}, ${r.admin1}` : `${r.name}, ${r.country}`, tz:r.timezone };
 }
 
