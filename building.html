@@ -79,6 +79,13 @@
   *{box-sizing:border-box}
   body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif;
     color:var(--ink);background:var(--paper);line-height:1.5}
+  /* Brand-tint the text-selection highlight to the page accent instead of the OS default blue,
+     with white selected text for legibility on the accent. This flyer is self-contained (its own
+     inline styles, not styles.css), so it was outside the reach of the site-wide ::selection
+     styling the main pages get from styles.css — and the weather page's inline copy; this completes
+     that pattern here. Only affects the momentary highlight during an active selection — no change
+     to the resting design. */
+  ::selection{background-color:var(--blue);color:#fff}
   main{max-width:940px;margin:0 auto;padding:44px 22px 70px}
 
   .who{display:flex;align-items:center;gap:16px;margin-bottom:22px}
