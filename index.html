@@ -715,6 +715,21 @@
     .proj-chev{width:34px;height:34px;}
     .proj-chev i{font-size:1.3rem;}
   }
+
+  /* Honour the OS "reduce motion" setting on the homepage. The weather and building pages already
+     carry a prefers-reduced-motion block; the homepage was the one indexed page still animating
+     unconditionally (looping bounce arrow, live-count pulse, spinners, plus its many transitions),
+     which can trigger discomfort for users with vestibular sensitivity. This near-instant reset
+     neutralises motion while preserving each animation's final (forwards) state, so the settled
+     design is unchanged — only the movement getting there is removed. */
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
     </style>
 </head>
     <body>
