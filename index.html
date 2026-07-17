@@ -17,7 +17,8 @@
         <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap"> <!-- styles.css @imports Poppins, but @import isn't discoverable until styles.css has downloaded + parsed, so the font CSS fetch is serialized on the critical path; preload it (same URL) so the browser fetches it in parallel up front and the @import then resolves from cache. Kept identical to the @import (now includes weight 500, used by .skills__tag / .mac-badge) so the preload still satisfies it. -->
         <link rel="preload" as="image" href="assets/img/hidescore-wide.png" media="(min-width:768px)" fetchpriority="high"> <!-- LCP preload (desktop ≥768px): the first project card's thumbnail is the projects-only LCP, but the project rows are built by the inline script near </body>, so the preload scanner can't discover this image during head parse — the fetchpriority="high" already on the <img> only helps once it's discovered (late). Preload the matching responsive source so the fetch starts during head parse. Mirrors the <picture> breakpoint below. No visual change. -->
         <link rel="preload" as="image" href="assets/img/hidescore-app.png" media="(max-width:767.98px)" fetchpriority="high"> <!-- LCP preload (mobile <768px): same as above for the default <picture> source. The two media queries are mutually exclusive, so only the one image the browser will actually render is ever preloaded (no wasted bytes). -->
-        <link rel="dns-prefetch" href="//gc.zgo.at"> <!-- resolve the GoatCounter analytics host ahead of the async count.js fetch at end of body -->
+        <link rel="dns-prefetch" href="//gc.zgo.at"> <!-- resolve the GoatCounter host that serves count.js, fetched async at end of body -->
+        <link rel="dns-prefetch" href="//jacobhl.goatcounter.com"> <!-- resolve the GoatCounter *beacon* host too: count.js (from gc.zgo.at above) sends every pageview hit to https://jacobhl.goatcounter.com/count, a separate host whose DNS was otherwise only looked up lazily when the beacon fires. The prior prefetch warmed only the script host; this warms the endpoint the hit actually goes to, so the beacon isn't delayed (and is less likely to be dropped on a slow/flaky DNS) — completing the analytics-host prefetch pattern alongside Umami/Formspree below. Pure resource hint, no visual or behaviour change. -->
         <link rel="dns-prefetch" href="//stats.hidescore.com"> <!-- resolve the self-hosted Umami analytics host ahead of its deferred script.js fetch at end of body -->
         <link rel="dns-prefetch" href="//formspree.io"> <!-- resolve the Formspree host ahead of the contact form's on-submit POST (assets/js/main.js) so the DNS lookup isn't on the send path -->
         <link href='https://cdn.jsdelivr.net/npm/boxicons@2.0.5/css/boxicons.min.css' rel='stylesheet'> <!-- icons -->
@@ -118,10 +119,10 @@
             "about": { "@id": "https://jacobhl.com/#person" },
             "mainEntity": { "@id": "https://jacobhl.com/#person" },
             "inLanguage": "en-US",
-            "dateModified": "2026-07-15"
+            "dateModified": "2026-07-16"
         }
         </script>
-        <!-- dateModified names the day the homepage last received a non-trivial content edit — the freshness signal Google's ProfilePage structured-data guidance recommends so it can tell how current the profile is. Kept in sync with this page's own sitemap.xml <lastmod> (2026-07-15) so the two freshness signals agree; date-only granularity mirrors the sitemap's. Pure metadata, no visual change. -->
+        <!-- dateModified names the day the homepage last received a non-trivial content edit — the freshness signal Google's ProfilePage structured-data guidance recommends so it can tell how current the profile is. Kept in sync with this page's own sitemap.xml <lastmod> (2026-07-16) so the two freshness signals agree; date-only granularity mirrors the sitemap's. Pure metadata, no visual change. -->
         <style>
 
             /* Default view = projects-only, where #home (the visible <h1>) is display:none — so
@@ -767,23 +768,32 @@
               <style>
                 .ccu-section{padding:5rem 1.25rem 1rem;text-align:center}
                 .ccu-wrap{max-width:760px;margin:0 auto}
-                .ccu-eyebrow{font-size:.78rem;letter-spacing:.12em;text-transform:uppercase;color:var(--text-color,#8b94a0);margin:0 0 1.1rem;display:flex;gap:.5rem;align-items:center;justify-content:center}
+                /* Text tokens below use --second-color (the site's theme-aware body colour: dark navy in
+                   light mode, light in dark) instead of the former var(--text-color,#8b94a0). --text-color
+                   is defined nowhere in the project, so that reference always resolved to its literal
+                   #8b94a0 fallback — a fixed mid-gray that gives only ~3:1 contrast on the light-mode
+                   background (a WCAG 1.4.3 AA failure for normal text). This widget is currently disabled
+                   (see the ccu-disabled wrapper), so this changes nothing on the live page today; it just
+                   ensures the usage panel renders accessible, theme-correct text whenever it's re-enabled.
+                   Mirrors the identical undefined-token fix already applied to styles.css and the no-JS
+                   project fallback list, which switched the same #8b94a0 pattern to --second-color. */
+                .ccu-eyebrow{font-size:.78rem;letter-spacing:.12em;text-transform:uppercase;color:var(--second-color);margin:0 0 1.1rem;display:flex;gap:.5rem;align-items:center;justify-content:center}
                 .ccu-dot{width:7px;height:7px;border-radius:50%;background:#34d399;animation:ccu-pulse 2s infinite}
                 @keyframes ccu-pulse{0%{box-shadow:0 0 0 0 rgba(52,211,153,.5)}70%{box-shadow:0 0 0 7px rgba(52,211,153,0)}100%{box-shadow:0 0 0 0 rgba(52,211,153,0)}}
                 .ccu-r{display:inline-flex;gap:3px;border:1px solid color-mix(in srgb,var(--first-color) 35%,transparent);border-radius:999px;padding:3px;margin-bottom:1.6rem}
-                .ccu-r button{border:0;background:transparent;color:var(--text-color,#8b94a0);font:600 .8rem var(--body-font,system-ui);padding:.4rem .95rem;border-radius:999px;cursor:pointer;transition:.2s}
+                .ccu-r button{border:0;background:transparent;color:var(--second-color);font:600 .8rem var(--body-font,system-ui);padding:.4rem .95rem;border-radius:999px;cursor:pointer;transition:.2s}
                 /* Keyboard focus ring for the usage time-range toggles (Today / 7 days / 30 days / All time): these were the one interactive control on the page still falling back to the inconsistent browser-default outline while every other element ships the branded :focus-visible accent ring (WCAG 2.4.7 Focus Visible). Scoped to :focus-visible so mouse/touch focus shows no ring — the look is unchanged; the outline follows the pill's border-radius. Mirrors the .view-pill__btn segmented-pill control (same padding:3px / border-radius:999px container), which already ships this exact ring. */
                 .ccu-r button:focus-visible{outline:2px solid var(--first-color);outline-offset:2px}
                 .ccu-r button.on{background:var(--first-color);color:#fff}
                 .ccu-h{display:flex;gap:3.5rem;justify-content:center;flex-wrap:wrap}
                 .ccu-num{font-size:3.1rem;font-weight:700;line-height:1;font-variant-numeric:tabular-nums;color:var(--first-color)}
-                .ccu-lab{font-size:.74rem;letter-spacing:.08em;text-transform:uppercase;color:var(--text-color,#8b94a0);margin-top:.5rem}
-                .ccu-sub{font-size:.68rem;color:var(--text-color,#8b94a0);opacity:.7;margin-top:.15rem}
+                .ccu-lab{font-size:.74rem;letter-spacing:.08em;text-transform:uppercase;color:var(--second-color);margin-top:.5rem}
+                .ccu-sub{font-size:.68rem;color:var(--second-color);opacity:.7;margin-top:.15rem}
                 .ccu-more{display:flex;flex-wrap:wrap;gap:.9rem 1.9rem;justify-content:center;margin-top:2rem;padding-top:1.4rem;border-top:1px solid color-mix(in srgb,var(--first-color) 18%,transparent)}
                 .ccu-more div{min-width:82px}
                 .ccu-more b{display:block;font-size:1.35rem;font-weight:650;font-variant-numeric:tabular-nums;color:var(--title-color,inherit)}
-                .ccu-more span{font-size:.66rem;letter-spacing:.04em;text-transform:uppercase;color:var(--text-color,#8b94a0)}
-                .ccu-u{font-size:.66rem;color:var(--text-color,#8b94a0);opacity:.6;margin-top:1.3rem}
+                .ccu-more span{font-size:.66rem;letter-spacing:.04em;text-transform:uppercase;color:var(--second-color)}
+                .ccu-u{font-size:.66rem;color:var(--second-color);opacity:.6;margin-top:1.3rem}
                 @media(max-width:560px){.ccu-h{gap:2rem}.ccu-num{font-size:2.3rem}}
               </style>
               <div class="ccu-wrap">
