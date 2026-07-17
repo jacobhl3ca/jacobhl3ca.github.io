@@ -19,7 +19,7 @@
 <meta name="author" content="Jacob Heifetz-Licht">
 <!-- Self-referential canonical: this page is a flyer/QR target, so it's routinely opened with tracking query params (?utm_*, QR analytics). Point every such variant at the clean URL so search engines index one copy, not duplicates. Mirrors the canonical present on every other page (index.html, weather/, light/). -->
 <link rel="canonical" href="https://jacobhl.com/building.html">
-<!-- Structured data: building.html is independently indexed (it's in sitemap.xml and self-canonical'd above) but was the one indexed page site-wide with no linked-data node. Give it a WebPage entity tied into the site's graph the same way weather/ ties in its WebApplication: isPartOf the WebSite (#website, defined on index.html) and authored by the Person (#person) — cross-page @id references search engines merge site-wide. inLanguage matches the en-US the homepage's nodes declare and this page's og:locale. Pure metadata, no visual change. -->
+<!-- Structured data: building.html is independently indexed (it's in sitemap.xml and self-canonical'd above) but was the one indexed page site-wide with no linked-data node. Give it a WebPage entity tied into the site's graph the same way weather/ ties in its WebApplication: isPartOf the WebSite (#website, defined on index.html) and authored by the Person (#person) — cross-page @id references search engines merge site-wide. inLanguage matches the en-US the homepage's nodes declare and this page's og:locale. dateModified names the day this page was last edited — the freshness signal kept in sync with this page's own sitemap.xml <lastmod> (2026-07-17), exactly as the homepage's ProfilePage node syncs its dateModified to the homepage lastmod; date-only granularity mirrors the sitemap's. Pure metadata, no visual change. -->
 <script type="application/ld+json">
 {
     "@context": "https://schema.org",
@@ -29,6 +29,7 @@
     "name": "Website or App Help from Jacob — Pay What You Want",
     "description": "Pay-what-you-want website and app help from Jacob, a software developer in the building. See live work and send your idea.",
     "inLanguage": "en-US",
+    "dateModified": "2026-07-17",
     "isPartOf": { "@id": "https://jacobhl.com/#website" },
     "author": { "@id": "https://jacobhl.com/#person" }
 }
