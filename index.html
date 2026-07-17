@@ -627,6 +627,21 @@
   .nav-btn:hover{color:#fff;border-color:#3a445a;}
   .nav-btn:disabled{opacity:.35;cursor:default;pointer-events:none;}
   .nav-btn i{font-size:1.15rem;}
+  /* large prev/next arrows flanking the preview, over the backdrop — more visible than the toolbar pair */
+  .modal-side{position:absolute;top:50%;transform:translateY(-50%);z-index:5;width:46px;height:46px;border-radius:50%;
+    border:1px solid #2a3242;background:rgba(17,20,26,.82);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);
+    color:#e6e9ef;cursor:pointer;display:flex;align-items:center;justify-content:center;
+    box-shadow:0 6px 24px rgba(0,0,0,.45);transition:background .2s ease, transform .2s ease, opacity .2s ease;}
+  .modal-side:hover{background:rgba(26,31,41,.95);transform:translateY(-50%) scale(1.06);}
+  .modal-side.prev{left:max(16px, calc(50% - 490px - 62px));}
+  .modal-side.next{right:max(16px, calc(50% - 490px - 62px));}
+  .modal-side:disabled{opacity:.22;pointer-events:none;}
+  .modal-side i{font-size:1.7rem;line-height:1;}
+  .modal-side:focus{outline:none;}
+  .modal-side:focus-visible{outline:2px solid var(--first-color);outline-offset:2px;}
+  .modal.fullscreen .modal-side.prev{left:16px;}
+  .modal.fullscreen .modal-side.next{right:16px;}
+  @media(max-width:640px){ .modal-side{width:38px;height:38px;} .modal-side.prev{left:8px;} .modal-side.next{right:8px;} .modal-side i{font-size:1.4rem;} }
   .url-form{flex:1;display:flex;}
   .modal-url{flex:1;width:100%;font-size:.8rem;color:#cdd3df;background:#1a1f29;border:1px solid #232a36;
     border-radius:6px;padding:.42rem .8rem;text-align:center;outline:none;font-family:var(--body-font);
@@ -1164,6 +1179,8 @@
     
     <!-- ===== Projects rows: live-preview modal + render/interaction JS ===== -->
     <div class="modal" id="modal" role="dialog" aria-modal="true" aria-label="Live site preview">
+  <button type="button" class="modal-side prev" id="sidePrev" title="Previous project" aria-label="Previous project"><i class='bx bx-chevron-left' aria-hidden="true"></i></button>
+  <button type="button" class="modal-side next" id="sideNext" title="Next project" aria-label="Next project"><i class='bx bx-chevron-right' aria-hidden="true"></i></button>
   <div class="modal-card">
     <div class="modal-bar">
       <div class="dots">
@@ -1355,12 +1372,14 @@ const modal=document.getElementById('modal'), card=modal.querySelector('.modal-c
       mUrl=document.getElementById('modalUrl'), mOpen=document.getElementById('modalOpen'),
       mLoad=document.getElementById('modalLoad'), mLoadTxt=document.getElementById('modalLoadTxt'),
       navBack=document.getElementById('navBack'),
-      navPrev=document.getElementById('navPrev'), navNext=document.getElementById('navNext');
+      navPrev=document.getElementById('navPrev'), navNext=document.getElementById('navNext'),
+      sidePrev=document.getElementById('sidePrev'), sideNext=document.getElementById('sideNext');
 let loadTimer=null, currentUrl='', backStack=[], sourceThumb=null;
 // prev/next cycle through the live-preview projects — same gallery-paging idea as the templates modal
 const liveThumbs=[...document.querySelectorAll('.proj-thumb[data-url]')];
 let curIdx=-1;
-function updateCycle(){ navPrev.disabled=(curIdx<=0); navNext.disabled=(curIdx<0||curIdx>=liveThumbs.length-1); }
+function updateCycle(){ const atStart=curIdx<=0, atEnd=(curIdx<0||curIdx>=liveThumbs.length-1);
+  navPrev.disabled=atStart; navNext.disabled=atEnd; sidePrev.disabled=atStart; sideNext.disabled=atEnd; }
 function cycle(dir){ const n=curIdx+dir; if(n<0||n>=liveThumbs.length) return; curIdx=n; sourceThumb=liveThumbs[n]; backStack=[]; navigate(liveThumbs[n].dataset.url,false); updateCycle(); }
 
 function updateBack(){ navBack.style.display = backStack.length ? 'flex' : 'none'; }
@@ -1449,6 +1468,8 @@ document.getElementById('fsBack').addEventListener('click', ()=> setFullscreen(f
 navBack.addEventListener('click', goBack);
 navPrev.addEventListener('click', ()=>cycle(-1));
 navNext.addEventListener('click', ()=>cycle(1));
+sidePrev.addEventListener('click', ()=>cycle(-1));
+sideNext.addEventListener('click', ()=>cycle(1));
 // ←/→ arrow keys cycle projects too, but never while typing in the address bar
 document.addEventListener('keydown', e=>{
   if(!modal.classList.contains('open') || document.activeElement===mUrl) return;
