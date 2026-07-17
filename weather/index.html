@@ -627,7 +627,12 @@ function render(w, aqi, geo) {
     <h2 class="stat-label">Humidity Comfort</h2>
     <div class="stat-value">${humidity}%</div>
     <div class="stat-sub">${comfort.label}</div>
-    <div class="comfort-meter">${[1,2,3,4].map(i => `<div class="comfort-seg ${i <= comfort.level ? comfort.cls : ''}"></div>`).join('')}</div>
+    <!-- Decorative meter: the humidity % (.stat-value) and comfort label (.stat-sub) above already
+         convey this level as text, so the four coloured segments are a visual reinforcement only.
+         aria-hidden keeps its empty segment divs out of the accessibility tree, matching this page's
+         consistent decorative-element pattern (every stat-icon/hero-icon/arrow/emoji here is hidden).
+         No visual change. -->
+    <div class="comfort-meter" aria-hidden="true">${[1,2,3,4].map(i => `<div class="comfort-seg ${i <= comfort.level ? comfort.cls : ''}"></div>`).join('')}</div>
   </div>`;
 
   // AQI
@@ -636,14 +641,22 @@ function render(w, aqi, geo) {
     <h2 class="stat-label">Air Quality${usAqi != null ? ' (US AQI: '+usAqi+')' : ''}</h2>
     <div class="stat-value" style="color:${aqiInfo.color}">${aqiInfo.text}</div>
     <div class="stat-sub">${pm25 != null ? 'PM2.5: ' + pm25.toFixed(1) + ' µg/m³' : ''}</div>
-    <div class="aqi-bar">${[1,2,3,4,5].map(i => `<div class="aqi-seg" style="background:${i <= aqiInfo.aqi ? aqiInfo.color : 'rgba(255,255,255,.08)'}"></div>`).join('')}</div>
+    <!-- Decorative meter: the category text (.stat-value, e.g. "Good"/"Fair"), the "US AQI: N" in the
+         heading, and the PM2.5 reading already state this level in text, so the five coloured segments
+         are visual reinforcement only. aria-hidden keeps its empty segment divs out of the a11y tree,
+         matching the page's decorative-element pattern (mirrors the humidity meter above). No visual change. -->
+    <div class="aqi-bar" aria-hidden="true">${[1,2,3,4,5].map(i => `<div class="aqi-seg" style="background:${i <= aqiInfo.aqi ? aqiInfo.color : 'rgba(255,255,255,.08)'}"></div>`).join('')}</div>
   </div>`;
 
   // Sunrise/Sunset
   html += `<div class="card">
     <div class="stat-icon" aria-hidden="true">🌅</div>
     <h2 class="stat-label">Sunrise / Sunset</h2>
-    <div class="sun-bar"><div class="sun-dot" style="left:calc(${sunProg}% - 7px)"></div></div>
+    <!-- Decorative track: the sunrise time, "Xh Ym daylight", and sunset time below convey the sun
+         data in text; this bar+dot is a visual at-a-glance of the sun's position with no text of its
+         own. aria-hidden keeps the empty track/dot out of the a11y tree, matching the page's
+         decorative-element pattern (mirrors the two meters above). No visual change. -->
+    <div class="sun-bar" aria-hidden="true"><div class="sun-dot" style="left:calc(${sunProg}% - 7px)"></div></div>
     <div class="sun-times">
       <span><span aria-hidden="true">↑</span><span class="visually-hidden">Sunrise: </span> ${fmtTime(sunrise)}</span>
       <span>${dlH}h ${dlM}m daylight</span>
