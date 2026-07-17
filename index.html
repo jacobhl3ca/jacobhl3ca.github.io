@@ -15,8 +15,7 @@
         <link rel="preconnect" href="https://fonts.googleapis.com"> <!-- early-connect to Google Fonts CSS (styles.css @imports Poppins from here, on the critical path) -->
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin> <!-- early-connect to the Google Fonts file host; crossorigin so the warmed socket is reused for the CORS woff2 fetch -->
         <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap"> <!-- styles.css @imports Poppins, but @import isn't discoverable until styles.css has downloaded + parsed, so the font CSS fetch is serialized on the critical path; preload it (same URL) so the browser fetches it in parallel up front and the @import then resolves from cache. Kept identical to the @import (now includes weight 500, used by .skills__tag / .mac-badge) so the preload still satisfies it. -->
-        <link rel="preload" as="image" href="assets/img/hidescore-wide.png" media="(min-width:768px)" fetchpriority="high"> <!-- LCP preload (desktop ≥768px): the first project card's thumbnail is the projects-only LCP, but the project rows are built by the inline script near </body>, so the preload scanner can't discover this image during head parse — the fetchpriority="high" already on the <img> only helps once it's discovered (late). Preload the matching responsive source so the fetch starts during head parse. Mirrors the <picture> breakpoint below. No visual change. -->
-        <link rel="preload" as="image" href="assets/img/hidescore-app.png" media="(max-width:767.98px)" fetchpriority="high"> <!-- LCP preload (mobile <768px): same as above for the default <picture> source. The two media queries are mutually exclusive, so only the one image the browser will actually render is ever preloaded (no wasted bytes). -->
+        <link rel="preload" as="image" href="assets/img/hidescore.png" fetchpriority="high"> <!-- LCP preload: the first project card (HideScore) thumbnail is the projects-only LCP, but the project rows are built by the inline script near </body>, so the preload scanner can't discover this image during head parse. HideScore now uses one clean cover at every breakpoint (like the Subway Times card), so preload that single source to start the fetch during head parse. No visual change. -->
         <link rel="dns-prefetch" href="//gc.zgo.at"> <!-- resolve the GoatCounter host that serves count.js, fetched async at end of body -->
         <link rel="dns-prefetch" href="//jacobhl.goatcounter.com"> <!-- resolve the GoatCounter *beacon* host too: count.js (from gc.zgo.at above) sends every pageview hit to https://jacobhl.goatcounter.com/count, a separate host whose DNS was otherwise only looked up lazily when the beacon fires. The prior prefetch warmed only the script host; this warms the endpoint the hit actually goes to, so the beacon isn't delayed (and is less likely to be dropped on a slow/flaky DNS) — completing the analytics-host prefetch pattern alongside Umami/Formspree below. Pure resource hint, no visual or behaviour change. -->
         <link rel="dns-prefetch" href="//stats.hidescore.com"> <!-- resolve the self-hosted Umami analytics host ahead of its deferred script.js fetch at end of body -->
@@ -626,7 +625,23 @@
   .nav-btn{flex:0 0 auto;width:30px;height:30px;border-radius:6px;border:1px solid #2a3242;background:#1a1f29;
     color:#9aa3b4;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .2s ease;}
   .nav-btn:hover{color:#fff;border-color:#3a445a;}
+  .nav-btn:disabled{opacity:.35;cursor:default;pointer-events:none;}
   .nav-btn i{font-size:1.15rem;}
+  /* large prev/next arrows flanking the preview, over the backdrop — more visible than the toolbar pair */
+  .modal-side{position:absolute;top:50%;transform:translateY(-50%);z-index:5;width:46px;height:46px;border-radius:50%;
+    border:1px solid #2a3242;background:rgba(17,20,26,.82);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);
+    color:#e6e9ef;cursor:pointer;display:flex;align-items:center;justify-content:center;
+    box-shadow:0 6px 24px rgba(0,0,0,.45);transition:background .2s ease, transform .2s ease, opacity .2s ease;}
+  .modal-side:hover{background:rgba(26,31,41,.95);transform:translateY(-50%) scale(1.06);}
+  .modal-side.prev{left:max(16px, calc(50% - 490px - 62px));}
+  .modal-side.next{right:max(16px, calc(50% - 490px - 62px));}
+  .modal-side:disabled{opacity:.22;pointer-events:none;}
+  .modal-side i{font-size:1.7rem;line-height:1;}
+  .modal-side:focus{outline:none;}
+  .modal-side:focus-visible{outline:2px solid var(--first-color);outline-offset:2px;}
+  .modal.fullscreen .modal-side.prev{left:16px;}
+  .modal.fullscreen .modal-side.next{right:16px;}
+  @media(max-width:640px){ .modal-side{width:38px;height:38px;} .modal-side.prev{left:8px;} .modal-side.next{right:8px;} .modal-side i{font-size:1.4rem;} }
   .url-form{flex:1;display:flex;}
   .modal-url{flex:1;width:100%;font-size:.8rem;color:#cdd3df;background:#1a1f29;border:1px solid #232a36;
     border-radius:6px;padding:.42rem .8rem;text-align:center;outline:none;font-family:var(--body-font);
@@ -1164,6 +1179,8 @@
     
     <!-- ===== Projects rows: live-preview modal + render/interaction JS ===== -->
     <div class="modal" id="modal" role="dialog" aria-modal="true" aria-label="Live site preview">
+  <button type="button" class="modal-side prev" id="sidePrev" title="Previous project" aria-label="Previous project"><i class='bx bx-chevron-left' aria-hidden="true"></i></button>
+  <button type="button" class="modal-side next" id="sideNext" title="Next project" aria-label="Next project"><i class='bx bx-chevron-right' aria-hidden="true"></i></button>
   <div class="modal-card">
     <div class="modal-bar">
       <div class="dots">
@@ -1171,6 +1188,8 @@
         <button type="button" class="dot yellow" id="dotMin" title="Minimize" aria-label="Minimize preview"><svg viewBox="0 0 12 12" aria-hidden="true"><path d="M3.3 6 H8.7"/></svg></button>
         <button type="button" class="dot green" id="dotExpand" title="Full screen" aria-label="Full screen preview"><svg viewBox="0 0 12 12" aria-hidden="true"><path class="fill" d="M3 3 L3 7 L7 3 Z"/><path class="fill" d="M9 9 L9 5 L5 9 Z"/></svg></button>
       </div>
+      <button type="button" class="nav-btn" id="navPrev" title="Previous project" aria-label="Previous project"><i class='bx bx-chevron-left' aria-hidden="true"></i></button>
+      <button type="button" class="nav-btn" id="navNext" title="Next project" aria-label="Next project"><i class='bx bx-chevron-right' aria-hidden="true"></i></button>
       <button type="button" class="nav-btn" id="navBack" title="Back" aria-label="Back" style="display:none;"><i class='bx bx-chevron-left' aria-hidden="true"></i></button>
       <button type="button" class="nav-btn" id="navReload" title="Reload" aria-label="Reload"><i class='bx bx-revision' aria-hidden="true"></i></button>
       <!-- Mobile-input hints for the editable preview address bar, mirroring the contact fields: inputmode="url" gives mobile users the URL-optimized keyboard (dedicated "/", ".", and ".com" keys) instead of the plain text one, autocapitalize="off" stops the first character of an address being capitalized as it's typed, and autocorrect="off" stops iOS "correcting" a URL mid-entry. enterkeyhint="go" labels the on-screen Enter key "Go" (the standard address-bar action) since submitting this field navigates the preview to the typed URL — mirroring the weather search box's enterkeyhint="search"; it was the one input hint this field still lacked. type stays "text" (not "url") because the submit handler prepends https:// to a bare domain, which native type="url" validation would otherwise reject. All editable hints, no visual change on desktop. -->
@@ -1189,11 +1208,11 @@
     <script>
 (function(){
 const MAIN = [
-  { title:"HideScore", live:true, img:"assets/img/hidescore-app.png", imgWide:"assets/img/hidescore-wide.png", pos:"top", url:"https://hidescore.com",
+  { title:"HideScore", live:true, img:"assets/img/hidescore.png", url:"https://hidescore.com",
     one:"Watch sports highlights without seeing the score.",
     full:"Watch sports highlights without seeing the score. Covers MLB, NBA, NHL, NFL, soccer, tennis and more with score-hidden cards, embedded highlights, and a unified news view — without spoiling anything you haven't watched.",
     site:"https://hidescore.com", appstore:"https://apps.apple.com/app/hidescore/id6766885311" },
-  { title:"Tonight NYC", live:true, img:"assets/img/tonightnyc-app.png", imgWide:"assets/img/tonightnyc-wide.png", pos:"top", url:"https://tonightnyc.com",
+  { title:"Tonight NYC", live:true, img:"assets/img/cellar_tonight.png", url:"https://tonightnyc.com",
     one:"Every NYC comedy show, filtered to your favorite comedians.",
     full:"No more digging for comedy showtimes, stick to your favorite comedians. Includes every NYC show from the Comedy Cellar, The Stand, and more, filtered your way. Mark favorites and skips, see which set to attend at a glance, and book directly.",
     site:"https://tonightnyc.com", appstore:"https://apps.apple.com/app/id6763027650" },
@@ -1352,8 +1371,16 @@ const modal=document.getElementById('modal'), card=modal.querySelector('.modal-c
       frame=document.getElementById('modalFrame'),
       mUrl=document.getElementById('modalUrl'), mOpen=document.getElementById('modalOpen'),
       mLoad=document.getElementById('modalLoad'), mLoadTxt=document.getElementById('modalLoadTxt'),
-      navBack=document.getElementById('navBack');
+      navBack=document.getElementById('navBack'),
+      navPrev=document.getElementById('navPrev'), navNext=document.getElementById('navNext'),
+      sidePrev=document.getElementById('sidePrev'), sideNext=document.getElementById('sideNext');
 let loadTimer=null, currentUrl='', backStack=[], sourceThumb=null;
+// prev/next cycle through the live-preview projects — same gallery-paging idea as the templates modal
+const liveThumbs=[...document.querySelectorAll('.proj-thumb[data-url]')];
+let curIdx=-1;
+function updateCycle(){ const atStart=curIdx<=0, atEnd=(curIdx<0||curIdx>=liveThumbs.length-1);
+  navPrev.disabled=atStart; navNext.disabled=atEnd; sidePrev.disabled=atStart; sideNext.disabled=atEnd; }
+function cycle(dir){ const n=curIdx+dir; if(n<0||n>=liveThumbs.length) return; curIdx=n; sourceThumb=liveThumbs[n]; backStack=[]; navigate(liveThumbs[n].dataset.url,false); updateCycle(); }
 
 function updateBack(){ navBack.style.display = backStack.length ? 'flex' : 'none'; }
 // push=true records the prior page so the toolbar back button can return to it
@@ -1400,6 +1427,7 @@ function openModal(url, srcEl){ sourceThumb=srcEl||null; backStack=[]; modal.cla
   card.style.transform=''; card.style.opacity=''; card.style.transformOrigin='';
   navigate(url,false); modal.classList.add('open'); document.body.style.overflow='hidden';
   setBackgroundInert(true);   // hide the page behind the dialog from AT + keyboard
+  curIdx=liveThumbs.indexOf(srcEl); updateCycle();   // position prev/next for this project in the gallery
   document.getElementById('modalClose').focus(); }   // move focus into the dialog for keyboard/AT users
 function closeModal(){ modal.classList.remove('open','fullscreen'); card.classList.remove('minimizing');
   card.style.transform=''; card.style.opacity=''; card.style.transformOrigin='';
@@ -1438,6 +1466,15 @@ document.getElementById('dotMin').addEventListener('click', minimize);
 document.getElementById('dotExpand').addEventListener('click', ()=> setFullscreen(!modal.classList.contains('fullscreen')));
 document.getElementById('fsBack').addEventListener('click', ()=> setFullscreen(false));
 navBack.addEventListener('click', goBack);
+navPrev.addEventListener('click', ()=>cycle(-1));
+navNext.addEventListener('click', ()=>cycle(1));
+sidePrev.addEventListener('click', ()=>cycle(-1));
+sideNext.addEventListener('click', ()=>cycle(1));
+// ←/→ arrow keys cycle projects too, but never while typing in the address bar
+document.addEventListener('keydown', e=>{
+  if(!modal.classList.contains('open') || document.activeElement===mUrl) return;
+  if(e.key==='ArrowLeft') cycle(-1); else if(e.key==='ArrowRight') cycle(1);
+});
 document.getElementById('navReload').addEventListener('click', reload);
 document.getElementById('urlForm').addEventListener('submit', e=>{
   e.preventDefault();
