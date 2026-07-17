@@ -90,6 +90,7 @@
 <link rel="preconnect" href="https://api.open-meteo.com" crossorigin>
 <link rel="preconnect" href="https://air-quality-api.open-meteo.com" crossorigin>
 <link rel="dns-prefetch" href="//gc.zgo.at"> <!-- resolve the GoatCounter analytics host ahead of the async count.js fetch at end of body (mirrors index.html) -->
+<link rel="dns-prefetch" href="//jacobhl.goatcounter.com"> <!-- resolve the GoatCounter *beacon* host too: count.js (from gc.zgo.at above) sends every pageview hit to https://jacobhl.goatcounter.com/count, a separate host whose DNS was otherwise only looked up lazily when the beacon fires. The prefetch above warmed only the script host; this warms the endpoint the hit actually goes to, so the beacon isn't delayed (and is less likely to be dropped on a slow/flaky DNS). Mirrors the beacon-host prefetch already on index.html and 404.html. Pure resource hint, no visual or behaviour change. -->
 <style>
 :root {
   /* Dark-only dashboard: tell the browser to render UA chrome (scrollbars, the
