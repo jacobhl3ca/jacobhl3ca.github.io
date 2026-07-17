@@ -225,7 +225,14 @@
        phone, matching the two existing sms:+18622952714 links and the page's "text me" intent
        (not a call). footer a{color:inherit;text-decoration:none} keeps the muted footer look
        unchanged — the links look identical to the plain text they replace. No visual change. -->
-  <footer>
+  <!-- Explicit role="contentinfo" so this page footer is exposed as the contentinfo landmark. A
+       bare <footer> only maps to contentinfo when it's NOT a descendant of main/article/aside/nav/
+       section (ARIA-in-HTML) — this one sits inside <main> (moving it out would push it past the
+       centered 940px container and change the layout), so without the explicit role it maps to
+       generic and the page has no contentinfo landmark at all, unlike index.html and 404.html
+       whose footers sit outside <main>. The role restores the landmark for screen-reader landmark
+       navigation with no visual or behaviour change. -->
+  <footer role="contentinfo">
     Jacob Heifetz-Licht · neighbor, web/app developer · <a href="mailto:hi@jacobhl.com">hi@jacobhl.com</a> · <a href="sms:+18622952714">862-295-2714</a>
   </footer>
 </main>
