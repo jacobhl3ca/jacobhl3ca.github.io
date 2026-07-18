@@ -761,7 +761,7 @@
                 <div class="nav__menu" id="nav-menu">
                     <ul class="nav__list">
 
-                        <li class="nav__item"><a href="#home" class="nav__link active-link" aria-current="page">Home</a></li> <!-- baseline aria-current to match the hardcoded active-link class, so AT announces Home as the current section before/independent of main.js's scrollActive() (which manages this pair dynamically thereafter) -->
+                        <li class="nav__item"><a href="#home" class="nav__link active-link" aria-current="location">Home</a></li> <!-- baseline aria-current to match the hardcoded active-link class, so AT announces Home as the current section before/independent of main-alt.js's scrollActive() (which manages this pair dynamically thereafter). Token is "location" (in-page scroll-spy position), not "page" — matching what scrollActive() now sets, so there's no page→location flip once the JS runs; see the rationale in main-alt.js. -->
                         <li class="nav__item"><a href="#about" class="nav__link">About</a></li>
 
                         <!-- Update Periodically -->

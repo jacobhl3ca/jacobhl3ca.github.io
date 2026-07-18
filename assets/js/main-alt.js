@@ -250,7 +250,15 @@ const scrollActive = () =>{
 
         if(scrollDown > sectionTop && scrollDown <= sectionTop + sectionHeight){
             sectionsClass.classList.add('active-link')
-            sectionsClass.setAttribute('aria-current', 'page') // tell assistive tech which section is current
+            // aria-current="location", not "page": these nav links are in-page anchors (#home, #about,
+            // …) and this is scroll-spy highlighting of the section currently in view. Per ARIA, "page"
+            // means the current page within a SET of pages (breadcrumb / multi-page nav) — a screen
+            // reader announces it as "current page", which misdescribes an in-document position. The
+            // "location" token is defined for exactly this case ("current location within a scrolling
+            // context"), so it announces the section as the current location without implying page
+            // navigation. Both are valid aria-current tokens; behaviour is otherwise identical. Mirrors
+            // the same fix already in main.js (this file, main-alt.js, is the homepage's active script).
+            sectionsClass.setAttribute('aria-current', 'location') // tell assistive tech which section is current
         }else{
             sectionsClass.classList.remove('active-link')
             sectionsClass.removeAttribute('aria-current')
