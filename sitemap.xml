@@ -15,9 +15,8 @@
         <lastmod>2026-07-17</lastmod>
         <priority>0.6</priority>
     </url>
-    <url>
-        <loc>https://jacobhl.com/tidytab.html</loc>
-        <lastmod>2026-07-18</lastmod>
-        <priority>0.6</priority>
-    </url>
+    <!-- tidytab.html intentionally NOT listed: it is now a noindex stub that redirects to
+         tidytab.jacobhl.com (its canonical), so submitting it here would produce
+         "Submitted URL marked noindex" / "Submitted URL has redirect" errors in Search Console.
+         The TidyTab app lives on its own subdomain and is indexed from there. -->
 </urlset>
