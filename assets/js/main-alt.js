@@ -147,22 +147,19 @@ function setThemeColor(theme) {
     if (meta) meta.setAttribute('content', theme === 'light' ? '#ffffff' : '#090f20');
 }
 
-// HTML defaults to data-theme="dark" and sun icon; only switch to light if user previously chose light
-if (currentTheme === 'light') {
+// HTML now defaults to LIGHT (no data-theme) + moon icon; only switch to dark if user previously chose dark.
+if (currentTheme === 'dark') {
+    document.documentElement.setAttribute('data-theme', 'dark');
+    if (themeIcon) themeIcon.classList.replace('bx-moon', 'bx-sun');
+    if (themeToggle) themeToggle.setAttribute('aria-label', 'Switch to light mode');
+    setThemeImages('dark');
+    setThemeColor('dark');
+} else {
     document.documentElement.removeAttribute('data-theme');
     if (themeIcon) themeIcon.classList.replace('bx-sun', 'bx-moon');
     if (themeToggle) themeToggle.setAttribute('aria-label', 'Switch to dark mode');
     setThemeImages('light');
     setThemeColor('light');
-} else {
-    document.documentElement.setAttribute('data-theme', 'dark');
-    if (themeIcon) themeIcon.classList.replace('bx-moon', 'bx-sun');
-    if (themeToggle) themeToggle.setAttribute('aria-label', 'Switch to light mode');
-    setThemeColor('dark');
-    // NOTE: intentionally do NOT persist 'dark' for first-time visitors. The homepage now
-    // defaults to light (via main-alt.js); auto-persisting dark here (this file still runs on
-    // 404.html / preview pages) would write theme='dark' to storage and override that light
-    // default on the visitor's next homepage load. Dark is now only stored on an explicit toggle.
 }
 
 // Guard the toggle wiring: this block runs first in main.js, so an uncaught throw here
@@ -237,14 +234,7 @@ const scrollActive = () =>{
 
         if(scrollDown > sectionTop && scrollDown <= sectionTop + sectionHeight){
             sectionsClass.classList.add('active-link')
-            // aria-current="location", not "page": these nav links are in-page anchors (#home, #about,
-            // …) and this is scroll-spy highlighting of the section currently in view. Per ARIA, "page"
-            // means the current page within a SET of pages (breadcrumb / multi-page nav) — a screen
-            // reader announces it as "current page", which misdescribes an in-document position. The
-            // "location" token is defined for exactly this case ("current location within a scrolling
-            // context"), so it announces the section as the current location without implying page
-            // navigation. Both are valid aria-current tokens; behaviour is otherwise identical.
-            sectionsClass.setAttribute('aria-current', 'location') // tell assistive tech which section is current
+            sectionsClass.setAttribute('aria-current', 'page') // tell assistive tech which section is current
         }else{
             sectionsClass.classList.remove('active-link')
             sectionsClass.removeAttribute('aria-current')
