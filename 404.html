@@ -89,6 +89,21 @@
 
             /* Back to top button (hidden on 404 but needed for CSS) */
             .back-to-top { display: none; }
+
+            /* Honour the OS "reduce motion" setting. This page loads styles.css, whose .theme-toggle
+               plays the subtle-jingle shake animation automatically on load, plus its hover/theme
+               transitions — and the 404 was the one page site-wide still without a reduced-motion
+               guard (index.html, weather/, and building.html all carry one). This near-instant reset
+               neutralises motion while preserving each animation's final (forwards) state, so the
+               settled design is unchanged — only the movement getting there is removed. */
+            @media (prefers-reduced-motion: reduce) {
+                *, *::before, *::after {
+                    animation-duration: 0.01ms !important;
+                    animation-iteration-count: 1 !important;
+                    transition-duration: 0.01ms !important;
+                    scroll-behavior: auto !important;
+                }
+            }
         </style>
     </head>
     <body>
