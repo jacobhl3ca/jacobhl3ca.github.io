@@ -2,112 +2,13 @@
 <html lang="en-US">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="color-scheme" content="light dark">
-  <meta name="theme-color" content="#ffffff">
-  <title>TidyTab — Bulk unpin or close Safari pinned tabs (macOS)</title>
-  <meta name="description" content="TidyTab is a tiny macOS menu-bar app that bulk unpins or closes all your Safari pinned tabs in one sweep. Developer ID-signed and Apple-notarized. Free download.">
-  <link rel="canonical" href="https://jacobhl.com/tidytab.html">
-  <meta property="og:title" content="TidyTab — Bulk unpin or close Safari pinned tabs">
-  <meta property="og:description" content="A tiny macOS menu-bar app that clears all your Safari pinned tabs in one sweep. Signed & notarized. Free.">
-  <meta property="og:image" content="https://jacobhl.com/assets/img/tidytab.png">
-  <meta property="og:type" content="website">
-  <meta property="og:url" content="https://jacobhl.com/tidytab.html">
-  <link rel="icon" type="image/x-icon" href="assets/img/favicon.ico">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link href="https://cdn.jsdelivr.net/npm/boxicons@2.0.5/css/boxicons.min.css" rel="stylesheet">
-  <style>
-    :root{
-      --font:"Poppins",-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
-      --accent:hsl(224,89%,60%);
-      --bg:#ffffff; --surface:#ffffff; --text:hsl(224,56%,12%); --muted:hsl(224,14%,42%);
-      --line:hsl(224,30%,90%); --card:hsl(224,40%,98%); --shadow:0 4px 25px rgba(14,36,49,.12);
-    }
-    @media (prefers-color-scheme: dark){
-      :root{ --accent:hsl(224,89%,70%); --bg:hsl(224,56%,8%); --surface:hsl(224,56%,11%);
-        --text:hsl(224,56%,90%); --muted:hsl(224,20%,64%); --line:hsl(224,30%,20%);
-        --card:hsl(224,45%,13%); --shadow:0 4px 25px rgba(0,0,0,.35); }
-    }
-    *{box-sizing:border-box;margin:0;padding:0}
-    html{-webkit-text-size-adjust:100%}
-    body{font-family:var(--font);background:var(--bg);color:var(--text);line-height:1.6;
-      -webkit-font-smoothing:antialiased;padding:clamp(2rem,6vw,4.5rem) 1.25rem;}
-    .wrap{max-width:640px;margin:0 auto;text-align:center;}
-
-    .icon{width:104px;height:104px;border-radius:24px;margin:0 auto 1.4rem;
-      background:radial-gradient(120% 120% at 30% 20%, #2a2f3e 0%, #14161f 70%);
-      display:flex;align-items:center;justify-content:center;font-size:3.1rem;line-height:1;
-      box-shadow:0 10px 30px rgba(0,0,0,.28), inset 0 1px 0 rgba(255,255,255,.06);}
-    h1{font-size:clamp(2rem,6vw,2.7rem);font-weight:700;letter-spacing:-.02em;margin-bottom:.5rem;}
-    .tagline{font-size:clamp(1.02rem,3vw,1.18rem);color:var(--muted);max-width:30ch;margin:0 auto 2rem;}
-
-    .cta{display:inline-flex;align-items:center;gap:11px;height:52px;padding:0 22px;
-      background:#000;border:1px solid #a6a6a6;border-radius:11px;text-decoration:none;color:#fff;
-      line-height:1;transition:transform .2s ease, box-shadow .2s ease;
-      box-shadow:0 6px 20px rgba(0,0,0,.18);will-change:transform;}
-    .cta:hover{transform:translateY(-2px);box-shadow:0 10px 26px rgba(0,0,0,.24);}
-    .cta i{font-size:2rem;line-height:1;}
-    .cta .t{display:flex;flex-direction:column;align-items:flex-start;}
-    .cta .t small{font-size:.62rem;letter-spacing:.02em;opacity:.9;}
-    .cta .t b{font-size:1.24rem;font-weight:500;letter-spacing:-.01em;margin-top:1px;}
-    .sub{font-size:.82rem;color:var(--muted);margin-top:.85rem;}
-    .sub .dot{opacity:.5;margin:0 .35rem;}
-
-    .desc{margin:2.6rem auto 0;color:var(--text);opacity:.9;font-size:1rem;max-width:44ch;}
-
-    .features{display:grid;gap:.9rem;margin:2.4rem auto 0;text-align:left;max-width:480px;}
-    .feat{display:flex;gap:.85rem;align-items:flex-start;background:var(--card);
-      border:1px solid var(--line);border-radius:14px;padding:1rem 1.15rem;box-shadow:var(--shadow);}
-    .feat i{flex:0 0 auto;font-size:1.5rem;color:var(--accent);line-height:1.4;}
-    .feat b{display:block;font-weight:600;font-size:.98rem;margin-bottom:.1rem;}
-    .feat span{font-size:.9rem;color:var(--muted);}
-
-    .note{margin-top:1.8rem;font-size:.86rem;color:var(--muted);}
-    .note kbd{font-family:var(--font);font-size:.8rem;padding:.1rem .45rem;border-radius:5px;
-      background:var(--card);border:1px solid var(--line);}
-
-    .links{margin-top:2.2rem;display:flex;gap:1.4rem;justify-content:center;align-items:center;flex-wrap:wrap;}
-    .links a{color:var(--muted);text-decoration:none;font-size:.9rem;font-weight:500;
-      display:inline-flex;align-items:center;gap:.4rem;transition:color .2s ease;}
-    .links a:hover{color:var(--accent);}
-    .links a i{font-size:1.2rem;}
-
-    footer{margin-top:3rem;font-size:.8rem;color:var(--muted);opacity:.8;}
-    footer a{color:var(--accent);text-decoration:none;}
-    footer a:hover{text-decoration:underline;}
-    a:focus-visible,.cta:focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:6px;}
-  </style>
+  <title>TidyTab — moved to tidytab.jacobhl.com</title>
+  <link rel="canonical" href="https://tidytab.jacobhl.com/">
+  <meta name="robots" content="noindex">
+  <meta http-equiv="refresh" content="0; url=https://tidytab.jacobhl.com/">
+  <script>location.replace("https://tidytab.jacobhl.com/" + location.hash);</script>
 </head>
 <body>
-  <main class="wrap">
-    <div class="icon" aria-hidden="true">📌</div>
-    <h1>TidyTab</h1>
-    <p class="tagline">Bulk unpin or close your Safari pinned tabs — in one clean sweep.</p>
-
-    <a class="cta" href="https://github.com/jacobhl3ca/safari-pinned-tab-automation/releases/latest/download/TidyTab.dmg">
-      <i class="bx bxl-apple" aria-hidden="true"></i>
-      <span class="t"><small>Download for</small><b>Mac</b></span>
-    </a>
-    <p class="sub">Free · macOS <span class="dot">·</span> Signed &amp; Apple-notarized <span class="dot">·</span> .dmg</p>
-
-    <p class="desc">A little menu-bar app I built to clear out Safari's pinned tabs when they pile up. It auto-detects every pinned tab and unpins or closes them in one go — no clicking through each one.</p>
-
-    <div class="features">
-      <div class="feat"><i class="bx bx-mouse" aria-hidden="true"></i><div><b>One-click cleanup</b><span>Auto-detects your pinned Safari tabs and clears them all at once.</span></div></div>
-      <div class="feat"><i class="bx bx-menu" aria-hidden="true"></i><div><b>Lives in your menu bar</b><span>Quiet and out of the way until the moment you need it.</span></div></div>
-      <div class="feat"><i class="bx bx-shield-quarter" aria-hidden="true"></i><div><b>Signed &amp; notarized</b><span>Developer ID-signed and Apple-notarized, so it downloads and opens cleanly.</span></div></div>
-    </div>
-
-    <p class="note">Running a sweep? Press <kbd>Space</kbd> anytime to stop.</p>
-
-    <div class="links">
-      <a href="https://github.com/jacobhl3ca/safari-pinned-tab-automation" target="_blank" rel="noopener"><i class="bx bxl-github" aria-hidden="true"></i> View source on GitHub</a>
-      <a href="https://jacobhl.com"><i class="bx bx-arrow-back" aria-hidden="true"></i> More projects</a>
-    </div>
-
-    <footer>Built by <a href="https://jacobhl.com">Jacob Heifetz-Licht</a></footer>
-  </main>
+  <p>TidyTab has moved to <a href="https://tidytab.jacobhl.com/">tidytab.jacobhl.com</a>.</p>
 </body>
 </html>
