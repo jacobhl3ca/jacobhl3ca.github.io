@@ -3,6 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!-- noindex, follow: this unlinked, sitemap-absent "projects rows" preview renders the same project cards as the homepage's projects section, so leaving it indexable created a duplicate-content risk against the real homepage. It carries no canonical/og tags of its own to disambiguate it, which makes the risk worse. Now matches the site's established pattern for alternate/experiment pages (index_with_animation.html, light/index.html, projects-stack-preview.html, projects/index_cascade_animate.html all noindex, follow). Metadata only — no visual change. -->
+<meta name="robots" content="noindex, follow">
 <title>Projects rows — preview</title>
 <!-- load the REAL site styles so this matches exactly -->
 <link rel="stylesheet" href="assets/css/styles.css">
