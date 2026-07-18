@@ -622,6 +622,22 @@
     color:#9aa3b4;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .2s ease;}
   .nav-btn:hover{color:#fff;border-color:#3a445a;}
   .nav-btn i{font-size:1.15rem;}
+  .nav-btn:disabled{opacity:.35;cursor:default;pointer-events:none;}
+  /* large prev/next arrows flanking the preview, over the backdrop — more visible than the toolbar pair */
+  .modal-side{position:absolute;top:50%;transform:translateY(-50%);z-index:5;width:46px;height:46px;border-radius:50%;
+    border:1px solid #2a3242;background:rgba(17,20,26,.82);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);
+    color:#e6e9ef;cursor:pointer;display:flex;align-items:center;justify-content:center;
+    box-shadow:0 6px 24px rgba(0,0,0,.45);transition:background .2s ease, transform .2s ease, opacity .2s ease;}
+  .modal-side:hover{background:rgba(26,31,41,.95);transform:translateY(-50%) scale(1.06);}
+  .modal-side.prev{left:max(16px, calc(50% - 490px - 62px));}
+  .modal-side.next{right:max(16px, calc(50% - 490px - 62px));}
+  .modal-side:disabled{opacity:.22;pointer-events:none;}
+  .modal-side i{font-size:1.7rem;line-height:1;}
+  .modal-side:focus{outline:none;}
+  .modal-side:focus-visible{outline:2px solid var(--first-color);outline-offset:2px;}
+  .modal.fullscreen .modal-side.prev{left:16px;}
+  .modal.fullscreen .modal-side.next{right:16px;}
+  @media(max-width:640px){ .modal-side{width:38px;height:38px;} .modal-side.prev{left:8px;} .modal-side.next{right:8px;} .modal-side i{font-size:1.4rem;} }
   .url-form{flex:1;display:flex;}
   .modal-url{flex:1;width:100%;font-size:.8rem;color:#cdd3df;background:#1a1f29;border:1px solid #232a36;
     border-radius:6px;padding:.42rem .8rem;text-align:center;outline:none;font-family:var(--body-font);
@@ -1175,6 +1191,8 @@
     
     <!-- ===== Projects rows: live-preview modal + render/interaction JS ===== -->
     <div class="modal" id="modal" role="dialog" aria-modal="true" aria-label="Live site preview">
+  <button type="button" class="modal-side prev" id="sidePrev" title="Previous project" aria-label="Previous project"><i class='bx bx-chevron-left' aria-hidden="true"></i></button>
+  <button type="button" class="modal-side next" id="sideNext" title="Next project" aria-label="Next project"><i class='bx bx-chevron-right' aria-hidden="true"></i></button>
   <div class="modal-card">
     <div class="modal-bar">
       <div class="dots">
@@ -1182,6 +1200,8 @@
         <button type="button" class="dot yellow" id="dotMin" title="Minimize" aria-label="Minimize preview"><svg viewBox="0 0 12 12" aria-hidden="true"><path d="M3.3 6 H8.7"/></svg></button>
         <button type="button" class="dot green" id="dotExpand" title="Full screen" aria-label="Full screen preview"><svg viewBox="0 0 12 12" aria-hidden="true"><path class="fill" d="M3 3 L3 7 L7 3 Z"/><path class="fill" d="M9 9 L9 5 L5 9 Z"/></svg></button>
       </div>
+      <button type="button" class="nav-btn" id="navPrev" title="Previous project" aria-label="Previous project"><i class='bx bx-chevron-left' aria-hidden="true"></i></button>
+      <button type="button" class="nav-btn" id="navNext" title="Next project" aria-label="Next project"><i class='bx bx-chevron-right' aria-hidden="true"></i></button>
       <button type="button" class="nav-btn" id="navBack" title="Back" aria-label="Back" style="display:none;"><i class='bx bx-chevron-left' aria-hidden="true"></i></button>
       <button type="button" class="nav-btn" id="navReload" title="Reload" aria-label="Reload"><i class='bx bx-revision' aria-hidden="true"></i></button>
       <!-- Mobile-input hints for the editable preview address bar, mirroring the contact fields: inputmode="url" gives mobile users the URL-optimized keyboard (dedicated "/", ".", and ".com" keys) instead of the plain text one, autocapitalize="off" stops the first character of an address being capitalized as it's typed, and autocorrect="off" stops iOS "correcting" a URL mid-entry. type stays "text" (not "url") because the submit handler prepends https:// to a bare domain, which native type="url" validation would otherwise reject. All editable hints, no visual change on desktop. -->
@@ -1214,7 +1234,7 @@ const MAIN = [
     one:"Every NYC comedy show, filtered to your favorite comedians.",
     full:"No more digging for comedy showtimes, stick to your favorite comedians. Includes every NYC show from the Comedy Cellar, The Stand, and more, filtered your way. Mark favorites and skips, see which set to attend at a glance, and book directly.",
     site:"https://tonightnyc.com", appstore:"https://apps.apple.com/app/id6763027650" },
-  { title:"Subway Times", live:true, noEmbed:true, img:"assets/img/subwaytimes-cover.png", url:"https://subwaytimes.com",
+  { title:"Subway Times", live:true, img:"assets/img/subwaytimes-cover.png", url:"https://subwaytimes.com",
     one:"Real-time NYC subway arrivals, faster than Maps.",
     full:"Quicker than Google Maps for simple departures, especially from your home station. Real-time NYC subway arrivals, where you can favorite your stations, see countdown timers down to the second, and get out the door faster.",
     site:"https://subwaytimes.com", appstore:"https://apps.apple.com/us/app/subwaytimes/id6775994423" },
@@ -1361,9 +1381,18 @@ const modal=document.getElementById('modal'), card=modal.querySelector('.modal-c
       mUrl=document.getElementById('modalUrl'), mOpen=document.getElementById('modalOpen'),
       mLoad=document.getElementById('modalLoad'), mLoadTxt=document.getElementById('modalLoadTxt'),
       navBack=document.getElementById('navBack'),
+      navPrev=document.getElementById('navPrev'), navNext=document.getElementById('navNext'),
+      sidePrev=document.getElementById('sidePrev'), sideNext=document.getElementById('sideNext'),
       noembed=document.getElementById('modalNoembed'), neImg=document.getElementById('modalNoembedImg'),
       neOpen=document.getElementById('modalNoembedOpen'), neHost=document.getElementById('modalNoembedHost');
 let loadTimer=null, currentUrl='', backStack=[], sourceThumb=null, noEmbedPoster=null;
+// prev/next cycle through the live-preview projects — same gallery-paging idea as the templates modal
+let liveThumbs=[], curIdx=-1;
+function updateCycle(){ const atStart=curIdx<=0, atEnd=(curIdx<0||curIdx>=liveThumbs.length-1);
+  navPrev.disabled=atStart; navNext.disabled=atEnd; sidePrev.disabled=atStart; sideNext.disabled=atEnd; }
+function cycle(dir){ const n=curIdx+dir; if(n<0||n>=liveThumbs.length) return; curIdx=n; const t=liveThumbs[n]; sourceThumb=t; backStack=[];
+  if(t.dataset && t.dataset.noembed){ showNoEmbed(t.dataset.url, t.dataset.poster); } else { navigate(t.dataset.url,false); }
+  updateCycle(); }
 
 // #4: sites that refuse iframe embedding (their own X-Frame-Options / CSP) can't load in the preview,
 // so instead of an endless spinner show their poster + an "open in a new tab" button. Still fills the
@@ -1429,6 +1458,7 @@ function openModal(url, srcEl){ sourceThumb=srcEl||null; backStack=[]; modal.cla
   else { navigate(url,false); }
   modal.classList.add('open'); document.body.style.overflow='hidden';
   setBackgroundInert(true);   // hide the page behind the dialog from AT + keyboard
+  liveThumbs=[...document.querySelectorAll('.proj-thumb[data-url]')]; curIdx=liveThumbs.indexOf(srcEl); updateCycle();   // position prev/next in the gallery
   document.getElementById('modalClose').focus(); }   // move focus into the dialog for keyboard/AT users
 function closeModal(){ modal.classList.remove('open','fullscreen'); card.classList.remove('minimizing');
   card.style.transform=''; card.style.opacity=''; card.style.transformOrigin='';
@@ -1468,6 +1498,15 @@ document.getElementById('dotMin').addEventListener('click', minimize);
 document.getElementById('dotExpand').addEventListener('click', ()=> setFullscreen(!modal.classList.contains('fullscreen')));
 document.getElementById('fsBack').addEventListener('click', ()=> setFullscreen(false));
 navBack.addEventListener('click', goBack);
+navPrev.addEventListener('click', ()=>cycle(-1));
+navNext.addEventListener('click', ()=>cycle(1));
+sidePrev.addEventListener('click', ()=>cycle(-1));
+sideNext.addEventListener('click', ()=>cycle(1));
+// ←/→ arrow keys cycle projects too, but never while typing in the address bar
+document.addEventListener('keydown', e=>{
+  if(!modal.classList.contains('open') || document.activeElement===mUrl) return;
+  if(e.key==='ArrowLeft') cycle(-1); else if(e.key==='ArrowRight') cycle(1);
+});
 document.getElementById('navReload').addEventListener('click', reload);
 document.getElementById('urlForm').addEventListener('submit', e=>{
   e.preventDefault();
