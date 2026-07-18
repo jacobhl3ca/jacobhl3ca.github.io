@@ -18,13 +18,13 @@
         <link rel="preload" as="image" href="assets/img/hidescore-cover.png" fetchpriority="high"> <!-- LCP preload: the first project card's thumbnail (HideScore's branded cover) is the projects-only LCP, but the project rows are built by the inline script near </body>, so the preload scanner can't discover this image during head parse — the fetchpriority="high" already on the <img> only helps once it's discovered (late). Preload it so the fetch starts during head parse. Single source now (no responsive <picture> — the branded cover is one image at all breakpoints). -->
         <link rel="dns-prefetch" href="//gc.zgo.at"> <!-- resolve the GoatCounter analytics host ahead of the async count.js fetch at end of body -->
         <link rel="dns-prefetch" href="//stats.hidescore.com"> <!-- resolve the self-hosted Umami analytics host ahead of its deferred script.js fetch at end of body -->
-        <link rel="dns-prefetch" href="//formspree.io"> <!-- resolve the Formspree host ahead of the contact form's on-submit POST (assets/js/main.js) so the DNS lookup isn't on the send path -->
+        <link rel="dns-prefetch" href="//formspree.io"> <!-- resolve the Formspree host ahead of the contact form's on-submit POST (assets/js/main-alt.js) so the DNS lookup isn't on the send path -->
         <link href='https://cdn.jsdelivr.net/npm/boxicons@2.0.5/css/boxicons.min.css' rel='stylesheet'> <!-- icons -->
         <script>
             // Default view = projects-only (set before paint to avoid flash); honor saved preference.
             // Light is now the default theme (the document ships with NO data-theme attribute);
             // only apply dark before paint if the user previously chose it, so returning dark-mode
-            // users don't see a light flash (main.js loads at the end of <body>).
+            // users don't see a light flash (main-alt.js loads at the end of <body>).
             try {
                 // One-time migration to the new light default. Older builds auto-persisted
                 // theme='dark' for EVERY first-time visitor, so returning visitors would otherwise
@@ -782,11 +782,11 @@
                     </button>
                     <script>
                         // Correct the theme toggle's baseline state for returning DARK-mode users,
-                        // before paint and before main.js loads at end of <body>. The button is hardcoded
+                        // before paint and before main-alt.js loads at end of <body>. The button is hardcoded
                         // in its light-mode state (moon icon + "Switch to dark mode"), but the inline <head>
                         // script has already applied the saved dark theme — so without this the toggle
                         // briefly shows the wrong icon and, more importantly, announces the wrong action to
-                        // assistive tech ("Switch to dark mode" while the page is already dark). main.js
+                        // assistive tech ("Switch to dark mode" while the page is already dark). main-alt.js
                         // re-applies the same state later (classList.replace is a no-op when the class is
                         // absent, and the aria-label is identical), so this only removes the flash/mismatch.
                         try {
@@ -1119,7 +1119,7 @@
                         <!-- Mobile-input hints for the email field, mirroring the name field above: turn off autocapitalize so the local part isn't capitalized as it's typed, autocorrect off so an address isn't "corrected" mid-entry (iOS autocorrects text inputs by default), and spellcheck off so email addresses aren't flagged with red squiggles. type="email" already picks the right keyboard; these just stop the input being mangled. All editable hints, no visual change on desktop. -->
                         <input type="email" name="email" placeholder="your@email.com" class="contact__input" aria-label="Your email address" autocomplete="email" autocapitalize="off" autocorrect="off" spellcheck="false" required>
                         <textarea name="message" placeholder="Your Message" class="contact__input" aria-label="Your message" rows="10" required></textarea>
-                        <!-- No aria-live here: the button is set disabled on submit (dropping it from the a11y tree), and main.js mirrors the "Sending…/Sent!/Error" status into a dedicated visually-hidden #srStatus live region. Keeping aria-live on the button too caused a redundant/inconsistent double announcement. -->
+                        <!-- No aria-live here: the button is set disabled on submit (dropping it from the a11y tree), and main-alt.js mirrors the "Sending…/Sent!/Error" status into a dedicated visually-hidden #srStatus live region. Keeping aria-live on the button too caused a redundant/inconsistent double announcement. -->
                         <button type="submit" class="contact__button button">Send</button>
                     </form>
                 </div>
@@ -1170,13 +1170,13 @@
 
 
         <!--===== MAIN JS =====-->
-        <!-- defer: main.js is a ~30KB parser-blocking script sitting above ~350 lines of modal
+        <!-- defer: main-alt.js is a ~30KB parser-blocking script sitting above ~350 lines of modal
              markup + the project-render IIFE, so the parser stalls on its download/execute before
-             finishing that DOM. Deferring lets the browser keep parsing while main.js downloads in
-             parallel, then runs it after parse (still before DOMContentLoaded). Safe here: main.js
+             finishing that DOM. Deferring lets the browser keep parsing while main-alt.js downloads in
+             parallel, then runs it after parse (still before DOMContentLoaded). Safe here: main-alt.js
              only wires static elements (nav, theme/view toggles, section scroll-spy, contact form)
              that exist at parse start, its live-dot observer is a no-op (rows ship class="live-dot
-             is-visible"), and no inline script calls a main.js global — so nothing depends on it
+             is-visible"), and no inline script calls a main-alt.js global — so nothing depends on it
              running mid-parse. Consistent with the page's existing preload/preconnect/fetchpriority
              work; no visual or behaviour change. -->
         <script defer src="assets/js/main-alt.js"></script>
