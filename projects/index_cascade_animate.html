@@ -1,0 +1,1263 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="assets/css/styles.css">
+        <link rel="icon" type="image/x-icon" href="assets/img/favicon.ico">
+        <link href='https://cdn.jsdelivr.net/npm/boxicons@2.0.5/css/boxicons.min.css' rel='stylesheet'> <!-- icons -->
+        <title>Jacob Heifetz-Licht</title>
+        <meta name="description" content="Data analytics leader specializing in Python, SQL, Tableau, and automation. Turning complex data into actionable insights.">
+        <meta name="keywords" content="analytics manager, data analytics, Python, SQL, Tableau, automation, dashboard design, data visualization, ETL, BigQuery">
+        <meta name="author" content="Jacob Heifetz-Licht">
+        <meta name="robots" content="index, follow">
+        <!-- Open Graph meta tags for link previews -->
+        <meta property="og:title" content="Jacob Heifetz-Licht — Analytics Manager">
+        <!-- <meta property="og:title" content="Jacob Heifetz-Licht — Analytics Engineer"> -->
+        <meta property="og:description" content="Data analytics leader specializing in Python, SQL, Tableau, and automation. Turning complex data into actionable insights.">
+        <meta property="og:image" content="https://jacobhl3ca.github.io/assets/img/og_image.png">
+        <meta property="og:url" content="https://jacobhl.com">
+        <meta property="og:type" content="website">
+        <meta name="twitter:card" content="summary">
+        <meta name="twitter:title" content="Jacob Heifetz-Licht — Analytics Manager">
+        <meta name="twitter:description" content="Data analytics leader specializing in Python, SQL, Tableau, and automation. Turning complex data into actionable insights.">
+        <meta name="twitter:image" content="https://jacobhl3ca.github.io/assets/img/og_image.png">
+        <!-- Privacy-friendly analytics by Plausible
+        <script async src="http://192.168.99.97:8001/js/pa-Gs2doyz-B6lgKMO0IhiIX.js"></script>
+        <script>
+          window.plausible=window.plausible||function(){(plausible.q=plausible.q||[]).push(arguments)},plausible.init=plausible.init||function(i){plausible.o=i||{}};
+          plausible.init()
+        </script>
+        -->
+        <style>
+            /* Override: cascade with 30px slide up */
+            .reveal { opacity: 0; transform: translateY(30px); transition: opacity 0.6s ease, transform 0.6s ease; }
+            .reveal.visible { opacity: 1; transform: translateY(0); }
+
+            .clickable-img {
+                cursor: pointer;
+                transition: filter 0.5s ease, mix-blend-mode 0.3s ease;
+            }
+            .clickable-img.bg-removed {
+                mix-blend-mode: screen;
+            }
+            [data-theme="dark"] .clickable-img.bg-removed {
+                mix-blend-mode: screen;
+            }
+            html:not([data-theme="dark"]) .clickable-img.bg-removed {
+                mix-blend-mode: multiply;
+            }
+            .home__circle.clickable-img {
+                cursor: pointer;
+            }
+            .home__circle.bg-removed {
+                background-color: transparent;
+            }
+
+            .confetti-piece {
+                position: fixed;
+                width: 10px;
+                height: 10px;
+                pointer-events: none;
+                z-index: 9999;
+            }
+
+            /* project tile images - no special cursor needed */
+
+            .skills__img {
+                cursor: pointer;
+                position: relative;
+            }
+            .code-popup {
+                position: fixed;
+                pointer-events: none;
+                z-index: 9999;
+                font-family: 'Courier New', monospace;
+                font-size: 0.8rem;
+                padding: 0.4rem 0.75rem;
+                border-radius: 6px;
+                background: rgba(30, 30, 60, 0.92);
+                color: #43e97b;
+                border: 1px solid rgba(67, 233, 123, 0.4);
+                white-space: nowrap;
+                box-shadow: 0 4px 16px rgba(0,0,0,0.3);
+                animation: code-float 1.8s ease-out forwards;
+            }
+            html:not([data-theme="dark"]) .code-popup {
+                background: rgba(30, 30, 60, 0.92);
+                color: #43e97b;
+                border-color: rgba(67, 233, 123, 0.4);
+                box-shadow: 0 4px 16px rgba(0,0,0,0.3);
+            }
+            @keyframes code-float {
+                0% { opacity: 0; transform: translateY(0) scale(0.7); }
+                15% { opacity: 1; transform: translateY(-10px) scale(1); }
+                70% { opacity: 1; transform: translateY(-40px) scale(1); }
+                100% { opacity: 0; transform: translateY(-70px) scale(0.9); }
+            }
+
+            .skills__category {
+                margin-bottom: 1.5rem;
+                text-align: left;
+            }
+            .skills__category-title {
+                font-size: 1rem;
+                font-weight: 600;
+                color: var(--first-color);
+                margin-bottom: 0.75rem;
+                display: flex;
+                align-items: center;
+                gap: 0.4rem;
+            }
+            .skills__category-title .skills__icon {
+                font-size: 1.4rem;
+                margin-right: 0;
+            }
+            .skills__tags {
+                display: flex;
+                flex-wrap: wrap;
+                gap: 0.5rem;
+            }
+            .skills__tag {
+                display: inline-block;
+                padding: 0.4rem 1rem;
+                border-radius: 2rem;
+                font-size: 0.85rem;
+                font-weight: 500;
+                background: hsl(var(--hue-color), 89%, 95%);
+                color: hsl(var(--hue-color), 89%, 40%);
+                border: 1px solid hsl(var(--hue-color), 89%, 80%);
+                transition: all 0.3s ease;
+            }
+            .skills__tag:hover {
+                background: var(--first-color);
+                color: #fff;
+                border-color: var(--first-color);
+                transform: translateY(-2px);
+            }
+            [data-theme="dark"] .skills__tag {
+                background: hsl(var(--hue-color), 40%, 18%);
+                color: hsl(var(--hue-color), 89%, 75%);
+                border-color: hsl(var(--hue-color), 40%, 35%);
+            }
+            [data-theme="dark"] .skills__tag:hover {
+                background: var(--first-color);
+                color: #fff;
+                border-color: var(--first-color);
+            }
+            [data-theme="dark"] .skills__category-title {
+                color: var(--first-color);
+            }
+            [data-theme="dark"] .skills__subtitle,
+            [data-theme="dark"] .skills__text {
+                color: #fff;
+            }
+
+            /* Ensure skills text stays blue on mobile */
+            @media screen and (max-width: 767px) {
+                .skills__category-title {
+                    color: var(--first-color);
+                }
+                .skills__tag {
+                    color: hsl(var(--hue-color), 89%, 40%);
+                }
+                [data-theme="dark"] .skills__tag {
+                    color: hsl(var(--hue-color), 89%, 75%);
+                }
+            }
+
+            /* Back to top button */
+            .scroll-down-arrow {
+                position: fixed;
+                bottom: 2rem;
+                right: 2rem;
+                width: 2.5rem;
+                height: 2.5rem;
+                border-radius: 50%;
+                background: var(--first-color);
+                color: #fff;
+                border: none;
+                font-size: 1.2rem;
+                cursor: pointer;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                opacity: 0;
+                visibility: hidden;
+                transition: opacity 0.3s, visibility 0.3s, transform 0.3s;
+                z-index: 99;
+                box-shadow: 0 2px 12px rgba(0,0,0,0.15);
+                animation: bounce-down 2s ease-in-out infinite;
+            }
+            .scroll-down-arrow.visible {
+                opacity: 1;
+                visibility: visible;
+            }
+            html:not([data-theme="dark"]) .scroll-down-arrow {
+                background: #fff;
+                color: #333;
+                box-shadow: 0 2px 12px rgba(0,0,0,0.25);
+            }
+            .scroll-down-arrow:hover {
+                transform: translateY(3px);
+                box-shadow: 0 4px 20px rgba(0,0,0,0.35);
+            }
+            @keyframes bounce-down {
+                0%, 100% { transform: translateY(0); }
+                50% { transform: translateY(5px); }
+            }
+            .back-to-top {
+                position: fixed;
+                bottom: 2rem;
+                right: 2rem;
+                width: 2.5rem;
+                height: 2.5rem;
+                border-radius: 50%;
+                background: var(--first-color);
+                color: #fff;
+                border: none;
+                font-size: 1.2rem;
+                cursor: pointer;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                opacity: 0;
+                visibility: hidden;
+                transition: opacity 0.3s, visibility 0.3s, transform 0.3s;
+                z-index: 99;
+                box-shadow: 0 2px 12px rgba(0,0,0,0.15);
+            }
+            .back-to-top.visible {
+                opacity: 1;
+                visibility: visible;
+            }
+            .back-to-top:hover {
+                transform: translateY(-3px);
+                box-shadow: 0 4px 20px rgba(0,0,0,0.25);
+            }
+
+            /* Easter egg */
+            .easter-egg {
+                position: fixed;
+                bottom: 1rem;
+                left: 1rem;
+                font-size: 1rem;
+                cursor: default;
+                opacity: 0.18;
+                transition: opacity 0.3s;
+                z-index: 98;
+                user-select: none;
+                line-height: 1;
+            }
+            .easter-egg:hover {
+                opacity: 0.35;
+            }
+            .easter-egg.hatched {
+                animation: egg-hatch 0.6s ease forwards;
+                opacity: 0.7;
+            }
+            .easter-egg .bird {
+                position: absolute;
+                bottom: 0;
+                left: 50%;
+                transform: translateX(-50%) scale(0);
+                opacity: 0;
+                font-size: 1.2rem;
+            }
+            .easter-egg.hatched .bird {
+                animation: bird-pop 3s 0.4s ease forwards;
+            }
+            @keyframes egg-hatch {
+                0% { transform: rotate(0deg); }
+                20% { transform: rotate(10deg); }
+                40% { transform: rotate(-10deg); }
+                60% { transform: rotate(8deg); }
+                80% { transform: rotate(-5deg); }
+                100% { transform: rotate(0deg) scale(0.5); opacity: 0.1; }
+            }
+            @keyframes bird-pop {
+                0% { transform: translateX(-50%) translateY(0) scale(0); opacity: 0; }
+                15% { transform: translateX(-50%) translateY(-18px) scale(1.2); opacity: 1; }
+                25% { transform: translateX(-50%) translateY(-12px) scale(1); opacity: 1; }
+                80% { transform: translateX(-50%) translateY(-10px) scale(1); opacity: 1; }
+                100% { transform: translateX(-50%) translateY(-8px) scale(1); opacity: 0; }
+            }
+        </style>
+    </head>
+    <body>
+        <!--===== HEADER =====-->
+        <header class="l-header">
+            <nav class="nav bd-grid">
+                <div>
+                    <a href="#" class="nav__logo">Jacob</a>
+                </div>
+                <div class="nav__menu" id="nav-menu">
+                    <ul class="nav__list">
+
+                        <li class="nav__item"><a href="#home" class="nav__link active-link">Home</a></li>
+                        <li class="nav__item"><a href="#about" class="nav__link">About</a></li>
+
+                        <!-- Update Periodically -->
+                        <li class="nav__item"><a href="#skills" class="nav__link">Skills</a></li> 
+                        <li class="nav__item"><a href="#Projects" class="nav__link">Projects</a></li> <!-- or "Work" -->
+
+                        <li class="nav__item"><a href="#contact" class="nav__link">Contact</a></li>
+
+                    </ul>
+                </div>
+                <div style="display: flex; align-items: center;">
+                    <button id="theme-toggle" class="theme-toggle" style="position: relative; top: -2px;">
+                        <i class='bx bx-sun' id="theme-icon"></i>
+                    </button>
+                    <div class="nav__toggle" id="nav-toggle" role="button" aria-label="Toggle navigation menu">
+                        <i class='bx bx-menu'></i>
+                    </div>
+                </div>
+            </nav>
+        </header>
+        <main class="l-main">
+            <!--===== HOME =====-->
+            <section class="home bd-grid" id="home">
+                <div class="home__data">
+                    <h1 class="home__title">Hi,<br>I'm <span class="home__title-color">Jacob</span><br>Analytics Manager</h1>
+                    <!-- Analytics Engineer --> 
+                    <!-- or Manager, Analytics -->
+                    <a href="#contact" class="button">Contact</a>
+                </div>
+
+                <div class="home__social">
+                    <a href="https://www.linkedin.com/in/jacobhl/" class="home__social-icon" target="_blank" aria-label="LinkedIn profile"><i class='bx bxl-linkedin'></i></a>
+                    <a href="https://github.com/jacobhl3ca" class="home__social-icon" target="_blank" aria-label="GitHub profile"><i class='bx bxl-github' ></i></a>
+                    <a href="#" onclick="window.location='mail'+'to:'+'hi'+'@'+'jacobhl'+'.com';return false;" class="home__social-icon" target="_blank" aria-label="Send email"><i class='bx bx-envelope'></i></a>
+                    <a href="#contact" class="home__social-icon" onclick="requestResume()" aria-label="Request resume"><i class='bx bx-file'></i></a>
+                </div>
+
+                <div class="home__img">
+                    <div class="home__circle clickable-img" id="home-photo">
+                        <img src="assets/img/header.png" alt="Jacob Heifetz-Licht" class="home__circle-img">
+                    </div>
+                </div>
+            </section>
+
+            <!--===== ABOUT =====-->
+            <section class="about section " id="about">
+                <h2 class="section-title">About</h2>
+
+                <div class="about__container bd-grid">
+                    <div class="about__img">
+
+                         <img src="assets/img/about.jpg" alt="Jacob Heifetz-Licht portrait" class="clickable-img" id="about-photo">
+
+                    </div>
+                    <div>
+                        
+                        <h2 class="about__subtitle">I'm Jacob</h2>
+                        <p class="about__text">
+
+                            🌟 Hi there! 
+                            I’m a passionate data analytics leader 
+                            with a knack for turning complex data into actionable insights. 
+                            Over the years, I’ve led impactful projects at companies like Kepler, Condé Nast, and Deloitte, 
+                            where I’ve automated processes (saving thousands of hours and dollars), 
+                            built award-winning dashboards, and mentored teams to unlock their full potential.
+                            <br><br>
+
+                            Whether it’s optimizing scripts or 
+                            creating self-service tools for executives, 
+                            I geek out on blending my technical chops 
+                            (Python, SQL, Tableau, and more!) 
+                            with strategic thinking to solve real-world problems.
+                            <br><br>
+                            
+                            A proud Rutgers grad with a passion for entrepreneurship, 
+                            I’m always excited to collaborate, innovate, and empower teams. 
+                            Let’s connect if you’re looking for someone who 
+                            can turn data into your organization’s superpower—or 
+                            if you just want to chat about the latest in AI, analytics, or data viz! 🚀✨
+
+                        </p>           
+                    </div>                                   
+                </div>
+            </section>
+
+            <!--===== SKILLS =====-->
+            <section class="skills section" id="skills">
+                <h2 class="section-title">Skills</h2>
+
+                <div class="skills__container bd-grid">          
+                    <div>
+                        <h2 class="skills__subtitle">Professional Skills</h2>
+                        <p class="skills__text">
+                            As a data analytics leader, I bring a diverse skill set spanning technical expertise and strategic thinking,
+                            transforming complex datasets into actionable insights that drive business decisions.
+                        </p>
+
+                        <div class="skills__category">
+                            <h3 class="skills__category-title"><i class='bx bx-code-alt skills__icon'></i> Languages & Scripting</h3>
+                            <div class="skills__tags">
+                                <span class="skills__tag">Python</span>
+                                <span class="skills__tag">SQL</span>
+                                <span class="skills__tag">Google Apps Script</span>
+                                <span class="skills__tag">HTML / CSS</span>
+                            </div>
+                        </div>
+
+                        <div class="skills__category">
+                            <h3 class="skills__category-title"><i class='bx bx-bar-chart-alt-2 skills__icon'></i> Data & Visualization</h3>
+                            <div class="skills__tags">
+                                <span class="skills__tag">Tableau</span>
+                                <span class="skills__tag">Looker</span>
+                                <span class="skills__tag">Qlik</span>
+                                <span class="skills__tag">Datorama</span>
+                                <span class="skills__tag">Mode Analytics</span>
+                                <span class="skills__tag">Excel</span>
+                                <span class="skills__tag">Google Sheets</span>
+                            </div>
+                        </div>
+
+                        <div class="skills__category">
+                            <h3 class="skills__category-title"><i class='bx bx-data skills__icon'></i> Analytics Platforms</h3>
+                            <div class="skills__tags">
+                                <span class="skills__tag">BigQuery</span>
+                                <span class="skills__tag">GA4</span>
+                                <span class="skills__tag">Adobe Analytics</span>
+                                <span class="skills__tag">Google Data Studio</span>
+                            </div>
+                        </div>
+
+                        <div class="skills__category">
+                            <h3 class="skills__category-title"><i class='bx bx-cog skills__icon'></i> Automation & Infrastructure</h3>
+                            <div class="skills__tags">
+                                <span class="skills__tag">Process Automation</span>
+                                <span class="skills__tag">ETL Pipelines</span>
+                                <span class="skills__tag">APIs</span>
+                                <span class="skills__tag">Docker</span>
+                                <span class="skills__tag">Linux</span>
+                                <span class="skills__tag">Git</span>
+                            </div>
+                        </div>
+
+                        <div class="skills__category">
+                            <h3 class="skills__category-title"><i class='bx bx-bulb skills__icon'></i> Strategy & Leadership</h3>
+                            <div class="skills__tags">
+                                <span class="skills__tag">Analytics Strategy</span>
+                                <span class="skills__tag">Stakeholder Communication</span>
+                                <span class="skills__tag">Data Storytelling</span>
+                                <span class="skills__tag">Dashboard Design</span>
+                                <span class="skills__tag">Cross-functional Collaboration</span>
+                                <!-- <span class="skills__tag">Media Strategy</span> -->
+                                <!-- <span class="skills__tag">Roadmap Planning</span> -->
+                            </div>
+                        </div>
+
+                        <!--
+                        <div class="skills__category">
+                            <h3 class="skills__category-title"><i class='bx bx-certification skills__icon'></i> Certifications</h3>
+                            <div class="skills__tags">
+                                <span class="skills__tag">Automate the Boring Stuff with Python</span>
+                                <span class="skills__tag">Tableau Desktop Specialist</span>
+                                <span class="skills__tag">Google Analytics Certified</span>
+                                <span class="skills__tag">Google Data Studio Certified</span>
+                                <span class="skills__tag">Google Sheets Certified</span>
+                            </div>
+                        </div>
+                        -->
+                    </div>
+                    
+                    <div>              
+                        <img src="assets/img/skills.jpg" alt="Jacob working with data analytics tools" class="skills__img" id="skills-photo">
+                    </div>
+                </div>
+            </section>
+
+            <!-- ===== PROJECTS =====--> <!-- or "Work" -->
+            
+            <section class="work section" id="Projects">
+
+                <h2 class="section-title">Projects</h2> 
+                
+                <div class="work__container bd-grid">
+
+                    <div class="work__img"> <!-- Spotify Analytics -->
+                        <!-- <a href=""> -->
+                            <img src="assets/img/spotify_monthly.png" alt="Spotify Analytics" data-dark="assets/img/spotify_monthly.png" data-light="assets/img/spotify_monthly_light.png" id="project-spotify-analytics">
+                        <!-- </a> -->
+                        <div class="work__description">
+                            <center>
+                                <h3>
+                                    Spotify Analytics
+                                </h3>
+                                <p>
+                                    Summarize listening trends, without relying on annual Spotify Wrapped. Created an interactive dashboard highlighting top songs/artists/albums via listening trends, heatmaps, skip-rate analysis, artist evolution timelines, session tracking, and listening clock, using Python, Plotly, and Streamlit.
+                                </p>
+                            </center>
+                        </div>
+                    </div>
+
+                    <div class="work__img"> <!-- Spotify Playlist Archiver -->
+                        <!-- <a href=""> -->
+                            <img src="assets/img/spotify_archiver.png" alt="Spotify Playlist Archiver" style="object-fit: contain; background: #121212;" data-dark="assets/img/spotify_archiver.png" data-light="assets/img/spotify_archiver_light.png" id="project-spotify-archiver">
+                        <!-- </a> -->
+                        <div class="work__description">
+                            <center>
+                                <h3>
+                                    Spotify Playlist Archiver
+                                </h3>
+                                <p>
+                                    Automatic weekly archiver of playlists that would otherwise disappear. Includes Discover Weekly, Release Radar, and Your Top Songs at different granularities. Uses PyAutoGUI automation for playlists unavailable via API, and the Spotify API for top tracks with rate-limit handling (Python, Spotipy).
+                                </p>
+                            </center>
+                        </div>
+                    </div>
+
+                    <div class="work__img"> <!-- Personal Finance App -->
+                        <!-- <a href=""> -->
+                            <img src="assets/img/finance_trend.png" alt="Personal Finance App" data-dark="assets/img/finance_trend.png" data-light="assets/img/finance_trend_light.png">
+                        <!-- </a> -->
+                        <div class="work__description">
+                            <center>
+                                <h3>
+                                    Personal Finance App
+                                </h3>
+                                <p>
+                                    Enables precise <!-- added precise --> daily budgeting, investment planning, and optimization, using Python and Apps Script.
+                                </p>
+                            </center>
+                        </div>
+                    </div>
+
+                    <div class="work__img"> <!-- E-commerce Store -->
+                            <img src="assets/img/stripe_dark.svg" alt="E-commerce Store" style="object-fit: cover; background: #121212;" data-dark="assets/img/stripe_dark.svg" data-light="assets/img/stripe_light.svg">
+                        <div class="work__description">
+                            <center>
+                                <h3>
+                                    E-commerce Store
+                                </h3>
+                                <p>
+                                    Full-stack e-commerce site with Stripe payment processing, Express.js backend (Node.js, Stripe API, HTML/CSS/JS).
+                                </p>
+                            </center>
+                        </div>
+                    </div>
+
+                    <div class="work__img"> <!-- Automation Utilities -->
+                            <img src="assets/img/automation_dark.svg" alt="Automation Utilities" style="object-fit: cover; background: #121212;" data-dark="assets/img/automation_dark.svg" data-light="assets/img/automation_light.svg">
+                        <div class="work__description">
+                            <center>
+                                <h3>
+                                    Automation Utilities
+                                </h3>
+                                <p>
+                                    <!-- Safari description Option A: "...Safari bulk tab unpinning and closing — handling Safari's quirk where tabs shift position during unpin, requiring reverse iteration..." -->
+                                    <!-- Safari description Option B: "...Safari bulk tab unpinning and closing with bidirectional navigation, solving Safari's behavior where unpinning a tab shifts remaining tabs and breaks sequential automation..." -->
+                                    <!-- Safari description Option C: "...Safari bulk tab unpinning and closing — Safari doesn't support batch unpin natively, and unpinning a tab causes remaining pinned tabs to shift position, breaking forward navigation; solved with reverse iteration and per-tab error handling across multiple windows..." -->
+                                    macOS productivity automation suite including Safari bulk tab unpinning and closing, timesheet autofill via keystroke injection, a variety of frequently used toggles (menu bar hide/show, system-wide dark/light mode, VPN connect/disconnect), keyboard backlight control, dock spacer grouping, and game re-roll automation (Python, AppleScript, Bash, PyAutoGUI).
+                                </p>
+                            </center>
+                        </div>
+                    </div>
+
+                    <div class="work__img"> <!-- System Administration -->
+                        <!-- <a href=""> -->
+                            <img src="assets/img/docker_dark.png" alt="System Administration" data-dark="assets/img/docker_dark.png" data-light="assets/img/docker_dark_light.png">
+                        <!-- </a> -->
+                        <div class="work__description">
+                            <center>
+                                <h3>
+                                    System Administration
+                                </h3>
+                                <p>
+                                    Self-hosted web apps and network services on a Linux server (Docker, Docker Compose) including Plex media automation stack, Portainer, and Plausible Analytics (PostgreSQL, ClickHouse).
+                                </p>
+                            </center>
+                        </div>
+                    </div>
+
+                    <!-- Safari Unpinner (commented out)
+                    <div class="work__img">
+                            <img src="assets/img/unpin_safari.png" alt="Safari Unpinner" style="object-fit: cover;">
+                        <div class="work__description">
+                            <center>
+                                <h3>
+                                    Safari Unpinner
+                                </h3>
+                                <p>
+                                    Python automation script that better manages Safari pinned tabs. Supports bulk unpinning and closing operations with bidirectional navigation.
+                                </p>
+                            </center>
+                        </div>
+                    </div>
+                    -->
+
+                    <!-- Weather Dashboard (commented out)
+                    <div class="work__img">
+                            <img src="assets/img/weather_real.png" alt="Weather Dashboard" style="object-fit: cover;">
+                        <div class="work__description">
+                            <center>
+                                <h3>
+                                    Weather Dashboard
+                                </h3>
+                                <p>
+                                    Desktop weather app with real-time conditions and interactive 5-day temperature forecast graph. Integrates the OpenWeather API, city search, and configurable settings (Python, Tkinter, Matplotlib).
+                                </p>
+                            </center>
+                        </div>
+                    </div>
+                    -->
+
+                    <!-- Coinbase Analytics (commented out)
+                    <div class="work__img">
+                            <img src="assets/img/coinbase_dark.png" alt="Coinbase Analytics">
+                        <div class="work__description">
+                            <center>
+                                <h3>
+                                    Coinbase Analytics
+                                </h3>
+                                <p>
+                                    Crypto portfolio analytics app with Coinbase API authentication, real-time price tracking, and profit/cost analysis for Bitcoin, Ethereum, and Litecoin (Node.js, Google Cloud, Angular.js, HTML/CSS/JS). Best Financial Hack — HackPrinceton 2017.
+                                </p>
+                            </center>
+                        </div>
+                    </div>
+                    -->
+
+                    <!-- Data Analytics Dashboard (commented out)
+                    <div class="work__img">
+                            <img src="assets/img/data_analytics_real.png" alt="Data Analytics Dashboard" style="object-fit: cover;">
+                        <div class="work__description">
+                            <center>
+                                <h3>
+                                    Data Analytics Dashboard
+                                </h3>
+                                <p>
+                                    Full-stack interactive analytics platform with ETL pipeline, statistical analysis (t-tests, ANOVA, chi-square), machine learning (RandomForest regression, K-Means/DBSCAN clustering), and 10+ visualization types. Supports CSV/Excel upload and live data exploration (Python, Streamlit, Plotly, scikit-learn).
+                                </p>
+                            </center>
+                        </div>
+                    </div>
+                    -->
+
+                    <!-- TaskMaster Mobile App (commented out)
+                    <div class="work__img">
+                            <img src="assets/img/taskmaster_real.png" alt="TaskMaster Mobile App" style="object-fit: cover; background: #0d1117;">
+                        <div class="work__description">
+                            <center>
+                                <h3>
+                                    TaskMaster Mobile App
+                                </h3>
+                                <p>
+                                    React Native task management app with three-tab navigation: a Home dashboard showing productivity stats (total, completed, in-progress, pending) and recent tasks with priority badges; a Tasks screen with live search, status-based filtering (All/Pending/In Progress/Completed), category labels, and due dates; and a Profile screen with avatar, success-rate metrics, and settings menu. Built with Expo, React Navigation bottom tabs, and Ionicons (React Native, Expo, React Navigation).
+                                </p>
+                            </center>
+                        </div>
+                    </div>
+                    -->
+
+                    <!-- Terminal Snake Game (commented out)
+                    <div class="work__img">
+                            <img src="assets/img/snake_real.png" alt="Terminal Snake Game" style="object-fit: cover;">
+                        <div class="work__description">
+                            <center>
+                                <h3>
+                                    Terminal Snake Game
+                                </h3>
+                                <p>
+                                    Feature-rich terminal snake game with 4 food types (regular, super, bonus, power-up), 5 customizable snake skins, persistent JSON high-score leaderboard, difficulty scaling, speed boosts, invincibility mode, and visual effects. Built with Python curses (480 lines).
+                                </p>
+                            </center>
+                        </div>
+                    </div>
+                    -->
+
+                    <!-- Surfing Cat Emoji (commented out)
+                    <div class="work__img">
+                            <img src="assets/img/surfing_cat_real.png" alt="Surfing Cat Emoji Creator" style="object-fit: cover;">
+                        <div class="work__description">
+                            <center>
+                                <h3>
+                                    Surfing Cat Emoji
+                                </h3>
+                                <p>
+                                    Custom SVG emoji creator featuring a hand-drawn tuxedo cat surfing on a surfboard. Three size variants (64/128/256px) with gradient shading, whiskers, and water splash effects. Download as SVG/PNG or copy to clipboard. Pure HTML/CSS/JS, no dependencies.
+                                </p>
+                            </center>
+                        </div>
+                    </div>
+                    -->
+
+                    <!-- Beat Generator (commented out)
+                    <div class="work__img">
+                            <img src="assets/img/beatgen_real.png" alt="Procedural Beat Generator" style="object-fit: cover;">
+                        <div class="work__description">
+                            <center>
+                                <h3>
+                                    Procedural Beat Generator
+                                </h3>
+                                <p>
+                                    Synthesizes kicks, snares, hi-hats, claps, and toms from pure math (sine sweeps, filtered noise, envelopes), then arranges 16-step patterns into WAV files. 5 genre presets (Rock, House, Hip Hop, Breakbeat, Trap), configurable BPM/bars/swing, and batch export. Python + NumPy, zero audio samples needed.
+                                </p>
+                            </center>
+                        </div>
+                    </div>
+                    -->
+
+                    <!-- Tigers App (commented out)
+                    <div class="work__img">
+                            <img src="assets/img/tigers_real.png" alt="Detroit Tigers iOS App" style="object-fit: cover; background: #0d1117;">
+                        <div class="work__description">
+                            <center>
+                                <h3>
+                                    Detroit Tigers iOS App
+                                </h3>
+                                <p>
+                                    Native SwiftUI iOS app for watching Detroit Tigers game highlights without score spoilers. Integrates MLB Stats API for real schedules, YouTube Data API and MLB Film Room for video highlights, with background refresh, video preloading, WKWebView player, and Keychain storage (Swift, 1,774 lines).
+                                </p>
+                            </center>
+                        </div>
+                    </div>
+                    -->
+
+                </div>
+            </section>
+
+            <!--===== CONTACT =====-->
+            <section class="contact section" id="contact">
+                <h2 class="section-title">Contact</h2>
+                <div class="contact__container bd-grid">
+                    <form action="https://formspree.io/f/mkgqkgyr" method="POST" class="contact__form">
+                        <input type="text" name="name" placeholder="Name" class="contact__input" required>
+                        <input type="email" name="email" placeholder="Email" class="contact__input" required>
+                        <textarea name="message" placeholder="Your Message" class="contact__input" rows="10" required></textarea>
+                        <button type="submit" class="contact__button button">Send</button>
+                    </form>
+                </div>
+            </section>
+            
+        </main>
+
+        <!--===== FOOTER =====-->
+        <footer class="footer">
+            <p class="footer__title">Jacob</p>
+            <div class="footer__social">
+
+                <a href="https://www.linkedin.com/in/jacobhl/" class="footer__icon" target="_blank" aria-label="LinkedIn profile"><i class='bx bxl-linkedin' ></i></a>
+
+                <a href="https://github.com/jacobhl3ca" class="footer__icon" target="_blank" aria-label="GitHub profile"><i class='bx bxl-github' ></i></a>
+
+                <a href="#" onclick="window.location='mail'+'to:'+'hi'+'@'+'jacobhl'+'.com';return false;" class="footer__icon" target="_blank" aria-label="Send email"><i class='bx bx-envelope'></i></a>
+
+                <a href="#contact" class="footer__icon" onclick="requestResume()" aria-label="Request resume"><i class='bx bx-file'></i></a>
+
+            </div>
+
+            <p class="footer__copy">Thanks for coming!</p>
+
+        </footer>
+
+        <!-- Scroll down arrow -->
+        <button class="scroll-down-arrow" id="scrollDown" aria-label="Scroll down">
+            <i class='bx bx-chevron-down'></i>
+        </button>
+
+        <!-- Back to top button -->
+        <button class="back-to-top" id="backToTop" aria-label="Back to top">
+            <i class='bx bx-chevron-up'></i>
+        </button>
+
+        <!-- Easter egg (uncomment to enable)
+        <div class="easter-egg" id="easterEgg">🥚<span class="bird">🐣</span></div>
+        -->
+
+        <script>
+            if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
+            // Clear hash so refresh doesn't jump to #contact
+            if (window.location.hash) {
+                history.replaceState(null, '', window.location.pathname);
+            }
+            window.scrollTo(0, 0);
+        </script>
+
+
+        <!--===== MAIN JS =====-->
+        <script src="assets/js/main.js"></script>
+
+        <script>
+
+            // --- Image click effects ---
+            function spawnConfetti(x, y, count) {
+                const colors = ['#6c63ff', '#ff6584', '#43e97b', '#f9d423', '#00d2ff', '#ff4e50', '#fc5c7d', '#4361ee'];
+                const shapes = ['circle', 'square', 'triangle'];
+                for (let i = 0; i < count; i++) {
+                    const el = document.createElement('div');
+                    el.classList.add('confetti-piece');
+                    const color = colors[Math.floor(Math.random() * colors.length)];
+                    const shape = shapes[Math.floor(Math.random() * shapes.length)];
+                    const size = 6 + Math.random() * 10;
+                    el.style.left = x + 'px';
+                    el.style.top = y + 'px';
+                    el.style.width = size + 'px';
+                    el.style.height = size + 'px';
+                    el.style.background = color;
+                    if (shape === 'circle') el.style.borderRadius = '50%';
+                    else if (shape === 'triangle') {
+                        el.style.width = '0'; el.style.height = '0';
+                        el.style.background = 'transparent';
+                        el.style.borderLeft = size/2 + 'px solid transparent';
+                        el.style.borderRight = size/2 + 'px solid transparent';
+                        el.style.borderBottom = size + 'px solid ' + color;
+                    }
+                    document.body.appendChild(el);
+                    const angle = (Math.PI * 2 * i / count) + (Math.random() - 0.5) * 0.8;
+                    const distance = 120 + Math.random() * 200;
+                    const dx = Math.cos(angle) * distance;
+                    const dy = Math.sin(angle) * distance - 80;
+                    const spin = (Math.random() - 0.5) * 1080;
+                    const duration = 800 + Math.random() * 600;
+                    el.animate([
+                        { opacity: 1, transform: 'translate(0, 0) rotate(0deg) scale(1)' },
+                        { opacity: 0.8, transform: `translate(${dx*0.4}px, ${dy*0.3}px) rotate(${spin*0.4}deg) scale(1.1)`, offset: 0.3 },
+                        { opacity: 0, transform: `translate(${dx}px, ${dy}px) rotate(${spin}deg) scale(0.2)` }
+                    ], { duration: duration, easing: 'cubic-bezier(0.25, 0.46, 0.45, 0.94)', fill: 'forwards' });
+                    setTimeout(() => el.remove(), duration + 100);
+                }
+            }
+
+            function wiggleElement(el) {
+                el.style.transition = 'transform 0.1s ease';
+                const steps = [
+                    'rotate(3deg) scale(1.05)',
+                    'rotate(-3deg) scale(1.05)',
+                    'rotate(2deg) scale(1.03)',
+                    'rotate(-2deg) scale(1.03)',
+                    'rotate(0deg) scale(1)',
+                ];
+                let i = 0;
+                const interval = setInterval(() => {
+                    if (i >= steps.length) { clearInterval(interval); el.style.transition = ''; el.style.transform = ''; return; }
+                    el.style.transform = steps[i]; i++;
+                }, 80);
+            }
+
+            let confettiClickCount = 0;
+
+            const burstStyles = [
+                { name: 'starburst', colors: ['#FFD700', '#FF4500', '#FF6347', '#FFA500', '#FFFF00'], shape: 'star', glow: true },
+                { name: 'hearts', colors: ['#FF1493', '#FF69B4', '#FF007F', '#DC143C', '#FF4081'], shape: 'heart', glow: false },
+                { name: 'neon', colors: ['#00FF41', '#00FFFF', '#FF00FF', '#FFFF00', '#7B68EE'], shape: 'circle', glow: true },
+                { name: 'firework', colors: ['#FF0000', '#FF7700', '#FFFF00', '#FFFFFF', '#00BFFF'], shape: 'spark', glow: true },
+                { name: 'confetti-rain', colors: ['#6c63ff', '#ff6584', '#43e97b', '#f9d423', '#fc5c7d'], shape: 'rect', glow: false },
+                { name: 'galaxy', colors: ['#9B59B6', '#3498DB', '#1ABC9C', '#E8DAEF', '#AED6F1'], shape: 'circle', glow: true },
+                { name: 'fire', colors: ['#FF4500', '#FF6600', '#FF8C00', '#FFD700', '#FFF8DC'], shape: 'triangle', glow: true },
+                { name: 'ocean', colors: ['#006994', '#00CED1', '#20B2AA', '#48D1CC', '#AFEEEE'], shape: 'circle', glow: true },
+                { name: 'rainbow', colors: ['#FF0000', '#FF7F00', '#FFFF00', '#00FF00', '#0000FF', '#8B00FF'], shape: 'mixed', glow: false },
+            ];
+
+            function spawnBurst(x, y, style) {
+                const count = 60 + Math.floor(Math.random() * 30);
+                for (let i = 0; i < count; i++) {
+                    const el = document.createElement('div');
+                    el.classList.add('confetti-piece');
+                    const color = style.colors[Math.floor(Math.random() * style.colors.length)];
+                    const size = 6 + Math.random() * 12;
+                    el.style.left = x + 'px';
+                    el.style.top = y + 'px';
+                    el.style.width = size + 'px';
+                    el.style.height = size + 'px';
+                    el.style.background = color;
+                    if (style.glow) el.style.boxShadow = `0 0 ${size}px ${color}`;
+
+                    const s = style.shape === 'mixed' ? ['circle','square','triangle'][i%3] : style.shape;
+                    if (s === 'circle') el.style.borderRadius = '50%';
+                    else if (s === 'star') el.style.clipPath = 'polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%)';
+                    else if (s === 'heart') el.style.clipPath = 'polygon(50% 85%, 15% 45%, 0% 25%, 5% 5%, 25% 0%, 50% 20%, 75% 0%, 95% 5%, 100% 25%, 85% 45%)';
+                    else if (s === 'spark') { el.style.width = '2px'; el.style.height = (size*1.5)+'px'; el.style.borderRadius = '1px'; }
+                    else if (s === 'rect') { el.style.width = (size*0.4)+'px'; el.style.height = (size*1.2)+'px'; }
+                    else if (s === 'triangle') { el.style.background = 'transparent'; el.style.borderLeft = size/2+'px solid transparent'; el.style.borderRight = size/2+'px solid transparent'; el.style.borderBottom = size+'px solid '+color; }
+
+                    document.body.appendChild(el);
+                    const angle = (Math.PI * 2 * i / count) + (Math.random() - 0.5) * 0.8;
+                    const distance = 150 + Math.random() * 250;
+                    const dx = Math.cos(angle) * distance;
+                    const dy = Math.sin(angle) * distance - 100;
+                    const spin = (Math.random() - 0.5) * 1440;
+                    const duration = 1000 + Math.random() * 800;
+                    el.animate([
+                        { opacity: 1, transform: 'translate(0, 0) rotate(0deg) scale(1)' },
+                        { opacity: 1, transform: `translate(${dx*0.5}px, ${dy*0.3}px) rotate(${spin*0.5}deg) scale(1.3)`, offset: 0.35 },
+                        { opacity: 0, transform: `translate(${dx}px, ${dy}px) rotate(${spin}deg) scale(0.1)` }
+                    ], { duration, easing: 'cubic-bezier(0.25, 0.46, 0.45, 0.94)', fill: 'forwards' });
+                    setTimeout(() => el.remove(), duration + 100);
+                }
+            }
+
+            function megaExplosion() {
+                const overlay = document.createElement('div');
+                overlay.style.cssText = 'position:fixed;inset:0;z-index:99999;pointer-events:none;display:flex;align-items:center;justify-content:center;';
+                const text = document.createElement('div');
+                text.textContent = 'MEGA-EXPLOSION';
+                text.style.cssText = `
+                    font-family: 'Impact', 'Arial Black', sans-serif;
+                    font-size: clamp(3rem, 12vw, 10rem);
+                    font-weight: 900;
+                    font-style: italic;
+                    color: #FF0000;
+                    text-shadow:
+                        0 0 20px #FF4500,
+                        0 0 40px #FFD700,
+                        0 0 80px #FF6347,
+                        4px 4px 0 #FFD700,
+                        -2px -2px 0 #FFA500;
+                    letter-spacing: 0.05em;
+                    -webkit-text-stroke: 2px #FFD700;
+                    opacity: 0;
+                    transform: scale(0.1) rotate(-10deg);
+                    white-space: nowrap;
+                `;
+                overlay.appendChild(text);
+                document.body.appendChild(overlay);
+
+                // Animate text in
+                text.animate([
+                    { opacity: 0, transform: 'scale(0.1) rotate(-10deg)', filter: 'blur(20px)' },
+                    { opacity: 1, transform: 'scale(1.15) rotate(2deg)', filter: 'blur(0px)', offset: 0.3 },
+                    { opacity: 1, transform: 'scale(1) rotate(0deg)', filter: 'blur(0px)', offset: 0.5 },
+                    { opacity: 1, transform: 'scale(1.05) rotate(-1deg)', filter: 'blur(0px)', offset: 0.7 },
+                    { opacity: 0, transform: 'scale(2) rotate(5deg)', filter: 'blur(10px)' }
+                ], { duration: 2500, easing: 'ease-out', fill: 'forwards' });
+
+                // Screen flash
+                const flash = document.createElement('div');
+                flash.style.cssText = 'position:fixed;inset:0;z-index:99998;pointer-events:none;background:white;';
+                document.body.appendChild(flash);
+                flash.animate([
+                    { opacity: 0.8 },
+                    { opacity: 0 }
+                ], { duration: 400, fill: 'forwards' });
+                setTimeout(() => flash.remove(), 500);
+
+                // Burst confetti from multiple points
+                const cx = window.innerWidth / 2, cy = window.innerHeight / 2;
+                for (let i = 0; i < 5; i++) {
+                    setTimeout(() => {
+                        const ox = cx + (Math.random() - 0.5) * window.innerWidth * 0.6;
+                        const oy = cy + (Math.random() - 0.5) * window.innerHeight * 0.4;
+                        spawnBurst(ox, oy, burstStyles[i % burstStyles.length]);
+                    }, i * 150);
+                }
+
+                setTimeout(() => overlay.remove(), 3000);
+            }
+
+            // Auto-fire: hold mousedown = accelerating confetti, bursts grow each 10, mega at 100
+            function setupAutoFire(el) {
+                let autoFireTimer = null;
+                let autoFireDelay = 300;
+                let mouseX = 0;
+                let mouseY = 0;
+
+                // Prevent browser image drag so mousedown works properly
+                el.setAttribute('draggable', 'false');
+                el.style.userSelect = 'none';
+                el.style.webkitUserSelect = 'none';
+
+                // Track mouse/touch position so confetti spawns at cursor/finger
+                window.addEventListener('mousemove', function(e) {
+                    mouseX = e.clientX;
+                    mouseY = e.clientY;
+                });
+                el.addEventListener('touchmove', function(e) {
+                    mouseX = e.touches[0].clientX;
+                    mouseY = e.touches[0].clientY;
+                    var target = document.elementFromPoint(mouseX, mouseY);
+                    if (!el.contains(target)) stopAutoFire();
+                }, { passive: true });
+
+                function fireOnce() {
+                    if (el.classList.contains('clickable-img')) {
+                        el.classList.toggle('bg-removed');
+                    }
+                    const centerX = mouseX;
+                    const centerY = mouseY;
+                    confettiClickCount++;
+
+                    if (confettiClickCount >= 100) {
+                        megaExplosion();
+                        confettiClickCount = 0;
+                        stopAutoFire();
+                        return;
+                    } else if (confettiClickCount % 10 === 0) {
+                        // Each 10th burst is bigger than the last
+                        const tier = Math.floor(confettiClickCount / 10); // 1-9
+                        const idx = (tier - 1) % burstStyles.length;
+                        // Scale burst count and distance by tier
+                        const origBurst = spawnBurst;
+                        const scaledCount = 60 + tier * 15;
+                        const scaledDist = 150 + tier * 30;
+                        // Spawn a scaled burst
+                        spawnScaledBurst(centerX, centerY, burstStyles[idx], scaledCount, scaledDist);
+                    } else {
+                        spawnConfetti(centerX, centerY, 40);
+                    }
+                    wiggleElement(el);
+                    autoFireDelay = Math.max(40, autoFireDelay * 0.92);
+                    autoFireTimer = setTimeout(fireOnce, autoFireDelay);
+                }
+
+                function startAutoFire(e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    if (autoFireTimer) return;
+                    // Set initial position from the click/touch point
+                    if (e.touches) {
+                        mouseX = e.touches[0].clientX;
+                        mouseY = e.touches[0].clientY;
+                    } else {
+                        mouseX = e.clientX;
+                        mouseY = e.clientY;
+                    }
+                    autoFireDelay = 300;
+                    fireOnce();
+                }
+
+                function stopAutoFire() {
+                    clearTimeout(autoFireTimer);
+                    autoFireTimer = null;
+                }
+
+                el.addEventListener('mousedown', startAutoFire);
+                el.addEventListener('touchstart', startAutoFire, { passive: false });
+                window.addEventListener('mouseup', stopAutoFire);
+                window.addEventListener('touchend', stopAutoFire);
+                window.addEventListener('touchcancel', stopAutoFire);
+                el.addEventListener('mouseleave', stopAutoFire);
+                // Block click so it doesn't fire after mouseup
+                el.addEventListener('click', e => e.preventDefault());
+            }
+
+            // Scaled burst: more particles and bigger spread for higher tiers
+            function spawnScaledBurst(x, y, style, count, maxDist) {
+                for (let i = 0; i < count; i++) {
+                    const el = document.createElement('div');
+                    el.classList.add('confetti-piece');
+                    const color = style.colors[Math.floor(Math.random() * style.colors.length)];
+                    const size = 6 + Math.random() * 14;
+                    el.style.left = x + 'px';
+                    el.style.top = y + 'px';
+                    el.style.width = size + 'px';
+                    el.style.height = size + 'px';
+                    el.style.background = color;
+                    if (style.glow) el.style.boxShadow = `0 0 ${size}px ${color}`;
+                    const s = style.shape === 'mixed' ? ['circle','square','triangle'][i%3] : style.shape;
+                    if (s === 'circle') el.style.borderRadius = '50%';
+                    else if (s === 'star') el.style.clipPath = 'polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%)';
+                    else if (s === 'heart') el.style.clipPath = 'polygon(50% 85%, 15% 45%, 0% 25%, 5% 5%, 25% 0%, 50% 20%, 75% 0%, 95% 5%, 100% 25%, 85% 45%)';
+                    else if (s === 'spark') { el.style.width = '2px'; el.style.height = (size*1.5)+'px'; el.style.borderRadius = '1px'; }
+                    else if (s === 'rect') { el.style.width = (size*0.4)+'px'; el.style.height = (size*1.2)+'px'; }
+                    else if (s === 'triangle') { el.style.background = 'transparent'; el.style.borderLeft = size/2+'px solid transparent'; el.style.borderRight = size/2+'px solid transparent'; el.style.borderBottom = size+'px solid '+color; }
+                    document.body.appendChild(el);
+                    const angle = (Math.PI * 2 * i / count) + (Math.random() - 0.5) * 0.8;
+                    const distance = maxDist + Math.random() * (maxDist * 0.6);
+                    const dx = Math.cos(angle) * distance;
+                    const dy = Math.sin(angle) * distance - 100;
+                    const spin = (Math.random() - 0.5) * 1440;
+                    const duration = 1000 + Math.random() * 800;
+                    el.animate([
+                        { opacity: 1, transform: 'translate(0, 0) rotate(0deg) scale(1)' },
+                        { opacity: 1, transform: `translate(${dx*0.5}px, ${dy*0.3}px) rotate(${spin*0.5}deg) scale(1.3)`, offset: 0.35 },
+                        { opacity: 0, transform: `translate(${dx}px, ${dy}px) rotate(${spin}deg) scale(0.1)` }
+                    ], { duration, easing: 'cubic-bezier(0.25, 0.46, 0.45, 0.94)', fill: 'forwards' });
+                    setTimeout(() => el.remove(), duration + 100);
+                }
+            }
+
+            setupAutoFire(document.getElementById('about-photo'));
+            setupAutoFire(document.getElementById('home-photo'));
+
+            const codeSnippets = [
+                'SELECT * FROM insights WHERE impact > 9000;',
+                'import pandas as pd',
+                'df.groupby("channel").agg({"revenue": "sum"})',
+                'for row in dataset: optimize(row)',
+                'CREATE VIEW kpi_dashboard AS ...',
+                'plt.plot(dates, conversions, color="blue")',
+                'docker compose up -d',
+                'git push origin main',
+                'def automate(boring_stuff):',
+                'WHERE date BETWEEN @start AND @end',
+                'pip install streamlit plotly',
+                'tableau.publish(workbook, server)',
+                'df["roi"] = df["revenue"] / df["cost"]',
+                'spark.sql("SELECT COUNT(*) FROM events")',
+                'echo "ETL pipeline complete"',
+                'requests.get(api_endpoint).json()',
+                'crontab -e  # schedule the magic',
+                'ALTER TABLE metrics ADD COLUMN trend FLOAT;',
+                'sns.heatmap(corr_matrix, annot=True)',
+                'print("Hello, recruiter!")',
+            ];
+            let codeIdx = 0;
+
+            function handleSkillsClick(e) {
+                const snippet = codeSnippets[codeIdx % codeSnippets.length];
+                codeIdx++;
+                const popup = document.createElement('div');
+                popup.classList.add('code-popup');
+                popup.textContent = snippet;
+                popup.style.left = e.clientX + 'px';
+                popup.style.top = e.clientY + 'px';
+                document.body.appendChild(popup);
+                setTimeout(() => popup.remove(), 1900);
+            }
+
+            // Auto-fire code snippets on hold (same mousedown logic as confetti)
+            (function() {
+                const el = document.getElementById('skills-photo');
+                let autoFireTimer = null;
+                let autoFireDelay = 350;
+                let mouseX = 0, mouseY = 0;
+
+                el.setAttribute('draggable', 'false');
+                el.style.userSelect = 'none';
+                el.style.webkitUserSelect = 'none';
+
+                window.addEventListener('mousemove', function(e) {
+                    mouseX = e.clientX;
+                    mouseY = e.clientY;
+                });
+                el.addEventListener('touchmove', function(e) {
+                    mouseX = e.touches[0].clientX;
+                    mouseY = e.touches[0].clientY;
+                    var target = document.elementFromPoint(mouseX, mouseY);
+                    if (!el.contains(target)) stopAutoFire();
+                }, { passive: true });
+
+                function fireOnce() {
+                    const snippet = codeSnippets[codeIdx % codeSnippets.length];
+                    codeIdx++;
+                    const popup = document.createElement('div');
+                    popup.classList.add('code-popup');
+                    popup.textContent = snippet;
+                    popup.style.left = mouseX + 'px';
+                    popup.style.top = mouseY + 'px';
+                    document.body.appendChild(popup);
+                    setTimeout(() => popup.remove(), 1900);
+                    autoFireDelay = Math.max(250, autoFireDelay * 0.93);
+                    autoFireTimer = setTimeout(fireOnce, autoFireDelay);
+                }
+
+                function startAutoFire(e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    if (autoFireTimer) return;
+                    if (e.touches) { mouseX = e.touches[0].clientX; mouseY = e.touches[0].clientY; }
+                    else { mouseX = e.clientX; mouseY = e.clientY; }
+                    autoFireDelay = 350;
+                    fireOnce();
+                }
+
+                function stopAutoFire() {
+                    clearTimeout(autoFireTimer);
+                    autoFireTimer = null;
+                }
+
+                el.addEventListener('mousedown', startAutoFire);
+                el.addEventListener('touchstart', startAutoFire, { passive: false });
+                window.addEventListener('mouseup', stopAutoFire);
+                window.addEventListener('touchend', stopAutoFire);
+                window.addEventListener('touchcancel', stopAutoFire);
+                el.addEventListener('mouseleave', stopAutoFire);
+                el.addEventListener('click', e => e.preventDefault());
+            })();
+
+            // Section navigation
+            const sectionIds = ['home', 'about', 'skills', 'Projects', 'contact'];
+            const scrollDownBtn = document.getElementById('scrollDown');
+            const backToTop = document.getElementById('backToTop');
+
+            // Show down arrow after 3s delay at top, hide on scroll, re-show when back at top
+            let downArrowTimer = setTimeout(() => {
+                scrollDownBtn.classList.add('visible');
+            }, 3000);
+
+            function getCurrentSectionIndex() {
+                const scrollPos = window.scrollY + window.innerHeight / 3;
+                for (let i = sectionIds.length - 1; i >= 0; i--) {
+                    const el = document.getElementById(sectionIds[i]);
+                    if (el && scrollPos >= el.offsetTop) return i;
+                }
+                return 0;
+            }
+
+            let backToTopTimer = null;
+            window.addEventListener('scroll', () => {
+                const idx = getCurrentSectionIndex();
+                const atContact = idx >= sectionIds.length - 1;
+                const atTop = window.scrollY < 10;
+
+                // Down arrow: hide on scroll, re-show with 3s delay at top
+                if (atTop) {
+                    if (!downArrowTimer && !scrollDownBtn.classList.contains('visible')) {
+                        downArrowTimer = setTimeout(() => {
+                            scrollDownBtn.classList.add('visible');
+                            downArrowTimer = null;
+                        }, 3000);
+                    }
+                } else {
+                    clearTimeout(downArrowTimer);
+                    downArrowTimer = null;
+                    scrollDownBtn.classList.remove('visible');
+                }
+
+                // Up arrow: show with 2s delay when at contact, hide otherwise
+                if (atContact) {
+                    if (!backToTopTimer && !backToTop.classList.contains('visible')) {
+                        backToTopTimer = setTimeout(() => {
+                            backToTop.classList.add('visible');
+                            backToTopTimer = null;
+                        }, 2000);
+                    }
+                } else {
+                    clearTimeout(backToTopTimer);
+                    backToTopTimer = null;
+                    backToTop.classList.remove('visible');
+                }
+            });
+
+            scrollDownBtn.addEventListener('click', () => {
+                const idx = getCurrentSectionIndex();
+                const nextIdx = Math.min(idx + 1, sectionIds.length - 1);
+                const target = document.getElementById(sectionIds[nextIdx]);
+                if (target) target.scrollIntoView({ behavior: 'smooth' });
+            });
+
+            backToTop.addEventListener('click', () => {
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            });
+
+            // Easter egg (uncomment to enable)
+            // const egg = document.getElementById('easterEgg');
+            // egg.addEventListener('click', () => {
+            //     if (egg.classList.contains('hatched')) return;
+            //     egg.classList.add('hatched');
+            //     setTimeout(() => egg.classList.remove('hatched'), 4000);
+            // });
+
+            // Confetti only on profile pics (about-photo, home-photo)
+
+            function requestResume() {
+                document.getElementById('contact').scrollIntoView({ behavior: 'smooth' });
+                const form = document.querySelector('.contact__form');
+                const nameInput = form.querySelector('input[name="name"]');
+                const emailInput = form.querySelector('input[name="email"]');
+                const messageInput = form.querySelector('textarea[name="message"]');
+
+                nameInput.value = 'Your Name';
+                emailInput.value = 'your@email.com';
+                messageInput.value = 'Hi Jacob,\n\nI\'d love a copy of your resume.\n\nThanks!';
+
+                nameInput.focus();
+            }
+        </script>
+        
+    </body>
+</html>
