@@ -1,47 +1,39 @@
 <!DOCTYPE html>
 <!-- lang="en-US" (not the broader "en") to match the region-specific locale this page already declares everywhere else: og:locale=en_US and the JSON-LD WebSite/ProfilePage inLanguage=en-US. A more specific, valid BCP-47 tag gives assistive tech the correct US-English pronunciation/voice and search engines one consistent language signal. No visual change. -->
-<html lang="en-US">
+<html lang="en-US" data-theme="dark">
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <meta name="theme-color" content="#ffffff">
-        <meta name='impact-site-verification' value='1d1d2142-74d8-456e-a4f9-9b202a03ea27'>
-        <!-- Declare supported colour schemes to the UA up front. color-scheme is otherwise only set inside the render-blocking styles.css (:root=light, [data-theme="dark"]=dark), so before that CSS loads the browser paints the root canvas/scrollbars with the OS default. "light dark" matches the document's literal default (light — the <html> ships with no data-theme) while still advertising dark-mode support; the CSS color-scheme rules take over once loaded. No visual change to the settled page. -->
-        <meta name="color-scheme" content="light dark">
+        <meta name="theme-color" content="#090f20">
+        <!-- Declare supported colour schemes to the UA up front. color-scheme is otherwise only set inside the render-blocking styles.css (:root=light, [data-theme="dark"]=dark), so before that CSS loads the browser doesn't know this is a dark-default page and paints the root canvas/scrollbars with the OS default (a brief light flash for the majority dark view). "dark light" matches the document's literal default (<html data-theme="dark">) while still advertising light-mode support; the CSS color-scheme rules take over once loaded. No visual change to the settled page. -->
+        <meta name="color-scheme" content="dark light">
         <link rel="stylesheet" href="assets/css/styles.css">
         <link rel="icon" type="image/x-icon" href="assets/img/favicon.ico">
         <link rel="preconnect" href="https://cdn.jsdelivr.net"> <!-- early-connect for the render-blocking boxicons CSS fetch (non-CORS, so it can't reuse the crossorigin socket below) -->
         <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin> <!-- early-connect for the boxicons icon font (CORS woff2, crossorigin so the warmed socket is reused) -->
         <link rel="preconnect" href="https://fonts.googleapis.com"> <!-- early-connect to Google Fonts CSS (styles.css @imports Poppins from here, on the critical path) -->
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin> <!-- early-connect to the Google Fonts file host; crossorigin so the warmed socket is reused for the CORS woff2 fetch -->
-        <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap"> <!-- styles.css @imports Poppins, but @import isn't discoverable until styles.css has downloaded + parsed, so the font CSS fetch is serialized on the critical path; preload it (same URL) so the browser fetches it in parallel up front and the @import then resolves from cache. Kept identical to the @import (now includes weight 500, used by .skills__tag / .mac-badge) so the preload still satisfies it. -->
-        <link rel="preload" as="image" href="assets/img/hidescore-cover.png" fetchpriority="high"> <!-- LCP preload: the first project card's thumbnail (HideScore's branded cover) is the projects-only LCP, but the project rows are built by the inline script near </body>, so the preload scanner can't discover this image during head parse — the fetchpriority="high" already on the <img> only helps once it's discovered (late). Preload it so the fetch starts during head parse. Single source now (no responsive <picture> — the branded cover is one image at all breakpoints). -->
+        <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap"> <!-- styles.css @imports Poppins, but @import isn't discoverable until styles.css has downloaded + parsed, so the font CSS fetch is serialized on the critical path; preload it (same URL) so the browser fetches it in parallel up front and the @import then resolves from cache. No visual change. -->
+        <link rel="preload" as="image" href="assets/img/hidescore-wide.png" media="(min-width:768px)" fetchpriority="high"> <!-- LCP preload (desktop ≥768px): the first project card's thumbnail is the projects-only LCP, but the project rows are built by the inline script near </body>, so the preload scanner can't discover this image during head parse — the fetchpriority="high" already on the <img> only helps once it's discovered (late). Preload the matching responsive source so the fetch starts during head parse. Mirrors the <picture> breakpoint below. No visual change. -->
+        <link rel="preload" as="image" href="assets/img/hidescore-app.png" media="(max-width:767.98px)" fetchpriority="high"> <!-- LCP preload (mobile <768px): same as above for the default <picture> source. The two media queries are mutually exclusive, so only the one image the browser will actually render is ever preloaded (no wasted bytes). -->
         <link rel="dns-prefetch" href="//gc.zgo.at"> <!-- resolve the GoatCounter analytics host ahead of the async count.js fetch at end of body -->
         <link rel="dns-prefetch" href="//stats.hidescore.com"> <!-- resolve the self-hosted Umami analytics host ahead of its deferred script.js fetch at end of body -->
         <link rel="dns-prefetch" href="//formspree.io"> <!-- resolve the Formspree host ahead of the contact form's on-submit POST (assets/js/main.js) so the DNS lookup isn't on the send path -->
         <link href='https://cdn.jsdelivr.net/npm/boxicons@2.0.5/css/boxicons.min.css' rel='stylesheet'> <!-- icons -->
         <script>
             // Default view = projects-only (set before paint to avoid flash); honor saved preference.
-            // Light is now the default theme (the document ships with NO data-theme attribute);
-            // only apply dark before paint if the user previously chose it, so returning dark-mode
-            // users don't see a light flash (main.js loads at the end of <body>).
+            // Also apply the saved theme before paint so light-mode users don't see a dark flash
+            // (the document defaults to data-theme="dark"; main.js loads at the end of <body>).
             try {
-                // One-time migration to the new light default. Older builds auto-persisted
-                // theme='dark' for EVERY first-time visitor, so returning visitors would otherwise
-                // stay dark forever and never see the new light default. Clear that once (the flag
-                // makes this fire a single time, so any genuine dark choice made afterwards still sticks).
-                if (localStorage.getItem('themeReset2026') !== '1') {
-                    localStorage.removeItem('theme');
-                    localStorage.setItem('themeReset2026', '1');
-                }
                 if (localStorage.getItem('viewMode') !== 'full') {
                     document.documentElement.classList.add('projects-only');
                 }
-                if (localStorage.getItem('theme') === 'dark') {
-                    document.documentElement.setAttribute('data-theme', 'dark');
-                    // Sync the mobile address-bar colour to the dark header before first paint.
+                if (localStorage.getItem('theme') === 'light') {
+                    document.documentElement.removeAttribute('data-theme');
+                    // Sync the mobile address-bar colour to the light header before first paint
+                    // (main.js does this too, but only later at the end of <body>).
                     var tc = document.querySelector('meta[name="theme-color"]');
-                    if (tc) tc.setAttribute('content', '#090f20');
+                    if (tc) tc.setAttribute('content', '#ffffff');
                 }
             } catch (e) {
                 document.documentElement.classList.add('projects-only');
@@ -55,6 +47,7 @@
         <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">
         <!-- Open Graph meta tags for link previews -->
         <meta property="og:title" content="Jacob Heifetz-Licht — Analytics Manager">
+        <!-- <meta property="og:title" content="Jacob Heifetz-Licht — Analytics Engineer"> -->
         <meta property="og:description" content="Data analytics leader and web developer specializing in Python, SQL, Tableau, React, and Next.js. Turning data into things people actually use.">
         <meta property="og:image" content="https://jacobhl.com/assets/img/og_image.png">
         <meta property="og:image:type" content="image/png">
@@ -84,11 +77,10 @@
             "image": "https://jacobhl.com/assets/img/about.jpg",
             "email": "hi@jacobhl.com",
             "jobTitle": "Analytics Manager",
-            "description": "Data analytics leader and web developer specializing in Python, SQL, Tableau, React, and Next.js. Turning data into things people actually use.",
+            "description": "Data analytics leader and web developer specializing in Python, SQL, Tableau, React, and Next.js.",
             "sameAs": [
                 "https://www.linkedin.com/in/jacobhl/",
-                "https://github.com/jacobhl3ca",
-                "https://apps.apple.com/us/developer/jacob-heifetz-licht/id1895127194"
+                "https://github.com/jacobhl3ca"
             ],
             "alumniOf": {
                 "@type": "CollegeOrUniversity",
@@ -356,8 +348,6 @@
                 opacity: 0.18;
                 transition: opacity 0.3s;
                 z-index: 98;
-                /* -webkit- prefix first (autoprefixer ordering): Safari added the unprefixed user-select only in 17.4, so on Safari/iOS ≤17.3 the unprefixed rule alone is ignored and this decorative easter-egg stays text-selectable (a stray tap-and-drag could highlight it). The prefixed variant restores the intended non-selectable behaviour there; no change where unprefixed is already supported. Mirrors the site's existing -webkit-backdrop-filter / -webkit-text-size-adjust prefixing. */
-                -webkit-user-select: none;
                 user-select: none;
                 line-height: 1;
             }
@@ -402,10 +392,8 @@
     align-items:center;justify-content:center;
     background:transparent;color:var(--second-color);text-decoration:none;
     transition:border-color .2s ease,color .2s ease,transform .2s ease;}
-  .proj-head-actions .proj-linkedin{position:static;right:auto;top:auto;transform:none;}
   [data-theme="dark"] .proj-linkedin{color:#e0e0e0;}
   .proj-linkedin:hover{border-color:var(--first-color);color:var(--first-color);transform:translateY(-50%) translateY(-1px);}
-  .proj-head-actions .proj-linkedin:hover{transform:translateY(-1px);}
   /* Branded focus ring so keyboard users get the same accent outline as the rest of the site
      instead of the inconsistent browser default (WCAG 2.4.7). :focus-visible only, so mouse/touch
      clicks show no ring and the look is unchanged; the outline follows the button's circular shape. */
@@ -428,10 +416,8 @@
      max-width/padding as .proj-wrap so it lands above the first card's right corner,
      not the window edge, at every viewport width. */
   .proj-head-row{position:relative;display:flex;justify-content:center;align-items:center;
-    max-width:780px;margin:.25rem auto 1.15rem;padding:0 1.5rem;box-sizing:border-box;}
+    max-width:780px;margin:0 auto 0.7rem;padding:0 1.5rem;box-sizing:border-box;}
   .proj-head-row .section-title{margin:0;}
-  .proj-head-actions{position:absolute;right:1.5rem;top:50%;transform:translateY(-50%);
-    display:inline-flex;align-items:center;gap:.45rem;}
   .proj-head-row .toplink{position:absolute;right:0;top:50%;transform:translateY(-50%);
     display:inline-flex;align-items:center;gap:.45rem;font-family:var(--body-font);font-size:.82rem;font-weight:600;
     padding:.5rem .95rem;border-radius:999px;text-decoration:none;background:transparent;border:1px solid #a6a6a6;
@@ -443,24 +429,6 @@
     /* compact the button ("LinkedIn") so it fits top-right beside the centered title */
     .proj-head-row .toplink{font-size:.74rem;padding:.42rem .7rem;gap:.3rem;}
     .proj-head-row .toplink .tl-full{display:none;}
-  }
-  .proj-appstore-all{display:inline-flex;align-items:center;justify-content:center;gap:.32rem;height:36px;
-    padding:0 .62rem;
-    border:1px solid #a6a6a6;border-radius:8px;background:#000;color:#fff;text-decoration:none;
-    font-size:.78rem;font-weight:600;line-height:1;white-space:nowrap;transition:border-color .2s ease,color .2s ease;}
-  .proj-appstore-all i{font-size:1.02rem;line-height:1;position:relative;top:-1px;}
-  .proj-appstore-all:hover{border-color:var(--first-color);color:#fff;}
-  @media(max-width:600px){
-    .proj-head-row{margin:.35rem auto 1rem;padding:0 1rem;}
-    .proj-head-actions{right:1rem;gap:.4rem;}
-    .proj-head-row .section-title{font-size:1.42rem;}
-    .proj-appstore-all{height:32px;padding:0 .5rem;font-size:.72rem;gap:.25rem;}
-    .proj-linkedin{width:32px;height:32px;}
-    .proj-appstore-all i,.proj-linkedin i{font-size:1rem;}
-  }
-  @media(max-width:360px){
-    .proj-head-actions .proj-linkedin{display:none;}
-    .proj-appstore-all{padding:0 .48rem;}
   }
 
   /* ---- ROW CARD (mirrors .work__img shadow/radius, laid out horizontally) ---- */
@@ -505,10 +473,18 @@
   .proj-info .live-dot{flex:0 0 auto;}
   .proj-one{font-size:var(--normal-font-size);line-height:1.5;margin:0;
     color:var(--second-color);opacity:.72;}
+  .proj-stack-intro{max-width:640px;margin:.15rem auto 1.25rem;text-align:center;
+    font-size:var(--small-font-size);line-height:1.55;color:var(--second-color);opacity:.76;}
+  .proj-stack{display:flex;flex-wrap:wrap;gap:.45rem;margin:.85rem 0 .15rem;padding:0;list-style:none;}
+  .proj-stack::before{content:"Stack:";align-self:center;margin-right:.05rem;
+    font-size:var(--smaller-font-size);font-weight:600;color:var(--second-color);opacity:.72;}
+  .proj-stack li{display:inline-flex;align-items:center;height:24px;padding:0 .55rem;
+    border:1px solid rgba(128,140,170,.36);border-radius:999px;background:rgba(128,140,170,.08);
+    color:var(--second-color);font-size:.72rem;font-weight:600;line-height:1;white-space:nowrap;}
+  [data-theme="dark"] .proj-stack li{background:rgba(255,255,255,.045);border-color:rgba(255,255,255,.16);}
   /* CTAs pinned to the bottom of the text column (room freed by top-aligning the text) */
   .proj-info .work__cta{margin-top:auto;justify-content:flex-start;padding-top:.8rem;}
   .proj-info img.app-store-badge{height:40px;width:auto;}
-  .proj-info .app-store-badge-link{position:relative;top:-1px;}
 
   /* CTA + expand-arrow share one bottom row. Desktop: favicon + App Store grouped left, chevron pinned right.
      Mobile only: App Store centers (space-between) — see the @media block below. */
@@ -582,7 +558,7 @@
   .more-inner .padtop{padding-top:1.6rem;}
 
   /* ---- LIVE PREVIEW MODAL ---- */
-  .modal{position:fixed;inset:0;background:rgba(6,9,18,.80);-webkit-backdrop-filter:blur(5px);backdrop-filter:blur(5px);
+  .modal{position:fixed;inset:0;background:rgba(6,9,18,.80);backdrop-filter:blur(5px);
     display:none;align-items:center;justify-content:center;z-index:200;padding:24px;}
   .modal.open{display:flex;}
   .modal-card{width:min(980px,100%);height:min(80vh,840px);background:#0c0e12;
@@ -598,7 +574,7 @@
   /* big back button shown only in fullscreen, floating over the site */
   .fs-back{position:absolute;top:18px;left:18px;z-index:6;display:none;align-items:center;gap:.45rem;
     padding:.6rem 1.1rem .6rem .85rem;border:0;border-radius:999px;cursor:pointer;
-    background:rgba(12,14,18,.82);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);color:#fff;font-family:var(--body-font);
+    background:rgba(12,14,18,.82);backdrop-filter:blur(6px);color:#fff;font-family:var(--body-font);
     font-size:.92rem;font-weight:600;box-shadow:0 6px 24px rgba(0,0,0,.45);transition:background .2s ease, transform .2s ease;}
   .fs-back:hover{background:rgba(20,24,34,.95);transform:translateX(-2px);}
   .fs-back i{font-size:1.4rem;}
@@ -621,22 +597,6 @@
     color:#9aa3b4;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .2s ease;}
   .nav-btn:hover{color:#fff;border-color:#3a445a;}
   .nav-btn i{font-size:1.15rem;}
-  .nav-btn:disabled{opacity:.35;cursor:default;pointer-events:none;}
-  /* large prev/next arrows flanking the preview, over the backdrop — more visible than the toolbar pair */
-  .modal-side{position:absolute;top:50%;transform:translateY(-50%);z-index:5;width:46px;height:46px;border-radius:50%;
-    border:1px solid #2a3242;background:rgba(17,20,26,.82);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);
-    color:#e6e9ef;cursor:pointer;display:flex;align-items:center;justify-content:center;
-    box-shadow:0 6px 24px rgba(0,0,0,.45);transition:background .2s ease, transform .2s ease, opacity .2s ease;}
-  .modal-side:hover{background:rgba(26,31,41,.95);transform:translateY(-50%) scale(1.06);}
-  .modal-side.prev{left:max(16px, calc(50% - 490px - 62px));}
-  .modal-side.next{right:max(16px, calc(50% - 490px - 62px));}
-  .modal-side:disabled{opacity:.22;pointer-events:none;}
-  .modal-side i{font-size:1.7rem;line-height:1;}
-  .modal-side:focus{outline:none;}
-  .modal-side:focus-visible{outline:2px solid var(--first-color);outline-offset:2px;}
-  .modal.fullscreen .modal-side.prev{left:16px;}
-  .modal.fullscreen .modal-side.next{right:16px;}
-  @media(max-width:640px){ .modal-side{width:38px;height:38px;} .modal-side.prev{left:8px;} .modal-side.next{right:8px;} .modal-side i{font-size:1.4rem;} }
   .url-form{flex:1;display:flex;}
   .modal-url{flex:1;width:100%;font-size:.8rem;color:#cdd3df;background:#1a1f29;border:1px solid #232a36;
     border-radius:6px;padding:.42rem .8rem;text-align:center;outline:none;font-family:var(--body-font);
@@ -660,7 +620,7 @@
      preview iframe (.frame-focused), since that's when a plain Esc can't reach the parent. */
   .esc-hint{position:absolute;top:10px;right:10px;z-index:3;display:none;align-items:center;gap:.4rem;
     padding:.32rem .6rem;border:0;border-radius:7px;cursor:pointer;font:inherit;font-size:.74rem;
-    color:#e6e9ef;background:rgba(12,14,18,.82);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);box-shadow:0 2px 10px rgba(0,0,0,.4);}
+    color:#e6e9ef;background:rgba(12,14,18,.82);backdrop-filter:blur(6px);box-shadow:0 2px 10px rgba(0,0,0,.4);}
   .esc-hint kbd{font:inherit;font-size:.7rem;padding:.05rem .34rem;border-radius:4px;background:#2a3242;color:#fff;}
   .esc-hint:hover{background:rgba(20,24,30,.95);}
   .modal.frame-focused .esc-hint{display:inline-flex;}
@@ -702,51 +662,6 @@
     .proj-chev{width:34px;height:34px;}
     .proj-chev i{font-size:1.3rem;}
   }
-
-  /* ===== 2026-07-17 tweaks ===== */
-  /* #8 — "Projects" section title reads black in light mode (was the blue accent) */
-  html:not([data-theme="dark"]) #projects-heading{color:#000;}
-  /* #7 — light-mode variant of the top-right "Apps" button (was fixed black) */
-  html:not([data-theme="dark"]) .proj-appstore-all{background:#fff;color:var(--second-color);border-color:#d0d0d0;}
-  html:not([data-theme="dark"]) .proj-appstore-all:hover{border-color:var(--first-color);color:var(--first-color);}
-  /* #5 — zoom HideScore / Tonight NYC thumbnails in so league & comedian names + CTAs read on the small card */
-  .proj-thumb.zoomed img{transform:scale(1.32);transform-origin:center top;}
-  .proj-thumb.zoomed:hover img{transform:scale(1.42);}
-  /* center title + one-liner on the thumbnail's vertical center when a card has no CTA button
-     (the live preview is the CTA). The chevron is pulled OUT of the flex flow (absolute, bottom-right)
-     so only the title + one-liner are centered — they align with the middle of the thumbnail, not
-     the title+desc+chevron group. */
-  .proj-info.centered{justify-content:center;position:relative;}
-  .proj-info.centered .work__cta{position:absolute;right:0;bottom:0;margin:0;padding:0;}
-
-  /* #3 + #6 — preview opens MAXIMIZED with the URL bar visible; bottom floating toolbar for an easy-reach Close */
-  .modal-foot{position:absolute;left:50%;bottom:20px;transform:translateX(-50%);z-index:6;display:none;
-    align-items:center;gap:.4rem;padding:.35rem .4rem;border-radius:999px;
-    background:rgba(12,14,18,.86);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);
-    box-shadow:0 8px 28px rgba(0,0,0,.5);}
-  .modal.fullscreen .modal-foot{display:inline-flex;}
-  .modal-foot .foot-btn{border:0;cursor:pointer;background:transparent;color:#e6e9ef;
-    font:600 .88rem var(--body-font);display:inline-flex;align-items:center;gap:.35rem;
-    padding:.5rem .95rem;border-radius:999px;transition:background .2s ease,color .2s ease;}
-  .modal-foot .foot-btn:hover{background:rgba(255,255,255,.14);color:#fff;}
-  .modal-foot .foot-btn i{font-size:1.3rem;line-height:1;}
-  .modal-foot .foot-close{background:rgba(255,95,87,.18);color:#ff6b63;}
-  .modal-foot .foot-close:hover{background:rgba(255,95,87,.30);color:#fff;}
-  .modal-foot .foot-btn:focus{outline:none;}
-  .modal-foot .foot-btn:focus-visible{outline:2px solid var(--first-color);outline-offset:2px;}
-
-  /* #4 — poster fallback for sites that block iframe embedding (e.g. Subway Times' own CSP) */
-  .modal-noembed{position:absolute;inset:0;z-index:4;display:none;flex-direction:column;align-items:center;justify-content:center;
-    gap:1.1rem;padding:2rem;text-align:center;background:#0c0e12;}
-  .modal-noembed.show{display:flex;}
-  .modal-noembed img{max-width:min(560px,86%);max-height:52%;object-fit:contain;border-radius:.6rem;
-    box-shadow:0 12px 40px rgba(0,0,0,.5);}
-  .modal-noembed p{margin:0;color:#9aa3b4;font-size:.9rem;max-width:38ch;line-height:1.55;}
-  .modal-noembed .ne-open{display:inline-flex;align-items:center;gap:.45rem;text-decoration:none;
-    background:var(--first-color);color:#fff;font-weight:600;font-size:.92rem;padding:.7rem 1.3rem;border-radius:999px;
-    transition:transform .2s ease,filter .2s ease;}
-  .modal-noembed .ne-open i{font-size:1.15rem;}
-  .modal-noembed .ne-open:hover{transform:translateY(-2px);filter:brightness(1.06);}
     </style>
 </head>
     <body>
@@ -776,24 +691,24 @@
                         <button type="button" class="view-pill__btn is-active" data-view="projects" aria-pressed="true">Projects</button>
                         <button type="button" class="view-pill__btn" data-view="full" aria-pressed="false">Full site</button>
                     </div>
-                    <button type="button" id="theme-toggle" class="theme-toggle" aria-label="Switch to dark mode" style="position: relative; top: 0;">
-                        <i class='bx bx-moon' id="theme-icon" aria-hidden="true"></i>
+                    <button type="button" id="theme-toggle" class="theme-toggle" aria-label="Switch to light mode" style="position: relative; top: 0;">
+                        <i class='bx bx-sun' id="theme-icon" aria-hidden="true"></i>
                     </button>
                     <script>
-                        // Correct the theme toggle's baseline state for returning DARK-mode users,
+                        // Correct the theme toggle's baseline state for returning light-mode users,
                         // before paint and before main.js loads at end of <body>. The button is hardcoded
-                        // in its light-mode state (moon icon + "Switch to dark mode"), but the inline <head>
-                        // script has already applied the saved dark theme — so without this the toggle
+                        // in its dark-mode state (sun icon + "Switch to light mode"), but the inline <head>
+                        // script has already applied the saved light theme — so without this the toggle
                         // briefly shows the wrong icon and, more importantly, announces the wrong action to
-                        // assistive tech ("Switch to dark mode" while the page is already dark). main.js
+                        // assistive tech ("Switch to light mode" while the page is already light). main.js
                         // re-applies the same state later (classList.replace is a no-op when the class is
                         // absent, and the aria-label is identical), so this only removes the flash/mismatch.
                         try {
-                            if (localStorage.getItem('theme') === 'dark') {
+                            if (localStorage.getItem('theme') === 'light') {
                                 var _ti = document.getElementById('theme-icon');
-                                if (_ti) _ti.classList.replace('bx-moon', 'bx-sun');
+                                if (_ti) _ti.classList.replace('bx-sun', 'bx-moon');
                                 var _tt = document.getElementById('theme-toggle');
-                                if (_tt) _tt.setAttribute('aria-label', 'Switch to light mode');
+                                if (_tt) _tt.setAttribute('aria-label', 'Switch to dark mode');
                             }
                         } catch (e) {}
                     </script>
@@ -952,12 +867,9 @@
 
                 <div class="proj-head-row">
                     <h2 class="section-title" id="projects-heading">Projects</h2>
-                    <div class="proj-head-actions">
-                        <!-- rel="me": this App Store developer profile is one of Jacob's own verified identity profiles and is already declared in the JSON-LD Person "sameAs" array above (alongside LinkedIn and GitHub). Those two profiles carry rel="me" on every link site-wide as the HTML-level companion to sameAs (see the home__social comment); this developer-profile link was the one sameAs member still missing it, so add it to complete that sameAs↔rel=me parity. Additive rel token — no visual or behaviour change (noopener/noreferrer preserved). -->
-                        <a class="proj-appstore-all" href="https://apps.apple.com/us/developer/jacob-heifetz-licht/id1895127194" target="_blank" rel="me noopener noreferrer" aria-label="View all Jacob Heifetz-Licht apps on the App Store" title="App Store apps"><i class='bx bxl-apple' aria-hidden="true"></i><span>Apps</span></a>
-                        <a class="proj-linkedin" href="https://www.linkedin.com/in/jacobhl/" target="_blank" rel="me noopener noreferrer" aria-label="Connect with me on LinkedIn" title="Connect on LinkedIn"><i class='bx bxl-linkedin' aria-hidden="true"></i></a>
-                    </div>
+                    <a class="proj-linkedin" href="https://www.linkedin.com/in/jacobhl/" target="_blank" rel="me noopener noreferrer" aria-label="Connect with me on LinkedIn" title="Connect on LinkedIn"><i class='bx bxl-linkedin' aria-hidden="true"></i></a>
                 </div>
+                <p class="proj-stack-intro">Static-first, fast web tools. Next and React when the product needs it; Python and Node for data, automation, and deploy glue; Cloudflare, Vercel, and Capacitor to ship live web and iOS apps.</p>
 
                 <div class="proj-wrap">
                     <div id="main-rows"></div>
@@ -966,8 +878,7 @@
                              (or for crawlers that don't run JS) #main-rows is empty. List the projects
                              as plain links so the core content and its SEO value aren't lost. Mirrors the
                              MAIN[] array; TidyTab has no website, so it links to its browsable GitHub repo. -->
-                        <!-- Use the site's own theme-aware body-text token (--second-color) instead of a fixed mid-gray: --text-color is defined nowhere in the CSS, so the old value resolved to its literal #8b94a0 fallback, which on the light-mode white background gives only ~3:1 contrast — a WCAG 1.4.3 AA failure for normal text. --second-color is the body's text colour (dark navy in light mode, light in dark mode), so this list matches the rest of the page and passes contrast in both themes. Only the no-JS fallback is affected; the JS-rendered cards replace this entirely. -->
-                        <ul style="list-style:none;margin:0;padding:0;line-height:1.6;color:var(--second-color);">
+                        <ul style="list-style:none;margin:0;padding:0;line-height:1.6;color:var(--text-color,#8b94a0);">
                             <li><a href="https://hidescore.com" target="_blank" rel="noopener noreferrer">HideScore</a> — Watch sports highlights without seeing the score.</li>
                             <li><a href="https://tonightnyc.com" target="_blank" rel="noopener noreferrer">Tonight NYC</a> — Every NYC comedy show, filtered to your favorite comedians.</li>
                             <li><a href="https://subwaytimes.com" target="_blank" rel="noopener noreferrer">Subway Times</a> — Real-time NYC subway arrivals, faster than Maps.</li>
@@ -1167,16 +1078,7 @@
 
 
         <!--===== MAIN JS =====-->
-        <!-- defer: main.js is a ~30KB parser-blocking script sitting above ~350 lines of modal
-             markup + the project-render IIFE, so the parser stalls on its download/execute before
-             finishing that DOM. Deferring lets the browser keep parsing while main.js downloads in
-             parallel, then runs it after parse (still before DOMContentLoaded). Safe here: main.js
-             only wires static elements (nav, theme/view toggles, section scroll-spy, contact form)
-             that exist at parse start, its live-dot observer is a no-op (rows ship class="live-dot
-             is-visible"), and no inline script calls a main.js global — so nothing depends on it
-             running mid-parse. Consistent with the page's existing preload/preconnect/fetchpriority
-             work; no visual or behaviour change. -->
-        <script defer src="assets/js/main-alt.js"></script>
+        <script src="assets/js/main.js"></script>
 
         <!-- Inline JS moved to assets/js/main.js on 2026-03-27 -->
 
@@ -1190,8 +1092,6 @@
     
     <!-- ===== Projects rows: live-preview modal + render/interaction JS ===== -->
     <div class="modal" id="modal" role="dialog" aria-modal="true" aria-label="Live site preview">
-  <button type="button" class="modal-side prev" id="sidePrev" title="Previous project" aria-label="Previous project"><i class='bx bx-chevron-left' aria-hidden="true"></i></button>
-  <button type="button" class="modal-side next" id="sideNext" title="Next project" aria-label="Next project"><i class='bx bx-chevron-right' aria-hidden="true"></i></button>
   <div class="modal-card">
     <div class="modal-bar">
       <div class="dots">
@@ -1199,8 +1099,6 @@
         <button type="button" class="dot yellow" id="dotMin" title="Minimize" aria-label="Minimize preview"><svg viewBox="0 0 12 12" aria-hidden="true"><path d="M3.3 6 H8.7"/></svg></button>
         <button type="button" class="dot green" id="dotExpand" title="Full screen" aria-label="Full screen preview"><svg viewBox="0 0 12 12" aria-hidden="true"><path class="fill" d="M3 3 L3 7 L7 3 Z"/><path class="fill" d="M9 9 L9 5 L5 9 Z"/></svg></button>
       </div>
-      <button type="button" class="nav-btn" id="navPrev" title="Previous project" aria-label="Previous project"><i class='bx bx-chevron-left' aria-hidden="true"></i></button>
-      <button type="button" class="nav-btn" id="navNext" title="Next project" aria-label="Next project"><i class='bx bx-chevron-right' aria-hidden="true"></i></button>
       <button type="button" class="nav-btn" id="navBack" title="Back" aria-label="Back" style="display:none;"><i class='bx bx-chevron-left' aria-hidden="true"></i></button>
       <button type="button" class="nav-btn" id="navReload" title="Reload" aria-label="Reload"><i class='bx bx-revision' aria-hidden="true"></i></button>
       <!-- Mobile-input hints for the editable preview address bar, mirroring the contact fields: inputmode="url" gives mobile users the URL-optimized keyboard (dedicated "/", ".", and ".com" keys) instead of the plain text one, autocapitalize="off" stops the first character of an address being capitalized as it's typed, and autocorrect="off" stops iOS "correcting" a URL mid-entry. type stays "text" (not "url") because the submit handler prepends https:// to a bare domain, which native type="url" validation would otherwise reject. All editable hints, no visual change on desktop. -->
@@ -1212,12 +1110,6 @@
       <button type="button" class="fs-back" id="fsBack" title="Back to projects"><i class='bx bx-arrow-back' aria-hidden="true"></i> Back</button>
       <div class="modal-load" id="modalLoad"><div class="spin"></div><span id="modalLoadTxt">Loading preview…</span></div>
       <iframe class="modal-frame" id="modalFrame" title="Live preview" referrerpolicy="no-referrer-when-downgrade"></iframe>
-      <!-- fallback: shown for sites that refuse iframe embedding (their own X-Frame-Options / CSP) -->
-      <div class="modal-noembed" id="modalNoembed">
-        <img id="modalNoembedImg" alt="" decoding="async">
-        <p>This site blocks embedded previews for security — open it in a new tab to explore it live:</p>
-        <a id="modalNoembedOpen" class="ne-open" target="_blank" rel="noopener"><i class='bx bx-link-external' aria-hidden="true"></i> <span id="modalNoembedHost"></span></a>
-      </div>
       <button class="esc-hint" id="escHint" type="button" title="Exit preview">Press <kbd>Esc</kbd> to exit</button>
     </div>
   </div>
@@ -1225,56 +1117,55 @@
     <script>
 (function(){
 const MAIN = [
-  { title:"HideScore", live:true, img:"assets/img/hidescore-cover.png", url:"https://hidescore.com",
+  { title:"HideScore", live:true, img:"assets/img/hidescore-app.png", imgWide:"assets/img/hidescore-wide.png", pos:"top", url:"https://hidescore.com",
     one:"Watch sports highlights without seeing the score.",
     full:"Watch sports highlights without seeing the score. Covers MLB, NBA, NHL, NFL, soccer, tennis and more with score-hidden cards, embedded highlights, and a unified news view — without spoiling anything you haven't watched.",
+    stack:["Next","React","TypeScript","Tailwind","Cloudflare","R2","Capacitor"],
     site:"https://hidescore.com", appstore:"https://apps.apple.com/app/hidescore/id6766885311" },
-  { title:"Tonight NYC", live:true, img:"assets/img/tonightnyc-cover.png", url:"https://tonightnyc.com",
+  { title:"Tonight NYC", live:true, img:"assets/img/tonightnyc-app.png", imgWide:"assets/img/tonightnyc-wide.png", pos:"top", url:"https://tonightnyc.com",
     one:"Every NYC comedy show, filtered to your favorite comedians.",
     full:"No more digging for comedy showtimes, stick to your favorite comedians. Includes every NYC show from the Comedy Cellar, The Stand, and more, filtered your way. Mark favorites and skips, see which set to attend at a glance, and book directly.",
+    stack:["HTML","CSS","JavaScript","Node","Vercel Functions","KV","Capacitor"],
     site:"https://tonightnyc.com", appstore:"https://apps.apple.com/app/id6763027650" },
   { title:"Subway Times", live:true, img:"assets/img/subwaytimes-cover.png", url:"https://subwaytimes.com",
     one:"Real-time NYC subway arrivals, faster than Maps.",
     full:"Quicker than Google Maps for simple departures, especially from your home station. Real-time NYC subway arrivals, where you can favorite your stations, see countdown timers down to the second, and get out the door faster.",
+    stack:["Next","React","TypeScript","Tailwind","GTFS Realtime","MapLibre","Capacitor"],
     site:"https://subwaytimes.com", appstore:"https://apps.apple.com/us/app/subwaytimes/id6775994423" },
   { title:"David Licht", live:true, img:"assets/img/davidlicht-app.png", imgWide:"assets/img/davidlicht.jpg", url:"https://davidlicht.com",
     one:"A showcase site for my dad — five decades of drumming.",
     full:"A showcase site I built for my dad — a drummer for five decades, from downtown NYC noise bands to the Grammy-winning Klezmatics. His story, music, and photos in one place.",
+    stack:["HTML","CSS","JavaScript","Structured data","Media archive","Cloudflare"],
     site:"https://davidlicht.com" },
   { title:"The Island", live:true, img:"assets/img/theisland-app.png", url:"https://theisland.nyc",
     one:"Everything happening on NYC's Roosevelt Island, in one place.",
     full:"Everything happening on NYC's Roosevelt Island, in one place — real-time bus GPS, subway, tram, and ferry times, a restaurant guide, service alerts, an events newsletter, and an interactive map.",
+    stack:["HTML","CSS","JavaScript","PWA","Cloudflare Functions","Leaflet","Capacitor"],
     site:"https://theisland.nyc", appstore:"https://apps.apple.com/us/app/roosevelt-island/id6775979583" },
-  // PLACEHOLDER — uncomment to publish. Needs screenshot (assets/img/duelgoat-app.png).
-  // { title:"DuelGoat", live:true, img:"assets/img/duelgoat-app.png", url:"https://duelgoat.com",
-  //   one:"A browser recreation of GOAT-format Yu-Gi-Oh dueling.",
-  //   full:"A faithful browser recreation of GOAT-format Yu-Gi-Oh — the 2005 metagame competitive players still love — with the full card database, deck building, and online play.",
-  //   site:"https://duelgoat.com" },
-  // PLACEHOLDER — uncomment to publish. Needs screenshot (assets/img/islander-app.png).
-  // { title:"Islander", live:true, img:"assets/img/islander-app.png", url:"https://islander.theisland.nyc",
-  //   one:"A neighbor-help app for NYC's Roosevelt Island.",
-  //   full:"A neighbor-help app for Roosevelt Island — post what you need or offer a hand, from borrowing a tool to walking a dog, so favors stay local (Next.js, Supabase).",
-  //   site:"https://islander.theisland.nyc" },
   // ref (hidden from site): "Developer ID-signed and Apple-notarized, so it downloads and opens cleanly (Python, rumps, py2app)."
-  { title:"TidyTab", live:true, img:"assets/img/tidytab.png", url:"tidytab.html",
+  { title:"TidyTab", live:false, img:"assets/img/tidytab.png",
     one:"Bulk unpin or close Safari pinned tabs — a macOS menu-bar app.",
     full:"A menu-bar app I built to bulk unpin or close Safari pinned tabs in one sweep — it auto-detects your pinned tabs and clears them (press Space to stop).",
-    // download now lives on the tidytab.html landing page the preview opens (keeps the card row clean, consistent with the others)
-  },
+    stack:["Python","rumps","PyObjC","PyAutoGUI","py2app","Notarized macOS"],
+    download:"https://github.com/jacobhl3ca/safari-pinned-tab-automation/releases/latest/download/TidyTab.dmg" },
 ];
 const MORE = [
   { title:"Spotify Analytics", img:"assets/img/spotify_monthly.png",
     one:"Interactive dashboard of my listening trends — beyond Wrapped.",
-    full:"Summarize listening trends without relying on annual Spotify Wrapped — an interactive dashboard with top songs/artists/albums, heatmaps, skip-rate analysis, artist evolution timelines, session tracking, and a listening clock (Python, Plotly, Streamlit)." },
+    full:"Summarize listening trends without relying on annual Spotify Wrapped — an interactive dashboard with top songs/artists/albums, heatmaps, skip-rate analysis, artist evolution timelines, session tracking, and a listening clock (Python, Plotly, Streamlit).",
+    stack:["Python","Pandas","Plotly","Streamlit","Spotify data"] },
   { title:"Spotify Playlist Archiver", img:"assets/img/spotify_archiver.png",
     one:"Auto-archives playlists that would otherwise disappear.",
-    full:"Automatic weekly archiver of playlists that would otherwise disappear — Discover Weekly, Release Radar, and Your Top Songs at different granularities. Uses PyAutoGUI automation for playlists unavailable via API, and the Spotify API for top tracks with rate-limit handling (Python, Spotipy)." },
+    full:"Automatic weekly archiver of playlists that would otherwise disappear — Discover Weekly, Release Radar, and Your Top Songs at different granularities. Uses PyAutoGUI automation for playlists unavailable via API, and the Spotify API for top tracks with rate-limit handling (Python, Spotipy).",
+    stack:["Python","Spotipy","Spotify API","PyAutoGUI","Scheduling"] },
   { title:"Personal Finance App", img:"assets/img/finance_trend_crop.png",
     one:"Daily budgeting, investment planning, and optimization.",
-    full:"Enables precise daily budgeting, investment planning, and optimization (Python, Apps Script)." },
+    full:"Enables precise daily budgeting, investment planning, and optimization (Python, Apps Script).",
+    stack:["Python","Apps Script","Automation","Finance modeling"] },
   { title:"E-commerce Store", img:"assets/img/stripe_dark.svg",
     one:"Full-stack store with Stripe checkout.",
-    full:"Full-stack e-commerce site with Stripe payment processing and an Express.js backend (Node.js, Stripe API, HTML/CSS/JS)." },
+    full:"Full-stack e-commerce site with Stripe payment processing and an Express.js backend (Node.js, Stripe API, HTML/CSS/JS).",
+    stack:["Node","Express","Stripe API","HTML","CSS","JavaScript"] },
   /* Automation Utilities — hidden for now (TidyTab is its own row); restore by uncommenting:
   { title:"Automation Utilities", img:"assets/img/automation_dark.svg",
     one:"macOS automation suite — system toggles, timesheet autofill, and more.",
@@ -1283,7 +1174,8 @@ const MORE = [
   */
   { title:"System Administration", img:"assets/img/docker_dark.png",
     one:"Self-hosted media & web apps on a home Linux server.",
-    full:"Self-hosted web apps and network services on a home Linux server — a full Plex/Jellyfin media-automation stack (Radarr, Sonarr, Prowlarr, Bazarr, SABnzbd), a Homepage dashboard, Umami analytics, and Uptime Kuma monitoring, all containerized (Docker, Docker Compose)." },
+    full:"Self-hosted web apps and network services on a home Linux server — a full Plex/Jellyfin media-automation stack (Radarr, Sonarr, Prowlarr, Bazarr, SABnzbd), a Homepage dashboard, Umami analytics, and Uptime Kuma monitoring, all containerized (Docker, Docker Compose).",
+    stack:["Docker","Docker Compose","Linux","Plex","Jellyfin","Umami","Uptime Kuma"] },
 ];
 
 // Locally-hosted real favicons for the site CTA. Set USE_FAVICONS=false to revert to the globe.
@@ -1297,14 +1189,11 @@ const FAVICONS = {
 };
 function ctaHTML(p){
   let h='';
-  // 2026-07-17 (#1): the favicon "visit site" button and the App Store badge are commented OUT of
-  // every card for now — the live thumbnail preview (with its own URL bar + open-in-new-tab) is the
-  // primary CTA. Un-comment either block below to bring it back.
-  /* if(p.site){ const _d=(()=>{try{return new URL(p.site).hostname.replace(/^www\./,'')}catch(e){return ''}})();
+  if(p.site){ const _d=(()=>{try{return new URL(p.site).hostname.replace(/^www\./,'')}catch(e){return ''}})();
     const _fav = USE_FAVICONS && FAVICONS[_d];
     const _inner = _fav ? `<img class="favicon" src="${_fav}" alt="" width="20" height="20" loading="lazy" decoding="async">` : `<i class='bx bx-globe' aria-hidden="true"></i>`;
-    h+=`<a href="${p.site}" target="_blank" rel="noopener" class="site-link" title="Visit website" aria-label="Visit the ${p.title} website">${_inner}</a>`; } */
-  /* if(p.appstore) h+=`<a href="${p.appstore}" target="_blank" rel="noopener" class="app-store-badge-link" aria-label="Download ${p.title} on the App Store"><img src="assets/img/app-store-badge.svg" alt="" class="app-store-badge" width="120" height="40" loading="lazy" decoding="async"></a>`; */
+    h+=`<a href="${p.site}" target="_blank" rel="noopener" class="site-link" title="Visit website" aria-label="Visit the ${p.title} website">${_inner}</a>`; }
+  if(p.appstore) h+=`<a href="${p.appstore}" target="_blank" rel="noopener" class="app-store-badge-link" aria-label="Download ${p.title} on the App Store"><img src="assets/img/app-store-badge.svg" alt="" class="app-store-badge" width="120" height="40" loading="lazy" decoding="async"></a>`;
   if(p.download) h+=`<a href="${p.download}" class="mac-badge" title="Download TidyTab for macOS (.dmg, notarized)"><i class='bx bxl-apple' aria-hidden="true"></i><span class="mb-txt"><span class="mb-top">Download for</span><span class="mb-big">Mac</span></span></a>`;
   if(p.mas) h+=`<a href="${p.mas}" class="mac-badge mas-badge" title="Download on the Mac App Store"><i class='bx bxl-apple' aria-hidden="true"></i><span class="mb-txt"><span class="mb-top">Download on the</span><span class="mb-big">Mac App Store</span></span></a>`;
   if(p.github) h+=`<a href="${p.github}" target="_blank" rel="noopener" class="gh-link" aria-label="View the ${p.title} source on GitHub"><i class='bx bxl-github' aria-hidden="true"></i>GitHub</a>`;
@@ -1312,7 +1201,7 @@ function ctaHTML(p){
 }
 function rowHTML(p, eager){
   const dot = (p.live || p.download || p.mas) ? '<span class="live-dot is-visible" role="img" aria-label="Live" title="Live"></span>' : '';
-  const thumbCls = (p.live?'':'no-live') + (p.pos==='top'?' pos-top':'') + (p.zoom?' zoomed':''); // #5 zoom flagged cards in tighter
+  const thumbCls = (p.live?'':'no-live') + (p.pos==='top'?' pos-top':'');
   // The first project card sits above the fold in the default projects-only view, so its
   // thumbnail is the likely LCP element — load it eagerly (lazy-loading an above-the-fold
   // image is a known LCP anti-pattern) and give it fetchpriority="high" so the browser pulls
@@ -1320,38 +1209,40 @@ function rowHTML(p, eager){
   // pairing; safe now that the hero portrait is lazy and no longer claims high priority).
   // Every other card stays lazy at default priority.
   const imgLoad = eager ? 'loading="eager" fetchpriority="high"' : 'loading="lazy"';
+  const stack = Array.isArray(p.stack) && p.stack.length
+    ? `<ul class="proj-stack" aria-label="${p.title} stack">${p.stack.map(s => `<li>${s}</li>`).join('')}</ul>`
+    : '';
   // Stable, unique id per project (titles are unique across both lists) so the chevron toggle can
   // point at the panel it expands via aria-controls, mirroring the #moreToggle → #moreWrap wiring.
   const detailId = 'proj-detail-' + p.title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
-  const cta = ctaHTML(p);                        // empty for the decluttered preview cards; only TidyTab (Mac download) has one
-  const infoCls = ''; // title + one-liner always top-aligned (chevron pinned bottom via margin-top:auto); vertical-centering overlapped the chevron on short cards
   return `
   <div class="proj-row">
     <div class="proj-head">
-      <div class="proj-thumb ${thumbCls}" ${p.live?`data-url="${p.url}"${p.noEmbed?` data-noembed="1" data-poster="${p.img}"`:''} role="button" tabindex="0" aria-haspopup="dialog" aria-label="Open live preview of ${p.title}"`:''}>
+      <div class="proj-thumb ${thumbCls}" ${p.live?`data-url="${p.url}" role="button" tabindex="0" aria-haspopup="dialog" aria-label="Open live preview of ${p.title}"`:''}>
         ${p.imgWide
           ? `<picture><source media="(min-width:768px)" srcset="${p.imgWide}"><img src="${p.img}" alt="${p.live ? '' : p.title + ' screenshot'}" ${imgLoad} decoding="async"></picture>`
           : `<img src="${p.img}" alt="${p.live ? '' : p.title + ' screenshot'}" ${imgLoad} decoding="async">`}
         <span class="proj-zoom" aria-hidden="true"><i class='bx bx-search' aria-hidden="true"></i></span>
         <div class="proj-cue"><span><i class='bx bx-expand-alt' aria-hidden="true"></i> Preview</span></div>
       </div>
-      <div class="proj-info${infoCls}">
+      <div class="proj-info">
         <h3 class="proj-title">${dot}${p.title}</h3>
         <p class="proj-one">${p.one}</p>
         <div class="work__cta proj-actions">
-          ${cta}
+          ${ctaHTML(p)}
           <button type="button" class="proj-chev" aria-label="Show details" aria-expanded="false" aria-controls="${detailId}"><i class='bx bx-chevron-down' aria-hidden="true"></i></button>
         </div>
       </div>
     </div>
     <div class="proj-detail" id="${detailId}" inert><div class="proj-detail-in"><div class="pad">
       <p>${p.full}</p>
+      ${stack}
     </div></div></div>
   </div>`;
 }
 
 document.getElementById('main-rows').innerHTML = MAIN.map((p, i) => rowHTML(p, i === 0)).join(''); // eager-load only the first (above-the-fold) card's image
-document.getElementById('more-rows').innerHTML = MORE.map(p => rowHTML(p, false)).join(''); // "Private projects" panel starts collapsed/inert — keep all its images lazy
+document.getElementById('more-rows').innerHTML = MORE.map(p => rowHTML(p, false)).join(''); // "Other projects" panel starts collapsed/inert — keep all its images lazy
 
 // click anywhere on the card toggles expand — EXCEPT a live thumbnail (opens preview) and CTA links.
 // "Other projects" have no live preview, so clicking their thumbnail expands the card like the rest.
@@ -1364,7 +1255,7 @@ document.querySelectorAll('.proj-head').forEach(h=>{
     // Collapsed, .proj-detail is zero-height (grid-template-rows:0fr + overflow:hidden) but its
     // description text stays in the DOM and is still announced by assistive tech; mark it inert
     // when collapsed so AT matches the chevron's aria-expanded state (inert is a no-op in older
-    // browsers, so behaviour there is unchanged). Mirrors the "Private projects" panel above.
+    // browsers, so behaviour there is unchanged). Mirrors the "Other projects" panel above.
     const detail = row.querySelector('.proj-detail');
     if(detail){ if(open) detail.removeAttribute('inert'); else detail.setAttribute('inert',''); }
     const chev = h.querySelector('.proj-chev');
@@ -1379,40 +1270,12 @@ const modal=document.getElementById('modal'), card=modal.querySelector('.modal-c
       frame=document.getElementById('modalFrame'),
       mUrl=document.getElementById('modalUrl'), mOpen=document.getElementById('modalOpen'),
       mLoad=document.getElementById('modalLoad'), mLoadTxt=document.getElementById('modalLoadTxt'),
-      navBack=document.getElementById('navBack'),
-      navPrev=document.getElementById('navPrev'), navNext=document.getElementById('navNext'),
-      sidePrev=document.getElementById('sidePrev'), sideNext=document.getElementById('sideNext'),
-      noembed=document.getElementById('modalNoembed'), neImg=document.getElementById('modalNoembedImg'),
-      neOpen=document.getElementById('modalNoembedOpen'), neHost=document.getElementById('modalNoembedHost');
-let loadTimer=null, currentUrl='', backStack=[], sourceThumb=null, noEmbedPoster=null;
-// prev/next cycle through the live-preview projects — same gallery-paging idea as the templates modal
-let liveThumbs=[], curIdx=-1;
-function updateCycle(){ const atStart=curIdx<=0, atEnd=(curIdx<0||curIdx>=liveThumbs.length-1);
-  navPrev.disabled=atStart; navNext.disabled=atEnd; sidePrev.disabled=atStart; sideNext.disabled=atEnd; }
-function cycle(dir){ const n=curIdx+dir; if(n<0||n>=liveThumbs.length) return; curIdx=n; const t=liveThumbs[n]; sourceThumb=t; backStack=[];
-  if(t.dataset && t.dataset.noembed){ showNoEmbed(t.dataset.url, t.dataset.poster); } else { navigate(t.dataset.url,false); }
-  updateCycle(); }
-
-// #4: sites that refuse iframe embedding (their own X-Frame-Options / CSP) can't load in the preview,
-// so instead of an endless spinner show their poster + an "open in a new tab" button. Still fills the
-// URL bar and open-in-new-tab link so the chrome behaves the same.
-function showNoEmbed(url, poster){
-  clearTimeout(loadTimer);
-  currentUrl=url; backStack=[]; updateBack(); noEmbedPoster=poster||null;
-  let _host=url; try{ _host=new URL(url).hostname.replace(/^www\./,''); }catch(e){}
-  mUrl.value=url; mOpen.href=url;
-  if(poster){ neImg.src=poster; } else { neImg.removeAttribute('src'); }
-  neImg.alt=_host+' preview';
-  neOpen.href=url; neHost.textContent='Open '+_host+' ↗';
-  modal.setAttribute('aria-label', 'Preview of '+_host);
-  frame.src='about:blank'; mLoad.classList.add('hidden');
-  noembed.classList.add('show');
-}
+      navBack=document.getElementById('navBack');
+let loadTimer=null, currentUrl='', backStack=[], sourceThumb=null;
 
 function updateBack(){ navBack.style.display = backStack.length ? 'flex' : 'none'; }
 // push=true records the prior page so the toolbar back button can return to it
 function navigate(url, push){
-  noembed.classList.remove('show'); noEmbedPoster=null;   // #4: any real iframe load hides the poster fallback
   if(push && currentUrl && currentUrl!==url) backStack.push(currentUrl);
   currentUrl=url; updateBack();
   mLoad.classList.remove('hidden'); mLoadTxt.innerHTML='Loading preview…';
@@ -1453,19 +1316,15 @@ function setBackgroundInert(on){
 }
 function openModal(url, srcEl){ sourceThumb=srcEl||null; backStack=[]; modal.classList.remove('fullscreen'); card.classList.remove('minimizing');
   card.style.transform=''; card.style.opacity=''; card.style.transformOrigin='';
-  if(srcEl && srcEl.dataset && srcEl.dataset.noembed){ showNoEmbed(url, srcEl.dataset.poster); } // poster fallback for framing-blocked sites (Subway Times)
-  else { navigate(url,false); }
-  modal.classList.add('open'); document.body.style.overflow='hidden';
+  navigate(url,false); modal.classList.add('open'); document.body.style.overflow='hidden';
   setBackgroundInert(true);   // hide the page behind the dialog from AT + keyboard
-  liveThumbs=[...document.querySelectorAll('.proj-thumb[data-url]')]; curIdx=liveThumbs.indexOf(srcEl); updateCycle();   // position prev/next in the gallery
   document.getElementById('modalClose').focus(); }   // move focus into the dialog for keyboard/AT users
 function closeModal(){ modal.classList.remove('open','fullscreen'); card.classList.remove('minimizing');
   card.style.transform=''; card.style.opacity=''; card.style.transformOrigin='';
   frame.src='about:blank'; document.body.style.overflow=''; clearTimeout(loadTimer);
-  noembed.classList.remove('show'); noEmbedPoster=null;   // #4: clear the poster fallback on close
   setBackgroundInert(false);   // restore the page BEFORE returning focus (an inert element can't take focus)
   if(sourceThumb) sourceThumb.focus(); }   // return focus to the thumbnail that opened the preview
-function reload(){ if(!currentUrl) return; if(noEmbedPoster){ showNoEmbed(currentUrl, noEmbedPoster); } else { navigate(currentUrl,false); } }
+function reload(){ if(currentUrl) navigate(currentUrl,false); }
 function goBack(){ if(backStack.length) navigate(backStack.pop(), false); }
 // yellow dot — minimize: genie back into the exact thumbnail it was opened from, then close
 function minimize(){
@@ -1497,15 +1356,6 @@ document.getElementById('dotMin').addEventListener('click', minimize);
 document.getElementById('dotExpand').addEventListener('click', ()=> setFullscreen(!modal.classList.contains('fullscreen')));
 document.getElementById('fsBack').addEventListener('click', ()=> setFullscreen(false));
 navBack.addEventListener('click', goBack);
-navPrev.addEventListener('click', ()=>cycle(-1));
-navNext.addEventListener('click', ()=>cycle(1));
-sidePrev.addEventListener('click', ()=>cycle(-1));
-sideNext.addEventListener('click', ()=>cycle(1));
-// ←/→ arrow keys cycle projects too, but never while typing in the address bar
-document.addEventListener('keydown', e=>{
-  if(!modal.classList.contains('open') || document.activeElement===mUrl) return;
-  if(e.key==='ArrowLeft') cycle(-1); else if(e.key==='ArrowRight') cycle(1);
-});
 document.getElementById('navReload').addEventListener('click', reload);
 document.getElementById('urlForm').addEventListener('submit', e=>{
   e.preventDefault();
