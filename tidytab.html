@@ -4,7 +4,9 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="color-scheme" content="light dark">
-  <meta name="theme-color" content="#ffffff">
+  <!-- Match the mobile browser chrome (address bar / status bar) to the active colour scheme. This page's CSS is prefers-color-scheme-responsive (dark mode swaps --bg to hsl(224,56%,8%) = #090f20), but the theme-color was a static white — so on a dark-mode phone the chrome stayed white against a dark page. #ffffff / #090f20 mirror the site's light / dark chrome (index.html, 404.html). No visual change to page content. -->
+  <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#090f20" media="(prefers-color-scheme: dark)">
   <title>TidyTab — Bulk unpin or close Safari pinned tabs (macOS)</title>
   <meta name="description" content="TidyTab is a tiny macOS menu-bar app that bulk unpins or closes all your Safari pinned tabs in one sweep. Developer ID-signed and Apple-notarized. Free download.">
   <link rel="canonical" href="https://jacobhl.com/tidytab.html">
