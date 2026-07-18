@@ -4,6 +4,9 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Weather Dashboard — NYC</title>
+<!-- noindex this older, unlinked, sitemap-absent copy of the weather dashboard. The production dashboard lives at /weather/ (indexed, canonical, richer head); this /projects/weather/ page is a near-duplicate of it (same title "Weather Dashboard — NYC", same design) left over from staging, with no robots meta of its own — so it was the one weather copy still fully indexable, creating a duplicate-content risk against the real /weather/. noindex, follow removes it from search results while still letting crawlers follow its links, matching the site's established pattern for duplicate/experiment pages (index_with_animation.html, light/index.html, projects/index_cascade_animate.html, the projects-*-preview.html pages). rel=canonical also names /weather/ as the authoritative copy. Metadata only — no visual change. -->
+<meta name="robots" content="noindex, follow">
+<link rel="canonical" href="https://jacobhl.com/weather/">
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
 :root {
