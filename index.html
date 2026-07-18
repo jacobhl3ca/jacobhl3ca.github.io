@@ -428,10 +428,10 @@
   /* Projects title (centered); the LinkedIn CTA is positioned relative to the SAME
      max-width/padding as .proj-wrap so it lands above the first card's right corner,
      not the window edge, at every viewport width. */
-  .proj-head-row{position:relative;display:flex;justify-content:space-between;align-items:center;
+  .proj-head-row{position:relative;display:flex;justify-content:center;align-items:center;
     max-width:780px;margin:.25rem auto 1.15rem;padding:0 1.5rem;box-sizing:border-box;}
-  .proj-head-row .section-title{margin:0;text-align:left;}
-  .proj-head-actions{position:static;transform:none;
+  .proj-head-row .section-title{margin:0;}
+  .proj-head-actions{position:absolute;right:1.5rem;top:50%;transform:translateY(-50%);
     display:inline-flex;align-items:center;gap:.45rem;}
   .proj-head-row .toplink{position:absolute;right:0;top:50%;transform:translateY(-50%);
     display:inline-flex;align-items:center;gap:.45rem;font-family:var(--body-font);font-size:.82rem;font-weight:600;
@@ -697,9 +697,12 @@
   /* #5 — zoom HideScore / Tonight NYC thumbnails in so league & comedian names + CTAs read on the small card */
   .proj-thumb.zoomed img{transform:scale(1.32);transform-origin:center top;}
   .proj-thumb.zoomed:hover img{transform:scale(1.42);}
-  /* center title + one-liner vertically in the tile when a card has no CTA button (the live preview is the CTA) */
-  .proj-info.centered{justify-content:center;}
-  .proj-info.centered .work__cta{margin-top:.75rem;padding-top:0;}
+  /* center title + one-liner on the thumbnail's vertical center when a card has no CTA button
+     (the live preview is the CTA). The chevron is pulled OUT of the flex flow (absolute, bottom-right)
+     so only the title + one-liner are centered — they align with the middle of the thumbnail, not
+     the title+desc+chevron group. */
+  .proj-info.centered{justify-content:center;position:relative;}
+  .proj-info.centered .work__cta{position:absolute;right:0;bottom:0;margin:0;padding:0;}
 
   /* #3 + #6 — preview opens MAXIMIZED with the URL bar visible; bottom floating toolbar for an easy-reach Close */
   .modal-foot{position:absolute;left:50%;bottom:20px;transform:translateX(-50%);z-index:6;display:none;
