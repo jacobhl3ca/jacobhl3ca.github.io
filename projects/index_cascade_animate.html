@@ -726,9 +726,10 @@
                 <h2 class="section-title">Contact</h2>
                 <div class="contact__container bd-grid">
                     <form action="https://formspree.io/f/mkgqkgyr" method="POST" class="contact__form">
-                        <input type="text" name="name" placeholder="Name" class="contact__input" required>
-                        <input type="email" name="email" placeholder="Email" class="contact__input" required>
-                        <textarea name="message" placeholder="Your Message" class="contact__input" rows="10" required></textarea>
+                        <!-- Accessible names for the contact fields: the placeholder is only a hint (it disappears once typing starts and isn't a reliable accessible name), so without these a screen reader announced each field as an unlabeled "edit text" (WCAG 3.3.2 Labels / 4.1.2 Name, Role, Value). aria-label keeps the placeholder-only visual design unchanged while giving each control a stable name — mirroring the labels already on the production homepage contact form (index.html). No visual change. -->
+                        <input type="text" name="name" placeholder="Name" class="contact__input" aria-label="Your name" required>
+                        <input type="email" name="email" placeholder="Email" class="contact__input" aria-label="Your email address" required>
+                        <textarea name="message" placeholder="Your Message" class="contact__input" aria-label="Your message" rows="10" required></textarea>
                         <button type="submit" class="contact__button button">Send</button>
                     </form>
                 </div>
