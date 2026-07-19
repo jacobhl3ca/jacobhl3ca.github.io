@@ -285,6 +285,24 @@
                 80% { transform: translateX(-50%) translateY(-10px) scale(1); opacity: 1; }
                 100% { transform: translateX(-50%) translateY(-8px) scale(1); opacity: 0; }
             }
+            /* Honor prefers-reduced-motion. This cascade-animate variant carries several CSS
+               animations (the infinite bounce-down scroll cue, the code-float popups, the
+               egg-hatch/bird-pop easter egg) plus the .reveal cascade slide-up transitions, but —
+               unlike the production styles.css and the sibling index_with_animation.html variant —
+               it had no reduced-motion guard, so motion-sensitive visitors got the full animation
+               set (including the never-ending bounce). Neutralize animations and transitions and
+               settle .reveal to its final state, mirroring the block in assets/css/styles.css and
+               index_with_animation.html. Only affects users who request reduced motion; no change
+               to the default look. */
+            @media (prefers-reduced-motion: reduce) {
+                *, *::before, *::after {
+                    animation-duration: 0.01ms !important;
+                    animation-iteration-count: 1 !important;
+                    transition-duration: 0.01ms !important;
+                }
+                html { scroll-behavior: auto; }
+                .reveal { opacity: 1; transform: none; }
+            }
         </style>
     </head>
     <body>
