@@ -854,7 +854,13 @@
                 var FEED="https://gist.githubusercontent.com/jacobhl3ca/484da555aac44cf90b41ca36174a1dfe/raw/usage-public.json";
                 function ab(n){return n>=1e9?(n/1e9).toFixed(2)+"B":n>=1e6?(n/1e6).toFixed(1)+"M":n>=1e3?(n/1e3).toFixed(1)+"K":(""+n);}
                 function L(n){return n.toLocaleString();}
-                function anim(el,to,fmt){var t0=performance.now(),from=el._v||0;el._v=to;(function f(t){var k=Math.min(1,(t-t0)/650);k=1-Math.pow(1-k,3);el.textContent=fmt(Math.round(from+(to-from)*k));if(k<1)requestAnimationFrame(f);})(t0);}
+                // Honor the OS "reduce motion" setting. The site's CSS reduced-motion reset can't touch
+                // this JS-driven count-up (it tweens textContent via requestAnimationFrame, not a CSS
+                // animation/transition), so reduced-motion visitors would still see the numbers tick up.
+                // When reduce is requested, skip the 650ms tween and write the final value at once —
+                // el._v is still updated so a later range switch also jumps instantly. No change for
+                // everyone else. (matchMedia is universally supported; the guard is a cheap no-op if absent.)
+                function anim(el,to,fmt){if(window.matchMedia&&window.matchMedia("(prefers-reduced-motion: reduce)").matches){el._v=to;el.textContent=fmt(to);return;}var t0=performance.now(),from=el._v||0;el._v=to;(function f(t){var k=Math.min(1,(t-t0)/650);k=1-Math.pow(1-k,3);el.textContent=fmt(Math.round(from+(to-from)*k));if(k<1)requestAnimationFrame(f);})(t0);}
                 fetch(FEED,{cache:"no-store"}).then(function(r){return r.json();}).then(function(D){
                   var BY=D.by_day,CUT=D.cutoffs;
                   function rng(r){var o={p:0,a:0,t:0,tr:0,o:0,s:0,days:0};BY.forEach(function(x){if(r==="all"||x.d>=CUT[r]){o.p+=x.p;o.a+=x.a;o.t+=x.t;o.tr+=x.tr;o.o+=x.o;o.s+=x.s;if(x.p||x.t)o.days++;}});return o;}
