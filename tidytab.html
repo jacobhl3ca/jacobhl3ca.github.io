@@ -2,6 +2,8 @@
 <html lang="en-US">
 <head>
   <meta charset="UTF-8">
+  <!-- Give the visible fallback (the <p> below, shown when the instant JS/meta-refresh redirect is slow or blocked) proper mobile scaling. tidytab.html was the one page site-wide still missing a viewport meta — every other page (index.html, 404.html, building.html, weather/, light/, and the preview pages) declares it. Without it, mobile browsers render at a 980px desktop width and zoom out, shrinking the fallback text; with it the fallback reads at device width. Completes the site-wide viewport pattern. No effect on the normal redirect path. -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>TidyTab — moved to tidytab.jacobhl.com</title>
   <link rel="canonical" href="https://tidytab.jacobhl.com/">
   <meta name="robots" content="noindex">
