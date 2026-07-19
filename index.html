@@ -1398,7 +1398,7 @@ let loadTimer=null, currentUrl='', backStack=[], sourceThumb=null, noEmbedPoster
 let liveThumbs=[], curIdx=-1;
 function updateCycle(){ const atStart=curIdx<=0, atEnd=(curIdx<0||curIdx>=liveThumbs.length-1);
   navPrev.disabled=atStart; navNext.disabled=atEnd; sidePrev.disabled=atStart; sideNext.disabled=atEnd; }
-function cycle(dir){ const n=curIdx+dir; if(n<0||n>=liveThumbs.length) return; curIdx=n; const t=liveThumbs[n]; sourceThumb=t; backStack=[];
+function cycle(dir){ const n=curIdx+dir; if(n<0||n>=liveThumbs.length) return; curIdx=n; const t=liveThumbs[n]; sourceThumb=t; setModalLabel(t); backStack=[];
   if(t.dataset && t.dataset.noembed){ showNoEmbed(t.dataset.url, t.dataset.poster); } else { navigate(t.dataset.url,false); }
   updateCycle(); }
 
@@ -1460,7 +1460,19 @@ function setBackgroundInert(on){
     if(on) el.setAttribute('inert',''); else el.removeAttribute('inert');
   });
 }
-function openModal(url, srcEl){ sourceThumb=srcEl||null; backStack=[]; modal.classList.remove('fullscreen'); card.classList.remove('minimizing');
+// Name the dialog after the project being previewed. The modal ships with a static
+// aria-label="Live site preview", so screen readers announced every project's preview
+// with the same generic dialog name (and prev/next cycling never changed it) — the one
+// thing telling them WHICH site they opened. Derive the visible title from the card the
+// thumbnail lives in (.proj-title's text is just the name; the live-dot span it also holds
+// carries no text) and fold it into the accessible name. Falls back to the generic label
+// if the card/title can't be found. Purely the dialog's accessible name — no visual change.
+function setModalLabel(t){
+  const title = t && t.closest && t.closest('.proj-row') ? t.closest('.proj-row').querySelector('.proj-title') : null;
+  const name = title ? title.textContent.trim() : '';
+  modal.setAttribute('aria-label', (name ? name + ' — ' : '') + 'Live site preview');
+}
+function openModal(url, srcEl){ sourceThumb=srcEl||null; setModalLabel(srcEl); backStack=[]; modal.classList.remove('fullscreen'); card.classList.remove('minimizing');
   card.style.transform=''; card.style.opacity=''; card.style.transformOrigin='';
   if(srcEl && srcEl.dataset && srcEl.dataset.noembed){ showNoEmbed(url, srcEl.dataset.poster); } // poster fallback for framing-blocked sites (Subway Times)
   else { navigate(url,false); }
