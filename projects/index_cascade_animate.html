@@ -309,8 +309,9 @@
                     </ul>
                 </div>
                 <div style="display: flex; align-items: center;">
-                    <button id="theme-toggle" class="theme-toggle" style="position: relative; top: -2px;">
-                        <i class='bx bx-sun' id="theme-icon"></i>
+                    <!-- Baseline accessible name for this icon-only toggle. main.js sets the aria-label on load and on each toggle (Switch to light/dark mode), but it runs at the end of <body> — so until then the button shipped with no accessible name and was announced as an unlabeled "button" (WCAG 4.1.2 Name, Role, Value). This page defaults to dark (<html data-theme="dark"> + the sun icon), so "Switch to light mode" is the correct baseline; main.js keeps it in sync afterward. aria-hidden on the decorative icon and type="button" mirror the production homepage toggle (index.html). No visual change. -->
+                    <button type="button" id="theme-toggle" class="theme-toggle" aria-label="Switch to light mode" style="position: relative; top: -2px;">
+                        <i class='bx bx-sun' id="theme-icon" aria-hidden="true"></i>
                     </button>
                     <div class="nav__toggle" id="nav-toggle" role="button" aria-label="Toggle navigation menu">
                         <i class='bx bx-menu'></i>
