@@ -10,6 +10,8 @@
         <meta name="color-scheme" content="light dark">
         <link rel="stylesheet" href="assets/css/styles.css">
         <link rel="icon" type="image/x-icon" href="assets/img/favicon.ico">
+        <!-- Web app manifest: the homepage is the page people bookmark / "Add to Home Screen", but the site declared no manifest anywhere — so an installed/standalone launch fell back to the raw <title> for its name and the OS default for its toolbar colour. This gives the installed entry a proper app name ("Jacob HL"), the site's own light theme/background colour (#ffffff, matching the theme-color meta above and the default light theme), and reuses the existing favicon.ico/favicon2.ico for icons (no new image asset added). start_url/scope "/" keep it anchored to the homepage. Pure metadata, no visual change to the page in a normal browser tab. -->
+        <link rel="manifest" href="/site.webmanifest">
         <link rel="preconnect" href="https://cdn.jsdelivr.net"> <!-- early-connect for the render-blocking boxicons CSS fetch (non-CORS, so it can't reuse the crossorigin socket below) -->
         <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin> <!-- early-connect for the boxicons icon font (CORS woff2, crossorigin so the warmed socket is reused) -->
         <link rel="preconnect" href="https://fonts.googleapis.com"> <!-- early-connect to Google Fonts CSS (styles.css @imports Poppins from here, on the critical path) -->
