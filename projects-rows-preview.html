@@ -5,6 +5,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <!-- noindex, follow: this unlinked, sitemap-absent "projects rows" preview renders the same project cards as the homepage's projects section, so leaving it indexable created a duplicate-content risk against the real homepage. It carries no canonical/og tags of its own to disambiguate it, which makes the risk worse. Now matches the site's established pattern for alternate/experiment pages (index_with_animation.html, light/index.html, projects-stack-preview.html, projects/index_cascade_animate.html all noindex, follow). Metadata only — no visual change. -->
 <meta name="robots" content="noindex, follow">
+<!-- Canonical → the real homepage. This noindex "projects rows" preview near-duplicates the homepage's projects section, and was the one homepage variant still missing a canonical — its three siblings (index_with_animation.html, projects-stack-preview.html, projects/index_cascade_animate.html) all carry rel=canonical → jacobhl.com. Consolidates any link signals for this URL onto the real homepage, reinforcing the existing noindex, follow (the run that added the robots directive noted this page carried no canonical to disambiguate it). Metadata only — no visual change. -->
+<link rel="canonical" href="https://jacobhl.com/">
 <title>Projects rows — preview</title>
 <!-- load the REAL site styles so this matches exactly -->
 <link rel="stylesheet" href="assets/css/styles.css">
