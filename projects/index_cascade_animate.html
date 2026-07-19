@@ -12,6 +12,8 @@
         <meta name="author" content="Jacob Heifetz-Licht">
         <!-- noindex (keep follow): this is an unfinished, unlinked "cascade animate" experiment — a near-duplicate of the homepage (same title "Jacob Heifetz-Licht", stale description, og:url pointing at jacobhl.com, and no canonical of its own). Left as "index, follow" it's a duplicate-content liability that could compete with the real homepage in search. Match the site's established pattern for alternate/experiment pages — index_with_animation.html and light/index.html both declare exactly "noindex, follow" — so search engines drop this copy but still crawl its links. Not in sitemap.xml. No visual change. -->
         <meta name="robots" content="noindex, follow">
+        <!-- Canonical → the homepage. This "cascade animate" page is a near-duplicate of the homepage (its own noindex note above flags it: same title/description, og:url already pointing at jacobhl.com, "no canonical of its own"). The noindex,follow keeps it out of the index, but a canonical additionally consolidates any signals for this /projects/index_cascade_animate.html URL onto the real page — mirroring the rel=canonical the site's other noindex homepage variants (index_with_animation.html and light/index.html) already carry. This experiment was the one noindex homepage variant still missing it; completes the canonical pattern across the variants. No visual change. -->
+        <link rel="canonical" href="https://jacobhl.com/">
         <!-- Open Graph meta tags for link previews -->
         <meta property="og:title" content="Jacob Heifetz-Licht — Analytics Manager">
         <!-- <meta property="og:title" content="Jacob Heifetz-Licht — Analytics Engineer"> -->
