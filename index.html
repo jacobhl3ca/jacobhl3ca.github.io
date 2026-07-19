@@ -18,13 +18,13 @@
         <link rel="preload" as="image" href="assets/img/hidescore-cover.png" fetchpriority="high"> <!-- LCP preload: the first project card's thumbnail (HideScore's branded cover) is the projects-only LCP, but the project rows are built by the inline script near </body>, so the preload scanner can't discover this image during head parse — the fetchpriority="high" already on the <img> only helps once it's discovered (late). Preload it so the fetch starts during head parse. Single source now (no responsive <picture> — the branded cover is one image at all breakpoints). -->
         <link rel="dns-prefetch" href="//gc.zgo.at"> <!-- resolve the GoatCounter analytics host ahead of the async count.js fetch at end of body -->
         <link rel="dns-prefetch" href="//stats.hidescore.com"> <!-- resolve the self-hosted Umami analytics host ahead of its deferred script.js fetch at end of body -->
-        <link rel="dns-prefetch" href="//formspree.io"> <!-- resolve the Formspree host ahead of the contact form's on-submit POST (assets/js/main.js) so the DNS lookup isn't on the send path -->
+        <link rel="dns-prefetch" href="//formspree.io"> <!-- resolve the Formspree host ahead of the contact form's on-submit POST (assets/js/main-alt.js) so the DNS lookup isn't on the send path -->
         <link href='https://cdn.jsdelivr.net/npm/boxicons@2.0.5/css/boxicons.min.css' rel='stylesheet'> <!-- icons -->
         <script>
             // Default view = projects-only (set before paint to avoid flash); honor saved preference.
             // Light is now the default theme (the document ships with NO data-theme attribute);
             // only apply dark before paint if the user previously chose it, so returning dark-mode
-            // users don't see a light flash (main.js loads at the end of <body>).
+            // users don't see a light flash (main-alt.js loads at the end of <body>).
             try {
                 // One-time migration to the new light default. Older builds auto-persisted
                 // theme='dark' for EVERY first-time visitor, so returning visitors would otherwise
@@ -761,7 +761,7 @@
                 <div class="nav__menu" id="nav-menu">
                     <ul class="nav__list">
 
-                        <li class="nav__item"><a href="#home" class="nav__link active-link" aria-current="page">Home</a></li> <!-- baseline aria-current to match the hardcoded active-link class, so AT announces Home as the current section before/independent of main.js's scrollActive() (which manages this pair dynamically thereafter) -->
+                        <li class="nav__item"><a href="#home" class="nav__link active-link" aria-current="location">Home</a></li> <!-- baseline aria-current to match the hardcoded active-link class, so AT announces Home as the current section before/independent of main-alt.js's scrollActive() (which manages this pair dynamically thereafter). Token is "location" (in-page scroll-spy position), not "page" — matching what scrollActive() now sets, so there's no page→location flip once the JS runs; see the rationale in main-alt.js. -->
                         <li class="nav__item"><a href="#about" class="nav__link">About</a></li>
 
                         <!-- Update Periodically -->
@@ -782,11 +782,11 @@
                     </button>
                     <script>
                         // Correct the theme toggle's baseline state for returning DARK-mode users,
-                        // before paint and before main.js loads at end of <body>. The button is hardcoded
+                        // before paint and before main-alt.js loads at end of <body>. The button is hardcoded
                         // in its light-mode state (moon icon + "Switch to dark mode"), but the inline <head>
                         // script has already applied the saved dark theme — so without this the toggle
                         // briefly shows the wrong icon and, more importantly, announces the wrong action to
-                        // assistive tech ("Switch to dark mode" while the page is already dark). main.js
+                        // assistive tech ("Switch to dark mode" while the page is already dark). main-alt.js
                         // re-applies the same state later (classList.replace is a no-op when the class is
                         // absent, and the aria-label is identical), so this only removes the flash/mismatch.
                         try {
@@ -854,7 +854,13 @@
                 var FEED="https://gist.githubusercontent.com/jacobhl3ca/484da555aac44cf90b41ca36174a1dfe/raw/usage-public.json";
                 function ab(n){return n>=1e9?(n/1e9).toFixed(2)+"B":n>=1e6?(n/1e6).toFixed(1)+"M":n>=1e3?(n/1e3).toFixed(1)+"K":(""+n);}
                 function L(n){return n.toLocaleString();}
-                function anim(el,to,fmt){var t0=performance.now(),from=el._v||0;el._v=to;(function f(t){var k=Math.min(1,(t-t0)/650);k=1-Math.pow(1-k,3);el.textContent=fmt(Math.round(from+(to-from)*k));if(k<1)requestAnimationFrame(f);})(t0);}
+                // Honor the OS "reduce motion" setting. The site's CSS reduced-motion reset can't touch
+                // this JS-driven count-up (it tweens textContent via requestAnimationFrame, not a CSS
+                // animation/transition), so reduced-motion visitors would still see the numbers tick up.
+                // When reduce is requested, skip the 650ms tween and write the final value at once —
+                // el._v is still updated so a later range switch also jumps instantly. No change for
+                // everyone else. (matchMedia is universally supported; the guard is a cheap no-op if absent.)
+                function anim(el,to,fmt){if(window.matchMedia&&window.matchMedia("(prefers-reduced-motion: reduce)").matches){el._v=to;el.textContent=fmt(to);return;}var t0=performance.now(),from=el._v||0;el._v=to;(function f(t){var k=Math.min(1,(t-t0)/650);k=1-Math.pow(1-k,3);el.textContent=fmt(Math.round(from+(to-from)*k));if(k<1)requestAnimationFrame(f);})(t0);}
                 fetch(FEED,{cache:"no-store"}).then(function(r){return r.json();}).then(function(D){
                   var BY=D.by_day,CUT=D.cutoffs;
                   function rng(r){var o={p:0,a:0,t:0,tr:0,o:0,s:0,days:0};BY.forEach(function(x){if(r==="all"||x.d>=CUT[r]){o.p+=x.p;o.a+=x.a;o.t+=x.t;o.tr+=x.tr;o.o+=x.o;o.s+=x.s;if(x.p||x.t)o.days++;}});return o;}
@@ -966,7 +972,9 @@
                         <!-- The project cards above are built by JavaScript, so with scripting disabled
                              (or for crawlers that don't run JS) #main-rows is empty. List the projects
                              as plain links so the core content and its SEO value aren't lost. Mirrors the
-                             MAIN[] array; TidyTab has no website, so it links to its browsable GitHub repo. -->
+                             MAIN[] array — each links to the same live site the JS-rendered card opens
+                             (TidyTab now has one at tidytab.jacobhl.com, so it links there like the others,
+                             rather than to its GitHub repo as it did before the site existed). -->
                         <!-- Use the site's own theme-aware body-text token (--second-color) instead of a fixed mid-gray: --text-color is defined nowhere in the CSS, so the old value resolved to its literal #8b94a0 fallback, which on the light-mode white background gives only ~3:1 contrast — a WCAG 1.4.3 AA failure for normal text. --second-color is the body's text colour (dark navy in light mode, light in dark mode), so this list matches the rest of the page and passes contrast in both themes. Only the no-JS fallback is affected; the JS-rendered cards replace this entirely. -->
                         <ul style="list-style:none;margin:0;padding:0;line-height:1.6;color:var(--second-color);">
                             <li><a href="https://hidescore.com" target="_blank" rel="noopener noreferrer">HideScore</a> — Watch sports highlights without seeing the score.</li>
@@ -974,7 +982,7 @@
                             <li><a href="https://subwaytimes.com" target="_blank" rel="noopener noreferrer">Subway Times</a> — Real-time NYC subway arrivals, faster than Maps.</li>
                             <li><a href="https://davidlicht.com" target="_blank" rel="noopener noreferrer">David Licht</a> — A showcase site for my dad — five decades of drumming.</li>
                             <li><a href="https://theisland.nyc" target="_blank" rel="noopener noreferrer">The Island</a> — Everything happening on NYC's Roosevelt Island, in one place.</li>
-                            <li><a href="https://github.com/jacobhl3ca/safari-pinned-tab-automation" target="_blank" rel="noopener noreferrer">TidyTab</a> — Bulk unpin or close Safari pinned tabs — a macOS menu-bar app.</li>
+                            <li><a href="https://tidytab.jacobhl.com/" target="_blank" rel="noopener noreferrer">TidyTab</a> — Bulk unpin or close Safari pinned tabs — a macOS menu-bar app.</li>
                         </ul>
                     </noscript>
 
@@ -1117,7 +1125,7 @@
                         <!-- Mobile-input hints for the email field, mirroring the name field above: turn off autocapitalize so the local part isn't capitalized as it's typed, autocorrect off so an address isn't "corrected" mid-entry (iOS autocorrects text inputs by default), and spellcheck off so email addresses aren't flagged with red squiggles. type="email" already picks the right keyboard; these just stop the input being mangled. All editable hints, no visual change on desktop. -->
                         <input type="email" name="email" placeholder="your@email.com" class="contact__input" aria-label="Your email address" autocomplete="email" autocapitalize="off" autocorrect="off" spellcheck="false" required>
                         <textarea name="message" placeholder="Your Message" class="contact__input" aria-label="Your message" rows="10" required></textarea>
-                        <!-- No aria-live here: the button is set disabled on submit (dropping it from the a11y tree), and main.js mirrors the "Sending…/Sent!/Error" status into a dedicated visually-hidden #srStatus live region. Keeping aria-live on the button too caused a redundant/inconsistent double announcement. -->
+                        <!-- No aria-live here: the button is set disabled on submit (dropping it from the a11y tree), and main-alt.js mirrors the "Sending…/Sent!/Error" status into a dedicated visually-hidden #srStatus live region. Keeping aria-live on the button too caused a redundant/inconsistent double announcement. -->
                         <button type="submit" class="contact__button button">Send</button>
                     </form>
                 </div>
@@ -1168,13 +1176,13 @@
 
 
         <!--===== MAIN JS =====-->
-        <!-- defer: main.js is a ~30KB parser-blocking script sitting above ~350 lines of modal
+        <!-- defer: main-alt.js is a ~30KB parser-blocking script sitting above ~350 lines of modal
              markup + the project-render IIFE, so the parser stalls on its download/execute before
-             finishing that DOM. Deferring lets the browser keep parsing while main.js downloads in
-             parallel, then runs it after parse (still before DOMContentLoaded). Safe here: main.js
+             finishing that DOM. Deferring lets the browser keep parsing while main-alt.js downloads in
+             parallel, then runs it after parse (still before DOMContentLoaded). Safe here: main-alt.js
              only wires static elements (nav, theme/view toggles, section scroll-spy, contact form)
              that exist at parse start, its live-dot observer is a no-op (rows ship class="live-dot
-             is-visible"), and no inline script calls a main.js global — so nothing depends on it
+             is-visible"), and no inline script calls a main-alt.js global — so nothing depends on it
              running mid-parse. Consistent with the page's existing preload/preconnect/fetchpriority
              work; no visual or behaviour change. -->
         <script defer src="assets/js/main-alt.js"></script>
@@ -1390,7 +1398,7 @@ let loadTimer=null, currentUrl='', backStack=[], sourceThumb=null, noEmbedPoster
 let liveThumbs=[], curIdx=-1;
 function updateCycle(){ const atStart=curIdx<=0, atEnd=(curIdx<0||curIdx>=liveThumbs.length-1);
   navPrev.disabled=atStart; navNext.disabled=atEnd; sidePrev.disabled=atStart; sideNext.disabled=atEnd; }
-function cycle(dir){ const n=curIdx+dir; if(n<0||n>=liveThumbs.length) return; curIdx=n; const t=liveThumbs[n]; sourceThumb=t; backStack=[];
+function cycle(dir){ const n=curIdx+dir; if(n<0||n>=liveThumbs.length) return; curIdx=n; const t=liveThumbs[n]; sourceThumb=t; setModalLabel(t); backStack=[];
   if(t.dataset && t.dataset.noembed){ showNoEmbed(t.dataset.url, t.dataset.poster); } else { navigate(t.dataset.url,false); }
   updateCycle(); }
 
@@ -1452,7 +1460,19 @@ function setBackgroundInert(on){
     if(on) el.setAttribute('inert',''); else el.removeAttribute('inert');
   });
 }
-function openModal(url, srcEl){ sourceThumb=srcEl||null; backStack=[]; modal.classList.remove('fullscreen'); card.classList.remove('minimizing');
+// Name the dialog after the project being previewed. The modal ships with a static
+// aria-label="Live site preview", so screen readers announced every project's preview
+// with the same generic dialog name (and prev/next cycling never changed it) — the one
+// thing telling them WHICH site they opened. Derive the visible title from the card the
+// thumbnail lives in (.proj-title's text is just the name; the live-dot span it also holds
+// carries no text) and fold it into the accessible name. Falls back to the generic label
+// if the card/title can't be found. Purely the dialog's accessible name — no visual change.
+function setModalLabel(t){
+  const title = t && t.closest && t.closest('.proj-row') ? t.closest('.proj-row').querySelector('.proj-title') : null;
+  const name = title ? title.textContent.trim() : '';
+  modal.setAttribute('aria-label', (name ? name + ' — ' : '') + 'Live site preview');
+}
+function openModal(url, srcEl){ sourceThumb=srcEl||null; setModalLabel(srcEl); backStack=[]; modal.classList.remove('fullscreen'); card.classList.remove('minimizing');
   card.style.transform=''; card.style.opacity=''; card.style.transformOrigin='';
   if(srcEl && srcEl.dataset && srcEl.dataset.noembed){ showNoEmbed(url, srcEl.dataset.poster); } // poster fallback for framing-blocked sites (Subway Times)
   else { navigate(url,false); }

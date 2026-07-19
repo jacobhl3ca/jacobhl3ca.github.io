@@ -1,8 +1,15 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="dark">
+<!-- lang="en-US" (not the broader "en") to match every other page site-wide: index.html, index_with_animation.html, 404.html, building.html, tidytab.html, projects-stack-preview.html, projects/index_cascade_animate.html, weather/, light/ all declare en-US — this "projects rows" preview was the one page still on the bare "en". A more specific, valid BCP-47 tag gives assistive tech the correct US-English pronunciation/voice and search engines one consistent language signal. No visual change. -->
+<html lang="en-US" data-theme="dark">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!-- Declare supported colour schemes to the UA up front. color-scheme is otherwise only set inside the render-blocking styles.css (:root=light, [data-theme="dark"]=dark), so before that CSS loads the browser doesn't know this is a dark-default page (<html data-theme="dark">) and paints the root canvas/scrollbars with the OS default — a brief light flash for the majority dark view. "dark light" matches the document's literal default while still advertising light-mode support; the CSS color-scheme rules take over once loaded. This "projects rows" preview was the one dark-default page still missing this — its siblings index_with_animation.html and projects-stack-preview.html already declare it. No visual change to the settled page. -->
+<meta name="color-scheme" content="dark light">
+<!-- noindex, follow: this unlinked, sitemap-absent "projects rows" preview renders the same project cards as the homepage's projects section, so leaving it indexable created a duplicate-content risk against the real homepage. It carries no canonical/og tags of its own to disambiguate it, which makes the risk worse. Now matches the site's established pattern for alternate/experiment pages (index_with_animation.html, light/index.html, projects-stack-preview.html, projects/index_cascade_animate.html all noindex, follow). Metadata only — no visual change. -->
+<meta name="robots" content="noindex, follow">
+<!-- Canonical → the real homepage. This noindex "projects rows" preview near-duplicates the homepage's projects section, and was the one homepage variant still missing a canonical — its three siblings (index_with_animation.html, projects-stack-preview.html, projects/index_cascade_animate.html) all carry rel=canonical → jacobhl.com. Consolidates any link signals for this URL onto the real homepage, reinforcing the existing noindex, follow (the run that added the robots directive noted this page carried no canonical to disambiguate it). Metadata only — no visual change. -->
+<link rel="canonical" href="https://jacobhl.com/">
 <title>Projects rows — preview</title>
 <!-- load the REAL site styles so this matches exactly -->
 <link rel="stylesheet" href="assets/css/styles.css">

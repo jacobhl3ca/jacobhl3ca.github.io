@@ -115,7 +115,23 @@ if (viewPill) {
         });
     };
     // Default = projects-only; honor saved preference.
-    applyView(safeGetItem('viewMode') === 'full' ? 'full' : 'projects');
+    // Also honor an incoming deep link: #home/#about/#skills/#contact are display:none in
+    // projects-only view (see styles.css), so arriving at /#about (e.g. from the 404 page's
+    // nav, the sitemap, or a shared link) would otherwise land in the projects view with the
+    // anchor pointing at a hidden element — the visitor never reaches the section. If the hash
+    // targets one of those full-view-only sections, start in full view and scroll to it (the
+    // browser already tried to resolve the anchor against the then-hidden element, so it won't
+    // scroll on its own). #Projects stays visible in projects-only, so it needs none of this.
+    var hashId = (location.hash || '').slice(1);
+    var fullOnlySection = { home: 1, about: 1, skills: 1, contact: 1 };
+    var deepLink = hashId && fullOnlySection[hashId];
+    applyView((deepLink || safeGetItem('viewMode') === 'full') ? 'full' : 'projects');
+    if (deepLink) {
+        var deepTarget = document.getElementById(hashId);
+        // Plain scrollIntoView() (no behavior override) honors the CSS scroll-behavior, which is
+        // set to auto under prefers-reduced-motion — so this stays reduced-motion-safe.
+        if (deepTarget) deepTarget.scrollIntoView();
+    }
     pillBtns.forEach((b) => b.addEventListener('click', () => {
         const mode = b.dataset.view === 'full' ? 'full' : 'projects';
         safeSetItem('viewMode', mode);
@@ -234,7 +250,15 @@ const scrollActive = () =>{
 
         if(scrollDown > sectionTop && scrollDown <= sectionTop + sectionHeight){
             sectionsClass.classList.add('active-link')
-            sectionsClass.setAttribute('aria-current', 'page') // tell assistive tech which section is current
+            // aria-current="location", not "page": these nav links are in-page anchors (#home, #about,
+            // …) and this is scroll-spy highlighting of the section currently in view. Per ARIA, "page"
+            // means the current page within a SET of pages (breadcrumb / multi-page nav) — a screen
+            // reader announces it as "current page", which misdescribes an in-document position. The
+            // "location" token is defined for exactly this case ("current location within a scrolling
+            // context"), so it announces the section as the current location without implying page
+            // navigation. Both are valid aria-current tokens; behaviour is otherwise identical. Mirrors
+            // the same fix already in main.js (this file, main-alt.js, is the homepage's active script).
+            sectionsClass.setAttribute('aria-current', 'location') // tell assistive tech which section is current
         }else{
             sectionsClass.classList.remove('active-link')
             sectionsClass.removeAttribute('aria-current')

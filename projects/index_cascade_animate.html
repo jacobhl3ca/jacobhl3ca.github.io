@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="dark">
+<!-- lang="en-US" (not the broader "en") to match the region-specific locale used site-wide — index.html, index_with_animation.html, 404.html, building.html, weather/, and light/ all declare en-US; this animated projects variant was one of the last pages still on the bare "en". A more specific, valid BCP-47 tag gives assistive tech the correct US-English pronunciation/voice and search engines one consistent language signal. No visual change. -->
+<html lang="en-US" data-theme="dark">
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,7 +11,10 @@
         <meta name="description" content="Data analytics leader specializing in Python, SQL, Tableau, and automation. Turning complex data into actionable insights.">
         <meta name="keywords" content="analytics manager, data analytics, Python, SQL, Tableau, automation, dashboard design, data visualization, ETL, BigQuery">
         <meta name="author" content="Jacob Heifetz-Licht">
-        <meta name="robots" content="index, follow">
+        <!-- noindex (keep follow): this is an unfinished, unlinked "cascade animate" experiment — a near-duplicate of the homepage (same title "Jacob Heifetz-Licht", stale description, og:url pointing at jacobhl.com, and no canonical of its own). Left as "index, follow" it's a duplicate-content liability that could compete with the real homepage in search. Match the site's established pattern for alternate/experiment pages — index_with_animation.html and light/index.html both declare exactly "noindex, follow" — so search engines drop this copy but still crawl its links. Not in sitemap.xml. No visual change. -->
+        <meta name="robots" content="noindex, follow">
+        <!-- Canonical → the homepage. This "cascade animate" page is a near-duplicate of the homepage (its own noindex note above flags it: same title/description, og:url already pointing at jacobhl.com, "no canonical of its own"). The noindex,follow keeps it out of the index, but a canonical additionally consolidates any signals for this /projects/index_cascade_animate.html URL onto the real page — mirroring the rel=canonical the site's other noindex homepage variants (index_with_animation.html and light/index.html) already carry. This experiment was the one noindex homepage variant still missing it; completes the canonical pattern across the variants. No visual change. -->
+        <link rel="canonical" href="https://jacobhl.com/">
         <!-- Open Graph meta tags for link previews -->
         <meta property="og:title" content="Jacob Heifetz-Licht — Analytics Manager">
         <!-- <meta property="og:title" content="Jacob Heifetz-Licht — Analytics Engineer"> -->
@@ -282,6 +286,24 @@
                 80% { transform: translateX(-50%) translateY(-10px) scale(1); opacity: 1; }
                 100% { transform: translateX(-50%) translateY(-8px) scale(1); opacity: 0; }
             }
+            /* Honor prefers-reduced-motion. This cascade-animate variant carries several CSS
+               animations (the infinite bounce-down scroll cue, the code-float popups, the
+               egg-hatch/bird-pop easter egg) plus the .reveal cascade slide-up transitions, but —
+               unlike the production styles.css and the sibling index_with_animation.html variant —
+               it had no reduced-motion guard, so motion-sensitive visitors got the full animation
+               set (including the never-ending bounce). Neutralize animations and transitions and
+               settle .reveal to its final state, mirroring the block in assets/css/styles.css and
+               index_with_animation.html. Only affects users who request reduced motion; no change
+               to the default look. */
+            @media (prefers-reduced-motion: reduce) {
+                *, *::before, *::after {
+                    animation-duration: 0.01ms !important;
+                    animation-iteration-count: 1 !important;
+                    transition-duration: 0.01ms !important;
+                }
+                html { scroll-behavior: auto; }
+                .reveal { opacity: 1; transform: none; }
+            }
         </style>
     </head>
     <body>
@@ -306,8 +328,9 @@
                     </ul>
                 </div>
                 <div style="display: flex; align-items: center;">
-                    <button id="theme-toggle" class="theme-toggle" style="position: relative; top: -2px;">
-                        <i class='bx bx-sun' id="theme-icon"></i>
+                    <!-- Baseline accessible name for this icon-only toggle. main.js sets the aria-label on load and on each toggle (Switch to light/dark mode), but it runs at the end of <body> — so until then the button shipped with no accessible name and was announced as an unlabeled "button" (WCAG 4.1.2 Name, Role, Value). This page defaults to dark (<html data-theme="dark"> + the sun icon), so "Switch to light mode" is the correct baseline; main.js keeps it in sync afterward. aria-hidden on the decorative icon and type="button" mirror the production homepage toggle (index.html). No visual change. -->
+                    <button type="button" id="theme-toggle" class="theme-toggle" aria-label="Switch to light mode" style="position: relative; top: -2px;">
+                        <i class='bx bx-sun' id="theme-icon" aria-hidden="true"></i>
                     </button>
                     <div class="nav__toggle" id="nav-toggle" role="button" aria-label="Toggle navigation menu">
                         <i class='bx bx-menu'></i>
@@ -326,9 +349,9 @@
                 </div>
 
                 <div class="home__social">
-                    <a href="https://www.linkedin.com/in/jacobhl/" class="home__social-icon" target="_blank" aria-label="LinkedIn profile"><i class='bx bxl-linkedin'></i></a>
-                    <a href="https://github.com/jacobhl3ca" class="home__social-icon" target="_blank" aria-label="GitHub profile"><i class='bx bxl-github' ></i></a>
-                    <a href="#" onclick="window.location='mail'+'to:'+'hi'+'@'+'jacobhl'+'.com';return false;" class="home__social-icon" target="_blank" aria-label="Send email"><i class='bx bx-envelope'></i></a>
+                    <a href="https://www.linkedin.com/in/jacobhl/" class="home__social-icon" target="_blank" rel="me noopener noreferrer" aria-label="LinkedIn profile"><i class='bx bxl-linkedin'></i></a>
+                    <a href="https://github.com/jacobhl3ca" class="home__social-icon" target="_blank" rel="me noopener noreferrer" aria-label="GitHub profile"><i class='bx bxl-github' ></i></a>
+                    <a href="#" onclick="window.location='mail'+'to:'+'hi'+'@'+'jacobhl'+'.com';return false;" class="home__social-icon" target="_blank" rel="noopener noreferrer" aria-label="Send email"><i class='bx bx-envelope'></i></a>
                     <a href="#contact" class="home__social-icon" onclick="requestResume()" aria-label="Request resume"><i class='bx bx-file'></i></a>
                 </div>
 
@@ -725,9 +748,10 @@
                 <h2 class="section-title">Contact</h2>
                 <div class="contact__container bd-grid">
                     <form action="https://formspree.io/f/mkgqkgyr" method="POST" class="contact__form">
-                        <input type="text" name="name" placeholder="Name" class="contact__input" required>
-                        <input type="email" name="email" placeholder="Email" class="contact__input" required>
-                        <textarea name="message" placeholder="Your Message" class="contact__input" rows="10" required></textarea>
+                        <!-- Accessible names for the contact fields: the placeholder is only a hint (it disappears once typing starts and isn't a reliable accessible name), so without these a screen reader announced each field as an unlabeled "edit text" (WCAG 3.3.2 Labels / 4.1.2 Name, Role, Value). aria-label keeps the placeholder-only visual design unchanged while giving each control a stable name — mirroring the labels already on the production homepage contact form (index.html). No visual change. -->
+                        <input type="text" name="name" placeholder="Name" class="contact__input" aria-label="Your name" required>
+                        <input type="email" name="email" placeholder="Email" class="contact__input" aria-label="Your email address" required>
+                        <textarea name="message" placeholder="Your Message" class="contact__input" aria-label="Your message" rows="10" required></textarea>
                         <button type="submit" class="contact__button button">Send</button>
                     </form>
                 </div>
@@ -740,11 +764,11 @@
             <p class="footer__title">Jacob</p>
             <div class="footer__social">
 
-                <a href="https://www.linkedin.com/in/jacobhl/" class="footer__icon" target="_blank" aria-label="LinkedIn profile"><i class='bx bxl-linkedin' ></i></a>
+                <a href="https://www.linkedin.com/in/jacobhl/" class="footer__icon" target="_blank" rel="me noopener noreferrer" aria-label="LinkedIn profile"><i class='bx bxl-linkedin' ></i></a>
 
-                <a href="https://github.com/jacobhl3ca" class="footer__icon" target="_blank" aria-label="GitHub profile"><i class='bx bxl-github' ></i></a>
+                <a href="https://github.com/jacobhl3ca" class="footer__icon" target="_blank" rel="me noopener noreferrer" aria-label="GitHub profile"><i class='bx bxl-github' ></i></a>
 
-                <a href="#" onclick="window.location='mail'+'to:'+'hi'+'@'+'jacobhl'+'.com';return false;" class="footer__icon" target="_blank" aria-label="Send email"><i class='bx bx-envelope'></i></a>
+                <a href="#" onclick="window.location='mail'+'to:'+'hi'+'@'+'jacobhl'+'.com';return false;" class="footer__icon" target="_blank" rel="noopener noreferrer" aria-label="Send email"><i class='bx bx-envelope'></i></a>
 
                 <a href="#contact" class="footer__icon" onclick="requestResume()" aria-label="Request resume"><i class='bx bx-file'></i></a>
 
