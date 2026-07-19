@@ -19,13 +19,14 @@
         <meta property="og:title" content="Jacob Heifetz-Licht — Analytics Manager">
         <!-- <meta property="og:title" content="Jacob Heifetz-Licht — Analytics Engineer"> -->
         <meta property="og:description" content="Data analytics leader specializing in Python, SQL, Tableau, and automation. Turning complex data into actionable insights.">
-        <meta property="og:image" content="https://jacobhl3ca.github.io/assets/img/og_image.png">
+        <!-- Point the share image at the canonical custom domain (jacobhl.com), not the raw jacobhl3ca.github.io host. The site is served from the custom domain via CNAME, so GitHub Pages 301-redirects github.io asset URLs to jacobhl.com — and social scrapers that don't follow redirects for images (a common limitation) then render a broken preview card. Every other page site-wide, including this page's sibling variant index_with_animation.html, already references https://jacobhl.com/assets/img/og_image.png; this animated variant's og:image/twitter:image were the last two share URLs still on the github.io host. Same image file, no visual change to the page. -->
+        <meta property="og:image" content="https://jacobhl.com/assets/img/og_image.png">
         <meta property="og:url" content="https://jacobhl.com">
         <meta property="og:type" content="website">
         <meta name="twitter:card" content="summary">
         <meta name="twitter:title" content="Jacob Heifetz-Licht — Analytics Manager">
         <meta name="twitter:description" content="Data analytics leader specializing in Python, SQL, Tableau, and automation. Turning complex data into actionable insights.">
-        <meta name="twitter:image" content="https://jacobhl3ca.github.io/assets/img/og_image.png">
+        <meta name="twitter:image" content="https://jacobhl.com/assets/img/og_image.png">
         <!-- Privacy-friendly analytics by Plausible
         <script async src="http://192.168.99.97:8001/js/pa-Gs2doyz-B6lgKMO0IhiIX.js"></script>
         <script>
