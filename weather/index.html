@@ -532,6 +532,14 @@ function render(w, aqi, geo) {
 
   const sunrise = w.daily.sunrise[0];
   const sunset = w.daily.sunset[0];
+  // Open-Meteo returns null for sunrise/sunset at high latitudes on polar-day/polar-night days (the
+  // sun never crosses the horizon, so there's no sunrise/sunset event that day — e.g. Tromsø in
+  // midwinter or midsummer). Without a guard, new Date(null) resolves to the Unix epoch, so the card
+  // showed a garbage 1969/1970 time and "0h 0m daylight". Detect the null case and surface "N/A" /
+  // "—" instead — mirroring the UV, AQI, and hourly-rain null handling already used elsewhere in
+  // render(). Every normal city carries both values, so hasSun is true and nothing below changes for
+  // them (identical output); only a genuine no-sun day takes the fallback path.
+  const hasSun = sunrise != null && sunset != null;
   // Anchor "now" to the SEARCHED CITY's clock, not the viewer's. sunrise/sunset are offset-less
   // ISO stamps in the city's timezone (we pass timezone=geo.tz), and sunProgress parses them via
   // new Date() — i.e. as browser-local wall-clock. So compare them against the city's current
@@ -541,8 +549,8 @@ function render(w, aqi, geo) {
   // window fix. Falls back to the browser clock if current.time is ever absent. No visual change
   // for same-timezone use.
   const now = c.time ? new Date(c.time) : new Date();
-  const sunProg = sunProgress(sunrise, sunset, now);
-  const daylightSec = (new Date(sunset) - new Date(sunrise)) / 1000;
+  const sunProg = hasSun ? sunProgress(sunrise, sunset, now) : 0;
+  const daylightSec = hasSun ? (new Date(sunset) - new Date(sunrise)) / 1000 : 0;
   const dlH = Math.floor(daylightSec/3600);
   const dlM = Math.floor((daylightSec%3600)/60);
 
@@ -676,9 +684,9 @@ function render(w, aqi, geo) {
          decorative-element pattern (mirrors the two meters above). No visual change. -->
     <div class="sun-bar" aria-hidden="true"><div class="sun-dot" style="left:calc(${sunProg}% - 7px)"></div></div>
     <div class="sun-times">
-      <span><span aria-hidden="true">↑</span><span class="visually-hidden">Sunrise: </span> ${fmtTime(sunrise)}</span>
-      <span>${dlH}h ${dlM}m daylight</span>
-      <span><span aria-hidden="true">↓</span><span class="visually-hidden">Sunset: </span> ${fmtTime(sunset)}</span>
+      <span><span aria-hidden="true">↑</span><span class="visually-hidden">Sunrise: </span> ${hasSun ? fmtTime(sunrise) : 'N/A'}</span>
+      <span>${hasSun ? `${dlH}h ${dlM}m daylight` : 'No sunrise/sunset'}</span>
+      <span><span aria-hidden="true">↓</span><span class="visually-hidden">Sunset: </span> ${hasSun ? fmtTime(sunset) : 'N/A'}</span>
     </div>
   </div>`;
 
