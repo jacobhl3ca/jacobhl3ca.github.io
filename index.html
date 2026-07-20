@@ -1332,7 +1332,7 @@ function rowHTML(p, eager){
   const cta = ctaHTML(p);                        // empty for the decluttered preview cards; only TidyTab (Mac download) has one
   const infoCls = ''; // title + one-liner always top-aligned (chevron pinned bottom via margin-top:auto); vertical-centering overlapped the chevron on short cards
   return `
-  <div class="proj-row">
+  <div class="proj-row" role="listitem">
     <div class="proj-head">
       <div class="proj-thumb ${thumbCls}" ${p.live?`data-url="${p.url}"${p.noEmbed?` data-noembed="1" data-poster="${p.img}"`:''} role="button" tabindex="0" aria-haspopup="dialog" aria-label="Open live preview of ${p.title}"`:''}>
         ${p.imgWide
@@ -1356,8 +1356,18 @@ function rowHTML(p, eager){
   </div>`;
 }
 
-document.getElementById('main-rows').innerHTML = MAIN.map((p, i) => rowHTML(p, i === 0)).join(''); // eager-load only the first (above-the-fold) card's image
-document.getElementById('more-rows').innerHTML = MORE.map(p => rowHTML(p, false)).join(''); // "Private projects" panel starts collapsed/inert — keep all its images lazy
+// Expose the JS-rendered project cards as a semantic list (role="list" + each .proj-row role="listitem"),
+// so screen readers announce "list, N items" and let users jump card-to-card — matching how the skills
+// pills, the weather dashboard's forecast rows, and this section's own no-JS <ul> fallback are already
+// marked up. The role is set here (not in the static HTML) so the container is only a list once its
+// items exist: for no-JS visitors #main-rows stays an empty plain div and the <noscript> <ul> is the
+// list, avoiding an empty "list, 0 items". Purely the accessibility tree — no visual change.
+const _mainRows = document.getElementById('main-rows');
+_mainRows.setAttribute('role', 'list'); _mainRows.setAttribute('aria-label', 'Projects');
+_mainRows.innerHTML = MAIN.map((p, i) => rowHTML(p, i === 0)).join(''); // eager-load only the first (above-the-fold) card's image
+const _moreRows = document.getElementById('more-rows');
+_moreRows.setAttribute('role', 'list'); _moreRows.setAttribute('aria-label', 'Other projects');
+_moreRows.innerHTML = MORE.map(p => rowHTML(p, false)).join(''); // "Private projects" panel starts collapsed/inert — keep all its images lazy
 
 // click anywhere on the card toggles expand — EXCEPT a live thumbnail (opens preview) and CTA links.
 // "Other projects" have no live preview, so clicking their thumbnail expands the card like the rest.
