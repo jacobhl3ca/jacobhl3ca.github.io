@@ -663,14 +663,6 @@
   /* iframe sits ON TOP (z-index 2) with a transparent bg; the loader is BEHIND it (z-index 1),
      so the moment the site paints it covers the spinner — the overlay can never hide a working site */
   .modal-frame{position:absolute;inset:0;border:0;width:100%;height:100%;background:transparent;z-index:2;}
-  /* "Press Esc to exit" hint — shown only while the pointer/focus is inside the cross-origin
-     preview iframe (.frame-focused), since that's when a plain Esc can't reach the parent. */
-  .esc-hint{position:absolute;top:10px;right:10px;z-index:3;display:none;align-items:center;gap:.4rem;
-    padding:.32rem .6rem;border:0;border-radius:7px;cursor:pointer;font:inherit;font-size:.74rem;
-    color:#e6e9ef;background:rgba(12,14,18,.82);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);box-shadow:0 2px 10px rgba(0,0,0,.4);}
-  .esc-hint kbd{font:inherit;font-size:.7rem;padding:.05rem .34rem;border-radius:4px;background:#2a3242;color:#fff;}
-  .esc-hint:hover{background:rgba(20,24,30,.95);}
-  .modal.frame-focused .esc-hint{display:inline-flex;}
   /* Branded keyboard-focus ring for the live-preview dialog's toolbar controls, matching the accent
      :focus-visible ring the rest of the site ships (WCAG 2.4.7 Focus Visible). The modal is
      aria-modal="true", so keyboard users who open a project preview tab straight through these — the
@@ -1233,7 +1225,6 @@
         <p>This site blocks embedded previews for security — open it in a new tab to explore it live:</p>
         <a id="modalNoembedOpen" class="ne-open" target="_blank" rel="noopener"><i class='bx bx-link-external' aria-hidden="true"></i> <span id="modalNoembedHost"></span></a>
       </div>
-      <button class="esc-hint" id="escHint" type="button" title="Exit preview">Press <kbd>Esc</kbd> to exit</button>
     </div>
   </div>
 </div>
@@ -1547,28 +1538,27 @@ modal.addEventListener('click', e=>{ if(e.target===modal) closeModal(); });
 // opened+closed a preview, pressing Esc anywhere (e.g. while typing in the contact form) yanked
 // focus back to that project thumbnail and scrolled it into view. Only act while a preview is open.
 document.addEventListener('keydown', e=>{ if(e.key==='Escape' && modal.classList.contains('open')){ if(modal.classList.contains('fullscreen')) setFullscreen(false); else closeModal(); } });
-// Esc-while-inside-the-preview fix: once the user clicks into the cross-origin iframe,
-// keystrokes go to that frame and never reach the parent's Esc handler above. We can't
-// read keys across origins, so instead we RECLAIM keyboard focus to the dialog the moment
-// the pointer comes back over the modal chrome (the toolbar / margins around the iframe —
-// mousemove never fires while the pointer is over the iframe itself). After that nudge the
-// next Esc lands on the parent and closes the preview. A persistent hint tells the user.
-let frameFocused=false;
-window.addEventListener('blur', ()=>{
-  if(modal.classList.contains('open') && document.activeElement===frame){
-    frameFocused=true; modal.classList.add('frame-focused');
-  }
-});
-window.addEventListener('focus', ()=>{ frameFocused=false; modal.classList.remove('frame-focused'); });
+// Esc-while-inside-the-preview fix: once the user clicks inside the cross-origin iframe,
+// keystrokes go to that frame and never reach the parent's Esc handler above — and we can't
+// read keys across origins. The old approach only took focus back when the pointer happened
+// to cross the modal chrome, so after clicking or scrolling around inside a site Esc simply
+// did nothing. Instead, reclaim keyboard focus to the dialog immediately whenever the frame
+// takes it: the click itself still reaches the embedded site (navigation, buttons, scrolling
+// all keep working), only the keyboard stays with the parent, so Esc always closes.
+// Trade-off: you can't type into the embedded site from the preview — open it in a new tab
+// (the toolbar's ↗ button) to interact with it fully.
 function reclaimFocus(){
-  if(!frameFocused) return;
-  frameFocused=false; modal.classList.remove('frame-focused');
+  if(!modal.classList.contains('open')) return;
+  if(document.activeElement!==frame) return;
+  window.focus();
   document.getElementById('modalClose').focus({preventScroll:true});
 }
+// window blur while the frame is the active element == focus just moved into the iframe.
+window.addEventListener('blur', ()=>{ setTimeout(reclaimFocus, 0); });
+// Belt-and-braces: any pointer or wheel activity over the dialog also re-arms Esc.
 modal.addEventListener('mousemove', reclaimFocus);
 modal.addEventListener('mouseenter', reclaimFocus);
-// Clicking the hint itself just gets out.
-document.getElementById('escHint').addEventListener('click', closeModal);
+modal.addEventListener('wheel', reclaimFocus, {passive:true});
 // Trap Tab focus inside the open preview dialog so keyboard users can't tab out to the page behind it (WAI-ARIA modal-dialog pattern).
 modal.addEventListener('keydown', e=>{
   if(e.key!=='Tab' || !modal.classList.contains('open')) return;
