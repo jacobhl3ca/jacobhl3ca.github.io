@@ -13,8 +13,10 @@
         <link rel="icon" type="image/x-icon" href="/assets/img/favicon.ico">
         <link href='https://cdn.jsdelivr.net/npm/boxicons@2.0.5/css/boxicons.min.css' rel='stylesheet'> <!-- icons -->
         <title>Jacob Heifetz-Licht</title>
-        <meta name="description" content="Data analytics leader specializing in Python, SQL, Tableau, and automation. Turning complex data into actionable insights.">
-        <meta name="keywords" content="analytics manager, data analytics, Python, SQL, Tableau, automation, dashboard design, data visualization, ETL, BigQuery">
+        <!-- Match the homepage's current messaging: index.html was repositioned to lead with web development (React/Next.js) alongside analytics, but this cascade-animate variant kept the older analytics-only description. og:title/twitter:title here already mirror index.html; align the description (and its og/twitter copies below) too so a shared link to this page reflects the current positioning. Prior runs made this same alignment on index_with_animation.html and light/index.html; this experiment was the last variant still on the old copy. No visual change. -->
+        <meta name="description" content="Data analytics leader and web developer specializing in Python, SQL, Tableau, React, and Next.js. Turning data into things people actually use.">
+        <!-- Keep the keyword list in sync with index.html and the sibling variants (index_with_animation.html, light/index.html): the homepage was repositioned to lead with web development (React/Next.js) alongside analytics, and this page's title/og tags were already aligned to that — the keywords meta was the one field here still carrying the older analytics-only list. Completes the variant/homepage metadata consistency. No visual change. -->
+        <meta name="keywords" content="analytics manager, data analytics, Python, SQL, Tableau, automation, dashboard design, data visualization, ETL, BigQuery, JavaScript, React, Node.js, Next.js, web development">
         <meta name="author" content="Jacob Heifetz-Licht">
         <!-- noindex (keep follow): this is an unfinished, unlinked "cascade animate" experiment — a near-duplicate of the homepage (same title "Jacob Heifetz-Licht", stale description, og:url pointing at jacobhl.com, and no canonical of its own). Left as "index, follow" it's a duplicate-content liability that could compete with the real homepage in search. Match the site's established pattern for alternate/experiment pages — index_with_animation.html and light/index.html both declare exactly "noindex, follow" — so search engines drop this copy but still crawl its links. Not in sitemap.xml. No visual change. -->
         <meta name="robots" content="noindex, follow">
@@ -23,7 +25,7 @@
         <!-- Open Graph meta tags for link previews -->
         <meta property="og:title" content="Jacob Heifetz-Licht — Analytics Manager">
         <!-- <meta property="og:title" content="Jacob Heifetz-Licht — Analytics Engineer"> -->
-        <meta property="og:description" content="Data analytics leader specializing in Python, SQL, Tableau, and automation. Turning complex data into actionable insights.">
+        <meta property="og:description" content="Data analytics leader and web developer specializing in Python, SQL, Tableau, React, and Next.js. Turning data into things people actually use.">
         <!-- Point the share image at the canonical custom domain (jacobhl.com), not the raw jacobhl3ca.github.io host. The site is served from the custom domain via CNAME, so GitHub Pages 301-redirects github.io asset URLs to jacobhl.com — and social scrapers that don't follow redirects for images (a common limitation) then render a broken preview card. Every other page site-wide, including this page's sibling variant index_with_animation.html, already references https://jacobhl.com/assets/img/og_image.png; this animated variant's og:image/twitter:image were the last two share URLs still on the github.io host. Same image file, no visual change to the page. -->
         <meta property="og:image" content="https://jacobhl.com/assets/img/og_image.png">
         <meta property="og:url" content="https://jacobhl.com">
@@ -31,7 +33,7 @@
         <!-- twitter:image here is the 1200×630 landscape og_image.png, which is the format the large-image card expects; "summary" would instead crop it to a small square thumbnail. Use summary_large_image so a shared link to this page gets the full-width banner preview — matching index.html, index_with_animation.html, 404.html, weather/, and light/, which all pair this same image with summary_large_image. This cascade-animate variant was the last page still on the smaller card. No visual change to the page itself. -->
         <meta name="twitter:card" content="summary_large_image">
         <meta name="twitter:title" content="Jacob Heifetz-Licht — Analytics Manager">
-        <meta name="twitter:description" content="Data analytics leader specializing in Python, SQL, Tableau, and automation. Turning complex data into actionable insights.">
+        <meta name="twitter:description" content="Data analytics leader and web developer specializing in Python, SQL, Tableau, React, and Next.js. Turning data into things people actually use.">
         <meta name="twitter:image" content="https://jacobhl.com/assets/img/og_image.png">
         <!-- Privacy-friendly analytics by Plausible
         <script async src="http://192.168.99.97:8001/js/pa-Gs2doyz-B6lgKMO0IhiIX.js"></script>
