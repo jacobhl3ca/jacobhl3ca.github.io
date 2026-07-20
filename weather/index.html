@@ -381,9 +381,23 @@ function fmtHour(iso) {
   return new Date(iso).toLocaleTimeString('en-US', { hour:'numeric' });
 }
 
+// Bound every API request with a timeout. fetch() only rejects on a hard network error, not on a
+// connection that opens and then stalls with no response — so a hung Open-Meteo request (captive
+// portal, flaky mobile, an unresponsive edge node) otherwise left the loading spinner spinning
+// forever with no recovery but a manual reload. AbortController cancels the request after `ms`,
+// turning that silent hang into the same friendly "Could not connect…" error the catch below
+// already shows for other network failures (an aborted fetch rejects with an AbortError, now
+// mapped there). 15s is well beyond a normal small-JSON response, so a working-but-slow request
+// still completes on schedule; only a genuine stall trips it. No change to the success path.
+function fetchWithTimeout(url, ms = 15000) {
+  const ctrl = new AbortController();
+  const timer = setTimeout(() => ctrl.abort(), ms);
+  return fetch(url, { signal: ctrl.signal }).finally(() => clearTimeout(timer));
+}
+
 async function geocode(city) {
   const cleanCity = city.replace(/,\s*(US|USA|[A-Z]{2})$/i, '').trim();
-  const res = await fetch(`https://geocoding-api.open-meteo.com/v1/search?name=${encodeURIComponent(cleanCity)}&count=5&language=en&format=json`);
+  const res = await fetchWithTimeout(`https://geocoding-api.open-meteo.com/v1/search?name=${encodeURIComponent(cleanCity)}&count=5&language=en&format=json`);
   if (!res.ok) throw new Error('Could not reach the location service. Please try again.');
   const data = await res.json();
   if (!data.results?.length) throw new Error('City not found — check the spelling and try another city.');
@@ -442,8 +456,8 @@ async function fetchWeather() {
     // have failed the whole dashboard when only the air-quality request errored — render()
     // already tolerates a null aqi (optional chaining → "N/A"), so this restores the intended
     // graceful degradation without breaking the current-conditions view.
-    const weatherPromise = fetch(`https://api.open-meteo.com/v1/forecast?${params}`);
-    const aqiPromise = fetch(`https://air-quality-api.open-meteo.com/v1/air-quality?latitude=${geo.lat}&longitude=${geo.lon}&current=pm2_5,pm10,us_aqi&timezone=${encodeURIComponent(geo.tz)}`)
+    const weatherPromise = fetchWithTimeout(`https://api.open-meteo.com/v1/forecast?${params}`);
+    const aqiPromise = fetchWithTimeout(`https://air-quality-api.open-meteo.com/v1/air-quality?latitude=${geo.lat}&longitude=${geo.lon}&current=pm2_5,pm10,us_aqi&timezone=${encodeURIComponent(geo.tz)}`)
       .then(r => r.ok ? r.json() : null)
       .catch(() => null);
 
@@ -458,10 +472,12 @@ async function fetchWeather() {
     // Network-level failures (offline, DNS/CORS block, request aborted) reject fetch() with a
     // TypeError whose browser-generated message ("Failed to fetch" / "NetworkError when attempting
     // to fetch resource.") was being shown to the user verbatim — inconsistent with the friendly,
-    // actionable strings the other error paths throw (all plain Errors). Map that case to a
-    // matching connection message; keep showing our own Error messages ("City not found…", etc.)
-    // as-is. Static strings only (no user input echoed), mirroring the geocode-error hardening.
-    const msg = (err instanceof TypeError)
+    // actionable strings the other error paths throw (all plain Errors). An fetchWithTimeout abort
+    // (a stalled request the timeout cancelled) rejects instead with an AbortError DOMException —
+    // same user-facing situation, so map both to the connection message; keep showing our own Error
+    // messages ("City not found…", etc.) as-is. Static strings only (no user input echoed),
+    // mirroring the geocode-error hardening.
+    const msg = (err instanceof TypeError || err.name === 'AbortError')
       ? 'Could not connect — check your internet connection and try again.'
       : err.message;
     // Reset the tab title on failure. render() rewrites document.title to the loaded city on
