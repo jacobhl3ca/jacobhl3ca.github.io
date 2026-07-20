@@ -4,6 +4,10 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <!-- Tint the mobile browser chrome (address bar / status bar) to match this dark-default page. Mirrors the theme-color already on index.html, index_with_animation.html, 404.html, weather/, and light/ — this cascade-animate variant was the one page site-wide still missing it. #090f20 matches index.html's dark chrome (and the sibling index_with_animation.html variant). No visual change to page content. -->
+        <meta name="theme-color" content="#090f20">
+        <!-- Declare supported colour schemes to the UA up front. color-scheme is otherwise only set inside the render-blocking styles.css (:root=light, [data-theme="dark"]=dark), so before that CSS loads the browser doesn't know this is a dark-default page (<html data-theme="dark">) and paints the root canvas/scrollbars with the OS default — a brief light flash. "dark light" matches the document's default while still advertising light-mode support; the CSS color-scheme rules take over once loaded. Completes the site-wide pattern already on index.html, index_with_animation.html, 404.html, weather/, and light/. No visual change to the settled page. -->
+        <meta name="color-scheme" content="dark light">
         <!-- Root-absolute asset paths (/assets/…), not relative (assets/…): this page lives in /projects/, so a relative "assets/…" resolves to the nonexistent /projects/assets/… — the stylesheet 404'd (leaving the whole page unstyled) and every image/favicon broke. There is no /projects/assets dir; the assets live at the site root. Root-absolute paths point at them from anywhere, matching the site's other subdirectory pages (light/ and weather/ both already use /assets/…). Applied to every asset URL on this page (css, favicon, js, img src, and the data-dark/data-light theme-swap attributes). No visual change once the CSS/images resolve. -->
         <link rel="stylesheet" href="/assets/css/styles.css">
         <link rel="icon" type="image/x-icon" href="/assets/img/favicon.ico">
