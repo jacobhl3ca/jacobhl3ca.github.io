@@ -195,15 +195,23 @@
   <div class="modal-card">
     <div class="modal-bar">
       <div class="dots">
-        <button class="dot red" id="dotClose" title="Close"><span>×</span></button>
-        <button class="dot yellow" id="dotMin" title="Minimize"><span>–</span></button>
-        <button class="dot green" id="dotExpand" title="Expand to full screen"><span>⤢</span></button>
+        <!-- Give each traffic-light button a real accessible name. The visible glyph is text content,
+             which the accessible-name algorithm uses ahead of the title attribute — so without an
+             aria-label a screen reader announced "multiplication sign" / "en dash" / this arrow glyph
+             instead of the button's action. aria-label supplies the action name and aria-hidden hides
+             the now-decorative glyph, mirroring the homepage's modal-bar buttons (index.html). No visual change. -->
+        <button class="dot red" id="dotClose" title="Close" aria-label="Close preview"><span aria-hidden="true">×</span></button>
+        <button class="dot yellow" id="dotMin" title="Minimize" aria-label="Minimize preview"><span aria-hidden="true">–</span></button>
+        <button class="dot green" id="dotExpand" title="Expand to full screen" aria-label="Full screen preview"><span aria-hidden="true">⤢</span></button>
       </div>
       <button class="nav-btn" id="navBack" title="Back" style="display:none;"><i class='bx bx-chevron-left'></i></button>
       <button class="nav-btn" id="navReload" title="Reload"><i class='bx bx-revision'></i></button>
       <form class="url-form" id="urlForm"><input class="modal-url" id="modalUrl" type="text" spellcheck="false" autocomplete="off" aria-label="Preview address"></form>
       <a class="openext" id="modalOpen" target="_blank" rel="noopener" title="Open in new tab"><i class='bx bx-link-external'></i></a>
-      <button class="mclose" id="modalClose" title="Close">×</button>
+      <!-- Same fix as the traffic-light buttons above: the bare × was this button's accessible name
+           (announced "multiplication sign"), overriding the title. aria-label names the action and the
+           glyph is hidden as decorative. Matches index.html's modal close button. No visual change. -->
+      <button class="mclose" id="modalClose" title="Close" aria-label="Close preview"><span aria-hidden="true">×</span></button>
     </div>
     <div class="modal-body">
       <button class="fs-back" id="fsBack" title="Back to projects"><i class='bx bx-arrow-back'></i> Back</button>

@@ -1,11 +1,11 @@
 <!DOCTYPE html>
-<html lang="en-US" data-theme="dark">
+<html lang="en-US">
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <meta name="theme-color" content="#090f20">
-        <!-- Declare supported colour schemes to the UA up front. color-scheme is otherwise only set inside the render-blocking styles.css (:root=light, [data-theme="dark"]=dark), so before that CSS loads the browser doesn't know this is a dark-default page and paints the root canvas/scrollbars with the OS default (a brief light flash for the majority dark view). "dark light" matches the document's literal default (<html data-theme="dark">) while still advertising light-mode support (the inline script above can switch to light); the CSS color-scheme rules take over once loaded. Mirrors index.html. No visual change to the settled page. -->
-        <meta name="color-scheme" content="dark light">
+        <meta name="theme-color" content="#ffffff">
+        <!-- Declare supported colour schemes to the UA up front. color-scheme is otherwise only set inside the render-blocking styles.css (:root=light, [data-theme="dark"]=dark), so before that CSS loads the browser paints the root canvas/scrollbars with the OS default. "light dark" matches the document's literal default (light — the <html> ships with no data-theme, mirroring index.html since the 2026-07-18 light-default redesign) while still advertising dark-mode support (the inline script below applies dark for users who chose it); the CSS color-scheme rules take over once loaded. No visual change to the settled page. -->
+        <meta name="color-scheme" content="light dark">
         <meta name="robots" content="noindex, follow">
         <link rel="stylesheet" href="/assets/css/styles.css">
         <link rel="icon" type="image/x-icon" href="/assets/img/favicon.ico">
@@ -18,15 +18,27 @@
         <link rel="dns-prefetch" href="//jacobhl.goatcounter.com"> <!-- resolve the GoatCounter *beacon* host too: count.js (from gc.zgo.at above) sends every pageview hit to https://jacobhl.goatcounter.com/count, a separate host whose DNS was otherwise only looked up lazily when the beacon fires. The prefetch above warmed only the script host; this warms the endpoint the hit actually goes to, so the beacon isn't delayed (and is less likely to be dropped on a slow/flaky DNS). Mirrors the beacon-host prefetch already on index.html. Pure resource hint, no visual or behaviour change. -->
         <link href='https://cdn.jsdelivr.net/npm/boxicons@2.0.5/css/boxicons.min.css' rel='stylesheet'>
         <script>
-            // Apply the saved theme before paint so light-mode users don't see a dark flash
-            // (the document defaults to data-theme="dark"; main.js loads at the end of <body>).
+            // Light is now the site default (the 2026-07-18 redesign made the homepage
+            // light-default; the 404 was the one page still baselining data-theme="dark").
+            // The document now ships light, so apply dark before paint ONLY if the user
+            // actually chose it — that way default visitors get the light 404 that matches
+            // the rest of the site. main.js re-applies the same state later at end of <body>.
             try {
-                if (localStorage.getItem('theme') === 'light') {
-                    document.documentElement.removeAttribute('data-theme');
-                    // Sync the mobile address-bar colour to the light header before first paint
+                // One-time migration to the new light default, mirroring index.html: older
+                // builds auto-persisted theme='dark' for every first-time visitor, so without
+                // this a direct-to-404 landing would still render dark for those users. Clear
+                // it once (the shared themeReset2026 flag makes this fire a single time across
+                // the site, so any genuine dark choice made afterwards still sticks).
+                if (localStorage.getItem('themeReset2026') !== '1') {
+                    localStorage.removeItem('theme');
+                    localStorage.setItem('themeReset2026', '1');
+                }
+                if (localStorage.getItem('theme') === 'dark') {
+                    document.documentElement.setAttribute('data-theme', 'dark');
+                    // Sync the mobile address-bar colour to the dark header before first paint
                     // (main.js does this too, but only later at the end of <body>).
                     var tc = document.querySelector('meta[name="theme-color"]');
-                    if (tc) tc.setAttribute('content', '#ffffff');
+                    if (tc) tc.setAttribute('content', '#090f20');
                 }
             } catch (e) {}
         </script>
@@ -124,25 +136,25 @@
                     </ul>
                 </div>
                 <div style="display: flex; align-items: center;">
-                    <button type="button" id="theme-toggle" class="theme-toggle" aria-label="Switch to light mode" style="position: relative; top: -2px;">
-                        <i class='bx bx-sun' id="theme-icon" aria-hidden="true"></i>
+                    <button type="button" id="theme-toggle" class="theme-toggle" aria-label="Switch to dark mode" style="position: relative; top: -2px;">
+                        <i class='bx bx-moon' id="theme-icon" aria-hidden="true"></i>
                     </button>
                     <script>
-                        // Correct the theme toggle's baseline state for returning light-mode users,
+                        // Correct the theme toggle's baseline state for returning DARK-mode users,
                         // before paint and before main.js loads at end of <body>. The button is hardcoded
-                        // in its dark-mode state (sun icon + "Switch to light mode"), but the inline <head>
-                        // script has already applied the saved light theme — so without this the toggle
+                        // in its light-mode state (moon icon + "Switch to dark mode"), but the inline <head>
+                        // script has already applied the saved dark theme — so without this the toggle
                         // briefly shows the wrong icon and, more importantly, announces the wrong action to
-                        // assistive tech ("Switch to light mode" while the page is already light). main.js
+                        // assistive tech ("Switch to dark mode" while the page is already dark). main.js
                         // re-applies the same state later (classList.replace is a no-op when the class is
                         // absent, and the aria-label is identical), so this only removes the flash/mismatch.
                         // Mirrors index.html.
                         try {
-                            if (localStorage.getItem('theme') === 'light') {
+                            if (localStorage.getItem('theme') === 'dark') {
                                 var _ti = document.getElementById('theme-icon');
-                                if (_ti) _ti.classList.replace('bx-sun', 'bx-moon');
+                                if (_ti) _ti.classList.replace('bx-moon', 'bx-sun');
                                 var _tt = document.getElementById('theme-toggle');
-                                if (_tt) _tt.setAttribute('aria-label', 'Switch to dark mode');
+                                if (_tt) _tt.setAttribute('aria-label', 'Switch to light mode');
                             }
                         } catch (e) {}
                     </script>

@@ -147,14 +147,21 @@ function setThemeColor(theme) {
     if (meta) meta.setAttribute('content', theme === 'light' ? '#ffffff' : '#090f20');
 }
 
-// HTML defaults to data-theme="dark" and sun icon; only switch to light if user previously chose light
+// A saved preference always wins. With NO saved preference, respect the baseline each page
+// ships in its <html>: the dark preview pages ship data-theme="dark"; 404.html and the
+// homepage ship none (light) since the 2026-07-18 light-default redesign. Previously this
+// branch forced dark on every no-preference visitor, which flipped the now-light-default
+// 404 back to dark after load (mismatching the rest of the site) — so honour the shipped
+// baseline instead of hardcoding dark.
 if (currentTheme === 'light') {
     document.documentElement.removeAttribute('data-theme');
     if (themeIcon) themeIcon.classList.replace('bx-sun', 'bx-moon');
     if (themeToggle) themeToggle.setAttribute('aria-label', 'Switch to dark mode');
     setThemeImages('light');
     setThemeColor('light');
-} else {
+} else if (currentTheme === 'dark' || document.documentElement.getAttribute('data-theme') === 'dark') {
+    // Explicit dark, OR no preference on a page that ships a dark baseline (the preview
+    // pages) — unchanged from before: assert dark and point the toggle at it.
     document.documentElement.setAttribute('data-theme', 'dark');
     if (themeIcon) themeIcon.classList.replace('bx-moon', 'bx-sun');
     if (themeToggle) themeToggle.setAttribute('aria-label', 'Switch to light mode');
@@ -163,6 +170,12 @@ if (currentTheme === 'light') {
     // defaults to light (via main-alt.js); auto-persisting dark here (this file still runs on
     // 404.html / preview pages) would write theme='dark' to storage and override that light
     // default on the visitor's next homepage load. Dark is now only stored on an explicit toggle.
+} else {
+    // No saved preference on a page that ships the light baseline (404.html) — keep it light
+    // to match the rest of the site, and point the toggle at the dark it can switch to.
+    if (themeIcon) themeIcon.classList.replace('bx-sun', 'bx-moon');
+    if (themeToggle) themeToggle.setAttribute('aria-label', 'Switch to dark mode');
+    setThemeColor('light');
 }
 
 // Guard the toggle wiring: this block runs first in main.js, so an uncaught throw here

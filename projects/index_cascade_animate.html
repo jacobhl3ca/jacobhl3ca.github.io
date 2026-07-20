@@ -4,12 +4,19 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel="stylesheet" href="assets/css/styles.css">
-        <link rel="icon" type="image/x-icon" href="assets/img/favicon.ico">
+        <!-- Tint the mobile browser chrome (address bar / status bar) to match this dark-default page. Mirrors the theme-color already on index.html, index_with_animation.html, 404.html, weather/, and light/ — this cascade-animate variant was the one page site-wide still missing it. #090f20 matches index.html's dark chrome (and the sibling index_with_animation.html variant). No visual change to page content. -->
+        <meta name="theme-color" content="#090f20">
+        <!-- Declare supported colour schemes to the UA up front. color-scheme is otherwise only set inside the render-blocking styles.css (:root=light, [data-theme="dark"]=dark), so before that CSS loads the browser doesn't know this is a dark-default page (<html data-theme="dark">) and paints the root canvas/scrollbars with the OS default — a brief light flash. "dark light" matches the document's default while still advertising light-mode support; the CSS color-scheme rules take over once loaded. Completes the site-wide pattern already on index.html, index_with_animation.html, 404.html, weather/, and light/. No visual change to the settled page. -->
+        <meta name="color-scheme" content="dark light">
+        <!-- Root-absolute asset paths (/assets/…), not relative (assets/…): this page lives in /projects/, so a relative "assets/…" resolves to the nonexistent /projects/assets/… — the stylesheet 404'd (leaving the whole page unstyled) and every image/favicon broke. There is no /projects/assets dir; the assets live at the site root. Root-absolute paths point at them from anywhere, matching the site's other subdirectory pages (light/ and weather/ both already use /assets/…). Applied to every asset URL on this page (css, favicon, js, img src, and the data-dark/data-light theme-swap attributes). No visual change once the CSS/images resolve. -->
+        <link rel="stylesheet" href="/assets/css/styles.css">
+        <link rel="icon" type="image/x-icon" href="/assets/img/favicon.ico">
         <link href='https://cdn.jsdelivr.net/npm/boxicons@2.0.5/css/boxicons.min.css' rel='stylesheet'> <!-- icons -->
         <title>Jacob Heifetz-Licht</title>
-        <meta name="description" content="Data analytics leader specializing in Python, SQL, Tableau, and automation. Turning complex data into actionable insights.">
-        <meta name="keywords" content="analytics manager, data analytics, Python, SQL, Tableau, automation, dashboard design, data visualization, ETL, BigQuery">
+        <!-- Match the homepage's current messaging: index.html was repositioned to lead with web development (React/Next.js) alongside analytics, but this cascade-animate variant kept the older analytics-only description. og:title/twitter:title here already mirror index.html; align the description (and its og/twitter copies below) too so a shared link to this page reflects the current positioning. Prior runs made this same alignment on index_with_animation.html and light/index.html; this experiment was the last variant still on the old copy. No visual change. -->
+        <meta name="description" content="Data analytics leader and web developer specializing in Python, SQL, Tableau, React, and Next.js. Turning data into things people actually use.">
+        <!-- Keep the keyword list in sync with index.html and the sibling variants (index_with_animation.html, light/index.html): the homepage was repositioned to lead with web development (React/Next.js) alongside analytics, and this page's title/og tags were already aligned to that — the keywords meta was the one field here still carrying the older analytics-only list. Completes the variant/homepage metadata consistency. No visual change. -->
+        <meta name="keywords" content="analytics manager, data analytics, Python, SQL, Tableau, automation, dashboard design, data visualization, ETL, BigQuery, JavaScript, React, Node.js, Next.js, web development">
         <meta name="author" content="Jacob Heifetz-Licht">
         <!-- noindex (keep follow): this is an unfinished, unlinked "cascade animate" experiment — a near-duplicate of the homepage (same title "Jacob Heifetz-Licht", stale description, og:url pointing at jacobhl.com, and no canonical of its own). Left as "index, follow" it's a duplicate-content liability that could compete with the real homepage in search. Match the site's established pattern for alternate/experiment pages — index_with_animation.html and light/index.html both declare exactly "noindex, follow" — so search engines drop this copy but still crawl its links. Not in sitemap.xml. No visual change. -->
         <meta name="robots" content="noindex, follow">
@@ -18,14 +25,16 @@
         <!-- Open Graph meta tags for link previews -->
         <meta property="og:title" content="Jacob Heifetz-Licht — Analytics Manager">
         <!-- <meta property="og:title" content="Jacob Heifetz-Licht — Analytics Engineer"> -->
-        <meta property="og:description" content="Data analytics leader specializing in Python, SQL, Tableau, and automation. Turning complex data into actionable insights.">
-        <meta property="og:image" content="https://jacobhl3ca.github.io/assets/img/og_image.png">
+        <meta property="og:description" content="Data analytics leader and web developer specializing in Python, SQL, Tableau, React, and Next.js. Turning data into things people actually use.">
+        <!-- Point the share image at the canonical custom domain (jacobhl.com), not the raw jacobhl3ca.github.io host. The site is served from the custom domain via CNAME, so GitHub Pages 301-redirects github.io asset URLs to jacobhl.com — and social scrapers that don't follow redirects for images (a common limitation) then render a broken preview card. Every other page site-wide, including this page's sibling variant index_with_animation.html, already references https://jacobhl.com/assets/img/og_image.png; this animated variant's og:image/twitter:image were the last two share URLs still on the github.io host. Same image file, no visual change to the page. -->
+        <meta property="og:image" content="https://jacobhl.com/assets/img/og_image.png">
         <meta property="og:url" content="https://jacobhl.com">
         <meta property="og:type" content="website">
-        <meta name="twitter:card" content="summary">
+        <!-- twitter:image here is the 1200×630 landscape og_image.png, which is the format the large-image card expects; "summary" would instead crop it to a small square thumbnail. Use summary_large_image so a shared link to this page gets the full-width banner preview — matching index.html, index_with_animation.html, 404.html, weather/, and light/, which all pair this same image with summary_large_image. This cascade-animate variant was the last page still on the smaller card. No visual change to the page itself. -->
+        <meta name="twitter:card" content="summary_large_image">
         <meta name="twitter:title" content="Jacob Heifetz-Licht — Analytics Manager">
-        <meta name="twitter:description" content="Data analytics leader specializing in Python, SQL, Tableau, and automation. Turning complex data into actionable insights.">
-        <meta name="twitter:image" content="https://jacobhl3ca.github.io/assets/img/og_image.png">
+        <meta name="twitter:description" content="Data analytics leader and web developer specializing in Python, SQL, Tableau, React, and Next.js. Turning data into things people actually use.">
+        <meta name="twitter:image" content="https://jacobhl.com/assets/img/og_image.png">
         <!-- Privacy-friendly analytics by Plausible
         <script async src="http://192.168.99.97:8001/js/pa-Gs2doyz-B6lgKMO0IhiIX.js"></script>
         <script>
@@ -357,7 +366,7 @@
 
                 <div class="home__img">
                     <div class="home__circle clickable-img" id="home-photo">
-                        <img src="assets/img/header.png" alt="Jacob Heifetz-Licht" class="home__circle-img">
+                        <img src="/assets/img/header.png" alt="Jacob Heifetz-Licht" class="home__circle-img">
                     </div>
                 </div>
             </section>
@@ -369,7 +378,7 @@
                 <div class="about__container bd-grid">
                     <div class="about__img">
 
-                         <img src="assets/img/about.jpg" alt="Jacob Heifetz-Licht portrait" class="clickable-img" id="about-photo">
+                         <img src="/assets/img/about.jpg" alt="Jacob Heifetz-Licht portrait" class="clickable-img" id="about-photo">
 
                     </div>
                     <div>
@@ -488,7 +497,7 @@
                     </div>
                     
                     <div>              
-                        <img src="assets/img/skills.jpg" alt="Jacob working with data analytics tools" class="skills__img" id="skills-photo">
+                        <img src="/assets/img/skills.jpg" alt="Jacob working with data analytics tools" class="skills__img" id="skills-photo">
                     </div>
                 </div>
             </section>
@@ -503,7 +512,7 @@
 
                     <div class="work__img"> <!-- Spotify Analytics -->
                         <!-- <a href=""> -->
-                            <img src="assets/img/spotify_monthly.png" alt="Spotify Analytics" data-dark="assets/img/spotify_monthly.png" data-light="assets/img/spotify_monthly_light.png" id="project-spotify-analytics">
+                            <img src="/assets/img/spotify_monthly.png" alt="Spotify Analytics" data-dark="/assets/img/spotify_monthly.png" data-light="/assets/img/spotify_monthly_light.png" id="project-spotify-analytics">
                         <!-- </a> -->
                         <div class="work__description">
                             <center>
@@ -519,7 +528,7 @@
 
                     <div class="work__img"> <!-- Spotify Playlist Archiver -->
                         <!-- <a href=""> -->
-                            <img src="assets/img/spotify_archiver.png" alt="Spotify Playlist Archiver" style="object-fit: contain; background: #121212;" data-dark="assets/img/spotify_archiver.png" data-light="assets/img/spotify_archiver_light.png" id="project-spotify-archiver">
+                            <img src="/assets/img/spotify_archiver.png" alt="Spotify Playlist Archiver" style="object-fit: contain; background: #121212;" data-dark="/assets/img/spotify_archiver.png" data-light="/assets/img/spotify_archiver_light.png" id="project-spotify-archiver">
                         <!-- </a> -->
                         <div class="work__description">
                             <center>
@@ -535,7 +544,7 @@
 
                     <div class="work__img"> <!-- Personal Finance App -->
                         <!-- <a href=""> -->
-                            <img src="assets/img/finance_trend.png" alt="Personal Finance App" data-dark="assets/img/finance_trend.png" data-light="assets/img/finance_trend_light.png">
+                            <img src="/assets/img/finance_trend.png" alt="Personal Finance App" data-dark="/assets/img/finance_trend.png" data-light="/assets/img/finance_trend_light.png">
                         <!-- </a> -->
                         <div class="work__description">
                             <center>
@@ -550,7 +559,7 @@
                     </div>
 
                     <div class="work__img"> <!-- E-commerce Store -->
-                            <img src="assets/img/stripe_dark.svg" alt="E-commerce Store" style="object-fit: cover; background: #121212;" data-dark="assets/img/stripe_dark.svg" data-light="assets/img/stripe_light.svg">
+                            <img src="/assets/img/stripe_dark.svg" alt="E-commerce Store" style="object-fit: cover; background: #121212;" data-dark="/assets/img/stripe_dark.svg" data-light="/assets/img/stripe_light.svg">
                         <div class="work__description">
                             <center>
                                 <h3>
@@ -564,7 +573,7 @@
                     </div>
 
                     <div class="work__img"> <!-- Automation Utilities -->
-                            <img src="assets/img/automation_dark.svg" alt="Automation Utilities" style="object-fit: cover; background: #121212;" data-dark="assets/img/automation_dark.svg" data-light="assets/img/automation_light.svg">
+                            <img src="/assets/img/automation_dark.svg" alt="Automation Utilities" style="object-fit: cover; background: #121212;" data-dark="/assets/img/automation_dark.svg" data-light="/assets/img/automation_light.svg">
                         <div class="work__description">
                             <center>
                                 <h3>
@@ -582,7 +591,7 @@
 
                     <div class="work__img"> <!-- System Administration -->
                         <!-- <a href=""> -->
-                            <img src="assets/img/docker_dark.png" alt="System Administration" data-dark="assets/img/docker_dark.png" data-light="assets/img/docker_dark_light.png">
+                            <img src="/assets/img/docker_dark.png" alt="System Administration" data-dark="/assets/img/docker_dark.png" data-light="/assets/img/docker_dark_light.png">
                         <!-- </a> -->
                         <div class="work__description">
                             <center>
@@ -598,7 +607,7 @@
 
                     <!-- Safari Unpinner (commented out)
                     <div class="work__img">
-                            <img src="assets/img/unpin_safari.png" alt="Safari Unpinner" style="object-fit: cover;">
+                            <img src="/assets/img/unpin_safari.png" alt="Safari Unpinner" style="object-fit: cover;">
                         <div class="work__description">
                             <center>
                                 <h3>
@@ -614,7 +623,7 @@
 
                     <!-- Weather Dashboard (commented out)
                     <div class="work__img">
-                            <img src="assets/img/weather_real.png" alt="Weather Dashboard" style="object-fit: cover;">
+                            <img src="/assets/img/weather_real.png" alt="Weather Dashboard" style="object-fit: cover;">
                         <div class="work__description">
                             <center>
                                 <h3>
@@ -630,7 +639,7 @@
 
                     <!-- Coinbase Analytics (commented out)
                     <div class="work__img">
-                            <img src="assets/img/coinbase_dark.png" alt="Coinbase Analytics">
+                            <img src="/assets/img/coinbase_dark.png" alt="Coinbase Analytics">
                         <div class="work__description">
                             <center>
                                 <h3>
@@ -646,7 +655,7 @@
 
                     <!-- Data Analytics Dashboard (commented out)
                     <div class="work__img">
-                            <img src="assets/img/data_analytics_real.png" alt="Data Analytics Dashboard" style="object-fit: cover;">
+                            <img src="/assets/img/data_analytics_real.png" alt="Data Analytics Dashboard" style="object-fit: cover;">
                         <div class="work__description">
                             <center>
                                 <h3>
@@ -662,7 +671,7 @@
 
                     <!-- TaskMaster Mobile App (commented out)
                     <div class="work__img">
-                            <img src="assets/img/taskmaster_real.png" alt="TaskMaster Mobile App" style="object-fit: cover; background: #0d1117;">
+                            <img src="/assets/img/taskmaster_real.png" alt="TaskMaster Mobile App" style="object-fit: cover; background: #0d1117;">
                         <div class="work__description">
                             <center>
                                 <h3>
@@ -678,7 +687,7 @@
 
                     <!-- Terminal Snake Game (commented out)
                     <div class="work__img">
-                            <img src="assets/img/snake_real.png" alt="Terminal Snake Game" style="object-fit: cover;">
+                            <img src="/assets/img/snake_real.png" alt="Terminal Snake Game" style="object-fit: cover;">
                         <div class="work__description">
                             <center>
                                 <h3>
@@ -694,7 +703,7 @@
 
                     <!-- Surfing Cat Emoji (commented out)
                     <div class="work__img">
-                            <img src="assets/img/surfing_cat_real.png" alt="Surfing Cat Emoji Creator" style="object-fit: cover;">
+                            <img src="/assets/img/surfing_cat_real.png" alt="Surfing Cat Emoji Creator" style="object-fit: cover;">
                         <div class="work__description">
                             <center>
                                 <h3>
@@ -710,7 +719,7 @@
 
                     <!-- Beat Generator (commented out)
                     <div class="work__img">
-                            <img src="assets/img/beatgen_real.png" alt="Procedural Beat Generator" style="object-fit: cover;">
+                            <img src="/assets/img/beatgen_real.png" alt="Procedural Beat Generator" style="object-fit: cover;">
                         <div class="work__description">
                             <center>
                                 <h3>
@@ -726,7 +735,7 @@
 
                     <!-- Tigers App (commented out)
                     <div class="work__img">
-                            <img src="assets/img/tigers_real.png" alt="Detroit Tigers iOS App" style="object-fit: cover; background: #0d1117;">
+                            <img src="/assets/img/tigers_real.png" alt="Detroit Tigers iOS App" style="object-fit: cover; background: #0d1117;">
                         <div class="work__description">
                             <center>
                                 <h3>
@@ -803,7 +812,7 @@
 
 
         <!--===== MAIN JS =====-->
-        <script src="assets/js/main.js"></script>
+        <script src="/assets/js/main.js"></script>
 
         <script>
 

@@ -1,0 +1,24 @@
+{
+    "name": "Jacob Heifetz-Licht — Analytics Manager",
+    "short_name": "Jacob HL",
+    "description": "Data analytics leader and web developer specializing in Python, SQL, Tableau, React, and Next.js. Turning data into things people actually use.",
+    "lang": "en-US",
+    "id": "/",
+    "start_url": "/",
+    "scope": "/",
+    "display": "standalone",
+    "theme_color": "#ffffff",
+    "background_color": "#ffffff",
+    "icons": [
+        {
+            "src": "/assets/img/favicon.ico",
+            "sizes": "16x16 32x32",
+            "type": "image/x-icon"
+        },
+        {
+            "src": "/assets/img/favicon2.ico",
+            "sizes": "64x64",
+            "type": "image/x-icon"
+        }
+    ]
+}
