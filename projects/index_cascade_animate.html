@@ -4,8 +4,9 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel="stylesheet" href="assets/css/styles.css">
-        <link rel="icon" type="image/x-icon" href="assets/img/favicon.ico">
+        <!-- Root-absolute asset paths (/assets/…), not relative (assets/…): this page lives in /projects/, so a relative "assets/…" resolves to the nonexistent /projects/assets/… — the stylesheet 404'd (leaving the whole page unstyled) and every image/favicon broke. There is no /projects/assets dir; the assets live at the site root. Root-absolute paths point at them from anywhere, matching the site's other subdirectory pages (light/ and weather/ both already use /assets/…). Applied to every asset URL on this page (css, favicon, js, img src, and the data-dark/data-light theme-swap attributes). No visual change once the CSS/images resolve. -->
+        <link rel="stylesheet" href="/assets/css/styles.css">
+        <link rel="icon" type="image/x-icon" href="/assets/img/favicon.ico">
         <link href='https://cdn.jsdelivr.net/npm/boxicons@2.0.5/css/boxicons.min.css' rel='stylesheet'> <!-- icons -->
         <title>Jacob Heifetz-Licht</title>
         <meta name="description" content="Data analytics leader specializing in Python, SQL, Tableau, and automation. Turning complex data into actionable insights.">
@@ -359,7 +360,7 @@
 
                 <div class="home__img">
                     <div class="home__circle clickable-img" id="home-photo">
-                        <img src="assets/img/header.png" alt="Jacob Heifetz-Licht" class="home__circle-img">
+                        <img src="/assets/img/header.png" alt="Jacob Heifetz-Licht" class="home__circle-img">
                     </div>
                 </div>
             </section>
@@ -371,7 +372,7 @@
                 <div class="about__container bd-grid">
                     <div class="about__img">
 
-                         <img src="assets/img/about.jpg" alt="Jacob Heifetz-Licht portrait" class="clickable-img" id="about-photo">
+                         <img src="/assets/img/about.jpg" alt="Jacob Heifetz-Licht portrait" class="clickable-img" id="about-photo">
 
                     </div>
                     <div>
@@ -490,7 +491,7 @@
                     </div>
                     
                     <div>              
-                        <img src="assets/img/skills.jpg" alt="Jacob working with data analytics tools" class="skills__img" id="skills-photo">
+                        <img src="/assets/img/skills.jpg" alt="Jacob working with data analytics tools" class="skills__img" id="skills-photo">
                     </div>
                 </div>
             </section>
@@ -505,7 +506,7 @@
 
                     <div class="work__img"> <!-- Spotify Analytics -->
                         <!-- <a href=""> -->
-                            <img src="assets/img/spotify_monthly.png" alt="Spotify Analytics" data-dark="assets/img/spotify_monthly.png" data-light="assets/img/spotify_monthly_light.png" id="project-spotify-analytics">
+                            <img src="/assets/img/spotify_monthly.png" alt="Spotify Analytics" data-dark="/assets/img/spotify_monthly.png" data-light="/assets/img/spotify_monthly_light.png" id="project-spotify-analytics">
                         <!-- </a> -->
                         <div class="work__description">
                             <center>
@@ -521,7 +522,7 @@
 
                     <div class="work__img"> <!-- Spotify Playlist Archiver -->
                         <!-- <a href=""> -->
-                            <img src="assets/img/spotify_archiver.png" alt="Spotify Playlist Archiver" style="object-fit: contain; background: #121212;" data-dark="assets/img/spotify_archiver.png" data-light="assets/img/spotify_archiver_light.png" id="project-spotify-archiver">
+                            <img src="/assets/img/spotify_archiver.png" alt="Spotify Playlist Archiver" style="object-fit: contain; background: #121212;" data-dark="/assets/img/spotify_archiver.png" data-light="/assets/img/spotify_archiver_light.png" id="project-spotify-archiver">
                         <!-- </a> -->
                         <div class="work__description">
                             <center>
@@ -537,7 +538,7 @@
 
                     <div class="work__img"> <!-- Personal Finance App -->
                         <!-- <a href=""> -->
-                            <img src="assets/img/finance_trend.png" alt="Personal Finance App" data-dark="assets/img/finance_trend.png" data-light="assets/img/finance_trend_light.png">
+                            <img src="/assets/img/finance_trend.png" alt="Personal Finance App" data-dark="/assets/img/finance_trend.png" data-light="/assets/img/finance_trend_light.png">
                         <!-- </a> -->
                         <div class="work__description">
                             <center>
@@ -552,7 +553,7 @@
                     </div>
 
                     <div class="work__img"> <!-- E-commerce Store -->
-                            <img src="assets/img/stripe_dark.svg" alt="E-commerce Store" style="object-fit: cover; background: #121212;" data-dark="assets/img/stripe_dark.svg" data-light="assets/img/stripe_light.svg">
+                            <img src="/assets/img/stripe_dark.svg" alt="E-commerce Store" style="object-fit: cover; background: #121212;" data-dark="/assets/img/stripe_dark.svg" data-light="/assets/img/stripe_light.svg">
                         <div class="work__description">
                             <center>
                                 <h3>
@@ -566,7 +567,7 @@
                     </div>
 
                     <div class="work__img"> <!-- Automation Utilities -->
-                            <img src="assets/img/automation_dark.svg" alt="Automation Utilities" style="object-fit: cover; background: #121212;" data-dark="assets/img/automation_dark.svg" data-light="assets/img/automation_light.svg">
+                            <img src="/assets/img/automation_dark.svg" alt="Automation Utilities" style="object-fit: cover; background: #121212;" data-dark="/assets/img/automation_dark.svg" data-light="/assets/img/automation_light.svg">
                         <div class="work__description">
                             <center>
                                 <h3>
@@ -584,7 +585,7 @@
 
                     <div class="work__img"> <!-- System Administration -->
                         <!-- <a href=""> -->
-                            <img src="assets/img/docker_dark.png" alt="System Administration" data-dark="assets/img/docker_dark.png" data-light="assets/img/docker_dark_light.png">
+                            <img src="/assets/img/docker_dark.png" alt="System Administration" data-dark="/assets/img/docker_dark.png" data-light="/assets/img/docker_dark_light.png">
                         <!-- </a> -->
                         <div class="work__description">
                             <center>
@@ -600,7 +601,7 @@
 
                     <!-- Safari Unpinner (commented out)
                     <div class="work__img">
-                            <img src="assets/img/unpin_safari.png" alt="Safari Unpinner" style="object-fit: cover;">
+                            <img src="/assets/img/unpin_safari.png" alt="Safari Unpinner" style="object-fit: cover;">
                         <div class="work__description">
                             <center>
                                 <h3>
@@ -616,7 +617,7 @@
 
                     <!-- Weather Dashboard (commented out)
                     <div class="work__img">
-                            <img src="assets/img/weather_real.png" alt="Weather Dashboard" style="object-fit: cover;">
+                            <img src="/assets/img/weather_real.png" alt="Weather Dashboard" style="object-fit: cover;">
                         <div class="work__description">
                             <center>
                                 <h3>
@@ -632,7 +633,7 @@
 
                     <!-- Coinbase Analytics (commented out)
                     <div class="work__img">
-                            <img src="assets/img/coinbase_dark.png" alt="Coinbase Analytics">
+                            <img src="/assets/img/coinbase_dark.png" alt="Coinbase Analytics">
                         <div class="work__description">
                             <center>
                                 <h3>
@@ -648,7 +649,7 @@
 
                     <!-- Data Analytics Dashboard (commented out)
                     <div class="work__img">
-                            <img src="assets/img/data_analytics_real.png" alt="Data Analytics Dashboard" style="object-fit: cover;">
+                            <img src="/assets/img/data_analytics_real.png" alt="Data Analytics Dashboard" style="object-fit: cover;">
                         <div class="work__description">
                             <center>
                                 <h3>
@@ -664,7 +665,7 @@
 
                     <!-- TaskMaster Mobile App (commented out)
                     <div class="work__img">
-                            <img src="assets/img/taskmaster_real.png" alt="TaskMaster Mobile App" style="object-fit: cover; background: #0d1117;">
+                            <img src="/assets/img/taskmaster_real.png" alt="TaskMaster Mobile App" style="object-fit: cover; background: #0d1117;">
                         <div class="work__description">
                             <center>
                                 <h3>
@@ -680,7 +681,7 @@
 
                     <!-- Terminal Snake Game (commented out)
                     <div class="work__img">
-                            <img src="assets/img/snake_real.png" alt="Terminal Snake Game" style="object-fit: cover;">
+                            <img src="/assets/img/snake_real.png" alt="Terminal Snake Game" style="object-fit: cover;">
                         <div class="work__description">
                             <center>
                                 <h3>
@@ -696,7 +697,7 @@
 
                     <!-- Surfing Cat Emoji (commented out)
                     <div class="work__img">
-                            <img src="assets/img/surfing_cat_real.png" alt="Surfing Cat Emoji Creator" style="object-fit: cover;">
+                            <img src="/assets/img/surfing_cat_real.png" alt="Surfing Cat Emoji Creator" style="object-fit: cover;">
                         <div class="work__description">
                             <center>
                                 <h3>
@@ -712,7 +713,7 @@
 
                     <!-- Beat Generator (commented out)
                     <div class="work__img">
-                            <img src="assets/img/beatgen_real.png" alt="Procedural Beat Generator" style="object-fit: cover;">
+                            <img src="/assets/img/beatgen_real.png" alt="Procedural Beat Generator" style="object-fit: cover;">
                         <div class="work__description">
                             <center>
                                 <h3>
@@ -728,7 +729,7 @@
 
                     <!-- Tigers App (commented out)
                     <div class="work__img">
-                            <img src="assets/img/tigers_real.png" alt="Detroit Tigers iOS App" style="object-fit: cover; background: #0d1117;">
+                            <img src="/assets/img/tigers_real.png" alt="Detroit Tigers iOS App" style="object-fit: cover; background: #0d1117;">
                         <div class="work__description">
                             <center>
                                 <h3>
@@ -805,7 +806,7 @@
 
 
         <!--===== MAIN JS =====-->
-        <script src="assets/js/main.js"></script>
+        <script src="/assets/js/main.js"></script>
 
         <script>
 
