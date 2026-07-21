@@ -1322,6 +1322,20 @@ html.theme-switching * {
   .proj-detail, .more-wrap { grid-template-rows: 1fr !important; }
   .proj-detail-in, .more-inner { overflow: visible !important; }
   .proj-chev, .more-toggle { display: none !important; }
+  /* The default view every first-time visitor sees is "projects-only", which hides
+     #about and #skills on screen (html.projects-only #about,#skills{display:none}) to
+     keep the landing page focused on the work. But this print block exists precisely so
+     a recruiter can save the page as a PDF — and in that default view the PDF would drop
+     the entire About bio (the experience at Kepler, Condé Nast, and Deloitte) and the
+     whole Skills breakdown, i.e. the most hiring-relevant text on the page. Reveal both
+     on paper so the printed portfolio always carries them, regardless of which view was
+     active when Print was triggered. #home (a large decorative hero portrait, and its
+     heading is already duplicated by .projects-only-h1) and #contact (an empty on-paper
+     form; the email + social links are already in the always-visible footer, whose hrefs
+     this block prints) are intentionally left hidden. Print media only — no on-screen
+     change to either view. */
+  html.projects-only #about,
+  html.projects-only #skills { display: block !important; }
   a {
     color: #000 !important;
     text-decoration: underline;
