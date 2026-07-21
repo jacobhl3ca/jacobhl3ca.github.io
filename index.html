@@ -66,8 +66,8 @@
                 var dark = document.documentElement.getAttribute('data-theme') === 'dark';
                 var l = document.createElement('link');
                 l.rel = 'preload'; l.as = 'image'; l.fetchPriority = 'high';
-                l.href = dark ? 'assets/img/hidescore-cover.png?v=4'
-                              : 'assets/img/hidescore-cover-light.png?v=1';
+                l.href = dark ? 'assets/img/hidescore-cover-thumb.webp?v=1'
+                              : 'assets/img/hidescore-cover-light-thumb.webp?v=1';
                 document.head.appendChild(l);
             })();
         </script>
@@ -1274,25 +1274,27 @@
 (function(){
 const MAIN = [
   // imgLight: the light-mode twin of the branded cover (same artwork, light backdrop/type).
-  // Rendered by ~/jacobhl-covers/covers.html + render.mjs — edit and re-run that to change them.
+  // Rendered by ~/jacobhl-covers/covers.html + render.mjs, then downscaled to 640px WebP by
+  // make-thumbs.py — the card slot is 200px, so the full 2004px PNGs (still in this folder,
+  // and still the source/social art) were ~25x more bytes than anything on screen.
   // Cards without an imgLight are real screenshots of dark-by-design sites, so they stay as-is.
-  { title:"HideScore", live:true, img:"assets/img/hidescore-cover.png?v=4", imgLight:"assets/img/hidescore-cover-light.png?v=1", url:"https://hidescore.com",
+  { title:"HideScore", live:true, img:"assets/img/hidescore-cover-thumb.webp?v=1", imgLight:"assets/img/hidescore-cover-light-thumb.webp?v=1", url:"https://hidescore.com",
     one:"Watch sports highlights without seeing the score.",
     full:"Watch sports highlights without seeing the score. Covers MLB, NBA, NHL, NFL, soccer, tennis and more with score-hidden cards, embedded highlights, and a unified news view — without spoiling anything you haven't watched.",
     site:"https://hidescore.com", appstore:"https://apps.apple.com/app/hidescore/id6766885311" },
-  { title:"Tonight NYC", live:true, img:"assets/img/tonightnyc-cover.png?v=4", imgLight:"assets/img/tonightnyc-cover-light.png?v=1", url:"https://tonightnyc.com",
+  { title:"Tonight NYC", live:true, img:"assets/img/tonightnyc-cover-thumb.webp?v=1", imgLight:"assets/img/tonightnyc-cover-light-thumb.webp?v=1", url:"https://tonightnyc.com",
     one:"Every NYC comedy show, filtered to your favorite comedians.",
     full:"No more digging for comedy showtimes, stick to your favorite comedians. Includes every NYC show from the Comedy Cellar, The Stand, and more, filtered your way. Mark favorites and skips, see which set to attend at a glance, and book directly.",
     site:"https://tonightnyc.com", appstore:"https://apps.apple.com/app/id6763027650" },
-  { title:"Subway Times", live:true, img:"assets/img/subwaytimes-cover.png?v=4", imgLight:"assets/img/subwaytimes-cover-light.png?v=1", url:"https://subwaytimes.com",
+  { title:"Subway Times", live:true, img:"assets/img/subwaytimes-cover-thumb.webp?v=1", imgLight:"assets/img/subwaytimes-cover-light-thumb.webp?v=1", url:"https://subwaytimes.com",
     one:"Real-time NYC subway arrivals, faster than Maps.",
     full:"Quicker than Google Maps for simple departures, especially from your home station. Real-time NYC subway arrivals, where you can favorite your stations, see countdown timers down to the second, and get out the door faster.",
     site:"https://subwaytimes.com", appstore:"https://apps.apple.com/us/app/subwaytimes/id6775994423" },
-  { title:"David Licht", live:true, img:"assets/img/davidlicht-app.png", imgWide:"assets/img/davidlicht.jpg", url:"https://davidlicht.com",
+  { title:"David Licht", live:true, img:"assets/img/davidlicht-app-thumb.webp?v=1", imgWide:"assets/img/davidlicht-thumb.webp?v=1", url:"https://davidlicht.com",
     one:"A showcase site for my dad — five decades of drumming.",
     full:"A showcase site I built for my dad — a drummer for five decades, from downtown NYC noise bands to the Grammy-winning Klezmatics. His story, music, and photos in one place.",
     site:"https://davidlicht.com" },
-  { title:"The Island", live:true, img:"assets/img/theisland-cover.png?v=4", imgLight:"assets/img/theisland-cover-light.png?v=1", url:"https://theisland.nyc",
+  { title:"The Island", live:true, img:"assets/img/theisland-cover-thumb.webp?v=1", imgLight:"assets/img/theisland-cover-light-thumb.webp?v=1", url:"https://theisland.nyc",
     one:"Everything happening on NYC's Roosevelt Island, in one place.",
     full:"Everything happening on NYC's Roosevelt Island, in one place — real-time bus GPS, subway, tram, and ferry times, a restaurant guide, service alerts, an events newsletter, and an interactive map.",
     site:"https://theisland.nyc", appstore:"https://apps.apple.com/us/app/roosevelt-island/id6775979583" },
@@ -1307,20 +1309,20 @@ const MAIN = [
   //   full:"A neighbor-help app for Roosevelt Island — post what you need or offer a hand, from borrowing a tool to walking a dog, so favors stay local (Next.js, Supabase).",
   //   site:"https://islander.theisland.nyc" },
   // ref (hidden from site): "Developer ID-signed and Apple-notarized, so it downloads and opens cleanly (Python, rumps, py2app)."
-  { title:"TidyTab", live:true, img:"assets/img/tidytab-cover.png?v=5", imgLight:"assets/img/tidytab-cover-light.png?v=2", url:"https://tidytab.jacobhl.com",
+  { title:"TidyTab", live:true, img:"assets/img/tidytab-cover-thumb.webp?v=1", imgLight:"assets/img/tidytab-cover-light-thumb.webp?v=1", url:"https://tidytab.jacobhl.com",
     one:"Bulk unpin or close Safari pinned tabs — a macOS menu-bar app.",
     full:"A menu-bar app I built to bulk unpin or close Safari pinned tabs in one sweep — it auto-detects your pinned tabs and clears them (press Space to stop).",
     // download now lives on the tidytab.html landing page the preview opens (keeps the card row clean, consistent with the others)
   },
 ];
 const MORE = [
-  { title:"Spotify Analytics", img:"assets/img/spotify_monthly.png", imgLight:"assets/img/spotify_monthly_light.png",
+  { title:"Spotify Analytics", img:"assets/img/spotify_monthly-thumb.webp?v=1", imgLight:"assets/img/spotify_monthly_light-thumb.webp?v=1",
     one:"Interactive dashboard of my listening trends — beyond Wrapped.",
     full:"Summarize listening trends without relying on annual Spotify Wrapped — an interactive dashboard with top songs/artists/albums, heatmaps, skip-rate analysis, artist evolution timelines, session tracking, and a listening clock (Python, Plotly, Streamlit)." },
-  { title:"Spotify Playlist Archiver", img:"assets/img/spotify_archiver.png", imgLight:"assets/img/spotify_archiver_light.png",
+  { title:"Spotify Playlist Archiver", img:"assets/img/spotify_archiver-thumb.webp?v=1", imgLight:"assets/img/spotify_archiver_light-thumb.webp?v=1",
     one:"Auto-archives playlists that would otherwise disappear.",
     full:"Automatic weekly archiver of playlists that would otherwise disappear — Discover Weekly, Release Radar, and Your Top Songs at different granularities. Uses PyAutoGUI automation for playlists unavailable via API, and the Spotify API for top tracks with rate-limit handling (Python, Spotipy)." },
-  { title:"Personal Finance App", img:"assets/img/finance_trend_crop.png", imgLight:"assets/img/finance_trend_crop_light.png",
+  { title:"Personal Finance App", img:"assets/img/finance_trend_crop-thumb.webp?v=1", imgLight:"assets/img/finance_trend_crop_light-thumb.webp?v=1",
     one:"Daily budgeting, investment planning, and optimization.",
     full:"Enables precise daily budgeting, investment planning, and optimization (Python, Apps Script)." },
   { title:"E-commerce Store", img:"assets/img/stripe_dark.svg", imgLight:"assets/img/stripe_light.svg",
@@ -1332,7 +1334,7 @@ const MORE = [
     full:"macOS productivity automation suite including timesheet autofill via keystroke injection, system toggles (menu bar hide/show, dark/light mode, VPN connect/disconnect), keyboard backlight control, dock spacer grouping, and game re-roll automation (Python, AppleScript, Bash, PyAutoGUI). The Safari pinned-tab tool from this suite ships separately as TidyTab.",
     github:"https://github.com/jacobhl3ca/safari-pinned-tab-automation" },
   */
-  { title:"System Administration", img:"assets/img/docker_dark.png", imgLight:"assets/img/docker_dark_light.png",
+  { title:"System Administration", img:"assets/img/docker_dark-thumb.webp?v=1", imgLight:"assets/img/docker_dark_light-thumb.webp?v=1",
     one:"Self-hosted media & web apps on a home Linux server.",
     full:"Self-hosted web apps and network services on a home Linux server — a full Plex/Jellyfin media-automation stack (Radarr, Sonarr, Prowlarr, Bazarr, SABnzbd), a Homepage dashboard, Umami analytics, and Uptime Kuma monitoring, all containerized (Docker, Docker Compose)." },
 ];
