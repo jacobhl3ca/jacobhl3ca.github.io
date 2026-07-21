@@ -19,7 +19,15 @@
         <link rel="preconnect" href="https://fonts.googleapis.com"> <!-- early-connect to Google Fonts CSS (styles.css @imports Poppins from here, on the critical path) -->
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin> <!-- early-connect to the Google Fonts file host; crossorigin so the warmed socket is reused for the CORS woff2 fetch -->
         <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap"> <!-- styles.css @imports Poppins, but @import isn't discoverable until styles.css has downloaded + parsed, so the font CSS fetch is serialized on the critical path; preload it (same URL) so the browser fetches it in parallel up front and the @import then resolves from cache. Kept identical to the @import (now includes weight 500, used by .skills__tag / .mac-badge) so the preload still satisfies it. -->
-        <link rel="preload" as="image" href="assets/img/hidescore-cover.png?v=4" fetchpriority="high"> <!-- LCP preload: the first project card's thumbnail (HideScore's branded cover) is the projects-only LCP, but the project rows are built by the inline script near </body>, so the preload scanner can't discover this image during head parse — the fetchpriority="high" already on the <img> only helps once it's discovered (late). Preload it so the fetch starts during head parse. Single source now (no responsive <picture> — the branded cover is one image at all breakpoints). -->
+        <!-- LCP preload: the first project card's thumbnail (HideScore's branded cover) is the
+             projects-only LCP, but the project rows are built by the inline script near </body>,
+             so the preload scanner can't discover this image during head parse — the
+             fetchpriority="high" already on the <img> only helps once it's discovered (late).
+             The cover now ships in two themes, so this is injected by the pre-paint script below
+             (which already reads the stored theme) rather than hard-coded: a static tag would
+             always preload the dark file and every default/light visitor would pay for a cover
+             they never render, then fetch the light one late — the exact cost this preload exists
+             to avoid. Injected from the head script it still starts during head parse. -->
         <link rel="dns-prefetch" href="//gc.zgo.at"> <!-- resolve the GoatCounter script host ahead of the async count.js fetch at end of body -->
         <link rel="dns-prefetch" href="//jacobhl.goatcounter.com"> <!-- resolve the GoatCounter *beacon* host too: count.js (from gc.zgo.at above) sends every pageview hit to https://jacobhl.goatcounter.com/count, a separate host whose DNS was otherwise only looked up lazily when the beacon fires. The prefetch above warmed only the script host; this warms the endpoint the hit actually goes to, so the beacon isn't delayed (and is less likely to be dropped on a slow/flaky DNS). The homepage was the one GoatCounter page still missing this — 404.html, weather/, and building.html all already carry it — so this completes the beacon-host prefetch pattern site-wide. Pure resource hint, no visual or behaviour change. -->
         <link rel="dns-prefetch" href="//stats.hidescore.com"> <!-- resolve the self-hosted Umami analytics host ahead of its deferred script.js fetch at end of body -->
@@ -51,6 +59,17 @@
             } catch (e) {
                 document.documentElement.classList.add('projects-only');
             }
+            // LCP preload for the first project card's cover, in whichever theme is about to
+            // render (see the comment above the link block). Outside the try/catch so a
+            // storage exception above still leaves the default light cover preloaded.
+            (function () {
+                var dark = document.documentElement.getAttribute('data-theme') === 'dark';
+                var l = document.createElement('link');
+                l.rel = 'preload'; l.as = 'image'; l.fetchPriority = 'high';
+                l.href = dark ? 'assets/img/hidescore-cover.png?v=4'
+                              : 'assets/img/hidescore-cover-light.png?v=1';
+                document.head.appendChild(l);
+            })();
         </script>
         <title>Jacob Heifetz-Licht — Analytics Manager</title>
         <meta name="description" content="Data analytics leader and web developer specializing in Python, SQL, Tableau, React, and Next.js. Turning data into things people actually use.">
@@ -484,6 +503,10 @@
   /* thumb stretches to the SAME height as the text+icons column (align-self:stretch) */
   .proj-thumb{flex:0 0 200px;align-self:stretch;min-height:104px;border-radius:.4rem;overflow:hidden;
     position:relative;background:#0f0f0f;cursor:pointer;}
+  /* The thumb backing shows through while the cover is still decoding (and behind any
+     rounding). It was hard-coded near-black, which flashed a dark rectangle on the
+     now-light-default page — match it to the light covers instead. */
+  html:not([data-theme="dark"]) .proj-thumb{background:#eef1f8;}
   .proj-thumb img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center;transition:transform .9s ease;}
   .proj-thumb.pos-top img{object-position:top;}
   .proj-thumb:hover img{transform:scale(1.08);}
@@ -1250,15 +1273,18 @@
     <script>
 (function(){
 const MAIN = [
-  { title:"HideScore", live:true, img:"assets/img/hidescore-cover.png?v=4", url:"https://hidescore.com",
+  // imgLight: the light-mode twin of the branded cover (same artwork, light backdrop/type).
+  // Rendered by ~/jacobhl-covers/covers.html + render.mjs — edit and re-run that to change them.
+  // Cards without an imgLight are real screenshots of dark-by-design sites, so they stay as-is.
+  { title:"HideScore", live:true, img:"assets/img/hidescore-cover.png?v=4", imgLight:"assets/img/hidescore-cover-light.png?v=1", url:"https://hidescore.com",
     one:"Watch sports highlights without seeing the score.",
     full:"Watch sports highlights without seeing the score. Covers MLB, NBA, NHL, NFL, soccer, tennis and more with score-hidden cards, embedded highlights, and a unified news view — without spoiling anything you haven't watched.",
     site:"https://hidescore.com", appstore:"https://apps.apple.com/app/hidescore/id6766885311" },
-  { title:"Tonight NYC", live:true, img:"assets/img/tonightnyc-cover.png?v=4", url:"https://tonightnyc.com",
+  { title:"Tonight NYC", live:true, img:"assets/img/tonightnyc-cover.png?v=4", imgLight:"assets/img/tonightnyc-cover-light.png?v=1", url:"https://tonightnyc.com",
     one:"Every NYC comedy show, filtered to your favorite comedians.",
     full:"No more digging for comedy showtimes, stick to your favorite comedians. Includes every NYC show from the Comedy Cellar, The Stand, and more, filtered your way. Mark favorites and skips, see which set to attend at a glance, and book directly.",
     site:"https://tonightnyc.com", appstore:"https://apps.apple.com/app/id6763027650" },
-  { title:"Subway Times", live:true, img:"assets/img/subwaytimes-cover.png?v=4", url:"https://subwaytimes.com",
+  { title:"Subway Times", live:true, img:"assets/img/subwaytimes-cover.png?v=4", imgLight:"assets/img/subwaytimes-cover-light.png?v=1", url:"https://subwaytimes.com",
     one:"Real-time NYC subway arrivals, faster than Maps.",
     full:"Quicker than Google Maps for simple departures, especially from your home station. Real-time NYC subway arrivals, where you can favorite your stations, see countdown timers down to the second, and get out the door faster.",
     site:"https://subwaytimes.com", appstore:"https://apps.apple.com/us/app/subwaytimes/id6775994423" },
@@ -1266,7 +1292,7 @@ const MAIN = [
     one:"A showcase site for my dad — five decades of drumming.",
     full:"A showcase site I built for my dad — a drummer for five decades, from downtown NYC noise bands to the Grammy-winning Klezmatics. His story, music, and photos in one place.",
     site:"https://davidlicht.com" },
-  { title:"The Island", live:true, img:"assets/img/theisland-cover.png?v=4", url:"https://theisland.nyc",
+  { title:"The Island", live:true, img:"assets/img/theisland-cover.png?v=4", imgLight:"assets/img/theisland-cover-light.png?v=1", url:"https://theisland.nyc",
     one:"Everything happening on NYC's Roosevelt Island, in one place.",
     full:"Everything happening on NYC's Roosevelt Island, in one place — real-time bus GPS, subway, tram, and ferry times, a restaurant guide, service alerts, an events newsletter, and an interactive map.",
     site:"https://theisland.nyc", appstore:"https://apps.apple.com/us/app/roosevelt-island/id6775979583" },
@@ -1281,32 +1307,32 @@ const MAIN = [
   //   full:"A neighbor-help app for Roosevelt Island — post what you need or offer a hand, from borrowing a tool to walking a dog, so favors stay local (Next.js, Supabase).",
   //   site:"https://islander.theisland.nyc" },
   // ref (hidden from site): "Developer ID-signed and Apple-notarized, so it downloads and opens cleanly (Python, rumps, py2app)."
-  { title:"TidyTab", live:true, img:"assets/img/tidytab-cover.png?v=4", url:"https://tidytab.jacobhl.com",
+  { title:"TidyTab", live:true, img:"assets/img/tidytab-cover.png?v=5", imgLight:"assets/img/tidytab-cover-light.png?v=2", url:"https://tidytab.jacobhl.com",
     one:"Bulk unpin or close Safari pinned tabs — a macOS menu-bar app.",
     full:"A menu-bar app I built to bulk unpin or close Safari pinned tabs in one sweep — it auto-detects your pinned tabs and clears them (press Space to stop).",
     // download now lives on the tidytab.html landing page the preview opens (keeps the card row clean, consistent with the others)
   },
 ];
 const MORE = [
-  { title:"Spotify Analytics", img:"assets/img/spotify_monthly.png",
+  { title:"Spotify Analytics", img:"assets/img/spotify_monthly.png", imgLight:"assets/img/spotify_monthly_light.png",
     one:"Interactive dashboard of my listening trends — beyond Wrapped.",
     full:"Summarize listening trends without relying on annual Spotify Wrapped — an interactive dashboard with top songs/artists/albums, heatmaps, skip-rate analysis, artist evolution timelines, session tracking, and a listening clock (Python, Plotly, Streamlit)." },
-  { title:"Spotify Playlist Archiver", img:"assets/img/spotify_archiver.png",
+  { title:"Spotify Playlist Archiver", img:"assets/img/spotify_archiver.png", imgLight:"assets/img/spotify_archiver_light.png",
     one:"Auto-archives playlists that would otherwise disappear.",
     full:"Automatic weekly archiver of playlists that would otherwise disappear — Discover Weekly, Release Radar, and Your Top Songs at different granularities. Uses PyAutoGUI automation for playlists unavailable via API, and the Spotify API for top tracks with rate-limit handling (Python, Spotipy)." },
-  { title:"Personal Finance App", img:"assets/img/finance_trend_crop.png",
+  { title:"Personal Finance App", img:"assets/img/finance_trend_crop.png", imgLight:"assets/img/finance_trend_crop_light.png",
     one:"Daily budgeting, investment planning, and optimization.",
     full:"Enables precise daily budgeting, investment planning, and optimization (Python, Apps Script)." },
-  { title:"E-commerce Store", img:"assets/img/stripe_dark.svg",
+  { title:"E-commerce Store", img:"assets/img/stripe_dark.svg", imgLight:"assets/img/stripe_light.svg",
     one:"Full-stack store with Stripe checkout.",
     full:"Full-stack e-commerce site with Stripe payment processing and an Express.js backend (Node.js, Stripe API, HTML/CSS/JS)." },
   /* Automation Utilities — hidden for now (TidyTab is its own row); restore by uncommenting:
-  { title:"Automation Utilities", img:"assets/img/automation_dark.svg",
+  { title:"Automation Utilities", img:"assets/img/automation_dark.svg", imgLight:"assets/img/automation_light.svg",
     one:"macOS automation suite — system toggles, timesheet autofill, and more.",
     full:"macOS productivity automation suite including timesheet autofill via keystroke injection, system toggles (menu bar hide/show, dark/light mode, VPN connect/disconnect), keyboard backlight control, dock spacer grouping, and game re-roll automation (Python, AppleScript, Bash, PyAutoGUI). The Safari pinned-tab tool from this suite ships separately as TidyTab.",
     github:"https://github.com/jacobhl3ca/safari-pinned-tab-automation" },
   */
-  { title:"System Administration", img:"assets/img/docker_dark.png",
+  { title:"System Administration", img:"assets/img/docker_dark.png", imgLight:"assets/img/docker_dark_light.png",
     one:"Self-hosted media & web apps on a home Linux server.",
     full:"Self-hosted web apps and network services on a home Linux server — a full Plex/Jellyfin media-automation stack (Radarr, Sonarr, Prowlarr, Bazarr, SABnzbd), a Homepage dashboard, Umami analytics, and Uptime Kuma monitoring, all containerized (Docker, Docker Compose)." },
 ];
@@ -1345,6 +1371,16 @@ function rowHTML(p, eager){
   // pairing; safe now that the hero portrait is lazy and no longer claims high priority).
   // Every other card stays lazy at default priority.
   const imgLoad = eager ? 'loading="eager" fetchpriority="high"' : 'loading="lazy"';
+  // Theme-aware cover. main-alt.js's setThemeImages() re-points every img[data-dark][data-light]
+  // on toggle, but it's deferred — it runs AFTER this inline builder — so the initial src has to
+  // be resolved here or a light-mode visitor gets a dark cover until main-alt.js lands. The page
+  // ships light (no data-theme) and the pre-paint head script asserts dark before we run, so
+  // reading the attribute now is accurate.
+  const themed = p.imgLight
+    ? ` data-dark="${p.img}" data-light="${p.imgLight}"`
+    : '';
+  const imgSrc = (p.imgLight && document.documentElement.getAttribute('data-theme') !== 'dark')
+    ? p.imgLight : p.img;
   // Stable, unique id per project (titles are unique across both lists) so the chevron toggle can
   // point at the panel it expands via aria-controls, mirroring the #moreToggle → #moreWrap wiring.
   const detailId = 'proj-detail-' + p.title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
@@ -1356,7 +1392,7 @@ function rowHTML(p, eager){
       <div class="proj-thumb ${thumbCls}" ${p.live?`data-url="${p.url}"${p.noEmbed?` data-noembed="1" data-poster="${p.img}"`:''} role="button" tabindex="0" aria-haspopup="dialog" aria-label="Open live preview of ${p.title}"`:''}>
         ${p.imgWide
           ? `<picture><source media="(min-width:768px)" srcset="${p.imgWide}"><img src="${p.img}" alt="${p.live ? '' : p.title + ' screenshot'}" ${imgLoad} decoding="async"></picture>`
-          : `<img src="${p.img}" alt="${p.live ? '' : p.title + ' screenshot'}" ${imgLoad} decoding="async">`}
+          : `<img src="${imgSrc}"${themed} alt="${p.live ? '' : p.title + ' screenshot'}" ${imgLoad} decoding="async">`}
         <span class="proj-zoom" aria-hidden="true"><i class='bx bx-search' aria-hidden="true"></i></span>
         <div class="proj-cue"><span><i class='bx bx-expand-alt' aria-hidden="true"></i> Preview</span></div>
       </div>
