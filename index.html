@@ -477,6 +477,13 @@
     font-size:.78rem;font-weight:600;line-height:1;white-space:nowrap;transition:border-color .2s ease,color .2s ease;}
   .proj-appstore-all i{font-size:1.02rem;line-height:1;position:relative;top:-1px;}
   .proj-appstore-all:hover{border-color:var(--first-color);color:#fff;}
+  /* Branded focus ring so keyboard users get the same accent outline as the rest of the site
+     (its sibling .proj-linkedin beside it, .button, .view-pill__btn, etc.) instead of the
+     inconsistent browser default (WCAG 2.4.7). This "Apps" App Store link was the one interactive
+     control in the projects header still falling back to the UA outline. :focus-visible only, so
+     mouse/touch clicks show no ring and the resting look is unchanged. */
+  .proj-appstore-all:focus{outline:none;}
+  .proj-appstore-all:focus-visible{outline:2px solid var(--first-color);outline-offset:2px;}
   @media(max-width:600px){
     .proj-head-row{margin:.35rem auto 1rem;padding:0 1rem;}
     .proj-head-actions{right:1rem;gap:.4rem;}
