@@ -989,6 +989,24 @@
                         <span id="moreLabel">Other projects</span>
                         <i class='bx bx-chevron-down' aria-hidden="true"></i>
                     </button>
+                    <noscript>
+                        <!-- The "Other projects" cards are built by JavaScript into #more-rows below, and the
+                             toggle button above is a JS-only expander that does nothing without scripting — so
+                             for no-JS visitors (and crawlers that don't run JS) this whole section is a dead
+                             button over an empty div. Hide the inert toggle and list the projects as plain text
+                             so their content and SEO value aren't lost, mirroring the #main-rows fallback above.
+                             Mirrors the MORE[] array — these portfolio pieces have no live site, so unlike the
+                             live-app cards they're unlinked (Automation Utilities stays out, matching the array's
+                             commented-out entry). The JS-rendered cards replace this entirely. -->
+                        <style>#moreToggle{display:none;}</style>
+                        <ul style="list-style:none;margin:0;padding:0;line-height:1.6;color:var(--second-color);">
+                            <li><strong>Spotify Analytics</strong> — Interactive dashboard of my listening trends — beyond Wrapped.</li>
+                            <li><strong>Spotify Playlist Archiver</strong> — Auto-archives playlists that would otherwise disappear.</li>
+                            <li><strong>Personal Finance App</strong> — Daily budgeting, investment planning, and optimization.</li>
+                            <li><strong>E-commerce Store</strong> — Full-stack store with Stripe checkout.</li>
+                            <li><strong>System Administration</strong> — Self-hosted media &amp; web apps on a home Linux server.</li>
+                        </ul>
+                    </noscript>
                     <div class="more-wrap" id="moreWrap" inert><div class="more-inner"><div class="padtop">
                         <div id="more-rows"></div>
                     </div></div></div>
