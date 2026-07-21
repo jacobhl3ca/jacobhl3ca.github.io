@@ -20,7 +20,8 @@
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin> <!-- early-connect to the Google Fonts file host; crossorigin so the warmed socket is reused for the CORS woff2 fetch -->
         <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap"> <!-- styles.css @imports Poppins, but @import isn't discoverable until styles.css has downloaded + parsed, so the font CSS fetch is serialized on the critical path; preload it (same URL) so the browser fetches it in parallel up front and the @import then resolves from cache. Kept identical to the @import (now includes weight 500, used by .skills__tag / .mac-badge) so the preload still satisfies it. -->
         <link rel="preload" as="image" href="assets/img/hidescore-cover.png?v=4" fetchpriority="high"> <!-- LCP preload: the first project card's thumbnail (HideScore's branded cover) is the projects-only LCP, but the project rows are built by the inline script near </body>, so the preload scanner can't discover this image during head parse — the fetchpriority="high" already on the <img> only helps once it's discovered (late). Preload it so the fetch starts during head parse. Single source now (no responsive <picture> — the branded cover is one image at all breakpoints). -->
-        <link rel="dns-prefetch" href="//gc.zgo.at"> <!-- resolve the GoatCounter analytics host ahead of the async count.js fetch at end of body -->
+        <link rel="dns-prefetch" href="//gc.zgo.at"> <!-- resolve the GoatCounter script host ahead of the async count.js fetch at end of body -->
+        <link rel="dns-prefetch" href="//jacobhl.goatcounter.com"> <!-- resolve the GoatCounter *beacon* host too: count.js (from gc.zgo.at above) sends every pageview hit to https://jacobhl.goatcounter.com/count, a separate host whose DNS was otherwise only looked up lazily when the beacon fires. The prefetch above warmed only the script host; this warms the endpoint the hit actually goes to, so the beacon isn't delayed (and is less likely to be dropped on a slow/flaky DNS). The homepage was the one GoatCounter page still missing this — 404.html, weather/, and building.html all already carry it — so this completes the beacon-host prefetch pattern site-wide. Pure resource hint, no visual or behaviour change. -->
         <link rel="dns-prefetch" href="//stats.hidescore.com"> <!-- resolve the self-hosted Umami analytics host ahead of its deferred script.js fetch at end of body -->
         <link rel="dns-prefetch" href="//formspree.io"> <!-- resolve the Formspree host ahead of the contact form's on-submit POST (assets/js/main-alt.js) so the DNS lookup isn't on the send path -->
         <link href='https://cdn.jsdelivr.net/npm/boxicons@2.0.5/css/boxicons.min.css' rel='stylesheet'> <!-- icons -->
@@ -129,7 +130,7 @@
             "about": { "@id": "https://jacobhl.com/#person" },
             "mainEntity": { "@id": "https://jacobhl.com/#person" },
             "inLanguage": "en-US",
-            "dateModified": "2026-07-19"
+            "dateModified": "2026-07-20"
         }
         </script>
         <style>
@@ -988,6 +989,24 @@
                         <span id="moreLabel">Other projects</span>
                         <i class='bx bx-chevron-down' aria-hidden="true"></i>
                     </button>
+                    <noscript>
+                        <!-- The "Other projects" cards are built by JavaScript into #more-rows below, and the
+                             toggle button above is a JS-only expander that does nothing without scripting — so
+                             for no-JS visitors (and crawlers that don't run JS) this whole section is a dead
+                             button over an empty div. Hide the inert toggle and list the projects as plain text
+                             so their content and SEO value aren't lost, mirroring the #main-rows fallback above.
+                             Mirrors the MORE[] array — these portfolio pieces have no live site, so unlike the
+                             live-app cards they're unlinked (Automation Utilities stays out, matching the array's
+                             commented-out entry). The JS-rendered cards replace this entirely. -->
+                        <style>#moreToggle{display:none;}</style>
+                        <ul style="list-style:none;margin:0;padding:0;line-height:1.6;color:var(--second-color);">
+                            <li><strong>Spotify Analytics</strong> — Interactive dashboard of my listening trends — beyond Wrapped.</li>
+                            <li><strong>Spotify Playlist Archiver</strong> — Auto-archives playlists that would otherwise disappear.</li>
+                            <li><strong>Personal Finance App</strong> — Daily budgeting, investment planning, and optimization.</li>
+                            <li><strong>E-commerce Store</strong> — Full-stack store with Stripe checkout.</li>
+                            <li><strong>System Administration</strong> — Self-hosted media &amp; web apps on a home Linux server.</li>
+                        </ul>
+                    </noscript>
                     <div class="more-wrap" id="moreWrap" inert><div class="more-inner"><div class="padtop">
                         <div id="more-rows"></div>
                     </div></div></div>
@@ -1332,7 +1351,7 @@ function rowHTML(p, eager){
   const cta = ctaHTML(p);                        // empty for the decluttered preview cards; only TidyTab (Mac download) has one
   const infoCls = ''; // title + one-liner always top-aligned (chevron pinned bottom via margin-top:auto); vertical-centering overlapped the chevron on short cards
   return `
-  <div class="proj-row">
+  <div class="proj-row" role="listitem">
     <div class="proj-head">
       <div class="proj-thumb ${thumbCls}" ${p.live?`data-url="${p.url}"${p.noEmbed?` data-noembed="1" data-poster="${p.img}"`:''} role="button" tabindex="0" aria-haspopup="dialog" aria-label="Open live preview of ${p.title}"`:''}>
         ${p.imgWide
@@ -1356,8 +1375,18 @@ function rowHTML(p, eager){
   </div>`;
 }
 
-document.getElementById('main-rows').innerHTML = MAIN.map((p, i) => rowHTML(p, i === 0)).join(''); // eager-load only the first (above-the-fold) card's image
-document.getElementById('more-rows').innerHTML = MORE.map(p => rowHTML(p, false)).join(''); // "Private projects" panel starts collapsed/inert — keep all its images lazy
+// Expose the JS-rendered project cards as a semantic list (role="list" + each .proj-row role="listitem"),
+// so screen readers announce "list, N items" and let users jump card-to-card — matching how the skills
+// pills, the weather dashboard's forecast rows, and this section's own no-JS <ul> fallback are already
+// marked up. The role is set here (not in the static HTML) so the container is only a list once its
+// items exist: for no-JS visitors #main-rows stays an empty plain div and the <noscript> <ul> is the
+// list, avoiding an empty "list, 0 items". Purely the accessibility tree — no visual change.
+const _mainRows = document.getElementById('main-rows');
+_mainRows.setAttribute('role', 'list'); _mainRows.setAttribute('aria-label', 'Projects');
+_mainRows.innerHTML = MAIN.map((p, i) => rowHTML(p, i === 0)).join(''); // eager-load only the first (above-the-fold) card's image
+const _moreRows = document.getElementById('more-rows');
+_moreRows.setAttribute('role', 'list'); _moreRows.setAttribute('aria-label', 'Other projects');
+_moreRows.innerHTML = MORE.map(p => rowHTML(p, false)).join(''); // "Private projects" panel starts collapsed/inert — keep all its images lazy
 
 // click anywhere on the card toggles expand — EXCEPT a live thumbnail (opens preview) and CTA links.
 // "Other projects" have no live preview, so clicking their thumbnail expands the card like the rest.

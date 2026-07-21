@@ -11,6 +11,14 @@
 <!-- Canonical → the real homepage. This noindex "projects rows" preview near-duplicates the homepage's projects section, and was the one homepage variant still missing a canonical — its three siblings (index_with_animation.html, projects-stack-preview.html, projects/index_cascade_animate.html) all carry rel=canonical → jacobhl.com. Consolidates any link signals for this URL onto the real homepage, reinforcing the existing noindex, follow (the run that added the robots directive noted this page carried no canonical to disambiguate it). Metadata only — no visual change. -->
 <link rel="canonical" href="https://jacobhl.com/">
 <title>Projects rows — preview</title>
+<!-- Give the tab the site favicon. There is no root /favicon.ico, so without this link a browser's
+     default favicon request 404s and the tab shows a blank/generic icon while this preview is open.
+     This "projects rows" preview was the one page site-wide still missing the icon link — every other
+     page (index.html, 404.html, building.html, weather/, light/, and both sibling previews
+     projects-stack-preview.html / index_with_animation.html) already declares it. Relative path
+     resolves from the repo root where this page is served, matching the two siblings exactly.
+     References the existing favicon.ico (no new asset). No visual change to page content. -->
+<link rel="icon" type="image/x-icon" href="assets/img/favicon.ico">
 <!-- load the REAL site styles so this matches exactly -->
 <link rel="stylesheet" href="assets/css/styles.css">
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
@@ -272,7 +280,7 @@ function ctaHTML(p){
   let h='';
   if(p.site) h+=`<a href="${p.site}" target="_blank" rel="noopener" class="site-link" title="Visit website"><i class='bx bx-globe'></i></a>`;
   if(p.appstore) h+=`<a href="${p.appstore}" target="_blank" rel="noopener" class="app-store-badge-link"><img src="assets/img/app-store-badge.svg" alt="Download on the App Store" class="app-store-badge"></a>`;
-  if(p.download) h+=`<a href="${p.download}" class="gh-link dl-link" title="Download TabTidy for macOS (.dmg, notarized)"><i class='bx bxl-apple'></i>Download for Mac</a>`;
+  if(p.download) h+=`<a href="${p.download}" class="gh-link dl-link" title="Download TidyTab for macOS (.dmg, notarized)"><i class='bx bxl-apple'></i>Download for Mac</a>`;
   if(p.github) h+=`<a href="${p.github}" target="_blank" rel="noopener" class="gh-link"><i class='bx bxl-github'></i>GitHub</a>`;
   return h ? `<div class="work__cta">${h}</div>` : '';
 }
