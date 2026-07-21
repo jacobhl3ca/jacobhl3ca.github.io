@@ -141,6 +141,12 @@ body {
 .spinner { display:inline-block; width:24px; height:24px; border:3px solid var(--card-border); border-top-color:var(--accent); border-radius:50%; animation:spin .8s linear infinite; margin-bottom:12px; }
 @keyframes spin { to { transform:rotate(360deg); } }
 
+/* Respect users who prefer reduced motion: stop the looping spinner and ease off transitions. This leftover /projects/weather/ copy was missing the reduced-motion block its production sibling /weather/ already ships (it carries the same infinite spin animation and the same input/button/sun-dot transitions). Mirrors that block verbatim so both weather copies honour the OS setting; no visual change for users without the preference. */
+@media (prefers-reduced-motion: reduce) {
+  .spinner { animation: none; }
+  .search-bar input, .search-bar button, .sun-dot { transition: none; }
+}
+
 .aqi-bar { display:flex; height:8px; border-radius:4px; overflow:hidden; margin-top:8px; gap:2px; }
 .aqi-seg { flex:1; border-radius:4px; }
 </style>
