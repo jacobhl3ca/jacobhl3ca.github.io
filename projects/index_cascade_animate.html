@@ -357,7 +357,7 @@
                     <a href="https://github.com/jacobhl3ca" class="home__social-icon" target="_blank" rel="me noopener noreferrer" aria-label="GitHub profile"><i class='bx bxl-github' ></i></a>
                     <!-- Plain mailto: href, mirroring the live index.html / index_with_animation.html email icons (href="mailto:hi@jacobhl.com", no target, no onclick). The previous href="#" + JS-only onclick was a dead anchor on the no-JS path — clicking it jumped to the top of the page instead of opening a mail client — and its 'mail'+'to:' string-splitting gave no real spam protection, since the same address is already published as a plain mailto site-wide (index.html contact links, building.html). A real mailto href works without JS, is announced correctly by assistive tech, and target="_blank"/rel are dropped as meaningless on a mailto. This cascade-animate variant was the last page still carrying the old dead-anchor pattern on both its email icons. No visual change. -->
                     <a href="mailto:hi@jacobhl.com" class="home__social-icon" aria-label="Send email"><i class='bx bx-envelope'></i></a>
-                    <a href="#contact" class="home__social-icon" onclick="requestResume()" aria-label="Request resume"><i class='bx bx-file'></i></a>
+                    <a href="#contact" class="home__social-icon" onclick="event.preventDefault(); requestResume()" aria-label="Request resume"><i class='bx bx-file'></i></a>
                 </div>
 
                 <div class="home__img">
@@ -777,7 +777,7 @@
                 <!-- Plain mailto: href, mirroring the home email icon above and the live index.html / index_with_animation.html footer icons. The previous href="#" + JS-only onclick was a dead anchor without JS (it jumped to the top of the page rather than opening a mail client), and its 'mail'+'to:' obfuscation added no protection since the address is plain-text mailto site-wide. A real mailto works without JS and is announced correctly by assistive tech; target="_blank"/rel are dropped as meaningless on a mailto. No visual change. -->
                 <a href="mailto:hi@jacobhl.com" class="footer__icon" aria-label="Send email"><i class='bx bx-envelope'></i></a>
 
-                <a href="#contact" class="footer__icon" onclick="requestResume()" aria-label="Request resume"><i class='bx bx-file'></i></a>
+                <a href="#contact" class="footer__icon" onclick="event.preventDefault(); requestResume()" aria-label="Request resume"><i class='bx bx-file'></i></a>
 
             </div>
 
@@ -1282,11 +1282,17 @@
                 const emailInput = form.querySelector('input[name="email"]');
                 const messageInput = form.querySelector('textarea[name="message"]');
 
-                nameInput.value = 'Your Name';
-                emailInput.value = 'your@email.com';
-                messageInput.value = 'Hi Jacob,\n\nI\'d love a copy of your resume.\n\nThanks!';
+                // Pre-fill only the message (and only if empty, so a half-written one isn't clobbered).
+                // Leave name/email untouched: their placeholders already show the format, and overwriting
+                // them with placeholder-looking strings ("Your Name"/"your@email.com") meant a user had to
+                // delete that junk first — or, if they'd already typed real values, lost them. Mirrors the
+                // production main-alt.js requestResume() behaviour the site's other pages already use.
+                if (!messageInput.value.trim()) {
+                    messageInput.value = 'Hi Jacob,\n\nI\'d love a copy of your resume.\n\nThanks!';
+                }
 
-                nameInput.focus();
+                // Focus the first field still needing input so they can start typing right away.
+                (!nameInput.value.trim() ? nameInput : !emailInput.value.trim() ? emailInput : messageInput).focus();
             }
         </script>
         
