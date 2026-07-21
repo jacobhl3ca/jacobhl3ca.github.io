@@ -374,7 +374,8 @@
                 <div class="about__container bd-grid">
                     <div class="about__img">
 
-                         <img src="/assets/img/about.jpg" alt="Jacob Heifetz-Licht portrait" class="clickable-img" id="about-photo">
+                         <!-- loading="lazy" decoding="async" on this and every image below the fold (the about/skills photos and all project thumbnails): this cascade variant was the one page site-wide still eager-loading its whole image set, so every thumbnail was fetched up front on load even though they sit well below the viewport. Lazy defers each off-screen fetch until it nears the viewport and decoding="async" keeps the decode off the main thread — mirroring the exact attributes the sibling homepage variant (index_with_animation.html) and index.html already carry on these same theme-swapped images. The hero portrait above is deliberately left eager (it's the above-the-fold LCP). No visual change. -->
+                         <img loading="lazy" decoding="async" src="/assets/img/about.jpg" alt="Jacob Heifetz-Licht portrait" class="clickable-img" id="about-photo">
 
                     </div>
                     <div>
@@ -493,7 +494,7 @@
                     </div>
                     
                     <div>              
-                        <img src="/assets/img/skills.jpg" alt="Jacob working with data analytics tools" class="skills__img" id="skills-photo">
+                        <img loading="lazy" decoding="async" src="/assets/img/skills.jpg" alt="Jacob working with data analytics tools" class="skills__img" id="skills-photo">
                     </div>
                 </div>
             </section>
@@ -508,7 +509,7 @@
 
                     <div class="work__img"> <!-- Spotify Analytics -->
                         <!-- <a href=""> -->
-                            <img src="/assets/img/spotify_monthly.png" alt="Spotify Analytics" data-dark="/assets/img/spotify_monthly.png" data-light="/assets/img/spotify_monthly_light.png" id="project-spotify-analytics">
+                            <img loading="lazy" decoding="async" src="/assets/img/spotify_monthly.png" alt="Spotify Analytics" data-dark="/assets/img/spotify_monthly.png" data-light="/assets/img/spotify_monthly_light.png" id="project-spotify-analytics">
                         <!-- </a> -->
                         <div class="work__description">
                             <center>
@@ -524,7 +525,7 @@
 
                     <div class="work__img"> <!-- Spotify Playlist Archiver -->
                         <!-- <a href=""> -->
-                            <img src="/assets/img/spotify_archiver.png" alt="Spotify Playlist Archiver" style="object-fit: contain; background: #121212;" data-dark="/assets/img/spotify_archiver.png" data-light="/assets/img/spotify_archiver_light.png" id="project-spotify-archiver">
+                            <img loading="lazy" decoding="async" src="/assets/img/spotify_archiver.png" alt="Spotify Playlist Archiver" style="object-fit: contain; background: #121212;" data-dark="/assets/img/spotify_archiver.png" data-light="/assets/img/spotify_archiver_light.png" id="project-spotify-archiver">
                         <!-- </a> -->
                         <div class="work__description">
                             <center>
@@ -540,7 +541,7 @@
 
                     <div class="work__img"> <!-- Personal Finance App -->
                         <!-- <a href=""> -->
-                            <img src="/assets/img/finance_trend.png" alt="Personal Finance App" data-dark="/assets/img/finance_trend.png" data-light="/assets/img/finance_trend_light.png">
+                            <img loading="lazy" decoding="async" src="/assets/img/finance_trend.png" alt="Personal Finance App" data-dark="/assets/img/finance_trend.png" data-light="/assets/img/finance_trend_light.png">
                         <!-- </a> -->
                         <div class="work__description">
                             <center>
@@ -555,7 +556,7 @@
                     </div>
 
                     <div class="work__img"> <!-- E-commerce Store -->
-                            <img src="/assets/img/stripe_dark.svg" alt="E-commerce Store" style="object-fit: cover; background: #121212;" data-dark="/assets/img/stripe_dark.svg" data-light="/assets/img/stripe_light.svg">
+                            <img loading="lazy" decoding="async" src="/assets/img/stripe_dark.svg" alt="E-commerce Store" style="object-fit: cover; background: #121212;" data-dark="/assets/img/stripe_dark.svg" data-light="/assets/img/stripe_light.svg">
                         <div class="work__description">
                             <center>
                                 <h3>
@@ -569,7 +570,7 @@
                     </div>
 
                     <div class="work__img"> <!-- Automation Utilities -->
-                            <img src="/assets/img/automation_dark.svg" alt="Automation Utilities" style="object-fit: cover; background: #121212;" data-dark="/assets/img/automation_dark.svg" data-light="/assets/img/automation_light.svg">
+                            <img loading="lazy" decoding="async" src="/assets/img/automation_dark.svg" alt="Automation Utilities" style="object-fit: cover; background: #121212;" data-dark="/assets/img/automation_dark.svg" data-light="/assets/img/automation_light.svg">
                         <div class="work__description">
                             <center>
                                 <h3>
@@ -587,7 +588,7 @@
 
                     <div class="work__img"> <!-- System Administration -->
                         <!-- <a href=""> -->
-                            <img src="/assets/img/docker_dark.png" alt="System Administration" data-dark="/assets/img/docker_dark.png" data-light="/assets/img/docker_dark_light.png">
+                            <img loading="lazy" decoding="async" src="/assets/img/docker_dark.png" alt="System Administration" data-dark="/assets/img/docker_dark.png" data-light="/assets/img/docker_dark_light.png">
                         <!-- </a> -->
                         <div class="work__description">
                             <center>
@@ -603,7 +604,7 @@
 
                     <!-- Safari Unpinner (commented out)
                     <div class="work__img">
-                            <img src="/assets/img/unpin_safari.png" alt="Safari Unpinner" style="object-fit: cover;">
+                            <img loading="lazy" decoding="async" src="/assets/img/unpin_safari.png" alt="Safari Unpinner" style="object-fit: cover;">
                         <div class="work__description">
                             <center>
                                 <h3>
@@ -619,7 +620,7 @@
 
                     <!-- Weather Dashboard (commented out)
                     <div class="work__img">
-                            <img src="/assets/img/weather_real.png" alt="Weather Dashboard" style="object-fit: cover;">
+                            <img loading="lazy" decoding="async" src="/assets/img/weather_real.png" alt="Weather Dashboard" style="object-fit: cover;">
                         <div class="work__description">
                             <center>
                                 <h3>
@@ -635,7 +636,7 @@
 
                     <!-- Coinbase Analytics (commented out)
                     <div class="work__img">
-                            <img src="/assets/img/coinbase_dark.png" alt="Coinbase Analytics">
+                            <img loading="lazy" decoding="async" src="/assets/img/coinbase_dark.png" alt="Coinbase Analytics">
                         <div class="work__description">
                             <center>
                                 <h3>
@@ -651,7 +652,7 @@
 
                     <!-- Data Analytics Dashboard (commented out)
                     <div class="work__img">
-                            <img src="/assets/img/data_analytics_real.png" alt="Data Analytics Dashboard" style="object-fit: cover;">
+                            <img loading="lazy" decoding="async" src="/assets/img/data_analytics_real.png" alt="Data Analytics Dashboard" style="object-fit: cover;">
                         <div class="work__description">
                             <center>
                                 <h3>
@@ -667,7 +668,7 @@
 
                     <!-- TaskMaster Mobile App (commented out)
                     <div class="work__img">
-                            <img src="/assets/img/taskmaster_real.png" alt="TaskMaster Mobile App" style="object-fit: cover; background: #0d1117;">
+                            <img loading="lazy" decoding="async" src="/assets/img/taskmaster_real.png" alt="TaskMaster Mobile App" style="object-fit: cover; background: #0d1117;">
                         <div class="work__description">
                             <center>
                                 <h3>
@@ -683,7 +684,7 @@
 
                     <!-- Terminal Snake Game (commented out)
                     <div class="work__img">
-                            <img src="/assets/img/snake_real.png" alt="Terminal Snake Game" style="object-fit: cover;">
+                            <img loading="lazy" decoding="async" src="/assets/img/snake_real.png" alt="Terminal Snake Game" style="object-fit: cover;">
                         <div class="work__description">
                             <center>
                                 <h3>
@@ -699,7 +700,7 @@
 
                     <!-- Surfing Cat Emoji (commented out)
                     <div class="work__img">
-                            <img src="/assets/img/surfing_cat_real.png" alt="Surfing Cat Emoji Creator" style="object-fit: cover;">
+                            <img loading="lazy" decoding="async" src="/assets/img/surfing_cat_real.png" alt="Surfing Cat Emoji Creator" style="object-fit: cover;">
                         <div class="work__description">
                             <center>
                                 <h3>
@@ -715,7 +716,7 @@
 
                     <!-- Beat Generator (commented out)
                     <div class="work__img">
-                            <img src="/assets/img/beatgen_real.png" alt="Procedural Beat Generator" style="object-fit: cover;">
+                            <img loading="lazy" decoding="async" src="/assets/img/beatgen_real.png" alt="Procedural Beat Generator" style="object-fit: cover;">
                         <div class="work__description">
                             <center>
                                 <h3>
@@ -731,7 +732,7 @@
 
                     <!-- Tigers App (commented out)
                     <div class="work__img">
-                            <img src="/assets/img/tigers_real.png" alt="Detroit Tigers iOS App" style="object-fit: cover; background: #0d1117;">
+                            <img loading="lazy" decoding="async" src="/assets/img/tigers_real.png" alt="Detroit Tigers iOS App" style="object-fit: cover; background: #0d1117;">
                         <div class="work__description">
                             <center>
                                 <h3>
