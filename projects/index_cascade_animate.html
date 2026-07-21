@@ -314,7 +314,8 @@
         <header class="l-header">
             <nav class="nav bd-grid">
                 <div>
-                    <a href="#" class="nav__logo">Jacob</a>
+                    <!-- Point the "Jacob" logo at the #home section (which exists on this page, id="home") instead of a bare href="#". A lone "#" scrolls to the raw top of the document and appends a meaningless "#" to the URL, whereas #home lands on the actual home section with the site's smooth-scroll — matching this page's own "Home" nav link (href="#home" just below) and the identical nav__logo on the two sibling pages (index.html, index_with_animation.html both use href="#home"). This cascade variant was the one page still on the bare "#". No visual change. -->
+                    <a href="#home" class="nav__logo">Jacob</a>
                 </div>
                 <div class="nav__menu" id="nav-menu">
                     <ul class="nav__list">
