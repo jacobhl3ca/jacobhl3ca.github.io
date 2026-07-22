@@ -1,0 +1,278 @@
+<!doctype html>
+<html lang="en-US">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Referral links — Jacob</title>
+<meta name="description" content="Services Jacob actually uses, with referral links. You get a signup bonus, he gets one too.">
+<!-- Deliberately NOT indexed and NOT in sitemap.xml. Several referral programs' terms
+     restrict public advertising / mass promotion of a personal referral link (bank and
+     brokerage programs are the strict ones); a link you hand to someone is fine, a page
+     ranking in Google for "referral code" is the thing that gets links disabled and
+     bonuses clawed back. noindex keeps this a share-by-link page, which is all it needs
+     to be. If this ever becomes an affiliate page (Amazon Associates / Chewy), that's a
+     different program type with different rules and it can be indexed then. -->
+<meta name="robots" content="noindex, nofollow">
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#ffffff">
+<meta name="author" content="Jacob Heifetz-Licht">
+<link rel="canonical" href="https://jacobhl.com/refer/">
+<link rel="icon" type="image/x-icon" href="../assets/img/favicon.ico">
+<link rel="dns-prefetch" href="//gc.zgo.at"> <!-- resolve the GoatCounter script host ahead of the async count.js fetch at end of body -->
+<link rel="dns-prefetch" href="//jacobhl.goatcounter.com"> <!-- and the beacon host count.js actually posts hits to -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+<!-- Social-share card: this page exists to be pasted into a text or a group chat, so the
+     preview matters more than the crawl. Reuses the site-wide OG image. -->
+<meta property="og:type" content="website">
+<meta property="og:title" content="Referral links — Jacob">
+<meta property="og:description" content="Services Jacob actually uses, with referral links. You get a signup bonus, he gets one too.">
+<meta property="og:url" content="https://jacobhl.com/refer/">
+<meta property="og:image" content="https://jacobhl.com/assets/img/og_image.png">
+<meta name="twitter:card" content="summary_large_image">
+<style>
+  :root{
+    --bg:#ffffff; --card:#ffffff; --line:#e6e6ea; --txt:#15161a; --muted:#61636c;
+    --accent:#0f7a4a; --accent-soft:#e8f5ee; --shadow:0 1px 2px rgba(16,18,24,.05), 0 8px 24px rgba(16,18,24,.06);
+  }
+  @media (prefers-color-scheme: dark){
+    :root{ --bg:#101216; --card:#171a20; --line:#262a33; --txt:#eef0f4; --muted:#9aa0ad;
+      --accent:#4ade9b; --accent-soft:#152a21; --shadow:0 1px 2px rgba(0,0,0,.4), 0 8px 24px rgba(0,0,0,.35); }
+  }
+  *{ box-sizing:border-box; }
+  body{ margin:0; background:var(--bg); color:var(--txt);
+    font-family:"Poppins",-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+    line-height:1.55; -webkit-font-smoothing:antialiased; }
+  .wrap{ max-width:760px; margin:0 auto; padding:44px 20px 72px; }
+  header h1{ font-size:1.9rem; line-height:1.2; margin:0 0 8px; font-weight:700; letter-spacing:-.02em; }
+  header p{ color:var(--muted); margin:0; font-size:.98rem; }
+  .note{ margin:30px 0 0; padding:12px 14px; border:1px solid var(--line); border-left:3px solid var(--accent);
+    border-radius:10px; background:var(--accent-soft); font-size:.86rem; color:var(--txt); }
+  .note b{ font-weight:600; }
+  h2{ font-size:.78rem; text-transform:uppercase; letter-spacing:.09em; color:var(--muted);
+    margin:34px 0 12px; font-weight:600; }
+  .grid{ display:grid; grid-template-columns:repeat(auto-fill,minmax(228px,1fr)); gap:10px; }
+  .card{ border:1px solid var(--line); border-radius:12px; background:var(--card); padding:12px 13px;
+    box-shadow:var(--shadow); display:flex; flex-direction:column; gap:7px; }
+  .card .top{ display:flex; align-items:center; gap:7px; }
+  .card h3{ margin:0; font-size:.94rem; font-weight:600; letter-spacing:-.01em; }
+  .card .lg{ width:22px; height:22px; flex:0 0 22px; object-fit:contain; border-radius:5px;
+    background:#fff; padding:1px; border:1px solid var(--line); }
+  .card p{ margin:0; color:var(--muted); font-size:.79rem; line-height:1.4; }
+  .row{ display:flex; gap:6px; flex-wrap:wrap; align-items:center; margin-top:auto; padding-top:3px; }
+  a.btn, button.btn{ display:inline-block; border:1px solid var(--line); background:transparent; color:var(--txt);
+    padding:5px 10px; border-radius:8px; font:inherit; font-size:.76rem; font-weight:600; cursor:pointer;
+    text-decoration:none; }
+  a.btn.primary{ background:var(--accent); border-color:var(--accent); color:#fff; }
+  @media (prefers-color-scheme: dark){ a.btn.primary{ color:#08130d; } }
+  a.btn:hover, button.btn:hover{ opacity:.87; }
+  code.code{ font-family:ui-monospace,SFMono-Regular,Menlo,monospace; font-size:.78rem; font-weight:600;
+    background:var(--accent-soft); border:1px solid var(--line); border-radius:6px; padding:4px 8px; }
+  footer{ margin-top:40px; padding-top:18px; border-top:1px solid var(--line); color:var(--muted); font-size:.82rem; }
+  footer a{ color:var(--accent); }
+  #toast{ position:fixed; left:50%; bottom:26px; transform:translateX(-50%) translateY(14px);
+    background:var(--txt); color:var(--bg); padding:9px 16px; border-radius:999px; font-size:.85rem;
+    font-weight:600; opacity:0; pointer-events:none; transition:.18s ease; }
+  #toast.show{ opacity:1; transform:translateX(-50%) translateY(0); }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header>
+    <h1>Stuff I actually use</h1>
+    <p>If you were going to sign up for one of these anyway, use my link — you get the signup bonus, and I get one too.</p>
+  </header>
+
+  <h2>Investing</h2>
+  <div class="grid">
+    <div class="card">
+      <div class="top"><img class="lg" src="logos/wealthfront.png" alt="" width="22" height="22" loading="lazy"><h3>Wealthfront</h3></div>
+      <p>Automated investing + high-yield cash.</p>
+      <div class="row">
+        <a class="btn primary" href="https://www.wealthfront.com/c/affiliates/invited/AFFD-6EDA-RPXU-RANJ" target="_blank" rel="noopener nofollow">Get offer ↗</a>
+        <button class="btn" data-copy="https://www.wealthfront.com/c/affiliates/invited/AFFD-6EDA-RPXU-RANJ">Copy</button>
+      </div>
+    </div>
+    <div class="card">
+      <div class="top"><img class="lg" src="logos/robinhood.png" alt="" width="22" height="22" loading="lazy"><h3>Robinhood</h3></div>
+      <p>Free stock when the new account funds.</p>
+      <div class="row">
+        <a class="btn primary" href="https://join.robinhood.com/jacobh413" target="_blank" rel="noopener nofollow">Get offer ↗</a>
+        <button class="btn" data-copy="https://join.robinhood.com/jacobh413">Copy</button>
+      </div>
+    </div>
+    <div class="card">
+      <div class="top"><img class="lg" src="logos/betterment.png" alt="" width="22" height="22" loading="lazy"><h3>Betterment</h3></div>
+      <p>Automated investing; friend must fund in 7 days.</p>
+      <div class="row">
+        <a class="btn primary" href="https://betterment.com/friend-referral-offer?referral_key=amFjb2JoZWlmZXR6bGljaHQ=" target="_blank" rel="noopener nofollow">Get offer ↗</a>
+        <button class="btn" data-copy="https://betterment.com/friend-referral-offer?referral_key=amFjb2JoZWlmZXR6bGljaHQ=">Copy</button>
+      </div>
+    </div>
+    <div class="card">
+      <div class="top"><img class="lg" src="logos/fidelity.png" alt="" width="22" height="22" loading="lazy"><h3>Fidelity</h3></div>
+      <p>Brokerage I use for everything. No cash bonus.</p>
+      <div class="row">
+        <a class="btn primary" href="https://fidelity.app.link/e/4ilfCUxGX4b" target="_blank" rel="noopener nofollow">Get offer ↗</a>
+        <button class="btn" data-copy="https://fidelity.app.link/e/4ilfCUxGX4b">Copy</button>
+      </div>
+    </div>
+    <div class="card">
+      <div class="top"><img class="lg" src="logos/gemini.png" alt="" width="22" height="22" loading="lazy"><h3>Gemini</h3></div>
+      <p>Crypto — bonus after a qualifying trade.</p>
+      <div class="row">
+        <a class="btn primary" href="https://exchange.gemini.com/register?referral=ppegr4t9&amp;type=referral" target="_blank" rel="noopener nofollow">Get offer ↗</a>
+        <button class="btn" data-copy="https://exchange.gemini.com/register?referral=ppegr4t9&type=referral">Copy</button>
+      </div>
+    </div>
+  </div>
+
+  <h2>Banking &amp; cards</h2>
+  <div class="grid">
+    <div class="card">
+      <div class="top"><img class="lg" src="logos/chase.png" alt="" width="22" height="22" loading="lazy"><h3>Chase checking</h3></div>
+      <p>Open a checking account, we both get a bonus.</p>
+      <div class="row">
+        <a class="btn primary" href="https://accounts.chase.com/raf/share/845127332" target="_blank" rel="noopener nofollow">Get offer ↗</a>
+        <button class="btn" data-copy="https://accounts.chase.com/raf/share/845127332">Copy</button>
+      </div>
+    </div>
+    <div class="card">
+      <div class="top"><img class="lg" src="logos/chase.png" alt="" width="22" height="22" loading="lazy"><h3>Chase Sapphire</h3></div>
+      <p>Travel card — bonus points for you and me.</p>
+      <div class="row">
+        <a class="btn primary" href="https://www.referyourchasecard.com/19x/8GG562G3QX" target="_blank" rel="noopener nofollow">Get offer ↗</a>
+        <button class="btn" data-copy="https://www.referyourchasecard.com/19x/8GG562G3QX">Copy</button>
+      </div>
+    </div>
+    <div class="card">
+      <div class="top"><img class="lg" src="logos/chase.png" alt="" width="22" height="22" loading="lazy"><h3>Chase Freedom</h3></div>
+      <p>No-annual-fee cashback card.</p>
+      <div class="row">
+        <a class="btn primary" href="https://www.referyourchasecard.com/18a/RJEAYF3PBE" target="_blank" rel="noopener nofollow">Get offer ↗</a>
+        <button class="btn" data-copy="https://www.referyourchasecard.com/18a/RJEAYF3PBE">Copy</button>
+      </div>
+    </div>
+  </div>
+
+  <h2>Getting around</h2>
+  <div class="grid">
+    <div class="card">
+      <div class="top"><img class="lg" src="logos/uber.png" alt="" width="22" height="22" loading="lazy"><h3>Uber</h3></div>
+      <p>Discount on your first rides.</p>
+      <div class="row">
+        <a class="btn primary" href="https://referrals.uber.com/refer?id=7uu6t377aabh" target="_blank" rel="noopener nofollow">Get offer ↗</a>
+        <button class="btn" data-copy="https://referrals.uber.com/refer?id=7uu6t377aabh">Copy</button>
+      </div>
+    </div>
+    <div class="card">
+      <div class="top"><img class="lg" src="logos/lyft.png" alt="" width="22" height="22" loading="lazy"><h3>Lyft</h3></div>
+      <p>Credit on your first rides.</p>
+      <div class="row">
+        <a class="btn primary" href="https://www.lyft.com/i/JACOB310548?utm_medium=2pi_iacc" target="_blank" rel="noopener nofollow">Get offer ↗</a>
+        <button class="btn" data-copy="https://www.lyft.com/i/JACOB310548?utm_medium=2pi_iacc">Copy</button>
+      </div>
+    </div>
+  </div>
+
+  <h2>Everyday</h2>
+  <div class="grid">
+    <div class="card">
+      <div class="top"><img class="lg" src="logos/proton.png" alt="" width="22" height="22" loading="lazy"><h3>Proton</h3></div>
+      <p>Encrypted mail, VPN, drive. Bonus on a paid plan.</p>
+      <div class="row">
+        <a class="btn primary" href="https://pr.tn/ref/43X9Q3V0" target="_blank" rel="noopener nofollow">Get offer ↗</a>
+        <button class="btn" data-copy="https://pr.tn/ref/43X9Q3V0">Copy</button>
+      </div>
+    </div>
+    <div class="card">
+      <div class="top"><img class="lg" src="logos/t-mobile.png" alt="" width="22" height="22" loading="lazy"><h3>T-Mobile</h3></div>
+      <p>Switch a line — $100 virtual prepaid Mastercard each.</p>
+      <div class="row">
+        <a class="btn primary" href="https://referral.t-mobile.com/DAI9PPm" target="_blank" rel="noopener nofollow">Get offer ↗</a>
+        <button class="btn" data-copy="https://referral.t-mobile.com/DAI9PPm">Copy</button>
+      </div>
+    </div>
+    <div class="card">
+      <div class="top"><img class="lg" src="logos/airalo.png" alt="" width="22" height="22" loading="lazy"><h3>Airalo</h3></div>
+      <p>Travel eSIM — enter the code at signup.</p>
+      <div class="row">
+      <code class="code">ASDF0811</code>
+        <a class="btn primary" href="https://www.airalo.com/refer-and-earn" target="_blank" rel="noopener nofollow">Get offer ↗</a>
+        <button class="btn" data-copy="ASDF0811">Copy</button>
+      </div>
+    </div>
+    <div class="card">
+      <div class="top"><img class="lg" src="logos/optimum.png" alt="" width="22" height="22" loading="lazy"><h3>Optimum</h3></div>
+      <p>Home internet. New customers get an account credit or gift card.</p>
+      <div class="row">
+        <a class="btn primary" href="https://refer.optimum.com/dlichtklez!daa9953b9c!a?locale=en" target="_blank" rel="noopener nofollow">Get offer ↗</a>
+        <button class="btn" data-copy="https://refer.optimum.com/dlichtklez!daa9953b9c!a?locale=en">Copy</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- FTC disclosure. Jacob asked for it below the tiles (2026-07-22); keep it
+       visible and un-collapsed on the same page as the links, which is what "clear and
+       conspicuous" needs. Do not move it into a modal or a separate page.
+  -->
+  <div class="note">
+    <b>Heads up:</b> these are referral links. I earn a bonus (cash, credit, or points) if you sign up
+    through one, and you usually get a bonus too. Amounts are set by each company and change often —
+    whatever their page says when you land on it is the real offer. Only sign up for something you
+    actually want.
+  </div>
+
+  <footer>
+    <a href="https://jacobhl.com/">jacobhl.com</a>
+  </footer>
+
+</div>
+
+<div id="toast">Copied</div>
+
+<script>
+// Copy buttons: on a phone this page is usually open next to a text thread, and copying
+// the link beats making someone long-press an anchor. Falls back to a hidden textarea +
+// execCommand where the async clipboard API isn't available (non-HTTPS, older Safari).
+var toast = document.getElementById("toast"), toastTimer = null;
+function showToast(msg){
+  toast.textContent = msg;
+  toast.classList.add("show");
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(function(){ toast.classList.remove("show"); }, 1400);
+}
+function legacyCopy(text){
+  var ta = document.createElement("textarea");
+  ta.value = text;
+  ta.setAttribute("readonly", "");
+  ta.style.position = "fixed";
+  ta.style.opacity = "0";
+  document.body.appendChild(ta);
+  ta.select();
+  var ok = false;
+  try { ok = document.execCommand("copy"); } catch(e){ ok = false; }
+  document.body.removeChild(ta);
+  return ok;
+}
+document.addEventListener("click", function(e){
+  var btn = e.target.closest("[data-copy]");
+  if(!btn) return;
+  var text = btn.getAttribute("data-copy");
+  if(navigator.clipboard && navigator.clipboard.writeText){
+    navigator.clipboard.writeText(text)
+      .then(function(){ showToast("Copied"); })
+      .catch(function(){ showToast(legacyCopy(text) ? "Copied" : "Copy failed — select it manually"); });
+  } else {
+    showToast(legacyCopy(text) ? "Copied" : "Copy failed — select it manually");
+  }
+});
+</script>
+
+<!-- Same GoatCounter beacon every other page on the site uses, so this page's traffic
+     shows up in the one dashboard rather than being invisible. -->
+<script data-goatcounter="https://jacobhl.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+</body>
+</html>
