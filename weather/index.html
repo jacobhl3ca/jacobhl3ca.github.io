@@ -457,7 +457,11 @@ async function fetchWeather() {
     // already tolerates a null aqi (optional chaining → "N/A"), so this restores the intended
     // graceful degradation without breaking the current-conditions view.
     const weatherPromise = fetchWithTimeout(`https://api.open-meteo.com/v1/forecast?${params}`);
-    const aqiPromise = fetchWithTimeout(`https://air-quality-api.open-meteo.com/v1/air-quality?latitude=${geo.lat}&longitude=${geo.lon}&current=pm2_5,pm10,us_aqi&timezone=${encodeURIComponent(geo.tz)}`)
+    // render() reads only pm2_5 (aqi.current.pm2_5, the AQI-fallback source) and us_aqi
+    // (the displayed category) — pm10 was requested but never used, so drop it from the
+    // current= list. Mirrors the unused-field trims already made on the weather request
+    // (the never-rendered hourly temperature_2m and the 7th forecast day). No visual change.
+    const aqiPromise = fetchWithTimeout(`https://air-quality-api.open-meteo.com/v1/air-quality?latitude=${geo.lat}&longitude=${geo.lon}&current=pm2_5,us_aqi&timezone=${encodeURIComponent(geo.tz)}`)
       .then(r => r.ok ? r.json() : null)
       .catch(() => null);
 
