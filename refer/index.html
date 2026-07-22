@@ -81,6 +81,15 @@
     background:var(--txt); color:var(--bg); padding:9px 16px; border-radius:999px; font-size:.85rem;
     font-weight:600; opacity:0; pointer-events:none; transition:.18s ease; }
   #toast.show{ opacity:1; transform:translateX(-50%) translateY(0); }
+  /* Honour reduced-motion: drop the card hover-lift and the toast slide/fade so
+     nothing moves for users who ask for less motion. Matches the block every other
+     page carries (building.html's .wtile, weather/, styles.css's global rule). The
+     toast still appears/disappears — instantly rather than sliding — and stays centred
+     via its translateX(-50%). No change for anyone who hasn't set the preference. */
+  @media (prefers-reduced-motion: reduce){
+    .card, #toast{ transition:none; }
+    .card:hover{ transform:none; }
+  }
 </style>
 </head>
 <body>
