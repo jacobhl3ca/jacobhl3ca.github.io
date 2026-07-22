@@ -12,6 +12,9 @@
 <!-- noindex this older, unlinked, sitemap-absent copy of the weather dashboard. The production dashboard lives at /weather/ (indexed, canonical, richer head); this /projects/weather/ page is a near-duplicate of it (same title "Weather Dashboard — NYC", same design) left over from staging, with no robots meta of its own — so it was the one weather copy still fully indexable, creating a duplicate-content risk against the real /weather/. noindex, follow removes it from search results while still letting crawlers follow its links, matching the site's established pattern for duplicate/experiment pages (index_with_animation.html, light/index.html, projects/index_cascade_animate.html, the projects-*-preview.html pages). rel=canonical also names /weather/ as the authoritative copy. Metadata only — no visual change. -->
 <meta name="robots" content="noindex, follow">
 <link rel="canonical" href="https://jacobhl.com/weather/">
+<!-- Warm the TLS connections to the Google Fonts hosts before the render-blocking Poppins stylesheet below is requested. That stylesheet blocks first paint, and without a preconnect the browser only starts the (DNS + TCP + TLS) handshake to fonts.googleapis.com once it discovers the <link> — then repeats it for the font-file host fonts.gstatic.com. Preconnecting both up front overlaps those handshakes with head parsing so the font CSS and woff2 arrive sooner. crossorigin on the gstatic hint so the warmed socket is reused for the CORS woff2 fetch. This leftover /projects/weather/ copy was loading the same font cold; the production /weather/ dashboard it copies already ships exactly these two preconnects. Resource hints only — no visual or behaviour change. -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
 :root {
