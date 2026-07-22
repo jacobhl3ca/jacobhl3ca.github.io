@@ -1272,7 +1272,7 @@
       <div class="modal-noembed" id="modalNoembed">
         <img id="modalNoembedImg" alt="" decoding="async">
         <p>This site blocks embedded previews for security — open it in a new tab to explore it live:</p>
-        <a id="modalNoembedOpen" class="ne-open" target="_blank" rel="noopener"><i class='bx bx-link-external' aria-hidden="true"></i> <span id="modalNoembedHost"></span></a>
+        <a id="modalNoembedOpen" class="ne-open" target="_blank" rel="noopener"><i class='bx bx-link-external' aria-hidden="true"></i> <span id="modalNoembedHost"></span><span aria-hidden="true"> ↗</span></a>
       </div>
     </div>
   </div>
@@ -1483,7 +1483,7 @@ function showNoEmbed(url, poster){
   mUrl.value=url; mOpen.href=url;
   if(poster){ neImg.src=poster; } else { neImg.removeAttribute('src'); }
   neImg.alt=_host+' preview';
-  neOpen.href=url; neHost.textContent='Open '+_host+' ↗';
+  neOpen.href=url; neHost.textContent='Open '+_host;   // trailing ↗ is a static aria-hidden span in the markup, so AT reads "Open <host>" without a "north east arrow"
   modal.setAttribute('aria-label', 'Preview of '+_host);
   frame.src='about:blank'; mLoad.classList.add('hidden');
   noembed.classList.add('show');
@@ -1515,7 +1515,11 @@ function navigate(url, push){
   loadTimer=setTimeout(()=>{
     mLoadTxt.textContent='Taking a while — ';
     const _a=document.createElement('a');
-    _a.href=url; _a.target='_blank'; _a.rel='noopener'; _a.textContent='open '+url+' ↗';
+    _a.href=url; _a.target='_blank'; _a.rel='noopener'; _a.textContent='open '+url+' ';
+    // The trailing ↗ is a decorative "opens externally" cue, so keep it out of the link's
+    // accessible name (a screen reader would otherwise announce "north east arrow" after the
+    // URL) — matching how the site marks up its other decorative arrows/glyphs as aria-hidden.
+    const _arr=document.createElement('span'); _arr.setAttribute('aria-hidden','true'); _arr.textContent='↗'; _a.appendChild(_arr);
     mLoadTxt.appendChild(_a);
   }, 6000);
 }
