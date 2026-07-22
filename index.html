@@ -1505,8 +1505,11 @@ function showNoEmbed(url, poster){
   currentUrl=url; backStack=[]; updateBack(); noEmbedPoster=poster||null;
   let _host=url; try{ _host=new URL(url).hostname.replace(/^www\./,''); }catch(e){}
   mUrl.value=url; mOpen.href=url;
-  if(poster){ neImg.src=poster; } else { neImg.removeAttribute('src'); }
-  neImg.alt=_host+' preview';
+  // Keep alt in lockstep with src: a descriptive name only when there's an actual poster image,
+  // otherwise an empty alt so the src-less <img> is treated as decorative/absent rather than
+  // announced by screen readers as a missing "<host> preview" image (the visible <p> + open-link
+  // already carry the fallback's meaning). No visual change — a src-less img renders nothing.
+  if(poster){ neImg.src=poster; neImg.alt=_host+' preview'; } else { neImg.removeAttribute('src'); neImg.alt=''; }
   neOpen.href=url; neHost.textContent='Open '+_host;   // trailing ↗ is a static aria-hidden span in the markup, so AT reads "Open <host>" without a "north east arrow"
   modal.setAttribute('aria-label', 'Preview of '+_host);
   frame.src='about:blank'; mLoad.classList.add('hidden');
