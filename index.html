@@ -706,8 +706,16 @@
   .modal-bar button.mclose:focus-visible,.fs-back:focus-visible,.esc-hint:focus-visible{
     outline:2px solid var(--first-color);outline-offset:2px;}
   .modal-load{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;
-    gap:.7rem;background:#0c0e12;color:#9aa3b4;font-size:.85rem;z-index:1;transition:opacity .25s ease;}
-  .modal-load.hidden{opacity:0;pointer-events:none;}
+    gap:.7rem;background:#0c0e12;color:#9aa3b4;font-size:.85rem;z-index:1;transition:opacity .25s ease,visibility 0s;}
+  /* Once the preview has loaded, this overlay is only faded out (opacity:0) — but opacity:0 leaves
+     its "Loading preview…" text and the spinner in the accessibility tree, so a screen-reader user
+     browsing the loaded dialog still meets a stale "Loading preview…". display:none can't be used
+     (it would kill the .25s fade), so also flip visibility:hidden — but delay it by the fade
+     duration so the fade-out still plays in full, then the overlay drops out of the a11y tree (and
+     keyboard/hit-testing). Showing again removes .hidden → the base transition makes it visible
+     instantly while opacity fades back in, exactly as before. Purely removes hidden-state content
+     from AT; no visual change. */
+  .modal-load.hidden{opacity:0;visibility:hidden;pointer-events:none;transition:opacity .25s ease,visibility 0s .25s;}
   .modal-load .spin{width:30px;height:30px;border:3px solid #2a3242;border-top-color:var(--first-color);
     border-radius:50%;animation:spin 0.8s linear infinite;}
   .modal-load a{color:var(--first-color);text-decoration:none;}
