@@ -1,0 +1,242 @@
+<!doctype html>
+<html lang="en-US">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Referral links — Jacob</title>
+<meta name="description" content="Services Jacob actually uses, with referral links. You get a signup bonus, he gets one too.">
+<!-- Deliberately NOT indexed and NOT in sitemap.xml. Several referral programs' terms
+     restrict public advertising / mass promotion of a personal referral link (bank and
+     brokerage programs are the strict ones); a link you hand to someone is fine, a page
+     ranking in Google for "referral code" is the thing that gets links disabled and
+     bonuses clawed back. noindex keeps this a share-by-link page, which is all it needs
+     to be. If this ever becomes an affiliate page (Amazon Associates / Chewy), that's a
+     different program type with different rules and it can be indexed then. -->
+<meta name="robots" content="noindex, nofollow">
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#ffffff">
+<meta name="author" content="Jacob Heifetz-Licht">
+<link rel="canonical" href="https://jacobhl.com/refer/">
+<link rel="icon" type="image/x-icon" href="../assets/img/favicon.ico">
+<link rel="dns-prefetch" href="//gc.zgo.at"> <!-- resolve the GoatCounter script host ahead of the async count.js fetch at end of body -->
+<link rel="dns-prefetch" href="//jacobhl.goatcounter.com"> <!-- and the beacon host count.js actually posts hits to -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+<!-- Social-share card: this page exists to be pasted into a text or a group chat, so the
+     preview matters more than the crawl. Reuses the site-wide OG image. -->
+<meta property="og:type" content="website">
+<meta property="og:title" content="Referral links — Jacob">
+<meta property="og:description" content="Services Jacob actually uses, with referral links. You get a signup bonus, he gets one too.">
+<meta property="og:url" content="https://jacobhl.com/refer/">
+<meta property="og:image" content="https://jacobhl.com/assets/img/og_image.png">
+<meta name="twitter:card" content="summary_large_image">
+<style>
+  :root{
+    --bg:#ffffff; --card:#ffffff; --line:#e6e6ea; --txt:#15161a; --muted:#61636c;
+    --accent:#0f7a4a; --accent-soft:#e8f5ee; --shadow:0 1px 2px rgba(16,18,24,.05), 0 8px 24px rgba(16,18,24,.06);
+  }
+  @media (prefers-color-scheme: dark){
+    :root{ --bg:#101216; --card:#171a20; --line:#262a33; --txt:#eef0f4; --muted:#9aa0ad;
+      --accent:#4ade9b; --accent-soft:#152a21; --shadow:0 1px 2px rgba(0,0,0,.4), 0 8px 24px rgba(0,0,0,.35); }
+  }
+  *{ box-sizing:border-box; }
+  body{ margin:0; background:var(--bg); color:var(--txt);
+    font-family:"Poppins",-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+    line-height:1.55; -webkit-font-smoothing:antialiased; }
+  .wrap{ max-width:760px; margin:0 auto; padding:44px 20px 72px; }
+  header h1{ font-size:1.9rem; line-height:1.2; margin:0 0 8px; font-weight:700; letter-spacing:-.02em; }
+  header p{ color:var(--muted); margin:0; font-size:.98rem; }
+  .note{ margin:22px 0 6px; padding:12px 14px; border:1px solid var(--line); border-left:3px solid var(--accent);
+    border-radius:10px; background:var(--accent-soft); font-size:.86rem; color:var(--txt); }
+  .note b{ font-weight:600; }
+  h2{ font-size:.78rem; text-transform:uppercase; letter-spacing:.09em; color:var(--muted);
+    margin:34px 0 12px; font-weight:600; }
+  .card{ border:1px solid var(--line); border-radius:14px; background:var(--card); padding:16px 18px;
+    margin-bottom:12px; box-shadow:var(--shadow); }
+  .card .top{ display:flex; align-items:baseline; gap:9px; flex-wrap:wrap; }
+  .card h3{ margin:0; font-size:1.03rem; font-weight:600; }
+  .card .em{ font-size:1.1rem; }
+  .card p{ margin:6px 0 12px; color:var(--muted); font-size:.89rem; }
+  .row{ display:flex; gap:8px; flex-wrap:wrap; align-items:center; }
+  a.btn, button.btn{ display:inline-block; border:1px solid var(--line); background:transparent; color:var(--txt);
+    padding:8px 14px; border-radius:9px; font:inherit; font-size:.85rem; font-weight:600; cursor:pointer;
+    text-decoration:none; }
+  a.btn.primary{ background:var(--accent); border-color:var(--accent); color:#fff; }
+  @media (prefers-color-scheme: dark){ a.btn.primary{ color:#08130d; } }
+  a.btn:hover, button.btn:hover{ opacity:.87; }
+  code.code{ font-family:ui-monospace,SFMono-Regular,Menlo,monospace; font-size:.9rem; font-weight:600;
+    background:var(--accent-soft); border:1px solid var(--line); border-radius:7px; padding:6px 10px; }
+  footer{ margin-top:40px; padding-top:18px; border-top:1px solid var(--line); color:var(--muted); font-size:.82rem; }
+  footer a{ color:var(--accent); }
+  #toast{ position:fixed; left:50%; bottom:26px; transform:translateX(-50%) translateY(14px);
+    background:var(--txt); color:var(--bg); padding:9px 16px; border-radius:999px; font-size:.85rem;
+    font-weight:600; opacity:0; pointer-events:none; transition:.18s ease; }
+  #toast.show{ opacity:1; transform:translateX(-50%) translateY(0); }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header>
+    <h1>Stuff I actually use</h1>
+    <p>If you were going to sign up for one of these anyway, use my link — you get the signup bonus, and I get one too.</p>
+  </header>
+
+  <!-- FTC: a referral link is a material connection and has to be disclosed plainly,
+       above the links, not buried in a footer. -->
+  <div class="note">
+    <b>Heads up:</b> these are referral links. I earn a bonus (cash, credit, or points) if you sign up
+    through one, and you usually get a bonus too. Amounts are set by each company and change often —
+    whatever their page says when you land on it is the real offer. Only sign up for something you
+    actually want.
+  </div>
+
+  <h2>Everyday</h2>
+
+  <div class="card">
+    <div class="top"><span class="em">📶</span><h3>Optimum</h3></div>
+    <p>Home internet. If you're on Roosevelt Island or anywhere else Optimum serves, this is the referral
+      that's actually worth using — new customers get an account credit or gift card, and it's the biggest
+      payout on this page.</p>
+    <div class="row">
+      <a class="btn primary" href="https://refer.optimum.com/dlichtklez!daa9953b9c!a?locale=en" target="_blank" rel="noopener nofollow">Get the offer ↗</a>
+      <button class="btn" data-copy="https://refer.optimum.com/dlichtklez!daa9953b9c!a?locale=en">Copy link</button>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="top"><span class="em">📱</span><h3>T-Mobile</h3></div>
+    <p>Switch a line to T-Mobile and we both get a prepaid Mastercard. Worth knowing: the card expires
+      about six months after it's issued, so spend it.</p>
+    <div class="row">
+      <a class="btn primary" href="https://referral.t-mobile.com/YitEMZC" target="_blank" rel="noopener nofollow">Get the offer ↗</a>
+      <button class="btn" data-copy="https://referral.t-mobile.com/YitEMZC">Copy link</button>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="top"><span class="em">🛡️</span><h3>Proton</h3></div>
+    <p>Encrypted email, VPN, and drive — what I moved to off Gmail. You get a credit plus a two-week trial;
+      the bonus only lands if you go to a paid plan.</p>
+    <div class="row">
+      <a class="btn primary" href="https://pr.tn/ref/43X9Q3V0" target="_blank" rel="noopener nofollow">Get the offer ↗</a>
+      <button class="btn" data-copy="https://pr.tn/ref/43X9Q3V0">Copy link</button>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="top"><span class="em">🌍</span><h3>Airalo (travel eSIM)</h3></div>
+    <p>Data abroad without a roaming bill or a SIM swap. Enter the code at signup — small credit each, but
+      it takes ten seconds and the app is genuinely the easiest way to get online in another country.</p>
+    <div class="row">
+      <code class="code">ASDF0811</code>
+      <a class="btn primary" href="https://www.airalo.com/refer-and-earn" target="_blank" rel="noopener nofollow">Airalo ↗</a>
+      <button class="btn" data-copy="ASDF0811">Copy code</button>
+    </div>
+  </div>
+
+  <h2>Getting around</h2>
+
+  <div class="card">
+    <div class="top"><span class="em">🚗</span><h3>Uber</h3></div>
+    <p>New riders get a discount on their first rides.</p>
+    <div class="row">
+      <a class="btn primary" href="https://referrals.uber.com/refer?id=7uu6t377aabh" target="_blank" rel="noopener nofollow">Get the offer ↗</a>
+      <button class="btn" data-copy="https://referrals.uber.com/refer?id=7uu6t377aabh">Copy link</button>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="top"><span class="em">🚕</span><h3>Lyft</h3></div>
+    <p>Same idea — credit on your first rides as a new rider.</p>
+    <div class="row">
+      <a class="btn primary" href="https://www.lyft.com/i/JACOB310548?utm_medium=2pi_iacc" target="_blank" rel="noopener nofollow">Get the offer ↗</a>
+      <button class="btn" data-copy="https://www.lyft.com/i/JACOB310548?utm_medium=2pi_iacc">Copy link</button>
+    </div>
+  </div>
+
+  <h2>Money</h2>
+
+  <div class="card">
+    <div class="top"><span class="em">📈</span><h3>Wealthfront</h3></div>
+    <p>Automated investing and a high-yield cash account. Referrals here usually come as a rate boost on
+      the cash account rather than a lump sum.</p>
+    <div class="row">
+      <a class="btn primary" href="https://www.wealthfront.com/c/affiliates/invited/AFFD-6EDA-RPXU-RANJ" target="_blank" rel="noopener nofollow">Get the offer ↗</a>
+      <button class="btn" data-copy="https://www.wealthfront.com/c/affiliates/invited/AFFD-6EDA-RPXU-RANJ">Copy link</button>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="top"><span class="em">🪶</span><h3>Robinhood</h3></div>
+    <p>Free-stock referral for new accounts. Both sides get a random share when the account is funded.</p>
+    <div class="row">
+      <a class="btn primary" href="https://join.robinhood.com/jacobh413" target="_blank" rel="noopener nofollow">Get the offer ↗</a>
+      <button class="btn" data-copy="https://join.robinhood.com/jacobh413">Copy link</button>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="top"><span class="em">🪙</span><h3>Gemini</h3></div>
+    <p>Crypto exchange. The bonus lands after the new account trades a qualifying amount — check their page
+      for the current threshold before you count on it.</p>
+    <div class="row">
+      <a class="btn primary" href="https://exchange.gemini.com/register?referral=ppegr4t9&amp;type=referral" target="_blank" rel="noopener nofollow">Get the offer ↗</a>
+      <button class="btn" data-copy="https://exchange.gemini.com/register?referral=ppegr4t9&type=referral">Copy link</button>
+    </div>
+  </div>
+
+  <footer>
+    Missing something? I probably have a link for it — <a href="https://jacobhl.com/#contact">ask me</a>.
+    <br>Bank and credit-card referrals aren't listed here on purpose; message me for those.
+    <br><a href="https://jacobhl.com/">jacobhl.com</a>
+  </footer>
+
+</div>
+
+<div id="toast">Copied</div>
+
+<script>
+// Copy buttons: on a phone this page is usually open next to a text thread, and copying
+// the link beats making someone long-press an anchor. Falls back to a hidden textarea +
+// execCommand where the async clipboard API isn't available (non-HTTPS, older Safari).
+var toast = document.getElementById("toast"), toastTimer = null;
+function showToast(msg){
+  toast.textContent = msg;
+  toast.classList.add("show");
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(function(){ toast.classList.remove("show"); }, 1400);
+}
+function legacyCopy(text){
+  var ta = document.createElement("textarea");
+  ta.value = text;
+  ta.setAttribute("readonly", "");
+  ta.style.position = "fixed";
+  ta.style.opacity = "0";
+  document.body.appendChild(ta);
+  ta.select();
+  var ok = false;
+  try { ok = document.execCommand("copy"); } catch(e){ ok = false; }
+  document.body.removeChild(ta);
+  return ok;
+}
+document.addEventListener("click", function(e){
+  var btn = e.target.closest("[data-copy]");
+  if(!btn) return;
+  var text = btn.getAttribute("data-copy");
+  if(navigator.clipboard && navigator.clipboard.writeText){
+    navigator.clipboard.writeText(text)
+      .then(function(){ showToast("Copied"); })
+      .catch(function(){ showToast(legacyCopy(text) ? "Copied" : "Copy failed — select it manually"); });
+  } else {
+    showToast(legacyCopy(text) ? "Copied" : "Copy failed — select it manually");
+  }
+});
+</script>
+
+<!-- Same GoatCounter beacon every other page on the site uses, so this page's traffic
+     shows up in the one dashboard rather than being invisible. -->
+<script data-goatcounter="https://jacobhl.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+</body>
+</html>
