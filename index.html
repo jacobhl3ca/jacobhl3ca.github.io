@@ -785,6 +785,14 @@
     transition:transform .2s ease,filter .2s ease;}
   .modal-noembed .ne-open i{font-size:1.15rem;}
   .modal-noembed .ne-open:hover{transform:translateY(-2px);filter:brightness(1.06);}
+  /* Keyboard focus indicator for the noembed fallback's "open in new tab" link — the primary
+     action shown when a site blocks embedded previews. Every other interactive control ships the
+     branded accent ring (WCAG 2.4.7 Focus Visible), but this link was the one still falling back to
+     the inconsistent UA-default outline. Scope to :focus-visible so mouse/touch focus shows no ring
+     (look unchanged); outline-offset:2px places it on the dark noembed backdrop for contrast against
+     the accent-filled pill. Mirrors the .modal-side / toolbar-control focus convention just above. */
+  .modal-noembed .ne-open:focus{outline:none;}
+  .modal-noembed .ne-open:focus-visible{outline:2px solid var(--first-color);outline-offset:2px;}
     </style>
 </head>
     <body>
