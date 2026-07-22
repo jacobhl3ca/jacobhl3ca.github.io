@@ -766,44 +766,57 @@ function startDownArrowTimer() {
 startDownArrowTimer();
 
 let backToTopTimer = null;
+// This handler reads layout on every scroll event — getCurrentSectionIndex() reads
+// el.offsetTop and the nearBottom check reads document.documentElement.scrollHeight — while
+// also toggling .visible classes, so unthrottled it forces a style/layout recalc per scroll
+// event (many fire per frame). Coalesce to at most one run per painted frame with the same
+// rAF ticking guard already used by the scroll-spy handler above (scrollActiveTicking): the
+// end state each frame is identical (timers reset, arrows shown/hidden the same), only the
+// redundant same-frame recomputations are dropped.
+let downArrowTicking = false;
 window.addEventListener('scroll', () => {
     if (!scrollDownBtn || !backToTop) return; // scroll arrows only exist on the homepage
-    const idx = getCurrentSectionIndex();
-    const atContact = idx >= sectionIds.length - 1;
+    if (downArrowTicking) return;
+    downArrowTicking = true;
+    requestAnimationFrame(() => {
+        downArrowTicking = false;
+        const idx = getCurrentSectionIndex();
+        const atContact = idx >= sectionIds.length - 1;
 
-    // When user scrolls, hide arrow and restart idle timer for new section
-    clearTimeout(downArrowTimer);
-    downArrowTimer = null;
-    scrollDownBtn.classList.remove('visible');
+        // When user scrolls, hide arrow and restart idle timer for new section
+        clearTimeout(downArrowTimer);
+        downArrowTimer = null;
+        scrollDownBtn.classList.remove('visible');
 
-    if (!atContact) {
-        // Restart idle timer after scroll settles
-        downArrowTimer = setTimeout(() => {
-            const currentIdx = getCurrentSectionIndex();
-            if (currentIdx < sectionIds.length - 1) {
-                downArrowTimer = setTimeout(() => {
-                    scrollDownBtn.classList.add('visible');
-                    downArrowTimer = null;
-                }, getDownArrowDelay(currentIdx));
-            }
-        }, 200); // debounce scroll events
-    }
-
-    // Up arrow: only near the actual bottom of the page (so it never floats
-    // mid-scroll overlapping card buttons). 2s delay, hide otherwise.
-    const nearBottom = (window.innerHeight + window.scrollY) >= (document.documentElement.scrollHeight - 120);
-    if (nearBottom) {
-        if (!backToTopTimer && !backToTop.classList.contains('visible')) {
-            backToTopTimer = setTimeout(() => {
-                backToTop.classList.add('visible');
-                backToTopTimer = null;
-            }, 2000);
+        if (!atContact) {
+            // Restart idle timer after scroll settles
+            downArrowTimer = setTimeout(() => {
+                const currentIdx = getCurrentSectionIndex();
+                if (currentIdx < sectionIds.length - 1) {
+                    downArrowTimer = setTimeout(() => {
+                        scrollDownBtn.classList.add('visible');
+                        downArrowTimer = null;
+                    }, getDownArrowDelay(currentIdx));
+                }
+            }, 200); // debounce scroll events
         }
-    } else {
-        clearTimeout(backToTopTimer);
-        backToTopTimer = null;
-        backToTop.classList.remove('visible');
-    }
+
+        // Up arrow: only near the actual bottom of the page (so it never floats
+        // mid-scroll overlapping card buttons). 2s delay, hide otherwise.
+        const nearBottom = (window.innerHeight + window.scrollY) >= (document.documentElement.scrollHeight - 120);
+        if (nearBottom) {
+            if (!backToTopTimer && !backToTop.classList.contains('visible')) {
+                backToTopTimer = setTimeout(() => {
+                    backToTop.classList.add('visible');
+                    backToTopTimer = null;
+                }, 2000);
+            }
+        } else {
+            clearTimeout(backToTopTimer);
+            backToTopTimer = null;
+            backToTop.classList.remove('visible');
+        }
+    });
 }, { passive: true });
 
 if (scrollDownBtn) scrollDownBtn.addEventListener('click', () => {
