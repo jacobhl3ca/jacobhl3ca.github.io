@@ -21,7 +21,8 @@
     <meta name="robots" content="noindex, follow">
     <meta property="og:title" content="Jacob Heifetz-Licht — Analytics Manager">
     <meta property="og:description" content="Data analytics leader and web developer specializing in Python, SQL, Tableau, React, and Next.js. Turning data into things people actually use.">
-    <meta property="og:image" content="https://jacobhl.com/assets/img/og_image_centered.png">
+    <!-- Share image → og_image.png, matching the homepage this /light/ stub represents. This page is a noindex entry point that canonicalizes to / and mirrors the homepage's title/description/keywords, but its og:image (and the twitter:image below) were the one field still pointing at the older og_image_centered.png — the whole rest of the site (index.html, index_with_animation.html, weather/, building.html, and the other homepage variants — 13 references) uses og_image.png. So a shared /light/ link previewed with a different image than the homepage it stands in for. Both files already exist; this only changes which existing image is referenced (no media asset added/modified). Completes the light-page/homepage metadata alignment prior runs made for title, description, and keywords. No visual change to page content. -->
+    <meta property="og:image" content="https://jacobhl.com/assets/img/og_image.png">
     <meta property="og:image:type" content="image/png">
     <meta property="og:image:width" content="1200">
     <meta property="og:image:height" content="630">
@@ -33,7 +34,7 @@
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="Jacob Heifetz-Licht — Analytics Manager">
     <meta name="twitter:description" content="Data analytics leader and web developer specializing in Python, SQL, Tableau, React, and Next.js. Turning data into things people actually use.">
-    <meta name="twitter:image" content="https://jacobhl.com/assets/img/og_image_centered.png">
+    <meta name="twitter:image" content="https://jacobhl.com/assets/img/og_image.png">
     <meta name="twitter:image:alt" content="Jacob Heifetz-Licht — Analytics Manager and web developer">
     <!-- Canonical → the homepage. This /light/ page is a noindex entry point whose only job is to force light mode and then redirect to / (see the meta refresh above and the script below), so its content is effectively the homepage's. Point the canonical at / to consolidate any signals for the /light/ URL onto the real page — mirroring the rel=canonical the site's other noindex homepage variant (index_with_animation.html) already carries. This /light/ page was the one homepage-variant still missing it; completes the canonical pattern across the noindex variants. No visual change to page content. -->
     <link rel="canonical" href="https://jacobhl.com/">
