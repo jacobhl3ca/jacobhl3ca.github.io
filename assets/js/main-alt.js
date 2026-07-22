@@ -289,7 +289,19 @@ const scrollActive = () =>{
         }
     })
 }
-window.addEventListener('scroll', scrollActive, { passive: true })
+// rAF-throttle the scroll-spy. scrollActive reads each section's offsetTop/offsetHeight (a
+// synchronous layout read) in a loop, and the scroll event can fire many times per animation
+// frame — so calling it raw forces repeated layout on the scroll path (jank on long/low-end
+// scrolls). Coalesce to at most one run per painted frame with a ticking guard: the highlighted
+// section is identical (recomputed once each frame the browser will actually paint), only the
+// redundant same-frame recomputations are dropped. The direct call below still sets the initial
+// top-of-page state before any scroll fires.
+let scrollActiveTicking = false
+window.addEventListener('scroll', () => {
+    if (scrollActiveTicking) return
+    scrollActiveTicking = true
+    requestAnimationFrame(() => { scrollActive(); scrollActiveTicking = false })
+}, { passive: true })
 scrollActive() // reflect the initial (top-of-page) active section for assistive tech
 
 /*===== SCROLL REVEAL CASCADE =====*/

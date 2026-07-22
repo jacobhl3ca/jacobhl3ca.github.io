@@ -149,7 +149,7 @@
             "about": { "@id": "https://jacobhl.com/#person" },
             "mainEntity": { "@id": "https://jacobhl.com/#person" },
             "inLanguage": "en-US",
-            "dateModified": "2026-07-20"
+            "dateModified": "2026-07-21"
         }
         </script>
         <style>
@@ -477,6 +477,13 @@
     font-size:.78rem;font-weight:600;line-height:1;white-space:nowrap;transition:border-color .2s ease,color .2s ease;}
   .proj-appstore-all i{font-size:1.02rem;line-height:1;position:relative;top:-1px;}
   .proj-appstore-all:hover{border-color:var(--first-color);color:#fff;}
+  /* Branded focus ring so keyboard users get the same accent outline as the rest of the site
+     (its sibling .proj-linkedin beside it, .button, .view-pill__btn, etc.) instead of the
+     inconsistent browser default (WCAG 2.4.7). This "Apps" App Store link was the one interactive
+     control in the projects header still falling back to the UA outline. :focus-visible only, so
+     mouse/touch clicks show no ring and the resting look is unchanged. */
+  .proj-appstore-all:focus{outline:none;}
+  .proj-appstore-all:focus-visible{outline:2px solid var(--first-color);outline-offset:2px;}
   @media(max-width:600px){
     .proj-head-row{margin:.35rem auto 1rem;padding:0 1rem;}
     .proj-head-actions{right:1rem;gap:.4rem;}
@@ -699,8 +706,16 @@
   .modal-bar button.mclose:focus-visible,.fs-back:focus-visible,.esc-hint:focus-visible{
     outline:2px solid var(--first-color);outline-offset:2px;}
   .modal-load{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;
-    gap:.7rem;background:#0c0e12;color:#9aa3b4;font-size:.85rem;z-index:1;transition:opacity .25s ease;}
-  .modal-load.hidden{opacity:0;pointer-events:none;}
+    gap:.7rem;background:#0c0e12;color:#9aa3b4;font-size:.85rem;z-index:1;transition:opacity .25s ease,visibility 0s;}
+  /* Once the preview has loaded, this overlay is only faded out (opacity:0) — but opacity:0 leaves
+     its "Loading preview…" text and the spinner in the accessibility tree, so a screen-reader user
+     browsing the loaded dialog still meets a stale "Loading preview…". display:none can't be used
+     (it would kill the .25s fade), so also flip visibility:hidden — but delay it by the fade
+     duration so the fade-out still plays in full, then the overlay drops out of the a11y tree (and
+     keyboard/hit-testing). Showing again removes .hidden → the base transition makes it visible
+     instantly while opacity fades back in, exactly as before. Purely removes hidden-state content
+     from AT; no visual change. */
+  .modal-load.hidden{opacity:0;visibility:hidden;pointer-events:none;transition:opacity .25s ease,visibility 0s .25s;}
   .modal-load .spin{width:30px;height:30px;border:3px solid #2a3242;border-top-color:var(--first-color);
     border-radius:50%;animation:spin 0.8s linear infinite;}
   .modal-load a{color:var(--first-color);text-decoration:none;}
@@ -770,6 +785,14 @@
     transition:transform .2s ease,filter .2s ease;}
   .modal-noembed .ne-open i{font-size:1.15rem;}
   .modal-noembed .ne-open:hover{transform:translateY(-2px);filter:brightness(1.06);}
+  /* Keyboard focus indicator for the noembed fallback's "open in new tab" link — the primary
+     action shown when a site blocks embedded previews. Every other interactive control ships the
+     branded accent ring (WCAG 2.4.7 Focus Visible), but this link was the one still falling back to
+     the inconsistent UA-default outline. Scope to :focus-visible so mouse/touch focus shows no ring
+     (look unchanged); outline-offset:2px places it on the dark noembed backdrop for contrast against
+     the accent-filled pill. Mirrors the .modal-side / toolbar-control focus convention just above. */
+  .modal-noembed .ne-open:focus{outline:none;}
+  .modal-noembed .ne-open:focus-visible{outline:2px solid var(--first-color);outline-offset:2px;}
     </style>
 </head>
     <body>
@@ -1265,7 +1288,7 @@
       <div class="modal-noembed" id="modalNoembed">
         <img id="modalNoembedImg" alt="" decoding="async">
         <p>This site blocks embedded previews for security — open it in a new tab to explore it live:</p>
-        <a id="modalNoembedOpen" class="ne-open" target="_blank" rel="noopener"><i class='bx bx-link-external' aria-hidden="true"></i> <span id="modalNoembedHost"></span></a>
+        <a id="modalNoembedOpen" class="ne-open" target="_blank" rel="noopener"><i class='bx bx-link-external' aria-hidden="true"></i> <span id="modalNoembedHost"></span><span aria-hidden="true"> ↗</span></a>
       </div>
     </div>
   </div>
@@ -1476,7 +1499,7 @@ function showNoEmbed(url, poster){
   mUrl.value=url; mOpen.href=url;
   if(poster){ neImg.src=poster; } else { neImg.removeAttribute('src'); }
   neImg.alt=_host+' preview';
-  neOpen.href=url; neHost.textContent='Open '+_host+' ↗';
+  neOpen.href=url; neHost.textContent='Open '+_host;   // trailing ↗ is a static aria-hidden span in the markup, so AT reads "Open <host>" without a "north east arrow"
   modal.setAttribute('aria-label', 'Preview of '+_host);
   frame.src='about:blank'; mLoad.classList.add('hidden');
   noembed.classList.add('show');
@@ -1508,7 +1531,11 @@ function navigate(url, push){
   loadTimer=setTimeout(()=>{
     mLoadTxt.textContent='Taking a while — ';
     const _a=document.createElement('a');
-    _a.href=url; _a.target='_blank'; _a.rel='noopener'; _a.textContent='open '+url+' ↗';
+    _a.href=url; _a.target='_blank'; _a.rel='noopener'; _a.textContent='open '+url+' ';
+    // The trailing ↗ is a decorative "opens externally" cue, so keep it out of the link's
+    // accessible name (a screen reader would otherwise announce "north east arrow" after the
+    // URL) — matching how the site marks up its other decorative arrows/glyphs as aria-hidden.
+    const _arr=document.createElement('span'); _arr.setAttribute('aria-hidden','true'); _arr.textContent='↗'; _a.appendChild(_arr);
     mLoadTxt.appendChild(_a);
   }, 6000);
 }

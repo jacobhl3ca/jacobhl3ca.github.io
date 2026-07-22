@@ -6,10 +6,15 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <!-- Declare the supported colour scheme to the UA up front. This leftover copy of the /weather/ dashboard is a dark-only page (--bg:#0b1121, no theme toggle) but — unlike the production /weather/ page — declared color-scheme nowhere: not here and not in its inline :root below. So on an OS-light browser the root canvas, scrollbars, and the search input/button rendered with the light UA default against the dark design. "dark" matches the page (and the production sibling's own declaration). No visual change to the intended dark design. -->
 <meta name="color-scheme" content="dark">
+<!-- Give the tab the site favicon. There is no root /favicon.ico, so without this link a browser landing on this leftover /projects/weather/ copy by direct URL fires a 404 for the default /favicon.ico and shows a blank/generic tab icon. Root-absolute path (mirroring the production /weather/ dashboard this copies, and index.html/404.html/building.html/light/) references the existing favicon.ico — no new asset. This copy was the one weather page still missing the icon link; completes the site-wide favicon pattern. No visual change to page content. -->
+<link rel="icon" type="image/x-icon" href="/assets/img/favicon.ico">
 <title>Weather Dashboard — NYC</title>
 <!-- noindex this older, unlinked, sitemap-absent copy of the weather dashboard. The production dashboard lives at /weather/ (indexed, canonical, richer head); this /projects/weather/ page is a near-duplicate of it (same title "Weather Dashboard — NYC", same design) left over from staging, with no robots meta of its own — so it was the one weather copy still fully indexable, creating a duplicate-content risk against the real /weather/. noindex, follow removes it from search results while still letting crawlers follow its links, matching the site's established pattern for duplicate/experiment pages (index_with_animation.html, light/index.html, projects/index_cascade_animate.html, the projects-*-preview.html pages). rel=canonical also names /weather/ as the authoritative copy. Metadata only — no visual change. -->
 <meta name="robots" content="noindex, follow">
 <link rel="canonical" href="https://jacobhl.com/weather/">
+<!-- Warm the TLS connections to the Google Fonts hosts before the render-blocking Poppins stylesheet below is requested. That stylesheet blocks first paint, and without a preconnect the browser only starts the (DNS + TCP + TLS) handshake to fonts.googleapis.com once it discovers the <link> — then repeats it for the font-file host fonts.gstatic.com. Preconnecting both up front overlaps those handshakes with head parsing so the font CSS and woff2 arrive sooner. crossorigin on the gstatic hint so the warmed socket is reused for the CORS woff2 fetch. This leftover /projects/weather/ copy was loading the same font cold; the production /weather/ dashboard it copies already ships exactly these two preconnects. Resource hints only — no visual or behaviour change. -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
 :root {
@@ -141,6 +146,12 @@ body {
 .spinner { display:inline-block; width:24px; height:24px; border:3px solid var(--card-border); border-top-color:var(--accent); border-radius:50%; animation:spin .8s linear infinite; margin-bottom:12px; }
 @keyframes spin { to { transform:rotate(360deg); } }
 
+/* Respect users who prefer reduced motion: stop the looping spinner and ease off transitions. This leftover /projects/weather/ copy was missing the reduced-motion block its production sibling /weather/ already ships (it carries the same infinite spin animation and the same input/button/sun-dot transitions). Mirrors that block verbatim so both weather copies honour the OS setting; no visual change for users without the preference. */
+@media (prefers-reduced-motion: reduce) {
+  .spinner { animation: none; }
+  .search-bar input, .search-bar button, .sun-dot { transition: none; }
+}
+
 .aqi-bar { display:flex; height:8px; border-radius:4px; overflow:hidden; margin-top:8px; gap:2px; }
 .aqi-seg { flex:1; border-radius:4px; }
 </style>
@@ -148,7 +159,8 @@ body {
 <body>
 <div class="container">
   <div class="search-bar">
-    <input type="text" id="cityInput" placeholder="Search city..." value="New York, NY">
+    <!-- aria-label gives the city search box a real accessible name. A placeholder is not a label: it's advisory text that many screen readers don't announce as the field's name and that vanishes on input, so this field otherwise reached assistive tech as an unnamed "edit text" (WCAG 1.3.1 / 4.1.2). This leftover /projects/weather/ copy was the one still missing the name; the production /weather/ dashboard it copies already labels the identical input aria-label="Search for a city". Added the same label so both copies name the field. No visual change — the placeholder text is unchanged. -->
+    <input type="text" id="cityInput" placeholder="Search city..." value="New York, NY" aria-label="Search for a city">
     <button onclick="fetchWeather()">Search</button>
   </div>
   <div id="alertsBanner" class="alerts-banner"></div>
@@ -227,8 +239,16 @@ async function geocode(city) {
   const res = await fetch(`https://geocoding-api.open-meteo.com/v1/search?name=${encodeURIComponent(cleanCity)}&count=5&language=en&format=json`);
   const data = await res.json();
   if (!data.results?.length) throw new Error('City not found');
-  const usResult = data.results.find(r => r.country_code === 'US') || data.results[0];
-  const r = usResult;
+  // Only prefer a US match when the query actually signalled a US location — i.e. it carried a
+  // trailing US-state code or "US"/"USA" (the same suffix cleanCity strips above). The old
+  // unconditional find(US) hijacked every ambiguous world city to its US namesake even with no
+  // hint: "London" resolved to London, Ohio and "Paris" to Paris, Texas instead of the far
+  // larger London, GB / Paris, FR the searcher almost certainly meant. With no US hint, fall
+  // through to results[0] — Open-Meteo already returns matches population-ranked, so "London" →
+  // London, GB while a bare "New York" still lands on NYC. Mirrors the fix on the production
+  // /weather/ dashboard this leftover copy duplicates.
+  const usHinted = /,\s*(US|USA|[A-Z]{2})$/i.test(city);
+  const r = (usHinted && data.results.find(x => x.country_code === 'US')) || data.results[0];
   return { lat:r.latitude, lon:r.longitude, name:r.admin1 ? `${r.name}, ${r.admin1}` : `${r.name}, ${r.country}`, tz:r.timezone };
 }
 
