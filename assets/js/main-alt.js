@@ -856,6 +856,18 @@ function requestResume() {
 
     // Focus the first field still needing input so they can start typing right away.
     (!nameInput.value.trim() ? nameInput : !emailInput.value.trim() ? emailInput : messageInput).focus();
+
+    // Announce the action to screen readers. Sighted users see the page scroll to the contact
+    // form with the message pre-filled; an AT user only hears focus land on a bare "Your name"
+    // field and has no cue that the "Request resume" action composed a message for them. Mirror
+    // the intent into the contact form's existing polite live region (#contact-sr-status, created
+    // in the submit block below) so they get the same feedback. The polite region queues after the
+    // focus-move announcement, so they hear the field first, then this guidance. Guarded so a
+    // missing region (contact form absent) is simply a no-op.
+    const srStatus = document.getElementById('contact-sr-status');
+    if (srStatus) {
+        srStatus.textContent = 'Contact form ready with a resume request drafted. Add your name and email, then send.';
+    }
 }
 
 /*===== CONTACT FORM SUBMIT =====*/
@@ -867,6 +879,7 @@ if (contactForm) {
     // Mirror the button's state into a polite live region, created once up front so AT
     // registers it before the first update. Mirrors the weather dashboard's #srStatus.
     const srStatus = document.createElement('div');
+    srStatus.id = 'contact-sr-status';   // stable hook so requestResume() can announce through this same region
     srStatus.setAttribute('role', 'status');
     srStatus.setAttribute('aria-live', 'polite');
     srStatus.style.cssText = 'position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0;';
