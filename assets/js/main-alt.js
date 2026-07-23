@@ -766,44 +766,57 @@ function startDownArrowTimer() {
 startDownArrowTimer();
 
 let backToTopTimer = null;
+// This handler reads layout on every scroll event — getCurrentSectionIndex() reads
+// el.offsetTop and the nearBottom check reads document.documentElement.scrollHeight — while
+// also toggling .visible classes, so unthrottled it forces a style/layout recalc per scroll
+// event (many fire per frame). Coalesce to at most one run per painted frame with the same
+// rAF ticking guard already used by the scroll-spy handler above (scrollActiveTicking): the
+// end state each frame is identical (timers reset, arrows shown/hidden the same), only the
+// redundant same-frame recomputations are dropped.
+let downArrowTicking = false;
 window.addEventListener('scroll', () => {
     if (!scrollDownBtn || !backToTop) return; // scroll arrows only exist on the homepage
-    const idx = getCurrentSectionIndex();
-    const atContact = idx >= sectionIds.length - 1;
+    if (downArrowTicking) return;
+    downArrowTicking = true;
+    requestAnimationFrame(() => {
+        downArrowTicking = false;
+        const idx = getCurrentSectionIndex();
+        const atContact = idx >= sectionIds.length - 1;
 
-    // When user scrolls, hide arrow and restart idle timer for new section
-    clearTimeout(downArrowTimer);
-    downArrowTimer = null;
-    scrollDownBtn.classList.remove('visible');
+        // When user scrolls, hide arrow and restart idle timer for new section
+        clearTimeout(downArrowTimer);
+        downArrowTimer = null;
+        scrollDownBtn.classList.remove('visible');
 
-    if (!atContact) {
-        // Restart idle timer after scroll settles
-        downArrowTimer = setTimeout(() => {
-            const currentIdx = getCurrentSectionIndex();
-            if (currentIdx < sectionIds.length - 1) {
-                downArrowTimer = setTimeout(() => {
-                    scrollDownBtn.classList.add('visible');
-                    downArrowTimer = null;
-                }, getDownArrowDelay(currentIdx));
-            }
-        }, 200); // debounce scroll events
-    }
-
-    // Up arrow: only near the actual bottom of the page (so it never floats
-    // mid-scroll overlapping card buttons). 2s delay, hide otherwise.
-    const nearBottom = (window.innerHeight + window.scrollY) >= (document.documentElement.scrollHeight - 120);
-    if (nearBottom) {
-        if (!backToTopTimer && !backToTop.classList.contains('visible')) {
-            backToTopTimer = setTimeout(() => {
-                backToTop.classList.add('visible');
-                backToTopTimer = null;
-            }, 2000);
+        if (!atContact) {
+            // Restart idle timer after scroll settles
+            downArrowTimer = setTimeout(() => {
+                const currentIdx = getCurrentSectionIndex();
+                if (currentIdx < sectionIds.length - 1) {
+                    downArrowTimer = setTimeout(() => {
+                        scrollDownBtn.classList.add('visible');
+                        downArrowTimer = null;
+                    }, getDownArrowDelay(currentIdx));
+                }
+            }, 200); // debounce scroll events
         }
-    } else {
-        clearTimeout(backToTopTimer);
-        backToTopTimer = null;
-        backToTop.classList.remove('visible');
-    }
+
+        // Up arrow: only near the actual bottom of the page (so it never floats
+        // mid-scroll overlapping card buttons). 2s delay, hide otherwise.
+        const nearBottom = (window.innerHeight + window.scrollY) >= (document.documentElement.scrollHeight - 120);
+        if (nearBottom) {
+            if (!backToTopTimer && !backToTop.classList.contains('visible')) {
+                backToTopTimer = setTimeout(() => {
+                    backToTop.classList.add('visible');
+                    backToTopTimer = null;
+                }, 2000);
+            }
+        } else {
+            clearTimeout(backToTopTimer);
+            backToTopTimer = null;
+            backToTop.classList.remove('visible');
+        }
+    });
 }, { passive: true });
 
 if (scrollDownBtn) scrollDownBtn.addEventListener('click', () => {
@@ -843,6 +856,18 @@ function requestResume() {
 
     // Focus the first field still needing input so they can start typing right away.
     (!nameInput.value.trim() ? nameInput : !emailInput.value.trim() ? emailInput : messageInput).focus();
+
+    // Announce the action to screen readers. Sighted users see the page scroll to the contact
+    // form with the message pre-filled; an AT user only hears focus land on a bare "Your name"
+    // field and has no cue that the "Request resume" action composed a message for them. Mirror
+    // the intent into the contact form's existing polite live region (#contact-sr-status, created
+    // in the submit block below) so they get the same feedback. The polite region queues after the
+    // focus-move announcement, so they hear the field first, then this guidance. Guarded so a
+    // missing region (contact form absent) is simply a no-op.
+    const srStatus = document.getElementById('contact-sr-status');
+    if (srStatus) {
+        srStatus.textContent = 'Contact form ready with a resume request drafted. Add your name and email, then send.';
+    }
 }
 
 /*===== CONTACT FORM SUBMIT =====*/
@@ -854,6 +879,7 @@ if (contactForm) {
     // Mirror the button's state into a polite live region, created once up front so AT
     // registers it before the first update. Mirrors the weather dashboard's #srStatus.
     const srStatus = document.createElement('div');
+    srStatus.id = 'contact-sr-status';   // stable hook so requestResume() can announce through this same region
     srStatus.setAttribute('role', 'status');
     srStatus.setAttribute('aria-live', 'polite');
     srStatus.style.cssText = 'position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0;';
@@ -867,11 +893,21 @@ if (contactForm) {
         btn.disabled = true;
         srStatus.textContent = 'Sending your message…';
 
+        // Bound the request with a timeout: fetch() only rejects on a hard network error,
+        // not on a silently stalled connection (Formspree slow to answer, a captive-portal
+        // hang), so without this a stuck request leaves the button disabled on "Sending…"
+        // forever with no way to retry. Abort after 15s so the .catch below surfaces the
+        // retryable "Error — try again" state. Mirrors the weather dashboard's
+        // fetchWithTimeout guard, which added this same bound for the same reason.
+        const ctrl = new AbortController();
+        const timeout = setTimeout(() => ctrl.abort(), 15000);
+
         fetch(contactForm.action, {
             method: 'POST',
             body: new FormData(contactForm),
-            headers: { 'Accept': 'application/json' }
-        }).then(res => {
+            headers: { 'Accept': 'application/json' },
+            signal: ctrl.signal
+        }).finally(() => clearTimeout(timeout)).then(res => {
             if (res.ok) {
                 contactForm.reset();
                 btn.textContent = 'Sent!';

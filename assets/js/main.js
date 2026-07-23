@@ -264,7 +264,20 @@ const scrollActive = () =>{
         }
     })
 }
-window.addEventListener('scroll', scrollActive, { passive: true })
+// rAF-throttle the scroll-spy. scrollActive reads each section's offsetTop/offsetHeight (a
+// synchronous layout read) in a loop, and the scroll event can fire many times per animation
+// frame — so calling it raw forces repeated layout on the scroll path (jank on long/low-end
+// scrolls). Coalesce to at most one run per painted frame with a ticking guard: the highlighted
+// section is identical (recomputed once each frame the browser will actually paint), only the
+// redundant same-frame recomputations are dropped. The direct call below still sets the initial
+// top-of-page state before any scroll fires. Mirrors the same throttle already in main-alt.js
+// (the homepage's active script); this file (main.js) runs on 404.html and the preview pages.
+let scrollActiveTicking = false
+window.addEventListener('scroll', () => {
+    if (scrollActiveTicking) return
+    scrollActiveTicking = true
+    requestAnimationFrame(() => { scrollActive(); scrollActiveTicking = false })
+}, { passive: true })
 scrollActive() // reflect the initial (top-of-page) active section for assistive tech
 
 /*===== SCROLL REVEAL CASCADE =====*/
@@ -830,11 +843,21 @@ if (contactForm) {
         btn.disabled = true;
         srStatus.textContent = 'Sending your message…';
 
+        // Bound the request with a timeout: fetch() only rejects on a hard network error,
+        // not on a silently stalled connection (Formspree slow to answer, a captive-portal
+        // hang), so without this a stuck request leaves the button disabled on "Sending…"
+        // forever with no way to retry. Abort after 15s so the .catch below surfaces the
+        // retryable "Error — try again" state. Mirrors the weather dashboard's
+        // fetchWithTimeout guard and the same bound already applied in main-alt.js.
+        const ctrl = new AbortController();
+        const timeout = setTimeout(() => ctrl.abort(), 15000);
+
         fetch(contactForm.action, {
             method: 'POST',
             body: new FormData(contactForm),
-            headers: { 'Accept': 'application/json' }
-        }).then(res => {
+            headers: { 'Accept': 'application/json' },
+            signal: ctrl.signal
+        }).finally(() => clearTimeout(timeout)).then(res => {
             if (res.ok) {
                 contactForm.reset();
                 btn.textContent = 'Sent!';

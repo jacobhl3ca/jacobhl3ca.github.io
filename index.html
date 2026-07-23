@@ -680,6 +680,14 @@
     border-radius:6px;padding:.42rem .8rem;text-align:center;outline:none;font-family:var(--body-font);
     transition:border-color .2s ease, background .2s ease;}
   .modal-url:focus{border-color:var(--first-color);text-align:left;background:#11141a;}
+  /* Keyboard focus: the address input sets outline:none above and its only :focus cue is the 1px
+     border-color tint — weaker than the 2px accent ring every other control in this same modal
+     toolbar gets (the dots/nav-btns/openext/mclose/fs-back below), so it was the one toolbar
+     control still short of WCAG 2.4.7 Focus Visible. Give it the same branded ring on
+     :focus-visible so it behaves identically to its neighbours; scoped to :focus-visible so
+     mouse/touch focus keeps just the border tint + background shift (no visual change there).
+     Mirrors the weather page's .search-bar input:focus-visible fix. */
+  .modal-url:focus-visible{outline:2px solid var(--first-color);outline-offset:2px;}
   .modal-bar a.openext{flex:0 0 auto;display:flex;align-items:center;justify-content:center;width:30px;height:30px;
     color:#9aa3b4;text-decoration:none;border-radius:6px;transition:all .2s ease;}
   .modal-bar a.openext:hover{color:var(--first-color);background:#1a1f29;}
@@ -1497,8 +1505,11 @@ function showNoEmbed(url, poster){
   currentUrl=url; backStack=[]; updateBack(); noEmbedPoster=poster||null;
   let _host=url; try{ _host=new URL(url).hostname.replace(/^www\./,''); }catch(e){}
   mUrl.value=url; mOpen.href=url;
-  if(poster){ neImg.src=poster; } else { neImg.removeAttribute('src'); }
-  neImg.alt=_host+' preview';
+  // Keep alt in lockstep with src: a descriptive name only when there's an actual poster image,
+  // otherwise an empty alt so the src-less <img> is treated as decorative/absent rather than
+  // announced by screen readers as a missing "<host> preview" image (the visible <p> + open-link
+  // already carry the fallback's meaning). No visual change — a src-less img renders nothing.
+  if(poster){ neImg.src=poster; neImg.alt=_host+' preview'; } else { neImg.removeAttribute('src'); neImg.alt=''; }
   neOpen.href=url; neHost.textContent='Open '+_host;   // trailing ↗ is a static aria-hidden span in the markup, so AT reads "Open <host>" without a "north east arrow"
   modal.setAttribute('aria-label', 'Preview of '+_host);
   frame.src='about:blank'; mLoad.classList.add('hidden');
