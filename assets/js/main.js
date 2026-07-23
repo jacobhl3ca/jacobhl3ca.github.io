@@ -843,11 +843,21 @@ if (contactForm) {
         btn.disabled = true;
         srStatus.textContent = 'Sending your message…';
 
+        // Bound the request with a timeout: fetch() only rejects on a hard network error,
+        // not on a silently stalled connection (Formspree slow to answer, a captive-portal
+        // hang), so without this a stuck request leaves the button disabled on "Sending…"
+        // forever with no way to retry. Abort after 15s so the .catch below surfaces the
+        // retryable "Error — try again" state. Mirrors the weather dashboard's
+        // fetchWithTimeout guard and the same bound already applied in main-alt.js.
+        const ctrl = new AbortController();
+        const timeout = setTimeout(() => ctrl.abort(), 15000);
+
         fetch(contactForm.action, {
             method: 'POST',
             body: new FormData(contactForm),
-            headers: { 'Accept': 'application/json' }
-        }).then(res => {
+            headers: { 'Accept': 'application/json' },
+            signal: ctrl.signal
+        }).finally(() => clearTimeout(timeout)).then(res => {
             if (res.ok) {
                 contactForm.reset();
                 btn.textContent = 'Sent!';
