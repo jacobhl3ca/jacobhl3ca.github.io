@@ -117,6 +117,16 @@
     <p>If you were going to sign up for one of these anyway, use my link — you get the signup bonus, and I get one too.</p>
   </header>
 
+  <!-- Wrap the referral sections in a <main> landmark. The page already exposes a banner
+       (<header>) and contentinfo (<footer>), but its primary content — the offer cards — sat
+       in unlabelled <div>s, so screen-reader landmark navigation had no "main" region to jump
+       to. This was the one content page site-wide still missing it (index.html, 404.html,
+       weather/index.html, and building.html all use <main>); this completes that pattern.
+       <main> is display:block like the divs it wraps and .wrap has no flex/grid or direct-child
+       selectors, so layout is unchanged (h2:first-of-type still matches the first heading here).
+       Semantics only — no visual change. -->
+  <main>
+
   <h2>Investing</h2>
   <div class="grid">
     <div class="card">
@@ -234,6 +244,8 @@
     actually want.
   </div>
   -->
+
+  </main>
 
   <footer>
     <a href="https://jacobhl.com/">jacobhl.com</a>
