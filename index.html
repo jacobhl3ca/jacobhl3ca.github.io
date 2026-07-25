@@ -1049,11 +1049,13 @@
                              for no-JS visitors (and crawlers that don't run JS) this whole section is a dead
                              button over an empty div. Hide the inert toggle and list the projects as plain text
                              so their content and SEO value aren't lost, mirroring the #main-rows fallback above.
-                             Mirrors the MORE[] array — these portfolio pieces have no live site, so unlike the
+                             Mirrors the MORE[] array — the portfolio pieces have no live site, so unlike the
                              live-app cards they're unlinked (Automation Utilities stays out, matching the array's
-                             commented-out entry). The JS-rendered cards replace this entirely. -->
+                             commented-out entry); DuelGoat does have one, so it links like the MAIN[] fallback
+                             entries above. The JS-rendered cards replace this entirely. -->
                         <style>#moreToggle{display:none;}</style>
                         <ul style="list-style:none;margin:0;padding:0;line-height:1.6;color:var(--second-color);">
+                            <li><a href="https://duelgoat.com" target="_blank" rel="noopener noreferrer">DuelGoat</a> — A browser recreation of GOAT-format Yu-Gi-Oh dueling.</li>
                             <li><strong>Spotify Analytics</strong> — Interactive dashboard of my listening trends — beyond Wrapped.</li>
                             <li><strong>Spotify Playlist Archiver</strong> — Auto-archives playlists that would otherwise disappear.</li>
                             <li><strong>Personal Finance App</strong> — Daily budgeting, investment planning, and optimization.</li>
@@ -1329,11 +1331,8 @@ const MAIN = [
     one:"Everything happening on NYC's Roosevelt Island, in one place.",
     full:"Everything happening on NYC's Roosevelt Island, in one place — real-time bus GPS, subway, tram, and ferry times, a restaurant guide, service alerts, an events newsletter, and an interactive map.",
     site:"https://theisland.nyc", appstore:"https://apps.apple.com/us/app/roosevelt-island/id6775979583" },
-  // PLACEHOLDER — uncomment to publish. Needs screenshot (assets/img/duelgoat-app.png).
-  // { title:"DuelGoat", live:true, img:"assets/img/duelgoat-app.png", url:"https://duelgoat.com",
-  //   one:"A browser recreation of GOAT-format Yu-Gi-Oh dueling.",
-  //   full:"A faithful browser recreation of GOAT-format Yu-Gi-Oh — the 2005 metagame competitive players still love — with the full card database, deck building, and online play.",
-  //   site:"https://duelgoat.com" },
+  // DuelGoat lives in the "Other projects" list (MORE) for now — 2026-07-25, Jacob's call.
+  // Move this entry back up here (with url: for the live preview) once it earns a main row.
   // PLACEHOLDER — uncomment to publish. Needs screenshot (assets/img/islander-app.png).
   // { title:"Islander", live:true, img:"assets/img/islander-app.png", url:"https://islander.theisland.nyc",
   //   one:"A neighbor-help app for NYC's Roosevelt Island.",
@@ -1347,6 +1346,14 @@ const MAIN = [
   },
 ];
 const MORE = [
+  // Branded cover (not a screenshot), same generator as the main rows: ~/jacobhl-covers/covers.html
+  // frame #duelgoat, palette taken from duelgoat.com's own tokens. live:true lights the dot; MORE
+  // live:true needs a url: — the preview modal binds globally to .proj-thumb[data-url], so this
+  // MORE card opens a live preview like a main row (duelgoat.com sends no X-Frame-Options/CSP).
+  { title:"DuelGoat", live:true, url:"https://duelgoat.com", site:"https://duelgoat.com",
+    img:"assets/img/duelgoat-cover-thumb.webp?v=1", imgLight:"assets/img/duelgoat-cover-light-thumb.webp?v=1",
+    one:"A browser recreation of GOAT-format Yu-Gi-Oh dueling.",
+    full:"A faithful browser recreation of GOAT-format Yu-Gi-Oh — the 2005 metagame competitive players still love — with the full card database, deck building, and online play. Live at duelgoat.com (TypeScript, React, Vite, Colyseus)." },
   { title:"Spotify Analytics", img:"assets/img/spotify_monthly-thumb.webp?v=1", imgLight:"assets/img/spotify_monthly_light-thumb.webp?v=1",
     one:"Interactive dashboard of my listening trends — beyond Wrapped.",
     full:"Summarize listening trends without relying on annual Spotify Wrapped — an interactive dashboard with top songs/artists/albums, heatmaps, skip-rate analysis, artist evolution timelines, session tracking, and a listening clock (Python, Plotly, Streamlit)." },
