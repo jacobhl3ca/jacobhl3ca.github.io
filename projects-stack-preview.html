@@ -496,7 +496,12 @@
   .proj-one{font-size:var(--normal-font-size);line-height:1.5;margin:0;
     color:var(--second-color);opacity:.72;}
   .proj-stack-intro{max-width:640px;margin:.15rem auto 1.25rem;text-align:center;
-    font-size:var(--small-font-size);line-height:1.55;color:var(--second-color);opacity:.76;}
+    /* --small-font-size is undefined — the site's type scale (styles.css :root) only defines
+       --big/-h2/-normal/-smaller-font-size, no "small". So this declaration was invalid and dropped,
+       leaving the paragraph to inherit body's font-size (which is var(--normal-font-size)). Name that
+       intended value explicitly so the declaration is valid; it resolves to the same size the intro
+       already rendered at via inheritance, so there's no visual change. */
+    font-size:var(--normal-font-size);line-height:1.55;color:var(--second-color);opacity:.76;}
   .proj-stack{display:flex;flex-wrap:wrap;gap:.45rem;margin:.85rem 0 .15rem;padding:0;list-style:none;}
   .proj-stack::before{content:"Stack:";align-self:center;margin-right:.05rem;
     font-size:var(--smaller-font-size);font-weight:600;color:var(--second-color);opacity:.72;}
