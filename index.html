@@ -32,6 +32,7 @@
         <link rel="dns-prefetch" href="//jacobhl.goatcounter.com"> <!-- resolve the GoatCounter *beacon* host too: count.js (from gc.zgo.at above) sends every pageview hit to https://jacobhl.goatcounter.com/count, a separate host whose DNS was otherwise only looked up lazily when the beacon fires. The prefetch above warmed only the script host; this warms the endpoint the hit actually goes to, so the beacon isn't delayed (and is less likely to be dropped on a slow/flaky DNS). The homepage was the one GoatCounter page still missing this — 404.html, weather/, and building.html all already carry it — so this completes the beacon-host prefetch pattern site-wide. Pure resource hint, no visual or behaviour change. -->
         <link rel="dns-prefetch" href="//stats.hidescore.com"> <!-- resolve the self-hosted Umami analytics host ahead of its deferred script.js fetch at end of body -->
         <link rel="dns-prefetch" href="//formspree.io"> <!-- resolve the Formspree host ahead of the contact form's on-submit POST (assets/js/main-alt.js) so the DNS lookup isn't on the send path -->
+        <link rel="dns-prefetch" href="//gist.githubusercontent.com"> <!-- resolve the host the live "Claude Code usage" section (#ccu) fetches its usage-public.json from at end of body, so the DNS lookup isn't fully cold when that fetch fires and the stats reveal sooner. gist.githubusercontent.com was the one third-party host index.html talks to still missing a hint — the analytics hosts and Formspree above all already carry one — so this completes the site's dns-prefetch pattern. Pure resource hint, no visual or behaviour change. -->
         <link href='https://cdn.jsdelivr.net/npm/boxicons@2.0.5/css/boxicons.min.css' rel='stylesheet'> <!-- icons -->
         <script>
             // Default view = projects-only (set before paint to avoid flash); honor saved preference.
@@ -149,7 +150,7 @@
             "about": { "@id": "https://jacobhl.com/#person" },
             "mainEntity": { "@id": "https://jacobhl.com/#person" },
             "inLanguage": "en-US",
-            "dateModified": "2026-07-21"
+            "dateModified": "2026-07-25"
         }
         </script>
         <style>

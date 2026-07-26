@@ -14,7 +14,16 @@
      different program type with different rules and it can be indexed then. -->
 <meta name="robots" content="noindex, nofollow">
 <meta name="color-scheme" content="light dark">
-<meta name="theme-color" content="#ffffff">
+<!-- Media-scoped theme-color so the mobile browser chrome (address/status bar) tracks the page's
+     background in each OS theme. This page is the one page site-wide that themes automatically from
+     prefers-color-scheme (it has no JS theme toggle — the @media block below swaps --bg to #101216 in
+     dark mode), so unlike the JS-toggled pages (index.html, 404.html) whose single theme-color is
+     updated in script, here the correct pattern is two static, media-scoped values the UA picks
+     between. The old single #ffffff left dark-mode visitors with a white chrome around the dark page.
+     Light #ffffff matches --bg light; dark #101216 matches --bg dark. Browsers that ignore the media
+     attribute fall back to the first (light) tag, i.e. the previous behaviour. No change to the page body. -->
+<meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#101216" media="(prefers-color-scheme: dark)">
 <meta name="author" content="Jacob Heifetz-Licht">
 <link rel="canonical" href="https://jacobhl.com/refer/">
 <link rel="icon" type="image/x-icon" href="../assets/img/favicon.ico">
@@ -24,13 +33,30 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
 <!-- Social-share card: this page exists to be pasted into a text or a group chat, so the
-     preview matters more than the crawl. Reuses the site-wide OG image. -->
+     preview matters more than the crawl. Reuses the site-wide OG image. Completed to match
+     the share card every other page carries (building.html is the closest analog — also a
+     share-by-link page): the image dimensions/type let large-card scrapers lay the preview
+     out without first downloading the image; og:image:alt (and twitter:image:alt) give the
+     card an accessible description (identical wording to the alt this same og_image.png uses
+     site-wide); and the explicit twitter:* image/title/description make the summary_large_image
+     card self-contained instead of relying on each platform's og:* fallback. og:site_name/locale
+     mirror the site's other cards. Pure metadata — no visual change to the page. -->
 <meta property="og:type" content="website">
 <meta property="og:title" content="Referral links — Jacob">
 <meta property="og:description" content="Services Jacob actually uses, with referral links. You get a signup bonus, he gets one too.">
 <meta property="og:url" content="https://jacobhl.com/refer/">
 <meta property="og:image" content="https://jacobhl.com/assets/img/og_image.png">
+<meta property="og:image:type" content="image/png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Jacob Heifetz-Licht — Analytics Manager and web developer">
+<meta property="og:site_name" content="Jacob Heifetz-Licht">
+<meta property="og:locale" content="en_US">
 <meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Referral links — Jacob">
+<meta name="twitter:description" content="Services Jacob actually uses, with referral links. You get a signup bonus, he gets one too.">
+<meta name="twitter:image" content="https://jacobhl.com/assets/img/og_image.png">
+<meta name="twitter:image:alt" content="Jacob Heifetz-Licht — Analytics Manager and web developer">
 <style>
   :root{
     --bg:#ffffff; --card:#ffffff; --line:#e6e6ea; --txt:#15161a; --muted:#61636c;
@@ -100,103 +126,113 @@
     <p>If you were going to sign up for one of these anyway, use my link — you get the signup bonus, and I get one too.</p>
   </header>
 
+  <!-- Wrap the referral sections in a <main> landmark. The page already exposes a banner
+       (<header>) and contentinfo (<footer>), but its primary content — the offer cards — sat
+       in unlabelled <div>s, so screen-reader landmark navigation had no "main" region to jump
+       to. This was the one content page site-wide still missing it (index.html, 404.html,
+       weather/index.html, and building.html all use <main>); this completes that pattern.
+       <main> is display:block like the divs it wraps and .wrap has no flex/grid or direct-child
+       selectors, so layout is unchanged (h2:first-of-type still matches the first heading here).
+       Semantics only — no visual change. -->
+  <main>
+
   <h2>Investing</h2>
   <div class="grid">
     <div class="card">
-      <a class="hit" href="https://www.wealthfront.com/c/affiliates/invited/AFFD-6EDA-RPXU-RANJ" target="_blank" rel="noopener nofollow" aria-label="Open the Wealthfront offer"></a>
-      <div class="top"><img class="lg" src="logos/wealthfront.png" alt="" width="22" height="22" loading="lazy"><h3>Wealthfront</h3></div>
+      <a class="hit" href="https://www.wealthfront.com/c/affiliates/invited/AFFD-6EDA-RPXU-RANJ" target="_blank" rel="noopener sponsored nofollow" aria-label="Open the Wealthfront offer"></a>
+      <div class="top"><img class="lg" src="logos/wealthfront.png" alt="" width="22" height="22" loading="lazy" decoding="async"><h3>Wealthfront</h3></div>
       <p>Automated investing + high-yield cash.</p>
-      <button class="copy" data-copy="https://www.wealthfront.com/c/affiliates/invited/AFFD-6EDA-RPXU-RANJ" title="Copy link" aria-label="Copy the Wealthfront link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg></button>
+      <button type="button" class="copy" data-copy="https://www.wealthfront.com/c/affiliates/invited/AFFD-6EDA-RPXU-RANJ" title="Copy link" aria-label="Copy the Wealthfront link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg></button>
     </div>
     <div class="card">
-      <a class="hit" href="https://join.robinhood.com/jacobh413" target="_blank" rel="noopener nofollow" aria-label="Open the Robinhood offer"></a>
-      <div class="top"><img class="lg" src="logos/robinhood.png" alt="" width="22" height="22" loading="lazy"><h3>Robinhood</h3></div>
+      <a class="hit" href="https://join.robinhood.com/jacobh413" target="_blank" rel="noopener sponsored nofollow" aria-label="Open the Robinhood offer"></a>
+      <div class="top"><img class="lg" src="logos/robinhood.png" alt="" width="22" height="22" loading="lazy" decoding="async"><h3>Robinhood</h3></div>
       <p>Free stock when the new account funds.</p>
-      <button class="copy" data-copy="https://join.robinhood.com/jacobh413" title="Copy link" aria-label="Copy the Robinhood link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg></button>
+      <button type="button" class="copy" data-copy="https://join.robinhood.com/jacobh413" title="Copy link" aria-label="Copy the Robinhood link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg></button>
     </div>
     <div class="card">
-      <a class="hit" href="https://betterment.com/friend-referral-offer?referral_key=amFjb2JoZWlmZXR6bGljaHQ=" target="_blank" rel="noopener nofollow" aria-label="Open the Betterment offer"></a>
-      <div class="top"><img class="lg" src="logos/betterment.png" alt="" width="22" height="22" loading="lazy"><h3>Betterment</h3></div>
+      <a class="hit" href="https://betterment.com/friend-referral-offer?referral_key=amFjb2JoZWlmZXR6bGljaHQ=" target="_blank" rel="noopener sponsored nofollow" aria-label="Open the Betterment offer"></a>
+      <div class="top"><img class="lg" src="logos/betterment.png" alt="" width="22" height="22" loading="lazy" decoding="async"><h3>Betterment</h3></div>
       <p>Automated investing; friend must fund in 7 days.</p>
-      <button class="copy" data-copy="https://betterment.com/friend-referral-offer?referral_key=amFjb2JoZWlmZXR6bGljaHQ=" title="Copy link" aria-label="Copy the Betterment link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg></button>
+      <button type="button" class="copy" data-copy="https://betterment.com/friend-referral-offer?referral_key=amFjb2JoZWlmZXR6bGljaHQ=" title="Copy link" aria-label="Copy the Betterment link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg></button>
     </div>
     <div class="card">
-      <a class="hit" href="https://fidelity.app.link/e/4ilfCUxGX4b" target="_blank" rel="noopener nofollow" aria-label="Open the Fidelity offer"></a>
-      <div class="top"><img class="lg" src="logos/fidelity.png" alt="" width="22" height="22" loading="lazy"><h3>Fidelity</h3></div>
+      <a class="hit" href="https://fidelity.app.link/e/4ilfCUxGX4b" target="_blank" rel="noopener sponsored nofollow" aria-label="Open the Fidelity offer"></a>
+      <div class="top"><img class="lg" src="logos/fidelity.png" alt="" width="22" height="22" loading="lazy" decoding="async"><h3>Fidelity</h3></div>
       <p>Brokerage I use for everything. No cash bonus.</p>
-      <button class="copy" data-copy="https://fidelity.app.link/e/4ilfCUxGX4b" title="Copy link" aria-label="Copy the Fidelity link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg></button>
+      <button type="button" class="copy" data-copy="https://fidelity.app.link/e/4ilfCUxGX4b" title="Copy link" aria-label="Copy the Fidelity link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg></button>
     </div>
     <div class="card">
-      <a class="hit" href="https://exchange.gemini.com/register?referral=ppegr4t9&amp;type=referral" target="_blank" rel="noopener nofollow" aria-label="Open the Gemini offer"></a>
-      <div class="top"><img class="lg" src="logos/gemini.png" alt="" width="22" height="22" loading="lazy"><h3>Gemini</h3></div>
+      <a class="hit" href="https://exchange.gemini.com/register?referral=ppegr4t9&amp;type=referral" target="_blank" rel="noopener sponsored nofollow" aria-label="Open the Gemini offer"></a>
+      <div class="top"><img class="lg" src="logos/gemini.png" alt="" width="22" height="22" loading="lazy" decoding="async"><h3>Gemini</h3></div>
       <p>Crypto — bonus after a qualifying trade.</p>
-      <button class="copy" data-copy="https://exchange.gemini.com/register?referral=ppegr4t9&type=referral" title="Copy link" aria-label="Copy the Gemini link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg></button>
+      <button type="button" class="copy" data-copy="https://exchange.gemini.com/register?referral=ppegr4t9&amp;type=referral" title="Copy link" aria-label="Copy the Gemini link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg></button>
     </div>
   </div>
 
   <h2>Banking &amp; cards</h2>
   <div class="grid">
     <div class="card">
-      <a class="hit" href="https://accounts.chase.com/raf/share/845127332" target="_blank" rel="noopener nofollow" aria-label="Open the Chase checking offer"></a>
-      <div class="top"><img class="lg" src="logos/chase.png" alt="" width="22" height="22" loading="lazy"><h3>Chase checking</h3></div>
+      <a class="hit" href="https://accounts.chase.com/raf/share/845127332" target="_blank" rel="noopener sponsored nofollow" aria-label="Open the Chase checking offer"></a>
+      <div class="top"><img class="lg" src="logos/chase.png" alt="" width="22" height="22" loading="lazy" decoding="async"><h3>Chase checking</h3></div>
       <p>Open a checking account, we both get a bonus.</p>
-      <button class="copy" data-copy="https://accounts.chase.com/raf/share/845127332" title="Copy link" aria-label="Copy the Chase checking link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg></button>
+      <button type="button" class="copy" data-copy="https://accounts.chase.com/raf/share/845127332" title="Copy link" aria-label="Copy the Chase checking link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg></button>
     </div>
     <div class="card">
-      <a class="hit" href="https://www.referyourchasecard.com/19x/8GG562G3QX" target="_blank" rel="noopener nofollow" aria-label="Open the Chase Sapphire offer"></a>
-      <div class="top"><img class="lg" src="logos/chase.png" alt="" width="22" height="22" loading="lazy"><h3>Chase Sapphire</h3></div>
+      <a class="hit" href="https://www.referyourchasecard.com/19x/8GG562G3QX" target="_blank" rel="noopener sponsored nofollow" aria-label="Open the Chase Sapphire offer"></a>
+      <div class="top"><img class="lg" src="logos/chase.png" alt="" width="22" height="22" loading="lazy" decoding="async"><h3>Chase Sapphire</h3></div>
       <p>Travel card — bonus points for you and me.</p>
-      <button class="copy" data-copy="https://www.referyourchasecard.com/19x/8GG562G3QX" title="Copy link" aria-label="Copy the Chase Sapphire link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg></button>
+      <button type="button" class="copy" data-copy="https://www.referyourchasecard.com/19x/8GG562G3QX" title="Copy link" aria-label="Copy the Chase Sapphire link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg></button>
     </div>
     <div class="card">
-      <a class="hit" href="https://www.referyourchasecard.com/18a/RJEAYF3PBE" target="_blank" rel="noopener nofollow" aria-label="Open the Chase Freedom offer"></a>
-      <div class="top"><img class="lg" src="logos/chase.png" alt="" width="22" height="22" loading="lazy"><h3>Chase Freedom</h3></div>
+      <a class="hit" href="https://www.referyourchasecard.com/18a/RJEAYF3PBE" target="_blank" rel="noopener sponsored nofollow" aria-label="Open the Chase Freedom offer"></a>
+      <div class="top"><img class="lg" src="logos/chase.png" alt="" width="22" height="22" loading="lazy" decoding="async"><h3>Chase Freedom</h3></div>
       <p>No-annual-fee cashback card.</p>
-      <button class="copy" data-copy="https://www.referyourchasecard.com/18a/RJEAYF3PBE" title="Copy link" aria-label="Copy the Chase Freedom link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg></button>
+      <button type="button" class="copy" data-copy="https://www.referyourchasecard.com/18a/RJEAYF3PBE" title="Copy link" aria-label="Copy the Chase Freedom link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg></button>
     </div>
   </div>
 
   <h2>Getting around</h2>
   <div class="grid">
     <div class="card">
-      <a class="hit" href="https://referrals.uber.com/refer?id=7uu6t377aabh" target="_blank" rel="noopener nofollow" aria-label="Open the Uber offer"></a>
-      <div class="top"><img class="lg" src="logos/uber.png" alt="" width="22" height="22" loading="lazy"><h3>Uber</h3></div>
+      <a class="hit" href="https://referrals.uber.com/refer?id=7uu6t377aabh" target="_blank" rel="noopener sponsored nofollow" aria-label="Open the Uber offer"></a>
+      <div class="top"><img class="lg" src="logos/uber.png" alt="" width="22" height="22" loading="lazy" decoding="async"><h3>Uber</h3></div>
       <p>Discount on your first rides.</p>
-      <button class="copy" data-copy="https://referrals.uber.com/refer?id=7uu6t377aabh" title="Copy link" aria-label="Copy the Uber link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg></button>
+      <button type="button" class="copy" data-copy="https://referrals.uber.com/refer?id=7uu6t377aabh" title="Copy link" aria-label="Copy the Uber link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg></button>
     </div>
     <div class="card">
-      <a class="hit" href="https://www.lyft.com/i/JACOB310548?utm_medium=2pi_iacc" target="_blank" rel="noopener nofollow" aria-label="Open the Lyft offer"></a>
-      <div class="top"><img class="lg" src="logos/lyft.png" alt="" width="22" height="22" loading="lazy"><h3>Lyft</h3></div>
+      <a class="hit" href="https://www.lyft.com/i/JACOB310548?utm_medium=2pi_iacc" target="_blank" rel="noopener sponsored nofollow" aria-label="Open the Lyft offer"></a>
+      <div class="top"><img class="lg" src="logos/lyft.png" alt="" width="22" height="22" loading="lazy" decoding="async"><h3>Lyft</h3></div>
       <p>Credit on your first rides.</p>
-      <button class="copy" data-copy="https://www.lyft.com/i/JACOB310548?utm_medium=2pi_iacc" title="Copy link" aria-label="Copy the Lyft link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg></button>
+      <button type="button" class="copy" data-copy="https://www.lyft.com/i/JACOB310548?utm_medium=2pi_iacc" title="Copy link" aria-label="Copy the Lyft link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg></button>
     </div>
   </div>
 
   <h2>Everyday</h2>
   <div class="grid">
     <div class="card">
-      <a class="hit" href="https://pr.tn/ref/43X9Q3V0" target="_blank" rel="noopener nofollow" aria-label="Open the Proton offer"></a>
-      <div class="top"><img class="lg" src="logos/proton.png" alt="" width="22" height="22" loading="lazy"><h3>Proton</h3></div>
+      <a class="hit" href="https://pr.tn/ref/43X9Q3V0" target="_blank" rel="noopener sponsored nofollow" aria-label="Open the Proton offer"></a>
+      <div class="top"><img class="lg" src="logos/proton.png" alt="" width="22" height="22" loading="lazy" decoding="async"><h3>Proton</h3></div>
       <p>Encrypted mail, VPN, drive. Bonus on a paid plan.</p>
-      <button class="copy" data-copy="https://pr.tn/ref/43X9Q3V0" title="Copy link" aria-label="Copy the Proton link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg></button>
+      <button type="button" class="copy" data-copy="https://pr.tn/ref/43X9Q3V0" title="Copy link" aria-label="Copy the Proton link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg></button>
     </div>
     <div class="card">
-      <a class="hit" href="https://referral.t-mobile.com/DAI9PPm" target="_blank" rel="noopener nofollow" aria-label="Open the T-Mobile offer"></a>
-      <div class="top"><img class="lg" src="logos/t-mobile.png" alt="" width="22" height="22" loading="lazy"><h3>T-Mobile</h3></div>
+      <a class="hit" href="https://referral.t-mobile.com/DAI9PPm" target="_blank" rel="noopener sponsored nofollow" aria-label="Open the T-Mobile offer"></a>
+      <div class="top"><img class="lg" src="logos/t-mobile.png" alt="" width="22" height="22" loading="lazy" decoding="async"><h3>T-Mobile</h3></div>
       <p>Switch a line — $100 virtual prepaid Mastercard each.</p>
-      <button class="copy" data-copy="https://referral.t-mobile.com/DAI9PPm" title="Copy link" aria-label="Copy the T-Mobile link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg></button>
+      <button type="button" class="copy" data-copy="https://referral.t-mobile.com/DAI9PPm" title="Copy link" aria-label="Copy the T-Mobile link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg></button>
     </div>
     <div class="card">
-      <a class="hit" href="https://www.airalo.com/refer-and-earn" target="_blank" rel="noopener nofollow" aria-label="Open the Airalo offer"></a>
-      <div class="top"><img class="lg" src="logos/airalo.png" alt="" width="22" height="22" loading="lazy"><h3>Airalo</h3></div>
+      <a class="hit" href="https://www.airalo.com/refer-and-earn" target="_blank" rel="noopener sponsored nofollow" aria-label="Open the Airalo offer"></a>
+      <div class="top"><img class="lg" src="logos/airalo.png" alt="" width="22" height="22" loading="lazy" decoding="async"><h3>Airalo</h3></div>
       <p>Travel eSIM — enter <code class="code">ASDF0811</code> at signup.</p>
-      <button class="copy" data-copy="ASDF0811" title="Copy code" aria-label="Copy the Airalo code"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg></button>
+      <button type="button" class="copy" data-copy="ASDF0811" title="Copy code" aria-label="Copy the Airalo code"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg></button>
     </div>
     <div class="card">
-      <a class="hit" href="https://refer.optimum.com/dlichtklez!daa9953b9c!a?locale=en" target="_blank" rel="noopener nofollow" aria-label="Open the Optimum offer"></a>
-      <div class="top"><img class="lg" src="logos/optimum.png" alt="" width="22" height="22" loading="lazy"><h3>Optimum</h3></div>
+      <a class="hit" href="https://refer.optimum.com/dlichtklez!daa9953b9c!a?locale=en" target="_blank" rel="noopener sponsored nofollow" aria-label="Open the Optimum offer"></a>
+      <div class="top"><img class="lg" src="logos/optimum.png" alt="" width="22" height="22" loading="lazy" decoding="async"><h3>Optimum</h3></div>
       <p>Home internet. New customers get an account credit or gift card.</p>
-      <button class="copy" data-copy="https://refer.optimum.com/dlichtklez!daa9953b9c!a?locale=en" title="Copy link" aria-label="Copy the Optimum link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg></button>
+      <button type="button" class="copy" data-copy="https://refer.optimum.com/dlichtklez!daa9953b9c!a?locale=en" title="Copy link" aria-label="Copy the Optimum link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg></button>
     </div>
   </div>
 
@@ -218,6 +254,8 @@
   </div>
   -->
 
+  </main>
+
   <footer>
     <a href="https://jacobhl.com/">jacobhl.com</a>
   </footer>
@@ -237,12 +275,26 @@
 // Copy buttons: on a phone this page is usually open next to a text thread, and copying
 // the link beats making someone long-press an anchor. Falls back to a hidden textarea +
 // execCommand where the async clipboard API isn't available (non-HTTPS, older Safari).
+// Each copy control carries an explicit type="button" (a <button> with no type defaults to
+// type="submit"): these were the buttons site-wide still on the implicit submit default —
+// harmless today with no enclosing <form>, but a footgun if one is ever added (they'd submit
+// instead of just copying), and screen readers announce the implicit "submit button" role.
+// This states the real JS-only intent and matches the type="button" pattern the rest of the
+// site (index.html, weather/) already uses.
 var toast = document.getElementById("toast"), toastTimer = null;
 function showToast(msg){
-  toast.textContent = msg;
   toast.classList.add("show");
   clearTimeout(toastTimer);
   toastTimer = setTimeout(function(){ toast.classList.remove("show"); }, 1400);
+  // #toast is a polite role="status" live region, which only announces a genuine
+  // text *change* — so copying two links in a row (both "Copied") was announced to
+  // screen readers only the first time (WCAG 4.1.3 Status Messages), on a page that
+  // is a list of ~15 copyable links. Clear the node, then set the message on the next
+  // frame so assistive tech registers a change and re-announces even an identical
+  // string. The blank instant sits under the pill's 0.18s fade-in (it starts at
+  // opacity 0), so there's no visible empty flash — the toast still reads normally.
+  toast.textContent = "";
+  requestAnimationFrame(function(){ toast.textContent = msg; });
 }
 function legacyCopy(text){
   var ta = document.createElement("textarea");
