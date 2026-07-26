@@ -61,16 +61,26 @@
                 document.documentElement.classList.add('projects-only');
             }
             // LCP preload for the first project card's cover, in whichever theme is about to
-            // render (see the comment above the link block). Outside the try/catch so a
-            // storage exception above still leaves the default light cover preloaded.
-            (function () {
-                var dark = document.documentElement.getAttribute('data-theme') === 'dark';
-                var l = document.createElement('link');
-                l.rel = 'preload'; l.as = 'image'; l.fetchPriority = 'high';
-                l.href = dark ? 'assets/img/hidescore-cover-thumb.webp?v=1'
-                              : 'assets/img/hidescore-cover-light-thumb.webp?v=1';
-                document.head.appendChild(l);
-            })();
+            // render (see the comment above the link block). Only preload it in the projects-only
+            // view — the view where that cover IS the above-the-fold LCP. In the full-site view the
+            // hero (#home) is what sits above the fold and this project cover is below it, so a
+            // high-priority head preload there would pull a below-the-fold image ahead of the real
+            // above-the-fold content (hero + render-critical CSS) — a known Core Web Vitals
+            // anti-pattern (preloading below-the-fold media). Full-site visitors still get the cover:
+            // it loads when the inline row builder near </body> runs, just not at head-parse priority.
+            // Reuses the projects-only class already asserted above (before paint), so no extra
+            // storage read; the catch path also forces projects-only, so a storage exception still
+            // leaves the default light cover preloaded, exactly as before.
+            if (document.documentElement.classList.contains('projects-only')) {
+                (function () {
+                    var dark = document.documentElement.getAttribute('data-theme') === 'dark';
+                    var l = document.createElement('link');
+                    l.rel = 'preload'; l.as = 'image'; l.fetchPriority = 'high';
+                    l.href = dark ? 'assets/img/hidescore-cover-thumb.webp?v=1'
+                                  : 'assets/img/hidescore-cover-light-thumb.webp?v=1';
+                    document.head.appendChild(l);
+                })();
+            }
         </script>
         <title>Jacob Heifetz-Licht — Analytics Manager</title>
         <meta name="description" content="Data analytics leader and web developer specializing in Python, SQL, Tableau, React, and Next.js. Turning data into things people actually use.">
