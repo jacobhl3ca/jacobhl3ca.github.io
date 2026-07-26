@@ -19,6 +19,11 @@
      resolves from the repo root where this page is served, matching the two siblings exactly.
      References the existing favicon.ico (no new asset). No visual change to page content. -->
 <link rel="icon" type="image/x-icon" href="assets/img/favicon.ico">
+<!-- Warm the TLS connections to the three cross-origin hosts this page fetches render-critical CSS/fonts from, before the browser discovers the <link>s below. This "projects rows" preview loads the same Google Fonts (Poppins) and boxicons stylesheet/icon-font as the rest of the site but — unlike its siblings (index.html, 404.html, projects-stack-preview.html all carry exactly these hints) — declared no preconnects, so each (DNS + TCP + TLS) handshake only began once the corresponding <link> was parsed. Preconnecting up front overlaps those handshakes with head parsing so the font/icon CSS and woff2 files arrive sooner (less FOUT/FOIT). The two cdn.jsdelivr.net hints are non-crossorigin (the boxicons CSS fetch) and crossorigin (the CORS woff2 icon font); the gstatic hint is crossorigin so its warmed socket is reused for the CORS woff2. Resource hints only — no visual or behaviour change. -->
+<link rel="preconnect" href="https://cdn.jsdelivr.net">
+<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <!-- load the REAL site styles so this matches exactly -->
 <link rel="stylesheet" href="assets/css/styles.css">
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
