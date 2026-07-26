@@ -385,6 +385,27 @@
                 80% { transform: translateX(-50%) translateY(-10px) scale(1); opacity: 1; }
                 100% { transform: translateX(-50%) translateY(-8px) scale(1); opacity: 0; }
             }
+            /* Honour a reduced-motion preference. This preview page runs several animations that
+               play regardless of the visitor's OS setting — an infinite bounce-down chevron, the
+               spin loader, and the code-float/egg-hatch/bird-pop entrance effects — none of which
+               were guarded, so a user who set "reduce motion" still saw them. This was the one
+               homepage variant with no reduced-motion rule: the production stylesheet
+               (assets/css/styles.css) already ships this exact universal block, and the other
+               animated variants inherit it via styles.css. The `*` rule collapses every animation
+               and transition site-page-wide (CSS is global across all <style> blocks on the page,
+               so this single block also covers the spin loader in the #proj-rows-css block below)
+               and disables smooth scrolling. Matches the site-wide pattern; no visual change for
+               visitors who haven't requested reduced motion. */
+            @media (prefers-reduced-motion: reduce) {
+                *, *::before, *::after {
+                    animation-duration: 0.01ms !important;
+                    animation-iteration-count: 1 !important;
+                    transition-duration: 0.01ms !important;
+                }
+                html {
+                    scroll-behavior: auto;
+                }
+            }
         </style>
         <style id="proj-rows-css">
   .proj-wrap{max-width:780px;margin:0 auto;padding:0 1.5rem}
