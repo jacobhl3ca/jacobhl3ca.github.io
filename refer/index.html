@@ -274,10 +274,18 @@
 // site (index.html, weather/) already uses.
 var toast = document.getElementById("toast"), toastTimer = null;
 function showToast(msg){
-  toast.textContent = msg;
   toast.classList.add("show");
   clearTimeout(toastTimer);
   toastTimer = setTimeout(function(){ toast.classList.remove("show"); }, 1400);
+  // #toast is a polite role="status" live region, which only announces a genuine
+  // text *change* — so copying two links in a row (both "Copied") was announced to
+  // screen readers only the first time (WCAG 4.1.3 Status Messages), on a page that
+  // is a list of ~15 copyable links. Clear the node, then set the message on the next
+  // frame so assistive tech registers a change and re-announces even an identical
+  // string. The blank instant sits under the pill's 0.18s fade-in (it starts at
+  // opacity 0), so there's no visible empty flash — the toast still reads normally.
+  toast.textContent = "";
+  requestAnimationFrame(function(){ toast.textContent = msg; });
 }
 function legacyCopy(text){
   var ta = document.createElement("textarea");
