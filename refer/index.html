@@ -14,7 +14,16 @@
      different program type with different rules and it can be indexed then. -->
 <meta name="robots" content="noindex, nofollow">
 <meta name="color-scheme" content="light dark">
-<meta name="theme-color" content="#ffffff">
+<!-- Media-scoped theme-color so the mobile browser chrome (address/status bar) tracks the page's
+     background in each OS theme. This page is the one page site-wide that themes automatically from
+     prefers-color-scheme (it has no JS theme toggle — the @media block below swaps --bg to #101216 in
+     dark mode), so unlike the JS-toggled pages (index.html, 404.html) whose single theme-color is
+     updated in script, here the correct pattern is two static, media-scoped values the UA picks
+     between. The old single #ffffff left dark-mode visitors with a white chrome around the dark page.
+     Light #ffffff matches --bg light; dark #101216 matches --bg dark. Browsers that ignore the media
+     attribute fall back to the first (light) tag, i.e. the previous behaviour. No change to the page body. -->
+<meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#101216" media="(prefers-color-scheme: dark)">
 <meta name="author" content="Jacob Heifetz-Licht">
 <link rel="canonical" href="https://jacobhl.com/refer/">
 <link rel="icon" type="image/x-icon" href="../assets/img/favicon.ico">
