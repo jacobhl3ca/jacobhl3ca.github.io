@@ -43,7 +43,14 @@
         // Guard localStorage (it can throw in private mode / when storage is blocked)
         // so the redirect still runs even if the theme preference can't be saved.
         try { localStorage.setItem('theme', 'light'); } catch (e) {}
-        window.location.replace('/');
+        // Carry any in-page anchor through to the homepage so a shared /light/#contact (or
+        // #about, #Projects, #skills — the homepage's in-page sections) lands on that section
+        // instead of the top. location.hash is '' when no fragment is present, so a plain
+        // /light/ redirect is unchanged; the fragment is only appended when one exists. Mirrors
+        // the hash-preserving redirect tidytab.html already uses (base + location.hash). (The
+        // no-JS meta-refresh above still targets bare /, an inherent limit of a static tag —
+        // but the JS path runs synchronously here and wins whenever scripting is enabled.)
+        window.location.replace('/' + window.location.hash);
     </script>
 <!-- sentry -->
 <script src="https://js.sentry-cdn.com/ac636d393a29ab42c76e116c2d4d0cad.min.js" crossorigin="anonymous"></script>
