@@ -29,6 +29,7 @@
 <link rel="icon" type="image/x-icon" href="../assets/img/favicon.ico">
 <link rel="dns-prefetch" href="//gc.zgo.at"> <!-- resolve the GoatCounter script host ahead of the async count.js fetch at end of body -->
 <link rel="dns-prefetch" href="//jacobhl.goatcounter.com"> <!-- and the beacon host count.js actually posts hits to -->
+<link rel="dns-prefetch" href="//js.sentry-cdn.com"> <!-- resolve the Sentry CDN host ahead of the error-monitoring loader script that ships just before </head> below. That host is contacted on every load but had no resource hint here, unlike the GoatCounter hosts warmed just above — so its DNS was looked up cold on the critical path. dns-prefetch (DNS only) rather than preconnect keeps this non-render-critical monitoring script from opening a speculative connection that would compete with the render-critical Google Fonts sockets preconnected below. This referral page is a full (non-redirect) page loading Sentry, so it was still missing the hint that index.html, 404.html, weather/, and building.html already carry — the redirect stubs (tidytab.html, light/) skip it since they navigate away instantly. Pure resource hint, no visual or behaviour change. -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
