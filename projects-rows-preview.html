@@ -26,7 +26,8 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <!-- load the REAL site styles so this matches exactly -->
 <link rel="stylesheet" href="assets/css/styles.css">
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+<!-- Request the SAME Poppins weight set the shared styles.css @imports (400;500;600;700), not 400;600;700. styles.css (loaded above, whose look this preview exists to mirror exactly) @imports Poppins at 400;500;600;700 and uses weight 500 for .skills__tag / .mac-badge; because this page's own font <link> asked for a different weight set, its URL didn't match the @import, so the browser fetched TWO separate render-blocking Google Fonts stylesheets (this 400;600;700 one, then the @import's 400;500;600;700) instead of one. Matching the @import's URL lets the @import resolve straight from cache — a single font-CSS fetch, and weight 500 (Medium) available rather than synthesized from 400. Mirrors the identical <link>/@import URL already carried by index.html, 404.html, and weather/. Resource-loading only — no visual change to correctly-weighted text. -->
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link href="https://cdn.jsdelivr.net/npm/boxicons@2.0.5/css/boxicons.min.css" rel="stylesheet">
 <style>
   body{font-family:var(--body-font)}
