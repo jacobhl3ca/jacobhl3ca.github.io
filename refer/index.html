@@ -32,7 +32,15 @@
 <link rel="dns-prefetch" href="//js.sentry-cdn.com"> <!-- resolve the Sentry CDN host ahead of the error-monitoring loader script that ships just before </head> below. That host is contacted on every load but had no resource hint here, unlike the GoatCounter hosts warmed just above — so its DNS was looked up cold on the critical path. dns-prefetch (DNS only) rather than preconnect keeps this non-render-critical monitoring script from opening a speculative connection that would compete with the render-critical Google Fonts sockets preconnected below. This referral page is a full (non-redirect) page loading Sentry, so it was still missing the hint that index.html, 404.html, weather/, and building.html already carry — the redirect stubs (tidytab.html, light/) skip it since they navigate away instantly. Pure resource hint, no visual or behaviour change. -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+<!-- Request only the Poppins weights this page actually renders: 400 (body default), 600
+     used by the h2 section labels, .card h3, .note b, code.code, and the toast) and 700
+     (header h1, the one weight the header uses). Weight 500 was requested but appears nowhere
+     in this page's CSS (no font-weight:500, no <strong>/<b> left at the default — the single
+     <b> is restyled to 600 by .note b), so the browser was fetching an unused Poppins variant
+     on every load. Dropping it trims the Google Fonts CSS response and one woff2 download off
+     the critical path. Mirrors the earlier run that dropped the unused weight 300 from the
+     weather dashboard's font request. No visual change — every weight still shown is requested. -->
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
 <!-- Social-share card: this page exists to be pasted into a text or a group chat, so the
      preview matters more than the crawl. Reuses the site-wide OG image. Completed to match
      the share card every other page carries (building.html is the closest analog — also a
