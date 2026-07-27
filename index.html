@@ -1533,7 +1533,9 @@ function showNoEmbed(url, poster){
   // already carry the fallback's meaning). No visual change — a src-less img renders nothing.
   if(poster){ neImg.src=poster; neImg.alt=_host+' preview'; } else { neImg.removeAttribute('src'); neImg.alt=''; }
   neOpen.href=url; neHost.textContent='Open '+_host;   // trailing ↗ is a static aria-hidden span in the markup, so AT reads "Open <host>" without a "north east arrow"
-  modal.setAttribute('aria-label', 'Preview of '+_host);
+  // The dialog's accessible name stays owned by setModalLabel() (the project name), which
+  // openModal/cycle call just before reaching this no-embed branch; the old per-host write here
+  // ("Preview of <host>") overwrote that project name, so it's removed (see navigate()/setModalLabel).
   frame.src='about:blank'; mLoad.classList.add('hidden');
   noembed.classList.add('show');
 }
@@ -1549,13 +1551,13 @@ function navigate(url, push){
   // so screen-reader users entering the frame hear which site this preview is showing.
   let _host=url; try{ _host=new URL(url).hostname.replace(/^www\./,''); }catch(e){}
   frame.src=url; frame.title='Live preview of '+_host; mUrl.value=url; mOpen.href=url;
-  // Match the dialog's accessible name to the site being previewed. The container's static
-  // aria-label is the generic "Live site preview", so a screen-reader user opening the preview
-  // (focus lands on the close button) hears "Live site preview dialog" without learning which
-  // project it is. Name it per-host — mirroring the iframe title set just above — so the dialog
-  // announces the actual site. Set here (openModal calls navigate on open) so it's fresh at open
-  // time and stays correct as the user navigates within the preview.
-  modal.setAttribute('aria-label', 'Live preview of '+_host);
+  // Note: the DIALOG's accessible name is owned by setModalLabel() (the project's name, e.g.
+  // "GOAT Format — Live site preview"), which openModal/cycle call just before this. navigate()
+  // deliberately no longer sets modal's aria-label: it runs right after setModalLabel and its old
+  // per-host write ("Live preview of <host>") silently clobbered that project name every time,
+  // making setModalLabel dead code. The per-host identifier still reaches AT via the iframe title
+  // set just above (which correctly tracks the current page as the user navigates within the preview);
+  // the dialog keeps the project identity it was opened from. See setModalLabel below.
   clearTimeout(loadTimer);
   // Build the fallback link via DOM APIs rather than innerHTML: `url` can come from the user-typed
   // preview address bar (navigate(u,true) below), so interpolating it into an HTML string is a
@@ -1591,6 +1593,10 @@ function setBackgroundInert(on){
 // thumbnail lives in (.proj-title's text is just the name; the live-dot span it also holds
 // carries no text) and fold it into the accessible name. Falls back to the generic label
 // if the card/title can't be found. Purely the dialog's accessible name — no visual change.
+// This is now the SOLE writer of the dialog's aria-label: navigate() and showNoEmbed() used
+// to overwrite it with a per-host string ("Live preview of <host>") immediately after this
+// ran, which silently discarded the project name computed here; those writes were removed so
+// the project name actually takes effect (openModal/cycle call this before either of them).
 function setModalLabel(t){
   const title = t && t.closest && t.closest('.proj-row') ? t.closest('.proj-row').querySelector('.proj-title') : null;
   const name = title ? title.textContent.trim() : '';
