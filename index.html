@@ -32,7 +32,8 @@
         <link rel="dns-prefetch" href="//jacobhl.goatcounter.com"> <!-- resolve the GoatCounter *beacon* host too: count.js (from gc.zgo.at above) sends every pageview hit to https://jacobhl.goatcounter.com/count, a separate host whose DNS was otherwise only looked up lazily when the beacon fires. The prefetch above warmed only the script host; this warms the endpoint the hit actually goes to, so the beacon isn't delayed (and is less likely to be dropped on a slow/flaky DNS). The homepage was the one GoatCounter page still missing this — 404.html, weather/, and building.html all already carry it — so this completes the beacon-host prefetch pattern site-wide. Pure resource hint, no visual or behaviour change. -->
         <link rel="dns-prefetch" href="//stats.hidescore.com"> <!-- resolve the self-hosted Umami analytics host ahead of its deferred script.js fetch at end of body -->
         <link rel="dns-prefetch" href="//formspree.io"> <!-- resolve the Formspree host ahead of the contact form's on-submit POST (assets/js/main-alt.js) so the DNS lookup isn't on the send path -->
-        <link rel="dns-prefetch" href="//gist.githubusercontent.com"> <!-- resolve the host the live "Claude Code usage" section (#ccu) fetches its usage-public.json from at end of body, so the DNS lookup isn't fully cold when that fetch fires and the stats reveal sooner. gist.githubusercontent.com was the one third-party host index.html talks to still missing a hint — the analytics hosts and Formspree above all already carry one — so this completes the site's dns-prefetch pattern. Pure resource hint, no visual or behaviour change. -->
+        <link rel="dns-prefetch" href="//js.sentry-cdn.com"> <!-- resolve the Sentry CDN host ahead of the error-monitoring loader script that ships at the end of <head> on every page. That host is contacted on every load but had no resource hint, unlike every other third party the site warms (GoatCounter, Umami, Formspree above; jsdelivr/Google Fonts below) — so its DNS was looked up cold on the critical path. dns-prefetch (DNS only) rather than preconnect keeps this non-render-critical monitoring script from opening a speculative connection that would compete with the render-critical CSS/font sockets. Pure resource hint, no visual or behaviour change. -->
+        <!-- (No dns-prefetch for gist.githubusercontent.com: the only code that fetched from it was the live "Claude Code usage" section (#ccu), which has been commented out / disabled since 2026-06-17. With that section inert the page never contacts gist.githubusercontent.com, so a prefetch here would fire a speculative DNS lookup on every homepage load for a host that's never used. If #ccu is re-enabled, re-add the hint alongside it.) -->
         <link href='https://cdn.jsdelivr.net/npm/boxicons@2.0.5/css/boxicons.min.css' rel='stylesheet'> <!-- icons -->
         <script>
             // Default view = projects-only (set before paint to avoid flash); honor saved preference.
@@ -61,16 +62,26 @@
                 document.documentElement.classList.add('projects-only');
             }
             // LCP preload for the first project card's cover, in whichever theme is about to
-            // render (see the comment above the link block). Outside the try/catch so a
-            // storage exception above still leaves the default light cover preloaded.
-            (function () {
-                var dark = document.documentElement.getAttribute('data-theme') === 'dark';
-                var l = document.createElement('link');
-                l.rel = 'preload'; l.as = 'image'; l.fetchPriority = 'high';
-                l.href = dark ? 'assets/img/hidescore-cover-thumb.webp?v=1'
-                              : 'assets/img/hidescore-cover-light-thumb.webp?v=1';
-                document.head.appendChild(l);
-            })();
+            // render (see the comment above the link block). Only preload it in the projects-only
+            // view — the view where that cover IS the above-the-fold LCP. In the full-site view the
+            // hero (#home) is what sits above the fold and this project cover is below it, so a
+            // high-priority head preload there would pull a below-the-fold image ahead of the real
+            // above-the-fold content (hero + render-critical CSS) — a known Core Web Vitals
+            // anti-pattern (preloading below-the-fold media). Full-site visitors still get the cover:
+            // it loads when the inline row builder near </body> runs, just not at head-parse priority.
+            // Reuses the projects-only class already asserted above (before paint), so no extra
+            // storage read; the catch path also forces projects-only, so a storage exception still
+            // leaves the default light cover preloaded, exactly as before.
+            if (document.documentElement.classList.contains('projects-only')) {
+                (function () {
+                    var dark = document.documentElement.getAttribute('data-theme') === 'dark';
+                    var l = document.createElement('link');
+                    l.rel = 'preload'; l.as = 'image'; l.fetchPriority = 'high';
+                    l.href = dark ? 'assets/img/hidescore-cover-thumb.webp?v=1'
+                                  : 'assets/img/hidescore-cover-light-thumb.webp?v=1';
+                    document.head.appendChild(l);
+                })();
+            }
         </script>
         <title>Jacob Heifetz-Licht — Analytics Manager</title>
         <meta name="description" content="Data analytics leader and web developer specializing in Python, SQL, Tableau, React, and Next.js. Turning data into things people actually use.">
@@ -1522,7 +1533,9 @@ function showNoEmbed(url, poster){
   // already carry the fallback's meaning). No visual change — a src-less img renders nothing.
   if(poster){ neImg.src=poster; neImg.alt=_host+' preview'; } else { neImg.removeAttribute('src'); neImg.alt=''; }
   neOpen.href=url; neHost.textContent='Open '+_host;   // trailing ↗ is a static aria-hidden span in the markup, so AT reads "Open <host>" without a "north east arrow"
-  modal.setAttribute('aria-label', 'Preview of '+_host);
+  // The dialog's accessible name stays owned by setModalLabel() (the project name), which
+  // openModal/cycle call just before reaching this no-embed branch; the old per-host write here
+  // ("Preview of <host>") overwrote that project name, so it's removed (see navigate()/setModalLabel).
   frame.src='about:blank'; mLoad.classList.add('hidden');
   noembed.classList.add('show');
 }
@@ -1538,13 +1551,13 @@ function navigate(url, push){
   // so screen-reader users entering the frame hear which site this preview is showing.
   let _host=url; try{ _host=new URL(url).hostname.replace(/^www\./,''); }catch(e){}
   frame.src=url; frame.title='Live preview of '+_host; mUrl.value=url; mOpen.href=url;
-  // Match the dialog's accessible name to the site being previewed. The container's static
-  // aria-label is the generic "Live site preview", so a screen-reader user opening the preview
-  // (focus lands on the close button) hears "Live site preview dialog" without learning which
-  // project it is. Name it per-host — mirroring the iframe title set just above — so the dialog
-  // announces the actual site. Set here (openModal calls navigate on open) so it's fresh at open
-  // time and stays correct as the user navigates within the preview.
-  modal.setAttribute('aria-label', 'Live preview of '+_host);
+  // Note: the DIALOG's accessible name is owned by setModalLabel() (the project's name, e.g.
+  // "GOAT Format — Live site preview"), which openModal/cycle call just before this. navigate()
+  // deliberately no longer sets modal's aria-label: it runs right after setModalLabel and its old
+  // per-host write ("Live preview of <host>") silently clobbered that project name every time,
+  // making setModalLabel dead code. The per-host identifier still reaches AT via the iframe title
+  // set just above (which correctly tracks the current page as the user navigates within the preview);
+  // the dialog keeps the project identity it was opened from. See setModalLabel below.
   clearTimeout(loadTimer);
   // Build the fallback link via DOM APIs rather than innerHTML: `url` can come from the user-typed
   // preview address bar (navigate(u,true) below), so interpolating it into an HTML string is a
@@ -1580,6 +1593,10 @@ function setBackgroundInert(on){
 // thumbnail lives in (.proj-title's text is just the name; the live-dot span it also holds
 // carries no text) and fold it into the accessible name. Falls back to the generic label
 // if the card/title can't be found. Purely the dialog's accessible name — no visual change.
+// This is now the SOLE writer of the dialog's aria-label: navigate() and showNoEmbed() used
+// to overwrite it with a per-host string ("Live preview of <host>") immediately after this
+// ran, which silently discarded the project name computed here; those writes were removed so
+// the project name actually takes effect (openModal/cycle call this before either of them).
 function setModalLabel(t){
   const title = t && t.closest && t.closest('.proj-row') ? t.closest('.proj-row').querySelector('.proj-title') : null;
   const name = title ? title.textContent.trim() : '';

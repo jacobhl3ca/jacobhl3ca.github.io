@@ -13,7 +13,7 @@
         <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin> <!-- early-connect for the boxicons icon font (CORS woff2, crossorigin so the warmed socket is reused) -->
         <link rel="preconnect" href="https://fonts.googleapis.com"> <!-- early-connect to Google Fonts CSS (styles.css @imports Poppins from here, on the critical path) -->
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin> <!-- early-connect to the Google Fonts file host; crossorigin so the warmed socket is reused for the CORS woff2 fetch -->
-        <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap"> <!-- styles.css @imports Poppins, but @import isn't discoverable until styles.css has downloaded + parsed, so the font CSS fetch is serialized on the critical path; preload it (same URL) so the browser fetches it in parallel up front and the @import then resolves from cache. No visual change. -->
+        <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap"> <!-- styles.css @imports Poppins, but @import isn't discoverable until styles.css has downloaded + parsed, so the font CSS fetch is serialized on the critical path; preload it (same URL) so the browser fetches it in parallel up front and the @import then resolves from cache. URL must match the @import's exactly (400;500;600;700) — a mismatched weight set is a different resource, so the browser would fetch this preload and then a second, unshared stylesheet for the @import, and weight 500 (.skills__tag / .mac-badge) would arrive only via the late @import. No visual change. -->
         <link rel="preload" as="image" href="assets/img/hidescore-wide.png" media="(min-width:768px)" fetchpriority="high"> <!-- LCP preload (desktop ≥768px): the first project card's thumbnail is the projects-only LCP, but the project rows are built by the inline script near </body>, so the preload scanner can't discover this image during head parse — the fetchpriority="high" already on the <img> only helps once it's discovered (late). Preload the matching responsive source so the fetch starts during head parse. Mirrors the <picture> breakpoint below. No visual change. -->
         <link rel="preload" as="image" href="assets/img/hidescore-app.png" media="(max-width:767.98px)" fetchpriority="high"> <!-- LCP preload (mobile <768px): same as above for the default <picture> source. The two media queries are mutually exclusive, so only the one image the browser will actually render is ever preloaded (no wasted bytes). -->
         <link rel="dns-prefetch" href="//gc.zgo.at"> <!-- resolve the GoatCounter script host ahead of the async count.js fetch at end of body -->
@@ -385,6 +385,27 @@
                 80% { transform: translateX(-50%) translateY(-10px) scale(1); opacity: 1; }
                 100% { transform: translateX(-50%) translateY(-8px) scale(1); opacity: 0; }
             }
+            /* Honour a reduced-motion preference. This preview page runs several animations that
+               play regardless of the visitor's OS setting — an infinite bounce-down chevron, the
+               spin loader, and the code-float/egg-hatch/bird-pop entrance effects — none of which
+               were guarded, so a user who set "reduce motion" still saw them. This was the one
+               homepage variant with no reduced-motion rule: the production stylesheet
+               (assets/css/styles.css) already ships this exact universal block, and the other
+               animated variants inherit it via styles.css. The `*` rule collapses every animation
+               and transition site-page-wide (CSS is global across all <style> blocks on the page,
+               so this single block also covers the spin loader in the #proj-rows-css block below)
+               and disables smooth scrolling. Matches the site-wide pattern; no visual change for
+               visitors who haven't requested reduced motion. */
+            @media (prefers-reduced-motion: reduce) {
+                *, *::before, *::after {
+                    animation-duration: 0.01ms !important;
+                    animation-iteration-count: 1 !important;
+                    transition-duration: 0.01ms !important;
+                }
+                html {
+                    scroll-behavior: auto;
+                }
+            }
         </style>
         <style id="proj-rows-css">
   .proj-wrap{max-width:780px;margin:0 auto;padding:0 1.5rem}
@@ -475,7 +496,12 @@
   .proj-one{font-size:var(--normal-font-size);line-height:1.5;margin:0;
     color:var(--second-color);opacity:.72;}
   .proj-stack-intro{max-width:640px;margin:.15rem auto 1.25rem;text-align:center;
-    font-size:var(--small-font-size);line-height:1.55;color:var(--second-color);opacity:.76;}
+    /* --small-font-size is undefined — the site's type scale (styles.css :root) only defines
+       --big/-h2/-normal/-smaller-font-size, no "small". So this declaration was invalid and dropped,
+       leaving the paragraph to inherit body's font-size (which is var(--normal-font-size)). Name that
+       intended value explicitly so the declaration is valid; it resolves to the same size the intro
+       already rendered at via inheritance, so there's no visual change. */
+    font-size:var(--normal-font-size);line-height:1.55;color:var(--second-color);opacity:.76;}
   .proj-stack{display:flex;flex-wrap:wrap;gap:.45rem;margin:.85rem 0 .15rem;padding:0;list-style:none;}
   .proj-stack::before{content:"Stack:";align-self:center;margin-right:.05rem;
     font-size:var(--smaller-font-size);font-weight:600;color:var(--second-color);opacity:.72;}
