@@ -246,21 +246,28 @@
              aria-label a screen reader announced "multiplication sign" / "en dash" / this arrow glyph
              instead of the button's action. aria-label supplies the action name and aria-hidden hides
              the now-decorative glyph, mirroring the homepage's modal-bar buttons (index.html). No visual change. -->
-        <button class="dot red" id="dotClose" title="Close" aria-label="Close preview"><span aria-hidden="true">×</span></button>
-        <button class="dot yellow" id="dotMin" title="Minimize" aria-label="Minimize preview"><span aria-hidden="true">–</span></button>
-        <button class="dot green" id="dotExpand" title="Expand to full screen" aria-label="Full screen preview"><span aria-hidden="true">⤢</span></button>
+        <button type="button" class="dot red" id="dotClose" title="Close" aria-label="Close preview"><span aria-hidden="true">×</span></button>
+        <button type="button" class="dot yellow" id="dotMin" title="Minimize" aria-label="Minimize preview"><span aria-hidden="true">–</span></button>
+        <button type="button" class="dot green" id="dotExpand" title="Expand to full screen" aria-label="Full screen preview"><span aria-hidden="true">⤢</span></button>
       </div>
-      <button class="nav-btn" id="navBack" title="Back" aria-label="Back" style="display:none;"><i class='bx bx-chevron-left' aria-hidden="true"></i></button>
-      <button class="nav-btn" id="navReload" title="Reload" aria-label="Reload"><i class='bx bx-revision' aria-hidden="true"></i></button>
+      <button type="button" class="nav-btn" id="navBack" title="Back" aria-label="Back" style="display:none;"><i class='bx bx-chevron-left' aria-hidden="true"></i></button>
+      <button type="button" class="nav-btn" id="navReload" title="Reload" aria-label="Reload"><i class='bx bx-revision' aria-hidden="true"></i></button>
       <form class="url-form" id="urlForm"><input class="modal-url" id="modalUrl" type="text" spellcheck="false" autocomplete="off" aria-label="Preview address"></form>
       <a class="openext" id="modalOpen" target="_blank" rel="noopener" title="Open in new tab" aria-label="Open preview in new tab"><i class='bx bx-link-external' aria-hidden="true"></i></a>
       <!-- Same fix as the traffic-light buttons above: the bare × was this button's accessible name
            (announced "multiplication sign"), overriding the title. aria-label names the action and the
            glyph is hidden as decorative. Matches index.html's modal close button. No visual change. -->
-      <button class="mclose" id="modalClose" title="Close" aria-label="Close preview"><span aria-hidden="true">×</span></button>
+      <button type="button" class="mclose" id="modalClose" title="Close" aria-label="Close preview"><span aria-hidden="true">×</span></button>
     </div>
     <div class="modal-body">
-      <button class="fs-back" id="fsBack" title="Back to projects"><i class='bx bx-arrow-back' aria-hidden="true"></i> Back</button>
+      <!-- type="button" on the modal controls above and this one: a <button> with no type defaults to
+           type="submit", so the traffic-light dots, Back/Reload nav, close, and this fullscreen-back
+           control were the buttons in this preview still on the implicit submit default — harmless
+           today (they sit beside, not inside, the #urlForm) but a footgun if the markup ever nests
+           them in a form, and screen readers announce the implicit "submit button" role. States the
+           real JS-only intent, matching the type="button" already on this file's #moreToggle / #escHint /
+           .proj-chev and the identical modal controls on the production homepage (index.html). No visual change. -->
+      <button type="button" class="fs-back" id="fsBack" title="Back to projects"><i class='bx bx-arrow-back' aria-hidden="true"></i> Back</button>
       <div class="modal-load" id="modalLoad"><div class="spin"></div><span id="modalLoadTxt">Loading preview…</span></div>
       <iframe class="modal-frame" id="modalFrame" title="Live preview" referrerpolicy="no-referrer-when-downgrade"></iframe>
       <button class="esc-hint" id="escHint" type="button" title="Exit preview">Press <kbd>Esc</kbd> to exit</button>
