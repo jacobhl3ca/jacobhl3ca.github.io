@@ -323,6 +323,8 @@
         </style>
     </head>
     <body>
+        <!-- Keyboard/screen-reader skip link: this page (like index.html) opens with the sticky nav, so without a bypass a keyboard or switch-access user has to tab through every nav item before reaching content (WCAG 2.4.1 Bypass Blocks). Mirrors the skip link on index.html and the sibling index_with_animation.html; targets the main-content landmark below. The .skip-link style (in the already-loaded styles.css) keeps it visually hidden until focused, so there's no visual change. This cascade variant was the one homepage variant still missing it. -->
+        <a href="#main-content" class="skip-link">Skip to main content</a>
         <!--===== HEADER =====-->
         <header class="l-header">
             <nav class="nav bd-grid">
@@ -355,7 +357,7 @@
                 </div>
             </nav>
         </header>
-        <main class="l-main">
+        <main class="l-main" id="main-content" tabindex="-1"> <!-- id = skip-link target; tabindex="-1" lets the anchor move focus here (a <main> isn't focusable by default) so the skip actually lands, not just scrolls. Mirrors index.html / index_with_animation.html. -->
             <!--===== HOME =====-->
             <section class="home bd-grid" id="home">
                 <div class="home__data">
