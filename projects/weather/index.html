@@ -187,6 +187,16 @@ body {
   <div id="alertsBanner" class="alerts-banner"></div>
   <div id="content">
     <div class="loading"><div class="spinner"></div><br>Loading weather data...</div>
+    <!-- No-JS fallback. The whole dashboard is rendered by JavaScript into #content, so with JS
+         disabled the loading spinner above would otherwise spin forever with no data ever arriving.
+         Hide the spinner and explain instead, offering a way back to the site. This leftover
+         /projects/weather/ copy was still missing the fallback; the production /weather/ dashboard
+         it copies already ships exactly this block. Only shown when JavaScript is disabled — no
+         effect on the normal JS-enabled render. -->
+    <noscript>
+      <style>.loading{display:none;}</style>
+      <div class="card" role="alert" style="text-align:center;">This weather dashboard needs JavaScript to load live data. Please enable JavaScript, or head back to <a href="/" style="color:var(--accent);">jacobhl.com</a>.</div>
+    </noscript>
   </div>
 </main>
 
