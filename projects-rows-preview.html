@@ -33,6 +33,16 @@
   body{font-family:var(--body-font)}
   .proj-wrap{max-width:780px;margin:0 auto;padding:0 1.5rem}
 
+  /* Visually-hidden top-level page heading (see the <h1> at the top of <main>). This preview
+     renders only the projects showcase, so its visible top heading is the "Projects" <h2> and the
+     document otherwise had NO <h1> at all — a document-outline/accessibility gap its sibling
+     variants don't share (index.html and projects-stack-preview.html both carry a hidden <h1> for
+     exactly this projects-only view). Give the page one proper <h1>, named like the site, above the
+     visible "Projects" <h2>, so the outline reads h1 -> h2 -> h3 (project titles), matching the
+     production homepage's projects-only view. Clipped (not display:none) so it stays in the
+     accessibility tree while taking no layout space. No visual change. */
+  .vh-h1{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0;}
+
   /* ---- ROW CARD (mirrors .work__img shadow/radius, laid out horizontally) ---- */
   .proj-row{
     background:#fff;border-radius:.5rem;overflow:hidden;margin-bottom:1.5rem;
@@ -207,6 +217,7 @@
 </head>
 <body>
 <main class="l-main">
+  <h1 class="vh-h1">Jacob Heifetz-Licht — Analytics Manager</h1>
   <section class="section">
     <div class="proj-wrap">
       <h2 class="section-title">Projects</h2>
