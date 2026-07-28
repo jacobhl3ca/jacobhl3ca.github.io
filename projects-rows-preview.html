@@ -213,11 +213,13 @@
 
       <div id="main-rows"></div>
 
-      <button class="more-toggle" id="moreToggle">
+      <!-- Disclosure semantics for the "Other projects" expander: type="button" (not the implicit submit), aria-expanded to report collapsed/expanded state to assistive tech, and aria-controls naming the panel it toggles. This preview was the one homepage variant whose expander shipped as a bare button — the production homepage's #moreToggle already carries exactly these (index.html). The click handler below keeps aria-expanded in sync. No visual change. -->
+      <button type="button" class="more-toggle" id="moreToggle" aria-expanded="false" aria-controls="moreWrap">
         <span id="moreLabel">Other projects</span>
         <i class='bx bx-chevron-down' aria-hidden="true"></i>
       </button>
-      <div class="more-wrap" id="moreWrap"><div class="more-inner"><div class="padtop">
+      <!-- Start the collapsed panel inert so keyboard focus and assistive tech skip the hidden "Other projects" rows (matching the chevron's aria-expanded=false); the toggle removes it on open. Mirrors index.html's #moreWrap. inert is a no-op in older browsers, so behaviour there is unchanged. -->
+      <div class="more-wrap" id="moreWrap" inert><div class="more-inner"><div class="padtop">
         <div id="more-rows"></div>
       </div></div></div>
     </div>
@@ -312,6 +314,9 @@ function ctaHTML(p){
 function rowHTML(p){
   const dot = p.live ? '<span class="live-dot is-visible" title="Live"></span>' : '';
   const thumbCls = (p.live?'':'no-live') + (p.pos==='top'?' pos-top':'');
+  // Stable, unique id per project (titles are unique across MAIN + MORE) so the chevron can point at
+  // the detail panel it expands via aria-controls, mirroring index.html's rowHTML.
+  const detailId = 'proj-detail-' + p.title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
   return `
   <div class="proj-row">
     <div class="proj-head">
@@ -324,9 +329,9 @@ function rowHTML(p){
         <p class="proj-one">${p.one}</p>
         ${ctaHTML(p)}
       </div>
-      <button class="proj-chev" aria-label="Show details"><i class='bx bx-chevron-down' aria-hidden="true"></i></button>
+      <button type="button" class="proj-chev" aria-label="Show details" aria-expanded="false" aria-controls="${detailId}"><i class='bx bx-chevron-down' aria-hidden="true"></i></button>
     </div>
-    <div class="proj-detail"><div class="proj-detail-in"><div class="pad">
+    <div class="proj-detail" id="${detailId}" inert><div class="proj-detail-in"><div class="pad">
       <p>${p.full}</p>
     </div></div></div>
   </div>`;
@@ -341,7 +346,18 @@ document.querySelectorAll('.proj-head').forEach(h=>{
   h.addEventListener('click', e=>{
     if(e.target.closest('.proj-thumb[data-url]')) return; // only LIVE thumbnails open the preview
     if(e.target.closest('a')) return;                     // let the site / App Store links work
-    h.closest('.proj-row').classList.toggle('open');
+    const row = h.closest('.proj-row');
+    const open = row.classList.toggle('open');
+    // Keep the disclosure state in sync for assistive tech, mirroring index.html: the detail text stays
+    // in the DOM, so mark it inert when collapsed (AT/keyboard skip it, matching aria-expanded=false),
+    // and mirror the collapsed/expanded state + action label onto the chevron.
+    const detail = row.querySelector('.proj-detail');
+    if(detail){ if(open) detail.removeAttribute('inert'); else detail.setAttribute('inert',''); }
+    const chev = h.querySelector('.proj-chev');
+    if(chev){
+      chev.setAttribute('aria-expanded', open);
+      chev.setAttribute('aria-label', open ? 'Hide details' : 'Show details');
+    }
   });
 });
 
@@ -434,8 +450,10 @@ const mt=document.getElementById('moreToggle'), mw=document.getElementById('more
 mt.addEventListener('click', ()=>{
   const open=mw.classList.toggle('open'); mt.classList.toggle('open',open);
   ml.textContent = open ? 'Hide other projects' : 'Other projects';
+  mt.setAttribute('aria-expanded', open);            // mirror collapsed/expanded state to assistive tech
+  if(open) mw.removeAttribute('inert'); else mw.setAttribute('inert',''); // keep focus/AT out of the hidden rows when collapsed
 });
-if(location.hash==='#more'){ mw.classList.add('open'); mt.classList.add('open'); ml.textContent='Hide other projects'; }
+if(location.hash==='#more'){ mw.classList.add('open'); mt.classList.add('open'); ml.textContent='Hide other projects'; mt.setAttribute('aria-expanded','true'); mw.removeAttribute('inert'); }
 </script>
 </body>
 </html>
