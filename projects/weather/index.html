@@ -15,7 +15,8 @@
 <!-- Warm the TLS connections to the Google Fonts hosts before the render-blocking Poppins stylesheet below is requested. That stylesheet blocks first paint, and without a preconnect the browser only starts the (DNS + TCP + TLS) handshake to fonts.googleapis.com once it discovers the <link> — then repeats it for the font-file host fonts.gstatic.com. Preconnecting both up front overlaps those handshakes with head parsing so the font CSS and woff2 arrive sooner. crossorigin on the gstatic hint so the warmed socket is reused for the CORS woff2 fetch. This leftover /projects/weather/ copy was loading the same font cold; the production /weather/ dashboard it copies already ships exactly these two preconnects. Resource hints only — no visual or behaviour change. -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<!-- Drop weight 300 from the requested Poppins set: this leftover /projects/weather/ copy asked Google Fonts for 300;400;500;600;700, but nothing on the page uses font-weight:300 (its CSS only sets 400/500/600/700) — so the browser fetched and parsed an extra @font-face woff2 that never renders. Requesting only the weights actually used trims that wasted font download on this render-blocking stylesheet, and matches the exact 400;500;600;700 set the production /weather/ dashboard this copies (and every other Poppins page site-wide) already ships. No visual change — the removed weight was unused. -->
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
 :root {
   color-scheme: dark;
@@ -275,13 +276,23 @@ async function fetchWeather() {
       `forecast_days=7`
     ].join('&');
 
-    const [weatherRes, aqiRes] = await Promise.all([
-      fetch(`https://api.open-meteo.com/v1/forecast?${params}`),
-      fetch(`https://air-quality-api.open-meteo.com/v1/air-quality?latitude=${geo.lat}&longitude=${geo.lon}&current=pm2_5,pm10,us_aqi&timezone=${encodeURIComponent(geo.tz)}`)
-    ]);
+    // Kick off both requests in parallel. Weather is required; air quality is optional and must
+    // degrade gracefully, so resolve the AQI request to null on ANY failure (network error,
+    // non-OK response, or bad JSON) instead of letting it reject. The old shared Promise.all
+    // failed the WHOLE dashboard when only the air-quality request errored — blanking the
+    // successfully-loaded weather with an error card — even though render() already tolerates a
+    // null aqi (its aqi?.current?.pm2_5 / us_aqi optional chaining falls back to "N/A"). Mirrors
+    // the graceful-degradation fix on the production /weather/ dashboard this leftover copy
+    // duplicates. No change to the success path.
+    const weatherPromise = fetch(`https://api.open-meteo.com/v1/forecast?${params}`);
+    const aqiPromise = fetch(`https://air-quality-api.open-meteo.com/v1/air-quality?latitude=${geo.lat}&longitude=${geo.lon}&current=pm2_5,pm10,us_aqi&timezone=${encodeURIComponent(geo.tz)}`)
+      .then(r => r.ok ? r.json() : null)
+      .catch(() => null);
 
+    const weatherRes = await weatherPromise;
+    if (!weatherRes.ok) throw new Error('Could not load weather data. Please try again in a moment.');
     const weather = await weatherRes.json();
-    const aqi = await aqiRes.json();
+    const aqi = await aqiPromise;
     render(weather, aqi, geo);
   } catch (err) {
     document.getElementById('content').innerHTML = `<div class="card" style="text-align:center;color:var(--danger);">${err.message}</div>`;

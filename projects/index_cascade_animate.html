@@ -12,13 +12,14 @@
         <link rel="stylesheet" href="/assets/css/styles.css">
         <link rel="icon" type="image/x-icon" href="/assets/img/favicon.ico">
         <link href='https://cdn.jsdelivr.net/npm/boxicons@2.0.5/css/boxicons.min.css' rel='stylesheet'> <!-- icons -->
-        <title>Jacob Heifetz-Licht</title>
+        <!-- Match the homepage's <title> ("Jacob Heifetz-Licht — Analytics Manager") and this page's own og:title/twitter:title (both already the fuller form below): the plain page title was the one metadata field here still lagging with just the bare name, so a bookmark/tab for this cascade-animate variant read differently than the homepage it copies and than its own share-card titles. Prior runs aligned this page's description and keywords; this completes the variant/homepage title consistency. No visual change. -->
+        <title>Jacob Heifetz-Licht — Analytics Manager</title>
         <!-- Match the homepage's current messaging: index.html was repositioned to lead with web development (React/Next.js) alongside analytics, but this cascade-animate variant kept the older analytics-only description. og:title/twitter:title here already mirror index.html; align the description (and its og/twitter copies below) too so a shared link to this page reflects the current positioning. Prior runs made this same alignment on index_with_animation.html and light/index.html; this experiment was the last variant still on the old copy. No visual change. -->
         <meta name="description" content="Data analytics leader and web developer specializing in Python, SQL, Tableau, React, and Next.js. Turning data into things people actually use.">
         <!-- Keep the keyword list in sync with index.html and the sibling variants (index_with_animation.html, light/index.html): the homepage was repositioned to lead with web development (React/Next.js) alongside analytics, and this page's title/og tags were already aligned to that — the keywords meta was the one field here still carrying the older analytics-only list. Completes the variant/homepage metadata consistency. No visual change. -->
         <meta name="keywords" content="analytics manager, data analytics, Python, SQL, Tableau, automation, dashboard design, data visualization, ETL, BigQuery, JavaScript, React, Node.js, Next.js, web development">
         <meta name="author" content="Jacob Heifetz-Licht">
-        <!-- noindex (keep follow): this is an unfinished, unlinked "cascade animate" experiment — a near-duplicate of the homepage (same title "Jacob Heifetz-Licht", stale description, og:url pointing at jacobhl.com, and no canonical of its own). Left as "index, follow" it's a duplicate-content liability that could compete with the real homepage in search. Match the site's established pattern for alternate/experiment pages — index_with_animation.html and light/index.html both declare exactly "noindex, follow" — so search engines drop this copy but still crawl its links. Not in sitemap.xml. No visual change. -->
+        <!-- noindex (keep follow): this is an unfinished, unlinked "cascade animate" experiment — a near-duplicate of the homepage (same title "Jacob Heifetz-Licht — Analytics Manager", stale description, og:url pointing at jacobhl.com, and no canonical of its own). Left as "index, follow" it's a duplicate-content liability that could compete with the real homepage in search. Match the site's established pattern for alternate/experiment pages — index_with_animation.html and light/index.html both declare exactly "noindex, follow" — so search engines drop this copy but still crawl its links. Not in sitemap.xml. No visual change. -->
         <meta name="robots" content="noindex, follow">
         <!-- Canonical → the homepage. This "cascade animate" page is a near-duplicate of the homepage (its own noindex note above flags it: same title/description, og:url already pointing at jacobhl.com, "no canonical of its own"). The noindex,follow keeps it out of the index, but a canonical additionally consolidates any signals for this /projects/index_cascade_animate.html URL onto the real page — mirroring the rel=canonical the site's other noindex homepage variants (index_with_animation.html and light/index.html) already carry. This experiment was the one noindex homepage variant still missing it; completes the canonical pattern across the variants. No visual change. -->
         <link rel="canonical" href="https://jacobhl.com/">
@@ -28,14 +29,25 @@
         <meta property="og:description" content="Data analytics leader and web developer specializing in Python, SQL, Tableau, React, and Next.js. Turning data into things people actually use.">
         <!-- Point the share image at the canonical custom domain (jacobhl.com), not the raw jacobhl3ca.github.io host. The site is served from the custom domain via CNAME, so GitHub Pages 301-redirects github.io asset URLs to jacobhl.com — and social scrapers that don't follow redirects for images (a common limitation) then render a broken preview card. Every other page site-wide, including this page's sibling variant index_with_animation.html, already references https://jacobhl.com/assets/img/og_image.png; this animated variant's og:image/twitter:image were the last two share URLs still on the github.io host. Same image file, no visual change to the page. -->
         <meta property="og:image" content="https://jacobhl.com/assets/img/og_image.png">
+        <!-- Declare the share image's MIME type and pixel dimensions (the file is a 1200×630 PNG). Social scrapers (Facebook, LinkedIn, Slack) use these to reserve the correct card size and render the preview immediately on first share, instead of skipping the image or waiting to fetch-and-measure it. Every other page (index.html, index_with_animation.html, 404.html, weather/, light/) already pairs this same og_image.png with these three tags; this cascade-animate variant was the last one missing them. No visual change to the page itself. -->
+        <meta property="og:image:type" content="image/png">
+        <meta property="og:image:width" content="1200">
+        <meta property="og:image:height" content="630">
+        <!-- Describe the share image for assistive tech reading a link preview of this page. Every other page (index.html, index_with_animation.html, 404.html, weather/, light/) already pairs this same og_image.png with this exact alt; this cascade-animate variant was the last one missing it. Same wording so the site's shared-link previews stay consistent. No visual change to the page itself. -->
+        <meta property="og:image:alt" content="Jacob Heifetz-Licht — Analytics Manager and web developer">
         <!-- Give og:url the same trailing-slash canonical form the rest of the site declares. This page's own rel=canonical above is https://jacobhl.com/ (with the slash), and index.html, index_with_animation.html, /weather/, and /light/ all end their og:url in a slash too. Social scrapers (Facebook, LinkedIn, Slack) key share/like aggregation off og:url, and the bare-domain string https://jacobhl.com is a distinct key from the slash form — so a share of this variant would otherwise bucket separately from the real homepage. This cascade-animate variant was the one page still lagging on the bare-domain form (its sibling index_with_animation.html was already fixed); this completes the trailing-slash og:url pattern site-wide. No visual change. -->
         <meta property="og:url" content="https://jacobhl.com/">
         <meta property="og:type" content="website">
+        <!-- Name the site and its locale for link previews, mirroring index.html's og block (and index_with_animation.html, 404.html, weather/, light/, which all declare both): og:site_name gives Facebook/LinkedIn/Slack the site label shown above the card title, and og:locale=en_US matches the en-US this page already declares on <html> and its canonical. This cascade-animate variant was the last page site-wide missing these two og fields; adding them completes the variant/homepage OG parity. No visual change to the page itself. -->
+        <meta property="og:site_name" content="Jacob Heifetz-Licht">
+        <meta property="og:locale" content="en_US">
         <!-- twitter:image here is the 1200×630 landscape og_image.png, which is the format the large-image card expects; "summary" would instead crop it to a small square thumbnail. Use summary_large_image so a shared link to this page gets the full-width banner preview — matching index.html, index_with_animation.html, 404.html, weather/, and light/, which all pair this same image with summary_large_image. This cascade-animate variant was the last page still on the smaller card. No visual change to the page itself. -->
         <meta name="twitter:card" content="summary_large_image">
         <meta name="twitter:title" content="Jacob Heifetz-Licht — Analytics Manager">
         <meta name="twitter:description" content="Data analytics leader and web developer specializing in Python, SQL, Tableau, React, and Next.js. Turning data into things people actually use.">
         <meta name="twitter:image" content="https://jacobhl.com/assets/img/og_image.png">
+        <!-- Alt text for the Twitter/X card image, mirroring og:image:alt above and the twitter:image:alt already on index.html, index_with_animation.html, 404.html, weather/, and light/ — this cascade-animate variant was the only page still missing it. Gives assistive-tech users a description of the preview image on a shared link. No visual change. -->
+        <meta name="twitter:image:alt" content="Jacob Heifetz-Licht — Analytics Manager and web developer">
         <!-- Removed a dead, commented-out Plausible analytics snippet that hardcoded a private LAN dev endpoint (an http:// URL to a non-routable 192.168.x.x address): it was inert (commented out) yet still shipped an internal IP in this live page's served source, would never have loaded on production (mixed content + a private, unreachable host), and was inconsistent with the site's actual analytics — every other page uses GoatCounter (gc.zgo.at), which this variant page doesn't carry at all. Pure dead-code/source cleanup; no visual or behavioural change. -->
         <style>
             /* Override: cascade with 30px slide up */
@@ -311,6 +323,8 @@
         </style>
     </head>
     <body>
+        <!-- Keyboard/screen-reader skip link: this page (like index.html) opens with the sticky nav, so without a bypass a keyboard or switch-access user has to tab through every nav item before reaching content (WCAG 2.4.1 Bypass Blocks). Mirrors the skip link on index.html and the sibling index_with_animation.html; targets the main-content landmark below. The .skip-link style (in the already-loaded styles.css) keeps it visually hidden until focused, so there's no visual change. This cascade variant was the one homepage variant still missing it. -->
+        <a href="#main-content" class="skip-link">Skip to main content</a>
         <!--===== HEADER =====-->
         <header class="l-header">
             <nav class="nav bd-grid">
@@ -338,12 +352,12 @@
                         <i class='bx bx-sun' id="theme-icon" aria-hidden="true"></i>
                     </button>
                     <div class="nav__toggle" id="nav-toggle" role="button" aria-label="Toggle navigation menu">
-                        <i class='bx bx-menu'></i>
+                        <i class='bx bx-menu' aria-hidden="true"></i>
                     </div>
                 </div>
             </nav>
         </header>
-        <main class="l-main">
+        <main class="l-main" id="main-content" tabindex="-1"> <!-- id = skip-link target; tabindex="-1" lets the anchor move focus here (a <main> isn't focusable by default) so the skip actually lands, not just scrolls. Mirrors index.html / index_with_animation.html. -->
             <!--===== HOME =====-->
             <section class="home bd-grid" id="home">
                 <div class="home__data">
@@ -354,11 +368,11 @@
                 </div>
 
                 <div class="home__social">
-                    <a href="https://www.linkedin.com/in/jacobhl/" class="home__social-icon" target="_blank" rel="me noopener noreferrer" aria-label="LinkedIn profile"><i class='bx bxl-linkedin'></i></a>
-                    <a href="https://github.com/jacobhl3ca" class="home__social-icon" target="_blank" rel="me noopener noreferrer" aria-label="GitHub profile"><i class='bx bxl-github' ></i></a>
+                    <a href="https://www.linkedin.com/in/jacobhl/" class="home__social-icon" target="_blank" rel="me noopener noreferrer" aria-label="LinkedIn profile"><i class='bx bxl-linkedin' aria-hidden="true"></i></a>
+                    <a href="https://github.com/jacobhl3ca" class="home__social-icon" target="_blank" rel="me noopener noreferrer" aria-label="GitHub profile"><i class='bx bxl-github' aria-hidden="true"></i></a>
                     <!-- Plain mailto: href, mirroring the live index.html / index_with_animation.html email icons (href="mailto:hi@jacobhl.com", no target, no onclick). The previous href="#" + JS-only onclick was a dead anchor on the no-JS path — clicking it jumped to the top of the page instead of opening a mail client — and its 'mail'+'to:' string-splitting gave no real spam protection, since the same address is already published as a plain mailto site-wide (index.html contact links, building.html). A real mailto href works without JS, is announced correctly by assistive tech, and target="_blank"/rel are dropped as meaningless on a mailto. This cascade-animate variant was the last page still carrying the old dead-anchor pattern on both its email icons. No visual change. -->
-                    <a href="mailto:hi@jacobhl.com" class="home__social-icon" aria-label="Send email"><i class='bx bx-envelope'></i></a>
-                    <a href="#contact" class="home__social-icon" onclick="event.preventDefault(); requestResume()" aria-label="Request resume"><i class='bx bx-file'></i></a>
+                    <a href="mailto:hi@jacobhl.com" class="home__social-icon" aria-label="Send email"><i class='bx bx-envelope' aria-hidden="true"></i></a>
+                    <a href="#contact" class="home__social-icon" onclick="event.preventDefault(); requestResume()" aria-label="Request resume"><i class='bx bx-file' aria-hidden="true"></i></a>
                 </div>
 
                 <div class="home__img">
@@ -423,7 +437,7 @@
                         </p>
 
                         <div class="skills__category">
-                            <h3 class="skills__category-title"><i class='bx bx-code-alt skills__icon'></i> Languages & Scripting</h3>
+                            <h3 class="skills__category-title"><i class='bx bx-code-alt skills__icon' aria-hidden="true"></i> Languages & Scripting</h3>
                             <div class="skills__tags">
                                 <span class="skills__tag">Python</span>
                                 <span class="skills__tag">SQL</span>
@@ -433,7 +447,7 @@
                         </div>
 
                         <div class="skills__category">
-                            <h3 class="skills__category-title"><i class='bx bx-bar-chart-alt-2 skills__icon'></i> Data & Visualization</h3>
+                            <h3 class="skills__category-title"><i class='bx bx-bar-chart-alt-2 skills__icon' aria-hidden="true"></i> Data & Visualization</h3>
                             <div class="skills__tags">
                                 <span class="skills__tag">Tableau</span>
                                 <span class="skills__tag">Looker</span>
@@ -446,7 +460,7 @@
                         </div>
 
                         <div class="skills__category">
-                            <h3 class="skills__category-title"><i class='bx bx-data skills__icon'></i> Analytics Platforms</h3>
+                            <h3 class="skills__category-title"><i class='bx bx-data skills__icon' aria-hidden="true"></i> Analytics Platforms</h3>
                             <div class="skills__tags">
                                 <span class="skills__tag">BigQuery</span>
                                 <span class="skills__tag">GA4</span>
@@ -456,7 +470,7 @@
                         </div>
 
                         <div class="skills__category">
-                            <h3 class="skills__category-title"><i class='bx bx-cog skills__icon'></i> Automation & Infrastructure</h3>
+                            <h3 class="skills__category-title"><i class='bx bx-cog skills__icon' aria-hidden="true"></i> Automation & Infrastructure</h3>
                             <div class="skills__tags">
                                 <span class="skills__tag">Process Automation</span>
                                 <span class="skills__tag">ETL Pipelines</span>
@@ -468,7 +482,7 @@
                         </div>
 
                         <div class="skills__category">
-                            <h3 class="skills__category-title"><i class='bx bx-bulb skills__icon'></i> Strategy & Leadership</h3>
+                            <h3 class="skills__category-title"><i class='bx bx-bulb skills__icon' aria-hidden="true"></i> Strategy & Leadership</h3>
                             <div class="skills__tags">
                                 <span class="skills__tag">Analytics Strategy</span>
                                 <span class="skills__tag">Stakeholder Communication</span>
@@ -482,7 +496,7 @@
 
                         <!--
                         <div class="skills__category">
-                            <h3 class="skills__category-title"><i class='bx bx-certification skills__icon'></i> Certifications</h3>
+                            <h3 class="skills__category-title"><i class='bx bx-certification skills__icon' aria-hidden="true"></i> Certifications</h3>
                             <div class="skills__tags">
                                 <span class="skills__tag">Automate the Boring Stuff with Python</span>
                                 <span class="skills__tag">Tableau Desktop Specialist</span>
@@ -771,14 +785,14 @@
             <p class="footer__title">Jacob</p>
             <div class="footer__social">
 
-                <a href="https://www.linkedin.com/in/jacobhl/" class="footer__icon" target="_blank" rel="me noopener noreferrer" aria-label="LinkedIn profile"><i class='bx bxl-linkedin' ></i></a>
+                <a href="https://www.linkedin.com/in/jacobhl/" class="footer__icon" target="_blank" rel="me noopener noreferrer" aria-label="LinkedIn profile"><i class='bx bxl-linkedin' aria-hidden="true"></i></a>
 
-                <a href="https://github.com/jacobhl3ca" class="footer__icon" target="_blank" rel="me noopener noreferrer" aria-label="GitHub profile"><i class='bx bxl-github' ></i></a>
+                <a href="https://github.com/jacobhl3ca" class="footer__icon" target="_blank" rel="me noopener noreferrer" aria-label="GitHub profile"><i class='bx bxl-github' aria-hidden="true"></i></a>
 
                 <!-- Plain mailto: href, mirroring the home email icon above and the live index.html / index_with_animation.html footer icons. The previous href="#" + JS-only onclick was a dead anchor without JS (it jumped to the top of the page rather than opening a mail client), and its 'mail'+'to:' obfuscation added no protection since the address is plain-text mailto site-wide. A real mailto works without JS and is announced correctly by assistive tech; target="_blank"/rel are dropped as meaningless on a mailto. No visual change. -->
-                <a href="mailto:hi@jacobhl.com" class="footer__icon" aria-label="Send email"><i class='bx bx-envelope'></i></a>
+                <a href="mailto:hi@jacobhl.com" class="footer__icon" aria-label="Send email"><i class='bx bx-envelope' aria-hidden="true"></i></a>
 
-                <a href="#contact" class="footer__icon" onclick="event.preventDefault(); requestResume()" aria-label="Request resume"><i class='bx bx-file'></i></a>
+                <a href="#contact" class="footer__icon" onclick="event.preventDefault(); requestResume()" aria-label="Request resume"><i class='bx bx-file' aria-hidden="true"></i></a>
 
             </div>
 
@@ -788,12 +802,12 @@
 
         <!-- Scroll down arrow -->
         <button class="scroll-down-arrow" id="scrollDown" aria-label="Scroll down">
-            <i class='bx bx-chevron-down'></i>
+            <i class='bx bx-chevron-down' aria-hidden="true"></i>
         </button>
 
         <!-- Back to top button -->
         <button class="back-to-top" id="backToTop" aria-label="Back to top">
-            <i class='bx bx-chevron-up'></i>
+            <i class='bx bx-chevron-up' aria-hidden="true"></i>
         </button>
 
         <!-- Easter egg (uncomment to enable)

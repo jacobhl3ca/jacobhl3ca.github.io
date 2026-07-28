@@ -161,7 +161,7 @@
             "about": { "@id": "https://jacobhl.com/#person" },
             "mainEntity": { "@id": "https://jacobhl.com/#person" },
             "inLanguage": "en-US",
-            "dateModified": "2026-07-25"
+            "dateModified": "2026-07-27"
         }
         </script>
         <style>
@@ -1378,7 +1378,7 @@ const MORE = [
   { title:"Personal Finance App", img:"assets/img/finance_trend_crop-thumb.webp?v=1", imgLight:"assets/img/finance_trend_crop_light-thumb.webp?v=1",
     one:"Daily budgeting, investment planning, and optimization.",
     full:"Enables precise daily budgeting, investment planning, and optimization (Python, Apps Script)." },
-  { title:"E-commerce Store", img:"assets/img/stripe_dark.svg", imgLight:"assets/img/stripe_light.svg",
+  { title:"E-commerce Store", img:"assets/img/stripe_dark.svg", imgLight:"assets/img/stripe_light.svg", alt:"Stripe logo",
     one:"Full-stack store with Stripe checkout.",
     full:"Full-stack e-commerce site with Stripe payment processing and an Express.js backend (Node.js, Stripe API, HTML/CSS/JS)." },
   /* Automation Utilities — hidden for now (TidyTab is its own row); restore by uncommenting:
@@ -1387,7 +1387,7 @@ const MORE = [
     full:"macOS productivity automation suite including timesheet autofill via keystroke injection, system toggles (menu bar hide/show, dark/light mode, VPN connect/disconnect), keyboard backlight control, dock spacer grouping, and game re-roll automation (Python, AppleScript, Bash, PyAutoGUI). The Safari pinned-tab tool from this suite ships separately as TidyTab.",
     github:"https://github.com/jacobhl3ca/safari-pinned-tab-automation" },
   */
-  { title:"System Administration", img:"assets/img/docker_dark-thumb.webp?v=1", imgLight:"assets/img/docker_dark_light-thumb.webp?v=1",
+  { title:"System Administration", img:"assets/img/docker_dark-thumb.webp?v=1", imgLight:"assets/img/docker_dark_light-thumb.webp?v=1", alt:"Docker logo",
     one:"Self-hosted media & web apps on a home Linux server.",
     full:"Self-hosted web apps and network services on a home Linux server — a full Plex/Jellyfin media-automation stack (Radarr, Sonarr, Prowlarr, Bazarr, SABnzbd), a Homepage dashboard, Umami analytics, and Uptime Kuma monitoring, all containerized (Docker, Docker Compose)." },
 ];
@@ -1440,14 +1440,22 @@ function rowHTML(p, eager){
   // point at the panel it expands via aria-controls, mirroring the #moreToggle → #moreWrap wiring.
   const detailId = 'proj-detail-' + p.title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
   const cta = ctaHTML(p);                        // empty for the decluttered preview cards; only TidyTab (Mac download) has one
+  // Cover alt text. Live cards keep alt="" — their thumb sits in a role="button" whose aria-label
+  // ("Open live preview of X") already names it, so a non-empty alt would double-announce. Non-live
+  // cards' images ARE announced by their alt, which defaults to "<title> screenshot" — accurate for
+  // the actual screenshot thumbnails (Spotify, Finance), but wrong for the two cards whose cover is a
+  // brand/tech LOGO, not a screenshot (E-commerce → Stripe, System Administration → Docker). Those
+  // two set an explicit p.alt so the image is described for what it is (WCAG 1.1.1), instead of being
+  // mislabelled a "screenshot". No visual change.
+  const altText = p.live ? '' : (p.alt || p.title + ' screenshot');
   const infoCls = ''; // title + one-liner always top-aligned (chevron pinned bottom via margin-top:auto); vertical-centering overlapped the chevron on short cards
   return `
   <div class="proj-row" role="listitem">
     <div class="proj-head">
       <div class="proj-thumb ${thumbCls}" ${p.live?`data-url="${p.url}"${p.noEmbed?` data-noembed="1" data-poster="${p.img}"`:''} role="button" tabindex="0" aria-haspopup="dialog" aria-label="Open live preview of ${p.title}"`:''}>
         ${p.imgWide
-          ? `<picture><source media="(min-width:768px)" srcset="${p.imgWide}"><img src="${p.img}" alt="${p.live ? '' : p.title + ' screenshot'}" ${imgLoad} decoding="async"></picture>`
-          : `<img src="${imgSrc}"${themed} alt="${p.live ? '' : p.title + ' screenshot'}" ${imgLoad} decoding="async">`}
+          ? `<picture><source media="(min-width:768px)" srcset="${p.imgWide}"><img src="${p.img}" alt="${altText}" ${imgLoad} decoding="async"></picture>`
+          : `<img src="${imgSrc}"${themed} alt="${altText}" ${imgLoad} decoding="async">`}
         <span class="proj-zoom" aria-hidden="true"><i class='bx bx-search' aria-hidden="true"></i></span>
         <div class="proj-cue"><span><i class='bx bx-expand-alt' aria-hidden="true"></i> Preview</span></div>
       </div>
