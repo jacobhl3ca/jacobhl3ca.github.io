@@ -184,6 +184,25 @@
     .proj-title{font-size:1.02rem;}
     .proj-head{gap:.8rem;padding:.7rem;}
   }
+
+  /* Respect a visitor's OS "reduce motion" setting. This preview is motion-heavy — hover
+     lifts (.proj-row/.gh-link/.dl-link translateY, .proj-thumb img scale(1.08)), the
+     chevron/toggle rotate(180deg), the grid-template-rows expand/collapse, the modal
+     open/minimize transforms, and the infinite spin loader — none of which was covered
+     here, though the shared styles.css and every other page (including the sibling
+     projects-stack-preview.html) already ships this exact reduce block. Near-instant
+     (0.01ms) durations neutralize animations/transitions without a null-transition repaint,
+     the spin's iteration-count is capped at 1, and scroll-behavior falls back to auto so
+     in-page jumps don't animate. Accessibility only — no change for visitors without the
+     preference set. */
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+    html { scroll-behavior: auto; }
+  }
 </style>
 </head>
 <body>
