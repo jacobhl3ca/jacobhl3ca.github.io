@@ -839,12 +839,13 @@
         </footer>
 
         <!-- Scroll down arrow -->
-        <button class="scroll-down-arrow" id="scrollDown" aria-label="Scroll down">
+        <!-- Explicit type="button": a <button> with no type defaults to type="submit", and this page carries a contact <form> above (formspree), so a submit-default button is a real footgun — plus assistive tech announces the implicit "submit button" role. These two page-nav buttons (scroll-down / back-to-top) were the ones in this animated variant still on the default; the live index.html already types both. Matches the site-wide type="button" pattern (index.html, weather/, refer/). No visual change. -->
+        <button type="button" class="scroll-down-arrow" id="scrollDown" aria-label="Scroll down">
             <i class='bx bx-chevron-down' aria-hidden="true"></i>
         </button>
 
         <!-- Back to top button -->
-        <button class="back-to-top" id="backToTop" aria-label="Back to top">
+        <button type="button" class="back-to-top" id="backToTop" aria-label="Back to top">
             <i class='bx bx-chevron-up' aria-hidden="true"></i>
         </button>
 
