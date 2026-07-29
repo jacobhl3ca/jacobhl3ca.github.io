@@ -239,7 +239,8 @@
   </section>
 </main>
 
-<div class="modal" id="modal">
+<!-- Expose the live-preview overlay as a modal dialog: role="dialog" + aria-modal="true" tell assistive tech this is a focus-trapping overlay layered over the page, and aria-label gives it an accessible name announced on open. Without them the overlay was just an anonymous <div>, so screen readers didn't announce a dialog had opened or what it was. This preview variant was the one whose modal still shipped bare — the production homepage (index.html) and the stack-preview variant already carry these exact attributes; this completes that pattern. Semantics only — no visual change. -->
+<div class="modal" id="modal" role="dialog" aria-modal="true" aria-label="Live site preview">
   <div class="modal-card">
     <div class="modal-bar">
       <div class="dots">
