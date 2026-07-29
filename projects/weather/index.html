@@ -4,6 +4,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!-- Tint the mobile browser chrome (address/status bar) to match this dark dashboard. This leftover copy is a dark-only page (--bg:#0b1121, no theme toggle) but — unlike the production /weather/ page, which ships this exact theme-color — declared none, so on mobile the chrome stayed the OS default (often a light bar wrapping the dark design) for anyone who lands here by direct URL. #0b1121 matches --bg and the production sibling's own value; this was the one thing (alongside color-scheme, already added below) still setting this copy apart from the real dashboard's chrome treatment. No visual change to the page content. -->
+<meta name="theme-color" content="#0b1121">
 <!-- Declare the supported colour scheme to the UA up front. This leftover copy of the /weather/ dashboard is a dark-only page (--bg:#0b1121, no theme toggle) but — unlike the production /weather/ page — declared color-scheme nowhere: not here and not in its inline :root below. So on an OS-light browser the root canvas, scrollbars, and the search input/button rendered with the light UA default against the dark design. "dark" matches the page (and the production sibling's own declaration). No visual change to the intended dark design. -->
 <meta name="color-scheme" content="dark">
 <!-- Give the tab the site favicon. There is no root /favicon.ico, so without this link a browser landing on this leftover /projects/weather/ copy by direct URL fires a 404 for the default /favicon.ico and shows a blank/generic tab icon. Root-absolute path (mirroring the production /weather/ dashboard this copies, and index.html/404.html/building.html/light/) references the existing favicon.ico — no new asset. This copy was the one weather page still missing the icon link; completes the site-wide favicon pattern. No visual change to page content. -->
@@ -155,10 +157,29 @@ body {
 
 .aqi-bar { display:flex; height:8px; border-radius:4px; overflow:hidden; margin-top:8px; gap:2px; }
 .aqi-seg { flex:1; border-radius:4px; }
+
+/* Off-screen-but-readable utility for the visually-hidden <h1> below. This leftover
+   /projects/weather/ copy renders its entire UI from JS into #content and had no heading
+   at all in the static markup, so the document outline was empty and a screen-reader
+   "jump to main heading" had nothing to land on. The production /weather/ dashboard this
+   copies carries the same class + hidden <h1>; this mirrors it verbatim (standard clip
+   pattern — off-screen for sighted users, still announced by assistive tech). No visual change. */
+.visually-hidden {
+  position:absolute; width:1px; height:1px; padding:0; margin:-1px;
+  overflow:hidden; clip:rect(0,0,0,0); white-space:nowrap; border:0;
+}
 </style>
 </head>
 <body>
-<div class="container">
+<!-- <main> landmark + a visually-hidden <h1> so this leftover /projects/weather/ copy has a
+     real document outline and a "main" region for screen-reader landmark navigation. The whole
+     dashboard is rendered from JS into #content, so the static markup previously had no heading
+     and no main landmark at all — the production /weather/ dashboard this copies already ships
+     exactly this (<main class="container"> + hidden "Weather Dashboard" <h1>). .container is
+     display:block for both div and main and has no direct-child selectors, so the layout is
+     unchanged. Semantics only — no visual change. -->
+<main class="container">
+  <h1 class="visually-hidden">Weather Dashboard</h1>
   <div class="search-bar">
     <!-- aria-label gives the city search box a real accessible name. A placeholder is not a label: it's advisory text that many screen readers don't announce as the field's name and that vanishes on input, so this field otherwise reached assistive tech as an unnamed "edit text" (WCAG 1.3.1 / 4.1.2). This leftover /projects/weather/ copy was the one still missing the name; the production /weather/ dashboard it copies already labels the identical input aria-label="Search for a city". Added the same label so both copies name the field. No visual change — the placeholder text is unchanged. -->
     <input type="text" id="cityInput" placeholder="Search city..." value="New York, NY" aria-label="Search for a city">
@@ -168,8 +189,18 @@ body {
   <div id="alertsBanner" class="alerts-banner"></div>
   <div id="content">
     <div class="loading"><div class="spinner"></div><br>Loading weather data...</div>
+    <!-- No-JS fallback. The whole dashboard is rendered by JavaScript into #content, so with JS
+         disabled the loading spinner above would otherwise spin forever with no data ever arriving.
+         Hide the spinner and explain instead, offering a way back to the site. This leftover
+         /projects/weather/ copy was still missing the fallback; the production /weather/ dashboard
+         it copies already ships exactly this block. Only shown when JavaScript is disabled — no
+         effect on the normal JS-enabled render. -->
+    <noscript>
+      <style>.loading{display:none;}</style>
+      <div class="card" role="alert" style="text-align:center;">This weather dashboard needs JavaScript to load live data. Please enable JavaScript, or head back to <a href="/" style="color:var(--accent);">jacobhl.com</a>.</div>
+    </noscript>
   </div>
-</div>
+</main>
 
 <script>
 const WMO_ICONS = {

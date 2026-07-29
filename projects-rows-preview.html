@@ -4,6 +4,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!-- Tint the mobile browser chrome (address bar / status bar) to match this dark-default page (<html data-theme="dark">) instead of leaving it the OS default. #090f20 is exactly the dark body background this page renders — styles.css sets [data-theme="dark"] --body-bg: hsl(224,56%,8%), which is #090f20 — and is the same value the two sibling preview variants (projects-stack-preview.html, index_with_animation.html) and index.html's dark chrome already use. This "projects rows" preview was the one page site-wide still missing a theme-color; this completes the site-wide pattern. No visual change to page content. -->
+<meta name="theme-color" content="#090f20">
 <!-- Declare supported colour schemes to the UA up front. color-scheme is otherwise only set inside the render-blocking styles.css (:root=light, [data-theme="dark"]=dark), so before that CSS loads the browser doesn't know this is a dark-default page (<html data-theme="dark">) and paints the root canvas/scrollbars with the OS default — a brief light flash for the majority dark view. "dark light" matches the document's literal default while still advertising light-mode support; the CSS color-scheme rules take over once loaded. This "projects rows" preview was the one dark-default page still missing this — its siblings index_with_animation.html and projects-stack-preview.html already declare it. No visual change to the settled page. -->
 <meta name="color-scheme" content="dark light">
 <!-- noindex, follow: this unlinked, sitemap-absent "projects rows" preview renders the same project cards as the homepage's projects section, so leaving it indexable created a duplicate-content risk against the real homepage. It carries no canonical/og tags of its own to disambiguate it, which makes the risk worse. Now matches the site's established pattern for alternate/experiment pages (index_with_animation.html, light/index.html, projects-stack-preview.html, projects/index_cascade_animate.html all noindex, follow). Metadata only — no visual change. -->
@@ -32,6 +34,16 @@
 <style>
   body{font-family:var(--body-font)}
   .proj-wrap{max-width:780px;margin:0 auto;padding:0 1.5rem}
+
+  /* Visually-hidden top-level page heading (see the <h1> at the top of <main>). This preview
+     renders only the projects showcase, so its visible top heading is the "Projects" <h2> and the
+     document otherwise had NO <h1> at all — a document-outline/accessibility gap its sibling
+     variants don't share (index.html and projects-stack-preview.html both carry a hidden <h1> for
+     exactly this projects-only view). Give the page one proper <h1>, named like the site, above the
+     visible "Projects" <h2>, so the outline reads h1 -> h2 -> h3 (project titles), matching the
+     production homepage's projects-only view. Clipped (not display:none) so it stays in the
+     accessibility tree while taking no layout space. No visual change. */
+  .vh-h1{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0;}
 
   /* ---- ROW CARD (mirrors .work__img shadow/radius, laid out horizontally) ---- */
   .proj-row{
@@ -207,6 +219,7 @@
 </head>
 <body>
 <main class="l-main">
+  <h1 class="vh-h1">Jacob Heifetz-Licht — Analytics Manager</h1>
   <section class="section">
     <div class="proj-wrap">
       <h2 class="section-title">Projects</h2>
@@ -226,7 +239,8 @@
   </section>
 </main>
 
-<div class="modal" id="modal">
+<!-- Expose the live-preview overlay as a modal dialog: role="dialog" + aria-modal="true" tell assistive tech this is a focus-trapping overlay layered over the page, and aria-label gives it an accessible name announced on open. Without them the overlay was just an anonymous <div>, so screen readers didn't announce a dialog had opened or what it was. This preview variant was the one whose modal still shipped bare — the production homepage (index.html) and the stack-preview variant already carry these exact attributes; this completes that pattern. Semantics only — no visual change. -->
+<div class="modal" id="modal" role="dialog" aria-modal="true" aria-label="Live site preview">
   <div class="modal-card">
     <div class="modal-bar">
       <div class="dots">
@@ -235,21 +249,28 @@
              aria-label a screen reader announced "multiplication sign" / "en dash" / this arrow glyph
              instead of the button's action. aria-label supplies the action name and aria-hidden hides
              the now-decorative glyph, mirroring the homepage's modal-bar buttons (index.html). No visual change. -->
-        <button class="dot red" id="dotClose" title="Close" aria-label="Close preview"><span aria-hidden="true">×</span></button>
-        <button class="dot yellow" id="dotMin" title="Minimize" aria-label="Minimize preview"><span aria-hidden="true">–</span></button>
-        <button class="dot green" id="dotExpand" title="Expand to full screen" aria-label="Full screen preview"><span aria-hidden="true">⤢</span></button>
+        <button type="button" class="dot red" id="dotClose" title="Close" aria-label="Close preview"><span aria-hidden="true">×</span></button>
+        <button type="button" class="dot yellow" id="dotMin" title="Minimize" aria-label="Minimize preview"><span aria-hidden="true">–</span></button>
+        <button type="button" class="dot green" id="dotExpand" title="Expand to full screen" aria-label="Full screen preview"><span aria-hidden="true">⤢</span></button>
       </div>
-      <button class="nav-btn" id="navBack" title="Back" aria-label="Back" style="display:none;"><i class='bx bx-chevron-left' aria-hidden="true"></i></button>
-      <button class="nav-btn" id="navReload" title="Reload" aria-label="Reload"><i class='bx bx-revision' aria-hidden="true"></i></button>
+      <button type="button" class="nav-btn" id="navBack" title="Back" aria-label="Back" style="display:none;"><i class='bx bx-chevron-left' aria-hidden="true"></i></button>
+      <button type="button" class="nav-btn" id="navReload" title="Reload" aria-label="Reload"><i class='bx bx-revision' aria-hidden="true"></i></button>
       <form class="url-form" id="urlForm"><input class="modal-url" id="modalUrl" type="text" spellcheck="false" autocomplete="off" aria-label="Preview address"></form>
       <a class="openext" id="modalOpen" target="_blank" rel="noopener" title="Open in new tab" aria-label="Open preview in new tab"><i class='bx bx-link-external' aria-hidden="true"></i></a>
       <!-- Same fix as the traffic-light buttons above: the bare × was this button's accessible name
            (announced "multiplication sign"), overriding the title. aria-label names the action and the
            glyph is hidden as decorative. Matches index.html's modal close button. No visual change. -->
-      <button class="mclose" id="modalClose" title="Close" aria-label="Close preview"><span aria-hidden="true">×</span></button>
+      <button type="button" class="mclose" id="modalClose" title="Close" aria-label="Close preview"><span aria-hidden="true">×</span></button>
     </div>
     <div class="modal-body">
-      <button class="fs-back" id="fsBack" title="Back to projects"><i class='bx bx-arrow-back' aria-hidden="true"></i> Back</button>
+      <!-- type="button" on the modal controls above and this one: a <button> with no type defaults to
+           type="submit", so the traffic-light dots, Back/Reload nav, close, and this fullscreen-back
+           control were the buttons in this preview still on the implicit submit default — harmless
+           today (they sit beside, not inside, the #urlForm) but a footgun if the markup ever nests
+           them in a form, and screen readers announce the implicit "submit button" role. States the
+           real JS-only intent, matching the type="button" already on this file's #moreToggle / #escHint /
+           .proj-chev and the identical modal controls on the production homepage (index.html). No visual change. -->
+      <button type="button" class="fs-back" id="fsBack" title="Back to projects"><i class='bx bx-arrow-back' aria-hidden="true"></i> Back</button>
       <div class="modal-load" id="modalLoad"><div class="spin"></div><span id="modalLoadTxt">Loading preview…</span></div>
       <iframe class="modal-frame" id="modalFrame" title="Live preview" referrerpolicy="no-referrer-when-downgrade"></iframe>
       <button class="esc-hint" id="escHint" type="button" title="Exit preview">Press <kbd>Esc</kbd> to exit</button>
