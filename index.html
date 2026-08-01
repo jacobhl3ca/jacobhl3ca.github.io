@@ -1255,8 +1255,19 @@
 
         <script>
             if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
-            // Clear hash so refresh doesn't jump to #contact
-            if (window.location.hash) {
+            // Clear the hash on RELOAD only, so a refresh doesn't jump back to #contact — but a
+            // FRESH arrival at /#about, /#skills, /#contact (from the 404 page's nav, the sitemap,
+            // or a shared link) keeps its hash so the deferred main-alt.js deep-link handler can
+            // switch to full view and scroll to that section. This inline script runs before
+            // main-alt.js, and clearing the hash on every load silently defeated that deep-link for
+            // external arrivals — they landed in projects-only view at the top, never reaching the
+            // hidden section. Detect reloads via the Navigation Timing API (modern
+            // PerformanceNavigationTiming.type === 'reload', with the legacy performance.navigation
+            // fallback); other navigation types (fresh navigate, back/forward) keep their hash.
+            var _navEntry = performance.getEntriesByType && performance.getEntriesByType('navigation')[0];
+            var _isReload = _navEntry ? _navEntry.type === 'reload'
+                : (performance.navigation && performance.navigation.type === 1);
+            if (window.location.hash && _isReload) {
                 history.replaceState(null, '', window.location.pathname);
             }
             window.scrollTo(0, 0);
