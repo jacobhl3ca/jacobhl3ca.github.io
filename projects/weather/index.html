@@ -188,7 +188,15 @@ body {
     <!-- Explicit type="button": a <button> with no type defaults to type="submit", so this control was the one button site-wide still carrying implicit submit semantics. There's no enclosing <form> here today, so nothing breaks — but the default is a footgun (add a form wrapper later and this button silently starts submitting/reloading before/instead of fetchWeather), and screen readers announce the implicit "submit button" role name. type="button" states the real intent (JS-only action) and matches the production /weather/ dashboard this copies (<button type="button" onclick="fetchWeather()">Search</button>). No visual or behaviour change. -->
     <button type="button" onclick="fetchWeather()">Search</button>
   </div>
-  <div id="alertsBanner" class="alerts-banner"></div>
+  <!-- aria-live="polite" + aria-atomic: expose the alert banner as a live region so its weather
+       alerts — the frostbite / heat-stroke / high-wind safety warnings and the rain heads-up set
+       below in JS — are announced to screen readers when they appear, not just shown visually
+       (WCAG 4.1.3 Status Messages). This leftover /projects/weather/ copy shipped a bare div; the
+       production /weather/ dashboard it copies already carries this exact aria-live region. Paired
+       with the JS change below, which now updates this element in place instead of replacing the
+       whole node each render (outerHTML replacement destroyed the live region every time, so an
+       alert was never announced). No visual change. -->
+  <div id="alertsBanner" class="alerts-banner" aria-live="polite" aria-atomic="true"></div>
   <div id="content">
     <div class="loading"><div class="spinner"></div><br>Loading weather data...</div>
     <!-- No-JS fallback. The whole dashboard is rendered by JavaScript into #content, so with JS
@@ -399,20 +407,33 @@ function render(w, aqi, geo) {
     });
   }
 
-  // Alerts
+  // Alerts. Update the persistent #alertsBanner element in place (className + innerHTML) instead
+  // of swapping the whole node via outerHTML: the div is now an aria-live="polite" region (see the
+  // markup), and replacing the node each render destroyed that region, so a screen reader never
+  // announced the alert — the frostbite / heat-stroke / high-wind safety warnings and the rain
+  // heads-up all went unspoken (WCAG 4.1.3 Status Messages). Mutating the same node's text lets the
+  // live region announce each new alert. style.display is set explicitly to clear the inline
+  // display:none the reset at the top of fetchWeather() puts on this element (that inline style
+  // would otherwise beat the modifier class's display:flex and keep the alert hidden); '' lets the
+  // CSS decide (empty class → display:none, a modifier → display:flex). This is the exact pattern
+  // the production /weather/ dashboard this copies already uses. Same messages, thresholds, and
+  // rendered result — no visual change.
   const willRain = hourly.some(h => h.pop > 40);
-  let alertHtml = '';
+  let alertClass = '', alertMsg = '';
   if (windSpeed >= 25 || gusts >= 40) {
-    alertHtml = `<div id="alertsBanner" class="alerts-banner warning">⚠️ High wind advisory — gusts up to ${gusts || windSpeed} mph. Secure loose items.</div>`;
+    alertClass = 'warning'; alertMsg = `⚠️ High wind advisory — gusts up to ${gusts || windSpeed} mph. Secure loose items.`;
   } else if (temp <= 20) {
-    alertHtml = `<div id="alertsBanner" class="alerts-banner danger">🥶 Extreme cold — frostbite risk. Layer up and limit exposure.</div>`;
+    alertClass = 'danger'; alertMsg = `🥶 Extreme cold — frostbite risk. Layer up and limit exposure.`;
   } else if (temp >= 95 && humidity >= 60) {
-    alertHtml = `<div id="alertsBanner" class="alerts-banner danger">🔥 Excessive heat + humidity — heat stroke risk. Stay indoors if possible.</div>`;
+    alertClass = 'danger'; alertMsg = `🔥 Excessive heat + humidity — heat stroke risk. Stay indoors if possible.`;
   } else if (willRain) {
     const rainH = hourly.find(h => h.pop > 40);
-    alertHtml = `<div id="alertsBanner" class="alerts-banner info">☂️ Rain likely around ${fmtHour(rainH.time)} — grab an umbrella before heading out.</div>`;
+    alertClass = 'info'; alertMsg = `☂️ Rain likely around ${fmtHour(rainH.time)} — grab an umbrella before heading out.`;
   }
-  document.getElementById('alertsBanner').outerHTML = alertHtml || '<div id="alertsBanner" class="alerts-banner"></div>';
+  const alertsBanner = document.getElementById('alertsBanner');
+  alertsBanner.className = 'alerts-banner' + (alertClass ? ' ' + alertClass : '');
+  alertsBanner.innerHTML = alertMsg;
+  alertsBanner.style.display = alertClass ? '' : 'none';
 
   // Daily forecast
   const days = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
