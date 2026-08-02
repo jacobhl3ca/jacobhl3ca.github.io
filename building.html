@@ -32,14 +32,16 @@
     "inLanguage": "en-US",
     "dateModified": "2026-07-27",
     "isPartOf": { "@id": "https://jacobhl.com/#website" },
-    "author": { "@id": "https://jacobhl.com/#person" }
+    "author": { "@id": "https://jacobhl.com/#person" },
+    "breadcrumb": { "@id": "https://jacobhl.com/building.html#breadcrumb" }
 }
 </script>
-<!-- Breadcrumb trail: this flyer/QR landing page is independently indexed but sits one level under the homepage (the same Home → sub-page shape weather/ formalizes). Model that hierarchy so search engines can show a breadcrumb in results instead of the raw building.html URL. Continues the site's linked-data pattern (Person → WebSite → WebPage). Pure metadata, no visual change. -->
+<!-- Breadcrumb trail: this flyer/QR landing page is independently indexed but sits one level under the homepage (the same Home → sub-page shape weather/ formalizes). Model that hierarchy so search engines can show a breadcrumb in results instead of the raw building.html URL. Continues the site's linked-data pattern (Person → WebSite → WebPage). The #breadcrumb @id (and the matching "breadcrumb" reference just added to the WebPage node above) ties this list into the site's @id graph the way every other node is cross-referenced — it was the one structured-data node here still floating unconnected. Google's breadcrumb guidance associates a page's BreadcrumbList with its WebPage via this exact property, so the connection also makes the "which page owns this trail" link explicit rather than inferred. Pure metadata, no visual change. -->
 <script type="application/ld+json">
 {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
+    "@id": "https://jacobhl.com/building.html#breadcrumb",
     "itemListElement": [
         {
             "@type": "ListItem",
