@@ -15,6 +15,35 @@
 <title>Projects rows — preview</title>
 <!-- Meta description: this fully-rendered preview page (it loads the real styles.css and renders the homepage's project cards) was the one non-stub page site-wide still carrying no description — every other page, including all three sibling variant/preview pages (index_with_animation.html, projects-stack-preview.html, projects/index_cascade_animate.html), declares one; the only other page without it, tidytab.html, is an instant redirect stub whose head is deliberately minimal. A description gives browsers, reader mode, and any share/bookmark surface a real summary instead of falling back to scraped page text, and completes the standard-meta set prior runs have been progressively adding to this same page (lang, theme-color, color-scheme, robots, canonical, favicon, preconnects). Wording describes the project showcase this page renders, in the site's own voice; kept honest for a page that canonicalizes to the homepage. Metadata only, on a noindex page — no visual change. -->
 <meta name="description" content="Live web apps, tools, and data projects built by Jacob Heifetz-Licht — a data analytics leader and web developer.">
+<!-- Social-share card for when this preview URL is pasted into a chat/message (its whole purpose is
+     to be shared so an alternate design can be reviewed). This "projects rows" preview was the one
+     full page site-wide still shipping no og:/twitter: tags at all — every other page, including all
+     three sibling variant/preview pages (index_with_animation.html, projects-stack-preview.html,
+     projects/index_cascade_animate.html), carries a share card; only the redirect stubs (tidytab.html,
+     light/ — which navigate away instantly) go without. Without these, a pasted link previewed with
+     no image/title and scraped page text. Reuses the existing site-wide og_image.png (no new media
+     asset) with the same dimensions/type and the same og:image:alt wording every page uses for that
+     shared file, so large-card scrapers can lay it out without downloading the image first. og:title/
+     description mirror THIS page's own <title>/description above (not the homepage's — this page is an
+     explicitly labelled preview, unlike the stack/cascade variants that clone the homepage title), and
+     og:url matches this page's rel=canonical (→ the homepage) exactly as the sibling previews set
+     theirs. Completes the site-wide share-card pattern. Pure metadata on a noindex page — no visual change. -->
+<meta property="og:type" content="website">
+<meta property="og:title" content="Projects rows — preview">
+<meta property="og:description" content="Live web apps, tools, and data projects built by Jacob Heifetz-Licht — a data analytics leader and web developer.">
+<meta property="og:url" content="https://jacobhl.com/">
+<meta property="og:image" content="https://jacobhl.com/assets/img/og_image.png">
+<meta property="og:image:type" content="image/png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Jacob Heifetz-Licht — Analytics Manager and web developer">
+<meta property="og:site_name" content="Jacob Heifetz-Licht">
+<meta property="og:locale" content="en_US">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Projects rows — preview">
+<meta name="twitter:description" content="Live web apps, tools, and data projects built by Jacob Heifetz-Licht — a data analytics leader and web developer.">
+<meta name="twitter:image" content="https://jacobhl.com/assets/img/og_image.png">
+<meta name="twitter:image:alt" content="Jacob Heifetz-Licht — Analytics Manager and web developer">
 <!-- Give the tab the site favicon. There is no root /favicon.ico, so without this link a browser's
      default favicon request 404s and the tab shows a blank/generic icon while this preview is open.
      This "projects rows" preview was the one page site-wide still missing the icon link — every other

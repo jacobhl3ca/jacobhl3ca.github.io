@@ -11,6 +11,8 @@
 <!-- Give the tab the site favicon. There is no root /favicon.ico, so without this link a browser landing on this leftover /projects/weather/ copy by direct URL fires a 404 for the default /favicon.ico and shows a blank/generic tab icon. Root-absolute path (mirroring the production /weather/ dashboard this copies, and index.html/404.html/building.html/light/) references the existing favicon.ico — no new asset. This copy was the one weather page still missing the icon link; completes the site-wide favicon pattern. No visual change to page content. -->
 <link rel="icon" type="image/x-icon" href="/assets/img/favicon.ico">
 <title>Weather Dashboard — NYC</title>
+<!-- Give this leftover /projects/weather/ copy the same meta description its production /weather/ sibling ships. This copy carries no description and no OG/Twitter tags at all, so a browser reader-mode view or a link scraped from a direct URL had nothing but the page title to summarise it. Reusing the production dashboard's exact wording keeps the two copies consistent and is the one remaining head field still setting this copy apart from the real dashboard. noindex is unaffected (a description is not an indexing signal). No visual change. -->
+<meta name="description" content="A live weather dashboard with current conditions, hourly rain chance, a 5-day forecast, air quality, and sun times. Search any city — defaults to New York, NY.">
 <!-- noindex this older, unlinked, sitemap-absent copy of the weather dashboard. The production dashboard lives at /weather/ (indexed, canonical, richer head); this /projects/weather/ page is a near-duplicate of it (same title "Weather Dashboard — NYC", same design) left over from staging, with no robots meta of its own — so it was the one weather copy still fully indexable, creating a duplicate-content risk against the real /weather/. noindex, follow removes it from search results while still letting crawlers follow its links, matching the site's established pattern for duplicate/experiment pages (index_with_animation.html, light/index.html, projects/index_cascade_animate.html, the projects-*-preview.html pages). rel=canonical also names /weather/ as the authoritative copy. Metadata only — no visual change. -->
 <meta name="robots" content="noindex, follow">
 <link rel="canonical" href="https://jacobhl.com/weather/">
@@ -19,6 +21,10 @@
 <!-- Warm the TLS connections to the Google Fonts hosts before the render-blocking Poppins stylesheet below is requested. That stylesheet blocks first paint, and without a preconnect the browser only starts the (DNS + TCP + TLS) handshake to fonts.googleapis.com once it discovers the <link> — then repeats it for the font-file host fonts.gstatic.com. Preconnecting both up front overlaps those handshakes with head parsing so the font CSS and woff2 arrive sooner. crossorigin on the gstatic hint so the warmed socket is reused for the CORS woff2 fetch. This leftover /projects/weather/ copy was loading the same font cold; the production /weather/ dashboard it copies already ships exactly these two preconnects. Resource hints only — no visual or behaviour change. -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<!-- Warm the TLS connections to the Open-Meteo APIs this dashboard fetches from. On load the geocoding request (geocoding-api.open-meteo.com) resolves the city, and its result gates the forecast (api.open-meteo.com) and air-quality (air-quality-api.open-meteo.com) fetches — so those handshakes otherwise happen cold on the critical path to the first data render. Preconnecting all three up front overlaps the (DNS + TCP + TLS) setup with head parsing so the JSON arrives sooner; crossorigin so each warmed socket is reused for its CORS JSON request. This leftover /projects/weather/ copy was fetching from these same three hosts cold — the production /weather/ dashboard it copies already ships exactly these three preconnects. Resource hints only — no visual or behaviour change. -->
+<link rel="preconnect" href="https://geocoding-api.open-meteo.com" crossorigin>
+<link rel="preconnect" href="https://api.open-meteo.com" crossorigin>
+<link rel="preconnect" href="https://air-quality-api.open-meteo.com" crossorigin>
 <!-- Drop weight 300 from the requested Poppins set: this leftover /projects/weather/ copy asked Google Fonts for 300;400;500;600;700, but nothing on the page uses font-weight:300 (its CSS only sets 400/500/600/700) — so the browser fetched and parsed an extra @font-face woff2 that never renders. Requesting only the weights actually used trims that wasted font download on this render-blocking stylesheet, and matches the exact 400;500;600;700 set the production /weather/ dashboard this copies (and every other Poppins page site-wide) already ships. No visual change — the removed weight was unused. -->
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
@@ -184,11 +190,20 @@ body {
   <h1 class="visually-hidden">Weather Dashboard</h1>
   <div class="search-bar">
     <!-- aria-label gives the city search box a real accessible name. A placeholder is not a label: it's advisory text that many screen readers don't announce as the field's name and that vanishes on input, so this field otherwise reached assistive tech as an unnamed "edit text" (WCAG 1.3.1 / 4.1.2). This leftover /projects/weather/ copy was the one still missing the name; the production /weather/ dashboard it copies already labels the identical input aria-label="Search for a city". Added the same label so both copies name the field. No visual change — the placeholder text is unchanged. -->
-    <input type="text" id="cityInput" placeholder="Search city..." value="New York, NY" aria-label="Search for a city">
+    <!-- Mobile input hints, matching the production /weather/ dashboard's identical search box (which carries this exact hint set). enterkeyhint="search" labels the on-screen keyboard's Enter key as a search action — correct here because the field really does search on Enter (the keydown handler below calls fetchWeather) as well as via the Search button. autocomplete="off": this is a live-search box, not a stored-profile field, so the browser's autofill dropdown (saved names/addresses) is irrelevant and can cover the results as they load. autocapitalize="words" matches how city names are written; autocorrect="off" stops an unusual place name being "corrected" into a dictionary word as it's typed (iOS autocorrects text inputs by default); spellcheck="false" keeps real place names from being flagged with red squiggles. This leftover copy was the one still missing the set the production sibling already has. All editable/keyboard hints — no visual change to the settled field on desktop, and no behaviour change (Enter already searched). -->
+    <input type="text" id="cityInput" placeholder="Search city..." value="New York, NY" aria-label="Search for a city" enterkeyhint="search" autocomplete="off" autocapitalize="words" autocorrect="off" spellcheck="false">
     <!-- Explicit type="button": a <button> with no type defaults to type="submit", so this control was the one button site-wide still carrying implicit submit semantics. There's no enclosing <form> here today, so nothing breaks — but the default is a footgun (add a form wrapper later and this button silently starts submitting/reloading before/instead of fetchWeather), and screen readers announce the implicit "submit button" role name. type="button" states the real intent (JS-only action) and matches the production /weather/ dashboard this copies (<button type="button" onclick="fetchWeather()">Search</button>). No visual or behaviour change. -->
     <button type="button" onclick="fetchWeather()">Search</button>
   </div>
-  <div id="alertsBanner" class="alerts-banner"></div>
+  <!-- aria-live="polite" + aria-atomic: expose the alert banner as a live region so its weather
+       alerts — the frostbite / heat-stroke / high-wind safety warnings and the rain heads-up set
+       below in JS — are announced to screen readers when they appear, not just shown visually
+       (WCAG 4.1.3 Status Messages). This leftover /projects/weather/ copy shipped a bare div; the
+       production /weather/ dashboard it copies already carries this exact aria-live region. Paired
+       with the JS change below, which now updates this element in place instead of replacing the
+       whole node each render (outerHTML replacement destroyed the live region every time, so an
+       alert was never announced). No visual change. -->
+  <div id="alertsBanner" class="alerts-banner" aria-live="polite" aria-atomic="true"></div>
   <div id="content">
     <div class="loading"><div class="spinner"></div><br>Loading weather data...</div>
     <!-- No-JS fallback. The whole dashboard is rendered by JavaScript into #content, so with JS
@@ -358,7 +373,13 @@ function render(w, aqi, geo) {
     else if (usAqi <= 100) { aqiInfo.text = 'Moderate'; aqiInfo.color = '#f59e0b'; aqiInfo.aqi = 2; }
     else if (usAqi <= 150) { aqiInfo.text = 'Unhealthy (Sensitive)'; aqiInfo.color = '#f97316'; aqiInfo.aqi = 3; }
     else if (usAqi <= 200) { aqiInfo.text = 'Unhealthy'; aqiInfo.color = '#ef4444'; aqiInfo.aqi = 4; }
-    else { aqiInfo.text = 'Very Unhealthy'; aqiInfo.color = '#7c3aed'; aqiInfo.aqi = 5; }
+    else if (usAqi <= 300) { aqiInfo.text = 'Very Unhealthy'; aqiInfo.color = '#7c3aed'; aqiInfo.aqi = 5; }
+    // US AQI tops out at a distinct "Hazardous" band (301+), reached during wildfire smoke or in
+    // heavily polluted cities. Without this the dashboard mislabeled such readings as "Very
+    // Unhealthy". Keep aqi:5 so the 5-segment bar stays fully filled (no layout change); use the
+    // official EPA maroon so the value/segment colour reflects the more severe category. Mirrors
+    // the fix already on the production /weather/ dashboard this leftover copy duplicates.
+    else { aqiInfo.text = 'Hazardous'; aqiInfo.color = '#7e0023'; aqiInfo.aqi = 5; }
   }
 
   const sunrise = w.daily.sunrise[0];
@@ -399,20 +420,33 @@ function render(w, aqi, geo) {
     });
   }
 
-  // Alerts
+  // Alerts. Update the persistent #alertsBanner element in place (className + innerHTML) instead
+  // of swapping the whole node via outerHTML: the div is now an aria-live="polite" region (see the
+  // markup), and replacing the node each render destroyed that region, so a screen reader never
+  // announced the alert — the frostbite / heat-stroke / high-wind safety warnings and the rain
+  // heads-up all went unspoken (WCAG 4.1.3 Status Messages). Mutating the same node's text lets the
+  // live region announce each new alert. style.display is set explicitly to clear the inline
+  // display:none the reset at the top of fetchWeather() puts on this element (that inline style
+  // would otherwise beat the modifier class's display:flex and keep the alert hidden); '' lets the
+  // CSS decide (empty class → display:none, a modifier → display:flex). This is the exact pattern
+  // the production /weather/ dashboard this copies already uses. Same messages, thresholds, and
+  // rendered result — no visual change.
   const willRain = hourly.some(h => h.pop > 40);
-  let alertHtml = '';
+  let alertClass = '', alertMsg = '';
   if (windSpeed >= 25 || gusts >= 40) {
-    alertHtml = `<div id="alertsBanner" class="alerts-banner warning">⚠️ High wind advisory — gusts up to ${gusts || windSpeed} mph. Secure loose items.</div>`;
+    alertClass = 'warning'; alertMsg = `⚠️ High wind advisory — gusts up to ${gusts || windSpeed} mph. Secure loose items.`;
   } else if (temp <= 20) {
-    alertHtml = `<div id="alertsBanner" class="alerts-banner danger">🥶 Extreme cold — frostbite risk. Layer up and limit exposure.</div>`;
+    alertClass = 'danger'; alertMsg = `🥶 Extreme cold — frostbite risk. Layer up and limit exposure.`;
   } else if (temp >= 95 && humidity >= 60) {
-    alertHtml = `<div id="alertsBanner" class="alerts-banner danger">🔥 Excessive heat + humidity — heat stroke risk. Stay indoors if possible.</div>`;
+    alertClass = 'danger'; alertMsg = `🔥 Excessive heat + humidity — heat stroke risk. Stay indoors if possible.`;
   } else if (willRain) {
     const rainH = hourly.find(h => h.pop > 40);
-    alertHtml = `<div id="alertsBanner" class="alerts-banner info">☂️ Rain likely around ${fmtHour(rainH.time)} — grab an umbrella before heading out.</div>`;
+    alertClass = 'info'; alertMsg = `☂️ Rain likely around ${fmtHour(rainH.time)} — grab an umbrella before heading out.`;
   }
-  document.getElementById('alertsBanner').outerHTML = alertHtml || '<div id="alertsBanner" class="alerts-banner"></div>';
+  const alertsBanner = document.getElementById('alertsBanner');
+  alertsBanner.className = 'alerts-banner' + (alertClass ? ' ' + alertClass : '');
+  alertsBanner.innerHTML = alertMsg;
+  alertsBanner.style.display = alertClass ? '' : 'none';
 
   // Daily forecast
   const days = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
@@ -515,15 +549,26 @@ function render(w, aqi, geo) {
     }).join('')}
   </div>`;
 
-  // NYC tip
-  html += `<div class="card" style="text-align:center;">
-    <div style="font-size:12px;color:var(--text-dim);">
-      ${temp <= 35 ? '🧤 NYC Tip: Watch for icy sidewalks, especially bridge overpasses and shaded blocks.' :
-        temp >= 90 ? '🚰 NYC Tip: Cooling centers are open. Stay near AC — check NYC.gov for locations.' :
-        willRain ? '🚇 NYC Tip: Expect crowded subways. Leave 10 min early and bring an umbrella.' :
-        '🏙️ NYC Tip: Great day to walk — Central Park and the High Line are calling.'}
-    </div>
-  </div>`;
+  // NYC tip — the dashboard is NYC-themed (defaults to New York), and the advice below is
+  // NYC-specific (subways, Central Park, the High Line), so only show it when the loaded
+  // location is actually New York. This is a "Search any city" dashboard, so for any other
+  // searched city (London, Tokyo, …) the card was misleading — it still read "NYC Tip: Expect
+  // crowded subways… Central Park and the High Line" over the wrong city's weather. Gate it on
+  // the loaded place name instead, matching the isNYC guard the production /weather/ dashboard
+  // this leftover copy duplicates already ships (geo.name is built identically in both copies,
+  // so "New York, New York" matches and every other city omits the card). Logic only — no
+  // visual change for a New York search, and the misplaced card simply no longer renders elsewhere.
+  const isNYC = /^New York,/.test(geo.name || '');
+  if (isNYC) {
+    html += `<div class="card" style="text-align:center;">
+      <div style="font-size:12px;color:var(--text-dim);">
+        ${temp <= 35 ? '🧤 NYC Tip: Watch for icy sidewalks, especially bridge overpasses and shaded blocks.' :
+          temp >= 90 ? '🚰 NYC Tip: Cooling centers are open. Stay near AC — check NYC.gov for locations.' :
+          willRain ? '🚇 NYC Tip: Expect crowded subways. Leave 10 min early and bring an umbrella.' :
+          '🏙️ NYC Tip: Great day to walk — Central Park and the High Line are calling.'}
+      </div>
+    </div>`;
+  }
 
   document.getElementById('content').innerHTML = html;
 }
