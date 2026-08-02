@@ -548,6 +548,18 @@
      :focus-visible only, so mouse/touch clicks show no extra ring and the layout is unchanged. */
   .proj-thumb[role="button"]:focus{outline:none;}
   .proj-thumb[role="button"]:focus-visible{outline:2px solid var(--first-color);outline-offset:2px;}
+  /* Live project cards open a preview via a role="button" thumbnail (not a link), and their CTA
+     links are commented out — so each app's URL lives only in the thumbnail's data-url and never
+     renders as visible text. The @media print block in styles.css exists precisely so a recruiter
+     can save this portfolio as a PDF, but in that PDF the projects would list what each app IS with
+     no way to reach it. Surface each live project's URL on paper only: display:none keeps it out of
+     the on-screen design entirely (zero layout box, no visual change), and the print rule reveals it
+     under the card so a saved PDF says where each app actually lives — mirroring the a[href]::after
+     link-destination reveal styles.css already prints for the footer/CTA links. */
+  .proj-print-url{display:none;}
+  @media print{
+    .proj-print-url{display:block;font-size:.85em;word-break:break-all;margin-top:4px;}
+  }
 
   .proj-info{flex:1 1 auto;min-width:0;display:flex;flex-direction:column;}
   .proj-title{display:flex;align-items:center;font-size:1.15rem;font-weight:var(--font-semi);
@@ -1477,6 +1489,7 @@ function rowHTML(p, eager){
           ${cta}
           <button type="button" class="proj-chev" aria-label="Show details" aria-expanded="false" aria-controls="${detailId}"><i class='bx bx-chevron-down' aria-hidden="true"></i></button>
         </div>
+        ${(p.site || p.url) ? `<div class="proj-print-url">${p.site || p.url}</div>` : ''}
       </div>
     </div>
     <div class="proj-detail" id="${detailId}" inert><div class="proj-detail-in"><div class="pad">
