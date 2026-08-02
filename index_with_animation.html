@@ -10,6 +10,10 @@
         <meta name="color-scheme" content="dark light">
         <link rel="stylesheet" href="assets/css/styles.css">
         <link rel="icon" type="image/x-icon" href="assets/img/favicon.ico">
+        <!-- Web app manifest: this animated homepage variant is a deploy-ready alternative to the live index.html (prior runs kept its contact form, pre-paint theme handling, and resource hints in sync), so it should stay installable-consistent with it — index.html declares the manifest but this variant did not, so if it were ever swapped in as the live homepage the Add-to-Home-Screen name/theme/icons would silently regress to the raw <title> and OS defaults. Same "/" manifest the live homepage links; reuses the existing favicon icons (no new image asset). Pure metadata, no visual change to a normal browser tab. -->
+        <link rel="manifest" href="/site.webmanifest">
+        <!-- iOS home-screen label: mirrors index.html. iOS Safari ignores the manifest's short_name and reads apple-mobile-web-app-title instead (falling back to the full page title, which it truncates), so this gives iOS the same short "Jacob HL" icon label Android already gets from the manifest. Deliberately NOT paired with apple-mobile-web-app-capable (that would force a chromeless standalone launch — a behaviour change); this only names the icon. Pure metadata, no visual change to a normal browser tab. -->
+        <meta name="apple-mobile-web-app-title" content="Jacob HL">
         <!-- Resource hints mirroring index.html / 404.html: this variant loads the same render-blocking assets (boxicons from jsdelivr, and Poppins which styles.css @imports from Google Fonts) but was the only page site-wide with no connection warm-up, so every one of those sockets is opened serially on the critical path here. -->
         <link rel="preconnect" href="https://cdn.jsdelivr.net"> <!-- early-connect for the render-blocking boxicons CSS fetch (non-CORS, so it can't reuse the crossorigin socket below) -->
         <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin> <!-- early-connect for the boxicons icon font (CORS woff2, crossorigin so the warmed socket is reused) -->
