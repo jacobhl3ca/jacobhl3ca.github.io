@@ -344,6 +344,9 @@
                 0%, 100% { transform: translateY(0); }
                 50% { transform: translateY(5px); }
             }
+            @media (prefers-reduced-motion: reduce) {
+                .scroll-down-arrow { animation: none; }
+            }
             .back-to-top {
                 position: fixed;
                 bottom: 2rem;
