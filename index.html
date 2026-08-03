@@ -138,6 +138,7 @@
         <!-- knowsLanguage names the language Jacob works in, as the BCP-47 tag "en-US" — the same value this page's WebSite/ProfilePage nodes already use for inLanguage and the <html lang>/og:locale declare for the document. Those describe the *content's* language; knowsLanguage is the distinct Person-entity property for a language the person themselves knows, a recognized part of schema.org's Person markup that the rest of the entity (sameAs, alumniOf, knowsAbout, jobTitle) already invests in. It gives search engines one more disambiguation signal for the person entity without any visual change — the Person node was declaring skills and identity links but never the language behind them. Pure metadata. -->
         <!-- alumniOf.url points the "Rutgers University" node at the institution's official homepage so search engines can resolve the plain-text school name to the real organization entity (Knowledge Graph disambiguation) instead of guessing from the string alone — the same entity-linking role the Person node's sameAs array already plays for Jacob's LinkedIn/GitHub/App Store profiles. Standard structured-data practice for a named sub-entity; pure metadata, no visual change. -->
         <!-- WebSite entity: gives the site itself a stable node distinct from the Person, and names the Person (via the same #person @id) as its author/publisher — a recognized structured-data pattern that helps search engines model "this site" as one entity (Knowledge Graph / sitelinks eligibility) and links it to its owner. Continues the #person linked-data pattern; pure metadata, no visual change. -->
+        <!-- alternateName declares the other names this site is known by, so a brand search for the shortened form or the bare domain resolves to the same WebSite entity as the full "Jacob Heifetz-Licht" name (Knowledge Graph "also known as" / brand disambiguation). Both values are already true and declared elsewhere on the site — "Jacob HL" is the manifest short_name and apple-mobile-web-app-title, and "jacobhl.com" is the domain every canonical/og:url uses — so this only surfaces existing alternate names to search engines. Standard WebSite structured-data practice; pure metadata, no visual change. -->
         <script type="application/ld+json">
         {
             "@context": "https://schema.org",
@@ -145,6 +146,7 @@
             "@id": "https://jacobhl.com/#website",
             "url": "https://jacobhl.com/",
             "name": "Jacob Heifetz-Licht",
+            "alternateName": ["Jacob HL", "jacobhl.com"],
             "description": "Data analytics leader and web developer specializing in Python, SQL, Tableau, React, and Next.js. Turning data into things people actually use.",
             "inLanguage": "en-US",
             "author": { "@id": "https://jacobhl.com/#person" },
