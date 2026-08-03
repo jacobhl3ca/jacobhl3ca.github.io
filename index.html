@@ -131,11 +131,14 @@
                 "name": "Rutgers University",
                 "url": "https://www.rutgers.edu/"
             },
-            "knowsAbout": ["Data Analytics", "Python", "SQL", "Tableau", "ETL", "BigQuery", "Automation", "Dashboard Design", "JavaScript", "React", "Node.js", "Next.js", "Web Development"]
+            "knowsAbout": ["Data Analytics", "Python", "SQL", "Tableau", "ETL", "BigQuery", "Automation", "Dashboard Design", "JavaScript", "React", "Node.js", "Next.js", "Web Development"],
+            "knowsLanguage": "en-US"
         }
         </script>
+        <!-- knowsLanguage names the language Jacob works in, as the BCP-47 tag "en-US" — the same value this page's WebSite/ProfilePage nodes already use for inLanguage and the <html lang>/og:locale declare for the document. Those describe the *content's* language; knowsLanguage is the distinct Person-entity property for a language the person themselves knows, a recognized part of schema.org's Person markup that the rest of the entity (sameAs, alumniOf, knowsAbout, jobTitle) already invests in. It gives search engines one more disambiguation signal for the person entity without any visual change — the Person node was declaring skills and identity links but never the language behind them. Pure metadata. -->
         <!-- alumniOf.url points the "Rutgers University" node at the institution's official homepage so search engines can resolve the plain-text school name to the real organization entity (Knowledge Graph disambiguation) instead of guessing from the string alone — the same entity-linking role the Person node's sameAs array already plays for Jacob's LinkedIn/GitHub/App Store profiles. Standard structured-data practice for a named sub-entity; pure metadata, no visual change. -->
         <!-- WebSite entity: gives the site itself a stable node distinct from the Person, and names the Person (via the same #person @id) as its author/publisher — a recognized structured-data pattern that helps search engines model "this site" as one entity (Knowledge Graph / sitelinks eligibility) and links it to its owner. Continues the #person linked-data pattern; pure metadata, no visual change. -->
+        <!-- alternateName declares the other names this site is known by, so a brand search for the shortened form or the bare domain resolves to the same WebSite entity as the full "Jacob Heifetz-Licht" name (Knowledge Graph "also known as" / brand disambiguation). Both values are already true and declared elsewhere on the site — "Jacob HL" is the manifest short_name and apple-mobile-web-app-title, and "jacobhl.com" is the domain every canonical/og:url uses — so this only surfaces existing alternate names to search engines. Standard WebSite structured-data practice; pure metadata, no visual change. -->
         <script type="application/ld+json">
         {
             "@context": "https://schema.org",
@@ -143,6 +146,7 @@
             "@id": "https://jacobhl.com/#website",
             "url": "https://jacobhl.com/",
             "name": "Jacob Heifetz-Licht",
+            "alternateName": ["Jacob HL", "jacobhl.com"],
             "description": "Data analytics leader and web developer specializing in Python, SQL, Tableau, React, and Next.js. Turning data into things people actually use.",
             "inLanguage": "en-US",
             "author": { "@id": "https://jacobhl.com/#person" },
@@ -161,7 +165,25 @@
             "about": { "@id": "https://jacobhl.com/#person" },
             "mainEntity": { "@id": "https://jacobhl.com/#person" },
             "inLanguage": "en-US",
-            "dateModified": "2026-07-27"
+            "dateModified": "2026-08-02"
+        }
+        </script>
+        <!-- ItemList of Jacob's live projects: the projects section is the homepage's most substantial content (rendered as cards, and mirrored in the no-JS <noscript> lists), but those works had no structured-data node — the graph modeled the Person, WebSite, and ProfilePage, but never what Jacob has actually built. This names each live project as a CreativeWork whose creator is the same #person node, so search engines can associate Jacob's entity with his body of work (Knowledge Graph "creator of"). Each name/URL/description mirrors what the page already shows in the visible cards and the <noscript> fallback lists (Google requires structured data to reflect on-page content), and each URL is the same live site its card opens. Order matches the visible card order. Pure metadata, no visual change. -->
+        <script type="application/ld+json">
+        {
+            "@context": "https://schema.org",
+            "@type": "ItemList",
+            "name": "Projects by Jacob Heifetz-Licht",
+            "itemListOrder": "https://schema.org/ItemListOrderAscending",
+            "itemListElement": [
+                { "@type": "ListItem", "position": 1, "item": { "@type": "CreativeWork", "name": "HideScore", "url": "https://hidescore.com", "description": "Watch sports highlights without seeing the score.", "creator": { "@id": "https://jacobhl.com/#person" } } },
+                { "@type": "ListItem", "position": 2, "item": { "@type": "CreativeWork", "name": "Tonight NYC", "url": "https://tonightnyc.com", "description": "Every NYC comedy show, filtered to your favorite comedians.", "creator": { "@id": "https://jacobhl.com/#person" } } },
+                { "@type": "ListItem", "position": 3, "item": { "@type": "CreativeWork", "name": "Subway Times", "url": "https://subwaytimes.com", "description": "Real-time NYC subway arrivals, faster than Maps.", "creator": { "@id": "https://jacobhl.com/#person" } } },
+                { "@type": "ListItem", "position": 4, "item": { "@type": "CreativeWork", "name": "David Licht", "url": "https://davidlicht.com", "description": "A showcase site for my dad — five decades of drumming.", "creator": { "@id": "https://jacobhl.com/#person" } } },
+                { "@type": "ListItem", "position": 5, "item": { "@type": "CreativeWork", "name": "The Island", "url": "https://theisland.nyc", "description": "Everything happening on NYC's Roosevelt Island, in one place.", "creator": { "@id": "https://jacobhl.com/#person" } } },
+                { "@type": "ListItem", "position": 6, "item": { "@type": "CreativeWork", "name": "TidyTab", "url": "https://tidytab.jacobhl.com/", "description": "Bulk unpin or close Safari pinned tabs — a macOS menu-bar app.", "creator": { "@id": "https://jacobhl.com/#person" } } },
+                { "@type": "ListItem", "position": 7, "item": { "@type": "CreativeWork", "name": "DuelGoat", "url": "https://duelgoat.com", "description": "A browser recreation of GOAT-format Yu-Gi-Oh dueling.", "creator": { "@id": "https://jacobhl.com/#person" } } }
+            ]
         }
         </script>
         <style>
@@ -343,6 +365,9 @@
             @keyframes bounce-down {
                 0%, 100% { transform: translateY(0); }
                 50% { transform: translateY(5px); }
+            }
+            @media (prefers-reduced-motion: reduce) {
+                .scroll-down-arrow { animation: none; }
             }
             .back-to-top {
                 position: fixed;
