@@ -165,14 +165,17 @@
             "about": { "@id": "https://jacobhl.com/#person" },
             "mainEntity": { "@id": "https://jacobhl.com/#person" },
             "inLanguage": "en-US",
-            "dateModified": "2026-08-02"
+            "dateModified": "2026-08-03"
         }
         </script>
         <!-- ItemList of Jacob's live projects: the projects section is the homepage's most substantial content (rendered as cards, and mirrored in the no-JS <noscript> lists), but those works had no structured-data node — the graph modeled the Person, WebSite, and ProfilePage, but never what Jacob has actually built. This names each live project as a CreativeWork whose creator is the same #person node, so search engines can associate Jacob's entity with his body of work (Knowledge Graph "creator of"). Each name/URL/description mirrors what the page already shows in the visible cards and the <noscript> fallback lists (Google requires structured data to reflect on-page content), and each URL is the same live site its card opens. Order matches the visible card order. Pure metadata, no visual change. -->
+        <!-- @id + isPartOf tie this list into the site's @id graph the way every other node here already is: the individual projects reference the Person via each item's creator, but the ItemList container itself was the one structured-data node on the homepage still floating unconnected — the Person (#person), WebSite (#website), and ProfilePage (#webpage) are all cross-referenced, and building.html's BreadcrumbList was connected to its WebPage the same way in a prior run. isPartOf points at the homepage's ProfilePage (#webpage) — the page this list actually appears on — using the same one-directional isPartOf link the ProfilePage uses to sit inside the WebSite, so search engines can attribute "this list of works belongs to this page" instead of inferring it. Pure metadata, no visual change. -->
         <script type="application/ld+json">
         {
             "@context": "https://schema.org",
             "@type": "ItemList",
+            "@id": "https://jacobhl.com/#projects",
+            "isPartOf": { "@id": "https://jacobhl.com/#webpage" },
             "name": "Projects by Jacob Heifetz-Licht",
             "itemListOrder": "https://schema.org/ItemListOrderAscending",
             "itemListElement": [
@@ -992,7 +995,8 @@
                     <!-- rel="me" marks these as Jacob's own verified identity profiles — the HTML-level companion to the LinkedIn/GitHub URLs already declared as sameAs in the JSON-LD Person node above. It's the identity/authorship signal read by search engines and rel-me consumers (IndieAuth, Mastodon verification); keeping rel="me" in sync with sameAs is the standard practice. Additive rel token — no visual change, no behaviour change (noopener/noreferrer are preserved). Applied to every link to these two profiles site-wide (footer + Projects row below). -->
                     <a href="https://www.linkedin.com/in/jacobhl/" class="home__social-icon" target="_blank" rel="me noopener noreferrer" aria-label="LinkedIn profile"><i class='bx bxl-linkedin' aria-hidden="true"></i></a>
                     <a href="https://github.com/jacobhl3ca" class="home__social-icon" target="_blank" rel="me noopener noreferrer" aria-label="GitHub profile"><i class='bx bxl-github' aria-hidden="true"></i></a>
-                    <a href="mailto:hi@jacobhl.com" class="home__social-icon" aria-label="Send email" style="margin-bottom: 0.75rem;"><i class='bx bx-envelope' aria-hidden="true"></i></a>
+                    <!-- rel="me": completes the identity marking within this home__social block. The LinkedIn and GitHub links just above already carry rel="me" (Jacob's own verified profiles, matching the JSON-LD Person sameAs), and the footer's mailto to this same address does too — but this hero-social mailto, a mailto to Jacob's own verified address (an explicitly supported rel-me identity target), was the one link in the block still missing it. Additive rel token — no visual or behaviour change (no target="_blank" here, so no noopener/noreferrer needed). -->
+                    <a href="mailto:hi@jacobhl.com" class="home__social-icon" rel="me" aria-label="Send email" style="margin-bottom: 0.75rem;"><i class='bx bx-envelope' aria-hidden="true"></i></a>
                     <a href="#contact" class="home__social-icon" onclick="event.preventDefault(); requestResume()" aria-label="Request resume"><i class='bx bx-file' aria-hidden="true"></i></a> <!-- preventDefault so the browser's instant #contact fragment jump doesn't fight requestResume()'s own reduced-motion-aware smooth scroll, reset the focus it just placed in the form, or pollute the URL with #contact. The plain href stays as the no-JS fallback (onclick won't run then). -->
                 </div>
 
@@ -1245,6 +1249,8 @@
                         <input type="text" name="_gotcha" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden;">
                         <!-- Formspree reads a field named _subject to set the notification email's subject line; without it these submissions land in Jacob's inbox under Formspree's generic default ("New submission from your form"), indistinguishable from other forms. A fixed, identifiable subject makes portfolio contact messages easy to spot and filter. Hidden fixed value, kept out of the tab order and the accessibility tree — no visual or user-facing behaviour change. -->
                         <input type="hidden" name="_subject" value="New message from jacobhl.com" tabindex="-1" aria-hidden="true">
+                        <!-- Formspree _next names the URL to return to after a submission. The JS path (main-alt.js) AJAX-posts this form with Accept: application/json, so Formspree answers with JSON and the page handles its own "Sending…/Sent!" status — _next is ignored on that path. But with JavaScript disabled the form does a plain native POST, and Formspree then shows its own generic hosted "thank you" page, stranding the visitor on formspree.io with no link back to the site. _next sends that no-JS visitor back to the contact section instead. Hidden fixed value, kept out of the tab order and the accessibility tree; completes the Formspree hidden-field set (_gotcha, _subject) already here. No visual change and no effect on the JS/AJAX path. -->
+                        <input type="hidden" name="_next" value="https://jacobhl.com/#contact" tabindex="-1" aria-hidden="true">
                         <!-- Mobile-input hints for a proper-name field: capitalize each word (matches how names are written), turn off autocorrect so an unusual surname isn't "corrected" into a dictionary word as it's typed (iOS Safari autocorrects text inputs by default), and turn off spellcheck so real names aren't flagged with red squiggles. All editable hints, no visual change on desktop. Mirrors the weather dashboard's search input (autocapitalize + autocorrect + spellcheck). -->
                         <input type="text" name="name" placeholder="Your Name" class="contact__input" aria-label="Your name" autocomplete="name" autocapitalize="words" autocorrect="off" spellcheck="false" required>
                         <!-- Mobile-input hints for the email field, mirroring the name field above: turn off autocapitalize so the local part isn't capitalized as it's typed, autocorrect off so an address isn't "corrected" mid-entry (iOS autocorrects text inputs by default), and spellcheck off so email addresses aren't flagged with red squiggles. type="email" already picks the right keyboard; these just stop the input being mangled. All editable hints, no visual change on desktop. -->
@@ -1267,7 +1273,8 @@
 
                 <a href="https://github.com/jacobhl3ca" class="footer__icon" target="_blank" rel="me noopener noreferrer" aria-label="GitHub profile"><i class='bx bxl-github' aria-hidden="true"></i></a>
 
-                <a href="mailto:hi@jacobhl.com" class="footer__icon" aria-label="Send email"><i class='bx bx-envelope' aria-hidden="true"></i></a>
+                <!-- rel="me" completes the footer's identity set: the LinkedIn and GitHub links beside this one already assert "this profile is mine" via rel="me" (the microformats2 / IndieAuth identity relation), and a mailto to Jacob's own verified address is an explicitly supported rel-me target — so this was the one contact link still outside the identity graph. Additive rel only (no target="_blank" here, so no noopener/noreferrer needed); browsers ignore rel on rendering, so no visual or behaviour change. -->
+                <a href="mailto:hi@jacobhl.com" class="footer__icon" rel="me" aria-label="Send email"><i class='bx bx-envelope' aria-hidden="true"></i></a>
 
             </div>
 
