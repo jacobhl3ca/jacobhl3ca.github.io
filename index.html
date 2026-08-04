@@ -169,10 +169,13 @@
         }
         </script>
         <!-- ItemList of Jacob's live projects: the projects section is the homepage's most substantial content (rendered as cards, and mirrored in the no-JS <noscript> lists), but those works had no structured-data node — the graph modeled the Person, WebSite, and ProfilePage, but never what Jacob has actually built. This names each live project as a CreativeWork whose creator is the same #person node, so search engines can associate Jacob's entity with his body of work (Knowledge Graph "creator of"). Each name/URL/description mirrors what the page already shows in the visible cards and the <noscript> fallback lists (Google requires structured data to reflect on-page content), and each URL is the same live site its card opens. Order matches the visible card order. Pure metadata, no visual change. -->
+        <!-- @id + isPartOf tie this list into the site's @id graph the way every other node here already is: the individual projects reference the Person via each item's creator, but the ItemList container itself was the one structured-data node on the homepage still floating unconnected — the Person (#person), WebSite (#website), and ProfilePage (#webpage) are all cross-referenced, and building.html's BreadcrumbList was connected to its WebPage the same way in a prior run. isPartOf points at the homepage's ProfilePage (#webpage) — the page this list actually appears on — using the same one-directional isPartOf link the ProfilePage uses to sit inside the WebSite, so search engines can attribute "this list of works belongs to this page" instead of inferring it. Pure metadata, no visual change. -->
         <script type="application/ld+json">
         {
             "@context": "https://schema.org",
             "@type": "ItemList",
+            "@id": "https://jacobhl.com/#projects",
+            "isPartOf": { "@id": "https://jacobhl.com/#webpage" },
             "name": "Projects by Jacob Heifetz-Licht",
             "itemListOrder": "https://schema.org/ItemListOrderAscending",
             "itemListElement": [
