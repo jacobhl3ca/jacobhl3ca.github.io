@@ -165,7 +165,7 @@
             "about": { "@id": "https://jacobhl.com/#person" },
             "mainEntity": { "@id": "https://jacobhl.com/#person" },
             "inLanguage": "en-US",
-            "dateModified": "2026-08-03"
+            "dateModified": "2026-08-04"
         }
         </script>
         <!-- ItemList of Jacob's live projects: the projects section is the homepage's most substantial content (rendered as cards, and mirrored in the no-JS <noscript> lists), but those works had no structured-data node — the graph modeled the Person, WebSite, and ProfilePage, but never what Jacob has actually built. This names each live project as a CreativeWork whose creator is the same #person node, so search engines can associate Jacob's entity with his body of work (Knowledge Graph "creator of"). Each name/URL/description mirrors what the page already shows in the visible cards and the <noscript> fallback lists (Google requires structured data to reflect on-page content), and each URL is the same live site its card opens. Order matches the visible card order. Pure metadata, no visual change. -->
@@ -1150,7 +1150,7 @@
                         END V2 -->
 
                         <div class="skills__category">
-                            <h4 class="skills__category-title" id="skills-cat-langs"><i class='bx bx-code-alt skills__icon' aria-hidden="true"></i> Languages & Scripting</h4>
+                            <h4 class="skills__category-title" id="skills-cat-langs"><i class='bx bx-code-alt skills__icon' aria-hidden="true"></i> Languages &amp; Scripting</h4>
                             <div class="skills__tags" role="list" aria-labelledby="skills-cat-langs"> <!-- expose the styled pills as a list so screen readers announce them as grouped, countable items (WCAG 1.3.1) rather than run-together text; role has no visual effect -->
                                 <span class="skills__tag" role="listitem">Python</span>
                                 <span class="skills__tag" role="listitem">SQL</span>
@@ -1173,7 +1173,7 @@
                         -->
 
                         <div class="skills__category">
-                            <h4 class="skills__category-title" id="skills-cat-dataviz"><i class='bx bx-bar-chart-alt-2 skills__icon' aria-hidden="true"></i> Data & Visualization</h4>
+                            <h4 class="skills__category-title" id="skills-cat-dataviz"><i class='bx bx-bar-chart-alt-2 skills__icon' aria-hidden="true"></i> Data &amp; Visualization</h4>
                             <div class="skills__tags" role="list" aria-labelledby="skills-cat-dataviz">
                                 <span class="skills__tag" role="listitem">Tableau</span>
                                 <span class="skills__tag" role="listitem">Looker</span>
@@ -1196,7 +1196,7 @@
                         </div>
 
                         <div class="skills__category">
-                            <h4 class="skills__category-title" id="skills-cat-automation"><i class='bx bx-cog skills__icon' aria-hidden="true"></i> Automation & Infrastructure</h4>
+                            <h4 class="skills__category-title" id="skills-cat-automation"><i class='bx bx-cog skills__icon' aria-hidden="true"></i> Automation &amp; Infrastructure</h4>
                             <div class="skills__tags" role="list" aria-labelledby="skills-cat-automation">
                                 <span class="skills__tag" role="listitem">Process Automation</span>
                                 <span class="skills__tag" role="listitem">ETL Pipelines</span>
@@ -1208,7 +1208,7 @@
                         </div>
 
                         <div class="skills__category">
-                            <h4 class="skills__category-title" id="skills-cat-strategy"><i class='bx bx-bulb skills__icon' aria-hidden="true"></i> Strategy & Leadership</h4>
+                            <h4 class="skills__category-title" id="skills-cat-strategy"><i class='bx bx-bulb skills__icon' aria-hidden="true"></i> Strategy &amp; Leadership</h4>
                             <div class="skills__tags" role="list" aria-labelledby="skills-cat-strategy">
                                 <span class="skills__tag" role="listitem">Analytics Strategy</span>
                                 <span class="skills__tag" role="listitem">Stakeholder Communication</span>
@@ -1244,7 +1244,8 @@
             <section class="contact section" id="contact" aria-labelledby="contact-heading">
                 <h2 class="section-title" id="contact-heading">Contact</h2>
                 <div class="contact__container bd-grid">
-                    <form action="https://formspree.io/f/mkgqkgyr" method="POST" class="contact__form">
+                    <!-- aria-label names the form so it's exposed as a form landmark for screen-reader landmark navigation. A <form> only maps to the ARIA "form" landmark when it has an accessible name; without one this — the site's primary contact/conversion point — was reachable only by scrolling, not from the landmarks menu. The name is "Contact form" rather than "Contact" so it reads distinctly from the enclosing "Contact" section region (aria-labelledby="contact-heading" on the <section>), instead of two identically-named landmarks. Continues the site's deliberate landmark-labelling pattern (nav aria-label="Primary", the "View mode" group, weather/'s role="search" "City weather search" region). Semantics only — no visual or behaviour change. -->
+                    <form action="https://formspree.io/f/mkgqkgyr" method="POST" class="contact__form" aria-label="Contact form">
                         <!-- Formspree honeypot: hidden from people, but bots fill it in — those submissions are silently discarded as spam. Kept out of the tab order and the accessibility tree. -->
                         <input type="text" name="_gotcha" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden;">
                         <!-- Formspree reads a field named _subject to set the notification email's subject line; without it these submissions land in Jacob's inbox under Formspree's generic default ("New submission from your form"), indistinguishable from other forms. A fixed, identifiable subject makes portfolio contact messages easy to spot and filter. Hidden fixed value, kept out of the tab order and the accessibility tree — no visual or user-facing behaviour change. -->
