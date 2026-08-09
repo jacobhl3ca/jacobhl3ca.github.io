@@ -1332,7 +1332,11 @@
              work; no visual or behaviour change. -->
         <script defer src="assets/js/main-alt.js"></script>
 
-        <!-- Inline JS moved to assets/js/main.js on 2026-03-27 -->
+        <!-- The homepage's behaviour (nav, theme/view toggles, scroll-spy, contact form, modal preview)
+             lives in the deferred assets/js/main-alt.js above — the page's inline JS was extracted to an
+             external file on 2026-03-27. (main.js, the sibling file, is the variant loaded only by the
+             noindex index_with_animation.html — this page does NOT load it, despite an earlier note here
+             that pointed at main.js.) -->
 
         <!-- GoatCounter analytics -->
         <script data-goatcounter="https://jacobhl.goatcounter.com/count"
