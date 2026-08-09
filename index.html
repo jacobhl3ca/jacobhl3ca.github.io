@@ -165,7 +165,7 @@
             "about": { "@id": "https://jacobhl.com/#person" },
             "mainEntity": { "@id": "https://jacobhl.com/#person" },
             "inLanguage": "en-US",
-            "dateModified": "2026-08-04"
+            "dateModified": "2026-08-05"
         }
         </script>
         <!-- ItemList of Jacob's live projects: the projects section is the homepage's most substantial content (rendered as cards, and mirrored in the no-JS <noscript> lists), but those works had no structured-data node — the graph modeled the Person, WebSite, and ProfilePage, but never what Jacob has actually built. This names each live project as a CreativeWork whose creator is the same #person node, so search engines can associate Jacob's entity with his body of work (Knowledge Graph "creator of"). Each name/URL/description mirrors what the page already shows in the visible cards and the <noscript> fallback lists (Google requires structured data to reflect on-page content), and each URL is the same live site its card opens. Order matches the visible card order. Pure metadata, no visual change. -->
@@ -178,6 +178,7 @@
             "isPartOf": { "@id": "https://jacobhl.com/#webpage" },
             "name": "Projects by Jacob Heifetz-Licht",
             "itemListOrder": "https://schema.org/ItemListOrderAscending",
+            "numberOfItems": 7,
             "itemListElement": [
                 { "@type": "ListItem", "position": 1, "item": { "@type": "CreativeWork", "name": "HideScore", "url": "https://hidescore.com", "description": "Watch sports highlights without seeing the score.", "creator": { "@id": "https://jacobhl.com/#person" } } },
                 { "@type": "ListItem", "position": 2, "item": { "@type": "CreativeWork", "name": "Tonight NYC", "url": "https://tonightnyc.com", "description": "Every NYC comedy show, filtered to your favorite comedians.", "creator": { "@id": "https://jacobhl.com/#person" } } },
@@ -1257,7 +1258,7 @@
                         <!-- Mobile-input hints for the email field, mirroring the name field above: turn off autocapitalize so the local part isn't capitalized as it's typed, autocorrect off so an address isn't "corrected" mid-entry (iOS autocorrects text inputs by default), and spellcheck off so email addresses aren't flagged with red squiggles. type="email" already picks the right keyboard; these just stop the input being mangled. All editable hints, no visual change on desktop. -->
                         <input type="email" name="email" placeholder="your@email.com" class="contact__input" aria-label="Your email address" autocomplete="email" autocapitalize="off" autocorrect="off" spellcheck="false" required>
                         <textarea name="message" placeholder="Your Message" class="contact__input" aria-label="Your message" rows="10" required></textarea>
-                        <!-- No aria-live here: the button is set disabled on submit (dropping it from the a11y tree), and main-alt.js mirrors the "Sending…/Sent!/Error" status into a dedicated visually-hidden #srStatus live region. Keeping aria-live on the button too caused a redundant/inconsistent double announcement. -->
+                        <!-- No aria-live here: the button is set disabled on submit (dropping it from the a11y tree), and main-alt.js mirrors the "Sending…/Sent!/Error" status into a dedicated visually-hidden #contact-sr-status live region (created in main-alt.js and appended to this form; distinct from the weather dashboard's #srStatus). Keeping aria-live on the button too caused a redundant/inconsistent double announcement. -->
                         <button type="submit" class="contact__button button">Send</button>
                     </form>
                 </div>
@@ -1331,7 +1332,11 @@
              work; no visual or behaviour change. -->
         <script defer src="assets/js/main-alt.js"></script>
 
-        <!-- Inline JS moved to assets/js/main.js on 2026-03-27 -->
+        <!-- The homepage's behaviour (nav, theme/view toggles, scroll-spy, contact form, modal preview)
+             lives in the deferred assets/js/main-alt.js above — the page's inline JS was extracted to an
+             external file on 2026-03-27. (main.js, the sibling file, is the variant loaded only by the
+             noindex index_with_animation.html — this page does NOT load it, despite an earlier note here
+             that pointed at main.js.) -->
 
         <!-- GoatCounter analytics -->
         <script data-goatcounter="https://jacobhl.goatcounter.com/count"
@@ -1444,7 +1449,7 @@ const MORE = [
     github:"https://github.com/jacobhl3ca/safari-pinned-tab-automation" },
   */
   { title:"System Administration", img:"assets/img/docker_dark-thumb.webp?v=1", imgLight:"assets/img/docker_dark_light-thumb.webp?v=1", alt:"Docker logo",
-    one:"Self-hosted media & web apps on a home Linux server.",
+    one:"Self-hosted media &amp; web apps on a home Linux server.",
     full:"Self-hosted web apps and network services on a home Linux server — a full Plex/Jellyfin media-automation stack (Radarr, Sonarr, Prowlarr, Bazarr, SABnzbd), a Homepage dashboard, Umami analytics, and Uptime Kuma monitoring, all containerized (Docker, Docker Compose)." },
 ];
 
