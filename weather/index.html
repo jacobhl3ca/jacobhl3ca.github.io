@@ -249,6 +249,14 @@ body {
   letter-spacing:1px; color:var(--text-dim); margin:0 0 12px;
 }
 
+/* Static "About this dashboard" prose. Reuses .card and .section-title; only the paragraph
+   rhythm is new, since every other block on this page is a stat readout rather than body text. */
+.about p { color:var(--text-dim); font-size:14px; line-height:1.7; margin:0 0 12px; }
+.about p:last-child { margin-bottom:0; }
+.about strong { color:var(--text); font-weight:600; }
+.about a { color:var(--accent); }
+.about h3.section-title { margin-top:22px; }
+
 .loading { text-align:center; padding:60px; color:var(--text-dim); font-size:14px; }
 .spinner { display:inline-block; width:24px; height:24px; border:3px solid var(--card-border); border-top-color:var(--accent); border-radius:50%; animation:spin .8s linear infinite; margin-bottom:12px; }
 @keyframes spin { to { transform:rotate(360deg); } }
@@ -300,6 +308,46 @@ body {
       <div class="card" role="alert" style="text-align:center;">This weather dashboard needs JavaScript to load live data. Please enable JavaScript, or head back to <a href="/" style="color:var(--accent);">jacobhl.com</a>.</div>
     </noscript>
   </div>
+
+  <!-- Static, server-served description of the dashboard. Everything above this point inside
+       #content is injected by JavaScript at runtime, so before this section the page shipped only
+       23 words of real body copy ("Loading weather data…") to any crawler that doesn't execute JS.
+       Google classified the URL as a Soft 404 on that basis (live URL Inspection, 2026-08-10:
+       "Page cannot be indexed: Soft 404", despite crawl allowed + fetch successful + indexing
+       allowed) — the same failure mode, and the same fix, as the subwaytimes station pages. This
+       copy is deliberately static and evergreen: it describes what the dashboard does rather than
+       what today's weather is, so it never contradicts the live data rendered above it. It sits
+       OUTSIDE #content because fetchWeather() overwrites that element's innerHTML wholesale. -->
+  <section class="card about" aria-labelledby="about-title">
+    <h2 class="section-title" id="about-title">About this dashboard</h2>
+    <p>This is a free, live weather dashboard for any city in the world. It opens on
+      <strong>New York, NY</strong> by default — type a city into the search box above to switch.
+      Everything on the page is current observed and forecast data, refreshed each time you load
+      or search, with no account, no sign-up and no ads.</p>
+    <p>Each search returns five things: <strong>current conditions</strong> (temperature, what it
+      actually feels like, wind, and a plain-language summary of the sky); a
+      <strong>humidity comfort</strong> reading that translates relative humidity into whether the
+      air will feel muggy, comfortable or dry; <strong>air quality</strong> with the US AQI value
+      and its health category; <strong>sunrise and sunset</strong> times for that location;
+      an <strong>hourly rain chance</strong> for the next 12 hours, so you can see whether a
+      shower lands before or after your commute; and a <strong>5-day forecast</strong> with daily
+      highs and lows. Severe-weather alerts, where the source publishes them, appear in a banner
+      at the top.</p>
+    <h3 class="section-title">Where the data comes from</h3>
+    <p>Weather and air-quality data are supplied by <a href="https://open-meteo.com/"
+      target="_blank" rel="noopener">Open-Meteo</a>, an open-data weather API that aggregates
+      national meteorological services, published under a CC&nbsp;BY&nbsp;4.0 licence. City names
+      are resolved through the same provider's geocoding service. Nothing is stored: the page
+      queries the API directly from your browser each time, so there is no account to create and
+      no search history kept.</p>
+    <h3 class="section-title">Why this exists</h3>
+    <p>I'm <a href="/">Jacob Heifetz-Licht</a>, an analytics manager and web developer in New York.
+      I built this as a small, deliberately fast example of the kind of thing I ship — a single
+      static page, no framework, no build step and no tracking beyond privacy-friendly page counts,
+      that still does something genuinely useful every day. It loads in well under a second on a
+      phone. If you want to see the rest of my work, or you need something similar built,
+      <a href="/">the portfolio is one click away</a>.</p>
+  </section>
 </main>
 
 <!-- Open-Meteo requires attribution: its weather/air-quality data is published under CC BY 4.0. -->

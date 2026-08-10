@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!-- Redirect stub for /contact.
+
+     GoatCounter recorded live traffic to /contact (title "Page Not Found — Jacob Heifetz-Licht"),
+     so people are reaching for the bare path even though every internal link on the site points at
+     the fragment /#contact — the contact form is a section of the single-page homepage, not a page
+     of its own. GitHub Pages served those visits a hard 404. This stub hands them to the real
+     section instead.
+
+     noindex: this is a redirect, not content. The homepage already owns the contact section and is
+     the canonical target; letting Google index a stub that instantly leaves would just compete with
+     it. "follow" so the outbound link still passes discovery, matching the /me/ stub's reasoning.
+     Deliberately NOT added to sitemap.xml for the same reason. -->
+<meta name="robots" content="noindex, follow">
+<link rel="canonical" href="https://jacobhl.com/">
+<!-- No-JS fallback: the meta refresh fires even with scripting disabled. The script below does the
+     same hop without leaving a history entry, so Back returns where the visitor came from rather
+     than bouncing them through this stub again. -->
+<meta http-equiv="refresh" content="0; url=/#contact">
+<!-- Match the site-wide chrome/icon pattern (index.html, 404.html, light/, weather/) so the brief
+     redirect paint doesn't flash a default-dark canvas or fire a 404 for /favicon.ico. -->
+<meta name="theme-color" content="#0f1520">
+<link rel="icon" type="image/x-icon" href="/assets/img/favicon.ico">
+<title>Contact Jacob Heifetz-Licht</title>
+<meta name="description" content="Get in touch with Jacob Heifetz-Licht — analytics manager and web developer in New York.">
+</head>
+<body>
+<p>Redirecting to <a href="/#contact">the contact section on jacobhl.com</a>…</p>
+<script>location.replace('/#contact');</script>
+</body>
+</html>
