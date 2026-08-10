@@ -196,7 +196,15 @@
 <p class="sent" id="ok" role="status" aria-live="polite">Got it — I'll be in touch. 👋</p>
 
 <footer>
-  <a href="https://jacobhl.com">jacobhl.com</a> · hi@jacobhl.com
+  <!-- Make the footer email tappable. This is the in-person hand-off page (QR / AirDrop /
+       texted link) opened almost entirely on phones, yet hi@jacobhl.com sat here as plain
+       text while everything around it was actionable — the sibling jacobhl.com link on this
+       same line, the "Email me" mailto button above, and the site's other footers
+       (index.html's envelope icon, building.html's footer address) all open the mail app on
+       tap. footer a{color:var(--dim)} already styles it to match the muted footer text, so it
+       renders identically to the jacobhl.com link beside it — no visual change beyond the
+       address becoming a link like its neighbor. -->
+  <a href="https://jacobhl.com">jacobhl.com</a> · <a href="mailto:hi@jacobhl.com">hi@jacobhl.com</a>
 </footer>
 
 <script>
