@@ -10,9 +10,30 @@
 <meta name="color-scheme" content="light dark">
 <meta name="theme-color" content="#0b0d12">
 <title>Jacob HL — apps, sites, contact</title>
+<!-- Social preview: this is the in-person hand-off page (QR / AirDrop / texted link), so it is
+     the site's most-shared URL yet was the one shareable page with no og:image or Twitter Card —
+     a shared /me link unfurled as a bare title card with no image. Reuse the site-wide share image
+     (og_image.png, 1200x630, already referenced by light/, tidytab.html, building.html and the
+     homepage variants) and mirror their og/twitter block so the link previews consistently. Only
+     references an existing image — no media asset added. og:url now points at the served /me/
+     directory URL (a bare /me redirects to it), matching the /light/ pattern. Page stays noindex;
+     no visual change to page content. -->
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Jacob Heifetz-Licht">
+<meta property="og:locale" content="en_US">
 <meta property="og:title" content="Jacob HL — apps, sites, contact">
 <meta property="og:description" content="Four iOS apps, the portfolio, and one tap to save my contact.">
-<meta property="og:url" content="https://jacobhl.com/me">
+<meta property="og:url" content="https://jacobhl.com/me/">
+<meta property="og:image" content="https://jacobhl.com/assets/img/og_image.png">
+<meta property="og:image:type" content="image/png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Jacob Heifetz-Licht — Analytics Manager and web developer">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Jacob HL — apps, sites, contact">
+<meta name="twitter:description" content="Four iOS apps, the portfolio, and one tap to save my contact.">
+<meta name="twitter:image" content="https://jacobhl.com/assets/img/og_image.png">
+<meta name="twitter:image:alt" content="Jacob Heifetz-Licht — Analytics Manager and web developer">
 <link rel="icon" type="image/x-icon" href="/assets/img/favicon.ico">
 <style>
   :root{
