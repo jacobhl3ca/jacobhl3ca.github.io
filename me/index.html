@@ -188,6 +188,15 @@
          autocomplete="email" inputmode="email" aria-label="Your email address" required>
   <textarea id="m" name="message" placeholder="Where we met / what you're working on (optional)" aria-label="Message (optional)"></textarea>
   <input type="hidden" name="_subject" value="jacobhl.com/me — someone left their info">
+  <!-- Formspree _next names the URL to return to after submission. The JS path above AJAX-posts
+       with Accept: application/json, so Formspree replies with JSON and this page shows its own
+       "Got it…" status — _next is ignored there. But with JavaScript disabled (or no window.fetch)
+       the form does a plain native POST and Formspree then shows its own generic hosted "thank you"
+       page, stranding the visitor on formspree.io with no way back — worse here than anywhere, since
+       this is the in-person hand-off page a stranger fills out on their phone. _next sends that no-JS
+       visitor back to /me/ instead. Mirrors the same field on index.html's contact form and completes
+       this form's Formspree hidden-field set (_subject, _gotcha). No effect on the JS/AJAX path. -->
+  <input type="hidden" name="_next" value="https://jacobhl.com/me/" tabindex="-1" aria-hidden="true">
   <!-- honeypot: bots fill it, humans never see it -->
   <input type="text" name="_gotcha" tabindex="-1" autocomplete="off"
          style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0" aria-hidden="true">
