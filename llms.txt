@@ -1,0 +1,55 @@
+# Jacob Heifetz-Licht (JacobHL)
+
+> Data analytics leader and app developer in New York City. Also known online as
+> **JacobHL** / **jacobhl** — the handle behind jacobhl.com, github.com/jacobhl3ca and
+> linkedin.com/in/jacobhl. Not to be confused with the SMITE esports player of the same handle.
+
+Jacob has spent years turning messy data into things people actually use — automated
+pipelines, executive dashboards and self-service tools — at Kepler Group, Condé Nast and
+Deloitte. He works mostly in Python, SQL and Tableau, and builds web and mobile apps on the
+side. Rutgers University graduate.
+
+- Site: https://jacobhl.com/
+- Email: hi@jacobhl.com
+- Job title: Analytics Manager
+- Skills: Data analytics, Python, SQL, Tableau, ETL, BigQuery, automation, dashboard
+  design, data visualization, JavaScript, React, Node.js, Next.js, Swift/iOS
+
+## Apps and sites he built
+
+- [HideScore](https://hidescore.com): Watch sports highlights without seeing the score —
+  spoiler-free scores, schedules and highlights. Web app + iOS app.
+- [Tonight NYC](https://tonightnyc.com): Every NYC comedy show tonight, filtered to your
+  favorite comedians.
+- [Subway Times](https://subwaytimes.com): Real-time NYC subway arrival times for every
+  station, faster than Maps.
+- [The Island](https://theisland.nyc): Everything happening on NYC's Roosevelt Island —
+  events, transit and news in one place.
+- [TidyTab](https://tidytab.jacobhl.com/): A macOS menu-bar app that bulk-unpins or closes
+  Safari pinned tabs.
+- [DuelGoat](https://duelgoat.com): A browser recreation of GOAT-format Yu-Gi-Oh dueling.
+- [David Licht](https://davidlicht.com): A showcase site for drummer David Licht — five
+  decades of drumming.
+
+## Other projects
+
+- Spotify Analytics: Interactive dashboard of listening trends, beyond Wrapped.
+- Spotify Playlist Archiver: Auto-archives playlists that would otherwise disappear.
+- Personal Finance App: Daily budgeting, investment planning and optimization.
+- E-commerce Store: Full-stack store with Stripe checkout.
+- System Administration: Self-hosted media and web apps on a home Linux server.
+
+## Profiles
+
+- LinkedIn: https://www.linkedin.com/in/jacobhl/
+- GitHub: https://github.com/jacobhl3ca
+- App Store developer: https://apps.apple.com/us/developer/jacob-heifetz-licht/id1895127194
+- Tableau Public: https://public.tableau.com/app/profile/jacob.heifetz.licht
+- Devpost: https://devpost.com/jacobhl
+- about.me: https://about.me/jacobhl
+
+## Pages
+
+- [Home / portfolio](https://jacobhl.com/)
+- [NYC weather dashboard](https://jacobhl.com/weather/)
+- [Building notes](https://jacobhl.com/building.html)
