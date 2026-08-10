@@ -3,6 +3,7 @@
     "short_name": "Jacob HL",
     "description": "Data analytics leader and web developer specializing in Python, SQL, Tableau, React, and Next.js. Turning data into things people actually use.",
     "lang": "en-US",
+    "dir": "ltr",
     "id": "/",
     "start_url": "/",
     "scope": "/",
