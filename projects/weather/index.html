@@ -18,6 +18,23 @@
 <link rel="canonical" href="https://jacobhl.com/weather/">
 <!-- Name the document's author, consistent with the production /weather/ dashboard this copies and every other page site-wide (index.html, weather/, building.html, 404.html, refer/, light/ all declare it) — this leftover /projects/weather/ copy was the one page still missing it. Purely document metadata surfaced by some browsers, tools, and reader modes; no visual change and no effect on this copy's noindex status. -->
 <meta name="author" content="Jacob Heifetz-Licht">
+<!-- Link-preview (Open Graph / Twitter) tags so a shared or pasted /projects/weather/ direct URL unfurls with a branded card instead of a bare, title-only (or blank) preview. This leftover copy shipped none — the one remaining head field, noted in the description comment above, still setting it apart from the production /weather/ dashboard, whose OG/Twitter block this mirrors verbatim (same title/description, the site-wide shared og_image.png — an existing asset, nothing new added). og:url points at the canonical /weather/ (matching the rel=canonical above) so the preview and its link resolve to the authoritative dashboard rather than this noindex duplicate. noindex is unaffected — OG tags drive social/chat unfurls, not search indexing. No visual change to page content. -->
+<meta property="og:title" content="Weather Dashboard — NYC">
+<meta property="og:description" content="A live weather dashboard with current conditions, hourly rain chance, a 5-day forecast, air quality, and sun times. Search any city — defaults to New York, NY.">
+<meta property="og:image" content="https://jacobhl.com/assets/img/og_image.png">
+<meta property="og:image:type" content="image/png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Jacob Heifetz-Licht — Analytics Manager and web developer">
+<meta property="og:url" content="https://jacobhl.com/weather/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Jacob Heifetz-Licht">
+<meta property="og:locale" content="en_US">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Weather Dashboard — NYC">
+<meta name="twitter:description" content="A live weather dashboard with current conditions, hourly rain chance, a 5-day forecast, air quality, and sun times. Search any city — defaults to New York, NY.">
+<meta name="twitter:image" content="https://jacobhl.com/assets/img/og_image.png">
+<meta name="twitter:image:alt" content="Jacob Heifetz-Licht — Analytics Manager and web developer">
 <!-- Warm the TLS connections to the Google Fonts hosts before the render-blocking Poppins stylesheet below is requested. That stylesheet blocks first paint, and without a preconnect the browser only starts the (DNS + TCP + TLS) handshake to fonts.googleapis.com once it discovers the <link> — then repeats it for the font-file host fonts.gstatic.com. Preconnecting both up front overlaps those handshakes with head parsing so the font CSS and woff2 arrive sooner. crossorigin on the gstatic hint so the warmed socket is reused for the CORS woff2 fetch. This leftover /projects/weather/ copy was loading the same font cold; the production /weather/ dashboard it copies already ships exactly these two preconnects. Resource hints only — no visual or behaviour change. -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -188,7 +205,15 @@ body {
      unchanged. Semantics only — no visual change. -->
 <main class="container">
   <h1 class="visually-hidden">Weather Dashboard</h1>
-  <div class="search-bar">
+  <!-- role="search" + aria-label expose this as the search landmark, so screen-reader landmark
+       navigation can jump straight to the city-search box (and the whole page's only interactive
+       region). A bare <div> maps to generic and provides no landmark at all, so this copy's search
+       box was unreachable by landmark nav — the production /weather/ dashboard it copies already
+       wraps the identical box in <div class="search-bar" role="search" aria-label="City weather
+       search">. Mirrored verbatim so both copies expose the same landmark; the input inside keeps
+       its own aria-label ("Search for a city") as the control's name. Semantics only — no visual
+       change. -->
+  <div class="search-bar" role="search" aria-label="City weather search">
     <!-- aria-label gives the city search box a real accessible name. A placeholder is not a label: it's advisory text that many screen readers don't announce as the field's name and that vanishes on input, so this field otherwise reached assistive tech as an unnamed "edit text" (WCAG 1.3.1 / 4.1.2). This leftover /projects/weather/ copy was the one still missing the name; the production /weather/ dashboard it copies already labels the identical input aria-label="Search for a city". Added the same label so both copies name the field. No visual change — the placeholder text is unchanged. -->
     <!-- Mobile input hints, matching the production /weather/ dashboard's identical search box (which carries this exact hint set). enterkeyhint="search" labels the on-screen keyboard's Enter key as a search action — correct here because the field really does search on Enter (the keydown handler below calls fetchWeather) as well as via the Search button. autocomplete="off": this is a live-search box, not a stored-profile field, so the browser's autofill dropdown (saved names/addresses) is irrelevant and can cover the results as they load. autocapitalize="words" matches how city names are written; autocorrect="off" stops an unusual place name being "corrected" into a dictionary word as it's typed (iOS autocorrects text inputs by default); spellcheck="false" keeps real place names from being flagged with red squiggles. This leftover copy was the one still missing the set the production sibling already has. All editable/keyboard hints — no visual change to the settled field on desktop, and no behaviour change (Enter already searched). -->
     <input type="text" id="cityInput" placeholder="Search city..." value="New York, NY" aria-label="Search for a city" enterkeyhint="search" autocomplete="off" autocapitalize="words" autocorrect="off" spellcheck="false">

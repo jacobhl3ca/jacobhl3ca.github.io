@@ -12,6 +12,25 @@
   <!-- Root-absolute favicon so this redirect stub shows the site icon in the browser tab (and on the visible fallback below when the instant redirect is slow or blocked) instead of firing a 404 for the default /favicon.ico. tidytab.html was the one production page site-wide still missing this — every other page (index.html, 404.html, building.html, weather/, light/) already declares it. Completes the site-wide favicon pattern; no effect on the normal redirect path. -->
   <link rel="icon" type="image/x-icon" href="/assets/img/favicon.ico">
   <title>TidyTab — moved to tidytab.jacobhl.com</title>
+  <!-- Social-share metadata: this stub is a legacy landing point for the TidyTab app (old links, App Store support URLs, printed/QR references) and is far more likely to be shared and unfurled than crawled — yet it was the one shareable stub site-wide carrying no Open Graph/Twitter tags, so a scraper (which reads this served HTML rather than following the JS/meta-refresh redirect to tidytab.jacobhl.com) rendered a bare card: just the "moved to…" <title>, with no image or summary. Give it a proper preview that describes what TidyTab is, reusing the app's own canonical one-liner (the same text in this site's projects JSON-LD and project card) and its existing cover image — no media asset added. Mirrors the OG/Twitter blocks the site's other shareable stubs already carry (light/, building.html). Read only by social scrapers; no effect on the normal redirect path, and the page stays noindex. -->
+  <meta name="description" content="Bulk unpin or close Safari pinned tabs — a macOS menu-bar app.">
+  <meta property="og:title" content="TidyTab">
+  <meta property="og:description" content="Bulk unpin or close Safari pinned tabs — a macOS menu-bar app.">
+  <meta property="og:image" content="https://jacobhl.com/assets/img/tidytab-cover.png">
+  <meta property="og:image:type" content="image/png">
+  <meta property="og:image:width" content="2004">
+  <meta property="og:image:height" content="1072">
+  <meta property="og:image:alt" content="TidyTab — a macOS menu-bar app for bulk-managing Safari pinned tabs">
+  <!-- og:url points at the canonical home of this content (the tidytab.jacobhl.com subdomain the page redirects and canonicalizes to), so a shared jacobhl.com/tidytab link resolves social signals onto the real app URL. -->
+  <meta property="og:url" content="https://tidytab.jacobhl.com/">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Jacob Heifetz-Licht">
+  <meta property="og:locale" content="en_US">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="TidyTab">
+  <meta name="twitter:description" content="Bulk unpin or close Safari pinned tabs — a macOS menu-bar app.">
+  <meta name="twitter:image" content="https://jacobhl.com/assets/img/tidytab-cover.png">
+  <meta name="twitter:image:alt" content="TidyTab — a macOS menu-bar app for bulk-managing Safari pinned tabs">
   <link rel="canonical" href="https://tidytab.jacobhl.com/">
   <meta name="robots" content="noindex">
   <meta http-equiv="refresh" content="0; url=https://tidytab.jacobhl.com/">
