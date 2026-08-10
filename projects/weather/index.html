@@ -18,6 +18,23 @@
 <link rel="canonical" href="https://jacobhl.com/weather/">
 <!-- Name the document's author, consistent with the production /weather/ dashboard this copies and every other page site-wide (index.html, weather/, building.html, 404.html, refer/, light/ all declare it) — this leftover /projects/weather/ copy was the one page still missing it. Purely document metadata surfaced by some browsers, tools, and reader modes; no visual change and no effect on this copy's noindex status. -->
 <meta name="author" content="Jacob Heifetz-Licht">
+<!-- Link-preview (Open Graph / Twitter) tags so a shared or pasted /projects/weather/ direct URL unfurls with a branded card instead of a bare, title-only (or blank) preview. This leftover copy shipped none — the one remaining head field, noted in the description comment above, still setting it apart from the production /weather/ dashboard, whose OG/Twitter block this mirrors verbatim (same title/description, the site-wide shared og_image.png — an existing asset, nothing new added). og:url points at the canonical /weather/ (matching the rel=canonical above) so the preview and its link resolve to the authoritative dashboard rather than this noindex duplicate. noindex is unaffected — OG tags drive social/chat unfurls, not search indexing. No visual change to page content. -->
+<meta property="og:title" content="Weather Dashboard — NYC">
+<meta property="og:description" content="A live weather dashboard with current conditions, hourly rain chance, a 5-day forecast, air quality, and sun times. Search any city — defaults to New York, NY.">
+<meta property="og:image" content="https://jacobhl.com/assets/img/og_image.png">
+<meta property="og:image:type" content="image/png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Jacob Heifetz-Licht — Analytics Manager and web developer">
+<meta property="og:url" content="https://jacobhl.com/weather/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Jacob Heifetz-Licht">
+<meta property="og:locale" content="en_US">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Weather Dashboard — NYC">
+<meta name="twitter:description" content="A live weather dashboard with current conditions, hourly rain chance, a 5-day forecast, air quality, and sun times. Search any city — defaults to New York, NY.">
+<meta name="twitter:image" content="https://jacobhl.com/assets/img/og_image.png">
+<meta name="twitter:image:alt" content="Jacob Heifetz-Licht — Analytics Manager and web developer">
 <!-- Warm the TLS connections to the Google Fonts hosts before the render-blocking Poppins stylesheet below is requested. That stylesheet blocks first paint, and without a preconnect the browser only starts the (DNS + TCP + TLS) handshake to fonts.googleapis.com once it discovers the <link> — then repeats it for the font-file host fonts.gstatic.com. Preconnecting both up front overlaps those handshakes with head parsing so the font CSS and woff2 arrive sooner. crossorigin on the gstatic hint so the warmed socket is reused for the CORS woff2 fetch. This leftover /projects/weather/ copy was loading the same font cold; the production /weather/ dashboard it copies already ships exactly these two preconnects. Resource hints only — no visual or behaviour change. -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
