@@ -21,9 +21,23 @@
      same hop without leaving a history entry, so Back returns where the visitor came from rather
      than bouncing them through this stub again. -->
 <meta http-equiv="refresh" content="0; url=/#contact">
-<!-- Match the site-wide chrome/icon pattern (index.html, 404.html, light/, weather/) so the brief
-     redirect paint doesn't flash a default-dark canvas or fire a 404 for /favicon.ico. -->
-<meta name="theme-color" content="#0f1520">
+<!-- Match the site-wide chrome/icon pattern so the brief redirect paint (the visible <p> fallback,
+     shown when the instant JS/meta-refresh hop is slow or blocked) matches the homepage this stub
+     hands off to, and so it doesn't fire a 404 for the default /favicon.ico.
+
+     theme-color #ffffff (not the earlier dark #0f1520): this stub redirects to /#contact on the
+     light-default homepage, and index.html / 404.html — the pages this comment names as its model —
+     both declare #ffffff since the 2026-07-18 light-default redesign. A dark chrome tint here made
+     the mobile address bar flash dark for the redirect paint and then jump to the homepage's white
+     chrome; #ffffff removes that flash and actually matches the named pattern.
+
+     color-scheme "light dark": every other page site-wide declares color-scheme (this stub was the
+     only one missing it), pairing it with its theme-color. "light dark" mirrors index.html / 404.html
+     — it matches the document's literal default (light; the homepage ships with no dark preference)
+     while still advertising dark-mode support for a returning visitor who chose it, so the bare
+     fallback <p> renders on the right canvas either way instead of the OS default. -->
+<meta name="theme-color" content="#ffffff">
+<meta name="color-scheme" content="light dark">
 <link rel="icon" type="image/x-icon" href="/assets/img/favicon.ico">
 <title>Contact Jacob Heifetz-Licht</title>
 <meta name="description" content="Get in touch with Jacob Heifetz-Licht — analytics manager and web developer in New York.">
