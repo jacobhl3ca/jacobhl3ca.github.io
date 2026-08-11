@@ -147,8 +147,16 @@
      Web, Web" with nothing tying each to its app (WCAG 2.4.4, Link Purpose). This mirrors how the
      rest of the site names its links — index.html's project CTAs use aria-label="Download {app} on
      the App Store" and refer/ uses aria-label="Open the {brand} offer". Label-only; no visual change. -->
+<!-- decoding="async" on the four app-icon images so their decode runs off the render path
+     instead of blocking paint. This is the site-wide pattern for content images — every other
+     content <img> already carries it (building.html's avatar, all of refer/'s logos, and the
+     homepage's images) — and these four icons were the only ones still missing it. Deliberately
+     WITHOUT loading="lazy": these cards sit at the top of this short page (above the fold on a
+     phone), and lazy-loading above-the-fold images delays them, so this follows building.html's
+     above-fold avatar precedent (decoding="async" only, no lazy) rather than refer/'s below-fold
+     logos (which pair both). Attribute-only; no visual change. -->
 <div class="card">
-  <img src="icons/hidescore.png" alt="" width="54" height="54">
+  <img src="icons/hidescore.png" alt="" width="54" height="54" decoding="async">
   <div class="meta"><b>HideScore</b><span>Sports scores with no spoilers</span></div>
   <div class="btns">
     <a class="btn store" href="https://apps.apple.com/app/hidescore/id6766885311" aria-label="HideScore on the App Store">App Store</a>
@@ -157,7 +165,7 @@
 </div>
 
 <div class="card">
-  <img src="icons/tonightnyc.png" alt="" width="54" height="54">
+  <img src="icons/tonightnyc.png" alt="" width="54" height="54" decoding="async">
   <div class="meta"><b>Tonight NYC</b><span>NYC comedy lineups, your way</span></div>
   <div class="btns">
     <a class="btn store" href="https://apps.apple.com/app/id6763027650" aria-label="Tonight NYC on the App Store">App Store</a>
@@ -166,7 +174,7 @@
 </div>
 
 <div class="card">
-  <img src="icons/subwaytimes.png" alt="" width="54" height="54">
+  <img src="icons/subwaytimes.png" alt="" width="54" height="54" decoding="async">
   <div class="meta"><b>SubwayTimes</b><span>Live NYC train times</span></div>
   <div class="btns">
     <a class="btn store" href="https://apps.apple.com/us/app/subwaytimes/id6775994423" aria-label="SubwayTimes on the App Store">App Store</a>
@@ -175,7 +183,7 @@
 </div>
 
 <div class="card">
-  <img src="icons/roosevelt.png" alt="" width="54" height="54">
+  <img src="icons/roosevelt.png" alt="" width="54" height="54" decoding="async">
   <div class="meta"><b>Roosevelt Island</b><span>Transit, alerts &amp; island guide</span></div>
   <div class="btns">
     <a class="btn store" href="https://apps.apple.com/us/app/roosevelt-island/id6775979583" aria-label="Roosevelt Island on the App Store">App Store</a>
