@@ -52,4 +52,4 @@ side. Rutgers University graduate.
 
 - [Home / portfolio](https://jacobhl.com/)
 - [NYC weather dashboard](https://jacobhl.com/weather/)
-- [Building notes](https://jacobhl.com/building.html)
+- [Website & app help — pay what you want](https://jacobhl.com/building.html): pay-what-you-want website and app help for neighbors in the building.
