@@ -41,6 +41,32 @@
 <link rel="icon" type="image/x-icon" href="/assets/img/favicon.ico">
 <title>Contact Jacob Heifetz-Licht</title>
 <meta name="description" content="Get in touch with Jacob Heifetz-Licht — analytics manager and web developer in New York.">
+<!-- Social-share metadata: GoatCounter records live traffic to the bare /contact path (see the
+     redirect note above), so this URL gets shared and unfurled, yet it was the one shareable stub
+     site-wide still carrying no Open Graph/Twitter tags — a scraper (which reads this served HTML
+     rather than following the JS/meta-refresh hop to /#contact) rendered a bare card: just the
+     <title>, with no image or summary. Give it a proper preview, reusing the site-wide og_image.png
+     (no media asset added) exactly as 404.html and light/ do, and mirroring the OG/Twitter blocks
+     the site's other redirect stubs already carry (tidytab.html, light/). og:url points at the real
+     destination this stub redirects to (/#contact) so a shared /contact preview resolves onto the
+     homepage's contact section. Read only by social scrapers; no effect on the normal redirect path,
+     and the page stays noindex. -->
+<meta property="og:title" content="Contact Jacob Heifetz-Licht">
+<meta property="og:description" content="Get in touch with Jacob Heifetz-Licht — analytics manager and web developer in New York.">
+<meta property="og:image" content="https://jacobhl.com/assets/img/og_image.png">
+<meta property="og:image:type" content="image/png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Jacob Heifetz-Licht — Analytics Manager and web developer">
+<meta property="og:url" content="https://jacobhl.com/#contact">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Jacob Heifetz-Licht">
+<meta property="og:locale" content="en_US">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Contact Jacob Heifetz-Licht">
+<meta name="twitter:description" content="Get in touch with Jacob Heifetz-Licht — analytics manager and web developer in New York.">
+<meta name="twitter:image" content="https://jacobhl.com/assets/img/og_image.png">
+<meta name="twitter:image:alt" content="Jacob Heifetz-Licht — Analytics Manager and web developer">
 </head>
 <body>
 <p>Redirecting to <a href="/#contact">the contact section on jacobhl.com</a>…</p>
