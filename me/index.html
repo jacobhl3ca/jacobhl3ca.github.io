@@ -138,6 +138,16 @@
   <p class="sub">Four apps I built · the portfolio · my contact</p>
 </header>
 
+<!-- Wrap the page's primary content (apps → portfolio → contact) in a <main> landmark. This
+     page already exposes a banner (<header>) and contentinfo (<footer>), but its main content
+     sat in bare body-level elements, so screen-reader landmark navigation had no "main" region
+     to jump to. This was the one content page still missing it — index.html, 404.html,
+     weather/, building.html, and refer/ all use <main> — and it's the site's most-shared, most-
+     handed-off URL (QR / AirDrop), where quick landmark navigation matters most. <main> is
+     display:block and the CSS uses no body-direct-child (body > *) selectors, so wrapping these
+     elements changes no layout. Semantics only — no visual change; page stays noindex. -->
+<main>
+
 <h2>My apps</h2>
 
 <!-- aria-label per link so each "App Store"/"Web" link carries its app's name as its accessible
@@ -231,6 +241,8 @@
   <button type="submit">Send it to Jacob</button>
 </form>
 <p class="sent" id="ok" role="status" aria-live="polite">Got it — I'll be in touch. 👋</p>
+
+</main>
 
 <footer>
   <!-- Make the footer email tappable. This is the in-person hand-off page (QR / AirDrop /
