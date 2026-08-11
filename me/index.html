@@ -20,6 +20,16 @@
 <meta name="theme-color" content="#f6f7fb" media="(prefers-color-scheme: light)">
 <meta name="theme-color" content="#0b0d12" media="(prefers-color-scheme: dark)">
 <title>Jacob HL — apps, sites, contact</title>
+<!-- Base meta description: this page already ships an og:description and twitter:description
+     (the social-preview block below), but was the one page site-wide with no plain
+     <meta name="description"> — every other page (index.html, weather/, building.html, refer/,
+     contact/, 404.html, light/) declares one. The description tag is read by browsers, reader
+     modes, and non-Google tools regardless of the noindex above (noindex only governs search
+     indexing, not whether the tag is consumed), and share targets that read the standard
+     description rather than the OG tags now get the same summary. Content mirrors the
+     og:description just below, matching how refer/ — this page's noindex share-by-link twin —
+     keeps its meta and og descriptions identical. Pure metadata, no visual change. -->
+<meta name="description" content="Four iOS apps, the portfolio, and one tap to save my contact.">
 <!-- Social preview: this is the in-person hand-off page (QR / AirDrop / texted link), so it is
      the site's most-shared URL yet was the one shareable page with no og:image or Twitter Card —
      a shared /me link unfurled as a bare title card with no image. Reuse the site-wide share image
