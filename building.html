@@ -261,5 +261,13 @@
      Async and non-blocking — no visual or behaviour change to the page. -->
 <script data-goatcounter="https://jacobhl.goatcounter.com/count"
         async src="//gc.zgo.at/count.js"></script>
+<!-- Umami beacon (self-hosted, stats.hidescore.com). index.html has carried this since the
+     fleet rollout, but the sub-pages never got it, so the sites dashboard's jacobhl.com row
+     was homepage-only — /weather/, /building.html and this page reported nothing at all while
+     GoatCounter saw them fine. Same website-id as the homepage so it stays ONE row on the
+     dashboard rather than splitting per page. data-domains is mandatory fleet-wide: it is the
+     only own-traffic exclusion that survives a hotspot or a dropped VPN, since IGNORE_IP only
+     covers the home/exit-node IP. Co-exists with GoatCounter; both count the same visit. -->
+<script defer src="https://stats.hidescore.com/script.js" data-website-id="ae74c209-399b-416b-b340-b8dfac70cfa3" data-domains="jacobhl.com,www.jacobhl.com"></script>
 </body>
 </html>
