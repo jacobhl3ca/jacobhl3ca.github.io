@@ -107,6 +107,7 @@
         <meta name="twitter:image" content="https://jacobhl.com/assets/img/og_image.png">
         <meta name="twitter:image:alt" content="Jacob Heifetz-Licht — Analytics Manager and web developer">
         <link rel="canonical" href="https://jacobhl.com/">
+        <!-- address gives the Person entity a location signal for Knowledge-Graph / entity disambiguation, the same enrichment role the node's jobTitle, alumniOf, knowsAbout and sameAs already play. It only surfaces to structured-data consumers a fact this site already states in plain sight — the homepage meta description reads "…in New York, known online as JacobHL", the weather page's copy says "an analytics manager and web developer in New York", and the weather dashboard defaults to "New York, NY" — so nothing new or more precise is disclosed than the page copy. Deliberately city-level only (addressLocality/addressRegion/addressCountry, no street address) — that's all the site publishes. Pure metadata, no visual change. -->
         <script type="application/ld+json">
         {
             "@context": "https://schema.org",
@@ -121,6 +122,12 @@
             "image": "https://jacobhl.com/assets/img/about.jpg",
             "email": "hi@jacobhl.com",
             "jobTitle": "Analytics Manager",
+            "address": {
+                "@type": "PostalAddress",
+                "addressLocality": "New York",
+                "addressRegion": "NY",
+                "addressCountry": "US"
+            },
             "description": "Data analytics leader and web developer specializing in Python, SQL, Tableau, React, and Next.js. Turning data into things people actually use.",
             "sameAs": [
                 "https://www.linkedin.com/in/jacobhl/",
