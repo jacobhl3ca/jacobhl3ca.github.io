@@ -794,6 +794,15 @@
     border-radius:50%;animation:spin 0.8s linear infinite;}
   .modal-load a{color:var(--first-color);text-decoration:none;}
   @keyframes spin{to{transform:rotate(360deg)}}
+  /* Honour reduced-motion for the modal's loading spinner. This infinite-rotation ring is the one
+     remaining continuous animation on a live element (the hero scroll-down arrow is already stilled
+     in its own reduced-motion block above; the pulsing ccu-dot is commented out), so a visitor who
+     asked their OS to reduce motion still got a spinner while a project's details loaded. Mirrors
+     the weather dashboard's reduced-motion rule, which likewise sets its .spinner animation to none.
+     The ring stays visible as a static loading affordance — only the rotation stops. */
+  @media (prefers-reduced-motion: reduce){
+    .modal-load .spin{animation:none;}
+  }
 
   @media(max-width:576px){
     .proj-thumb{flex:0 0 120px;}            /* stretches to the (now shorter) card height */
