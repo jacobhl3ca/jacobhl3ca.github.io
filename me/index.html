@@ -8,7 +8,17 @@
      "follow" so the outbound links still pass discovery signals. -->
 <meta name="robots" content="noindex,follow">
 <meta name="color-scheme" content="light dark">
-<meta name="theme-color" content="#0b0d12">
+<!-- Media-scoped theme-color so the mobile browser chrome (address/status bar) tracks the page's
+     actual background in each mode. This page has no JS theme toggle — it is themed purely by
+     prefers-color-scheme (the @media block below swaps --bg to #f6f7fb in light mode) — so a single
+     static value was wrong for one mode: the lone #0b0d12 (the dark --bg) left the chrome dark while
+     the page rendered light on a light-mode phone. Two variants fix that: #f6f7fb matches the light
+     --bg, #0b0d12 the dark --bg. This is the site's most-shared mobile URL (QR / AirDrop / texted
+     hand-off), so the chrome mismatch was most visible exactly here. Mirrors the same media-scoped
+     theme-color already on refer/ (another JS-less, prefers-color-scheme-themed page). No visual
+     change to page content. -->
+<meta name="theme-color" content="#f6f7fb" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0b0d12" media="(prefers-color-scheme: dark)">
 <title>Jacob HL — apps, sites, contact</title>
 <!-- Social preview: this is the in-person hand-off page (QR / AirDrop / texted link), so it is
      the site's most-shared URL yet was the one shareable page with no og:image or Twitter Card —
