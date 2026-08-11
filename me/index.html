@@ -228,9 +228,15 @@
 
 <form id="f" action="https://formspree.io/f/mkgqkgyr" method="POST">
   <label for="n">…or leave yours and I'll reach out</label>
-  <input id="n" name="name" type="text" placeholder="Your name" autocomplete="name" aria-label="Your name" required>
+  <!-- Mobile keyboard hints, matching index.html's contact form. This is the in-person hand-off
+       page a stranger fills out on their phone, so these matter more here than anywhere: the name
+       field capitalizes every word (so "jacob heifetz-licht" → "Jacob Heifetz-Licht", not just the
+       first word the default "sentences" would give), and both fields turn off autocorrect/spellcheck
+       so the phone doesn't "correct" a real name or flag a valid email with a red squiggle. The email
+       field is explicitly lowercase (autocapitalize="off"). No visual change to the settled fields. -->
+  <input id="n" name="name" type="text" placeholder="Your name" autocomplete="name" autocapitalize="words" autocorrect="off" spellcheck="false" aria-label="Your name" required>
   <input id="e" name="email" type="email" placeholder="you@email.com"
-         autocomplete="email" inputmode="email" aria-label="Your email address" required>
+         autocomplete="email" inputmode="email" autocapitalize="off" autocorrect="off" spellcheck="false" aria-label="Your email address" required>
   <textarea id="m" name="message" placeholder="Where we met / what you're working on (optional)" aria-label="Message (optional)"></textarea>
   <input type="hidden" name="_subject" value="jacobhl.com/me — someone left their info">
   <!-- Formspree _next names the URL to return to after submission. The JS path above AJAX-posts
