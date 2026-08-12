@@ -61,7 +61,27 @@
 <meta name="twitter:description" content="Four iOS apps, the portfolio, and one tap to save my contact.">
 <meta name="twitter:image" content="https://jacobhl.com/assets/img/og_image.png">
 <meta name="twitter:image:alt" content="Jacob Heifetz-Licht — Analytics Manager and web developer">
+<!-- Self-referential canonical for this share/hand-off page's own directory URL (a bare /me
+     redirects here, and trailing-slash / query-tagged variants of a texted or QR'd link all
+     resolve here) so any signals consolidate onto the one canonical /me/ URL. Unlike light/ and
+     contact/ — redirect stubs that canonicalise to the homepage — this page has its own distinct
+     content, so it points at itself, exactly as its noindex share-by-link twin refer/ already does
+     (https://jacobhl.com/refer/). Matches the og:url declared just above; me/ was the one real
+     content page site-wide still missing a canonical (the 404 omits one by design, being served
+     for many URLs). Page stays noindex; canonical and noindex are independent signals. No visual
+     change. -->
+<link rel="canonical" href="https://jacobhl.com/me/">
 <link rel="icon" type="image/x-icon" href="/assets/img/favicon.ico">
+<!-- Warm the two third-party hosts this page actually contacts, mirroring the dns-prefetch hints
+     every other page carries for its own third parties. stats.hidescore.com serves the Umami beacon
+     (the deferred script at end of body) that fires on EVERY load, so its DNS was otherwise looked
+     up cold each visit; formspree.io receives the contact form's on-submit POST, so resolving it up
+     front keeps the lookup off the send path (mirrors index.html's identical formspree hint). This
+     share/hand-off page — opened almost entirely on phones over mobile networks, where a cold DNS
+     lookup costs most — was the one page site-wide with no resource hints at all. Pure resource
+     hints, no visual or behaviour change. -->
+<link rel="dns-prefetch" href="//stats.hidescore.com">
+<link rel="dns-prefetch" href="//formspree.io">
 <style>
   :root{
     --bg:#0b0d12; --card:#151922; --card2:#1b2029; --line:#272e3b;
