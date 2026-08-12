@@ -72,6 +72,16 @@
      change. -->
 <link rel="canonical" href="https://jacobhl.com/me/">
 <link rel="icon" type="image/x-icon" href="/assets/img/favicon.ico">
+<!-- Warm the two third-party hosts this page actually contacts, mirroring the dns-prefetch hints
+     every other page carries for its own third parties. stats.hidescore.com serves the Umami beacon
+     (the deferred script at end of body) that fires on EVERY load, so its DNS was otherwise looked
+     up cold each visit; formspree.io receives the contact form's on-submit POST, so resolving it up
+     front keeps the lookup off the send path (mirrors index.html's identical formspree hint). This
+     share/hand-off page — opened almost entirely on phones over mobile networks, where a cold DNS
+     lookup costs most — was the one page site-wide with no resource hints at all. Pure resource
+     hints, no visual or behaviour change. -->
+<link rel="dns-prefetch" href="//stats.hidescore.com">
+<link rel="dns-prefetch" href="//formspree.io">
 <style>
   :root{
     --bg:#0b0d12; --card:#151922; --card2:#1b2029; --line:#272e3b;
