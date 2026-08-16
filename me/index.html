@@ -72,7 +72,7 @@
      change. -->
 <link rel="canonical" href="https://jacobhl.com/me/">
 <link rel="icon" type="image/x-icon" href="/assets/img/favicon.ico">
-<!-- Warm the two third-party hosts this page actually contacts, mirroring the dns-prefetch hints
+<!-- Warm two of the third-party hosts this page contacts, mirroring the dns-prefetch hints
      every other page carries for its own third parties. stats.hidescore.com serves the Umami beacon
      (the deferred script at end of body) that fires on EVERY load, so its DNS was otherwise looked
      up cold each visit; formspree.io receives the contact form's on-submit POST, so resolving it up
@@ -82,6 +82,12 @@
      hints, no visual or behaviour change. -->
 <link rel="dns-prefetch" href="//stats.hidescore.com">
 <link rel="dns-prefetch" href="//formspree.io">
+<!-- GoatCounter hosts, matching the beacon added at end of body and the resource-hint pattern
+     every other GoatCounter page (index.html, 404.html, building.html, weather/, refer/) carries:
+     gc.zgo.at serves the async count.js, and jacobhl.goatcounter.com receives the pageview hit
+     count.js then sends — warm both so neither DNS lookup lands cold on the beacon path. -->
+<link rel="dns-prefetch" href="//gc.zgo.at">
+<link rel="dns-prefetch" href="//jacobhl.goatcounter.com">
 <style>
   :root{
     --bg:#0b0d12; --card:#151922; --card2:#1b2029; --line:#272e3b;
@@ -345,6 +351,15 @@
   });
 })();
 </script>
+<!-- GoatCounter analytics — the same privacy-first, cookieless snippet every other content page
+     carries (index.html, 404.html, building.html, weather/, refer/), so visits to this share/QR
+     hand-off card are counted in the same dashboard. me/ was the one content page site-wide still
+     missing it: it carried only the Umami beacon below, whose own note already assumes GoatCounter
+     "co-exists" here ("both count the same visit") — but GoatCounter was in fact absent, so this
+     page's views never reached the GoatCounter dashboard the other pages report to. Async and
+     non-blocking — no visual or behaviour change. -->
+<script data-goatcounter="https://jacobhl.goatcounter.com/count"
+        async src="//gc.zgo.at/count.js"></script>
 <!-- Umami beacon (self-hosted, stats.hidescore.com). index.html has carried this since the
      fleet rollout, but the sub-pages never got it, so the sites dashboard's jacobhl.com row
      was homepage-only — /weather/, /building.html and this page reported nothing at all while

@@ -277,7 +277,7 @@
   .nav__logo { position: relative; top: 1px; }
   .view-pill__btn { position: relative; top: 1px; }
 }
-/* When projects-only is active, show just Projects (+ Contact) */
+/* When projects-only is active, show just the Projects section — the hero, about, skills, nav, and the contact form below are all hidden (the contact form's email + social links stay reachable in the always-visible footer). */
 html.projects-only #home,
 html.projects-only #about,
 html.projects-only #skills,
