@@ -32,7 +32,15 @@
   <meta name="twitter:image" content="https://jacobhl.com/assets/img/tidytab-cover.png">
   <meta name="twitter:image:alt" content="TidyTab — a macOS menu-bar app for bulk-managing Safari pinned tabs">
   <link rel="canonical" href="https://tidytab.jacobhl.com/">
-  <meta name="robots" content="noindex">
+  <!-- Make the crawl-follow directive explicit ("noindex, follow"), matching every other noindex page
+       site-wide — 404.html, contact/, me/, light/, index_with_animation.html and the preview pages all
+       spell out "noindex, follow"; refer/ deliberately uses "noindex, nofollow" for its sponsored links.
+       tidytab.html was the one page still leaving it as a bare "noindex". Bare "noindex" already implies
+       follow (the default), so this is behaviour-preserving — but stating it removes ambiguity and, more
+       to the point, matches intent: this stub's only outbound link is to its own canonical subdomain
+       (tidytab.jacobhl.com, above), which should be followed so discovery signals flow to the real app
+       home the page redirects to. Completes the site-wide robots pattern. No effect on the redirect path. -->
+  <meta name="robots" content="noindex, follow">
   <meta http-equiv="refresh" content="0; url=https://tidytab.jacobhl.com/">
   <script>location.replace("https://tidytab.jacobhl.com/" + location.hash);</script>
 <!-- sentry -->
