@@ -88,6 +88,13 @@
      count.js then sends — warm both so neither DNS lookup lands cold on the beacon path. -->
 <link rel="dns-prefetch" href="//gc.zgo.at">
 <link rel="dns-prefetch" href="//jacobhl.goatcounter.com">
+<!-- Resolve the Sentry CDN host ahead of the error-monitoring loader added just before </head>
+     below, matching the hint every other Sentry-carrying page warms (index.html, 404.html,
+     building.html, weather/, refer/). dns-prefetch (DNS only) rather than preconnect keeps this
+     non-render-critical monitoring script from opening a speculative connection. me/ was the one
+     full content page still without Sentry (see the loader note below); this warms its host too.
+     Pure resource hint, no visual or behaviour change. -->
+<link rel="dns-prefetch" href="//js.sentry-cdn.com">
 <style>
   :root{
     --bg:#0b0d12; --card:#151922; --card2:#1b2029; --line:#272e3b;
@@ -163,6 +170,16 @@
   html.android .only-android{display:block}
   html.android .btns .store, html.desktop .btns .store{order:2}
 </style>
+<!-- Sentry error monitoring, the same loader every other real page carries (index.html, 404.html,
+     building.html, weather/, refer/, and the light/ + tidytab stubs). me/ was the one full content
+     page still without it, yet it runs the most client JS of the leaf pages — the platform-class UA
+     sniff and, more importantly, the AbortController-bounded AJAX contact-form submit — so a runtime
+     break in that form (this is the QR/AirDrop hand-off page a stranger fills out on their phone) was
+     the one such failure site-wide that reported to nothing. Same DSN as every other page, so its
+     errors land in the same project; the async loader adds no visual or behaviour change. -->
+<!-- sentry -->
+<script src="https://js.sentry-cdn.com/ac636d393a29ab42c76e116c2d4d0cad.min.js" crossorigin="anonymous"></script>
+<!-- /sentry -->
 </head>
 <body>
 
