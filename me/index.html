@@ -265,7 +265,16 @@
 
 <h2>Stay in touch</h2>
 <div class="row" style="margin-bottom:10px">
-  <a class="btn wide" href="jacob.vcf" download>Save my contact</a>
+  <!-- Give the vCard download an explicit, recognizable filename. With a bare `download` the
+       browser saves the file under its URL basename ("jacob.vcf"), so on a desktop save it lands
+       in Downloads as a terse, anonymous name. This is the site's most-handed-off page (QR /
+       AirDrop / texted link) where "Save my contact" is the primary action, so the saved file
+       should read as a person's name. Matches the descriptive download filenames the site already
+       sets elsewhere (the résumé download uses "Jacob_Heifetz_Licht_Resume.pdf"), keeping the same
+       underscore convention. Attribute-only, same-origin file — the download itself is unchanged;
+       only its suggested filename improves. On mobile (tap-to-open into Contacts) the filename is
+       irrelevant, so nothing regresses there. No visual change. -->
+  <a class="btn wide" href="jacob.vcf" download="Jacob_Heifetz_Licht.vcf">Save my contact</a>
   <a class="btn wide ghost" href="mailto:hi@jacobhl.com?subject=Nice%20meeting%20you&amp;body=Hi%20Jacob%2C%0A%0AWe%20met%20at%3A%20%0A%0A">Email me</a>
 </div>
 
