@@ -25,7 +25,7 @@
     "image": "https://jacobhl.com/assets/img/og_image.png",
     "description": "A live weather dashboard with current conditions, hourly rain chance, a 5-day forecast, air quality, and sun times. Search any city — defaults to New York, NY.",
     "inLanguage": "en-US",
-    "dateModified": "2026-08-11",
+    "dateModified": "2026-08-16",
     "isPartOf": { "@id": "https://jacobhl.com/#website" },
     "applicationCategory": "UtilitiesApplication",
     "operatingSystem": "Web browser",
@@ -45,6 +45,7 @@
     "breadcrumb": { "@id": "https://jacobhl.com/weather/#breadcrumb" }
 }
 </script>
+<!-- dateModified above is kept in sync with this page's <lastmod> in sitemap.xml: after this node was last set to 2026-08-11, the About-copy "five things" → "six" miscount fix (a genuine content edit, live via PR #50) landed on this page, and the sitemap lastmod was refreshed to 2026-08-16 to track it — so this node, left at 2026-08-11, had drifted and is now synced back up to it. Same freshness-signal sync the homepage's ProfilePage and building.html's WebPage nodes use. Unlike the homepage ProfilePage (a rich-result type that requires a full ISO datetime + offset), WebApplication is not a rich-result type, so date-only granularity — mirroring the sitemap's — is fine here, as the homepage's dateModified note explicitly permits. Pure metadata, no visual change. -->
 <!-- Breadcrumb trail: this dashboard is a sub-page that's independently indexed (it's in the sitemap and canonical'd) but sits one level under the homepage — the visible "← Back to jacobhl.com" link is its informal breadcrumb. Formalize that Home → Weather Dashboard hierarchy so search engines can model the page's place in the site and show a breadcrumb in results instead of the raw URL. Continues the site's linked-data pattern (Person → WebSite → WebApplication). The #breadcrumb @id (and the matching "breadcrumb" reference just added to the WebApplication node above) ties this list into the site's @id graph the way every other node here is cross-referenced — it was the one structured-data node on this page still floating unconnected, the same gap already closed on building.html. Google's breadcrumb guidance associates a page's BreadcrumbList with its main entity via this exact property, so the link also makes "which page owns this trail" explicit rather than inferred. Pure metadata, no visual change. -->
 <script type="application/ld+json">
 {

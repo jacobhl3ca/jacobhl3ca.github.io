@@ -178,7 +178,7 @@
             "about": { "@id": "https://jacobhl.com/#person" },
             "mainEntity": { "@id": "https://jacobhl.com/#person" },
             "inLanguage": "en-US",
-            "dateModified": "2026-08-11T00:00:00-04:00"
+            "dateModified": "2026-08-16T00:00:00-04:00"
         }
         </script>
         <!-- ⛔ dateModified above MUST stay a full ISO 8601 datetime with a time AND a timezone offset (YYYY-MM-DDThh:mm:ss±hh:mm). Google's ProfilePage structured-data spec requires the time+offset on this field specifically, and a bare "YYYY-MM-DD" trips the Search Console warning "Invalid datetime value for dateModified" (first detected 2026-08-10, fixed 2026-08-11). Keep the DATE half in sync with this page's <lastmod> in sitemap.xml as before — just never drop the T-time or the offset when refreshing it. This is a ProfilePage-only requirement; the WebPage/WebApplication nodes on building.html and weather/ are not rich-result types and may stay date-only. -->
@@ -1419,7 +1419,11 @@ const MAIN = [
     one:"Every NYC comedy show, filtered to your favorite comedians.",
     full:"No more digging for comedy showtimes, stick to your favorite comedians. Includes every NYC show from the Comedy Cellar, The Stand, and more, filtered your way. Mark favorites and skips, see which set to attend at a glance, and book directly.",
     site:"https://tonightnyc.com", appstore:"https://apps.apple.com/app/id6763027650" },
-  { title:"Subway Times", live:true, img:"assets/img/subwaytimes-cover-thumb.webp?v=1", imgLight:"assets/img/subwaytimes-cover-light-thumb.webp?v=1", url:"https://subwaytimes.com",
+  // noEmbed: subwaytimes.com's own CSP/X-Frame-Options refuses iframe embedding (as the modal-noembed
+  // CSS/JS comments already note), so the live-preview iframe would just sit blank until the 6s timeout
+  // text. This flag routes its preview straight to the built-but-until-now-unwired poster fallback
+  // (cover image + "Open subwaytimes.com ↗"), the exact case that feature was added for.
+  { title:"Subway Times", live:true, noEmbed:true, img:"assets/img/subwaytimes-cover-thumb.webp?v=1", imgLight:"assets/img/subwaytimes-cover-light-thumb.webp?v=1", url:"https://subwaytimes.com",
     one:"Real-time NYC subway arrivals, faster than Maps.",
     full:"Quicker than Google Maps for simple departures, especially from your home station. Real-time NYC subway arrivals, where you can favorite your stations, see countdown timers down to the second, and get out the door faster.",
     site:"https://subwaytimes.com", appstore:"https://apps.apple.com/us/app/subwaytimes/id6775994423" },
