@@ -75,6 +75,17 @@
 <meta name="twitter:description" content="Get in touch with Jacob Heifetz-Licht — analytics manager and web developer in New York.">
 <meta name="twitter:image" content="https://jacobhl.com/assets/img/og_image.png">
 <meta name="twitter:image:alt" content="Jacob Heifetz-Licht — Analytics Manager and web developer">
+<!-- Sentry error monitoring, the same loader (same DSN) every other page on the site carries —
+     including the two sibling redirect stubs, light/ and tidytab.html. contact/ was the one page
+     site-wide still without it, so a runtime break on this stub (e.g. the location.replace redirect
+     below, or the visible <p> fallback shown when the instant hop is slow/blocked) reported to
+     nothing while every other page's did — a lone gap in the site's monitoring coverage. Placed at
+     the end of <head> exactly as the other stubs do; deliberately WITHOUT a matching dns-prefetch,
+     matching those stubs' convention (redirect stubs skip resource hints since they navigate away
+     instantly). Async loader, no visual change and no effect on the normal redirect path. -->
+<!-- sentry -->
+<script src="https://js.sentry-cdn.com/ac636d393a29ab42c76e116c2d4d0cad.min.js" crossorigin="anonymous"></script>
+<!-- /sentry -->
 </head>
 <body>
 <p>Redirecting to <a href="/#contact">the contact section on jacobhl.com</a>…</p>
