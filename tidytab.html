@@ -14,6 +14,13 @@
   <title>TidyTab — moved to tidytab.jacobhl.com</title>
   <!-- Social-share metadata: this stub is a legacy landing point for the TidyTab app (old links, App Store support URLs, printed/QR references) and is far more likely to be shared and unfurled than crawled — yet it was the one shareable stub site-wide carrying no Open Graph/Twitter tags, so a scraper (which reads this served HTML rather than following the JS/meta-refresh redirect to tidytab.jacobhl.com) rendered a bare card: just the "moved to…" <title>, with no image or summary. Give it a proper preview that describes what TidyTab is, reusing the app's own canonical one-liner (the same text in this site's projects JSON-LD and project card) and its existing cover image — no media asset added. Mirrors the OG/Twitter blocks the site's other shareable stubs already carry (light/, building.html). Read only by social scrapers; no effect on the normal redirect path, and the page stays noindex. -->
   <meta name="description" content="Bulk unpin or close Safari pinned tabs — a macOS menu-bar app.">
+  <!-- Name the document's author, the standard document-identity field every full page (index.html,
+       me/, building.html, weather/, 404.html, refer/) and the redirect stubs light/ and contact/ already
+       declare — tidytab.html was the last page site-wide still missing it, so this closes out the
+       site-wide author-metadata pattern the prior runs built. Purely document metadata surfaced by some
+       browsers, tools, and reader modes; no visual change and no effect on the redirect path (the page
+       stays noindex and still hops to tidytab.jacobhl.com via the JS/meta-refresh below). -->
+  <meta name="author" content="Jacob Heifetz-Licht">
   <meta property="og:title" content="TidyTab">
   <meta property="og:description" content="Bulk unpin or close Safari pinned tabs — a macOS menu-bar app.">
   <meta property="og:image" content="https://jacobhl.com/assets/img/tidytab-cover.png">
