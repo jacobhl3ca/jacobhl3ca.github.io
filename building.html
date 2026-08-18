@@ -143,6 +143,20 @@
      to the surrounding plain text. No visual change. */
   footer a{color:inherit;text-decoration:none}
 
+  /* Branded keyboard-focus ring on every interactive element here — the six work tiles, the
+     two CTA buttons, and the tappable email/phone links in the contact line and footer. This
+     flyer is self-contained (its own inline styles, not styles.css), so it sat outside the
+     site-wide :focus-visible rings the main pages get from styles.css (and that weather/ and
+     refer/ carry inline) — it was the one page still falling back to the inconsistent UA-default
+     outline, worst on the dark-filled a.button where a thin default ring barely reads against
+     the near-black fill (WCAG 2.4.7 Focus Visible). Uses the page's own --blue accent with a 2px
+     offset; the outline follows each element's own border-radius. Scoped to :focus-visible, so
+     mouse/touch focus shows no ring and the resting design is unchanged. */
+  .wtile:focus-visible,
+  a.button:focus-visible,
+  .contactline a:focus-visible,
+  footer a:focus-visible{outline:2px solid var(--blue);outline-offset:2px}
+
   /* Respect a reduced-motion preference. The only motion on this page is the
      .wtile hover lift (translateY + shadow/border transition); neutralise it so
      visitors who ask the OS to "reduce motion" get a static hover instead. This
