@@ -252,7 +252,14 @@
 </div>
 
 <p class="note only-ios">
-  <a href="https://apps.apple.com/us/developer/jacob-heifetz-licht/id1895127194">See all four on my App Store page →</a>
+  <!-- The trailing → is a decorative "go there" cue, so hide it from assistive tech (aria-hidden) —
+       otherwise a screen reader appends "right arrow" to this link's accessible name ("See all four
+       on my App Store page, right arrow"). Matches the site's consistent decorative-glyph pattern
+       (building.html's ↗ tiles, weather/'s ←/↑/↓ and emoji all wrap the same way); this link was the
+       one bare decorative arrow left in the page's visible text. The neighbouring "Chrome menu →
+       Add to Home screen" arrow stays as-is — there it's meaningful (the menu path), not decorative.
+       Leading space kept inside the span so the spacing is byte-for-byte identical. No visual change. -->
+  <a href="https://apps.apple.com/us/developer/jacob-heifetz-licht/id1895127194">See all four on my App Store page<span aria-hidden="true"> →</span></a>
 </p>
 <p class="note only-android">
   Android versions are in closed testing — the web links above install to your home screen
