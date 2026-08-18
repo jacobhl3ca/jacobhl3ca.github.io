@@ -375,6 +375,20 @@ html.projects-only #nav-toggle {
   border-color: var(--first-color);
 }
 
+/* Keyboard focus for the resume-password modal's field: :focus above removes the
+   outline and leaves only a border-color change as the cue — weaker than, and
+   inconsistent with, the 2px accent ring every other focusable control on the site
+   ships (contact inputs, buttons, nav/footer links; WCAG 2.4.7 Focus Visible). Add
+   the same branded ring on :focus-visible so keyboard users get an equally strong,
+   consistent indicator; the rule sits after the :focus block so it wins the equal-
+   specificity tie for keyboard focus. Scoped to :focus-visible, so mouse/touch focus
+   keeps just the border-color highlight (no visual change there). Mirrors the paired
+   .contact__input / .contact__button focus-visible treatment below. */
+.password-input:focus-visible {
+  outline: 2px solid var(--first-color);
+  outline-offset: 2px;
+}
+
 .password-submit {
   background-color: var(--first-color);
   color: white;
@@ -388,6 +402,17 @@ html.projects-only #nav-toggle {
 
 .password-submit:hover {
   background-color: hsl(var(--hue-color), 89%, 52%); /* a darker shade of --first-color (which is hsl(var(--hue-color),89%,60%)) for the hover state. Was var(--first-color-dark), a token defined nowhere, so hovering produced no colour change. */
+}
+
+/* Keyboard focus for the modal's submit button: it shipped no focus style, so keyboard
+   users got the inconsistent browser-default outline while every other button on the
+   site shows the branded accent ring (WCAG 2.4.7). Give it the same ring, with an offset
+   so it reads against the accent-filled button; scoped to :focus-visible so mouse/touch
+   clicks show no ring. Completes the resume-password modal's focus treatment alongside
+   the field above, matching the paired .contact__input / .contact__button pattern. */
+.password-submit:focus-visible {
+  outline: 2px solid var(--first-color);
+  outline-offset: 2px;
 }
 
 .password-error {
