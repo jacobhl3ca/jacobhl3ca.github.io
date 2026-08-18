@@ -30,6 +30,7 @@
     "url": "https://jacobhl.com/building.html",
     "name": "Website or App Help from Jacob — Pay What You Want",
     "description": "Pay-what-you-want website and app help from Jacob, a software developer in the building. See live work and send your idea.",
+    "image": "https://jacobhl.com/assets/img/og_image.png",
     "inLanguage": "en-US",
     "dateModified": "2026-08-11",
     "isPartOf": { "@id": "https://jacobhl.com/#website" },
@@ -37,6 +38,7 @@
     "breadcrumb": { "@id": "https://jacobhl.com/building.html#breadcrumb" }
 }
 </script>
+<!-- image gives the WebPage entity a primary image, the one recommended field this node was still missing (it already carried url, name, description, inLanguage, dateModified, isPartOf, author and breadcrumb). weather/'s WebApplication node — the site's only other indexed sub-page node — already declares this exact property, so building.html was the lone indexed-page node with no entity image. The value is the page's own og:image (og_image.png, already referenced in the OG/Twitter block below), so it only surfaces to structured-data consumers a picture the page already ships — no media asset added. Pure metadata, no visual change. -->
 <!-- Breadcrumb trail: this flyer/QR landing page is independently indexed but sits one level under the homepage (the same Home → sub-page shape weather/ formalizes). Model that hierarchy so search engines can show a breadcrumb in results instead of the raw building.html URL. Continues the site's linked-data pattern (Person → WebSite → WebPage). The #breadcrumb @id (and the matching "breadcrumb" reference just added to the WebPage node above) ties this list into the site's @id graph the way every other node is cross-referenced — it was the one structured-data node here still floating unconnected. Google's breadcrumb guidance associates a page's BreadcrumbList with its WebPage via this exact property, so the connection also makes the "which page owns this trail" link explicit rather than inferred. Pure metadata, no visual change. -->
 <script type="application/ld+json">
 {
