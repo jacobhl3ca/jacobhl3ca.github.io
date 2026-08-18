@@ -1445,7 +1445,13 @@ const MAIN = [
   //   full:"A neighbor-help app for Roosevelt Island — post what you need or offer a hand, from borrowing a tool to walking a dog, so favors stay local (Next.js, Supabase).",
   //   site:"https://islander.theisland.nyc" },
   // ref (hidden from site): "Developer ID-signed and Apple-notarized, so it downloads and opens cleanly (Python, rumps, py2app)."
-  { title:"TidyTab", live:true, img:"assets/img/tidytab-cover-thumb.webp?v=1", imgLight:"assets/img/tidytab-cover-light-thumb.webp?v=1", url:"https://tidytab.jacobhl.com",
+  // url carries the trailing slash to match the canonical form used for TidyTab everywhere else on the
+  // site (the JSON-LD ItemList item, the no-JS <noscript> link, llms.txt, and tidytab.html's own
+  // canonical/og:url all use https://tidytab.jacobhl.com/). This field both loads the live-preview
+  // iframe (data-url) and renders as the visible .proj-print-url, so the bare-host form showed a URL
+  // differing from the site's canonical and made the preview take an extra 301 redirect to the slash
+  // version. Same destination either way — this only drops the redirect hop and aligns the displayed URL.
+  { title:"TidyTab", live:true, img:"assets/img/tidytab-cover-thumb.webp?v=1", imgLight:"assets/img/tidytab-cover-light-thumb.webp?v=1", url:"https://tidytab.jacobhl.com/",
     one:"Bulk unpin or close Safari pinned tabs — a macOS menu-bar app.",
     full:"A menu-bar app I built to bulk unpin or close Safari pinned tabs in one sweep — it auto-detects your pinned tabs and clears them (press Space to stop).",
     // download now lives on the tidytab.html landing page the preview opens (keeps the card row clean, consistent with the others)
