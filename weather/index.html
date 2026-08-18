@@ -451,6 +451,13 @@ function fetchWithTimeout(url, ms = 15000) {
   return fetch(url, { signal: ctrl.signal }).finally(() => clearTimeout(timer));
 }
 
+// US state/territory postal codes — the only trailing two-letter codes that actually signal a US
+// location. usHinted below tests membership here rather than a bare /[A-Z]{2}/, so a foreign country
+// code (GB, FR, JP…) is NOT mistaken for a US-state hint. Without this "London, GB" and "Paris, FR"
+// matched [A-Z]{2}, flipped usHinted true, and were hijacked to their small US namesakes (London, OH /
+// Paris, TX) — the very thing the geocode comment below says it avoids.
+const US_STATES = new Set(['AL','AK','AZ','AR','CA','CO','CT','DE','FL','GA','HI','ID','IL','IN','IA','KS','KY','LA','ME','MD','MA','MI','MN','MS','MO','MT','NE','NV','NH','NJ','NM','NY','NC','ND','OH','OK','OR','PA','RI','SC','SD','TN','TX','UT','VT','VA','WA','WV','WI','WY','DC','PR','VI','GU','AS','MP']);
+
 async function geocode(city) {
   const cleanCity = city.replace(/,\s*(US|USA|[A-Z]{2})$/i, '').trim();
   const res = await fetchWithTimeout(`https://geocoding-api.open-meteo.com/v1/search?name=${encodeURIComponent(cleanCity)}&count=5&language=en&format=json`);
@@ -458,14 +465,17 @@ async function geocode(city) {
   const data = await res.json();
   if (!data.results?.length) throw new Error('City not found — check the spelling and try another city.');
   // Only prefer a US match when the query actually signalled a US location — i.e. it carried a
-  // trailing US-state code or "US"/"USA" (the same suffix cleanCity strips above). The old
+  // trailing US state/territory code (checked against US_STATES above) or "US"/"USA". The old
   // unconditional find(US) hijacked every ambiguous world city to its US namesake even with no
   // hint: "London" resolved to London, Ohio and "Paris" to Paris, Texas instead of the far
-  // larger London, GB / Paris, FR the searcher almost certainly meant. When there's no US hint,
-  // fall through to results[0] — Open-Meteo already returns matches population-ranked, so
-  // "London" → London, GB while a bare "New York" still lands on NYC (its top result). The
-  // default "New York, NY" search and any explicit "City, ST" query keep resolving to the US city.
-  const usHinted = /,\s*(US|USA|[A-Z]{2})$/i.test(city);
+  // larger London, GB / Paris, FR the searcher almost certainly meant. But its /[A-Z]{2}/ hint test
+  // was itself too broad: a foreign country code (GB, FR, JP…) also matched, so "London, GB" and
+  // "Paris, FR" still flipped usHinted true and were sent to London, OH / Paris, TX. Restrict the
+  // hint to real US codes so those resolve to results[0] — Open-Meteo returns matches population-
+  // ranked, so "London, GB" → London, GB while the default "New York, NY" and any "City, ST" query
+  // keep resolving to the US city.
+  const hintCode = (city.match(/,\s*([A-Za-z]{2,3})\s*$/) || [])[1];
+  const usHinted = !!hintCode && (/^usa?$/i.test(hintCode) || US_STATES.has(hintCode.toUpperCase()));
   const r = (usHinted && data.results.find(x => x.country_code === 'US')) || data.results[0];
   return { lat:r.latitude, lon:r.longitude, name:r.admin1 ? `${r.name}, ${r.admin1}` : `${r.name}, ${r.country}`, tz:r.timezone };
 }
