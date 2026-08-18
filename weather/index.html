@@ -544,8 +544,10 @@ async function fetchWeather() {
     // every success (e.g. "Tokyo, Japan — Weather Dashboard"), but the error path left it
     // untouched — so after one good search, a later failed search (bad city, dropped network)
     // showed the error card while the browser tab still read the previously-loaded city's name.
-    // Fall back to the neutral app title (matching the <h1> and the pre-load static title) so the
-    // tab reflects that no city is currently displayed. No effect on the success path.
+    // Fall back to the neutral app title — the bare <h1> text ("Weather Dashboard"), deliberately
+    // without the "— NYC" suffix the static <title> carries, since the error path is showing no
+    // city at all (not even the NYC default), so the tab reflects that nothing is currently
+    // displayed rather than implying a loaded city. No effect on the success path.
     document.title = 'Weather Dashboard';
     document.getElementById('content').innerHTML = `<div class="card" role="alert" style="text-align:center;color:var(--danger);">${msg}</div>`;
   }
