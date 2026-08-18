@@ -2,7 +2,7 @@ User-agent: *
 Allow: /
 
 # AI answer engines / retrieval crawlers — explicitly welcomed. These fetchers do not run
-# JavaScript, so the machine-readable summary is llms.txt (below) plus the JSON-LD in
+# JavaScript, so the machine-readable summary is /llms.txt plus the JSON-LD in
 # index.html, not the JS-built project cards.
 User-agent: GPTBot
 Allow: /

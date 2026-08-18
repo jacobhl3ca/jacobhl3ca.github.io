@@ -14,6 +14,8 @@
         <link rel="manifest" href="/site.webmanifest">
         <!-- iOS home-screen label: the manifest above sets short_name "Jacob HL" for the Add-to-Home-Screen name, but iOS Safari ignores the manifest's short_name and instead reads apple-mobile-web-app-title (falling back to the full page title element, which it truncates — "Jacob Heifetz-Licht — Analytics Manager" becomes "Jacob Heife…"). This gives iOS the same short "Jacob HL" label Android already gets from the manifest, so a bookmarked icon reads cleanly on both. Deliberately NOT paired with apple-mobile-web-app-capable — that would force a chromeless standalone launch (a behaviour change); this only names the icon. Pure metadata, no visual change to a normal browser tab. -->
         <meta name="apple-mobile-web-app-title" content="Jacob HL">
+        <!-- Generic app name for browsers that pin the site or make a desktop/taskbar shortcut. This completes the site's deliberate cross-platform short-name set — the manifest short_name "Jacob HL" (Android/Chrome install), apple-mobile-web-app-title "Jacob HL" (iOS Safari home screen, above), and the JSON-LD alternateName "Jacob HL" — with the one platform-neutral field still missing. application-name is the standard the non-Apple pinned/shortcut path reads; without it those contexts fall back to the full <title> ("Jacob Heifetz-Licht — Analytics Manager"), the same truncation the apple-mobile-web-app-title note above avoids on iOS. Unlike apple-mobile-web-app-capable it triggers no standalone/chromeless launch — it only names the shortcut. Pure metadata, no visual change to a normal browser tab. -->
+        <meta name="application-name" content="Jacob HL">
         <link rel="preconnect" href="https://cdn.jsdelivr.net"> <!-- early-connect for the render-blocking boxicons CSS fetch (non-CORS, so it can't reuse the crossorigin socket below) -->
         <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin> <!-- early-connect for the boxicons icon font (CORS woff2, crossorigin so the warmed socket is reused) -->
         <link rel="preconnect" href="https://fonts.googleapis.com"> <!-- early-connect to Google Fonts CSS (styles.css @imports Poppins from here, on the critical path) -->
@@ -1022,7 +1024,7 @@
                     <a href="https://github.com/jacobhl3ca" class="home__social-icon" target="_blank" rel="me noopener noreferrer" aria-label="GitHub profile"><i class='bx bxl-github' aria-hidden="true"></i></a>
                     <!-- rel="me": completes the identity marking within this home__social block. The LinkedIn and GitHub links just above already carry rel="me" (Jacob's own verified profiles, matching the JSON-LD Person sameAs), and the footer's mailto to this same address does too — but this hero-social mailto, a mailto to Jacob's own verified address (an explicitly supported rel-me identity target), was the one link in the block still missing it. Additive rel token — no visual or behaviour change (no target="_blank" here, so no noopener/noreferrer needed). -->
                     <a href="mailto:hi@jacobhl.com" class="home__social-icon" rel="me" aria-label="Send email" style="margin-bottom: 0.75rem;"><i class='bx bx-envelope' aria-hidden="true"></i></a>
-                    <a href="#contact" class="home__social-icon" onclick="event.preventDefault(); requestResume()" aria-label="Request resume"><i class='bx bx-file' aria-hidden="true"></i></a> <!-- preventDefault so the browser's instant #contact fragment jump doesn't fight requestResume()'s own reduced-motion-aware smooth scroll, reset the focus it just placed in the form, or pollute the URL with #contact. The plain href stays as the no-JS fallback (onclick won't run then). -->
+                    <a href="#contact" id="home-resume-link" class="home__social-icon" aria-label="Request resume"><i class='bx bx-file' aria-hidden="true"></i></a> <!-- The click is wired in main-alt.js via addEventListener rather than an inline onclick, keeping JS out of the markup — the site's own convention (the homepage's inline JS was extracted to main-alt.js, and the weather dashboard's Search button was moved off its inline handler for the same reason); this was the last inline event handler left in the served markup. The listener calls event.preventDefault() so the browser's instant #contact fragment jump doesn't fight requestResume()'s own reduced-motion-aware smooth scroll, reset the focus it places in the form, or pollute the URL with #contact. The plain href="#contact" stays as the no-JS fallback (the listener never runs then, and until main-alt.js loads a click simply follows the href). -->
                 </div>
 
                 <div class="home__img">
@@ -1443,7 +1445,13 @@ const MAIN = [
   //   full:"A neighbor-help app for Roosevelt Island — post what you need or offer a hand, from borrowing a tool to walking a dog, so favors stay local (Next.js, Supabase).",
   //   site:"https://islander.theisland.nyc" },
   // ref (hidden from site): "Developer ID-signed and Apple-notarized, so it downloads and opens cleanly (Python, rumps, py2app)."
-  { title:"TidyTab", live:true, img:"assets/img/tidytab-cover-thumb.webp?v=1", imgLight:"assets/img/tidytab-cover-light-thumb.webp?v=1", url:"https://tidytab.jacobhl.com",
+  // url carries the trailing slash to match the canonical form used for TidyTab everywhere else on the
+  // site (the JSON-LD ItemList item, the no-JS <noscript> link, llms.txt, and tidytab.html's own
+  // canonical/og:url all use https://tidytab.jacobhl.com/). This field both loads the live-preview
+  // iframe (data-url) and renders as the visible .proj-print-url, so the bare-host form showed a URL
+  // differing from the site's canonical and made the preview take an extra 301 redirect to the slash
+  // version. Same destination either way — this only drops the redirect hop and aligns the displayed URL.
+  { title:"TidyTab", live:true, img:"assets/img/tidytab-cover-thumb.webp?v=1", imgLight:"assets/img/tidytab-cover-light-thumb.webp?v=1", url:"https://tidytab.jacobhl.com/",
     one:"Bulk unpin or close Safari pinned tabs — a macOS menu-bar app.",
     full:"A menu-bar app I built to bulk unpin or close Safari pinned tabs in one sweep — it auto-detects your pinned tabs and clears them (press Space to stop).",
     // download now lives on the tidytab.html landing page the preview opens (keeps the card row clean, consistent with the others)

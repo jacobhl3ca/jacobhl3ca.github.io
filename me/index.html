@@ -252,7 +252,14 @@
 </div>
 
 <p class="note only-ios">
-  <a href="https://apps.apple.com/us/developer/jacob-heifetz-licht/id1895127194">See all four on my App Store page →</a>
+  <!-- The trailing → is a decorative "go there" cue, so hide it from assistive tech (aria-hidden) —
+       otherwise a screen reader appends "right arrow" to this link's accessible name ("See all four
+       on my App Store page, right arrow"). Matches the site's consistent decorative-glyph pattern
+       (building.html's ↗ tiles, weather/'s ←/↑/↓ and emoji all wrap the same way); this link was the
+       one bare decorative arrow left in the page's visible text. The neighbouring "Chrome menu →
+       Add to Home screen" arrow stays as-is — there it's meaningful (the menu path), not decorative.
+       Leading space kept inside the span so the spacing is byte-for-byte identical. No visual change. -->
+  <a href="https://apps.apple.com/us/developer/jacob-heifetz-licht/id1895127194">See all four on my App Store page<span aria-hidden="true"> →</span></a>
 </p>
 <p class="note only-android">
   Android versions are in closed testing — the web links above install to your home screen
@@ -265,7 +272,16 @@
 
 <h2>Stay in touch</h2>
 <div class="row" style="margin-bottom:10px">
-  <a class="btn wide" href="jacob.vcf" download>Save my contact</a>
+  <!-- Give the vCard download an explicit, recognizable filename. With a bare `download` the
+       browser saves the file under its URL basename ("jacob.vcf"), so on a desktop save it lands
+       in Downloads as a terse, anonymous name. This is the site's most-handed-off page (QR /
+       AirDrop / texted link) where "Save my contact" is the primary action, so the saved file
+       should read as a person's name. Matches the descriptive download filenames the site already
+       sets elsewhere (the résumé download uses "Jacob_Heifetz_Licht_Resume.pdf"), keeping the same
+       underscore convention. Attribute-only, same-origin file — the download itself is unchanged;
+       only its suggested filename improves. On mobile (tap-to-open into Contacts) the filename is
+       irrelevant, so nothing regresses there. No visual change. -->
+  <a class="btn wide" href="jacob.vcf" download="Jacob_Heifetz_Licht.vcf">Save my contact</a>
   <a class="btn wide ghost" href="mailto:hi@jacobhl.com?subject=Nice%20meeting%20you&amp;body=Hi%20Jacob%2C%0A%0AWe%20met%20at%3A%20%0A%0A">Email me</a>
 </div>
 

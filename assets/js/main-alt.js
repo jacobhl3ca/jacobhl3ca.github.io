@@ -870,6 +870,21 @@ function requestResume() {
     }
 }
 
+// Wire the hero "Request resume" link here rather than via an inline onclick in the markup,
+// keeping JS out of the HTML — the site convention (the homepage's inline JS was extracted to
+// this file, and the weather dashboard's Search button was moved off its inline handler for the
+// same reason). This was the last inline event handler left in the served markup. The link keeps
+// its plain href="#contact" as the no-JS fallback; preventDefault stops the browser's instant
+// fragment jump from fighting requestResume()'s own smooth scroll / focus / URL handling. Guarded
+// so a missing link is simply a no-op. No visual or behaviour change once this deferred file runs.
+const resumeLink = document.getElementById('home-resume-link');
+if (resumeLink) {
+    resumeLink.addEventListener('click', function (e) {
+        e.preventDefault();
+        requestResume();
+    });
+}
+
 /*===== CONTACT FORM SUBMIT =====*/
 const contactForm = document.querySelector('.contact__form');
 if (contactForm) {

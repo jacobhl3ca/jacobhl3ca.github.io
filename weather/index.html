@@ -295,7 +295,7 @@ body {
   <div class="search-bar" role="search" aria-label="City weather search">
     <!-- autocomplete="off": this is a live-search box (it fires fetchWeather on Enter, and via the Search button), not a stored profile field, so the browser's autofill dropdown — offering saved names/addresses/emails — is both irrelevant here and liable to cover the results as they load. Completes the deliberate input-hint set already on this field (autocapitalize/autocorrect/spellcheck); "off" is the standard signal for a search input. No visual change to the settled field. -->
     <input type="text" id="cityInput" placeholder="Search city..." value="New York, NY" aria-label="Search for a city" enterkeyhint="search" autocomplete="off" autocapitalize="words" autocorrect="off" spellcheck="false">
-    <button type="button" onclick="fetchWeather()">Search</button>
+    <button type="button" id="searchBtn">Search</button>
   </div>
   <div id="alertsBanner" class="alerts-banner" aria-live="polite" aria-atomic="true"></div>
   <!-- Persistent polite live region: the loading spinner (role=status) is wiped when results
@@ -544,8 +544,10 @@ async function fetchWeather() {
     // every success (e.g. "Tokyo, Japan — Weather Dashboard"), but the error path left it
     // untouched — so after one good search, a later failed search (bad city, dropped network)
     // showed the error card while the browser tab still read the previously-loaded city's name.
-    // Fall back to the neutral app title (matching the <h1> and the pre-load static title) so the
-    // tab reflects that no city is currently displayed. No effect on the success path.
+    // Fall back to the neutral app title — the bare <h1> text ("Weather Dashboard"), deliberately
+    // without the "— NYC" suffix the static <title> carries, since the error path is showing no
+    // city at all (not even the NYC default), so the tab reflects that nothing is currently
+    // displayed rather than implying a loaded city. No effect on the success path.
     document.title = 'Weather Dashboard';
     document.getElementById('content').innerHTML = `<div class="card" role="alert" style="text-align:center;color:var(--danger);">${msg}</div>`;
   }
@@ -821,6 +823,13 @@ function render(w, aqi, geo) {
 document.getElementById('cityInput').addEventListener('keydown', e => {
   if (e.key === 'Enter') fetchWeather();
 });
+// Wire the Search button here rather than via an inline onclick, so the search control is
+// uniformly event-listener-driven (its sibling cityInput keydown handler just above already
+// is) and the page carries no inline handler — matching the site's convention of keeping JS
+// out of markup (the homepage's inline JS was extracted to main-alt.js for the same reason).
+// Wrapped in an arrow so the click Event isn't passed as fetchWeather's first arg. No visual
+// or behaviour change: clicking Search still runs the same fetch.
+document.getElementById('searchBtn').addEventListener('click', () => fetchWeather());
 
 fetchWeather();
 </script>
