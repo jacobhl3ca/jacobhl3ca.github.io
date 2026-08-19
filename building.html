@@ -247,7 +247,14 @@
       <a class="button secondary" href="sms:+18622952714">Text me</a>
     </div>
     <!-- Make the primary email tappable, mirroring the sms: link beside it: on the phone this flyer/QR page targets, a neighbor expects to tap the address to open their mail app, but it was plain text (only the "Email the idea" button above and the phone number here were actionable). Wrapping the existing <b> in the mailto keeps the appearance identical — .contactline b's color:var(--ink) still styles the bold text (it wins over the anchor's blue for the text it directly targets), and .contactline a's text-decoration:none suppresses the underline — so this only adds the click target. No visual change. -->
-    <div class="contactline"><a href="mailto:hi@jacobhl.com"><b>hi@jacobhl.com</b></a> · text <a href="sms:+18622952714">862-295-2714</a></div>
+    <!-- rel="me" marks this visible address link as Jacob's own verified email identity, matching
+         the site-wide rel-me pattern index.html and 404.html already apply to this same
+         hi@jacobhl.com address (a mailto to one's own verified address is an explicitly supported
+         rel-me target, crawled on any reachable page of the domain). building.html's two links that
+         display the address as their text — this contact line and the footer below — were the ones
+         still outside that identity graph. Additive rel token; browsers ignore rel on rendering, so
+         no visual or behaviour change. -->
+    <div class="contactline"><a href="mailto:hi@jacobhl.com" rel="me"><b>hi@jacobhl.com</b></a> · text <a href="sms:+18622952714">862-295-2714</a></div>
   </section>
 
   <!-- Make the footer's email + phone tappable — this was the one contact line on the page
@@ -266,7 +273,7 @@
        whose footers sit outside <main>. The role restores the landmark for screen-reader landmark
        navigation with no visual or behaviour change. -->
   <footer role="contentinfo">
-    Jacob Heifetz-Licht · neighbor, web/app developer · <a href="mailto:hi@jacobhl.com">hi@jacobhl.com</a> · <a href="sms:+18622952714">862-295-2714</a>
+    Jacob Heifetz-Licht · neighbor, web/app developer · <a href="mailto:hi@jacobhl.com" rel="me">hi@jacobhl.com</a> · <a href="sms:+18622952714">862-295-2714</a>
   </footer>
 </main>
 
