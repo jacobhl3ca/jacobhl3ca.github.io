@@ -20,6 +20,16 @@
 <meta name="theme-color" content="#f6f7fb" media="(prefers-color-scheme: light)">
 <meta name="theme-color" content="#0b0d12" media="(prefers-color-scheme: dark)">
 <title>Jacob HL — apps, sites, contact</title>
+<!-- iOS home-screen label. This is the site's most-shared mobile URL (QR / AirDrop / texted
+     hand-off, per the theme-color note above) and a plausible "Add to Home Screen" target — a
+     personal apps/contact hub. iOS Safari names a home-screen icon from apple-mobile-web-app-title,
+     falling back to the <title> element, which it truncates: "Jacob HL — apps, sites, contact"
+     becomes "Jacob HL — a…". This gives it the same clean "Jacob HL" label index.html already
+     declares (its short_name / apple-mobile-web-app-title / JSON-LD alternateName), so a bookmarked
+     icon of this page reads cleanly. Deliberately NOT paired with apple-mobile-web-app-capable
+     (that would force a chromeless standalone launch) and no manifest here (the installable app is
+     scoped to the homepage at "/"); this only names the icon. Pure metadata, no visual change. -->
+<meta name="apple-mobile-web-app-title" content="Jacob HL">
 <!-- Base meta description: this page already ships an og:description and twitter:description
      (the social-preview block below), but was the one page site-wide with no plain
      <meta name="description"> — every other page (index.html, weather/, building.html, refer/,
