@@ -8,6 +8,8 @@
 <meta name="color-scheme" content="dark">
 <link rel="icon" type="image/x-icon" href="/assets/img/favicon.ico">
 <title>Weather Dashboard — NYC</title>
+<!-- iOS home-screen label. This dashboard is an app-like tool a visitor may "Add to Home Screen", and iOS Safari names that icon from apple-mobile-web-app-title, falling back to the <title> element, which it truncates ("Weather Dashboard — NYC" becomes "Weather Da…"). Give it the same short, distinctive label the page already leads with (the <title>/og lead on NYC), matching the apple-mobile-web-app-title index.html and me/ already declare — weather/ was the app-like page still missing it. Deliberately NOT paired with apple-mobile-web-app-capable (that forces a chromeless standalone launch) and no manifest here (the installable app is scoped to the homepage at "/"); this only names the icon. Pure metadata, no visual change. -->
+<meta name="apple-mobile-web-app-title" content="NYC Weather">
 <meta name="description" content="A live weather dashboard with current conditions, hourly rain chance, a 5-day forecast, air quality, and sun times. Search any city — defaults to New York, NY.">
 <meta name="author" content="Jacob Heifetz-Licht">
 <!-- max-snippet:-1 explicitly lets Google use a text snippet of any length in results (the default is a search-engine-chosen limit) so the dashboard's description can show in full; completes the max-* preview directive set alongside max-image-preview:large. Mirrors index.html, the site's only other indexed page. No visual change. -->
