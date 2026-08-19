@@ -343,7 +343,15 @@
        tap. footer a{color:var(--dim)} already styles it to match the muted footer text, so it
        renders identically to the jacobhl.com link beside it — no visual change beyond the
        address becoming a link like its neighbor. -->
-  <a href="https://jacobhl.com">jacobhl.com</a> · <a href="mailto:hi@jacobhl.com">hi@jacobhl.com</a>
+  <!-- rel="me" marks this visible address link as Jacob's own verified email identity, matching
+       the site-wide rel-me pattern index.html and building.html already apply to this same
+       hi@jacobhl.com footer address (a mailto to one's own verified address is an explicitly
+       supported rel-me target, crawled on any reachable page of the domain). me/index.html — the
+       most-shared, most-handed-off URL (QR / AirDrop / texted link) — was the one content page
+       still carrying no rel="me" identity link at all. Additive rel token; browsers ignore rel on
+       rendering, so no visual or behaviour change (the page stays noindex; rel-me is crawled
+       independent of indexing). -->
+  <a href="https://jacobhl.com">jacobhl.com</a> · <a href="mailto:hi@jacobhl.com" rel="me">hi@jacobhl.com</a>
 </footer>
 
 <script>
