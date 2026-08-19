@@ -1309,18 +1309,23 @@ html.theme-switching * {
     opacity: 1;
     transform: none;
   }
-  /* Neutralise the two live hover-zoom transforms too. The global rule above only zeroes
-     transition-DURATION, so under the preference these scales stop easing but still snap to
+  /* Neutralise every hover-zoom transform this stylesheet defines. The global rule above only
+     zeroes transition-DURATION, so under the preference these scales stop easing but still snap to
      their zoomed size the instant the pointer lands — a reduced-motion visitor still gets an
      unrequested jump on hover. The homepage's self-contained sibling pages already hold their
      hover transforms static under this same query (building.html's .wtile hover-lift, refer/'s
-     card lift), but styles.css — which drives the homepage and 404 — was still letting the hero
-     portrait (.home__circle, scale 1.03) and each project thumbnail (.proj-thumb img, scale 1.08)
-     apply their zoom. transform:none keeps both flat on hover, completing that pattern here. Same
-     specificity as the base :hover rules and declared later, so it wins without !important; no
-     change for anyone who hasn't asked the OS to reduce motion. */
+     card lift), but styles.css — which drives the homepage, 404, and the projects experiment
+     variants — was still letting three zooms fire: the hero portrait (.home__circle, scale 1.03)
+     and each project thumbnail (.proj-thumb img, scale 1.08) on the homepage, and the .work__img
+     img cover (scale 1.1) used by projects/index_cascade_animate.html, which loads this same
+     stylesheet. The first two were already held flat here; .work__img img was the one hover-zoom
+     in this file still escaping the preference, so add it too — completing the pattern so no
+     hover-zoom this stylesheet drives moves on any page under reduced-motion. transform:none keeps
+     all three flat on hover. Same specificity as the base :hover rules and declared later, so it
+     wins without !important; no change for anyone who hasn't asked the OS to reduce motion. */
   .home__circle:hover,
-  .proj-thumb:hover img {
+  .proj-thumb:hover img,
+  .work__img img:hover {
     transform: none;
   }
 }
