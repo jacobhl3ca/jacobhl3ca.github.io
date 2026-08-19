@@ -1360,9 +1360,13 @@
 
         <!-- The homepage's behaviour (nav, theme/view toggles, scroll-spy, contact form, modal preview)
              lives in the deferred assets/js/main-alt.js above — the page's inline JS was extracted to an
-             external file on 2026-03-27. (main.js, the sibling file, is the variant loaded only by the
-             noindex index_with_animation.html — this page does NOT load it, despite an earlier note here
-             that pointed at main.js.) -->
+             external file on 2026-03-27. (main.js, the sibling file, is the variant this page does NOT
+             load. It runs on 404.html and the noindex homepage/experiment variants —
+             index_with_animation.html, projects-stack-preview.html, and projects/index_cascade_animate.html —
+             not here, despite an earlier note that pointed this page at main.js. That earlier fix
+             corrected the script src above to main-alt.js but left this parenthetical saying main.js was
+             loaded "only by index_with_animation.html", which understated it — main.js also powers the
+             production 404 page.) -->
 
         <!-- GoatCounter analytics -->
         <script data-goatcounter="https://jacobhl.goatcounter.com/count"
