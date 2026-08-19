@@ -30,6 +30,14 @@
     "applicationCategory": "UtilitiesApplication",
     "operatingSystem": "Web browser",
     "browserRequirements": "Requires JavaScript",
+    "featureList": [
+        "Current conditions — temperature, feels-like, wind, and a plain-language sky summary",
+        "Humidity comfort reading",
+        "Air quality with the US AQI value and health category",
+        "Sunrise and sunset times",
+        "Hourly rain chance for the next 12 hours",
+        "5-day forecast with daily highs and lows"
+    ],
     "isAccessibleForFree": true,
     "offers": {
         "@type": "Offer",
@@ -45,6 +53,7 @@
     "breadcrumb": { "@id": "https://jacobhl.com/weather/#breadcrumb" }
 }
 </script>
+<!-- featureList names what the dashboard actually does — the recommended WebApplication/SoftwareApplication property this node was still missing (it already declared applicationCategory, operatingSystem, browserRequirements, offers, isAccessibleForFree). The six entries mirror, verbatim in substance, the visible About copy just below ("Each search returns six things: current conditions… humidity comfort… air quality… sunrise and sunset… hourly rain chance… a 5-day forecast"), so the markup keeps reflecting on-page content as Google requires while giving search engines and AI-retrieval crawlers a structured list of capabilities instead of only the prose description. Mirrors the enrichment prior runs made to the homepage ItemList and building.html's WebPage node (adding each node's recommended-but-missing properties). Pure metadata, no visual change. -->
 <!-- dateModified above is kept in sync with this page's <lastmod> in sitemap.xml: after this node last read 2026-08-16 (the About-copy "five things" → "six" miscount fix), a genuine logic edit landed on this page — the city-search geocoder bug fix that stopped a foreign country code (GB/FR/JP…) being mistaken for a US-state hint, so London/Paris no longer resolve to their small US namesakes — so both this node and the sitemap lastmod are advanced to 2026-08-18 in lockstep to track it. Mirrors the homepage's ProfilePage and building.html's WebPage freshness syncs made in this same batch. Unlike the homepage ProfilePage (a rich-result type that requires a full ISO datetime + offset), WebApplication is not a rich-result type, so date-only granularity — mirroring the sitemap's — is fine here, as the homepage's dateModified note explicitly permits. Pure metadata, no visual change. -->
 <!-- Breadcrumb trail: this dashboard is a sub-page that's independently indexed (it's in the sitemap and canonical'd) but sits one level under the homepage — the visible "← Back to jacobhl.com" link is its informal breadcrumb. Formalize that Home → Weather Dashboard hierarchy so search engines can model the page's place in the site and show a breadcrumb in results instead of the raw URL. Continues the site's linked-data pattern (Person → WebSite → WebApplication). The #breadcrumb @id (and the matching "breadcrumb" reference just added to the WebApplication node above) ties this list into the site's @id graph the way every other node here is cross-referenced — it was the one structured-data node on this page still floating unconnected, the same gap already closed on building.html. Google's breadcrumb guidance associates a page's BreadcrumbList with its main entity via this exact property, so the link also makes "which page owns this trail" explicit rather than inferred. Pure metadata, no visual change. -->
 <script type="application/ld+json">
