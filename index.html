@@ -613,6 +613,15 @@
   .proj-info .live-dot{flex:0 0 auto;}
   .proj-one{font-size:var(--normal-font-size);line-height:1.5;margin:0;
     color:var(--second-color);opacity:.72;}
+  /* "Updated X ago" freshness line — ships hidden and is only revealed by the JS at the
+     bottom of the project builder, once GitHub's API confirms a real recent push. Private
+     repos 404, offline visitors get nothing, and anything older than the 90-day floor stays
+     hidden on purpose: a card that announces "updated 7 months ago" is worse than a card
+     that says nothing. Lighter and smaller than .proj-one so it reads as metadata, not copy. */
+  .proj-updated{display:none;margin:.35rem 0 0;font-size:.74rem;line-height:1.3;
+    letter-spacing:.02em;color:var(--second-color);opacity:.5;font-variant-numeric:tabular-nums;}
+  .proj-updated.is-shown{display:block;}
+  @media print{.proj-updated{display:none !important;}}  /* a relative date is meaningless on paper */
   /* CTAs pinned to the bottom of the text column (room freed by top-aligning the text) */
   .proj-info .work__cta{margin-top:auto;justify-content:flex-start;padding-top:.8rem;}
   .proj-info img.app-store-badge{height:40px;width:auto;}
@@ -1417,7 +1426,13 @@ const MAIN = [
   // make-thumbs.py — the card slot is 200px, so the full 2004px PNGs (still in this folder,
   // and still the source/social art) were ~25x more bytes than anything on screen.
   // Cards without an imgLight are real screenshots of dark-by-design sites, so they stay as-is.
-  { title:"HideScore", live:true, img:"assets/img/hidescore-cover-thumb.webp?v=1", imgLight:"assets/img/hidescore-cover-light-thumb.webp?v=1", url:"https://hidescore.com",
+  // repo: drives the muted "Updated X ago" line under the one-liner (GitHub API `pushed_at`).
+  // ONLY set it on repos that are actually PUBLIC under github.com/jacobhl3ca — a private repo
+  // 404s and the line stays hidden, but every visitor still pays a wasted request against the
+  // unauthenticated 60/hr rate limit. Public today: nospoilerscores (HideScore) and
+  // safari-pinned-tab-automation (TidyTab). Tonight NYC, Subway Times, The Island, David Licht
+  // and DuelGoat are private, so they deliberately carry no repo field.
+  { title:"HideScore", live:true, repo:"nospoilerscores", img:"assets/img/hidescore-cover-thumb.webp?v=1", imgLight:"assets/img/hidescore-cover-light-thumb.webp?v=1", url:"https://hidescore.com",
     one:"Watch sports highlights without seeing the score.",
     full:"Watch sports highlights without seeing the score. Covers MLB, NBA, NHL, NFL, soccer, tennis and more with score-hidden cards, embedded highlights, and a unified news view — without spoiling anything you haven't watched.",
     site:"https://hidescore.com", appstore:"https://apps.apple.com/app/hidescore/id6766885311" },
@@ -1455,7 +1470,7 @@ const MAIN = [
   // iframe (data-url) and renders as the visible .proj-print-url, so the bare-host form showed a URL
   // differing from the site's canonical and made the preview take an extra 301 redirect to the slash
   // version. Same destination either way — this only drops the redirect hop and aligns the displayed URL.
-  { title:"TidyTab", live:true, img:"assets/img/tidytab-cover-thumb.webp?v=1", imgLight:"assets/img/tidytab-cover-light-thumb.webp?v=1", url:"https://tidytab.jacobhl.com/",
+  { title:"TidyTab", live:true, repo:"safari-pinned-tab-automation", img:"assets/img/tidytab-cover-thumb.webp?v=1", imgLight:"assets/img/tidytab-cover-light-thumb.webp?v=1", url:"https://tidytab.jacobhl.com/",
     one:"Bulk unpin or close Safari pinned tabs — a macOS menu-bar app.",
     full:"A menu-bar app I built to bulk unpin or close Safari pinned tabs in one sweep — it auto-detects your pinned tabs and clears them (press Space to stop).",
     // download now lives on the tidytab.html landing page the preview opens (keeps the card row clean, consistent with the others)
@@ -1563,6 +1578,7 @@ function rowHTML(p, eager){
       <div class="proj-info${infoCls}">
         <h3 class="proj-title">${dot}${p.title}</h3>
         <p class="proj-one">${p.one}</p>
+        ${p.repo ? `<p class="proj-updated" data-repo="${p.repo}" hidden></p>` : ''}
         <div class="work__cta proj-actions">
           ${cta}
           <button type="button" class="proj-chev" aria-label="Show details" aria-expanded="false" aria-controls="${detailId}"><i class='bx bx-chevron-down' aria-hidden="true"></i></button>
@@ -1588,6 +1604,71 @@ _mainRows.innerHTML = MAIN.map((p, i) => rowHTML(p, i === 0)).join(''); // eager
 const _moreRows = document.getElementById('more-rows');
 _moreRows.setAttribute('role', 'list'); _moreRows.setAttribute('aria-label', 'Other projects');
 _moreRows.innerHTML = MORE.map(p => rowHTML(p, false)).join(''); // "Private projects" panel starts collapsed/inert — keep all its images lazy
+
+/* ---- "Updated X ago" freshness line -------------------------------------------------------
+   Runs right after the cards exist (same inline block, so no load-order race with the deferred
+   main-alt.js). For each card carrying a repo:, ask GitHub for that repo's last push and reveal
+   a muted line under the one-liner. Everything about it fails CLOSED — the line ships `hidden`
+   and is only ever shown on a good answer, so a private repo (404), a rate-limited IP (403), an
+   offline visitor, or a malformed date all leave the card exactly as it renders today.
+   Three deliberate choices:
+     * 90-DAY FLOOR. Past that the line hides instead of printing "updated 5 months ago" — the
+       point is to show a project is alive, and an old date argues the opposite. STALE_DAYS below.
+     * The ISO timestamp is cached in localStorage for an hour (the unauthenticated API allows
+       60 requests/hour per IP), but the human label is recomputed on every page load, so a
+       cached "Updated today" can never still be on screen tomorrow.
+     * Built with DOM APIs, not innerHTML — same reason navigate()'s fallback link is. */
+(function(){
+  const els = document.querySelectorAll('.proj-updated[data-repo]');
+  if(!els.length || !window.fetch) return;
+  const OWNER='jacobhl3ca', TTL=3600e3, STALE_DAYS=90;
+
+  const label = (iso) => {
+    const then = new Date(iso).getTime();
+    if(!then || isNaN(then)) return null;
+    const d = Math.floor((Date.now() - then) / 86400000);
+    if(d < 0 || d > STALE_DAYS) return null;    // clock skew, or past the staleness floor → stay hidden
+    if(d === 0) return 'Updated today';
+    if(d === 1) return 'Updated yesterday';
+    if(d < 7)   return 'Updated ' + d + ' days ago';
+    if(d < 14)  return 'Updated last week';
+    if(d < 30)  return 'Updated ' + Math.floor(d / 7) + ' weeks ago';
+    if(d < 60)  return 'Updated last month';
+    return 'Updated ' + Math.floor(d / 30) + ' months ago';
+  };
+
+  const paint = (el, iso) => {
+    const txt = label(iso);
+    if(!txt) return;
+    // <time datetime> so the machine-readable date rides along with the relative wording, and a
+    // title tooltip with the absolute date for anyone who wants the real thing.
+    const t = document.createElement('time');
+    t.setAttribute('datetime', iso);
+    t.textContent = txt;
+    try { t.title = 'Last push ' + new Date(iso).toLocaleDateString(); } catch(e){}
+    el.textContent = '';
+    el.appendChild(t);
+    el.removeAttribute('hidden');
+    el.classList.add('is-shown');
+  };
+
+  els.forEach(el => {
+    const repo = el.getAttribute('data-repo');
+    const key = 'projUpdated:' + repo;
+    try {
+      const c = JSON.parse(localStorage.getItem(key) || 'null');
+      if(c && c.iso && (Date.now() - c.t) < TTL){ paint(el, c.iso); return; }
+    } catch(e){}
+    fetch('https://api.github.com/repos/' + OWNER + '/' + repo, { headers:{ 'Accept':'application/vnd.github+json' } })
+      .then(r => r.ok ? r.json() : null)
+      .then(j => {
+        if(!j || !j.pushed_at) return;          // private / renamed / rate-limited → stay hidden
+        try { localStorage.setItem(key, JSON.stringify({ iso:j.pushed_at, t:Date.now() })); } catch(e){}
+        paint(el, j.pushed_at);
+      })
+      .catch(() => {});                          // network error → stay hidden
+  });
+})();
 
 // click anywhere on the card toggles expand — EXCEPT a live thumbnail (opens preview) and CTA links.
 // "Other projects" have no live preview, so clicking their thumbnail expands the card like the rest.
