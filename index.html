@@ -35,6 +35,7 @@
         <link rel="dns-prefetch" href="//stats.hidescore.com"> <!-- resolve the self-hosted Umami analytics host ahead of its deferred script.js fetch at end of body -->
         <link rel="dns-prefetch" href="//formspree.io"> <!-- resolve the Formspree host ahead of the contact form's on-submit POST (assets/js/main-alt.js) so the DNS lookup isn't on the send path -->
         <link rel="dns-prefetch" href="//js.sentry-cdn.com"> <!-- resolve the Sentry CDN host ahead of the error-monitoring loader script that ships at the end of <head> on every page. That host is contacted on every load but had no resource hint, unlike every other third party the site warms (GoatCounter, Umami, Formspree above; jsdelivr/Google Fonts below) — so its DNS was looked up cold on the critical path. dns-prefetch (DNS only) rather than preconnect keeps this non-render-critical monitoring script from opening a speculative connection that would compete with the render-critical CSS/font sockets. Pure resource hint, no visual or behaviour change. -->
+        <link rel="dns-prefetch" href="//api.github.com"> <!-- resolve the GitHub REST API host ahead of the "Updated X ago" freshness fetch. The inline freshness script near </body> queries api.github.com once per card carrying a repo: (HideScore + TidyTab today) for the repo's last-push date, but this host was the one third party the page contacts on load with no resource hint — jsdelivr, Google Fonts, GoatCounter, Umami, Formspree and Sentry above all have one — so its DNS was looked up cold when that fetch fired. dns-prefetch (DNS only) rather than preconnect matches the non-render-critical convention used for Sentry/Formspree here: the freshness fetch runs after the cards render and fails closed, so it must not open a speculative socket competing with the render-critical CSS/font sockets. Completes the third-party prefetch pattern on this page. Pure resource hint, no visual or behaviour change. -->
         <!-- (No dns-prefetch for gist.githubusercontent.com: the only code that fetched from it was the live "Claude Code usage" section (#ccu), which has been commented out / disabled since 2026-06-17. With that section inert the page never contacts gist.githubusercontent.com, so a prefetch here would fire a speculative DNS lookup on every homepage load for a host that's never used. If #ccu is re-enabled, re-add the hint alongside it.) -->
         <link href='https://cdn.jsdelivr.net/npm/boxicons@2.0.5/css/boxicons.min.css' rel='stylesheet'> <!-- icons -->
         <script>
@@ -110,6 +111,7 @@
         <meta name="twitter:image:alt" content="Jacob Heifetz-Licht — Analytics Manager and web developer">
         <link rel="canonical" href="https://jacobhl.com/">
         <!-- address gives the Person entity a location signal for Knowledge-Graph / entity disambiguation, the same enrichment role the node's jobTitle, alumniOf, knowsAbout and sameAs already play. It only surfaces to structured-data consumers a fact this site already states in plain sight — the homepage meta description reads "…in New York, known online as JacobHL", the weather page's copy says "an analytics manager and web developer in New York", and the weather dashboard defaults to "New York, NY" — so nothing new or more precise is disclosed than the page copy. Deliberately city-level only (addressLocality/addressRegion/addressCountry, no street address) — that's all the site publishes. Pure metadata, no visual change. -->
+        <!-- The Person "knowsAbout" list carries "Data Visualization": it is one of Jacob's core competencies surfaced everywhere else on the site — the visible Skills section has a dedicated "Data & Visualization" category, and both the <meta name="keywords"> list and llms.txt name "data visualization" — yet this structured-data topic list was the one place still omitting it, though it already carried the closely-related "Dashboard Design" and "Tableau". It sits next to "Dashboard Design" so the data-viz topics group together. Pure metadata; no visual change. -->
         <script type="application/ld+json">
         {
             "@context": "https://schema.org",
@@ -144,7 +146,7 @@
                 "name": "Rutgers University",
                 "url": "https://www.rutgers.edu/"
             },
-            "knowsAbout": ["Data Analytics", "Python", "SQL", "Tableau", "ETL", "BigQuery", "Automation", "Dashboard Design", "JavaScript", "React", "Node.js", "Next.js", "Web Development", "iOS Development", "Swift"],
+            "knowsAbout": ["Data Analytics", "Python", "SQL", "Tableau", "ETL", "BigQuery", "Automation", "Dashboard Design", "Data Visualization", "JavaScript", "React", "Node.js", "Next.js", "Web Development", "iOS Development", "Swift"],
             "knowsLanguage": "en-US"
         }
         </script>
@@ -180,7 +182,7 @@
             "about": { "@id": "https://jacobhl.com/#person" },
             "mainEntity": { "@id": "https://jacobhl.com/#person" },
             "inLanguage": "en-US",
-            "dateModified": "2026-08-16T00:00:00-04:00"
+            "dateModified": "2026-08-18T00:00:00-04:00"
         }
         </script>
         <!-- ⛔ dateModified above MUST stay a full ISO 8601 datetime with a time AND a timezone offset (YYYY-MM-DDThh:mm:ss±hh:mm). Google's ProfilePage structured-data spec requires the time+offset on this field specifically, and a bare "YYYY-MM-DD" trips the Search Console warning "Invalid datetime value for dateModified" (first detected 2026-08-10, fixed 2026-08-11). Keep the DATE half in sync with this page's <lastmod> in sitemap.xml as before — just never drop the T-time or the offset when refreshing it. This is a ProfilePage-only requirement; the WebPage/WebApplication nodes on building.html and weather/ are not rich-result types and may stay date-only. -->
@@ -1369,9 +1371,13 @@
 
         <!-- The homepage's behaviour (nav, theme/view toggles, scroll-spy, contact form, modal preview)
              lives in the deferred assets/js/main-alt.js above — the page's inline JS was extracted to an
-             external file on 2026-03-27. (main.js, the sibling file, is the variant loaded only by the
-             noindex index_with_animation.html — this page does NOT load it, despite an earlier note here
-             that pointed at main.js.) -->
+             external file on 2026-03-27. (main.js, the sibling file, is the variant this page does NOT
+             load. It runs on 404.html and the noindex homepage/experiment variants —
+             index_with_animation.html, projects-stack-preview.html, and projects/index_cascade_animate.html —
+             not here, despite an earlier note that pointed this page at main.js. That earlier fix
+             corrected the script src above to main-alt.js but left this parenthetical saying main.js was
+             loaded "only by index_with_animation.html", which understated it — main.js also powers the
+             production 404 page.) -->
 
         <!-- GoatCounter analytics -->
         <script data-goatcounter="https://jacobhl.goatcounter.com/count"
