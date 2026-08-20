@@ -556,6 +556,30 @@
     .proj-appstore-all{padding:0 .48rem;}
   }
 
+  /* The QR code Jacob hands people in person points at jacobhl.com, and the first thing
+     someone wants after meeting him is LinkedIn — so it has to read as a labeled button at
+     the top of the default projects-only view, not an unlabeled glyph they have to decode
+     (or scroll to the footer to find). Same pill geometry as the Apps button beside it,
+     outlined rather than filled so the App Store badge stays the loudest thing in the row. */
+  .proj-head-actions .proj-linkedin{
+    width:auto;height:36px;padding:0 .62rem;gap:.32rem;
+    border:1px solid #a6a6a6;border-radius:8px;
+    font-family:var(--body-font);font-size:.78rem;font-weight:600;line-height:1;white-space:nowrap;}
+  .proj-head-actions .proj-linkedin i{font-size:1.02rem;}
+  /* A labeled pill is too wide to sit beside the centered title on a phone (they collide
+     around 390px), so below 600px the row becomes two centered lines: title, then actions.
+     That also lets the 360px rule above stop hiding LinkedIn — once it is on its own line
+     there is nothing left for it to overlap, and hiding it was the bug in the first place. */
+  @media(max-width:600px){
+    .proj-head-row{flex-direction:column;gap:.55rem;}
+    .proj-head-row .proj-head-actions{position:static;right:auto;top:auto;transform:none;}
+    .proj-head-actions .proj-linkedin{height:32px;padding:0 .5rem;font-size:.72rem;gap:.25rem;}
+    .proj-head-actions .proj-linkedin i{font-size:1rem;}
+  }
+  @media(max-width:360px){
+    .proj-head-actions .proj-linkedin{display:inline-flex;}
+  }
+
   /* ---- ROW CARD (mirrors .work__img shadow/radius, laid out horizontally) ---- */
   .proj-row{
     background:#fff;border-radius:.5rem;overflow:hidden;margin-bottom:1.5rem;
@@ -1098,8 +1122,8 @@
                     <h2 class="section-title" id="projects-heading">Projects</h2>
                     <div class="proj-head-actions">
                         <!-- rel="me": this App Store developer profile is one of Jacob's own verified identity profiles and is already declared in the JSON-LD Person "sameAs" array above (alongside LinkedIn and GitHub). Those two profiles carry rel="me" on every link site-wide as the HTML-level companion to sameAs (see the home__social comment); this developer-profile link was the one sameAs member still missing it, so add it to complete that sameAs↔rel=me parity. Additive rel token — no visual or behaviour change (noopener/noreferrer preserved). -->
+                        <a class="proj-linkedin" href="https://www.linkedin.com/in/jacobhl/" target="_blank" rel="me noopener noreferrer" aria-label="Connect with me on LinkedIn" title="Connect on LinkedIn"><i class='bx bxl-linkedin' aria-hidden="true"></i><span>LinkedIn</span></a>
                         <a class="proj-appstore-all" href="https://apps.apple.com/us/developer/jacob-heifetz-licht/id1895127194" target="_blank" rel="me noopener noreferrer" aria-label="View all Jacob Heifetz-Licht apps on the App Store" title="App Store apps"><i class='bx bxl-apple' aria-hidden="true"></i><span>Apps</span></a>
-                        <a class="proj-linkedin" href="https://www.linkedin.com/in/jacobhl/" target="_blank" rel="me noopener noreferrer" aria-label="Connect with me on LinkedIn" title="Connect on LinkedIn"><i class='bx bxl-linkedin' aria-hidden="true"></i></a>
                     </div>
                 </div>
 
