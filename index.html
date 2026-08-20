@@ -501,20 +501,20 @@
   /* projects-only view starts at this section, just under the fixed header — clear it with a
      small gap. The header is ~48px on narrow widths and 72px on desktop, so match it per-width
      (a flat 72px left a big dead band on phones/narrow windows). */
-  #Projects{padding-top:calc(48px + 0.65rem);padding-bottom:1.1rem;}
-  @media(min-width:768px){ #Projects{padding-top:calc(72px + 0.65rem); } }
+  #Projects{padding-top:calc(48px + 1.3rem);padding-bottom:1.1rem;}
+  @media(min-width:768px){ #Projects{padding-top:calc(72px + 1.55rem); } }
   /* On narrow widths <body> already has margin-top:var(--header-height) clearing the fixed nav,
      so the 48px baked into the padding above double-counts it — leaving a ~58px dead band above the
      title in projects-only view. Scope a small gap (matching the desktop 0.65rem) to projects-only;
      full-site view keeps the padding above as normal inter-section spacing. */
-  @media(max-width:767px){ html.projects-only #Projects{padding-top:0.65rem; } }
+  @media(max-width:767px){ html.projects-only #Projects{padding-top:1.3rem; } }
   /* drop the bright-blue underline bar under the Projects title */
   .proj-head-row .section-title::after{display:none;}
   /* Projects title (centered); the LinkedIn CTA is positioned relative to the SAME
      max-width/padding as .proj-wrap so it lands above the first card's right corner,
      not the window edge, at every viewport width. */
   .proj-head-row{position:relative;display:flex;justify-content:center;align-items:center;
-    max-width:780px;margin:.25rem auto 1.15rem;padding:0 1.5rem;box-sizing:border-box;}
+    max-width:780px;margin:.25rem auto 1.85rem;padding:0 1.5rem;box-sizing:border-box;}
   .proj-head-row .section-title{margin:0;}
   .proj-head-actions{position:absolute;right:1.5rem;top:50%;transform:translateY(-50%);
     display:inline-flex;align-items:center;gap:.45rem;}
@@ -544,16 +544,29 @@
   .proj-appstore-all:focus{outline:none;}
   .proj-appstore-all:focus-visible{outline:2px solid var(--first-color);outline-offset:2px;}
   @media(max-width:600px){
-    .proj-head-row{margin:.35rem auto 1rem;padding:0 1rem;}
-    .proj-head-actions{right:1rem;gap:.4rem;}
+    .proj-head-row{margin:.35rem auto 1.65rem;padding:0 1rem;}
+    /* The cards below sit in .proj-wrap, which keeps a 1.5rem gutter at every width. These
+       actions were pinned at 1rem instead, so the LinkedIn button hung 8px past the right
+       edge of the HideScore card underneath it. Match the card gutter so the two line up. */
+    .proj-head-actions{right:1.5rem;gap:.4rem;}
     .proj-head-row .section-title{font-size:1.42rem;}
     .proj-appstore-all{height:32px;padding:0 .5rem;font-size:.72rem;gap:.25rem;}
     .proj-linkedin{width:32px;height:32px;}
     .proj-appstore-all i,.proj-linkedin i{font-size:1rem;}
   }
-  @media(max-width:360px){
+  /* 365, not 360: with the actions pulled in to the card gutter the title and the Apps pill
+     just touch at 361px, so the hide has to start a few px wider than it used to. */
+  @media(max-width:365px){
     .proj-head-actions .proj-linkedin{display:none;}
     .proj-appstore-all{padding:0 .48rem;}
+  }
+
+  /* Pulling the actions in to the card gutter costs 8px of the room the centered title needs,
+     which on a 375px phone (SE/8/mini) left the title and the Apps pill about 1px apart. Trim
+     the Apps padding a little on the narrowest phones to buy that back. */
+  @media(max-width:400px){
+    .proj-appstore-all{padding:0 .42rem;}
+    .proj-head-actions{gap:.3rem;}
   }
 
   /* The LinkedIn logo stays a logo (no label) and stays inline top-right, but a bare glyph
