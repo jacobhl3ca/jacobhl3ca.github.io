@@ -556,6 +556,21 @@
     .proj-appstore-all{padding:0 .48rem;}
   }
 
+  /* The LinkedIn logo stays a logo (no label) and stays inline top-right, but a bare glyph
+     read as decoration and was a small target next to the Apps button. Give it that button's
+     outline and radius so it reads as tappable, and size it to the same height so the two
+     still sit level. The ::after bleeds the touch region a few px past the border on each
+     side — a bigger hit area without a bigger-looking button, so the row doesn't grow. */
+  .proj-head-actions .proj-linkedin{
+    position:relative;width:42px;height:36px;padding:0;
+    border:1px solid #a6a6a6;border-radius:8px;}
+  .proj-head-actions .proj-linkedin i{font-size:1.15rem;}
+  .proj-head-actions .proj-linkedin::after{content:"";position:absolute;left:-4px;right:-4px;top:-5px;bottom:-5px;}
+  @media(max-width:600px){
+    .proj-head-actions .proj-linkedin{width:40px;height:32px;}
+    .proj-head-actions .proj-linkedin i{font-size:1.05rem;}
+  }
+
   /* ---- ROW CARD (mirrors .work__img shadow/radius, laid out horizontally) ---- */
   .proj-row{
     background:#fff;border-radius:.5rem;overflow:hidden;margin-bottom:1.5rem;
