@@ -254,10 +254,17 @@
 
 <li class="card">
   <img src="icons/subwaytimes.png" alt="" width="54" height="54" decoding="async">
-  <div class="meta"><b>SubwayTimes</b><span>Live NYC train times</span></div>
+  <div class="meta"><b>Subway Times</b><span>Live NYC train times</span></div>
   <div class="btns">
-    <a class="btn store" href="https://apps.apple.com/us/app/subwaytimes/id6775994423" aria-label="SubwayTimes on the App Store">App Store</a>
-    <a class="btn ghost" href="https://subwaytimes.com" aria-label="SubwayTimes website">Web</a>
+    <!-- "Subway Times" (two words) is the app's canonical branding everywhere else on the site — the
+         homepage project card title and its JSON-LD CreativeWork name, the homepage meta description
+         and no-JS fallback link, building.html's work tile, and llms.txt all write it as two words.
+         This card and its two aria-labels were the one place still spelling it "SubwayTimes", so this
+         aligns the visible title and the App Store/Web accessible names with the site-wide name. The
+         App Store slug and subwaytimes.com host are unchanged (URLs are lowercase, space-free by
+         construction, so they carry no branding). Text only, no visual restyle. -->
+    <a class="btn store" href="https://apps.apple.com/us/app/subwaytimes/id6775994423" aria-label="Subway Times on the App Store">App Store</a>
+    <a class="btn ghost" href="https://subwaytimes.com" aria-label="Subway Times website">Web</a>
   </div>
 </li>
 
