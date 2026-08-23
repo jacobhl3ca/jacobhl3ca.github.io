@@ -233,13 +233,22 @@
      screen readers then announce "list, 4 items" and let users jump item-to-item, and the
      relationship between the "My apps" heading and its items is programmatic, not just visual
      (WCAG 1.3.1). .apps resets the UA list styling above, so there is no visual change. -->
+<!-- Open the app links in a new tab (target="_blank"), with rel="noopener" to sever the
+     opener reference the new context would otherwise inherit (standard security pairing, and the
+     site-wide default for external links). This is the in-person share/hand-off hub (QR / AirDrop /
+     texted link), so tapping into an app should keep the hub open behind it — a visitor exploring
+     "the apps I built" can return to the card and check the others or save the contact, rather than
+     losing the page on the first tap. It also aligns me/ with the rest of the site: building.html
+     opens these exact same apps with target="_blank" rel="noopener", and refer/ (this page's twin
+     share-by-link page) opens all its outbound links in a new tab too — me/ was the one page whose
+     external links still navigated in place. Behaviour only; no visual change. -->
 <ul class="apps">
 <li class="card">
   <img src="icons/hidescore.png" alt="" width="54" height="54" decoding="async">
   <div class="meta"><b>HideScore</b><span>Sports scores with no spoilers</span></div>
   <div class="btns">
-    <a class="btn store" href="https://apps.apple.com/app/hidescore/id6766885311" aria-label="HideScore on the App Store">App Store</a>
-    <a class="btn ghost" href="https://hidescore.com" aria-label="HideScore website">Web</a>
+    <a class="btn store" href="https://apps.apple.com/app/hidescore/id6766885311" target="_blank" rel="noopener" aria-label="HideScore on the App Store">App Store</a>
+    <a class="btn ghost" href="https://hidescore.com" target="_blank" rel="noopener" aria-label="HideScore website">Web</a>
   </div>
 </li>
 
@@ -247,8 +256,8 @@
   <img src="icons/tonightnyc.png" alt="" width="54" height="54" decoding="async">
   <div class="meta"><b>Tonight NYC</b><span>NYC comedy lineups, your way</span></div>
   <div class="btns">
-    <a class="btn store" href="https://apps.apple.com/app/id6763027650" aria-label="Tonight NYC on the App Store">App Store</a>
-    <a class="btn ghost" href="https://tonightnyc.com" aria-label="Tonight NYC website">Web</a>
+    <a class="btn store" href="https://apps.apple.com/app/id6763027650" target="_blank" rel="noopener" aria-label="Tonight NYC on the App Store">App Store</a>
+    <a class="btn ghost" href="https://tonightnyc.com" target="_blank" rel="noopener" aria-label="Tonight NYC website">Web</a>
   </div>
 </li>
 
@@ -263,8 +272,8 @@
          aligns the visible title and the App Store/Web accessible names with the site-wide name. The
          App Store slug and subwaytimes.com host are unchanged (URLs are lowercase, space-free by
          construction, so they carry no branding). Text only, no visual restyle. -->
-    <a class="btn store" href="https://apps.apple.com/us/app/subwaytimes/id6775994423" aria-label="Subway Times on the App Store">App Store</a>
-    <a class="btn ghost" href="https://subwaytimes.com" aria-label="Subway Times website">Web</a>
+    <a class="btn store" href="https://apps.apple.com/us/app/subwaytimes/id6775994423" target="_blank" rel="noopener" aria-label="Subway Times on the App Store">App Store</a>
+    <a class="btn ghost" href="https://subwaytimes.com" target="_blank" rel="noopener" aria-label="Subway Times website">Web</a>
   </div>
 </li>
 
@@ -272,8 +281,8 @@
   <img src="icons/roosevelt.png" alt="" width="54" height="54" decoding="async">
   <div class="meta"><b>Roosevelt Island</b><span>Transit, alerts &amp; island guide</span></div>
   <div class="btns">
-    <a class="btn store" href="https://apps.apple.com/us/app/roosevelt-island/id6775979583" aria-label="Roosevelt Island on the App Store">App Store</a>
-    <a class="btn ghost" href="https://theisland.nyc" aria-label="Roosevelt Island website">Web</a>
+    <a class="btn store" href="https://apps.apple.com/us/app/roosevelt-island/id6775979583" target="_blank" rel="noopener" aria-label="Roosevelt Island on the App Store">App Store</a>
+    <a class="btn ghost" href="https://theisland.nyc" target="_blank" rel="noopener" aria-label="Roosevelt Island website">Web</a>
   </div>
 </li>
 </ul>
@@ -286,7 +295,7 @@
        one bare decorative arrow left in the page's visible text. The neighbouring "Chrome menu →
        Add to Home screen" arrow stays as-is — there it's meaningful (the menu path), not decorative.
        Leading space kept inside the span so the spacing is byte-for-byte identical. No visual change. -->
-  <a href="https://apps.apple.com/us/developer/jacob-heifetz-licht/id1895127194">See all four on my App Store page<span aria-hidden="true"> →</span></a>
+  <a href="https://apps.apple.com/us/developer/jacob-heifetz-licht/id1895127194" target="_blank" rel="noopener">See all four on my App Store page<span aria-hidden="true"> →</span></a>
 </p>
 <p class="note only-android">
   Android versions are in closed testing — the web links above install to your home screen
