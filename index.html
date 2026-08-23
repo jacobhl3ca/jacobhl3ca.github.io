@@ -831,9 +831,10 @@
     border-radius:50%;animation:spin 0.8s linear infinite;}
   .modal-load a{color:var(--first-color);text-decoration:none;}
   @keyframes spin{to{transform:rotate(360deg)}}
-  /* Honour reduced-motion for the modal's loading spinner. This infinite-rotation ring is the one
-     remaining continuous animation on a live element (the hero scroll-down arrow is already stilled
-     in its own reduced-motion block above; the pulsing ccu-dot is commented out), so a visitor who
+  /* Honour reduced-motion for the modal's loading spinner. This infinite-rotation ring is a
+     continuous animation on a live element (the hero scroll-down arrow is already stilled in its own
+     reduced-motion block above; the pulsing ccu-dot is stilled in its own reduced-motion block within
+     the CCU widget's <style>), so a visitor who
      asked their OS to reduce motion still got a spinner while a project's details loaded. Mirrors
      the weather dashboard's reduced-motion rule, which likewise sets its .spinner animation to none.
      The ring stays visible as a static loading affordance — only the rotation stops. */
@@ -987,6 +988,10 @@
                 .ccu-eyebrow{font-size:.78rem;letter-spacing:.12em;text-transform:uppercase;color:var(--text-color,#8b94a0);margin:0 0 1.1rem;display:flex;gap:.5rem;align-items:center;justify-content:center}
                 .ccu-dot{width:7px;height:7px;border-radius:50%;background:#34d399;animation:ccu-pulse 2s infinite}
                 @keyframes ccu-pulse{0%{box-shadow:0 0 0 0 rgba(52,211,153,.5)}70%{box-shadow:0 0 0 7px rgba(52,211,153,0)}100%{box-shadow:0 0 0 0 rgba(52,211,153,0)}}
+                /* Honour reduced-motion: this "Live" dot pulses infinitely, so a visitor who asked their OS to
+                   reduce motion should get the static green dot (still a clear live-status affordance) without the
+                   continuous ripple. Mirrors the modal spinner and scroll-arrow reduced-motion rules elsewhere. */
+                @media (prefers-reduced-motion: reduce){.ccu-dot{animation:none}}
                 .ccu-r{display:inline-flex;gap:3px;border:1px solid color-mix(in srgb,var(--first-color) 35%,transparent);border-radius:999px;padding:3px;margin-bottom:1.6rem}
                 .ccu-r button{border:0;background:transparent;color:var(--text-color,#8b94a0);font:600 .8rem var(--body-font,system-ui);padding:.4rem .95rem;border-radius:999px;cursor:pointer;transition:.2s}
                 .ccu-r button.on{background:var(--first-color);color:#fff}
