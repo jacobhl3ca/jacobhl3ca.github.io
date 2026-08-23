@@ -4,6 +4,18 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Referral links — Jacob</title>
+<!-- iOS home-screen label. This is a phone-first, share-by-link page (pasted into a text or group
+     chat, per the intro copy) and a plausible "Add to Home Screen" target, and iOS Safari names that
+     icon from apple-mobile-web-app-title, falling back to the <title> element, which it truncates
+     ("Referral links — Jacob" becomes "Referral l…"). Give it the short, distinctive "Referrals"
+     label so a bookmarked icon reads cleanly, matching the apple-mobile-web-app-title the site's
+     other content pages already declare (index.html/me/'s "Jacob HL", weather/'s "NYC Weather",
+     building.html's "Jacob HL"); refer/ was the one real content page still missing it (the redirect
+     stubs light/, contact/, tidytab.html and the 404 correctly omit it — they aren't ATHS targets).
+     Deliberately NOT paired with apple-mobile-web-app-capable (that forces a chromeless standalone
+     launch) and no manifest here (the installable app is scoped to the homepage at "/"); this only
+     names the icon. Pure metadata, no visual change. -->
+<meta name="apple-mobile-web-app-title" content="Referrals">
 <meta name="description" content="Services Jacob actually uses, with referral links. You get a signup bonus, he gets one too.">
 <!-- Deliberately NOT indexed and NOT in sitemap.xml. Several referral programs' terms
      restrict public advertising / mass promotion of a personal referral link (bank and
