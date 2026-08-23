@@ -313,7 +313,7 @@ body {
        render, so screen-reader users otherwise get no confirmation the new city's weather arrived. -->
   <div id="srStatus" class="visually-hidden" role="status" aria-live="polite"></div>
   <div id="content">
-    <div class="loading" role="status"><div class="spinner" aria-hidden="true"></div><br>Loading weather data...</div>
+    <div class="loading" role="status"><div class="spinner" aria-hidden="true"></div><br>Loading weather data…</div>
     <noscript>
       <!-- The whole dashboard is rendered by JavaScript, so with JS disabled the loading
            spinner above would otherwise hang forever. Hide it and explain instead. -->
@@ -503,7 +503,7 @@ async function fetchWeather() {
   const city = document.getElementById('cityInput').value.trim();
   if (!city) return;
   const seq = ++requestSeq;
-  document.getElementById('content').innerHTML = '<div class="loading" role="status"><div class="spinner" aria-hidden="true"></div><br>Loading weather data...</div>';
+  document.getElementById('content').innerHTML = '<div class="loading" role="status"><div class="spinner" aria-hidden="true"></div><br>Loading weather data…</div>';
   document.getElementById('alertsBanner').className = 'alerts-banner';
   document.getElementById('alertsBanner').innerHTML = '';
   document.getElementById('alertsBanner').style.display = 'none';
