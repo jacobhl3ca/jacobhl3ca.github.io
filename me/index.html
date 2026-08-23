@@ -316,7 +316,15 @@
 
 <h2>Portfolio</h2>
 <a class="btn wide" href="https://jacobhl.com">jacobhl.com — full portfolio</a>
-<a class="btn wide ghost" href="https://davidlicht.com">davidlicht.com — a site I built</a>
+<!-- davidlicht.com is the one cross-origin outbound link here still navigating in place. Open it
+     in a new tab (target="_blank") with rel="noopener" — the same treatment the app links above and
+     the site's other external links already use, and the page's own stated default for external
+     links. This is the in-person share hub, so a visitor who taps into a site Jacob built should
+     keep the hub open behind it (to come back for the apps or the contact save) rather than lose it.
+     The jacobhl.com links (above and in the footer) stay same-tab on purpose: they're same-origin
+     (this page is jacobhl.com/me/), so they're internal navigation, not external. Behaviour only; no
+     visual change. -->
+<a class="btn wide ghost" href="https://davidlicht.com" target="_blank" rel="noopener">davidlicht.com — a site I built</a>
 
 <h2>Stay in touch</h2>
 <div class="row" style="margin-bottom:10px">
