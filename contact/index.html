@@ -25,18 +25,23 @@
      shown when the instant JS/meta-refresh hop is slow or blocked) matches the homepage this stub
      hands off to, and so it doesn't fire a 404 for the default /favicon.ico.
 
-     theme-color #ffffff (not the earlier dark #0f1520): this stub redirects to /#contact on the
-     light-default homepage, and index.html / 404.html — the pages this comment names as its model —
-     both declare #ffffff since the 2026-07-18 light-default redesign. A dark chrome tint here made
-     the mobile address bar flash dark for the redirect paint and then jump to the homepage's white
-     chrome; #ffffff removes that flash and actually matches the named pattern.
+     theme-color, two media variants (light #ffffff / dark #090f20): unlike the light/ stub — which
+     FORCES light (it writes theme='light' before redirecting, so it fairly pins a single light
+     chrome) — this stub does a plain location.replace('/#contact') that PRESERVES the visitor's
+     saved theme, so it can hand off to the light OR the dark homepage. The homepage's own chrome is
+     exactly these two values (index.html's inline head script and main-alt.js set theme-color to
+     #ffffff in light, #090f20 in dark), so a returning dark-mode visitor previously got a white
+     chrome flash here before the #090f20 dark homepage. A single value can only match one
+     destination; keying the two off prefers-color-scheme tracks the same OS signal the
+     color-scheme below already honors, so the chrome matches whichever homepage the redirect lands
+     on. Mirrors the two-variant theme-color tidytab.html already uses for the same reason.
 
-     color-scheme "light dark": every other page site-wide declares color-scheme (this stub was the
-     only one missing it), pairing it with its theme-color. "light dark" mirrors index.html / 404.html
-     — it matches the document's literal default (light; the homepage ships with no dark preference)
-     while still advertising dark-mode support for a returning visitor who chose it, so the bare
-     fallback <p> renders on the right canvas either way instead of the OS default. -->
-<meta name="theme-color" content="#ffffff">
+     color-scheme "light dark": every other page site-wide declares color-scheme, pairing it with its
+     theme-color. "light dark" advertises dark-mode support (a returning visitor may have chosen it)
+     so the bare fallback <p> renders on the right canvas — now matched by the theme-color variants
+     above rather than a single pinned-light value. -->
+<meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#090f20" media="(prefers-color-scheme: dark)">
 <meta name="color-scheme" content="light dark">
 <link rel="icon" type="image/x-icon" href="/assets/img/favicon.ico">
 <title>Contact Jacob Heifetz-Licht</title>

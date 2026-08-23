@@ -181,7 +181,7 @@
             "about": { "@id": "https://jacobhl.com/#person" },
             "mainEntity": { "@id": "https://jacobhl.com/#person" },
             "inLanguage": "en-US",
-            "dateModified": "2026-08-18T00:00:00-04:00"
+            "dateModified": "2026-08-20T00:00:00-04:00"
         }
         </script>
         <!-- ⛔ dateModified above MUST stay a full ISO 8601 datetime with a time AND a timezone offset (YYYY-MM-DDThh:mm:ss±hh:mm). Google's ProfilePage structured-data spec requires the time+offset on this field specifically, and a bare "YYYY-MM-DD" trips the Search Console warning "Invalid datetime value for dateModified" (first detected 2026-08-10, fixed 2026-08-11). Keep the DATE half in sync with this page's <lastmod> in sitemap.xml as before — just never drop the T-time or the offset when refreshing it. This is a ProfilePage-only requirement; the WebPage/WebApplication nodes on building.html and weather/ are not rich-result types and may stay date-only. -->
@@ -202,7 +202,7 @@
                 { "@type": "ListItem", "position": 2, "item": { "@type": "CreativeWork", "name": "Tonight NYC", "url": "https://tonightnyc.com", "image": "https://jacobhl.com/assets/img/tonightnyc-cover.png", "description": "Every NYC comedy show, filtered to your favorite comedians.", "creator": { "@id": "https://jacobhl.com/#person" } } },
                 { "@type": "ListItem", "position": 3, "item": { "@type": "CreativeWork", "name": "Subway Times", "url": "https://subwaytimes.com", "image": "https://jacobhl.com/assets/img/subwaytimes-cover.png", "description": "Real-time NYC subway arrivals, faster than Maps.", "creator": { "@id": "https://jacobhl.com/#person" } } },
                 { "@type": "ListItem", "position": 4, "item": { "@type": "CreativeWork", "name": "David Licht", "url": "https://davidlicht.com", "image": "https://jacobhl.com/assets/img/davidlicht-app.png", "description": "A showcase site for my dad — five decades of drumming.", "creator": { "@id": "https://jacobhl.com/#person" } } },
-                { "@type": "ListItem", "position": 5, "item": { "@type": "CreativeWork", "name": "The Island", "url": "https://theisland.nyc", "image": "https://jacobhl.com/assets/img/theisland-cover.png", "description": "Everything happening on NYC's Roosevelt Island, in one place.", "creator": { "@id": "https://jacobhl.com/#person" } } },
+                { "@type": "ListItem", "position": 5, "item": { "@type": "CreativeWork", "name": "The Island", "url": "https://theisland.nyc", "image": "https://jacobhl.com/assets/img/theisland-cover.png", "description": "Everything happening on NYC’s Roosevelt Island, in one place.", "creator": { "@id": "https://jacobhl.com/#person" } } },
                 { "@type": "ListItem", "position": 6, "item": { "@type": "CreativeWork", "name": "TidyTab", "url": "https://tidytab.jacobhl.com/", "image": "https://jacobhl.com/assets/img/tidytab-cover.png", "description": "Bulk unpin or close Safari pinned tabs — a macOS menu-bar app.", "creator": { "@id": "https://jacobhl.com/#person" } } },
                 { "@type": "ListItem", "position": 7, "item": { "@type": "CreativeWork", "name": "DuelGoat", "url": "https://duelgoat.com", "image": "https://jacobhl.com/assets/img/duelgoat-cover.png", "description": "A browser recreation of GOAT-format Yu-Gi-Oh dueling.", "creator": { "@id": "https://jacobhl.com/#person" } } }
             ]
@@ -1045,7 +1045,7 @@
             <!--===== HOME =====-->
             <section class="home bd-grid" id="home" aria-labelledby="home-heading">
                 <div class="home__data">
-                    <h1 class="home__title" id="home-heading">Hi,<br>I'm <span class="home__title-color">Jacob</span><br>Analytics Manager</h1>
+                    <h1 class="home__title" id="home-heading">Hi,<br>I’m <span class="home__title-color">Jacob</span><br>Analytics Manager</h1>
                     <!-- Analytics Engineer --> 
                     <!-- or Manager, Analytics -->
                     <a href="#contact" class="button">Contact</a>
@@ -1154,7 +1154,7 @@
                             <li><a href="https://tonightnyc.com" target="_blank" rel="noopener noreferrer">Tonight NYC</a> — Every NYC comedy show, filtered to your favorite comedians.</li>
                             <li><a href="https://subwaytimes.com" target="_blank" rel="noopener noreferrer">Subway Times</a> — Real-time NYC subway arrivals, faster than Maps.</li>
                             <li><a href="https://davidlicht.com" target="_blank" rel="noopener noreferrer">David Licht</a> — A showcase site for my dad — five decades of drumming.</li>
-                            <li><a href="https://theisland.nyc" target="_blank" rel="noopener noreferrer">The Island</a> — Everything happening on NYC's Roosevelt Island, in one place.</li>
+                            <li><a href="https://theisland.nyc" target="_blank" rel="noopener noreferrer">The Island</a> — Everything happening on NYC’s Roosevelt Island, in one place.</li>
                             <li><a href="https://tidytab.jacobhl.com/" target="_blank" rel="noopener noreferrer">TidyTab</a> — Bulk unpin or close Safari pinned tabs — a macOS menu-bar app.</li>
                         </ul>
                     </noscript>
@@ -1475,8 +1475,8 @@ const MAIN = [
     full:"A showcase site I built for my dad — a drummer for five decades, from downtown NYC noise bands to the Grammy-winning Klezmatics. His story, music, and photos in one place.",
     site:"https://davidlicht.com" },
   { title:"The Island", live:true, img:"assets/img/theisland-cover-thumb.webp?v=1", imgLight:"assets/img/theisland-cover-light-thumb.webp?v=1", url:"https://theisland.nyc",
-    one:"Everything happening on NYC's Roosevelt Island, in one place.",
-    full:"Everything happening on NYC's Roosevelt Island, in one place — real-time bus GPS, subway, tram, and ferry times, a restaurant guide, service alerts, an events newsletter, and an interactive map.",
+    one:"Everything happening on NYC’s Roosevelt Island, in one place.",
+    full:"Everything happening on NYC’s Roosevelt Island, in one place — real-time bus GPS, subway, tram, and ferry times, a restaurant guide, service alerts, an events newsletter, and an interactive map.",
     site:"https://theisland.nyc", appstore:"https://apps.apple.com/us/app/roosevelt-island/id6775979583" },
   // DuelGoat lives in the "Other projects" list (MORE) for now — 2026-07-25, Jacob's call.
   // Move this entry back up here (with url: for the live preview) once it earns a main row.

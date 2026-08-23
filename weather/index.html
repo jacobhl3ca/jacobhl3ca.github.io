@@ -27,7 +27,7 @@
     "image": "https://jacobhl.com/assets/img/og_image.png",
     "description": "A live weather dashboard with current conditions, hourly rain chance, a 5-day forecast, air quality, and sun times. Search any city — defaults to New York, NY.",
     "inLanguage": "en-US",
-    "dateModified": "2026-08-18",
+    "dateModified": "2026-08-19",
     "isPartOf": { "@id": "https://jacobhl.com/#website" },
     "applicationCategory": "UtilitiesApplication",
     "operatingSystem": "Web browser",
@@ -56,7 +56,7 @@
 }
 </script>
 <!-- featureList names what the dashboard actually does — the recommended WebApplication/SoftwareApplication property this node was still missing (it already declared applicationCategory, operatingSystem, browserRequirements, offers, isAccessibleForFree). The six entries mirror, verbatim in substance, the visible About copy just below ("Each search returns six things: current conditions… humidity comfort… air quality… sunrise and sunset… hourly rain chance… a 5-day forecast"), so the markup keeps reflecting on-page content as Google requires while giving search engines and AI-retrieval crawlers a structured list of capabilities instead of only the prose description. Mirrors the enrichment prior runs made to the homepage ItemList and building.html's WebPage node (adding each node's recommended-but-missing properties). Pure metadata, no visual change. -->
-<!-- dateModified above is kept in sync with this page's <lastmod> in sitemap.xml: after this node last read 2026-08-16 (the About-copy "five things" → "six" miscount fix), a genuine logic edit landed on this page — the city-search geocoder bug fix that stopped a foreign country code (GB/FR/JP…) being mistaken for a US-state hint, so London/Paris no longer resolve to their small US namesakes — so both this node and the sitemap lastmod are advanced to 2026-08-18 in lockstep to track it. Mirrors the homepage's ProfilePage and building.html's WebPage freshness syncs made in this same batch. Unlike the homepage ProfilePage (a rich-result type that requires a full ISO datetime + offset), WebApplication is not a rich-result type, so date-only granularity — mirroring the sitemap's — is fine here, as the homepage's dateModified note explicitly permits. Pure metadata, no visual change. -->
+<!-- dateModified above is kept in sync with this page's <lastmod> in sitemap.xml: after this node read 2026-08-18 (tracking the city-search geocoder bug fix that stopped a foreign country code — GB/FR/JP… — being mistaken for a US-state hint, so London/Paris no longer resolve to their small US namesakes), a further edit landed on this page on 2026-08-19 — the apple-mobile-web-app-title added just above for a clean iOS home-screen label — so both this node and the sitemap lastmod are advanced to 2026-08-19 in lockstep to track it. Mirrors the homepage's ProfilePage and building.html's WebPage freshness syncs made in this same batch. Unlike the homepage ProfilePage (a rich-result type that requires a full ISO datetime + offset), WebApplication is not a rich-result type, so date-only granularity — mirroring the sitemap's — is fine here, as the homepage's dateModified note explicitly permits. Pure metadata, no visual change. -->
 <!-- Breadcrumb trail: this dashboard is a sub-page that's independently indexed (it's in the sitemap and canonical'd) but sits one level under the homepage — the visible "← Back to jacobhl.com" link is its informal breadcrumb. Formalize that Home → Weather Dashboard hierarchy so search engines can model the page's place in the site and show a breadcrumb in results instead of the raw URL. Continues the site's linked-data pattern (Person → WebSite → WebApplication). The #breadcrumb @id (and the matching "breadcrumb" reference just added to the WebApplication node above) ties this list into the site's @id graph the way every other node here is cross-referenced — it was the one structured-data node on this page still floating unconnected, the same gap already closed on building.html. Google's breadcrumb guidance associates a page's BreadcrumbList with its main entity via this exact property, so the link also makes "which page owns this trail" explicit rather than inferred. Pure metadata, no visual change. -->
 <script type="application/ld+json">
 {
@@ -305,7 +305,7 @@ body {
   <h1 class="visually-hidden">Weather Dashboard</h1>
   <div class="search-bar" role="search" aria-label="City weather search">
     <!-- autocomplete="off": this is a live-search box (it fires fetchWeather on Enter, and via the Search button), not a stored profile field, so the browser's autofill dropdown — offering saved names/addresses/emails — is both irrelevant here and liable to cover the results as they load. Completes the deliberate input-hint set already on this field (autocapitalize/autocorrect/spellcheck); "off" is the standard signal for a search input. No visual change to the settled field. -->
-    <input type="text" id="cityInput" placeholder="Search city..." value="New York, NY" aria-label="Search for a city" enterkeyhint="search" autocomplete="off" autocapitalize="words" autocorrect="off" spellcheck="false">
+    <input type="text" id="cityInput" placeholder="Search city…" value="New York, NY" aria-label="Search for a city" enterkeyhint="search" autocomplete="off" autocapitalize="words" autocorrect="off" spellcheck="false">
     <button type="button" id="searchBtn">Search</button>
   </div>
   <div id="alertsBanner" class="alerts-banner" aria-live="polite" aria-atomic="true"></div>
@@ -313,7 +313,7 @@ body {
        render, so screen-reader users otherwise get no confirmation the new city's weather arrived. -->
   <div id="srStatus" class="visually-hidden" role="status" aria-live="polite"></div>
   <div id="content">
-    <div class="loading" role="status"><div class="spinner" aria-hidden="true"></div><br>Loading weather data...</div>
+    <div class="loading" role="status"><div class="spinner" aria-hidden="true"></div><br>Loading weather data…</div>
     <noscript>
       <!-- The whole dashboard is rendered by JavaScript, so with JS disabled the loading
            spinner above would otherwise hang forever. Hide it and explain instead. -->
@@ -503,7 +503,7 @@ async function fetchWeather() {
   const city = document.getElementById('cityInput').value.trim();
   if (!city) return;
   const seq = ++requestSeq;
-  document.getElementById('content').innerHTML = '<div class="loading" role="status"><div class="spinner" aria-hidden="true"></div><br>Loading weather data...</div>';
+  document.getElementById('content').innerHTML = '<div class="loading" role="status"><div class="spinner" aria-hidden="true"></div><br>Loading weather data…</div>';
   document.getElementById('alertsBanner').className = 'alerts-banner';
   document.getElementById('alertsBanner').innerHTML = '';
   document.getElementById('alertsBanner').style.display = 'none';

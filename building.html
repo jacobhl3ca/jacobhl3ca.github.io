@@ -23,7 +23,7 @@
 <meta name="author" content="Jacob Heifetz-Licht">
 <!-- Self-referential canonical: this page is a flyer/QR target, so it's routinely opened with tracking query params (?utm_*, QR analytics). Point every such variant at the clean URL so search engines index one copy, not duplicates. Mirrors the canonical present on every other page (index.html, weather/, light/). -->
 <link rel="canonical" href="https://jacobhl.com/building.html">
-<!-- Structured data: building.html is independently indexed (it's in sitemap.xml and self-canonical'd above) but was the one indexed page site-wide with no linked-data node. Give it a WebPage entity tied into the site's graph the same way weather/ ties in its WebApplication: isPartOf the WebSite (#website, defined on index.html) and authored by the Person (#person) — cross-page @id references search engines merge site-wide. inLanguage matches the en-US the homepage's nodes declare and this page's og:locale. dateModified names the day this page was last edited — the freshness signal kept in sync with this page's own sitemap.xml <lastmod> (2026-08-18, building.html's true last-modification date: after this node was last set to 2026-08-11, genuine 2026-08-18 edits landed on this page — a branded :focus-visible ring on its interactive elements and the image field added to this very node just above — so both the sitemap lastmod and this dateModified, left at 2026-08-11, were stale and are now synced up to 2026-08-18), exactly as the homepage's ProfilePage node syncs its dateModified to the homepage lastmod; date-only granularity mirrors the sitemap's. Pure metadata, no visual change. -->
+<!-- Structured data: building.html is independently indexed (it's in sitemap.xml and self-canonical'd above) but was the one indexed page site-wide with no linked-data node. Give it a WebPage entity tied into the site's graph the same way weather/ ties in its WebApplication: isPartOf the WebSite (#website, defined on index.html) and authored by the Person (#person) — cross-page @id references search engines merge site-wide. inLanguage matches the en-US the homepage's nodes declare and this page's og:locale. dateModified names the day this page was last edited — the freshness signal kept in sync with this page's own sitemap.xml <lastmod> (2026-08-19, building.html's true last-modification date: after this dateModified read 2026-08-18 — tracking that day's :focus-visible ring on its interactive elements and the image field added to this very node just above — a further edit landed on 2026-08-19, the apple-mobile-web-app-title added for a clean iOS home-screen label, so both the sitemap lastmod and this dateModified are advanced to 2026-08-19 in lockstep to track it), exactly as the homepage's ProfilePage node syncs its dateModified to the homepage lastmod; date-only granularity mirrors the sitemap's. Pure metadata, no visual change. -->
 <script type="application/ld+json">
 {
     "@context": "https://schema.org",
@@ -34,7 +34,7 @@
     "description": "Pay-what-you-want website and app help from Jacob, a software developer in the building. See live work and send your idea.",
     "image": "https://jacobhl.com/assets/img/og_image.png",
     "inLanguage": "en-US",
-    "dateModified": "2026-08-18",
+    "dateModified": "2026-08-19",
     "isPartOf": { "@id": "https://jacobhl.com/#website" },
     "author": { "@id": "https://jacobhl.com/#person" },
     "breadcrumb": { "@id": "https://jacobhl.com/building.html#breadcrumb" }
@@ -196,12 +196,12 @@
   </div>
 
   <div class="eyebrow">Pay what you want · you keep what I make</div>
-  <h1>Want a website or app? <span class="pw">Let's build it.</span></h1>
-  <p class="lead">I design and ship fast, modern websites and apps — the kind you'd expect from a studio, from someone a few floors away. I'm taking on a few real neighbor projects while I grow my portfolio.</p>
+  <h1>Want a website or app? <span class="pw">Let’s build it.</span></h1>
+  <p class="lead">I design and ship fast, modern websites and apps — the kind you’d expect from a studio, from someone a few floors away. I’m taking on a few real neighbor projects while I grow my portfolio.</p>
 
   <section class="panel">
     <!-- The live-work showcase was the one content panel on this page with no heading — the other three panels (Good fits / How it works / Pay what you want) each open with an <h2>, so a screen-reader user navigating by headings, or a crawler reading the outline, skipped straight past the portfolio proof (the flyer's most persuasive section). Promote this styled label from a <div> to an <h2> so the section is navigable and the heading order is h1 → h2×4. The .worklabel class (font-size/weight/margin) beats the h2 element rules by specificity, so it renders identically. No visual change. -->
-    <h2 class="worklabel">A few things I've built — all live, tap to open</h2>
+    <h2 class="worklabel">A few things I’ve built — all live, tap to open</h2>
     <!-- The trailing ↗ on each tile's URL is a decorative "opens externally" cue paired with the
          visible domain, so hide it from assistive tech (aria-hidden) — otherwise a screen reader
          announces "north-east arrow" after every domain. Matches the site's consistent decorative-
@@ -212,7 +212,7 @@
       <a class="wtile" href="https://theisland.nyc" target="_blank" rel="noopener"><b>The Island</b><span>Live Roosevelt Island guide — bus GPS, tram &amp; subway times</span><span class="u">theisland.nyc<span aria-hidden="true"> ↗</span></span></a>
       <a class="wtile" href="https://duelgoat.com" target="_blank" rel="noopener"><b>GOAT Format</b><span>Full online card-game platform, built from scratch</span><span class="u">duelgoat.com<span aria-hidden="true"> ↗</span></span></a>
       <a class="wtile" href="https://subwaytimes.com" target="_blank" rel="noopener"><b>Subway Times</b><span>Fast live NYC subway arrivals, 497 station pages</span><span class="u">subwaytimes.com<span aria-hidden="true"> ↗</span></span></a>
-      <a class="wtile" href="https://tonightnyc.com" target="_blank" rel="noopener"><b>Tonight NYC</b><span>What's on tonight — comedy, jazz, events</span><span class="u">tonightnyc.com<span aria-hidden="true"> ↗</span></span></a>
+      <a class="wtile" href="https://tonightnyc.com" target="_blank" rel="noopener"><b>Tonight NYC</b><span>What’s on tonight — comedy, jazz, events</span><span class="u">tonightnyc.com<span aria-hidden="true"> ↗</span></span></a>
       <a class="wtile" href="https://davidlicht.com" target="_blank" rel="noopener"><b>Oral history</b><span>A polished personal / portfolio site</span><span class="u">davidlicht.com<span aria-hidden="true"> ↗</span></span></a>
     </div>
   </section>
@@ -224,7 +224,7 @@
         <li>A website for a small business, service, or side project</li>
         <li>A personal site, portfolio, menu, event page, or link page</li>
         <li>A simple app, tracker, dashboard, or internal tool</li>
-        <li>A polished version of an idea you've had sitting around</li>
+        <li>A polished version of an idea you’ve had sitting around</li>
       </ul>
     </section>
 
@@ -241,8 +241,8 @@
 
   <section class="panel">
     <h2>Pay what you want</h2>
-    <p>I'm doing this mainly for portfolio work and real practice, so there's no fixed price. If the finished thing is useful to you, pay whatever feels fair. If money is the blocker, say that up front.</p>
-    <p class="note">I'll only take a small number of projects so I can finish them properly.</p>
+    <p>I’m doing this mainly for portfolio work and real practice, so there’s no fixed price. If the finished thing is useful to you, pay whatever feels fair. If money is the blocker, say that up front.</p>
+    <p class="note">I’ll only take a small number of projects so I can finish them properly.</p>
     <div class="cta">
       <!-- Escape the query-separator & as &amp; in this mailto href. An unescaped & in an attribute value is the one bare & left on the page (the work-tile descriptions were escaped earlier) and, more than a validity nicety, it's a latent footgun: HTML unescapes attribute values, and a parameter that begins with a legacy no-semicolon entity (e.g. &copy=, &reg=) would be silently decoded and corrupt the mailto. &body isn't such an entity so today's link is unaffected, but writing &amp; is the defensive, W3C-recommended form for & in URLs and matches the site's escape-bare-& pattern. The browser decodes &amp;→& when parsing the attribute, so the composed mailto (and the prefilled subject/body) is byte-for-byte identical. No visual or behaviour change. -->
       <a class="button" href="mailto:hi@jacobhl.com?subject=Building%20project%20idea&amp;body=Hi%20Jacob%2C%0A%0AI%20saw%20your%20flyer%20in%20the%20building.%20I%20might%20want%20help%20with%3A%0A%0AThe%20rough%20idea%3A%0A%0AWhat%20it%20is%20for%3A%0A%0ABest%20way%20to%20reach%20me%3A%0A">Email the idea</a>
