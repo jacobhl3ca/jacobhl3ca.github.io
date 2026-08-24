@@ -136,6 +136,7 @@
                 "https://www.linkedin.com/in/jacobhl/",
                 "https://github.com/jacobhl3ca",
                 "https://apps.apple.com/us/developer/jacob-heifetz-licht/id1895127194",
+                "https://play.google.com/store/apps/developer?id=Jacob+Heifetz-Licht",
                 "https://about.me/jacobhl",
                 "https://devpost.com/jacobhl",
                 "https://public.tableau.com/app/profile/jacob.heifetz.licht"
@@ -586,6 +587,27 @@
   @media(max-width:600px){
     .proj-head-actions .proj-linkedin{width:40px;height:32px;}
     .proj-head-actions .proj-linkedin i{font-size:1.05rem;}
+  }
+
+  /* Two store pills side by side do not fit beside the centred "Projects" title on a phone. The
+     single Apps pill was already within ~1px of the title at 375px (see the 400px/365px padding
+     trims above), so a second labelled pill overlaps the heading outright from ~600px down. Drop
+     both to icon-only squares here, the same size as the LinkedIn button beside them: the pair
+     costs ~70px instead of ~145px and the title stays clear down to 320px. This block sits after
+     those trims so its padding wins at every width below the breakpoint. Each link keeps its
+     aria-label and title, so the bare icons are still announced and hoverable as "App Store apps"
+     and "Google Play apps". */
+  @media(max-width:600px){
+    .proj-head-actions .proj-appstore-all{width:32px;padding:0;gap:0;}
+    .proj-head-actions .proj-appstore-all span{display:none;}
+  }
+
+  /* Even icon-only, the second pill costs ~37px, which puts the actions within ~3px of the title
+     on a 375px phone (SE / 8 / 13 mini). The existing hide of the LinkedIn button starts at 365px
+     for exactly this reason, so extend it to cover that band: LinkedIn is still reachable from the
+     hero social row and the footer on the same page, while the two store links are only here. */
+  @media(max-width:400px){
+    .proj-head-actions .proj-linkedin{display:none;}
   }
 
   /* ---- ROW CARD (mirrors .work__img shadow/radius, laid out horizontally) ---- */
@@ -1136,6 +1158,15 @@
                     <div class="proj-head-actions">
                         <!-- rel="me": this App Store developer profile is one of Jacob's own verified identity profiles and is already declared in the JSON-LD Person "sameAs" array above (alongside LinkedIn and GitHub). Those two profiles carry rel="me" on every link site-wide as the HTML-level companion to sameAs (see the home__social comment); this developer-profile link was the one sameAs member still missing it, so add it to complete that sameAs↔rel=me parity. Additive rel token — no visual or behaviour change (noopener/noreferrer preserved). -->
                         <a class="proj-appstore-all" href="https://apps.apple.com/us/developer/jacob-heifetz-licht/id1895127194" target="_blank" rel="me noopener noreferrer" aria-label="View all Jacob Heifetz-Licht apps on the App Store" title="App Store apps"><i class='bx bxl-apple' aria-hidden="true"></i><span>Apps</span></a>
+                        <!-- Android companion to the App Store pill above, in the same .proj-appstore-all format,
+                             iOS first so the two stores read as one pair. Icon is bxl-play-store (the Play triangle)
+                             rather than bxl-android (the robot): at the pill's 1.02rem size the robot's antennae and
+                             legs thin right out and sit visually lighter than the solid Apple mark beside it, while
+                             the triangle matches its weight - and it is the correct mark for a Google Play link
+                             anyway. Points at the Play developer listing (hidescore, Tonight NYC), the mirror of the
+                             App Store developer profile next to it, and carries the same rel="me" as that link since
+                             it is now a member of the JSON-LD Person "sameAs" array above too. -->
+                        <a class="proj-appstore-all" href="https://play.google.com/store/apps/developer?id=Jacob+Heifetz-Licht" target="_blank" rel="me noopener noreferrer" aria-label="View all Jacob Heifetz-Licht apps on Google Play" title="Google Play apps"><i class='bx bxl-play-store' aria-hidden="true"></i><span>Apps</span></a>
                         <a class="proj-linkedin" href="https://www.linkedin.com/in/jacobhl/" target="_blank" rel="me noopener noreferrer" aria-label="Connect with me on LinkedIn" title="Connect on LinkedIn"><i class='bx bxl-linkedin' aria-hidden="true"></i></a>
                     </div>
                 </div>
