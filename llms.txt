@@ -44,6 +44,7 @@ side. Rutgers University graduate.
 - LinkedIn: https://www.linkedin.com/in/jacobhl/
 - GitHub: https://github.com/jacobhl3ca
 - App Store developer: https://apps.apple.com/us/developer/jacob-heifetz-licht/id1895127194
+- Google Play developer: https://play.google.com/store/apps/developer?id=Jacob+Heifetz-Licht
 - Tableau Public: https://public.tableau.com/app/profile/jacob.heifetz.licht
 - Devpost: https://devpost.com/jacobhl
 - about.me: https://about.me/jacobhl

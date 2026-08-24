@@ -20,7 +20,7 @@
         <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin> <!-- early-connect for the boxicons icon font (CORS woff2, crossorigin so the warmed socket is reused) -->
         <link rel="preconnect" href="https://fonts.googleapis.com"> <!-- early-connect to Google Fonts CSS (styles.css @imports Poppins from here, on the critical path) -->
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin> <!-- early-connect to the Google Fonts file host; crossorigin so the warmed socket is reused for the CORS woff2 fetch -->
-        <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap"> <!-- styles.css @imports Poppins, but @import isn't discoverable until styles.css has downloaded + parsed, so the font CSS fetch is serialized on the critical path; preload it (same URL) so the browser fetches it in parallel up front and the @import then resolves from cache. Kept identical to the @import (now includes weight 500, used by .skills__tag / .mac-badge) so the preload still satisfies it. -->
+        <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&amp;display=swap"> <!-- styles.css @imports Poppins, but @import isn't discoverable until styles.css has downloaded + parsed, so the font CSS fetch is serialized on the critical path; preload it (same URL) so the browser fetches it in parallel up front and the @import then resolves from cache. Kept identical to the @import (now includes weight 500, used by .skills__tag / .mac-badge) so the preload still satisfies it. The query separator is written &amp; (not a bare &): an unescaped & in an attribute value is an "ambiguous ampersand" HTML parse error (W3C validation), and this preload href was the one bare & left on the page — matching the site's escape-bare-& pattern already applied to building.html's mailto. The browser decodes &amp;→& when parsing the attribute, so the preloaded URL is byte-for-byte identical and still matches the @import it warms. No visual or behaviour change. -->
         <!-- LCP preload: the first project card's thumbnail (HideScore's branded cover) is the
              projects-only LCP, but the project rows are built by the inline script near </body>,
              so the preload scanner can't discover this image during head parse — the
@@ -853,9 +853,10 @@
     border-radius:50%;animation:spin 0.8s linear infinite;}
   .modal-load a{color:var(--first-color);text-decoration:none;}
   @keyframes spin{to{transform:rotate(360deg)}}
-  /* Honour reduced-motion for the modal's loading spinner. This infinite-rotation ring is the one
-     remaining continuous animation on a live element (the hero scroll-down arrow is already stilled
-     in its own reduced-motion block above; the pulsing ccu-dot is commented out), so a visitor who
+  /* Honour reduced-motion for the modal's loading spinner. This infinite-rotation ring is a
+     continuous animation on a live element (the hero scroll-down arrow is already stilled in its own
+     reduced-motion block above; the pulsing ccu-dot is stilled in its own reduced-motion block within
+     the CCU widget's <style>), so a visitor who
      asked their OS to reduce motion still got a spinner while a project's details loaded. Mirrors
      the weather dashboard's reduced-motion rule, which likewise sets its .spinner animation to none.
      The ring stays visible as a static loading affordance — only the rotation stops. */
@@ -1009,6 +1010,10 @@
                 .ccu-eyebrow{font-size:.78rem;letter-spacing:.12em;text-transform:uppercase;color:var(--text-color,#8b94a0);margin:0 0 1.1rem;display:flex;gap:.5rem;align-items:center;justify-content:center}
                 .ccu-dot{width:7px;height:7px;border-radius:50%;background:#34d399;animation:ccu-pulse 2s infinite}
                 @keyframes ccu-pulse{0%{box-shadow:0 0 0 0 rgba(52,211,153,.5)}70%{box-shadow:0 0 0 7px rgba(52,211,153,0)}100%{box-shadow:0 0 0 0 rgba(52,211,153,0)}}
+                /* Honour reduced-motion: this "Live" dot pulses infinitely, so a visitor who asked their OS to
+                   reduce motion should get the static green dot (still a clear live-status affordance) without the
+                   continuous ripple. Mirrors the modal spinner and scroll-arrow reduced-motion rules elsewhere. */
+                @media (prefers-reduced-motion: reduce){.ccu-dot{animation:none}}
                 .ccu-r{display:inline-flex;gap:3px;border:1px solid color-mix(in srgb,var(--first-color) 35%,transparent);border-radius:999px;padding:3px;margin-bottom:1.6rem}
                 .ccu-r button{border:0;background:transparent;color:var(--text-color,#8b94a0);font:600 .8rem var(--body-font,system-ui);padding:.4rem .95rem;border-radius:999px;cursor:pointer;transition:.2s}
                 .ccu-r button.on{background:var(--first-color);color:#fff}
@@ -1027,7 +1032,7 @@
                 <p class="ccu-eyebrow"><span class="ccu-dot"></span> Live · my Claude Code usage</p>
                 <div class="ccu-r" role="group" aria-label="Usage time range"><button type="button" data-r="today" aria-pressed="false">Today</button><button type="button" data-r="d7" aria-pressed="false">7 days</button><button type="button" data-r="d30" class="on" aria-pressed="true">30 days</button><button type="button" data-r="all" aria-pressed="false">All time</button></div>
                 <div class="ccu-h">
-                  <div><div class="ccu-num" id="ccu-m">0</div><div class="ccu-lab">Messages</div><div class="ccu-sub">prompts I've sent</div></div>
+                  <div><div class="ccu-num" id="ccu-m">0</div><div class="ccu-lab">Messages</div><div class="ccu-sub">prompts I’ve sent</div></div>
                   <div><div class="ccu-num" id="ccu-t">0</div><div class="ccu-lab">Tokens</div><div class="ccu-sub">processed</div></div>
                 </div>
                 <div class="ccu-more">

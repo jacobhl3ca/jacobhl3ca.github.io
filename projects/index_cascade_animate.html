@@ -377,7 +377,8 @@
 
                 <div class="home__img">
                     <div class="home__circle clickable-img" id="home-photo">
-                        <img src="/assets/img/header.png" alt="Jacob Heifetz-Licht" class="home__circle-img">
+                        <!-- Intrinsic width/height (matching the source files, 705x800) so the browser reserves the portrait's box before the image loads, preventing the layout shift (CLS) an unsized img causes as it pops in. These are the real dimensions of /assets/img/header.png and the exact values index.html and the index_with_animation.html sibling already declare on this same hero image; CSS (.home__circle-img) still controls the rendered size, so the attributes only supply the aspect ratio and change nothing visually. This cascade variant was the one homepage page still shipping these three photos unsized. -->
+                        <img src="/assets/img/header.png" alt="Jacob Heifetz-Licht" width="705" height="800" class="home__circle-img">
                     </div>
                 </div>
             </section>
@@ -390,7 +391,7 @@
                     <div class="about__img">
 
                          <!-- loading="lazy" decoding="async" on this and every image below the fold (the about/skills photos and all project thumbnails): this cascade variant was the one page site-wide still eager-loading its whole image set, so every thumbnail was fetched up front on load even though they sit well below the viewport. Lazy defers each off-screen fetch until it nears the viewport and decoding="async" keeps the decode off the main thread — mirroring the exact attributes the sibling homepage variant (index_with_animation.html) and index.html already carry on these same theme-swapped images. The hero portrait above is deliberately left eager (it's the above-the-fold LCP). No visual change. -->
-                         <img loading="lazy" decoding="async" src="/assets/img/about.jpg" alt="Jacob Heifetz-Licht portrait" class="clickable-img" id="about-photo">
+                         <img loading="lazy" decoding="async" src="/assets/img/about.jpg" alt="Jacob Heifetz-Licht portrait" width="600" height="600" class="clickable-img" id="about-photo">
 
                     </div>
                     <div>
@@ -509,7 +510,7 @@
                     </div>
                     
                     <div>              
-                        <img loading="lazy" decoding="async" src="/assets/img/skills.jpg" alt="Jacob working with data analytics tools" class="skills__img" id="skills-photo">
+                        <img loading="lazy" decoding="async" src="/assets/img/skills.jpg" alt="Jacob working with data analytics tools" width="640" height="426" class="skills__img" id="skills-photo">
                     </div>
                 </div>
             </section>
