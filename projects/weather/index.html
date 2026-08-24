@@ -43,7 +43,7 @@
 <link rel="preconnect" href="https://api.open-meteo.com" crossorigin>
 <link rel="preconnect" href="https://air-quality-api.open-meteo.com" crossorigin>
 <!-- Drop weight 300 from the requested Poppins set: this leftover /projects/weather/ copy asked Google Fonts for 300;400;500;600;700, but nothing on the page uses font-weight:300 (its CSS only sets 400/500/600/700) — so the browser fetched and parsed an extra @font-face woff2 that never renders. Requesting only the weights actually used trims that wasted font download on this render-blocking stylesheet, and matches the exact 400;500;600;700 set the production /weather/ dashboard this copies (and every other Poppins page site-wide) already ships. No visual change — the removed weight was unused. -->
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
 <style>
 :root {
   color-scheme: dark;
