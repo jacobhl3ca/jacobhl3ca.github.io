@@ -30,6 +30,15 @@
      (that would force a chromeless standalone launch) and no manifest here (the installable app is
      scoped to the homepage at "/"); this only names the icon. Pure metadata, no visual change. -->
 <meta name="apple-mobile-web-app-title" content="Jacob HL">
+<!-- Non-Apple counterpart to the apple-mobile-web-app-title above: application-name is the
+     standard field browsers read when this page is pinned or turned into a desktop/taskbar
+     shortcut. Without it that path falls back to the <title> ("Jacob HL — apps, sites, contact"),
+     the same truncation the Apple label above avoids on iOS. Give it the same short "Jacob HL"
+     label so a pinned icon of this page reads cleanly on every platform, completing the
+     cross-platform short-name pair index.html and weather/ already carry (each page's
+     apple-mobile-web-app-title + application-name). Like the Apple label it only names the icon — no apple-mobile-web-app-capable,
+     no standalone/chromeless launch. Pure metadata, no visual change. -->
+<meta name="application-name" content="Jacob HL">
 <!-- Base meta description: this page already ships an og:description and twitter:description
      (the social-preview block below), but was the one page site-wide with no plain
      <meta name="description"> — every other page (index.html, weather/, building.html, refer/,
