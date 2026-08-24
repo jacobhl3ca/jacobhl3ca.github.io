@@ -101,7 +101,8 @@
 <meta name="twitter:image:alt" content="Jacob Heifetz-Licht — Analytics Manager and web developer">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+<!-- The query separator is written &amp; (not a bare &), matching the escape-bare-& convention already applied to the Poppins hrefs on index.html and 404.html — the two remaining bare & in an href site-wide were here and on refer/. The browser decodes &amp;→& when parsing the attribute, so the requested font URL is byte-for-byte identical (Google Fonts still receives ...700&display=swap) and the same weights load. No visual or behaviour change. -->
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
 <!-- Warm up TLS connections to the Open-Meteo APIs: geocoding gates the weather + air-quality fetches on first load, so preconnecting shaves the connection setup off the critical path. crossorigin so the socket is reused for the CORS JSON requests. -->
 <link rel="preconnect" href="https://geocoding-api.open-meteo.com" crossorigin>
 <link rel="preconnect" href="https://api.open-meteo.com" crossorigin>
