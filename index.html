@@ -610,6 +610,43 @@
     .proj-head-actions .proj-linkedin{display:none;}
   }
 
+  /* ===== 2026-08-24: make the three projects-header buttons one control ==========================
+     They had drifted apart: the App Store / Google Play pills carried a lighter #d0d0d0 outline,
+     no hover lift and a 32px icon-only box on phones, while LinkedIn beside them had the darker
+     #a6a6a6 outline, a translateY(-1px) hover and a 40px box with a bleed-out touch region. And
+     LinkedIn never actually got the blue hover outline the pills have, because the border
+     SHORTHAND in `.proj-head-actions .proj-linkedin` above is declared after (and at the same
+     specificity as) the `.proj-linkedin:hover` border-color, so the grey always won.
+     Take LinkedIn's size + movement + resting outline for all three, and the pills' blue hover
+     outline for all three. ===================================================================== */
+  .proj-head-actions > a{
+    border-color:#a6a6a6;
+    transition:border-color .2s ease,color .2s ease,transform .2s ease;
+  }
+  .proj-head-actions > a:hover{border-color:var(--first-color);transform:translateY(-1px);}
+  /* LinkedIn's blue hover outline — needs this specificity to beat the border shorthand above */
+  .proj-head-actions .proj-linkedin:hover{border-color:var(--first-color);color:var(--first-color);}
+  /* dark mode: the pills were filled black next to a transparent LinkedIn; drop the fill and let
+     the icon go accent-blue on hover, exactly like LinkedIn does */
+  [data-theme="dark"] .proj-head-actions .proj-appstore-all{background:transparent;color:#e0e0e0;}
+  [data-theme="dark"] .proj-head-actions .proj-appstore-all:hover{color:var(--first-color);}
+  /* the same bleed-out hit area LinkedIn already had, so all three are equally tappable */
+  .proj-head-actions .proj-appstore-all{position:relative;}
+  .proj-head-actions .proj-appstore-all::after{content:"";position:absolute;left:-4px;right:-4px;top:-5px;bottom:-5px;}
+  /* icon-only band: the pills were 32px wide against LinkedIn's 40px. One size for all three. */
+  @media(max-width:600px){
+    .proj-head-actions .proj-appstore-all{width:40px;height:32px;padding:0;gap:0;}
+  }
+  /* 401-460px is the tight band: LinkedIn is still shown (the hide starts at 400px) so all three
+     are on screen, and three 40px boxes + two 0.4rem gaps = 133px, which ran ~4px into the centred
+     "Projects" title at 401px. Step all three down together to 36px + 0.3rem gaps (118px) there —
+     still well up on the 32px the store pills used to be, still one size for all three, and the
+     ::after bleed keeps the tap target at 44px wide. Verified clear at 401/410/430/460/461. */
+  @media(max-width:460px){
+    .proj-head-actions{gap:.3rem;}
+    .proj-head-actions .proj-appstore-all,.proj-head-actions .proj-linkedin{width:36px;}
+  }
+
   /* ---- ROW CARD (mirrors .work__img shadow/radius, laid out horizontally) ---- */
   .proj-row{
     background:#fff;border-radius:.5rem;overflow:hidden;margin-bottom:1.5rem;
@@ -627,10 +664,29 @@
      rounding). It was hard-coded near-black, which flashed a dark rectangle on the
      now-light-default page — match it to the light covers instead. */
   html:not([data-theme="dark"]) .proj-thumb{background:#eef1f8;}
-  .proj-thumb img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center;transition:transform .9s ease;}
+  /* Covers are 640x342 (1.87:1) but the tile stretches to the card's height, so as soon as a
+     one-liner wraps to two lines the box goes squarer (1.54 at ~700px, 0.99 at <=576px) and
+     object-fit:cover ate up to ~47% of the image WIDTH — chopping the tagline baked into every
+     cover ("...thing on Roosevelt Island in one" instead of "Everything on Roosevelt Island in
+     one place."). The logo and app name survived because they sit centred; only the wide
+     one-liner ran past the crop. Show the whole cover instead (object-fit:contain) and fill the
+     leftover band with a blurred, cover-fitted copy of the SAME image, so the tile stays a full
+     rectangle at every ratio without a hard letterbox edge — and without per-cover background
+     colours (the seven covers' own edge colours differ: #fff, #fbf7f4, #edf0f8...). At the
+     native 1.87 box contain === cover, so wide desktop cards are pixel-identical to before. */
+  .proj-thumb img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;object-position:center;transition:transform .9s ease;z-index:2;}
+  .proj-thumb img.proj-thumb-bg{z-index:0;object-fit:cover;transform:scale(1.25);filter:blur(16px) saturate(.9);}
+  .proj-thumb:hover img.proj-thumb-bg{transform:scale(1.32);}
+  /* scrim over the blurred copy only (the real cover sits on z-index:2 above it) so the band
+     settles toward the card colour instead of reading as a coloured smear */
+  .proj-thumb::before{content:"";position:absolute;inset:0;z-index:1;pointer-events:none;
+    background:rgba(238,241,248,.72);}
+  [data-theme="dark"] .proj-thumb::before{background:rgba(15,15,15,.62);}
   .proj-thumb.pos-top img{object-position:top;}
   .proj-thumb:hover img{transform:scale(1.08);}
-  .proj-cue{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
+  /* z-index:3 — the cover img and its blurred backdrop now sit on z-index 2/0 (see the
+     object-fit:contain note above), so this hover scrim needs an explicit layer above them. */
+  .proj-cue{position:absolute;inset:0;z-index:3;display:flex;align-items:center;justify-content:center;
     background:rgba(8,10,18,.40);opacity:0;transition:opacity .2s ease;}
   .proj-thumb:hover .proj-cue{opacity:1;}
   .proj-cue span{display:inline-flex;align-items:center;gap:.4rem;font-size:.75rem;font-weight:600;
@@ -639,7 +695,7 @@
   /* persistent magnifying-glass affordance — plain white icon, bottom-right corner, sat on the
      same horizontal line as the action-row buttons (favicon/App Store/chevron) */
   .proj-zoom{position:absolute;right:.6rem;bottom:.55rem;display:flex;align-items:center;justify-content:center;
-    color:#fff;pointer-events:none;z-index:2;filter:drop-shadow(0 1px 4px rgba(0,0,0,.85));}
+    color:#fff;pointer-events:none;z-index:4;filter:drop-shadow(0 1px 4px rgba(0,0,0,.85));}
   .proj-zoom i{font-size:1.4rem;line-height:1;}
   .proj-thumb.no-live{cursor:pointer;}
   .proj-thumb.no-live:hover img{transform:none;}
@@ -888,7 +944,7 @@
   /* #8 — "Projects" section title reads black in light mode (was the blue accent) */
   html:not([data-theme="dark"]) #projects-heading{color:#000;}
   /* #7 — light-mode variant of the top-right "Apps" button (was fixed black) */
-  html:not([data-theme="dark"]) .proj-appstore-all{background:#fff;color:var(--second-color);border-color:#d0d0d0;}
+  html:not([data-theme="dark"]) .proj-appstore-all{background:#fff;color:var(--second-color);border-color:#a6a6a6;}
   html:not([data-theme="dark"]) .proj-appstore-all:hover{border-color:var(--first-color);color:var(--first-color);}
   /* #5 — zoom HideScore / Tonight NYC thumbnails in so league & comedian names + CTAs read on the small card */
   .proj-thumb.zoomed img{transform:scale(1.32);transform-origin:center top;}
@@ -1627,8 +1683,9 @@ function rowHTML(p, eager){
   <div class="proj-row" role="listitem">
     <div class="proj-head">
       <div class="proj-thumb ${thumbCls}" ${p.live?`data-url="${p.url}"${p.noEmbed?` data-noembed="1" data-poster="${p.img}"`:''} role="button" tabindex="0" aria-haspopup="dialog" aria-label="Open live preview of ${p.title}"`:''}>
+        <img class="proj-thumb-bg" src="${imgSrc}"${themed} alt="" aria-hidden="true" loading="lazy" decoding="async">
         ${p.imgWide
-          ? `<picture><source media="(min-width:768px)" srcset="${p.imgWide}"><img src="${p.img}" alt="${altText}" ${imgLoad} decoding="async"></picture>`
+          ? `<picture><source media="(min-width:577px)" srcset="${p.imgWide}"><img src="${p.img}" alt="${altText}" ${imgLoad} decoding="async"></picture>`
           : `<img src="${imgSrc}"${themed} alt="${altText}" ${imgLoad} decoding="async">`}
         <span class="proj-zoom" aria-hidden="true"><i class='bx bx-search' aria-hidden="true"></i></span>
         <div class="proj-cue"><span><i class='bx bx-expand-alt' aria-hidden="true"></i> Preview</span></div>
