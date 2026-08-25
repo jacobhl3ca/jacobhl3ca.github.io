@@ -8,7 +8,14 @@
 <meta name="theme-color" content="#fffdf7">
 <!-- Declare the colour scheme to the UA up front. This is a light-only page (paper background --paper:#fffdf7, no theme toggle), but color-scheme is otherwise never set — so on an OS-dark browser the root canvas, scrollbars, and overscroll area paint with the dark OS default around the light design (a mismatched flash before CSS settles). "light" matches this page's paper background and theme-color. building.html was the only page site-wide still missing this — every other page (index.html, index_with_animation.html, 404.html, weather/, light/) already declares color-scheme. No visual change to the settled page. -->
 <meta name="color-scheme" content="light">
-<link rel="icon" type="image/x-icon" href="assets/img/favicon.ico">
+<!-- Root-absolute asset paths (leading /), matching every other page site-wide (index.html, 404.html,
+     weather/, refer/, me/, light/ all reference /assets/…). building.html was the one page still loading
+     its favicon and avatar via directory-relative hrefs — index.html's own head comment already lists
+     building.html among the pages using /assets/…, so this makes that true. building.html is served only
+     at the root path /building.html, where assets/… and /assets/… resolve to the identical /assets/… URL,
+     so this is byte-for-byte behaviour-preserving; it just makes the page's asset paths internally
+     consistent with the site-wide convention and independent of the document path. No visual change. -->
+<link rel="icon" type="image/x-icon" href="/assets/img/favicon.ico">
 <link rel="dns-prefetch" href="//gc.zgo.at"> <!-- resolve the GoatCounter host that serves count.js, fetched async at end of body -->
 <link rel="dns-prefetch" href="//jacobhl.goatcounter.com"> <!-- resolve the GoatCounter *beacon* host too: count.js (from gc.zgo.at above) sends every pageview hit to https://jacobhl.goatcounter.com/count, a separate host whose DNS was otherwise only looked up lazily when the beacon fires. The prefetch above warmed only the script host; this warms the endpoint the hit actually goes to, so the beacon isn't delayed (and is less likely to be dropped on a slow/flaky DNS). Completes the beacon-host prefetch pattern across the site's GoatCounter pages (index.html, 404.html, weather/ already carry it). Pure resource hint, no visual or behaviour change. -->
 <link rel="dns-prefetch" href="//stats.hidescore.com"> <!-- resolve the self-hosted Umami analytics host ahead of its deferred script.js fetch at end of body. The fleet rollout (master fc7f585) added the Umami beacon (stats.hidescore.com/script.js, deferred, just before </body>) to this page and the other sub-pages, but only index.html and refer/ also carry the matching DNS hint — so on this page the Umami host was looked up cold when the deferred script fires. This mirrors the identical hint index.html has carried since the rollout and completes the Umami-host prefetch pattern across the site's beacon-carrying pages, exactly as the GoatCounter and Sentry hints above already do for their hosts. Pure resource hint, no visual or behaviour change. -->
@@ -189,7 +196,7 @@
 <main>
   <div class="who">
     <!-- Explicit width/height (matching the CSS-rendered 74x74 avatar box; the asset is square, 600x600 intrinsic) reserve the layout slot so the async image load can't shift the adjacent name/role text — this was the one content image site-wide still missing dimensions (Lighthouse "unsized-images"). decoding="async" keeps decode off the render path; alt expanded to the full name to match the site's other portraits. No visual change. -->
-    <img src="assets/img/about.jpg" alt="Jacob Heifetz-Licht" width="74" height="74" decoding="async">
+    <img src="/assets/img/about.jpg" alt="Jacob Heifetz-Licht" width="74" height="74" decoding="async">
     <div>
       <div class="n">Jacob Heifetz-Licht</div>
       <div class="r">Software developer · your neighbor in the building</div>
