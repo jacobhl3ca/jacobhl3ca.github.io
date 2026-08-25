@@ -1146,7 +1146,8 @@
 
                 <div class="home__img">
                     <div class="home__circle clickable-img" id="home-photo">
-                        <img src="assets/img/header.png" alt="Jacob Heifetz-Licht" class="home__circle-img" width="705" height="800" loading="lazy" decoding="async"> <!-- Hero portrait (391KB). The #home section is display:none in the default projects-only view that every first-time visitor sees, so this is NOT the page LCP there — the first project thumbnail is (it carries fetchpriority="high" + a head preload). loading="lazy" means projects-only visitors skip this hidden download entirely (a display:none image has no layout box, so it never enters the viewport), while full-site visitors — where #home sits atop the initial viewport — still get it immediately, since browsers don't defer a lazy image that's already in view. Eager + fetchpriority="high" here would instead force the hidden 391KB fetch at high priority, stealing early bandwidth from render-critical CSS/fonts and the real project-card LCP. No visual change in either view. -->
+                        <!-- Root-absolute src (leading /), matching the stylesheet/favicon/script paths the head already normalized and every other page site-wide (404.html, weather/, building.html, refer/, me/, light/ all reference /assets/…). These three content images (hero, About, Skills) were the homepage's last directory-relative asset refs; index.html is served only at "/" and "/index.html", where assets/… and /assets/… resolve to the identical /assets/… URL, so this is byte-for-byte behaviour-preserving — it just makes the homepage's asset paths internally consistent and independent of the document path. No visual change. -->
+                        <img src="/assets/img/header.png" alt="Jacob Heifetz-Licht" class="home__circle-img" width="705" height="800" loading="lazy" decoding="async"> <!-- Hero portrait (391KB). The #home section is display:none in the default projects-only view that every first-time visitor sees, so this is NOT the page LCP there — the first project thumbnail is (it carries fetchpriority="high" + a head preload). loading="lazy" means projects-only visitors skip this hidden download entirely (a display:none image has no layout box, so it never enters the viewport), while full-site visitors — where #home sits atop the initial viewport — still get it immediately, since browsers don't defer a lazy image that's already in view. Eager + fetchpriority="high" here would instead force the hidden 391KB fetch at high priority, stealing early bandwidth from render-critical CSS/fonts and the real project-card LCP. No visual change in either view. -->
                     </div>
                 </div>
             </section>
@@ -1158,7 +1159,8 @@
                 <div class="about__container bd-grid">
                     <div class="about__img">
 
-                         <img src="assets/img/about.jpg" alt="Jacob Heifetz-Licht portrait" width="600" height="600" loading="lazy" decoding="async" class="clickable-img" id="about-photo">
+                         <!-- Root-absolute src, matching the hero portrait above and the site-wide /assets/… convention; byte-for-byte identical at "/". No visual change. -->
+                         <img src="/assets/img/about.jpg" alt="Jacob Heifetz-Licht portrait" width="600" height="600" loading="lazy" decoding="async" class="clickable-img" id="about-photo">
 
                     </div>
                     <div>
@@ -1392,7 +1394,8 @@
                     </div>
 
                     <div>
-                        <img src="assets/img/skills.jpg" alt="Jacob working with data analytics tools" width="640" height="426" loading="lazy" decoding="async" class="skills__img" id="skills-photo">
+                        <!-- Root-absolute src, matching the hero/About images and the site-wide /assets/… convention; byte-for-byte identical at "/". No visual change. -->
+                        <img src="/assets/img/skills.jpg" alt="Jacob working with data analytics tools" width="640" height="426" loading="lazy" decoding="async" class="skills__img" id="skills-photo">
                     </div>
                 </div>
             </section>
