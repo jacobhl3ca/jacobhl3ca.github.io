@@ -1486,7 +1486,15 @@
              is-visible"), and no inline script calls a main-alt.js global — so nothing depends on it
              running mid-parse. Consistent with the page's existing preload/preconnect/fetchpriority
              work; no visual or behaviour change. -->
-        <script defer src="assets/js/main-alt.js"></script>
+        <!-- Root-absolute script path (leading /), matching this page's own head resource loads
+             (stylesheet, favicon, manifest were all made /assets/… "for site-wide consistency,
+             independent of the document path") and 404.html, which already loads its sibling
+             main.js via the root-absolute /assets/js/main.js. This was the one internal declarative
+             document resource on the homepage still loaded by a directory-relative href. index.html
+             is served only at "/", where assets/… and /assets/… resolve to the identical /assets/…
+             URL, so this is byte-for-byte behaviour-preserving; it just completes the root-absolute
+             path convention across the page's linked resources. No visual or behaviour change. -->
+        <script defer src="/assets/js/main-alt.js"></script>
 
         <!-- The homepage's behaviour (nav, theme/view toggles, scroll-spy, contact form, modal preview)
              lives in the deferred assets/js/main-alt.js above — the page's inline JS was extracted to an
