@@ -204,6 +204,21 @@
              mid-parse. Matches index.html, which defers this same script for the same reason. -->
         <script defer src="/assets/js/main.js"></script>
 
+        <!-- GoatCounter analytics. This is the 404 page (served by GitHub Pages for every
+             non-existent URL), so record its hits under a single grouped "404" path with the
+             actually-requested path kept as a query param — GoatCounter's documented pattern for
+             measuring 404s. Without it each miss counts under its own real path, scattered among
+             genuine pages and invisible as a 404; grouping them lets Jacob filter the dashboard to
+             "404" and see exactly which mistyped or broken inbound URLs people hit (the whole point
+             of a 404 page). The inline settings object must be assigned before count.js reads it:
+             this synchronous inline script runs during parse, before the async count.js below can
+             finish fetching, so window.goatcounter.path is always set in time. Falls back to the
+             raw path if location.pathname is somehow unavailable. Analytics-only; no visual change. -->
+        <script>
+            window.goatcounter = {
+                path: function (p) { return '404?p=' + encodeURIComponent(p || location.pathname); }
+            };
+        </script>
         <!-- GoatCounter analytics -->
         <script data-goatcounter="https://jacobhl.goatcounter.com/count"
                 async src="//gc.zgo.at/count.js"></script>

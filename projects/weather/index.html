@@ -43,7 +43,7 @@
 <link rel="preconnect" href="https://api.open-meteo.com" crossorigin>
 <link rel="preconnect" href="https://air-quality-api.open-meteo.com" crossorigin>
 <!-- Drop weight 300 from the requested Poppins set: this leftover /projects/weather/ copy asked Google Fonts for 300;400;500;600;700, but nothing on the page uses font-weight:300 (its CSS only sets 400/500/600/700) — so the browser fetched and parsed an extra @font-face woff2 that never renders. Requesting only the weights actually used trims that wasted font download on this render-blocking stylesheet, and matches the exact 400;500;600;700 set the production /weather/ dashboard this copies (and every other Poppins page site-wide) already ships. No visual change — the removed weight was unused. -->
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
 <style>
 :root {
   color-scheme: dark;
@@ -230,7 +230,12 @@ body {
        alert was never announced). No visual change. -->
   <div id="alertsBanner" class="alerts-banner" aria-live="polite" aria-atomic="true"></div>
   <div id="content">
-    <div class="loading"><div class="spinner"></div><br>Loading weather data...</div>
+    <!-- role="status" (a polite live region) so screen readers announce that live data is being
+         fetched; aria-hidden on the purely-decorative spinner keeps its empty div out of the
+         accessibility tree, and the visible copy uses a proper … ellipsis. Brings this leftover
+         /projects/weather/ copy's loading indicator into parity with the production /weather/
+         dashboard it mirrors, which already ships exactly this markup. No visual change. -->
+    <div class="loading" role="status"><div class="spinner" aria-hidden="true"></div><br>Loading weather data…</div>
     <!-- No-JS fallback. The whole dashboard is rendered by JavaScript into #content, so with JS
          disabled the loading spinner above would otherwise spin forever with no data ever arriving.
          Hide the spinner and explain instead, offering a way back to the site. This leftover
@@ -330,7 +335,7 @@ async function geocode(city) {
 async function fetchWeather() {
   const city = document.getElementById('cityInput').value.trim();
   if (!city) return;
-  document.getElementById('content').innerHTML = '<div class="loading"><div class="spinner"></div><br>Loading weather data...</div>';
+  document.getElementById('content').innerHTML = '<div class="loading" role="status"><div class="spinner" aria-hidden="true"></div><br>Loading weather data…</div>';
   document.getElementById('alertsBanner').className = 'alerts-banner';
   document.getElementById('alertsBanner').innerHTML = '';
   document.getElementById('alertsBanner').style.display = 'none';

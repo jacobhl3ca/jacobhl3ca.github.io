@@ -385,7 +385,14 @@
          style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0" aria-hidden="true">
   <button type="submit">Send it to Jacob</button>
 </form>
-<p class="sent" id="ok" role="status" aria-live="polite">Got it — I’ll be in touch. 👋</p>
+<!-- The trailing 👋 is a decorative flourish, so hide it from assistive tech (aria-hidden) — this
+     is the form's success message inside a role="status" aria-live region, so on submit a screen
+     reader would otherwise append "waving hand" to the spoken confirmation ("Got it — I’ll be in
+     touch. waving hand"). Wrapping it (with its leading space kept inside the span) drops the emoji
+     from that announcement while leaving the visible pill byte-for-byte unchanged. Matches the
+     page's own decorative-glyph pattern (the "See all four…" link's → arrow just above) and the
+     site-wide convention (weather/'s ☂️/📅 headings, building.html's ↗ tiles). No visual change. -->
+<p class="sent" id="ok" role="status" aria-live="polite">Got it — I’ll be in touch.<span aria-hidden="true"> 👋</span></p>
 
 </main>
 
@@ -451,13 +458,18 @@
       // is in the accessibility tree, not a node that merely un-hides with text it already had
       // (WCAG 4.1.3 Status Messages) — so a stranger filling this in-person hand-off form on a
       // phone with VoiceOver could get no spoken confirmation the send succeeded. Now that it's
-      // display:block (in the tree), clear the text and re-set it on the next frame so assistive
+      // display:block (in the tree), clear the content and re-set it on the next frame so assistive
       // tech registers a genuine change and announces it. Mirrors the clear-then-reset the refer/
       // page's copy toast already uses. The blank instant is invisible (the element only just
       // appeared); no visual change to the confirmation.
-      var okMsg = ok.textContent;
-      ok.textContent = '';
-      requestAnimationFrame(function () { ok.textContent = okMsg; });
+      // Round-trip innerHTML (not textContent) so the decorative 👋 stays inside its aria-hidden
+      // wrapper: textContent would flatten the node to a single text run, dropping the wrapper span
+      // and folding "waving hand" back into the announced message. The confirmation text is
+      // fully static author markup (no user input), so innerHTML carries no injection risk here,
+      // and the polite region then re-announces just the words ("Got it — I’ll be in touch.").
+      var okMsg = ok.innerHTML;
+      ok.innerHTML = '';
+      requestAnimationFrame(function () { ok.innerHTML = okMsg; });
     }).catch(function () {
       btn.disabled = false;
       btn.textContent = 'Didn’t send — tap to retry';

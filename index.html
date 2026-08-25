@@ -8,8 +8,9 @@
         <meta name='impact-site-verification' value='1d1d2142-74d8-456e-a4f9-9b202a03ea27'>
         <!-- Declare supported colour schemes to the UA up front. color-scheme is otherwise only set inside the render-blocking styles.css (:root=light, [data-theme="dark"]=dark), so before that CSS loads the browser paints the root canvas/scrollbars with the OS default. "light dark" matches the document's literal default (light — the <html> ships with no data-theme) while still advertising dark-mode support; the CSS color-scheme rules take over once loaded. No visual change to the settled page. -->
         <meta name="color-scheme" content="light dark">
-        <link rel="stylesheet" href="assets/css/styles.css">
-        <link rel="icon" type="image/x-icon" href="assets/img/favicon.ico">
+        <link rel="stylesheet" href="/assets/css/styles.css">
+        <!-- Root-absolute asset paths (leading /), matching every other page site-wide (404.html, weather/, building.html, refer/, light/ all reference /assets/…) and the root-absolute manifest/preloads already in this same head. The homepage was the one page still loading its stylesheet and favicon via directory-relative hrefs; at "/" both forms resolve to the identical /assets/… URL, so this is byte-for-byte behaviour-preserving today — it just makes the head internally consistent and independent of the document path. No visual or behaviour change. -->
+        <link rel="icon" type="image/x-icon" href="/assets/img/favicon.ico">
         <!-- Web app manifest: the homepage is the page people bookmark / "Add to Home Screen", but the site declared no manifest anywhere — so an installed/standalone launch fell back to the raw <title> for its name and the OS default for its toolbar colour. This gives the installed entry a proper app name ("Jacob HL"), the site's own light theme/background colour (#ffffff, matching the theme-color meta above and the default light theme), and reuses the existing favicon.ico/favicon2.ico for icons (no new image asset added). start_url/scope "/" keep it anchored to the homepage. Pure metadata, no visual change to the page in a normal browser tab. -->
         <link rel="manifest" href="/site.webmanifest">
         <!-- iOS home-screen label: the manifest above sets short_name "Jacob HL" for the Add-to-Home-Screen name, but iOS Safari ignores the manifest's short_name and instead reads apple-mobile-web-app-title (falling back to the full page title element, which it truncates — "Jacob Heifetz-Licht — Analytics Manager" becomes "Jacob Heife…"). This gives iOS the same short "Jacob HL" label Android already gets from the manifest, so a bookmarked icon reads cleanly on both. Deliberately NOT paired with apple-mobile-web-app-capable — that would force a chromeless standalone launch (a behaviour change); this only names the icon. Pure metadata, no visual change to a normal browser tab. -->
@@ -182,7 +183,7 @@
             "about": { "@id": "https://jacobhl.com/#person" },
             "mainEntity": { "@id": "https://jacobhl.com/#person" },
             "inLanguage": "en-US",
-            "dateModified": "2026-08-20T00:00:00-04:00"
+            "dateModified": "2026-08-24T00:00:00-04:00"
         }
         </script>
         <!-- ⛔ dateModified above MUST stay a full ISO 8601 datetime with a time AND a timezone offset (YYYY-MM-DDThh:mm:ss±hh:mm). Google's ProfilePage structured-data spec requires the time+offset on this field specifically, and a bare "YYYY-MM-DD" trips the Search Console warning "Invalid datetime value for dateModified" (first detected 2026-08-10, fixed 2026-08-11). Keep the DATE half in sync with this page's <lastmod> in sitemap.xml as before — just never drop the T-time or the offset when refreshing it. This is a ProfilePage-only requirement; the WebPage/WebApplication nodes on building.html and weather/ are not rich-result types and may stay date-only. -->
@@ -1145,7 +1146,8 @@
 
                 <div class="home__img">
                     <div class="home__circle clickable-img" id="home-photo">
-                        <img src="assets/img/header.png" alt="Jacob Heifetz-Licht" class="home__circle-img" width="705" height="800" loading="lazy" decoding="async"> <!-- Hero portrait (391KB). The #home section is display:none in the default projects-only view that every first-time visitor sees, so this is NOT the page LCP there — the first project thumbnail is (it carries fetchpriority="high" + a head preload). loading="lazy" means projects-only visitors skip this hidden download entirely (a display:none image has no layout box, so it never enters the viewport), while full-site visitors — where #home sits atop the initial viewport — still get it immediately, since browsers don't defer a lazy image that's already in view. Eager + fetchpriority="high" here would instead force the hidden 391KB fetch at high priority, stealing early bandwidth from render-critical CSS/fonts and the real project-card LCP. No visual change in either view. -->
+                        <!-- Root-absolute src (leading /), matching the stylesheet/favicon/script paths the head already normalized and every other page site-wide (404.html, weather/, building.html, refer/, me/, light/ all reference /assets/…). These three content images (hero, About, Skills) were the homepage's last directory-relative asset refs; index.html is served only at "/" and "/index.html", where assets/… and /assets/… resolve to the identical /assets/… URL, so this is byte-for-byte behaviour-preserving — it just makes the homepage's asset paths internally consistent and independent of the document path. No visual change. -->
+                        <img src="/assets/img/header.png" alt="Jacob Heifetz-Licht" class="home__circle-img" width="705" height="800" loading="lazy" decoding="async"> <!-- Hero portrait (391KB). The #home section is display:none in the default projects-only view that every first-time visitor sees, so this is NOT the page LCP there — the first project thumbnail is (it carries fetchpriority="high" + a head preload). loading="lazy" means projects-only visitors skip this hidden download entirely (a display:none image has no layout box, so it never enters the viewport), while full-site visitors — where #home sits atop the initial viewport — still get it immediately, since browsers don't defer a lazy image that's already in view. Eager + fetchpriority="high" here would instead force the hidden 391KB fetch at high priority, stealing early bandwidth from render-critical CSS/fonts and the real project-card LCP. No visual change in either view. -->
                     </div>
                 </div>
             </section>
@@ -1157,7 +1159,8 @@
                 <div class="about__container bd-grid">
                     <div class="about__img">
 
-                         <img src="assets/img/about.jpg" alt="Jacob Heifetz-Licht portrait" width="600" height="600" loading="lazy" decoding="async" class="clickable-img" id="about-photo">
+                         <!-- Root-absolute src, matching the hero portrait above and the site-wide /assets/… convention; byte-for-byte identical at "/". No visual change. -->
+                         <img src="/assets/img/about.jpg" alt="Jacob Heifetz-Licht portrait" width="600" height="600" loading="lazy" decoding="async" class="clickable-img" id="about-photo">
 
                     </div>
                     <div>
@@ -1391,7 +1394,8 @@
                     </div>
 
                     <div>
-                        <img src="assets/img/skills.jpg" alt="Jacob working with data analytics tools" width="640" height="426" loading="lazy" decoding="async" class="skills__img" id="skills-photo">
+                        <!-- Root-absolute src, matching the hero/About images and the site-wide /assets/… convention; byte-for-byte identical at "/". No visual change. -->
+                        <img src="/assets/img/skills.jpg" alt="Jacob working with data analytics tools" width="640" height="426" loading="lazy" decoding="async" class="skills__img" id="skills-photo">
                     </div>
                 </div>
             </section>
@@ -1485,7 +1489,15 @@
              is-visible"), and no inline script calls a main-alt.js global — so nothing depends on it
              running mid-parse. Consistent with the page's existing preload/preconnect/fetchpriority
              work; no visual or behaviour change. -->
-        <script defer src="assets/js/main-alt.js"></script>
+        <!-- Root-absolute script path (leading /), matching this page's own head resource loads
+             (stylesheet, favicon, manifest were all made /assets/… "for site-wide consistency,
+             independent of the document path") and 404.html, which already loads its sibling
+             main.js via the root-absolute /assets/js/main.js. This was the one internal declarative
+             document resource on the homepage still loaded by a directory-relative href. index.html
+             is served only at "/", where assets/… and /assets/… resolve to the identical /assets/…
+             URL, so this is byte-for-byte behaviour-preserving; it just completes the root-absolute
+             path convention across the page's linked resources. No visual or behaviour change. -->
+        <script defer src="/assets/js/main-alt.js"></script>
 
         <!-- The homepage's behaviour (nav, theme/view toggles, scroll-spy, contact form, modal preview)
              lives in the deferred assets/js/main-alt.js above — the page's inline JS was extracted to an
