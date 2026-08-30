@@ -242,14 +242,14 @@
      Web, Web" with nothing tying each to its app (WCAG 2.4.4, Link Purpose). This mirrors how the
      rest of the site names its links — index.html's project CTAs use aria-label="Download {app} on
      the App Store" and refer/ uses aria-label="Open the {brand} offer". Label-only; no visual change. -->
-<!-- decoding="async" on the four app-icon images so their decode runs off the render path
-     instead of blocking paint. This is the site-wide pattern for content images — every other
-     content <img> already carries it (building.html's avatar, all of refer/'s logos, and the
-     homepage's images) — and these four icons were the only ones still missing it. Deliberately
-     WITHOUT loading="lazy": these cards sit at the top of this short page (above the fold on a
-     phone), and lazy-loading above-the-fold images delays them, so this follows building.html's
-     above-fold avatar precedent (decoding="async" only, no lazy) rather than refer/'s below-fold
-     logos (which pair both). Attribute-only; no visual change. -->
+<!-- decoding="async" + loading="lazy" on the four app-icon images. decoding="async" keeps each
+     icon's decode off the render path so it blocks no paint — the site-wide pattern every other
+     content <img> already carries (building.html's avatar, all of refer/'s logos, the homepage's
+     images). loading="lazy" defers the fetch of any icon that sits below the fold, while the
+     browser still loads immediately any that start inside the initial viewport — a lazy image
+     already in view is never deferred, so the top cards on this short page pay no delay. This
+     pairs both attributes exactly as refer/, this page's twin share-by-link page, does on every
+     equivalent logo. Attribute-only; no visual change. -->
 <!-- The four apps are a list, so mark them up as one (<ul>/<li>) instead of sibling <div>s:
      screen readers then announce "list, 4 items" and let users jump item-to-item, and the
      relationship between the "My apps" heading and its items is programmatic, not just visual
