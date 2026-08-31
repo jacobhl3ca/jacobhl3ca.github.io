@@ -130,7 +130,18 @@
     background:var(--bg); color:var(--text);
     font:16px/1.45 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
     -webkit-font-smoothing:antialiased;
-    padding:22px 16px calc(34px + env(safe-area-inset-bottom));
+    /* The page opts into viewport-fit=cover (see the viewport meta), which extends content under
+       the device safe areas (notch / rounded corners). The bottom inset was already honored so the
+       last card / footer clears the home indicator, but the horizontal padding was a flat 16px — so
+       in landscape on a notched phone (where safe-area-inset-left/right become non-zero) the 520px
+       column could slide under the notch or a rounded corner and clip. Fold the left/right insets
+       into the side padding too, completing the all-edges safe-area handling that viewport-fit=cover
+       calls for. In portrait, and on any non-notched device, all three insets resolve to 0, so the
+       padding stays exactly 22px/16px/34px — byte-for-byte unchanged for the common case; this only
+       adds room where the hardware actually intrudes. This is the site's most phone-first page
+       (QR / AirDrop / texted hand-off), so it's where the landscape clip was most likely to be seen.
+       No visual change in portrait. */
+    padding:22px calc(16px + env(safe-area-inset-right)) calc(34px + env(safe-area-inset-bottom)) calc(16px + env(safe-area-inset-left));
     max-width:520px; margin:0 auto;
   }
   header{text-align:center;margin:6px 0 20px}
