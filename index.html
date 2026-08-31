@@ -189,6 +189,12 @@
         <!-- ItemList of Jacob's live projects: the projects section is the homepage's most substantial content (rendered as cards, and mirrored in the no-JS <noscript> lists), but those works had no structured-data node — the graph modeled the Person, WebSite, and ProfilePage, but never what Jacob has actually built. This names each live project as a CreativeWork whose creator is the same #person node, so search engines can associate Jacob's entity with his body of work (Knowledge Graph "creator of"). Each name/URL/description mirrors what the page already shows in the visible cards and the <noscript> fallback lists (Google requires structured data to reflect on-page content), and each URL is the same live site its card opens. Order matches the visible card order. Pure metadata, no visual change. -->
         <!-- @id + isPartOf tie this list into the site's @id graph the way every other node here already is: the individual projects reference the Person via each item's creator, but the ItemList container itself was the one structured-data node on the homepage still floating unconnected — the Person (#person), WebSite (#website), and ProfilePage (#webpage) are all cross-referenced, and building.html's BreadcrumbList was connected to its WebPage the same way in a prior run. isPartOf points at the homepage's ProfilePage (#webpage) — the page this list actually appears on — using the same one-directional isPartOf link the ProfilePage uses to sit inside the WebSite, so search engines can attribute "this list of works belongs to this page" instead of inferring it. Pure metadata, no visual change. -->
         <!-- Each CreativeWork now names its image — the recommended CreativeWork property this node was still missing (it already carried name, url, description, and creator). The value is the full-resolution source of the exact cover the on-page project card renders (e.g. hidescore-cover.png is the source art for the hidescore-cover-thumb.webp the card shows), so the markup keeps reflecting on-page content as Google requires while giving each work an entity image for Knowledge-Graph / AI-retrieval understanding — the same discoverability goal this site's llms.txt and AI-crawler-welcoming robots.txt already serve. All seven files already exist (they're the social/source art behind the card thumbnails); no media asset added. Pure metadata, no visual change. -->
+        <!-- 2026-08-31: DuelGoat pulled from the site for now (Jacob's call). JSON-LD is JSON, so its
+             ListItem can't be commented out like the HTML/JS entries elsewhere on this page — it was
+             deleted and numberOfItems dropped 7 -> 6. To restore: re-add it as position 7 (name
+             "DuelGoat", url https://duelgoat.com, image /assets/img/duelgoat-cover.png, description
+             "A browser recreation of GOAT-format Yu-Gi-Oh dueling.", creator #person), put the comma
+             back on position 6, and set numberOfItems to 7. -->
         <script type="application/ld+json">
         {
             "@context": "https://schema.org",
@@ -197,15 +203,14 @@
             "isPartOf": { "@id": "https://jacobhl.com/#webpage" },
             "name": "Projects by Jacob Heifetz-Licht",
             "itemListOrder": "https://schema.org/ItemListOrderAscending",
-            "numberOfItems": 7,
+            "numberOfItems": 6,
             "itemListElement": [
                 { "@type": "ListItem", "position": 1, "item": { "@type": "CreativeWork", "name": "HideScore", "url": "https://hidescore.com", "image": "https://jacobhl.com/assets/img/hidescore-cover.png", "description": "Watch sports highlights without seeing the score.", "creator": { "@id": "https://jacobhl.com/#person" } } },
                 { "@type": "ListItem", "position": 2, "item": { "@type": "CreativeWork", "name": "Tonight NYC", "url": "https://tonightnyc.com", "image": "https://jacobhl.com/assets/img/tonightnyc-cover.png", "description": "Every NYC comedy show, filtered to your favorite comedians.", "creator": { "@id": "https://jacobhl.com/#person" } } },
                 { "@type": "ListItem", "position": 3, "item": { "@type": "CreativeWork", "name": "Subway Times", "url": "https://subwaytimes.com", "image": "https://jacobhl.com/assets/img/subwaytimes-cover.png", "description": "Real-time NYC subway arrivals, faster than Maps.", "creator": { "@id": "https://jacobhl.com/#person" } } },
                 { "@type": "ListItem", "position": 4, "item": { "@type": "CreativeWork", "name": "David Licht", "url": "https://davidlicht.com", "image": "https://jacobhl.com/assets/img/davidlicht-app.png", "description": "A showcase site for my dad — five decades of drumming.", "creator": { "@id": "https://jacobhl.com/#person" } } },
                 { "@type": "ListItem", "position": 5, "item": { "@type": "CreativeWork", "name": "The Island", "url": "https://theisland.nyc", "image": "https://jacobhl.com/assets/img/theisland-cover.png", "description": "Everything happening on NYC’s Roosevelt Island, in one place.", "creator": { "@id": "https://jacobhl.com/#person" } } },
-                { "@type": "ListItem", "position": 6, "item": { "@type": "CreativeWork", "name": "TidyTab", "url": "https://tidytab.jacobhl.com/", "image": "https://jacobhl.com/assets/img/tidytab-cover.png", "description": "Bulk unpin or close Safari pinned tabs — a macOS menu-bar app.", "creator": { "@id": "https://jacobhl.com/#person" } } },
-                { "@type": "ListItem", "position": 7, "item": { "@type": "CreativeWork", "name": "DuelGoat", "url": "https://duelgoat.com", "image": "https://jacobhl.com/assets/img/duelgoat-cover.png", "description": "A browser recreation of GOAT-format Yu-Gi-Oh dueling.", "creator": { "@id": "https://jacobhl.com/#person" } } }
+                { "@type": "ListItem", "position": 6, "item": { "@type": "CreativeWork", "name": "TidyTab", "url": "https://tidytab.jacobhl.com/", "image": "https://jacobhl.com/assets/img/tidytab-cover.png", "description": "Bulk unpin or close Safari pinned tabs — a macOS menu-bar app.", "creator": { "@id": "https://jacobhl.com/#person" } } }
             ]
         }
         </script>
@@ -657,36 +662,39 @@
   .proj-row:hover{transform:translateY(-2px);}
 
   .proj-head{display:flex;align-items:stretch;gap:1.1rem;padding:.85rem;cursor:pointer;}
-  /* thumb stretches to the SAME height as the text+icons column (align-self:stretch) */
-  .proj-thumb{flex:0 0 200px;align-self:stretch;min-height:104px;border-radius:.4rem;overflow:hidden;
+  /* 2026-08-31 — the tile carries the artwork's OWN ratio (640x342 = 1.87:1) instead of stretching
+     to the text column's height. Stretching was the root bug: the moment a one-liner wrapped to two
+     lines the box went squarer (1.54 in a half-width window, 0.99 at <=576px), and object-fit:cover
+     then ate up to ~47% of the image WIDTH — chopping the tagline baked into every cover
+     ("...thing on Roosevelt Island in one"). The 2026-08-24 fix answered that by switching the image
+     to object-fit:contain over a blurred backdrop, which stopped the crop but SHRANK the cover
+     inside the still-too-tall box at every width that isn't exactly 1.87 — including the half-width
+     MacBook window, where the cards had looked fine before. Pinning the BOX to 1.87 fixes both at
+     once: contain === cover at that ratio, so the artwork fills its tile edge-to-edge, uncropped, at
+     the largest size the column allows, at EVERY window width — and the full-screen desktop card is
+     identical to how it looked before either change (it was already ~1.83 there). The thumb now
+     centres against a taller text column instead of stretching to meet it. */
+  .proj-thumb{flex:0 0 200px;align-self:center;aspect-ratio:640/342;border-radius:.4rem;overflow:hidden;
     position:relative;background:#0f0f0f;cursor:pointer;}
+  /* aspect-ratio is the first modern-CSS feature on this page (everything else here works back to
+     ~2019 Safari), and without it the tile has no height source at all now that align-self:stretch
+     and min-height are gone — it would collapse to 0 and the covers would vanish, not just look
+     wrong. Pin the same heights explicitly for that case: 200/1.871 = 107, and 150/1.871 = 80 in
+     the phone band below. Keep both numbers in step with the flex-basis if it ever changes. */
+  @supports not (aspect-ratio: 640/342){
+    .proj-thumb{height:107px;}
+    @media(max-width:576px){ .proj-thumb{height:80px;} }
+  }
   /* The thumb backing shows through while the cover is still decoding (and behind any
      rounding). It was hard-coded near-black, which flashed a dark rectangle on the
      now-light-default page — match it to the light covers instead. */
   html:not([data-theme="dark"]) .proj-thumb{background:#eef1f8;}
-  /* Covers are 640x342 (1.87:1) but the tile stretches to the card's height, so as soon as a
-     one-liner wraps to two lines the box goes squarer (1.54 at ~700px, 0.99 at <=576px) and
-     object-fit:cover ate up to ~47% of the image WIDTH — chopping the tagline baked into every
-     cover ("...thing on Roosevelt Island in one" instead of "Everything on Roosevelt Island in
-     one place."). The logo and app name survived because they sit centred; only the wide
-     one-liner ran past the crop. Show the whole cover instead (object-fit:contain) and fill the
-     leftover band with a blurred, cover-fitted copy of the SAME image, so the tile stays a full
-     rectangle at every ratio without a hard letterbox edge — and without per-cover background
-     colours (the seven covers' own edge colours differ: #fff, #fbf7f4, #edf0f8...). At the
-     native 1.87 box contain === cover, so wide desktop cards are pixel-identical to before. */
-  .proj-thumb img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;object-position:center;transition:transform .9s ease;z-index:2;}
-  .proj-thumb img.proj-thumb-bg{z-index:0;object-fit:cover;transform:scale(1.25);filter:blur(16px) saturate(.9);}
-  .proj-thumb:hover img.proj-thumb-bg{transform:scale(1.32);}
-  /* scrim over the blurred copy only (the real cover sits on z-index:2 above it) so the band
-     settles toward the card colour instead of reading as a coloured smear */
-  .proj-thumb::before{content:"";position:absolute;inset:0;z-index:1;pointer-events:none;
-    background:rgba(238,241,248,.72);}
-  [data-theme="dark"] .proj-thumb::before{background:rgba(15,15,15,.62);}
+  /* Back to object-fit:cover now that the box above matches the artwork's ratio — no crop to
+     avoid, so the blurred-backdrop copy + scrim the contain version needed are gone with it. */
+  .proj-thumb img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center;transition:transform .9s ease;}
   .proj-thumb.pos-top img{object-position:top;}
   .proj-thumb:hover img{transform:scale(1.08);}
-  /* z-index:3 — the cover img and its blurred backdrop now sit on z-index 2/0 (see the
-     object-fit:contain note above), so this hover scrim needs an explicit layer above them. */
-  .proj-cue{position:absolute;inset:0;z-index:3;display:flex;align-items:center;justify-content:center;
+  .proj-cue{position:absolute;inset:0;z-index:1;display:flex;align-items:center;justify-content:center;
     background:rgba(8,10,18,.40);opacity:0;transition:opacity .2s ease;}
   .proj-thumb:hover .proj-cue{opacity:1;}
   .proj-cue span{display:inline-flex;align-items:center;gap:.4rem;font-size:.75rem;font-weight:600;
@@ -695,7 +703,7 @@
   /* persistent magnifying-glass affordance — plain white icon, bottom-right corner, sat on the
      same horizontal line as the action-row buttons (favicon/App Store/chevron) */
   .proj-zoom{position:absolute;right:.6rem;bottom:.55rem;display:flex;align-items:center;justify-content:center;
-    color:#fff;pointer-events:none;z-index:4;filter:drop-shadow(0 1px 4px rgba(0,0,0,.85));}
+    color:#fff;pointer-events:none;z-index:2;filter:drop-shadow(0 1px 4px rgba(0,0,0,.85));}
   .proj-zoom i{font-size:1.4rem;line-height:1;}
   .proj-thumb.no-live{cursor:pointer;}
   .proj-thumb.no-live:hover img{transform:none;}
@@ -921,7 +929,12 @@
   }
 
   @media(max-width:576px){
-    .proj-thumb{flex:0 0 120px;}            /* stretches to the (now shorter) card height */
+    /* 120px until 2026-08-31, when the tile stopped stretching to the card height (see the
+       aspect-ratio note above). At 1.87 that box is only 64px tall, so the card has vertical slack
+       the thumb no longer uses — spend it on width instead. 150px is the most that fits before the
+       one-liners start wrapping to a fourth line at a 390px viewport (160px did); it makes the
+       artwork, and the tagline baked into it, 25% bigger for ~1 extra line of card height. */
+    .proj-thumb{flex:0 0 150px;}
     .proj-title{font-size:1.02rem;}
     .proj-head{gap:.8rem;padding:.7rem;}
     /* App Store always sits next to the favicon (arrow stays pinned right) — never centered */
@@ -1236,10 +1249,9 @@
                              MAIN[] array — each links to the same live site the JS-rendered card opens
                              (TidyTab now has one at tidytab.jacobhl.com, so it links there like the others,
                              rather than to its GitHub repo as it did before the site existed). DuelGoat is
-                             NOT listed here: it lives in the MORE[] "Other projects" group (Jacob's call,
-                             2026-07-25), so its no-JS entry belongs in that section's <noscript> fallback
-                             below — listing it here too would duplicate the link for crawlers and no-JS
-                             visitors and split it from where its JS card actually renders. -->
+                             NOT listed here: it lived in the MORE[] "Other projects" group (Jacob's call,
+                             2026-07-25) and was pulled from the site entirely on 2026-08-31 — its
+                             commented-out no-JS entry sits in that section's <noscript> fallback below. -->
                         <!-- Use the site's own theme-aware body-text token (--second-color) instead of a fixed mid-gray: --text-color is defined nowhere in the CSS, so the old value resolved to its literal #8b94a0 fallback, which on the light-mode white background gives only ~3:1 contrast — a WCAG 1.4.3 AA failure for normal text. --second-color is the body's text colour (dark navy in light mode, light in dark mode), so this list matches the rest of the page and passes contrast in both themes. Only the no-JS fallback is affected; the JS-rendered cards replace this entirely. -->
                         <ul style="list-style:none;margin:0;padding:0;line-height:1.6;color:var(--second-color);">
                             <li><a href="https://hidescore.com" target="_blank" rel="noopener noreferrer">HideScore</a> — Watch sports highlights without seeing the score.</li>
@@ -1263,11 +1275,13 @@
                              so their content and SEO value aren't lost, mirroring the #main-rows fallback above.
                              Mirrors the MORE[] array — the portfolio pieces have no live site, so unlike the
                              live-app cards they're unlinked (Automation Utilities stays out, matching the array's
-                             commented-out entry); DuelGoat does have one, so it links like the MAIN[] fallback
-                             entries above. The JS-rendered cards replace this entirely. -->
+                             commented-out entry). DuelGoat's linked entry is commented out here too, since it was
+                             pulled from the site on 2026-08-31. The JS-rendered cards replace this entirely. -->
                         <style>#moreToggle{display:none;}</style>
                         <ul style="list-style:none;margin:0;padding:0;line-height:1.6;color:var(--second-color);">
+                            <!-- DuelGoat pulled 2026-08-31 (Jacob's call) — uncomment to restore, alongside the MORE[] entry below:
                             <li><a href="https://duelgoat.com" target="_blank" rel="noopener noreferrer">DuelGoat</a> — A browser recreation of GOAT-format Yu-Gi-Oh dueling.</li>
+                            -->
                             <li><strong>Spotify Analytics</strong> — Interactive dashboard of my listening trends — beyond Wrapped.</li>
                             <li><strong>Spotify Playlist Archiver</strong> — Auto-archives playlists that would otherwise disappear.</li>
                             <li><strong>Personal Finance App</strong> — Daily budgeting, investment planning, and optimization.</li>
@@ -1595,10 +1609,14 @@ const MORE = [
   // frame #duelgoat, palette taken from duelgoat.com's own tokens. live:true lights the dot; MORE
   // live:true needs a url: — the preview modal binds globally to .proj-thumb[data-url], so this
   // MORE card opens a live preview like a main row (duelgoat.com sends no X-Frame-Options/CSP).
+  /* DuelGoat — pulled from the site 2026-08-31, Jacob's call. Restore by uncommenting this entry
+     AND its three companions: the JSON-LD ListItem (see the note above that <script>), the no-JS
+     <li> in the "Other projects" <noscript> above, and the building.html tile.
   { title:"DuelGoat", live:true, url:"https://duelgoat.com", site:"https://duelgoat.com",
     img:"assets/img/duelgoat-cover-thumb.webp?v=1", imgLight:"assets/img/duelgoat-cover-light-thumb.webp?v=1",
     one:"A browser recreation of GOAT-format Yu-Gi-Oh dueling.",
     full:"A faithful browser recreation of GOAT-format Yu-Gi-Oh — the 2005 metagame competitive players still love — with the full card database, deck building, and online play. Live at duelgoat.com (TypeScript, React, Vite, Colyseus)." },
+  */
   { title:"Spotify Analytics", img:"assets/img/spotify_monthly-thumb.webp?v=1", imgLight:"assets/img/spotify_monthly_light-thumb.webp?v=1",
     one:"Interactive dashboard of my listening trends — beyond Wrapped.",
     full:"Summarize listening trends without relying on annual Spotify Wrapped — an interactive dashboard with top songs/artists/albums, heatmaps, skip-rate analysis, artist evolution timelines, session tracking, and a listening clock (Python, Plotly, Streamlit)." },
@@ -1683,9 +1701,8 @@ function rowHTML(p, eager){
   <div class="proj-row" role="listitem">
     <div class="proj-head">
       <div class="proj-thumb ${thumbCls}" ${p.live?`data-url="${p.url}"${p.noEmbed?` data-noembed="1" data-poster="${p.img}"`:''} role="button" tabindex="0" aria-haspopup="dialog" aria-label="Open live preview of ${p.title}"`:''}>
-        <img class="proj-thumb-bg" src="${imgSrc}"${themed} alt="" aria-hidden="true" loading="lazy" decoding="async">
         ${p.imgWide
-          ? `<picture><source media="(min-width:577px)" srcset="${p.imgWide}"><img src="${p.img}" alt="${altText}" ${imgLoad} decoding="async"></picture>`
+          ? `<img src="${p.imgWide}" alt="${altText}" ${imgLoad} decoding="async">`
           : `<img src="${imgSrc}"${themed} alt="${altText}" ${imgLoad} decoding="async">`}
         <span class="proj-zoom" aria-hidden="true"><i class='bx bx-search' aria-hidden="true"></i></span>
         <div class="proj-cue"><span><i class='bx bx-expand-alt' aria-hidden="true"></i> Preview</span></div>

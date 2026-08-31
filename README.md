@@ -10,7 +10,7 @@ as static files from GitHub Pages. No framework, no build step.
 
 - **Portfolio homepage** (`index.html`) — a projects-first view of the apps and
   sites Jacob has shipped (HideScore, Tonight NYC, Subway Times, The Island,
-  TidyTab, DuelGoat, and more), each with an in-page live-preview modal, plus
+  TidyTab, and more), each with an in-page live-preview modal, plus
   about, skills, and a contact form.
 - **Weather dashboard** (`weather/`) — a single-page live weather app for any
   city, powered by the Open-Meteo API: current conditions, hourly rain chance,

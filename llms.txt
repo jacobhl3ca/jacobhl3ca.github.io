@@ -27,7 +27,6 @@ side. Rutgers University graduate.
   events, transit and news in one place.
 - [TidyTab](https://tidytab.jacobhl.com/): A macOS menu-bar app that bulk-unpins or closes
   Safari pinned tabs.
-- [DuelGoat](https://duelgoat.com): A browser recreation of GOAT-format Yu-Gi-Oh dueling.
 - [David Licht](https://davidlicht.com): A showcase site for drummer David Licht — five
   decades of drumming.
 
