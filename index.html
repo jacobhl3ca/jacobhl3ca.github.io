@@ -683,8 +683,14 @@
      wrong. Pin the same heights explicitly for that case: 200/1.871 = 107, and 150/1.871 = 80 in
      the phone band below. Keep both numbers in step with the flex-basis if it ever changes. */
   @supports not (aspect-ratio: 640/342){
-    .proj-thumb{height:107px;}
-    @media(max-width:576px){ .proj-thumb{height:80px;} }
+    /* A fixed height can't track the clamp()ed width, and the padding-top:% trick can't either —
+       percentage padding resolves against the CONTAINING BLOCK's width (the ~705px .proj-head), not
+       the element's own, so it measured 310x377 here instead of 310x166. So for engines without
+       aspect-ratio (pre-2021: Safari <15, Chrome <88, Firefox <89) pin BOTH axes back to the fixed
+       pair this rule shipped with — 200x107 and 150x80 — a known-good ratio rather than a guess.
+       Those browsers lose the fluid sizing and keep a correct, if smaller, cover. */
+    .proj-thumb{flex:0 0 200px;height:107px;}
+    @media(max-width:576px){ .proj-thumb{flex:0 0 150px;height:80px;} }
   }
   /* The thumb backing shows through while the cover is still decoding (and behind any
      rounding). It was hard-coded near-black, which flashed a dark rectangle on the
