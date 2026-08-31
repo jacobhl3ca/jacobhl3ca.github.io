@@ -7,15 +7,16 @@
         <meta name="theme-color" content="#090f20">
         <!-- Declare supported colour schemes to the UA up front. color-scheme is otherwise only set inside the render-blocking styles.css (:root=light, [data-theme="dark"]=dark), so before that CSS loads the browser doesn't know this is a dark-default page and paints the root canvas/scrollbars with the OS default (a brief light flash for the majority dark view). "dark light" matches the document's literal default (<html data-theme="dark">) while still advertising light-mode support; the CSS color-scheme rules take over once loaded. No visual change to the settled page. -->
         <meta name="color-scheme" content="dark light">
-        <link rel="stylesheet" href="assets/css/styles.css">
-        <link rel="icon" type="image/x-icon" href="assets/img/favicon.ico">
+        <!-- Root-absolute asset paths (leading /), matching every other page site-wide (index.html, 404.html, building.html, weather/, refer/, me/, light/ all reference /assets/…) and index.html's own head, whose stylesheet/favicon/preload/script paths were normalized to /assets/… "for site-wide consistency, independent of the document path." This projects-stack preview was still loading its own declarative document resources (stylesheet, favicon, the two LCP preload images, and main.js below) via directory-relative hrefs. The page is served only at /projects-stack-preview.html, where assets/… and /assets/… resolve to the identical /assets/… URL, so this is byte-for-byte behaviour-preserving — it just makes the head internally consistent with the site-wide convention. No visual or behaviour change. -->
+        <link rel="stylesheet" href="/assets/css/styles.css">
+        <link rel="icon" type="image/x-icon" href="/assets/img/favicon.ico">
         <link rel="preconnect" href="https://cdn.jsdelivr.net"> <!-- early-connect for the render-blocking boxicons CSS fetch (non-CORS, so it can't reuse the crossorigin socket below) -->
         <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin> <!-- early-connect for the boxicons icon font (CORS woff2, crossorigin so the warmed socket is reused) -->
         <link rel="preconnect" href="https://fonts.googleapis.com"> <!-- early-connect to Google Fonts CSS (styles.css @imports Poppins from here, on the critical path) -->
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin> <!-- early-connect to the Google Fonts file host; crossorigin so the warmed socket is reused for the CORS woff2 fetch -->
-        <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap"> <!-- styles.css @imports Poppins, but @import isn't discoverable until styles.css has downloaded + parsed, so the font CSS fetch is serialized on the critical path; preload it (same URL) so the browser fetches it in parallel up front and the @import then resolves from cache. URL must match the @import's exactly (400;500;600;700) — a mismatched weight set is a different resource, so the browser would fetch this preload and then a second, unshared stylesheet for the @import, and weight 500 (.skills__tag / .mac-badge) would arrive only via the late @import. No visual change. -->
-        <link rel="preload" as="image" href="assets/img/hidescore-wide.png" media="(min-width:768px)" fetchpriority="high"> <!-- LCP preload (desktop ≥768px): the first project card's thumbnail is the projects-only LCP, but the project rows are built by the inline script near </body>, so the preload scanner can't discover this image during head parse — the fetchpriority="high" already on the <img> only helps once it's discovered (late). Preload the matching responsive source so the fetch starts during head parse. Mirrors the <picture> breakpoint below. No visual change. -->
-        <link rel="preload" as="image" href="assets/img/hidescore-app.png" media="(max-width:767.98px)" fetchpriority="high"> <!-- LCP preload (mobile <768px): same as above for the default <picture> source. The two media queries are mutually exclusive, so only the one image the browser will actually render is ever preloaded (no wasted bytes). -->
+        <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&amp;display=swap"> <!-- styles.css @imports Poppins, but @import isn't discoverable until styles.css has downloaded + parsed, so the font CSS fetch is serialized on the critical path; preload it (same URL) so the browser fetches it in parallel up front and the @import then resolves from cache. URL must match the @import's exactly (400;500;600;700) — a mismatched weight set is a different resource, so the browser would fetch this preload and then a second, unshared stylesheet for the @import, and weight 500 (.skills__tag / .mac-badge) would arrive only via the late @import. No visual change. -->
+        <link rel="preload" as="image" href="/assets/img/hidescore-wide.png" media="(min-width:768px)" fetchpriority="high"> <!-- LCP preload (desktop ≥768px): the first project card's thumbnail is the projects-only LCP, but the project rows are built by the inline script near </body>, so the preload scanner can't discover this image during head parse — the fetchpriority="high" already on the <img> only helps once it's discovered (late). Preload the matching responsive source so the fetch starts during head parse. Mirrors the <picture> breakpoint below. No visual change. -->
+        <link rel="preload" as="image" href="/assets/img/hidescore-app.png" media="(max-width:767.98px)" fetchpriority="high"> <!-- LCP preload (mobile <768px): same as above for the default <picture> source. The two media queries are mutually exclusive, so only the one image the browser will actually render is ever preloaded (no wasted bytes). -->
         <link rel="dns-prefetch" href="//gc.zgo.at"> <!-- resolve the GoatCounter script host ahead of the async count.js fetch at end of body -->
         <link rel="dns-prefetch" href="//jacobhl.goatcounter.com"> <!-- resolve the GoatCounter *beacon* host too: count.js (from gc.zgo.at above) sends every pageview hit to https://jacobhl.goatcounter.com/count, a separate host whose DNS was otherwise only looked up lazily when the beacon fires. The prefetch above warmed only the script host; this warms the endpoint the hit actually goes to, so the beacon isn't delayed (and is less likely to be dropped on a slow/flaky DNS). This preview page was the one GoatCounter page still missing this — index.html, 404.html, weather/, and building.html all already carry it — so this completes the beacon-host prefetch pattern site-wide. Pure resource hint, no visual or behaviour change. -->
         <link rel="dns-prefetch" href="//stats.hidescore.com"> <!-- resolve the self-hosted Umami analytics host ahead of its deferred script.js fetch at end of body -->
@@ -828,7 +829,7 @@
 
                 <div class="home__img">
                     <div class="home__circle clickable-img" id="home-photo">
-                        <img src="assets/img/header.png" alt="Jacob Heifetz-Licht" class="home__circle-img" width="705" height="800" loading="lazy" decoding="async"> <!-- Hero portrait (391KB). The #home section is display:none in the default projects-only view that every first-time visitor sees, so this is NOT the page LCP there — the first project thumbnail is (it carries fetchpriority="high" + a head preload). loading="lazy" means projects-only visitors skip this hidden download entirely (a display:none image has no layout box, so it never enters the viewport), while full-site visitors — where #home sits atop the initial viewport — still get it immediately, since browsers don't defer a lazy image that's already in view. Eager + fetchpriority="high" here would instead force the hidden 391KB fetch at high priority, stealing early bandwidth from render-critical CSS/fonts and the real project-card LCP. No visual change in either view. -->
+                        <img src="/assets/img/header.png" alt="Jacob Heifetz-Licht" class="home__circle-img" width="705" height="800" loading="lazy" decoding="async"> <!-- Hero portrait (391KB). The #home section is display:none in the default projects-only view that every first-time visitor sees, so this is NOT the page LCP there — the first project thumbnail is (it carries fetchpriority="high" + a head preload). loading="lazy" means projects-only visitors skip this hidden download entirely (a display:none image has no layout box, so it never enters the viewport), while full-site visitors — where #home sits atop the initial viewport — still get it immediately, since browsers don't defer a lazy image that's already in view. Eager + fetchpriority="high" here would instead force the hidden 391KB fetch at high priority, stealing early bandwidth from render-critical CSS/fonts and the real project-card LCP. No visual change in either view. -->
                     </div>
                 </div>
             </section>
@@ -840,7 +841,7 @@
                 <div class="about__container bd-grid">
                     <div class="about__img">
 
-                         <img src="assets/img/about.jpg" alt="Jacob Heifetz-Licht portrait" width="600" height="600" loading="lazy" decoding="async" class="clickable-img" id="about-photo">
+                         <img src="/assets/img/about.jpg" alt="Jacob Heifetz-Licht portrait" width="600" height="600" loading="lazy" decoding="async" class="clickable-img" id="about-photo">
 
                     </div>
                     <div>
@@ -950,7 +951,7 @@
                         END V2 -->
 
                         <div class="skills__category">
-                            <h4 class="skills__category-title" id="skills-cat-langs"><i class='bx bx-code-alt skills__icon' aria-hidden="true"></i> Languages & Scripting</h4>
+                            <h4 class="skills__category-title" id="skills-cat-langs"><i class='bx bx-code-alt skills__icon' aria-hidden="true"></i> Languages &amp; Scripting</h4>
                             <div class="skills__tags" role="list" aria-labelledby="skills-cat-langs"> <!-- expose the styled pills as a list so screen readers announce them as grouped, countable items (WCAG 1.3.1) rather than run-together text; role has no visual effect -->
                                 <span class="skills__tag" role="listitem">Python</span>
                                 <span class="skills__tag" role="listitem">SQL</span>
@@ -973,7 +974,7 @@
                         -->
 
                         <div class="skills__category">
-                            <h4 class="skills__category-title" id="skills-cat-dataviz"><i class='bx bx-bar-chart-alt-2 skills__icon' aria-hidden="true"></i> Data & Visualization</h4>
+                            <h4 class="skills__category-title" id="skills-cat-dataviz"><i class='bx bx-bar-chart-alt-2 skills__icon' aria-hidden="true"></i> Data &amp; Visualization</h4>
                             <div class="skills__tags" role="list" aria-labelledby="skills-cat-dataviz">
                                 <span class="skills__tag" role="listitem">Tableau</span>
                                 <span class="skills__tag" role="listitem">Looker</span>
@@ -996,7 +997,7 @@
                         </div>
 
                         <div class="skills__category">
-                            <h4 class="skills__category-title" id="skills-cat-automation"><i class='bx bx-cog skills__icon' aria-hidden="true"></i> Automation & Infrastructure</h4>
+                            <h4 class="skills__category-title" id="skills-cat-automation"><i class='bx bx-cog skills__icon' aria-hidden="true"></i> Automation &amp; Infrastructure</h4>
                             <div class="skills__tags" role="list" aria-labelledby="skills-cat-automation">
                                 <span class="skills__tag" role="listitem">Process Automation</span>
                                 <span class="skills__tag" role="listitem">ETL Pipelines</span>
@@ -1008,7 +1009,7 @@
                         </div>
 
                         <div class="skills__category">
-                            <h4 class="skills__category-title" id="skills-cat-strategy"><i class='bx bx-bulb skills__icon' aria-hidden="true"></i> Strategy & Leadership</h4>
+                            <h4 class="skills__category-title" id="skills-cat-strategy"><i class='bx bx-bulb skills__icon' aria-hidden="true"></i> Strategy &amp; Leadership</h4>
                             <div class="skills__tags" role="list" aria-labelledby="skills-cat-strategy">
                                 <span class="skills__tag" role="listitem">Analytics Strategy</span>
                                 <span class="skills__tag" role="listitem">Stakeholder Communication</span>
@@ -1035,7 +1036,7 @@
                     </div>
 
                     <div>
-                        <img src="assets/img/skills.jpg" alt="Jacob working with data analytics tools" width="640" height="426" loading="lazy" decoding="async" class="skills__img" id="skills-photo">
+                        <img src="/assets/img/skills.jpg" alt="Jacob working with data analytics tools" width="640" height="426" loading="lazy" decoding="async" class="skills__img" id="skills-photo">
                     </div>
                 </div>
             </section>
@@ -1105,7 +1106,7 @@
 
 
         <!--===== MAIN JS =====-->
-        <script src="assets/js/main.js"></script>
+        <script src="/assets/js/main.js"></script>
 
         <!-- Inline JS moved to assets/js/main.js on 2026-03-27 -->
 
@@ -1220,7 +1221,7 @@ function ctaHTML(p){
     const _fav = USE_FAVICONS && FAVICONS[_d];
     const _inner = _fav ? `<img class="favicon" src="${_fav}" alt="" width="20" height="20" loading="lazy" decoding="async">` : `<i class='bx bx-globe' aria-hidden="true"></i>`;
     h+=`<a href="${p.site}" target="_blank" rel="noopener" class="site-link" title="Visit website" aria-label="Visit the ${p.title} website">${_inner}</a>`; }
-  if(p.appstore) h+=`<a href="${p.appstore}" target="_blank" rel="noopener" class="app-store-badge-link" aria-label="Download ${p.title} on the App Store"><img src="assets/img/app-store-badge.svg" alt="" class="app-store-badge" width="120" height="40" loading="lazy" decoding="async"></a>`;
+  if(p.appstore) h+=`<a href="${p.appstore}" target="_blank" rel="noopener" class="app-store-badge-link" aria-label="Download ${p.title} on the App Store"><img src="/assets/img/app-store-badge.svg" alt="" class="app-store-badge" width="120" height="40" loading="lazy" decoding="async"></a>`;
   if(p.download) h+=`<a href="${p.download}" class="mac-badge" title="Download TidyTab for macOS (.dmg, notarized)"><i class='bx bxl-apple' aria-hidden="true"></i><span class="mb-txt"><span class="mb-top">Download for</span><span class="mb-big">Mac</span></span></a>`;
   if(p.mas) h+=`<a href="${p.mas}" class="mac-badge mas-badge" title="Download on the Mac App Store"><i class='bx bxl-apple' aria-hidden="true"></i><span class="mb-txt"><span class="mb-top">Download on the</span><span class="mb-big">Mac App Store</span></span></a>`;
   if(p.github) h+=`<a href="${p.github}" target="_blank" rel="noopener" class="gh-link" aria-label="View the ${p.title} source on GitHub"><i class='bx bxl-github' aria-hidden="true"></i>GitHub</a>`;

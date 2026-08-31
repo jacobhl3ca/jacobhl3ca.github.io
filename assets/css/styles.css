@@ -936,6 +936,18 @@ img {
 
 @media (prefers-reduced-motion: reduce) {
   .live-dot.is-visible { animation: none; }
+  /* Cancel the global html{scroll-behavior:smooth} above for reduced-motion
+     users, so nav/anchor jumps land instantly instead of animating a long
+     page-length scroll (WCAG 2.3.3 Animation from Interactions). This also
+     covers the paths main-alt.js leaves to the CSS: a native hash link, a
+     back/forward to a #section, and the deep-link scrollIntoView() (no
+     behavior override) all inherit scroll-behavior, and the JS comments there
+     already assume this rule exists ("honors the CSS scroll-behavior, which is
+     set to auto under prefers-reduced-motion"). The JS paths that pass an
+     explicit behavior resolve it through scrollBehavior() the same way, so
+     smooth scrolling is now fully gated in both. No visual change for users
+     without the preference. */
+  html { scroll-behavior: auto; }
 }
 
 .work__description {
