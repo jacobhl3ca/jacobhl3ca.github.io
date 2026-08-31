@@ -675,7 +675,7 @@
      the largest size the column allows, at EVERY window width — and the full-screen desktop card is
      identical to how it looked before either change (it was already ~1.83 there). The thumb now
      centres against a taller text column instead of stretching to meet it. */
-  .proj-thumb{flex:0 0 200px;align-self:center;aspect-ratio:640/342;border-radius:.4rem;overflow:hidden;
+  .proj-thumb{flex:0 0 clamp(150px,44%,310px);align-self:center;aspect-ratio:640/342;border-radius:.4rem;overflow:hidden;
     position:relative;background:#0f0f0f;cursor:pointer;}
   /* aspect-ratio is the first modern-CSS feature on this page (everything else here works back to
      ~2019 Safari), and without it the tile has no height source at all now that align-self:stretch
@@ -935,7 +935,7 @@
        the thumb no longer uses — spend it on width instead. 150px is the most that fits before the
        one-liners start wrapping to a fourth line at a 390px viewport (160px did); it makes the
        artwork, and the tagline baked into it, 25% bigger for ~1 extra line of card height. */
-    .proj-thumb{flex:0 0 150px;}
+    .proj-thumb{flex:0 0 clamp(150px,46%,220px);}
     .proj-title{font-size:1.02rem;}
     .proj-head{gap:.8rem;padding:.7rem;}
     /* App Store always sits next to the favicon (arrow stays pinned right) — never centered */
