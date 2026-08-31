@@ -675,8 +675,10 @@
      the largest size the column allows, at EVERY window width — and the full-screen desktop card is
      identical to how it looked before either change (it was already ~1.83 there). The thumb now
      centres against a taller text column instead of stretching to meet it. */
+  /* display:block — with previews off a LIVE cover is an <a>, which is inline by default and would
+     collapse the padding/overflow box this rule builds. */
   .proj-thumb{flex:0 0 clamp(150px,44%,310px);align-self:center;aspect-ratio:640/342;border-radius:.4rem;overflow:hidden;
-    position:relative;background:#0f0f0f;cursor:pointer;}
+    display:block;position:relative;background:#0f0f0f;cursor:pointer;}
   /* aspect-ratio is the first modern-CSS feature on this page (everything else here works back to
      ~2019 Safari), and without it the tile has no height source at all now that align-self:stretch
      and min-height are gone — it would collapse to 0 and the covers would vanish, not just look
@@ -719,8 +721,8 @@
   /* Live thumbnails are role=button/tabindex=0 (they open the preview), so keyboard users can
      focus them — give them a visible accent ring (matches the nav/.hourly-row focus convention; WCAG 2.4.7).
      :focus-visible only, so mouse/touch clicks show no extra ring and the layout is unchanged. */
-  .proj-thumb[role="button"]:focus{outline:none;}
-  .proj-thumb[role="button"]:focus-visible{outline:2px solid var(--first-color);outline-offset:2px;}
+  .proj-thumb[role="button"]:focus,a.proj-thumb:focus{outline:none;}
+  .proj-thumb[role="button"]:focus-visible,a.proj-thumb:focus-visible{outline:2px solid var(--first-color);outline-offset:2px;}
   /* Live project cards open a preview via a role="button" thumbnail (not a link), and their CTA
      links are commented out — so each app's URL lives only in the thumbnail's data-url and never
      renders as visible text. The @media print block in styles.css exists precisely so a recruiter
@@ -734,9 +736,13 @@
     .proj-print-url{display:block;font-size:.85em;word-break:break-all;margin-top:4px;}
   }
 
-  .proj-info{flex:1 1 auto;min-width:0;display:flex;flex-direction:column;}
+  /* justify-content:center — with the one-liner gone the column is a single title row, so
+     top-aligning it against a 166px cover left it stranded at the top of the card. */
+  .proj-info{flex:1 1 auto;min-width:0;display:flex;flex-direction:column;justify-content:center;}
+  /* title + its chevron share one row; the chevron's own margin-left:auto pushes it to the edge */
+  .proj-titlerow{display:flex;align-items:center;gap:.6rem;}
   .proj-title{display:flex;align-items:center;font-size:1.15rem;font-weight:var(--font-semi);
-    color:var(--second-color);margin:0 0 .3rem;}
+    color:var(--second-color);margin:0;min-width:0;}
   .proj-info .live-dot{flex:0 0 auto;}
   .proj-one{font-size:var(--normal-font-size);line-height:1.5;margin:0;
     color:var(--second-color);opacity:.72;}
@@ -1694,6 +1700,16 @@ function ctaHTML(p){
   if(p.github) h+=`<a href="${p.github}" target="_blank" rel="noopener" class="gh-link" aria-label="View the ${p.title} source on GitHub"><i class='bx bxl-github' aria-hidden="true"></i>GitHub</a>`;
   return h; // inner links only — wrapped by the .proj-actions row (with the chevron) in rowHTML
 }
+// 2026-08-31 — LIVE PREVIEWS ARE OFF (Jacob's call: "skip the preview things for now, i want to
+// open link in new tab"). Nothing about the preview was deleted: the modal markup, its window
+// chrome, the prev/next gallery paging and the no-embed poster fallback are all still below and
+// still wired — they simply never get a thumbnail to bind to, because with this false the live
+// covers render as plain <a target="_blank"> instead of role="button" data-url. Flip to true and
+// the preview is back exactly as it was. (With previews off there is nothing to navigate "back"
+// from — the project opens in its own tab and this page is never left — so the back-button idea
+// only matters if this goes true again.)
+const PREVIEW_ENABLED = false;
+
 function rowHTML(p, eager){
   const dot = (p.live || p.download || p.mas) ? '<span class="live-dot is-visible" role="img" aria-label="Live" title="Live"></span>' : '';
   const thumbCls = (p.live?'':'no-live') + (p.pos==='top'?' pos-top':'') + (p.zoom?' zoomed':''); // #5 zoom flagged cards in tighter
@@ -1726,24 +1742,42 @@ function rowHTML(p, eager){
   // two set an explicit p.alt so the image is described for what it is (WCAG 1.1.1), instead of being
   // mislabelled a "screenshot". No visual change.
   const altText = p.live ? '' : (p.alt || p.title + ' screenshot');
-  const infoCls = ''; // title + one-liner always top-aligned (chevron pinned bottom via margin-top:auto); vertical-centering overlapped the chevron on short cards
+  // A live cover is a real <a> while previews are off, not a div with a click handler — that buys
+  // middle-click, cmd-click, "copy link" and the browser's own status bar for free, and the
+  // .proj-head expand handler already ignores anything inside an <a>. The overlay wording and the
+  // corner glyph follow: a magnifier promising a preview would be a lie now.
+  const thumbTag  = (p.live && !PREVIEW_ENABLED) ? 'a' : 'div';
+  const thumbAttrs = !p.live ? ''
+    : PREVIEW_ENABLED
+      ? `data-url="${p.url}"${p.noEmbed?` data-noembed="1" data-poster="${p.img}"`:''} role="button" tabindex="0" aria-haspopup="dialog" aria-label="Open live preview of ${p.title}"`
+      : `href="${p.url}" target="_blank" rel="noopener" aria-label="Open ${p.title} in a new tab"`;
+  const cueInner  = PREVIEW_ENABLED
+    ? `<i class='bx bx-expand-alt' aria-hidden="true"></i> Preview`
+    : `<i class='bx bx-link-external' aria-hidden="true"></i> Open site`;
+  const cornerIcon = PREVIEW_ENABLED ? 'bx-search' : 'bx-link-external';
   return `
   <div class="proj-row" role="listitem">
     <div class="proj-head">
-      <div class="proj-thumb ${thumbCls}" ${p.live?`data-url="${p.url}"${p.noEmbed?` data-noembed="1" data-poster="${p.img}"`:''} role="button" tabindex="0" aria-haspopup="dialog" aria-label="Open live preview of ${p.title}"`:''}>
+      <${thumbTag} class="proj-thumb ${thumbCls}" ${thumbAttrs}>
         ${p.imgWide
           ? `<img src="${p.imgWide}" alt="${altText}" ${imgLoad} decoding="async">`
           : `<img src="${imgSrc}"${themed} alt="${altText}" ${imgLoad} decoding="async">`}
-        <span class="proj-zoom" aria-hidden="true"><i class='bx bx-search' aria-hidden="true"></i></span>
-        <div class="proj-cue"><span><i class='bx bx-expand-alt' aria-hidden="true"></i> Preview</span></div>
-      </div>
-      <div class="proj-info${infoCls}">
-        <h3 class="proj-title">${dot}${p.title}</h3>
-        <p class="proj-one">${p.one}</p>
-        <div class="work__cta proj-actions">
-          ${cta}
+        <span class="proj-zoom" aria-hidden="true"><i class='bx ${cornerIcon}' aria-hidden="true"></i></span>
+        <div class="proj-cue"><span>${cueInner}</span></div>
+      </${thumbTag}>
+      <div class="proj-info">
+        <!-- The one-liner (a <p class="proj-one"> holding p.one) used to sit under the title. Dropped
+             2026-08-31: every cover has that same sentence baked into the artwork, so on the card it
+             was printing twice. p.one is still on each project object and still feeds the JSON-LD
+             description, the no-JS <noscript> list and llms.txt, so nothing is lost to crawlers. -->
+        <div class="proj-titlerow">
+          <h3 class="proj-title">${dot}${p.title}</h3>
+          <!-- The chevron used to sit at the bottom-right of the text column, a long way under a
+               title it belonged to and floating in whitespace once the one-liner went. On the title
+               row it reads as what it is: the control that opens THIS card. -->
           <button type="button" class="proj-chev" aria-label="Show details" aria-expanded="false" aria-controls="${detailId}"><i class='bx bx-chevron-down' aria-hidden="true"></i></button>
         </div>
+        ${cta ? `<div class="work__cta proj-actions">${cta}</div>` : ''}
         ${(p.site || p.url) ? `<div class="proj-print-url">${p.site || p.url}</div>` : ''}
       </div>
     </div>
