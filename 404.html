@@ -9,6 +9,10 @@
         <meta name="robots" content="noindex, follow">
         <link rel="stylesheet" href="/assets/css/styles.css">
         <link rel="icon" type="image/x-icon" href="/assets/img/favicon.ico">
+        <!-- iOS home-screen label. Unlike the site's redirect stubs (contact/, light/, tidytab.html — which hop away instantly), the 404 is a fully-rendered content page with the site's own nav/footer chrome, served for any mistyped or dead jacobhl.com URL, so it's a plausible bookmark/"Add to Home Screen" target. iOS Safari names that icon from apple-mobile-web-app-title, falling back to the <title> element, which it truncates ("Page Not Found — Jacob Heifetz-Licht" becomes "Page Not Fou…"). Give it the same clean "Jacob HL" label the rest of the site's identity already uses (index.html, building.html, weather/, and me/ all declare it, matching the manifest short_name and the JSON-LD alternateName) so a pinned icon reads cleanly and lands back on the branded site. 404.html was the one chrome-rendered content page still missing it. Deliberately NOT paired with apple-mobile-web-app-capable (that forces a chromeless standalone launch) and no manifest here (the installable app is scoped to the homepage at "/"); this only names the icon. Pure metadata, no visual change and no effect on the page's noindex status. -->
+        <meta name="apple-mobile-web-app-title" content="Jacob HL">
+        <!-- Non-Apple counterpart to the apple-mobile-web-app-title above: application-name is the standard field browsers read when this page is pinned or turned into a desktop/taskbar shortcut. Without it that path falls back to the <title> ("Page Not Found — Jacob Heifetz-Licht"), the same truncation the Apple label above avoids on iOS. Give it the same short "Jacob HL" label so the pinned icon reads cleanly on every platform, completing the cross-platform short-name pair index.html, building.html, weather/, and me/ already carry. Like the Apple label it only names the icon — no apple-mobile-web-app-capable, no standalone/chromeless launch. Pure metadata, no visual change. -->
+        <meta name="application-name" content="Jacob HL">
         <link rel="preconnect" href="https://cdn.jsdelivr.net"> <!-- early-connect for the render-blocking boxicons CSS fetch (non-CORS, so it can't reuse the crossorigin socket below) -->
         <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin> <!-- early-connect for the boxicons icon font (CORS woff2, crossorigin so the warmed socket is reused) -->
         <link rel="preconnect" href="https://fonts.googleapis.com"> <!-- early-connect to Google Fonts CSS (styles.css @imports Poppins from here, on the critical path) -->
@@ -188,7 +192,8 @@
                 <a href="https://github.com/jacobhl3ca" class="footer__icon" target="_blank" rel="me noopener noreferrer" aria-label="GitHub profile"><i class='bx bxl-github' aria-hidden="true"></i></a>
                 <!-- rel="me" completes this footer's identity set: the LinkedIn and GitHub links above already assert "this profile is mine" via rel="me" (the microformats2 / IndieAuth identity relation, crawled on any reachable page of the domain regardless of noindex — see the note above), and a mailto to Jacob's own verified address is an explicitly supported rel-me target. This sibling mailto was the one identity link in the row still outside that set — the same gap already closed on index.html's footer and hero mailto links. Additive rel only (no target="_blank" here, so no noopener/noreferrer needed); browsers ignore rel on rendering, so no visual or behaviour change. -->
                 <a href="mailto:hi@jacobhl.com" class="footer__icon" rel="me" aria-label="Send email"><i class='bx bx-envelope' aria-hidden="true"></i></a>
-                <a href="/#contact" class="footer__icon" aria-label="Contact"><i class='bx bx-file' aria-hidden="true"></i></a>
+                <!-- Icon matches the link's purpose: this goes to the /#contact section, so it uses a message glyph, not bx-file. bx-file is the site's "resume/document" icon everywhere else (index.html's hero uses it for aria-label="Request resume"), so wearing it on a link labelled "Contact" that points at the contact form was a leftover semantic mismatch — the glyph contradicted both the aria-label and the destination. bx-message-detail also reads distinctly from the bx-envelope mailto sibling beside it (direct email vs. the on-page contact form). Icon-only swap; the link, href, and accessible name are unchanged, and the icon is decorative (aria-hidden), so no behaviour change. -->
+                <a href="/#contact" class="footer__icon" aria-label="Contact"><i class='bx bx-message-detail' aria-hidden="true"></i></a>
             </div>
             <p class="footer__copy">Let’s get you back!</p>
         </footer>
@@ -204,6 +209,21 @@
              mid-parse. Matches index.html, which defers this same script for the same reason. -->
         <script defer src="/assets/js/main.js"></script>
 
+        <!-- GoatCounter analytics. This is the 404 page (served by GitHub Pages for every
+             non-existent URL), so record its hits under a single grouped "404" path with the
+             actually-requested path kept as a query param — GoatCounter's documented pattern for
+             measuring 404s. Without it each miss counts under its own real path, scattered among
+             genuine pages and invisible as a 404; grouping them lets Jacob filter the dashboard to
+             "404" and see exactly which mistyped or broken inbound URLs people hit (the whole point
+             of a 404 page). The inline settings object must be assigned before count.js reads it:
+             this synchronous inline script runs during parse, before the async count.js below can
+             finish fetching, so window.goatcounter.path is always set in time. Falls back to the
+             raw path if location.pathname is somehow unavailable. Analytics-only; no visual change. -->
+        <script>
+            window.goatcounter = {
+                path: function (p) { return '404?p=' + encodeURIComponent(p || location.pathname); }
+            };
+        </script>
         <!-- GoatCounter analytics -->
         <script data-goatcounter="https://jacobhl.goatcounter.com/count"
                 async src="//gc.zgo.at/count.js"></script>

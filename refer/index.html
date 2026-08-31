@@ -16,6 +16,15 @@
      launch) and no manifest here (the installable app is scoped to the homepage at "/"); this only
      names the icon. Pure metadata, no visual change. -->
 <meta name="apple-mobile-web-app-title" content="Referrals">
+<!-- Non-Apple counterpart to the apple-mobile-web-app-title above: application-name is the standard
+     field browsers read when this page is pinned or turned into a desktop/taskbar shortcut. Without
+     it that path falls back to the <title> ("Referral links — Jacob"), the same truncation the Apple
+     label above avoids on iOS. Give it the same short "Referrals" label so a pinned icon reads cleanly
+     on every platform, completing the cross-platform short-name pair index.html, building.html, weather/
+     and me/ already carry (apple-mobile-web-app-title + application-name) — refer/ was the one content
+     page with the Apple label but no application-name. Like the Apple label it only names the icon — no
+     apple-mobile-web-app-capable, no standalone/chromeless launch. Pure metadata, no visual change. -->
+<meta name="application-name" content="Referrals">
 <meta name="description" content="Services Jacob actually uses, with referral links. You get a signup bonus, he gets one too.">
 <!-- Deliberately NOT indexed and NOT in sitemap.xml. Several referral programs' terms
      restrict public advertising / mass promotion of a personal referral link (bank and

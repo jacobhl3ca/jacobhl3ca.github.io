@@ -49,12 +49,12 @@
      og:description just below, matching how refer/ — this page's noindex share-by-link twin —
      keeps its meta and og descriptions identical. Pure metadata, no visual change. -->
 <meta name="description" content="Four iOS apps, the portfolio, and one tap to save my contact.">
-<!-- Name the document's author, consistent with every other content page site-wide (index.html,
-     building.html, refer/, light/, 404.html, and weather/ all declare this) — me/index.html was
-     the one real content page still missing it; the two pages without it (contact/, tidytab.html)
-     are pure redirect stubs where it doesn't apply. Purely document metadata surfaced by some
-     browsers, tools, and reader modes regardless of the noindex above (noindex governs search
-     indexing, not whether the tag is consumed). Pure metadata, no visual change; page stays noindex. -->
+<!-- Name the document's author, consistent with every other page site-wide — index.html,
+     building.html, refer/, light/, 404.html, weather/, and the redirect stubs contact/ and
+     tidytab.html all declare it too, so author is now present on every page. me/index.html was
+     the one real content page still missing it when this was added. Purely document metadata
+     surfaced by some browsers, tools, and reader modes regardless of the noindex above (noindex
+     governs search indexing, not whether the tag is consumed). Pure metadata, no visual change; page stays noindex. -->
 <meta name="author" content="Jacob Heifetz-Licht">
 <!-- Social preview: this is the in-person hand-off page (QR / AirDrop / texted link), so it is
      the site's most-shared URL yet was the one shareable page with no og:image or Twitter Card —
@@ -130,7 +130,18 @@
     background:var(--bg); color:var(--text);
     font:16px/1.45 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
     -webkit-font-smoothing:antialiased;
-    padding:22px 16px calc(34px + env(safe-area-inset-bottom));
+    /* The page opts into viewport-fit=cover (see the viewport meta), which extends content under
+       the device safe areas (notch / rounded corners). The bottom inset was already honored so the
+       last card / footer clears the home indicator, but the horizontal padding was a flat 16px — so
+       in landscape on a notched phone (where safe-area-inset-left/right become non-zero) the 520px
+       column could slide under the notch or a rounded corner and clip. Fold the left/right insets
+       into the side padding too, completing the all-edges safe-area handling that viewport-fit=cover
+       calls for. In portrait, and on any non-notched device, all three insets resolve to 0, so the
+       padding stays exactly 22px/16px/34px — byte-for-byte unchanged for the common case; this only
+       adds room where the hardware actually intrudes. This is the site's most phone-first page
+       (QR / AirDrop / texted hand-off), so it's where the landscape clip was most likely to be seen.
+       No visual change in portrait. */
+    padding:22px calc(16px + env(safe-area-inset-right)) calc(34px + env(safe-area-inset-bottom)) calc(16px + env(safe-area-inset-left));
     max-width:520px; margin:0 auto;
   }
   header{text-align:center;margin:6px 0 20px}
@@ -242,14 +253,14 @@
      Web, Web" with nothing tying each to its app (WCAG 2.4.4, Link Purpose). This mirrors how the
      rest of the site names its links — index.html's project CTAs use aria-label="Download {app} on
      the App Store" and refer/ uses aria-label="Open the {brand} offer". Label-only; no visual change. -->
-<!-- decoding="async" on the four app-icon images so their decode runs off the render path
-     instead of blocking paint. This is the site-wide pattern for content images — every other
-     content <img> already carries it (building.html's avatar, all of refer/'s logos, and the
-     homepage's images) — and these four icons were the only ones still missing it. Deliberately
-     WITHOUT loading="lazy": these cards sit at the top of this short page (above the fold on a
-     phone), and lazy-loading above-the-fold images delays them, so this follows building.html's
-     above-fold avatar precedent (decoding="async" only, no lazy) rather than refer/'s below-fold
-     logos (which pair both). Attribute-only; no visual change. -->
+<!-- decoding="async" + loading="lazy" on the four app-icon images. decoding="async" keeps each
+     icon's decode off the render path so it blocks no paint — the site-wide pattern every other
+     content <img> already carries (building.html's avatar, all of refer/'s logos, the homepage's
+     images). loading="lazy" defers the fetch of any icon that sits below the fold, while the
+     browser still loads immediately any that start inside the initial viewport — a lazy image
+     already in view is never deferred, so the top cards on this short page pay no delay. This
+     pairs both attributes exactly as refer/, this page's twin share-by-link page, does on every
+     equivalent logo. Attribute-only; no visual change. -->
 <!-- The four apps are a list, so mark them up as one (<ul>/<li>) instead of sibling <div>s:
      screen readers then announce "list, 4 items" and let users jump item-to-item, and the
      relationship between the "My apps" heading and its items is programmatic, not just visual
@@ -265,7 +276,7 @@
      external links still navigated in place. Behaviour only; no visual change. -->
 <ul class="apps">
 <li class="card">
-  <img src="icons/hidescore.png" alt="" width="54" height="54" decoding="async">
+  <img src="icons/hidescore.png" alt="" width="54" height="54" loading="lazy" decoding="async">
   <div class="meta"><b>HideScore</b><span>Sports scores with no spoilers</span></div>
   <div class="btns">
     <a class="btn store" href="https://apps.apple.com/app/hidescore/id6766885311" target="_blank" rel="noopener" aria-label="HideScore on the App Store">App Store</a>
@@ -274,7 +285,7 @@
 </li>
 
 <li class="card">
-  <img src="icons/tonightnyc.png" alt="" width="54" height="54" decoding="async">
+  <img src="icons/tonightnyc.png" alt="" width="54" height="54" loading="lazy" decoding="async">
   <div class="meta"><b>Tonight NYC</b><span>NYC comedy lineups, your way</span></div>
   <div class="btns">
     <a class="btn store" href="https://apps.apple.com/app/id6763027650" target="_blank" rel="noopener" aria-label="Tonight NYC on the App Store">App Store</a>
@@ -283,7 +294,7 @@
 </li>
 
 <li class="card">
-  <img src="icons/subwaytimes.png" alt="" width="54" height="54" decoding="async">
+  <img src="icons/subwaytimes.png" alt="" width="54" height="54" loading="lazy" decoding="async">
   <div class="meta"><b>Subway Times</b><span>Live NYC train times</span></div>
   <div class="btns">
     <!-- "Subway Times" (two words) is the app's canonical branding everywhere else on the site — the
@@ -299,7 +310,7 @@
 </li>
 
 <li class="card">
-  <img src="icons/roosevelt.png" alt="" width="54" height="54" decoding="async">
+  <img src="icons/roosevelt.png" alt="" width="54" height="54" loading="lazy" decoding="async">
   <div class="meta"><b>Roosevelt Island</b><span>Transit, alerts &amp; island guide</span></div>
   <div class="btns">
     <a class="btn store" href="https://apps.apple.com/us/app/roosevelt-island/id6775979583" target="_blank" rel="noopener" aria-label="Roosevelt Island on the App Store">App Store</a>
@@ -385,7 +396,14 @@
          style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0" aria-hidden="true">
   <button type="submit">Send it to Jacob</button>
 </form>
-<p class="sent" id="ok" role="status" aria-live="polite">Got it — I’ll be in touch. 👋</p>
+<!-- The trailing 👋 is a decorative flourish, so hide it from assistive tech (aria-hidden) — this
+     is the form's success message inside a role="status" aria-live region, so on submit a screen
+     reader would otherwise append "waving hand" to the spoken confirmation ("Got it — I’ll be in
+     touch. waving hand"). Wrapping it (with its leading space kept inside the span) drops the emoji
+     from that announcement while leaving the visible pill byte-for-byte unchanged. Matches the
+     page's own decorative-glyph pattern (the "See all four…" link's → arrow just above) and the
+     site-wide convention (weather/'s ☂️/📅 headings, building.html's ↗ tiles). No visual change. -->
+<p class="sent" id="ok" role="status" aria-live="polite">Got it — I’ll be in touch.<span aria-hidden="true"> 👋</span></p>
 
 </main>
 
@@ -451,13 +469,18 @@
       // is in the accessibility tree, not a node that merely un-hides with text it already had
       // (WCAG 4.1.3 Status Messages) — so a stranger filling this in-person hand-off form on a
       // phone with VoiceOver could get no spoken confirmation the send succeeded. Now that it's
-      // display:block (in the tree), clear the text and re-set it on the next frame so assistive
+      // display:block (in the tree), clear the content and re-set it on the next frame so assistive
       // tech registers a genuine change and announces it. Mirrors the clear-then-reset the refer/
       // page's copy toast already uses. The blank instant is invisible (the element only just
       // appeared); no visual change to the confirmation.
-      var okMsg = ok.textContent;
-      ok.textContent = '';
-      requestAnimationFrame(function () { ok.textContent = okMsg; });
+      // Round-trip innerHTML (not textContent) so the decorative 👋 stays inside its aria-hidden
+      // wrapper: textContent would flatten the node to a single text run, dropping the wrapper span
+      // and folding "waving hand" back into the announced message. The confirmation text is
+      // fully static author markup (no user input), so innerHTML carries no injection risk here,
+      // and the polite region then re-announces just the words ("Got it — I’ll be in touch.").
+      var okMsg = ok.innerHTML;
+      ok.innerHTML = '';
+      requestAnimationFrame(function () { ok.innerHTML = okMsg; });
     }).catch(function () {
       btn.disabled = false;
       btn.textContent = 'Didn’t send — tap to retry';
