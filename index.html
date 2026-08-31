@@ -690,7 +690,8 @@
        pair this rule shipped with — 200x107 and 150x80 — a known-good ratio rather than a guess.
        Those browsers lose the fluid sizing and keep a correct, if smaller, cover. */
     .proj-thumb{flex:0 0 200px;height:107px;}
-    @media(max-width:576px){ .proj-thumb{flex:0 0 150px;height:80px;} }
+    /* the phone half of this fallback lives inside the max-width:576px block below, so it lands
+       after the stacking rules it has to override */
   }
   /* The thumb backing shows through while the cover is still decoding (and behind any
      rounding). It was hard-coded near-black, which flashed a dark rectangle on the
@@ -936,14 +937,18 @@
   }
 
   @media(max-width:576px){
-    /* 120px until 2026-08-31, when the tile stopped stretching to the card height (see the
-       aspect-ratio note above). At 1.87 that box is only 64px tall, so the card has vertical slack
-       the thumb no longer uses — spend it on width instead. 150px is the most that fits before the
-       one-liners start wrapping to a fourth line at a 390px viewport (160px did); it makes the
-       artwork, and the tagline baked into it, 25% bigger for ~1 extra line of card height. */
-    .proj-thumb{flex:0 0 clamp(150px,46%,220px);}
+    /* STACK the cover above the text on phones (2026-08-31). Side by side, the tile can't pass
+       ~150px before "Subway Times" wraps, and the tagline baked into each cover renders at
+       150 x 3.39% = ~5px — present but unreadable, which is exactly what Jacob flagged. Full width
+       instead: ~320px at a 390px viewport, so the same tagline lands near ~11px. It costs card
+       height (the cover alone goes 80px -> ~171px), which is the trade he asked for. */
+    .proj-head{flex-wrap:wrap;gap:.75rem;padding:.7rem;}
+    /* max-width caps the hero at 410px — what the widest real phone (a 430px viewport) already
+       produces — so the 481-576px band (small tablets, split-view) doesn't balloon the cover to
+       506px and the card to 404px tall. Auto inline margins centre it in the row once capped; at
+       phone widths 100% is under the cap, so they are 0 and nothing moves. */
+    .proj-thumb{flex:0 0 100%;max-width:410px;margin-inline:auto;}
     .proj-title{font-size:1.02rem;}
-    .proj-head{gap:.8rem;padding:.7rem;}
     /* App Store always sits next to the favicon (arrow stays pinned right) — never centered */
     .proj-info .proj-actions{gap:.45rem;}
     /* keep the favicon box, App Store badge, Mac badge and chevron all the same (smaller) height */
@@ -958,6 +963,13 @@
     .proj-actions .mas-badge .mb-big{font-size:.74rem;}
     .proj-chev{width:34px;height:34px;}
     .proj-chev i{font-size:1.3rem;}
+    /* Phone half of the no-aspect-ratio fallback. It has to sit here, after the stacking rules
+       above, to beat them at equal specificity — a full-width tile with no height source would be
+       invisible, so those engines keep the old 150x80 tile side by side instead. */
+    @supports not (aspect-ratio: 640/342){
+      .proj-head{flex-wrap:nowrap;}
+      .proj-thumb{flex:0 0 150px;height:80px;}
+    }
   }
 
   /* ===== 2026-07-17 tweaks ===== */
