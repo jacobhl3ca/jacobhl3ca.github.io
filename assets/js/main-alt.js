@@ -840,8 +840,16 @@ if (backToTop) backToTop.addEventListener('click', () => {
 
 /*===== RESUME REQUEST =====*/
 function requestResume() {
-    document.getElementById('contact').scrollIntoView({ behavior: scrollBehavior() });
+    // Guard the #contact section and the form lookups. This hero action's own srStatus block at
+    // the end already treats a "contact form absent" page as a no-op, but the scroll, pre-fill and
+    // focus below would throw "Cannot read properties of null" before ever reaching that guard if
+    // the contact section were removed/commented out — the way #ccu and the DuelGoat tile already
+    // are on this page. Bail cleanly instead (there's nothing to scroll to, fill, focus, or
+    // announce without the form) so the resume link never raises a runtime error.
+    const contactSection = document.getElementById('contact');
+    if (contactSection) contactSection.scrollIntoView({ behavior: scrollBehavior() });
     const form = document.querySelector('.contact__form');
+    if (!form) return;
     const nameInput = form.querySelector('input[name="name"]');
     const emailInput = form.querySelector('input[name="email"]');
     const messageInput = form.querySelector('textarea[name="message"]');
