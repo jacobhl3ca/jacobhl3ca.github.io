@@ -80,8 +80,15 @@
                     var dark = document.documentElement.getAttribute('data-theme') === 'dark';
                     var l = document.createElement('link');
                     l.rel = 'preload'; l.as = 'image'; l.fetchPriority = 'high';
-                    l.href = dark ? 'assets/img/hidescore-cover-thumb.webp?v=1'
-                                  : 'assets/img/hidescore-cover-light-thumb.webp?v=1';
+                    // Root-absolute href (leading /), matching this head's stylesheet, favicon,
+                    // manifest and hero <img> (all /assets/…) — the line-12 comment already states
+                    // the head's preloads are root-absolute, but this dynamic LCP preload was the one
+                    // asset reference still built with a directory-relative path. The homepage is
+                    // served only at "/", where assets/… and /assets/… resolve to the identical
+                    // /assets/… URL, so this is byte-for-byte behaviour-preserving; it just makes the
+                    // head internally consistent and independent of the document path. No visual change.
+                    l.href = dark ? '/assets/img/hidescore-cover-thumb.webp?v=1'
+                                  : '/assets/img/hidescore-cover-light-thumb.webp?v=1';
                     document.head.appendChild(l);
                 })();
             }
