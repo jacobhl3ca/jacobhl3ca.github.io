@@ -312,13 +312,12 @@ const revealElements = document.querySelectorAll(
   '.contact__input, .contact__button'
 );
 
-// Only run the hide-then-reveal enhancement when IntersectionObserver is available. Adding the
-// .reveal class sets opacity:0, and the observer is what adds .visible to fade each element in —
-// so if the observer is missing (unsupported browsers) or its construction throws, that .visible
-// is never applied and the reveal content (section titles, about/skills text, contact form) would
-// stay permanently invisible. Worse, an uncaught throw here at top level would halt the rest of
-// main.js below (contact-form submit, scroll arrows, live-dot observer). Guard the whole block so
-// unsupported browsers simply keep the default visible layout. Mirrors the live-dot observer's
+// The reveal cascade is currently disabled on this page: styles.css keeps .reveal at
+// opacity:1 (the animated opacity:0->1 version lives in index_with_animation.html), so
+// adding these classes is a no-op here and the elements stay visible regardless. The
+// enhancement is still guarded on IntersectionObserver support so a missing API — or a
+// throw while constructing the observer — can't halt the rest of main-alt.js below
+// (contact-form submit, scroll arrows, live-dot observer). Mirrors the live-dot observer's
 // feature guard further down; no change in modern browsers.
 if ('IntersectionObserver' in window) {
   revealElements.forEach(el => el.classList.add('reveal'));
@@ -332,18 +331,15 @@ if ('IntersectionObserver' in window) {
     });
   }, { threshold: 0.15 });
 
-  // Stagger siblings so they cascade
-  let lastParent = null;
-  let staggerIndex = 0;
-  revealElements.forEach(el => {
-    if (el.parentElement !== lastParent) {
-      lastParent = el.parentElement;
-      staggerIndex = 0;
-    }
-    el.style.transitionDelay = (staggerIndex * 0.1) + 's';
-    staggerIndex++;
-    revealObserver.observe(el);
-  });
+  // Observe each element; the observer adds .visible when it scrolls into view.
+  // No per-element transition-delay is set: the old stagger (transitionDelay = index*0.1s)
+  // wasn't scoped to the reveal's opacity, so it applied to *every* transition on the
+  // element — on .contact__input / .contact__button, which carry their own focus/hover
+  // transitions, it lagged that interactive feedback by up to 0.3s. With the reveal cascade
+  // disabled here (styles.css .reveal { opacity: 1 }) there was no fade to stagger, so the
+  // delay was pure regression. Re-enabling the fade in CSS still works; it fades in without
+  // the stagger.
+  revealElements.forEach(el => revealObserver.observe(el));
 }
 
 /*===== IMAGE CLICK EFFECTS (confetti, bursts, mega-explosion) =====*/
