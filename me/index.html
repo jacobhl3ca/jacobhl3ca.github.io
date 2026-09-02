@@ -311,10 +311,19 @@
 
 <li class="card">
   <img src="icons/roosevelt.png" alt="" width="54" height="54" loading="lazy" decoding="async">
-  <div class="meta"><b>Roosevelt Island</b><span>Transit, alerts &amp; island guide</span></div>
+  <div class="meta"><b>The Island</b><span>Transit, alerts &amp; island guide</span></div>
   <div class="btns">
-    <a class="btn store" href="https://apps.apple.com/us/app/roosevelt-island/id6775979583" target="_blank" rel="noopener" aria-label="Roosevelt Island on the App Store">App Store</a>
-    <a class="btn ghost" href="https://theisland.nyc" target="_blank" rel="noopener" aria-label="Roosevelt Island website">Web</a>
+    <!-- "The Island" is this app's canonical branding everywhere else on the site — the homepage
+         project card title and its JSON-LD CreativeWork name, the homepage meta description and
+         no-JS fallback link, building.html's work tile, and llms.txt all name it "The Island"
+         (theisland.nyc, the host this card's Web link already points to). This card and its two
+         aria-labels were the one place still titling it "Roosevelt Island" — so the visible title
+         and the App Store/Web accessible names now match the site-wide name (and the labels match
+         the theisland.nyc link they describe), exactly as this page's Subway Times card was aligned.
+         The App Store slug stays roosevelt-island (URLs are slug-based and carry no branding).
+         Text only, no visual restyle. -->
+    <a class="btn store" href="https://apps.apple.com/us/app/roosevelt-island/id6775979583" target="_blank" rel="noopener" aria-label="The Island on the App Store">App Store</a>
+    <a class="btn ghost" href="https://theisland.nyc" target="_blank" rel="noopener" aria-label="The Island website">Web</a>
   </div>
 </li>
 </ul>
