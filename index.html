@@ -80,8 +80,15 @@
                     var dark = document.documentElement.getAttribute('data-theme') === 'dark';
                     var l = document.createElement('link');
                     l.rel = 'preload'; l.as = 'image'; l.fetchPriority = 'high';
-                    l.href = dark ? 'assets/img/hidescore-cover-thumb.webp?v=1'
-                                  : 'assets/img/hidescore-cover-light-thumb.webp?v=1';
+                    // Root-absolute href (leading /), matching this head's stylesheet, favicon,
+                    // manifest and hero <img> (all /assets/…) — the line-12 comment already states
+                    // the head's preloads are root-absolute, but this dynamic LCP preload was the one
+                    // asset reference still built with a directory-relative path. The homepage is
+                    // served only at "/", where assets/… and /assets/… resolve to the identical
+                    // /assets/… URL, so this is byte-for-byte behaviour-preserving; it just makes the
+                    // head internally consistent and independent of the document path. No visual change.
+                    l.href = dark ? '/assets/img/hidescore-cover-thumb.webp?v=1'
+                                  : '/assets/img/hidescore-cover-light-thumb.webp?v=1';
                     document.head.appendChild(l);
                 })();
             }
@@ -94,23 +101,23 @@
         <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">
         <!-- Open Graph meta tags for link previews -->
         <meta property="og:title" content="Jacob Heifetz-Licht — Analytics Manager">
-        <meta property="og:description" content="Data analytics leader and web developer specializing in Python, SQL, Tableau, React, and Next.js. Turning data into things people actually use.">
+        <meta property="og:description" content="Data analytics leader and app developer specializing in Python, SQL, Tableau, React, and Next.js. Turning data into things people actually use.">
         <meta property="og:image" content="https://jacobhl.com/assets/img/og_image.png">
         <meta property="og:image:type" content="image/png">
         <meta property="og:image:width" content="1200">
         <meta property="og:image:height" content="630">
-        <meta property="og:image:alt" content="Jacob Heifetz-Licht — Analytics Manager and web developer">
+        <meta property="og:image:alt" content="Jacob Heifetz-Licht — Analytics Manager and app developer">
         <meta property="og:url" content="https://jacobhl.com/">
         <meta property="og:type" content="website">
         <meta property="og:site_name" content="Jacob Heifetz-Licht">
         <meta property="og:locale" content="en_US">
         <meta name="twitter:card" content="summary_large_image">
         <meta name="twitter:title" content="Jacob Heifetz-Licht — Analytics Manager">
-        <meta name="twitter:description" content="Data analytics leader and web developer specializing in Python, SQL, Tableau, React, and Next.js. Turning data into things people actually use.">
+        <meta name="twitter:description" content="Data analytics leader and app developer specializing in Python, SQL, Tableau, React, and Next.js. Turning data into things people actually use.">
         <meta name="twitter:image" content="https://jacobhl.com/assets/img/og_image.png">
-        <meta name="twitter:image:alt" content="Jacob Heifetz-Licht — Analytics Manager and web developer">
+        <meta name="twitter:image:alt" content="Jacob Heifetz-Licht — Analytics Manager and app developer">
         <link rel="canonical" href="https://jacobhl.com/">
-        <!-- address gives the Person entity a location signal for Knowledge-Graph / entity disambiguation, the same enrichment role the node's jobTitle, alumniOf, knowsAbout and sameAs already play. It only surfaces to structured-data consumers a fact this site already states in plain sight — the homepage meta description reads "…in New York, known online as JacobHL", the weather page's copy says "an analytics manager and web developer in New York", and the weather dashboard defaults to "New York, NY" — so nothing new or more precise is disclosed than the page copy. Deliberately city-level only (addressLocality/addressRegion/addressCountry, no street address) — that's all the site publishes. Pure metadata, no visual change. -->
+        <!-- address gives the Person entity a location signal for Knowledge-Graph / entity disambiguation, the same enrichment role the node's jobTitle, alumniOf, knowsAbout and sameAs already play. It only surfaces to structured-data consumers a fact this site already states in plain sight — the homepage meta description reads "…in New York, known online as JacobHL", the weather page's copy says "an analytics manager and app developer in New York", and the weather dashboard defaults to "New York, NY" — so nothing new or more precise is disclosed than the page copy. Deliberately city-level only (addressLocality/addressRegion/addressCountry, no street address) — that's all the site publishes. Pure metadata, no visual change. -->
         <!-- The Person "knowsAbout" list carries "Data Visualization": it is one of Jacob's core competencies surfaced everywhere else on the site — the visible Skills section has a dedicated "Data & Visualization" category, and both the <meta name="keywords"> list and llms.txt name "data visualization" — yet this structured-data topic list was the one place still omitting it, though it already carried the closely-related "Dashboard Design" and "Tableau". It sits next to "Dashboard Design" so the data-viz topics group together. Pure metadata; no visual change. -->
         <script type="application/ld+json">
         {
@@ -132,7 +139,7 @@
                 "addressRegion": "NY",
                 "addressCountry": "US"
             },
-            "description": "Data analytics leader and web developer specializing in Python, SQL, Tableau, React, and Next.js. Turning data into things people actually use.",
+            "description": "Data analytics leader and app developer specializing in Python, SQL, Tableau, React, and Next.js. Turning data into things people actually use.",
             "sameAs": [
                 "https://www.linkedin.com/in/jacobhl/",
                 "https://github.com/jacobhl3ca",
@@ -165,7 +172,7 @@
             "url": "https://jacobhl.com/",
             "name": "Jacob Heifetz-Licht",
             "alternateName": ["JacobHL", "Jacob HL", "jacobhl.com"],
-            "description": "Data analytics leader and web developer specializing in Python, SQL, Tableau, React, and Next.js. Turning data into things people actually use.",
+            "description": "Data analytics leader and app developer specializing in Python, SQL, Tableau, React, and Next.js. Turning data into things people actually use.",
             "inLanguage": "en-US",
             "author": { "@id": "https://jacobhl.com/#person" },
             "publisher": { "@id": "https://jacobhl.com/#person" }
@@ -209,7 +216,7 @@
                 { "@type": "ListItem", "position": 1, "item": { "@type": "CreativeWork", "name": "HideScore", "url": "https://hidescore.com", "image": "https://jacobhl.com/assets/img/hidescore-cover.png", "description": "Watch sports highlights without seeing the score.", "creator": { "@id": "https://jacobhl.com/#person" } } },
                 { "@type": "ListItem", "position": 2, "item": { "@type": "CreativeWork", "name": "Tonight NYC", "url": "https://tonightnyc.com", "image": "https://jacobhl.com/assets/img/tonightnyc-cover.png", "description": "Every NYC comedy show, filtered to your favorite comedians.", "creator": { "@id": "https://jacobhl.com/#person" } } },
                 { "@type": "ListItem", "position": 3, "item": { "@type": "CreativeWork", "name": "Subway Times", "url": "https://subwaytimes.com", "image": "https://jacobhl.com/assets/img/subwaytimes-cover.png", "description": "Real-time NYC subway arrivals, faster than Maps.", "creator": { "@id": "https://jacobhl.com/#person" } } },
-                { "@type": "ListItem", "position": 4, "item": { "@type": "CreativeWork", "name": "David Licht", "url": "https://davidlicht.com", "image": "https://jacobhl.com/assets/img/davidlicht-app.png", "description": "A showcase site for my dad — five decades of drumming.", "creator": { "@id": "https://jacobhl.com/#person" } } },
+                { "@type": "ListItem", "position": 4, "item": { "@type": "CreativeWork", "name": "David Licht", "url": "https://davidlicht.com", "image": "https://jacobhl.com/assets/img/davidlicht.jpg", "description": "A showcase site for my dad — five decades of drumming.", "creator": { "@id": "https://jacobhl.com/#person" } } },
                 { "@type": "ListItem", "position": 5, "item": { "@type": "CreativeWork", "name": "The Island", "url": "https://theisland.nyc", "image": "https://jacobhl.com/assets/img/theisland-cover.png", "description": "Everything happening on NYC’s Roosevelt Island, in one place.", "creator": { "@id": "https://jacobhl.com/#person" } } },
                 { "@type": "ListItem", "position": 6, "item": { "@type": "CreativeWork", "name": "TidyTab", "url": "https://tidytab.jacobhl.com/", "image": "https://jacobhl.com/assets/img/tidytab-cover.png", "description": "Bulk unpin or close Safari pinned tabs — a macOS menu-bar app.", "creator": { "@id": "https://jacobhl.com/#person" } } }
             ]
@@ -1453,7 +1460,8 @@
                         <!-- Mobile-input hints for a proper-name field: capitalize each word (matches how names are written), turn off autocorrect so an unusual surname isn't "corrected" into a dictionary word as it's typed (iOS Safari autocorrects text inputs by default), and turn off spellcheck so real names aren't flagged with red squiggles. All editable hints, no visual change on desktop. Mirrors the weather dashboard's search input (autocapitalize + autocorrect + spellcheck). -->
                         <input type="text" name="name" placeholder="Your Name" class="contact__input" aria-label="Your name" autocomplete="name" autocapitalize="words" autocorrect="off" spellcheck="false" required>
                         <!-- Mobile-input hints for the email field, mirroring the name field above: turn off autocapitalize so the local part isn't capitalized as it's typed, autocorrect off so an address isn't "corrected" mid-entry (iOS autocorrects text inputs by default), and spellcheck off so email addresses aren't flagged with red squiggles. type="email" already picks the right keyboard; these just stop the input being mangled. All editable hints, no visual change on desktop. -->
-                        <input type="email" name="email" placeholder="your@email.com" class="contact__input" aria-label="Your email address" autocomplete="email" autocapitalize="off" autocorrect="off" spellcheck="false" required>
+                        <!-- inputmode="email" reinforces the email-optimized on-screen keyboard alongside type="email". type="email" already selects it on iOS Safari and Chrome, so this is a no-op for nearly everyone, but it's the belt-and-suspenders hint some Android IMEs read when their type→keyboard mapping differs — and it aligns this field with the site's twin contact form on /me/, whose email input already carries inputmode="email". Editable hint only; no visual change. -->
+                        <input type="email" name="email" placeholder="your@email.com" class="contact__input" aria-label="Your email address" autocomplete="email" inputmode="email" autocapitalize="off" autocorrect="off" spellcheck="false" required>
                         <textarea name="message" placeholder="Your Message" class="contact__input" aria-label="Your message" rows="10" required></textarea>
                         <!-- No aria-live here: the button is set disabled on submit (dropping it from the a11y tree), and main-alt.js mirrors the "Sending…/Sent!/Error" status into a dedicated visually-hidden #contact-sr-status live region (created in main-alt.js and appended to this form; distinct from the weather dashboard's #srStatus). Keeping aria-live on the button too caused a redundant/inconsistent double announcement. -->
                         <button type="submit" class="contact__button button">Send</button>
