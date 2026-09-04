@@ -876,7 +876,8 @@
 
 
         <!--===== MAIN JS =====-->
-        <script src="assets/js/main.js"></script>
+        <!-- Root-absolute script path (leading /), matching every other page that loads main.js — 404.html, projects-stack-preview.html, and projects/index_cascade_animate.html all reference /assets/js/main.js — and this page's own head, whose stylesheet and favicon were already normalized to /assets/… for site-wide consistency. This variant is served only at /index_with_animation.html, where assets/js/main.js and /assets/js/main.js resolve to the identical /assets/js/main.js URL, so this is byte-for-byte behaviour-preserving; it just makes the page's last declarative resource path independent of the document location, like the rest of the site. No visual or behaviour change. -->
+        <script src="/assets/js/main.js"></script>
         
     </body>
 </html>
