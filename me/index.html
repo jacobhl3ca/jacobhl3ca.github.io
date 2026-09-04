@@ -386,9 +386,16 @@
        first word the default "sentences" would give), and both fields turn off autocorrect/spellcheck
        so the phone doesn't "correct" a real name or flag a valid email with a red squiggle. The email
        field is explicitly lowercase (autocapitalize="off"). No visual change to the settled fields. -->
-  <input id="n" name="name" type="text" placeholder="Your name" autocomplete="name" autocapitalize="words" autocorrect="off" spellcheck="false" aria-label="Your name" required>
+  <!-- enterkeyhint="next" labels the on-screen keyboard's action key "Next" (instead of a generic
+       Return) so a phone visitor moves name → email down the form without reaching for the field —
+       it was the one mobile-keyboard hint these two fields were still missing, and index.html's twin
+       contact form already carries it on both (its own comment: this page's "twin contact form").
+       This phone-first QR/AirDrop hand-off form is exactly where it helps most. "next" on both text
+       fields; the message textarea keeps the default Return so Enter still inserts a newline.
+       Editable hint only; no visual change and no effect on submit. -->
+  <input id="n" name="name" type="text" placeholder="Your name" autocomplete="name" autocapitalize="words" autocorrect="off" spellcheck="false" enterkeyhint="next" aria-label="Your name" required>
   <input id="e" name="email" type="email" placeholder="you@email.com"
-         autocomplete="email" inputmode="email" autocapitalize="off" autocorrect="off" spellcheck="false" aria-label="Your email address" required>
+         autocomplete="email" inputmode="email" autocapitalize="off" autocorrect="off" spellcheck="false" enterkeyhint="next" aria-label="Your email address" required>
   <textarea id="m" name="message" placeholder="Where we met / what you’re working on (optional)" aria-label="Message (optional)"></textarea>
   <input type="hidden" name="_subject" value="jacobhl.com/me — someone left their info">
   <!-- Formspree _next names the URL to return to after submission. The JS path above AJAX-posts

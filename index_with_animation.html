@@ -821,7 +821,7 @@
                         <!-- aria-label on each field so it has a stable accessible name: the placeholder is only a hint (it vanishes once the user types and is low-contrast), so placeholder-only inputs leave assistive-tech users without a reliable field name (WCAG 4.1.2). Mirrors the wording the live index.html contact form already uses ("Your name" / "Your email address" / "Your message"), bringing this animated variant to the same a11y baseline. No visual change. -->
                         <!-- autocomplete + mobile-input hints, mirroring the live index.html contact form: autocomplete="name"/"email" identifies each field's purpose so browsers offer the right autofill (WCAG 1.3.5 Identify Input Purpose, AA), and autocapitalize/autocorrect/spellcheck off stop iOS Safari (which autocorrects and capitalises text inputs by default) from mangling an unusual surname or an email local-part as it's typed. This animated variant was the one contact form still missing these hints. Editable hints only — no visual change on desktop. -->
                         <input type="text" name="name" placeholder="Name" aria-label="Your name" class="contact__input" autocomplete="name" autocapitalize="words" autocorrect="off" spellcheck="false" required>
-                        <input type="email" name="email" placeholder="Email" aria-label="Your email address" class="contact__input" autocomplete="email" autocapitalize="off" autocorrect="off" spellcheck="false" required>
+                        <input type="email" name="email" placeholder="Email" aria-label="Your email address" class="contact__input" autocomplete="email" inputmode="email" autocapitalize="off" autocorrect="off" spellcheck="false" required>
                         <textarea name="message" placeholder="Your Message" aria-label="Your message" class="contact__input" rows="10" required></textarea>
                         <button type="submit" class="contact__button button">Send</button>
                     </form>
@@ -876,7 +876,8 @@
 
 
         <!--===== MAIN JS =====-->
-        <script src="assets/js/main.js"></script>
+        <!-- Root-absolute script path (leading /), matching every other page that loads main.js — 404.html, projects-stack-preview.html, and projects/index_cascade_animate.html all reference /assets/js/main.js — and this page's own head, whose stylesheet and favicon were already normalized to /assets/… for site-wide consistency. This variant is served only at /index_with_animation.html, where assets/js/main.js and /assets/js/main.js resolve to the identical /assets/js/main.js URL, so this is byte-for-byte behaviour-preserving; it just makes the page's last declarative resource path independent of the document location, like the rest of the site. No visual or behaviour change. -->
+        <script src="/assets/js/main.js"></script>
         
     </body>
 </html>
