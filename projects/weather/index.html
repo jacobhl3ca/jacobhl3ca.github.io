@@ -468,16 +468,23 @@ function render(w, aqi, geo) {
   // the production /weather/ dashboard this copies already uses. Same messages, thresholds, and
   // rendered result — no visual change.
   const willRain = hourly.some(h => h.pop > 40);
+  // The leading emoji on each alert is decorative — the wording ("High wind advisory…", "Extreme
+  // cold…") already carries the meaning — so wrap it in aria-hidden. Otherwise a screen reader
+  // prefixes every safety warning with the emoji's spoken name ("warning sign High wind advisory…",
+  // "snowflake Extreme cold…"), noise on exactly the messages that most need to read cleanly. The
+  // production /weather/ dashboard this copies already wraps these four emoji this way; this leftover
+  // copy still emitted them bare. Matches the site-wide decorative-glyph pattern (weather/, index.html
+  // wrap their ←/↑/↓ arrows and emoji the same way). Text-only — the banner renders identically.
   let alertClass = '', alertMsg = '';
   if (windSpeed >= 25 || gusts >= 40) {
-    alertClass = 'warning'; alertMsg = `⚠️ High wind advisory — gusts up to ${gusts || windSpeed} mph. Secure loose items.`;
+    alertClass = 'warning'; alertMsg = `<span aria-hidden="true">⚠️</span> High wind advisory — gusts up to ${gusts || windSpeed} mph. Secure loose items.`;
   } else if (temp <= 20) {
-    alertClass = 'danger'; alertMsg = `🥶 Extreme cold — frostbite risk. Layer up and limit exposure.`;
+    alertClass = 'danger'; alertMsg = `<span aria-hidden="true">🥶</span> Extreme cold — frostbite risk. Layer up and limit exposure.`;
   } else if (temp >= 95 && humidity >= 60) {
-    alertClass = 'danger'; alertMsg = `🔥 Excessive heat + humidity — heat stroke risk. Stay indoors if possible.`;
+    alertClass = 'danger'; alertMsg = `<span aria-hidden="true">🔥</span> Excessive heat + humidity — heat stroke risk. Stay indoors if possible.`;
   } else if (willRain) {
     const rainH = hourly.find(h => h.pop > 40);
-    alertClass = 'info'; alertMsg = `☂️ Rain likely around ${fmtHour(rainH.time)} — grab an umbrella before heading out.`;
+    alertClass = 'info'; alertMsg = `<span aria-hidden="true">☂️</span> Rain likely around ${fmtHour(rainH.time)} — grab an umbrella before heading out.`;
   }
   const alertsBanner = document.getElementById('alertsBanner');
   alertsBanner.className = 'alerts-banner' + (alertClass ? ' ' + alertClass : '');
