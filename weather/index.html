@@ -779,7 +779,7 @@ function render(w, aqi, geo) {
     <h2 class="stat-label">Air Quality${usAqi != null ? ' (US AQI: '+usAqi+')' : ''}</h2>
     <div class="stat-value" style="color:${aqiInfo.color}">${aqiInfo.text}</div>
     <div class="stat-sub">${pm25 != null ? 'PM2.5: ' + pm25.toFixed(1) + ' µg/m³' : ''}</div>
-    <!-- Decorative meter: the category text (.stat-value, e.g. "Good"/"Fair"), the "US AQI: N" in the
+    <!-- Decorative meter: the category text (.stat-value, e.g. "Good"/"Moderate"), the "US AQI: N" in the
          heading, and the PM2.5 reading already state this level in text, so the five coloured segments
          are visual reinforcement only. aria-hidden keeps its empty segment divs out of the a11y tree,
          matching the page's decorative-element pattern (mirrors the humidity meter above). No visual change. -->
