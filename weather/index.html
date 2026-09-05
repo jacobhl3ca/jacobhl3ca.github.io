@@ -433,12 +433,22 @@ function humidityComfort(h) {
   return { label:'Oppressive', level:4, cls:'active-bad' };
 }
 
+// Fallback category, used only when the air-quality API returns pm2_5 but a null us_aqi (it can be
+// null for some hours/remote locations). The breakpoints below (12.0 / 35.4 / 55.4 / 150.4 / 250.4)
+// are the US EPA PM2.5 24-hour breakpoints, and the AQI card heading, its stat text, and the
+// WebApplication JSON-LD featureList all describe this as "US AQI" — yet this fallback previously
+// returned European EAQI-style labels ("Fair"/"Poor"/"Very Poor"), which both named a scale the
+// page doesn't use and UNDERSTATED severity (PM2.5 45 µg/m³ is US "Unhealthy for Sensitive Groups",
+// not "Moderate"). Map each PM2.5 band to the exact US AQI category name, colour, and segment count
+// the us_aqi branch in render() already uses, so the fallback matches the primary path instead of
+// contradicting it. aqi caps at 5 for both Very Unhealthy and Hazardous, keeping the 5-segment bar full.
 function aqiFromPM25(pm) {
   if (pm <= 12) return { aqi:1, text:'Good', color:'#22c55e' };
-  if (pm <= 35.4) return { aqi:2, text:'Fair', color:'#84cc16' };
-  if (pm <= 55.4) return { aqi:3, text:'Moderate', color:'#f59e0b' };
-  if (pm <= 150.4) return { aqi:4, text:'Poor', color:'#f97316' };
-  return { aqi:5, text:'Very Poor', color:'#ef4444' };
+  if (pm <= 35.4) return { aqi:2, text:'Moderate', color:'#f59e0b' };
+  if (pm <= 55.4) return { aqi:3, text:'Unhealthy (Sensitive)', color:'#f97316' };
+  if (pm <= 150.4) return { aqi:4, text:'Unhealthy', color:'#ef4444' };
+  if (pm <= 250.4) return { aqi:5, text:'Very Unhealthy', color:'#7c3aed' };
+  return { aqi:5, text:'Hazardous', color:'#7e0023' };
 }
 
 function sunProgress(sunrise, sunset, now) {
