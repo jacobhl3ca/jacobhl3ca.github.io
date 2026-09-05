@@ -190,7 +190,7 @@
             "about": { "@id": "https://jacobhl.com/#person" },
             "mainEntity": { "@id": "https://jacobhl.com/#person" },
             "inLanguage": "en-US",
-            "dateModified": "2026-09-02T00:00:00-04:00"
+            "dateModified": "2026-09-04T00:00:00-04:00"
         }
         </script>
         <!-- ⛔ dateModified above MUST stay a full ISO 8601 datetime with a time AND a timezone offset (YYYY-MM-DDThh:mm:ss±hh:mm). Google's ProfilePage structured-data spec requires the time+offset on this field specifically, and a bare "YYYY-MM-DD" trips the Search Console warning "Invalid datetime value for dateModified" (first detected 2026-08-10, fixed 2026-08-11). Keep the DATE half in sync with this page's <lastmod> in sitemap.xml as before — just never drop the T-time or the offset when refreshing it. This is a ProfilePage-only requirement; the WebPage/WebApplication nodes on building.html and weather/ are not rich-result types and may stay date-only. -->
