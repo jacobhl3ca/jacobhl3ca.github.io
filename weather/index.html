@@ -425,6 +425,15 @@ function windDir(deg) {
   const dirs = ['N','NNE','NE','ENE','E','ESE','SE','SSE','S','SSW','SW','WSW','W','WNW','NW','NNW'];
   return dirs[Math.round(deg / 22.5) % 16];
 }
+// Spoken full name for the same 16-point bearing. The abbreviation windDir() returns is compact for
+// sighted users but reads ambiguously to a screen reader ("N" is announced as the letter, "SSW" is
+// spelled out), so the hero surfaces this as a visually-hidden label beside the abbreviation — the
+// same terse-token expansion this page already applies to the 5-day weekday abbreviations (dayFull),
+// High:/Low:, Sunrise:/Sunset:, and the hourly rain-chance/condition. Same index math as windDir().
+function windDirName(deg) {
+  const names = ['north','north-northeast','northeast','east-northeast','east','east-southeast','southeast','south-southeast','south','south-southwest','southwest','west-southwest','west','west-northwest','northwest','north-northwest'];
+  return names[Math.round(deg / 22.5) % 16];
+}
 
 function humidityComfort(h) {
   if (h < 30) return { label:'Dry — moisturize', level:1, cls:'active-ok' };
@@ -611,6 +620,7 @@ function render(w, aqi, geo) {
   const comfort = humidityComfort(humidity);
   const windSpeed = Math.round(c.wind_speed_10m);
   const windD = windDir(c.wind_direction_10m);
+  const windDName = windDirName(c.wind_direction_10m);
   const gusts = c.wind_gusts_10m ? Math.round(c.wind_gusts_10m) : 0;
   const pressure = (c.surface_pressure * 0.02953).toFixed(2);
   const isDay = c.is_day;
@@ -733,7 +743,7 @@ function render(w, aqi, geo) {
       <div class="hero-detail">
         ${escHtml(geo.name)}<br>
         Humidity: ${humidity}%<br>
-        Wind: ${windSpeed} mph ${windD}${gusts ? '<br>Gusts: ' + gusts + ' mph' : ''}<br>
+        Wind: ${windSpeed} mph <span class="visually-hidden">${windDName} </span><span aria-hidden="true">${windD}</span>${gusts ? '<br>Gusts: ' + gusts + ' mph' : ''}<br>
         Pressure: ${pressure} inHg<br>
         <!-- EPA UV Index scale tops out at a distinct "Extreme" band (11+), reached at high
              altitude/near the equator or under ozone-thinned skies. Without this, such readings
