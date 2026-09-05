@@ -150,14 +150,16 @@
   .note{color:var(--muted);font-size:15px;margin-top:14px}
 
   footer{border-top:1px solid var(--line);margin-top:34px;padding-top:18px;color:var(--muted);font-size:14px}
-  /* Footer contact details are tappable (see the footer markup) but should read as
-     part of the muted footer line, not as default blue/underlined links — inherit the
-     footer colour and drop the underline so the actionable email/phone look identical
-     to the surrounding plain text. No visual change. */
+  /* The footer contact email is tappable (see the footer markup) but should read as
+     part of the muted footer line, not as a default blue/underlined link — inherit the
+     footer colour and drop the underline so the actionable email looks identical
+     to the surrounding plain text. (The phone/text link this once also covered was
+     removed 2026-09-05 in the privacy sweep; contact here is email-only now.) No visual change. */
   footer a{color:inherit;text-decoration:none}
 
   /* Branded keyboard-focus ring on every interactive element here — the six work tiles, the
-     two CTA buttons, and the tappable email/phone links in the contact line and footer. This
+     "Email the idea" CTA button, and the tappable email links in the contact line and footer
+     (the phone/text CTA and contact link were removed 2026-09-05 in the privacy sweep). This
      flyer is self-contained (its own inline styles, not styles.css), so it sat outside the
      site-wide :focus-visible rings the main pages get from styles.css (and that weather/ and
      refer/ carry inline) — it was the one page still falling back to the inconsistent UA-default
