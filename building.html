@@ -263,9 +263,9 @@
     <div class="cta">
       <!-- Escape the query-separator & as &amp; in this mailto href. An unescaped & in an attribute value is the one bare & left on the page (the work-tile descriptions were escaped earlier) and, more than a validity nicety, it's a latent footgun: HTML unescapes attribute values, and a parameter that begins with a legacy no-semicolon entity (e.g. &copy=, &reg=) would be silently decoded and corrupt the mailto. &body isn't such an entity so today's link is unaffected, but writing &amp; is the defensive, W3C-recommended form for & in URLs and matches the site's escape-bare-& pattern. The browser decodes &amp;→& when parsing the attribute, so the composed mailto (and the prefilled subject/body) is byte-for-byte identical. No visual or behaviour change. -->
       <a class="button" href="mailto:hi@jacobhl.com?subject=Building%20project%20idea&amp;body=Hi%20Jacob%2C%0A%0AI%20saw%20your%20flyer%20in%20the%20building.%20I%20might%20want%20help%20with%3A%0A%0AThe%20rough%20idea%3A%0A%0AWhat%20it%20is%20for%3A%0A%0ABest%20way%20to%20reach%20me%3A%0A">Email the idea</a>
-      <a class="button secondary" href="sms:+18622952714">Text me</a>
+      <!-- Contact is email-only by design: the phone / text-message link was removed 2026-09-05 (privacy sweep). Do not add a phone number or a text-message link back to this page. -->
     </div>
-    <!-- Make the primary email tappable, mirroring the sms: link beside it: on the phone this flyer/QR page targets, a neighbor expects to tap the address to open their mail app, but it was plain text (only the "Email the idea" button above and the phone number here were actionable). Wrapping the existing <b> in the mailto keeps the appearance identical — .contactline b's color:var(--ink) still styles the bold text (it wins over the anchor's blue for the text it directly targets), and .contactline a's text-decoration:none suppresses the underline — so this only adds the click target. No visual change. -->
+    <!-- Make the primary email tappable: on the phone this flyer/QR page targets, a neighbor expects to tap the address to open their mail app, but it was plain text (only the "Email the idea" button above was actionable). Wrapping the existing <b> in the mailto keeps the appearance identical — .contactline b's color:var(--ink) still styles the bold text (it wins over the anchor's blue for the text it directly targets), and .contactline a's text-decoration:none suppresses the underline — so this only adds the click target. No visual change. -->
     <!-- rel="me" marks this visible address link as Jacob's own verified email identity, matching
          the site-wide rel-me pattern index.html and 404.html already apply to this same
          hi@jacobhl.com address (a mailto to one's own verified address is an explicitly supported
@@ -273,17 +273,15 @@
          display the address as their text — this contact line and the footer below — were the ones
          still outside that identity graph. Additive rel token; browsers ignore rel on rendering, so
          no visual or behaviour change. -->
-    <div class="contactline"><a href="mailto:hi@jacobhl.com" rel="me"><b>hi@jacobhl.com</b></a> · text <a href="sms:+18622952714">862-295-2714</a></div>
+    <div class="contactline"><a href="mailto:hi@jacobhl.com" rel="me"><b>hi@jacobhl.com</b></a></div>
   </section>
 
-  <!-- Make the footer's email + phone tappable — this was the one contact line on the page
-       still plain text (the CTA's "Email the idea"/"Text me" buttons and the .contactline
-       above are already actionable). This flyer/QR page is opened almost entirely on phones,
-       where email addresses don't auto-link (only iOS auto-links bare phone numbers, and to a
-       call — not the text-first flow this page offers). mailto for the email; sms for the
-       phone, matching the two existing sms:+18622952714 links and the page's "text me" intent
-       (not a call). footer a{color:inherit;text-decoration:none} keeps the muted footer look
-       unchanged — the links look identical to the plain text they replace. No visual change. -->
+  <!-- Make the footer's email tappable — this was the one contact line on the page still
+       plain text (the CTA's "Email the idea" button and the .contactline above are already
+       actionable). This flyer/QR page is opened almost entirely on phones, where email
+       addresses don't auto-link. footer a{color:inherit;text-decoration:none} keeps the muted
+       footer look unchanged — the link looks identical to the plain text it replaces. No visual
+       change. -->
   <!-- Explicit role="contentinfo" so this page footer is exposed as the contentinfo landmark. A
        bare <footer> only maps to contentinfo when it's NOT a descendant of main/article/aside/nav/
        section (ARIA-in-HTML) — this one sits inside <main> (moving it out would push it past the
@@ -292,7 +290,7 @@
        whose footers sit outside <main>. The role restores the landmark for screen-reader landmark
        navigation with no visual or behaviour change. -->
   <footer role="contentinfo">
-    Jacob Heifetz-Licht · neighbor, web/app developer · <a href="mailto:hi@jacobhl.com" rel="me">hi@jacobhl.com</a> · <a href="sms:+18622952714">862-295-2714</a>
+    Jacob Heifetz-Licht · neighbor, web/app developer · <a href="mailto:hi@jacobhl.com" rel="me">hi@jacobhl.com</a>
   </footer>
 </main>
 
