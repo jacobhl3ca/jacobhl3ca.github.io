@@ -265,6 +265,14 @@
      screen readers then announce "list, 4 items" and let users jump item-to-item, and the
      relationship between the "My apps" heading and its items is programmatic, not just visual
      (WCAG 1.3.1). .apps resets the UA list styling above, so there is no visual change. -->
+<!-- role="list" restores the list semantics that .apps's list-style:none strips in Safari/VoiceOver
+     (a known WebKit behaviour: a <ul> with its markers removed is no longer exposed as a list, so a
+     screen reader announces the cards as four loose blocks instead of "list, 4 items" — defeating the
+     <ul>/<li> markup above). This is the site's most-handed-off page (QR / AirDrop / texted link) opened
+     mostly on iPhones, i.e. exactly Safari/VoiceOver, so it's the one place this matters most — yet the
+     .apps list was the one marker-less list here still missing the role. Matches the site's established
+     pattern for its other marker-less lists (building.html's .steps ol, index.html's skills-tag groups,
+     weather/'s forecast list all carry role="list"). Adding role has no visual effect. -->
 <!-- Open the app links in a new tab (target="_blank"), with rel="noopener" to sever the
      opener reference the new context would otherwise inherit (standard security pairing, and the
      site-wide default for external links). This is the in-person share/hand-off hub (QR / AirDrop /
@@ -274,7 +282,7 @@
      opens these exact same apps with target="_blank" rel="noopener", and refer/ (this page's twin
      share-by-link page) opens all its outbound links in a new tab too — me/ was the one page whose
      external links still navigated in place. Behaviour only; no visual change. -->
-<ul class="apps">
+<ul class="apps" role="list">
 <li class="card">
   <img src="icons/hidescore.png" alt="" width="54" height="54" loading="lazy" decoding="async">
   <div class="meta"><b>HideScore</b><span>Sports scores with no spoilers</span></div>
