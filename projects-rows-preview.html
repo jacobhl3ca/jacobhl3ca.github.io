@@ -50,17 +50,20 @@
      default favicon request 404s and the tab shows a blank/generic icon while this preview is open.
      This "projects rows" preview was the one page site-wide still missing the icon link — every other
      page (index.html, 404.html, building.html, weather/, light/, and both sibling previews
-     projects-stack-preview.html / index_with_animation.html) already declares it. Relative path
-     resolves from the repo root where this page is served, matching the two siblings exactly.
-     References the existing favicon.ico (no new asset). No visual change to page content. -->
-<link rel="icon" type="image/x-icon" href="assets/img/favicon.ico">
+     projects-stack-preview.html / index_with_animation.html) already declares it. Root-absolute path
+     (leading /), matching the sibling projects-stack-preview.html and the site-wide convention — this
+     preview was served only at /projects-rows-preview.html, where assets/… and /assets/… resolve to
+     the identical /assets/… URL, so this is byte-for-byte behaviour-preserving; it just makes the path
+     location-independent like the rest of the site. References the existing favicon.ico (no new asset).
+     No visual change to page content. -->
+<link rel="icon" type="image/x-icon" href="/assets/img/favicon.ico">
 <!-- Warm the TLS connections to the three cross-origin hosts this page fetches render-critical CSS/fonts from, before the browser discovers the <link>s below. This "projects rows" preview loads the same Google Fonts (Poppins) and boxicons stylesheet/icon-font as the rest of the site but — unlike its siblings (index.html, 404.html, projects-stack-preview.html all carry exactly these hints) — declared no preconnects, so each (DNS + TCP + TLS) handshake only began once the corresponding <link> was parsed. Preconnecting up front overlaps those handshakes with head parsing so the font/icon CSS and woff2 files arrive sooner (less FOUT/FOIT). The two cdn.jsdelivr.net hints are non-crossorigin (the boxicons CSS fetch) and crossorigin (the CORS woff2 icon font); the gstatic hint is crossorigin so its warmed socket is reused for the CORS woff2. Resource hints only — no visual or behaviour change. -->
 <link rel="preconnect" href="https://cdn.jsdelivr.net">
 <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<!-- load the REAL site styles so this matches exactly -->
-<link rel="stylesheet" href="assets/css/styles.css">
+<!-- load the REAL site styles so this matches exactly (root-absolute /assets/… path, matching the sibling projects-stack-preview.html and the site-wide convention; identical resolved URL at this page's served root path) -->
+<link rel="stylesheet" href="/assets/css/styles.css">
 <!-- Request the SAME Poppins weight set the shared styles.css @imports (400;500;600;700), not 400;600;700. styles.css (loaded above, whose look this preview exists to mirror exactly) @imports Poppins at 400;500;600;700 and uses weight 500 for .skills__tag / .mac-badge; because this page's own font <link> asked for a different weight set, its URL didn't match the @import, so the browser fetched TWO separate render-blocking Google Fonts stylesheets (this 400;600;700 one, then the @import's 400;500;600;700) instead of one. Matching the @import's URL lets the @import resolve straight from cache — a single font-CSS fetch, and weight 500 (Medium) available rather than synthesized from 400. Mirrors the identical <link>/@import URL already carried by index.html, 404.html, and weather/. Resource-loading only — no visual change to correctly-weighted text. -->
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
 <link href="https://cdn.jsdelivr.net/npm/boxicons@2.0.5/css/boxicons.min.css" rel="stylesheet">
@@ -360,7 +363,7 @@ const MORE = [
 function ctaHTML(p){
   let h='';
   if(p.site) h+=`<a href="${p.site}" target="_blank" rel="noopener" class="site-link" title="Visit website" aria-label="Visit website"><i class='bx bx-globe' aria-hidden="true"></i></a>`;
-  if(p.appstore) h+=`<a href="${p.appstore}" target="_blank" rel="noopener" class="app-store-badge-link"><img src="assets/img/app-store-badge.svg" alt="Download on the App Store" class="app-store-badge"></a>`;
+  if(p.appstore) h+=`<a href="${p.appstore}" target="_blank" rel="noopener" class="app-store-badge-link"><img src="/assets/img/app-store-badge.svg" alt="Download on the App Store" class="app-store-badge"></a>`;
   if(p.download) h+=`<a href="${p.download}" class="gh-link dl-link" title="Download TidyTab for macOS (.dmg, notarized)"><i class='bx bxl-apple' aria-hidden="true"></i>Download for Mac</a>`;
   if(p.github) h+=`<a href="${p.github}" target="_blank" rel="noopener" class="gh-link"><i class='bx bxl-github' aria-hidden="true"></i>GitHub</a>`;
   return h ? `<div class="work__cta">${h}</div>` : '';

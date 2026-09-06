@@ -32,7 +32,7 @@
 <meta name="author" content="Jacob Heifetz-Licht">
 <!-- Self-referential canonical: this page is a flyer/QR target, so it's routinely opened with tracking query params (?utm_*, QR analytics). Point every such variant at the clean URL so search engines index one copy, not duplicates. Mirrors the canonical present on every other page (index.html, weather/, light/). -->
 <link rel="canonical" href="https://jacobhl.com/building.html">
-<!-- Structured data: building.html is independently indexed (it's in sitemap.xml and self-canonical'd above) but was the one indexed page site-wide with no linked-data node. Give it a WebPage entity tied into the site's graph the same way weather/ ties in its WebApplication: isPartOf the WebSite (#website, defined on index.html) and authored by the Person (#person) — cross-page @id references search engines merge site-wide. inLanguage matches the en-US the homepage's nodes declare and this page's og:locale. dateModified names the day this page was last edited — the freshness signal kept in sync with this page's own sitemap.xml <lastmod> (2026-08-31, building.html's true last-modification date: the DuelGoat work tile was pulled from the visible .work grid on 2026-08-31 — commented out with restore notes, a real served-content change — so both the sitemap lastmod and this dateModified are advanced to 2026-08-31 in lockstep to track it. Earlier edits it passed through: 2026-08-23 curly apostrophes in the flyer copy, 2026-08-24 the application-name meta; the 2026-08-25 root-absolute path normalization is deliberately NOT counted, since it resolves to byte-for-byte identical URLs, exactly as the homepage's own sitemap date excludes its matching path-normalization commits), exactly as the homepage's ProfilePage node syncs its dateModified to the homepage lastmod; date-only granularity mirrors the sitemap's. Pure metadata, no visual change. -->
+<!-- Structured data: building.html is independently indexed (it's in sitemap.xml and self-canonical'd above) but was the one indexed page site-wide with no linked-data node. Give it a WebPage entity tied into the site's graph the same way weather/ ties in its WebApplication: isPartOf the WebSite (#website, defined on index.html) and authored by the Person (#person) — cross-page @id references search engines merge site-wide. inLanguage matches the en-US the homepage's nodes declare and this page's og:locale. dateModified names the day this page was last edited — the freshness signal kept in sync with this page's own sitemap.xml <lastmod> (2026-09-05, building.html's true last-modification date: the phone / text-message contact link was removed from the served page on 2026-09-05 (privacy sweep, see the note in the contact block below) — a real served-content change — so both the sitemap lastmod and this dateModified are advanced to 2026-09-05 in lockstep to track it. Earlier real-content edits it passed through: 2026-08-31 the DuelGoat work tile pulled from the visible .work grid (commented out with restore notes); 2026-08-23 curly apostrophes in the flyer copy, 2026-08-24 the application-name meta; the 2026-08-25 root-absolute path normalization is deliberately NOT counted, since it resolves to byte-for-byte identical URLs, exactly as the homepage's own sitemap date excludes its matching path-normalization commits), exactly as the homepage's ProfilePage node syncs its dateModified to the homepage lastmod; date-only granularity mirrors the sitemap's. Pure metadata, no visual change. -->
 <script type="application/ld+json">
 {
     "@context": "https://schema.org",
@@ -43,7 +43,7 @@
     "description": "Pay-what-you-want website and app help from Jacob, a software developer in the building. See live work and send your idea.",
     "image": "https://jacobhl.com/assets/img/og_image.png",
     "inLanguage": "en-US",
-    "dateModified": "2026-08-31",
+    "dateModified": "2026-09-05",
     "isPartOf": { "@id": "https://jacobhl.com/#website" },
     "author": { "@id": "https://jacobhl.com/#person" },
     "breadcrumb": { "@id": "https://jacobhl.com/building.html#breadcrumb" }
@@ -150,14 +150,16 @@
   .note{color:var(--muted);font-size:15px;margin-top:14px}
 
   footer{border-top:1px solid var(--line);margin-top:34px;padding-top:18px;color:var(--muted);font-size:14px}
-  /* Footer contact details are tappable (see the footer markup) but should read as
-     part of the muted footer line, not as default blue/underlined links — inherit the
-     footer colour and drop the underline so the actionable email/phone look identical
-     to the surrounding plain text. No visual change. */
+  /* The footer contact email is tappable (see the footer markup) but should read as
+     part of the muted footer line, not as a default blue/underlined link — inherit the
+     footer colour and drop the underline so the actionable email looks identical
+     to the surrounding plain text. (The phone/text link this once also covered was
+     removed 2026-09-05 in the privacy sweep; contact here is email-only now.) No visual change. */
   footer a{color:inherit;text-decoration:none}
 
   /* Branded keyboard-focus ring on every interactive element here — the six work tiles, the
-     two CTA buttons, and the tappable email/phone links in the contact line and footer. This
+     "Email the idea" CTA button, and the tappable email links in the contact line and footer
+     (the phone/text CTA and contact link were removed 2026-09-05 in the privacy sweep). This
      flyer is self-contained (its own inline styles, not styles.css), so it sat outside the
      site-wide :focus-visible rings the main pages get from styles.css (and that weather/ and
      refer/ carry inline) — it was the one page still falling back to the inconsistent UA-default
@@ -250,7 +252,15 @@
       <!-- role="list" restores the list semantics that list-style:none strips in Safari/VoiceOver (a known WebKit behaviour: a list with its markers removed is no longer exposed as a list, so a screen reader announces the steps as three loose sentences instead of "list, 3 items"). The .steps ol is the one styled list on the page that removes its markers, so it was the one spot still missing this — matching the site's existing role="list" pattern on its other marker-less lists (index.html's skills-tag pills, weather/'s forecast list). Adding role has no visual effect. -->
       <ol class="steps" role="list">
         <li>Send me a few sentences about the idea.</li>
-        <li>We do a quick chat in the building or by phone.</li>
+        <!-- "over email" (not "by phone"): contact on this page is email-only by design — the phone /
+             text-message link was removed 2026-09-05 (privacy sweep, see the note in the "Pay what you
+             want" contact block below). The step copy still promised a phone chat, the one visible
+             remnant of the pre-sweep phone channel, so a neighbour reading the flow expected a phone
+             option the page deliberately no longer offers. In-person ("in the building", since this is
+             a flyer posted in the building) plus email are the two channels the page actually supports.
+             Text only; aligns the visible flow with the page's own email-only design and adds no phone
+             number or link back. No visual restyle. -->
+        <li>We do a quick chat in the building or over email.</li>
         <li>I build a first version and you tell me what to change.</li>
       </ol>
     </section>

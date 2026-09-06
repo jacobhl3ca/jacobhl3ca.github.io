@@ -351,7 +351,8 @@
                     <button type="button" id="theme-toggle" class="theme-toggle" aria-label="Switch to light mode" style="position: relative; top: -2px;">
                         <i class='bx bx-sun' id="theme-icon" aria-hidden="true"></i>
                     </button>
-                    <div class="nav__toggle" id="nav-toggle" role="button" aria-label="Toggle navigation menu">
+                    <!-- Keyboard-operable, self-describing baseline for this div[role=button] menu toggle, mirroring the production homepage (index.html). main.js's showMenu() adds tabindex="0" and keeps aria-expanded in sync — but it runs at the end of <body>, so until then this control was unreachable by keyboard and announced with no state; and it never sets aria-controls at all, so the toggle→menu relationship was never exposed to assistive tech on this page. Declaring all three in markup fixes the pre-JS window (tabindex/aria-expanded) and supplies the association JS doesn't (aria-controls points at the #nav-menu above). No visual change. -->
+                    <div class="nav__toggle" id="nav-toggle" role="button" tabindex="0" aria-label="Toggle navigation menu" aria-controls="nav-menu" aria-expanded="false">
                         <i class='bx bx-menu' aria-hidden="true"></i>
                     </div>
                 </div>
