@@ -17,8 +17,6 @@ as static files from GitHub Pages. No framework, no build step.
   a 5-day forecast, air quality, and sun times.
 - **Build with me** (`building.html`) — a pay-what-you-want page for neighbor
   website and app projects.
-- **Contact card** (`me/`) — a mobile-first hand-off page (apps, portfolio, and
-  a downloadable vCard) for sharing in person via QR or AirDrop.
 - **Referral links** (`refer/`) — services Jacob uses, with referral links.
 
 ## Notes

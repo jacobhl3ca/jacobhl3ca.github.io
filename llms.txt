@@ -20,11 +20,11 @@ side. Rutgers University graduate.
 - [HideScore](https://hidescore.com): Watch sports highlights without seeing the score —
   spoiler-free scores, schedules and highlights. Web app + iOS app.
 - [Tonight NYC](https://tonightnyc.com): Every NYC comedy show tonight, filtered to your
-  favorite comedians.
+  favorite comedians. Web app + iOS app.
 - [Subway Times](https://subwaytimes.com): Real-time NYC subway arrival times for every
-  station, faster than Maps.
+  station, faster than Maps. Web app + iOS app.
 - [The Island](https://theisland.nyc): Everything happening on NYC's Roosevelt Island —
-  events, transit and news in one place.
+  events, transit and news in one place. Web app + iOS app.
 - [TidyTab](https://tidytab.jacobhl.com/): A macOS menu-bar app that bulk-unpins or closes
   Safari pinned tabs.
 - [David Licht](https://davidlicht.com): A showcase site for drummer David Licht — five
