@@ -296,7 +296,17 @@ body {
 /* Visually hidden but available to assistive tech (gives the page a programmatic heading) */
 .visually-hidden {
   position:absolute; width:1px; height:1px; padding:0; margin:-1px;
-  overflow:hidden; clip:rect(0,0,0,0); white-space:nowrap; border:0;
+  /* clip:rect(0,0,0,0) is the long-standing screen-reader-only technique but the clip
+     property is deprecated; clip-path:inset(50%) is its modern replacement. Ship both so
+     the utility keeps working on legacy engines while using the current, non-deprecated
+     property everywhere else — the belt-and-suspenders pair mature a11y utilities
+     (Bootstrap's .visually-hidden, the A11Y Project's .sr-only) standardised on. This
+     class hides real assistive-tech-only text throughout the dashboard (the programmatic
+     <h1>, the full wind-direction names, the Sunrise:/Sunset: labels, and each hourly
+     cell's spoken condition), so it should use the robust modern form. Both rules collapse
+     the box to nothing, so the element stays visually hidden and audible to screen readers
+     exactly as before. No visual change. */
+  overflow:hidden; clip:rect(0,0,0,0); clip-path:inset(50%); white-space:nowrap; border:0;
 }
 </style>
 <!-- sentry -->
