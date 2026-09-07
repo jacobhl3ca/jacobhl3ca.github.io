@@ -79,7 +79,14 @@
      visible "Projects" <h2>, so the outline reads h1 -> h2 -> h3 (project titles), matching the
      production homepage's projects-only view. Clipped (not display:none) so it stays in the
      accessibility tree while taking no layout space. No visual change. */
-  .vh-h1{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0;}
+  /* clip:rect(0,0,0,0) is the long-standing screen-reader-only technique, but the clip property is
+     deprecated; clip-path:inset(50%) is its modern replacement. Ship both so this hidden-<h1> utility
+     keeps working on legacy engines while using the current, non-deprecated property everywhere else —
+     the same belt-and-suspenders pair the production homepage's .projects-only-h1 and the weather
+     dashboard's .visually-hidden already carry; this preview mirrors that projects-only view, so it
+     matches it here too. Both rules collapse the box to nothing, so the heading stays visually hidden
+     and audible to assistive tech exactly as before. No visual change. */
+  .vh-h1{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);clip-path:inset(50%);white-space:nowrap;border:0;}
 
   /* ---- ROW CARD (mirrors .work__img shadow/radius, laid out horizontally) ---- */
   .proj-row{
