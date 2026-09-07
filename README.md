@@ -15,8 +15,9 @@ as static files from GitHub Pages. No framework, no build step.
 - **Weather dashboard** (`weather/`) — a single-page live weather app for any
   city, powered by the Open-Meteo API: current conditions, hourly rain chance,
   a 5-day forecast, air quality, and sun times.
-- **Build with me** (`building.html`) — a pay-what-you-want page for neighbor
-  website and app projects.
+- **Retired stub** (`building.html`) — a former offer page, now a noindex redirect
+  to the homepage so old printed-QR links don't 404. Retired 2026-09-07; see the
+  guard comment in the file before changing it.
 - **Referral links** (`refer/`) — services Jacob uses, with referral links.
 
 ## Notes

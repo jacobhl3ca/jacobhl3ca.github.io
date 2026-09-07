@@ -1,325 +1,93 @@
-<!doctype html>
-<!-- lang="en-US" (not the broader "en") to match the region-specific locale this page already declares in its own og:locale=en_US, and to align with every other page site-wide (index.html, index_with_animation.html, 404.html, weather/, light/ all use en-US) — building.html was the one page still on the bare "en". A more specific, valid BCP-47 tag gives assistive tech the correct US-English pronunciation/voice and search engines one consistent language signal. No visual change. -->
+<!DOCTYPE html>
 <html lang="en-US">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<!-- Tint the mobile browser chrome (address bar / status bar) to match this page's light paper background, and give the tab the site favicon. This flyer/QR landing page was the only page site-wide still missing both — every other page (index.html, index_with_animation.html, 404.html, weather/, light/) already carries a theme-color and favicon link. #fffdf7 matches this page's --paper. No visual change to page content. -->
-<meta name="theme-color" content="#fffdf7">
-<!-- Declare the colour scheme to the UA up front. This is a light-only page (paper background --paper:#fffdf7, no theme toggle), but color-scheme is otherwise never set — so on an OS-dark browser the root canvas, scrollbars, and overscroll area paint with the dark OS default around the light design (a mismatched flash before CSS settles). "light" matches this page's paper background and theme-color. building.html was the only page site-wide still missing this — every other page (index.html, index_with_animation.html, 404.html, weather/, light/) already declares color-scheme. No visual change to the settled page. -->
-<meta name="color-scheme" content="light">
-<!-- Root-absolute asset paths (leading /), matching every other page site-wide (index.html, 404.html,
-     weather/, refer/, me/, light/ all reference /assets/…). building.html was the one page still loading
-     its favicon and avatar via directory-relative hrefs — index.html's own head comment already lists
-     building.html among the pages using /assets/…, so this makes that true. building.html is served only
-     at the root path /building.html, where assets/… and /assets/… resolve to the identical /assets/… URL,
-     so this is byte-for-byte behaviour-preserving; it just makes the page's asset paths internally
-     consistent with the site-wide convention and independent of the document path. No visual change. -->
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!-- ⛔⛔ RETIRED PAGE — DO NOT RESTORE OR EXPAND (auto-improve bot: read this before touching this file).
+
+     /building.html used to be a small services-offer page — the QR / tear-off-tab landing target for
+     a printed flyer (the flyer source still lives outside this repo). Jacob retired that offer on
+     2026-09-07. Reasons, so nobody re-derives them: Umami recorded ZERO visits to this path in the
+     27 days the beacon was on it (2026-08-11 → 2026-09-07) while the homepage took 528, i.e. the QR
+     was never once scanned; and the page had been INDEXED by Google, so the offer copy was surfacing
+     in search results against his own name, which is the specific thing he wanted gone.
+
+     It is a redirect stub rather than a deletion ONLY so a printed flyer QR still lands on the
+     homepage instead of a 404. That is its whole job.
+
+     ⛔ Do NOT reintroduce ANY of the retired copy — not the pricing/what-it-costs framing, not the
+        who-it-was-aimed-at framing, not the project tiles, headshot, "how it works" steps, or the
+        taking-on-projects line. The full retired page is in git history if it is ever wanted back
+        (last content revision: commit 95c7eb0, 2026-09-05); it is deliberately not restated here,
+        because the point of this commit is that the wording stops being served from this URL.
+     ⛔ Do NOT add a phone number here (see the 2026-09-05 privacy sweep — a Google Voice number was
+        removed from this page for exactly that reason).
+     ⛔ Do NOT re-add this URL to sitemap.xml or llms.txt; both entries were removed on purpose in
+        the same commit, and a sitemap entry for a noindex redirect stub just asks Google to keep
+        coming back to look at it.
+     ⛔ Do NOT flip robots to index/allow — noindex is what actually drops the old copy out of search
+        results, and "follow" keeps the outbound link to the homepage passing discovery (same
+        reasoning as the contact/ and light/ stubs).
+
+     Title/description below deliberately carry the SITE's identity, not the retired offer's, so that
+     anything Google or a social scraper still renders for this URL describes the homepage it hands
+     off to. Mirrors the metadata pattern the site's other redirect stubs (contact/, light/,
+     tidytab.html) already follow. -->
+<meta name="robots" content="noindex, follow">
+<link rel="canonical" href="https://jacobhl.com/">
+<!-- No-JS fallback: the meta refresh fires even with scripting disabled. The script in <body> does
+     the same hop via location.replace, which leaves no history entry, so Back returns the visitor
+     where they came from instead of bouncing them through this stub again. -->
+<meta http-equiv="refresh" content="0; url=/">
+<!-- Site-wide chrome/icon pattern, so the brief redirect paint (the visible <p> fallback, shown when
+     the instant JS/meta-refresh hop is slow or blocked) matches the homepage this stub hands off to,
+     and so it doesn't fire a 404 for the default /favicon.ico. Two theme-color variants rather than
+     one pinned value: this stub does a plain location.replace('/') that PRESERVES the visitor's saved
+     theme, so it can land on the light OR the dark homepage (#ffffff / #090f20 are the homepage's own
+     two chrome values) — the same reasoning contact/ documents. -->
+<meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#090f20" media="(prefers-color-scheme: dark)">
+<meta name="color-scheme" content="light dark">
 <link rel="icon" type="image/x-icon" href="/assets/img/favicon.ico">
-<link rel="dns-prefetch" href="//gc.zgo.at"> <!-- resolve the GoatCounter host that serves count.js, fetched async at end of body -->
-<link rel="dns-prefetch" href="//jacobhl.goatcounter.com"> <!-- resolve the GoatCounter *beacon* host too: count.js (from gc.zgo.at above) sends every pageview hit to https://jacobhl.goatcounter.com/count, a separate host whose DNS was otherwise only looked up lazily when the beacon fires. The prefetch above warmed only the script host; this warms the endpoint the hit actually goes to, so the beacon isn't delayed (and is less likely to be dropped on a slow/flaky DNS). Completes the beacon-host prefetch pattern across the site's GoatCounter pages (index.html, 404.html, weather/ already carry it). Pure resource hint, no visual or behaviour change. -->
-<link rel="dns-prefetch" href="//stats.hidescore.com"> <!-- resolve the self-hosted Umami analytics host ahead of its deferred script.js fetch at end of body. The fleet rollout (master fc7f585) added the Umami beacon (stats.hidescore.com/script.js, deferred, just before </body>) to this page and the other sub-pages, but only index.html and refer/ also carry the matching DNS hint — so on this page the Umami host was looked up cold when the deferred script fires. This mirrors the identical hint index.html has carried since the rollout and completes the Umami-host prefetch pattern across the site's beacon-carrying pages, exactly as the GoatCounter and Sentry hints above already do for their hosts. Pure resource hint, no visual or behaviour change. -->
-<link rel="dns-prefetch" href="//js.sentry-cdn.com"> <!-- resolve the Sentry CDN host ahead of the error-monitoring loader script that ships at the end of <head> on every page (see the <script> just before </head>). That host is contacted on every load but had no resource hint here, unlike the GoatCounter hosts warmed just above — so its DNS was looked up cold on the critical path (this page carries no jsdelivr/Google Fonts, using inline styles + system fonts, so GoatCounter and Sentry are its only third parties). dns-prefetch (DNS only) rather than preconnect keeps this non-render-critical monitoring script from opening a speculative connection. building.html was the last full (non-redirect-stub) page still missing this — index.html, 404.html, and weather/ already carry the identical Sentry hint. Pure resource hint, no visual or behaviour change. -->
-<title>Website or App Help from Jacob — Pay What You Want</title>
-<!-- iOS home-screen label. This is the flyer/QR landing page — handed out physically in the building and opened almost entirely on phones — so it's a plausible "Add to Home Screen" target. iOS Safari names that icon from apple-mobile-web-app-title, falling back to the <title> element, which it truncates ("Website or App Help from Jacob — Pay What You Want" becomes "Website or…"). Give it the same clean "Jacob HL" label the rest of the site's identity already uses (index.html's and me/'s apple-mobile-web-app-title, the manifest short_name, and the JSON-LD alternateName all declare "Jacob HL") so a bookmarked icon of this page reads cleanly and matches the homepage's. building.html was the one directly-landed-on content page still missing it (weather/ and me/ already declare their own). Deliberately NOT paired with apple-mobile-web-app-capable (that forces a chromeless standalone launch) and no manifest here (the installable app is scoped to the homepage at "/"); this only names the icon. Pure metadata, no visual change. -->
-<meta name="apple-mobile-web-app-title" content="Jacob HL">
-<!-- Non-Apple counterpart to the apple-mobile-web-app-title above: application-name is the standard field browsers read when this page is pinned or turned into a desktop/taskbar shortcut. Without it that path falls back to the <title> ("Website or App Help from Jacob — Pay What You Want"), the same truncation the Apple label above avoids on iOS. Give it the same short "Jacob HL" label so the pinned icon reads cleanly on every platform, completing the cross-platform short-name pair index.html, weather/, and me/ already carry (apple-mobile-web-app-title + application-name). Like the Apple label it only names the icon — no apple-mobile-web-app-capable, no standalone/chromeless launch. Pure metadata, no visual change. -->
-<meta name="application-name" content="Jacob HL">
-<meta name="description" content="Pay-what-you-want website and app help from Jacob, a software developer in the building. See live work and send your idea.">
-<!-- Explicit indexing directive for this fully-indexed production page (it's in sitemap.xml, self-canonical'd, and carries OG/Twitter + JSON-LD). building.html was the one indexed page site-wide with no robots meta — both other indexed pages (index.html, weather/) declare this exact directive. index/follow keeps the default indexing explicit, while max-image-preview:large lets Google show a large image thumbnail and max-snippet:-1 lets the full description appear in results (the UA-chosen defaults are otherwise more conservative). Completes the site-wide indexed-page pattern. No visual change. -->
-<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">
-<!-- Name the document's author, consistent with every other page on the site (index.html, 404.html, weather/, and light/ all declare this) — building.html was the one page site-wide still missing it. Purely document metadata surfaced by some browsers, tools, and reader modes; no visual change and no effect on indexing. -->
+<title>Jacob Heifetz-Licht — Analytics Manager</title>
+<meta name="description" content="Data analytics leader and app developer specializing in Python, SQL, Tableau, React, and Next.js. Turning data into things people actually use.">
 <meta name="author" content="Jacob Heifetz-Licht">
-<!-- Self-referential canonical: this page is a flyer/QR target, so it's routinely opened with tracking query params (?utm_*, QR analytics). Point every such variant at the clean URL so search engines index one copy, not duplicates. Mirrors the canonical present on every other page (index.html, weather/, light/). -->
-<link rel="canonical" href="https://jacobhl.com/building.html">
-<!-- Structured data: building.html is independently indexed (it's in sitemap.xml and self-canonical'd above) but was the one indexed page site-wide with no linked-data node. Give it a WebPage entity tied into the site's graph the same way weather/ ties in its WebApplication: isPartOf the WebSite (#website, defined on index.html) and authored by the Person (#person) — cross-page @id references search engines merge site-wide. inLanguage matches the en-US the homepage's nodes declare and this page's og:locale. dateModified names the day this page was last edited — the freshness signal kept in sync with this page's own sitemap.xml <lastmod> (2026-09-05, building.html's true last-modification date: the phone / text-message contact link was removed from the served page on 2026-09-05 (privacy sweep, see the note in the contact block below) — a real served-content change — so both the sitemap lastmod and this dateModified are advanced to 2026-09-05 in lockstep to track it. Earlier real-content edits it passed through: 2026-08-31 the DuelGoat work tile pulled from the visible .work grid (commented out with restore notes); 2026-08-23 curly apostrophes in the flyer copy, 2026-08-24 the application-name meta; the 2026-08-25 root-absolute path normalization is deliberately NOT counted, since it resolves to byte-for-byte identical URLs, exactly as the homepage's own sitemap date excludes its matching path-normalization commits), exactly as the homepage's ProfilePage node syncs its dateModified to the homepage lastmod; date-only granularity mirrors the sitemap's. Pure metadata, no visual change. -->
-<script type="application/ld+json">
-{
-    "@context": "https://schema.org",
-    "@type": "WebPage",
-    "@id": "https://jacobhl.com/building.html#webpage",
-    "url": "https://jacobhl.com/building.html",
-    "name": "Website or App Help from Jacob — Pay What You Want",
-    "description": "Pay-what-you-want website and app help from Jacob, a software developer in the building. See live work and send your idea.",
-    "image": "https://jacobhl.com/assets/img/og_image.png",
-    "inLanguage": "en-US",
-    "dateModified": "2026-09-05",
-    "isPartOf": { "@id": "https://jacobhl.com/#website" },
-    "author": { "@id": "https://jacobhl.com/#person" },
-    "breadcrumb": { "@id": "https://jacobhl.com/building.html#breadcrumb" }
-}
-</script>
-<!-- image gives the WebPage entity a primary image, the one recommended field this node was still missing (it already carried url, name, description, inLanguage, dateModified, isPartOf, author and breadcrumb). weather/'s WebApplication node — the site's only other indexed sub-page node — already declares this exact property, so building.html was the lone indexed-page node with no entity image. The value is the page's own og:image (og_image.png, already referenced in the OG/Twitter block below), so it only surfaces to structured-data consumers a picture the page already ships — no media asset added. Pure metadata, no visual change. -->
-<!-- Breadcrumb trail: this flyer/QR landing page is independently indexed but sits one level under the homepage (the same Home → sub-page shape weather/ formalizes). Model that hierarchy so search engines can show a breadcrumb in results instead of the raw building.html URL. Continues the site's linked-data pattern (Person → WebSite → WebPage). The #breadcrumb @id (and the matching "breadcrumb" reference just added to the WebPage node above) ties this list into the site's @id graph the way every other node is cross-referenced — it was the one structured-data node here still floating unconnected. Google's breadcrumb guidance associates a page's BreadcrumbList with its WebPage via this exact property, so the connection also makes the "which page owns this trail" link explicit rather than inferred. Pure metadata, no visual change. -->
-<script type="application/ld+json">
-{
-    "@context": "https://schema.org",
-    "@type": "BreadcrumbList",
-    "@id": "https://jacobhl.com/building.html#breadcrumb",
-    "itemListElement": [
-        {
-            "@type": "ListItem",
-            "position": 1,
-            "name": "Home",
-            "item": "https://jacobhl.com/"
-        },
-        {
-            "@type": "ListItem",
-            "position": 2,
-            "name": "Website or App Help",
-            "item": "https://jacobhl.com/building.html"
-        }
-    ]
-}
-</script>
-<!-- Social-share cards: this page is a flyer/QR target meant to be passed around (texted to a neighbor, dropped in a building group chat), so the link is far more likely to be shared than crawled. Without Open Graph / Twitter tags a shared link renders as a bare URL with no preview; every other page on the site already carries these. Reuses the site-wide og_image.png. Pure metadata, no visual change. -->
-<meta property="og:title" content="Website or App Help from Jacob — Pay What You Want">
-<meta property="og:description" content="Pay-what-you-want website and app help from Jacob, a software developer in the building. See live work and send your idea.">
+<!-- Social-share metadata reusing the site-wide og_image.png (no media asset added), exactly as the
+     other stubs do. og:url points at the destination this stub redirects to (/), not at itself, so a
+     shared or previously-shared /building.html link resolves social signals onto the homepage. Read
+     only by scrapers, which see this served HTML rather than following the hop; no effect on the
+     redirect path, and the page stays noindex. -->
+<meta property="og:title" content="Jacob Heifetz-Licht — Analytics Manager">
+<meta property="og:description" content="Data analytics leader and app developer specializing in Python, SQL, Tableau, React, and Next.js. Turning data into things people actually use.">
 <meta property="og:image" content="https://jacobhl.com/assets/img/og_image.png">
 <meta property="og:image:type" content="image/png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta property="og:image:alt" content="Jacob Heifetz-Licht — Analytics Manager and app developer">
-<meta property="og:url" content="https://jacobhl.com/building.html">
+<meta property="og:url" content="https://jacobhl.com/">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Jacob Heifetz-Licht">
 <meta property="og:locale" content="en_US">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Website or App Help from Jacob — Pay What You Want">
-<meta name="twitter:description" content="Pay-what-you-want website and app help from Jacob, a software developer in the building. See live work and send your idea.">
+<meta name="twitter:title" content="Jacob Heifetz-Licht — Analytics Manager">
+<meta name="twitter:description" content="Data analytics leader and app developer specializing in Python, SQL, Tableau, React, and Next.js. Turning data into things people actually use.">
 <meta name="twitter:image" content="https://jacobhl.com/assets/img/og_image.png">
 <meta name="twitter:image:alt" content="Jacob Heifetz-Licht — Analytics Manager and app developer">
-<style>
-  :root{
-    --ink:#141414; --muted:#5f6368; --paper:#fffdf7; --line:#e7ded0;
-    --blue:#2463eb; --green:#15803d; --gold:#b7791f;
-  }
-  *{box-sizing:border-box}
-  body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif;
-    color:var(--ink);background:var(--paper);line-height:1.5}
-  /* Brand-tint the text-selection highlight to the page accent instead of the OS default blue,
-     with white selected text for legibility on the accent. This flyer is self-contained (its own
-     inline styles, not styles.css), so it was outside the reach of the site-wide ::selection
-     styling the main pages get from styles.css — and the weather page's inline copy; this completes
-     that pattern here. Only affects the momentary highlight during an active selection — no change
-     to the resting design. */
-  ::selection{background-color:var(--blue);color:#fff}
-  main{max-width:940px;margin:0 auto;padding:44px 22px 70px}
-
-  .who{display:flex;align-items:center;gap:16px;margin-bottom:22px}
-  .who img{width:74px;height:74px;border-radius:50%;object-fit:cover;border:3px solid #fff;
-    box-shadow:0 4px 16px rgba(0,0,0,.15)}
-  .who .n{font-weight:800;font-size:19px;line-height:1.15}
-  .who .r{color:var(--muted);font-size:14px}
-  .who .badge{margin-left:auto;font-size:12px;font-weight:800;color:var(--green);
-    background:#e9f8ee;border:1px solid #bfe6cc;border-radius:999px;padding:6px 13px;white-space:nowrap}
-
-  .eyebrow{color:var(--blue);font-weight:800;letter-spacing:.12em;text-transform:uppercase;font-size:13px;margin-bottom:14px}
-  h1{margin:0 0 16px;font-family:Georgia,serif;font-size:clamp(40px,7vw,66px);line-height:1.03;max-width:800px}
-  h1 .pw{color:var(--green)}
-  .lead{font-size:clamp(18px,2.6vw,23px);color:#342f26;max-width:760px;margin:0 0 26px}
-
-  .panel{border:1px solid var(--line);background:#fff;border-radius:12px;padding:24px;margin:22px 0}
-  h2{margin:0 0 12px;font-size:22px}
-  ul{margin:0;padding-left:22px;color:#2f3135;font-size:17px}
-  li{margin:8px 0}
-  .grid{display:grid;grid-template-columns:1fr 1fr;gap:18px}
-
-  /* live work tiles */
-  .worklabel{font-weight:800;font-size:14px;letter-spacing:.02em;text-transform:uppercase;color:var(--muted);margin:6px 0 12px}
-  .work{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
-  .wtile{display:block;border:1px solid var(--line);border-radius:12px;padding:15px 16px;background:#fff;
-    text-decoration:none;color:inherit;transition:transform .15s,box-shadow .15s,border-color .15s}
-  .wtile:hover{transform:translateY(-3px);box-shadow:0 10px 24px rgba(0,0,0,.08);border-color:#cbd5e1}
-  .wtile b{display:block;font-size:16px;margin-bottom:3px}
-  .wtile span{font-size:13px;color:var(--muted)}
-  .wtile .u{display:block;margin-top:8px;font-family:ui-monospace,Menlo,monospace;font-size:12px;color:var(--blue)}
-
-  .steps{counter-reset:step;list-style:none;padding:0;margin:0}
-  .steps li{counter-increment:step;position:relative;padding-left:42px;margin:14px 0}
-  .steps li:before{content:counter(step);position:absolute;left:0;top:0;width:28px;height:28px;border-radius:50%;
-    background:#f5ead7;color:#6f4511;display:grid;place-items:center;font-weight:800}
-
-  .cta{display:flex;flex-wrap:wrap;gap:12px;align-items:center;margin-top:22px}
-  a.button{display:inline-flex;align-items:center;justify-content:center;min-height:50px;padding:13px 20px;
-    border-radius:10px;background:var(--ink);color:#fff;text-decoration:none;font-weight:800}
-  a.secondary{background:#fff;color:var(--ink);border:1px solid var(--line)}
-  .contactline{margin-top:14px;font-size:16px}
-  .contactline b{color:var(--ink)}
-  .contactline a{color:var(--blue);text-decoration:none;font-weight:700}
-  .note{color:var(--muted);font-size:15px;margin-top:14px}
-
-  footer{border-top:1px solid var(--line);margin-top:34px;padding-top:18px;color:var(--muted);font-size:14px}
-  /* The footer contact email is tappable (see the footer markup) but should read as
-     part of the muted footer line, not as a default blue/underlined link — inherit the
-     footer colour and drop the underline so the actionable email looks identical
-     to the surrounding plain text. (The phone/text link this once also covered was
-     removed 2026-09-05 in the privacy sweep; contact here is email-only now.) No visual change. */
-  footer a{color:inherit;text-decoration:none}
-
-  /* Branded keyboard-focus ring on every interactive element here — the six work tiles, the
-     "Email the idea" CTA button, and the tappable email links in the contact line and footer
-     (the phone/text CTA and contact link were removed 2026-09-05 in the privacy sweep). This
-     flyer is self-contained (its own inline styles, not styles.css), so it sat outside the
-     site-wide :focus-visible rings the main pages get from styles.css (and that weather/ and
-     refer/ carry inline) — it was the one page still falling back to the inconsistent UA-default
-     outline, worst on the dark-filled a.button where a thin default ring barely reads against
-     the near-black fill (WCAG 2.4.7 Focus Visible). Uses the page's own --blue accent with a 2px
-     offset; the outline follows each element's own border-radius. Scoped to :focus-visible, so
-     mouse/touch focus shows no ring and the resting design is unchanged. */
-  .wtile:focus-visible,
-  a.button:focus-visible,
-  .contactline a:focus-visible,
-  footer a:focus-visible{outline:2px solid var(--blue);outline-offset:2px}
-
-  /* Respect a reduced-motion preference. The only motion on this page is the
-     .wtile hover lift (translateY + shadow/border transition); neutralise it so
-     visitors who ask the OS to "reduce motion" get a static hover instead. This
-     is fully self-contained (its own inline styles, no styles.css), so it was
-     the one page site-wide still missing prefers-reduced-motion support — every
-     other page already has it (styles.css's global block covers index/404,
-     weather/ carries its own). No change for anyone who hasn't set the preference. */
-  @media (prefers-reduced-motion: reduce){
-    .wtile{transition:none}
-    .wtile:hover{transform:none}
-  }
-  @media (max-width:720px){
-    main{padding-top:30px}
-    .grid,.work{grid-template-columns:1fr}
-    .panel{padding:20px}
-    .who .badge{display:none}
-  }
-</style>
+<!-- Sentry error monitoring, the same loader (same DSN) every other page on the site carries,
+     including the sibling redirect stubs contact/, light/ and tidytab.html. Deliberately WITHOUT a
+     dns-prefetch, matching those stubs' convention (a page that navigates away instantly skips
+     resource hints). -->
 <!-- sentry -->
 <script src="https://js.sentry-cdn.com/ac636d393a29ab42c76e116c2d4d0cad.min.js" crossorigin="anonymous"></script>
 <!-- /sentry -->
 </head>
 <body>
-<main>
-  <div class="who">
-    <!-- Explicit width/height (matching the CSS-rendered 74x74 avatar box; the asset is square, 600x600 intrinsic) reserve the layout slot so the async image load can't shift the adjacent name/role text — this was the one content image site-wide still missing dimensions (Lighthouse "unsized-images"). decoding="async" keeps decode off the render path; alt expanded to the full name to match the site's other portraits. No visual change. -->
-    <img src="/assets/img/about.jpg" alt="Jacob Heifetz-Licht" width="74" height="74" decoding="async">
-    <div>
-      <div class="n">Jacob Heifetz-Licht</div>
-      <div class="r">Software developer · your neighbor in the building</div>
-    </div>
-    <div class="badge">10+ live projects shipped</div>
-  </div>
-
-  <div class="eyebrow">Pay what you want · you keep what I make</div>
-  <h1>Want a website or app? <span class="pw">Let’s build it.</span></h1>
-  <p class="lead">I design and ship fast, modern websites and apps — the kind you’d expect from a studio, from someone a few floors away. I’m taking on a few real neighbor projects while I grow my portfolio.</p>
-
-  <section class="panel">
-    <!-- The live-work showcase was the one content panel on this page with no heading — the other three panels (Good fits / How it works / Pay what you want) each open with an <h2>, so a screen-reader user navigating by headings, or a crawler reading the outline, skipped straight past the portfolio proof (the flyer's most persuasive section). Promote this styled label from a <div> to an <h2> so the section is navigable and the heading order is h1 → h2×4. The .worklabel class (font-size/weight/margin) beats the h2 element rules by specificity, so it renders identically. No visual change. -->
-    <h2 class="worklabel">A few things I’ve built — all live, tap to open</h2>
-    <!-- The trailing ↗ on each tile's URL is a decorative "opens externally" cue paired with the
-         visible domain, so hide it from assistive tech (aria-hidden) — otherwise a screen reader
-         announces "north-east arrow" after every domain. Matches the site's consistent decorative-
-         glyph pattern (weather/ and index.html wrap their ←/↑/↓ arrows and emoji the same way);
-         building.html's tiles were the one spot still leaking a bare arrow. No visual change. -->
-    <div class="work">
-      <a class="wtile" href="https://hidescore.com" target="_blank" rel="noopener"><b>HideScore</b><span>Spoiler-free sports scores &amp; highlights (iOS + web)</span><span class="u">hidescore.com<span aria-hidden="true"> ↗</span></span></a>
-      <a class="wtile" href="https://theisland.nyc" target="_blank" rel="noopener"><b>The Island</b><span>Live Roosevelt Island guide — bus GPS, tram &amp; subway times</span><span class="u">theisland.nyc<span aria-hidden="true"> ↗</span></span></a>
-      <!-- DuelGoat pulled from the site 2026-08-31 (Jacob's call). Uncomment to restore — note the
-           .work grid is repeat(3,1fr), so with this tile out the last row holds 2 of 3.
-      <a class="wtile" href="https://duelgoat.com" target="_blank" rel="noopener"><b>GOAT Format</b><span>Full online card-game platform, built from scratch</span><span class="u">duelgoat.com<span aria-hidden="true"> ↗</span></span></a>
-      -->
-      <a class="wtile" href="https://subwaytimes.com" target="_blank" rel="noopener"><b>Subway Times</b><span>Fast live NYC subway arrivals, 497 station pages</span><span class="u">subwaytimes.com<span aria-hidden="true"> ↗</span></span></a>
-      <a class="wtile" href="https://tonightnyc.com" target="_blank" rel="noopener"><b>Tonight NYC</b><span>What’s on tonight — comedy, jazz, events</span><span class="u">tonightnyc.com<span aria-hidden="true"> ↗</span></span></a>
-      <a class="wtile" href="https://davidlicht.com" target="_blank" rel="noopener"><b>Oral history</b><span>A polished personal / portfolio site</span><span class="u">davidlicht.com<span aria-hidden="true"> ↗</span></span></a>
-      <!-- Added 2026-08-31, replacing the DuelGoat tile commented out above. Keeps the grid at 6 (it
-           is repeat(3,1fr), so 5 left a hole in the last row) and it is the only tile that is a
-           native desktop app rather than another website — the one capability the other five don't
-           show. Live and tappable like the rest, per this section's "all live, tap to open". -->
-      <a class="wtile" href="https://tidytab.jacobhl.com/" target="_blank" rel="noopener"><b>TidyTab</b><span>A signed, notarized macOS menu-bar app</span><span class="u">tidytab.jacobhl.com<span aria-hidden="true"> ↗</span></span></a>
-    </div>
-  </section>
-
-  <div class="grid">
-    <section class="panel">
-      <h2>Good fits</h2>
-      <ul>
-        <li>A website for a small business, service, or side project</li>
-        <li>A personal site, portfolio, menu, event page, or link page</li>
-        <li>A simple app, tracker, dashboard, or internal tool</li>
-        <li>A polished version of an idea you’ve had sitting around</li>
-      </ul>
-    </section>
-
-    <section class="panel">
-      <h2>How it works</h2>
-      <!-- role="list" restores the list semantics that list-style:none strips in Safari/VoiceOver (a known WebKit behaviour: a list with its markers removed is no longer exposed as a list, so a screen reader announces the steps as three loose sentences instead of "list, 3 items"). The .steps ol is the one styled list on the page that removes its markers, so it was the one spot still missing this — matching the site's existing role="list" pattern on its other marker-less lists (index.html's skills-tag pills, weather/'s forecast list). Adding role has no visual effect. -->
-      <ol class="steps" role="list">
-        <li>Send me a few sentences about the idea.</li>
-        <!-- "over email" (not "by phone"): contact on this page is email-only by design — the phone /
-             text-message link was removed 2026-09-05 (privacy sweep, see the note in the "Pay what you
-             want" contact block below). The step copy still promised a phone chat, the one visible
-             remnant of the pre-sweep phone channel, so a neighbour reading the flow expected a phone
-             option the page deliberately no longer offers. In-person ("in the building", since this is
-             a flyer posted in the building) plus email are the two channels the page actually supports.
-             Text only; aligns the visible flow with the page's own email-only design and adds no phone
-             number or link back. No visual restyle. -->
-        <li>We do a quick chat in the building or over email.</li>
-        <li>I build a first version and you tell me what to change.</li>
-      </ol>
-    </section>
-  </div>
-
-  <section class="panel">
-    <h2>Pay what you want</h2>
-    <p>I’m doing this mainly for portfolio work and real practice, so there’s no fixed price. If the finished thing is useful to you, pay whatever feels fair. If money is the blocker, say that up front.</p>
-    <p class="note">I’ll only take a small number of projects so I can finish them properly.</p>
-    <div class="cta">
-      <!-- Escape the query-separator & as &amp; in this mailto href. An unescaped & in an attribute value is the one bare & left on the page (the work-tile descriptions were escaped earlier) and, more than a validity nicety, it's a latent footgun: HTML unescapes attribute values, and a parameter that begins with a legacy no-semicolon entity (e.g. &copy=, &reg=) would be silently decoded and corrupt the mailto. &body isn't such an entity so today's link is unaffected, but writing &amp; is the defensive, W3C-recommended form for & in URLs and matches the site's escape-bare-& pattern. The browser decodes &amp;→& when parsing the attribute, so the composed mailto (and the prefilled subject/body) is byte-for-byte identical. No visual or behaviour change. -->
-      <a class="button" href="mailto:hi@jacobhl.com?subject=Building%20project%20idea&amp;body=Hi%20Jacob%2C%0A%0AI%20saw%20your%20flyer%20in%20the%20building.%20I%20might%20want%20help%20with%3A%0A%0AThe%20rough%20idea%3A%0A%0AWhat%20it%20is%20for%3A%0A%0ABest%20way%20to%20reach%20me%3A%0A">Email the idea</a>
-      <!-- Contact is email-only by design: the phone / text-message link was removed 2026-09-05 (privacy sweep). Do not add a phone number or a text-message link back to this page. -->
-    </div>
-    <!-- Make the primary email tappable: on the phone this flyer/QR page targets, a neighbor expects to tap the address to open their mail app, but it was plain text (only the "Email the idea" button above was actionable). Wrapping the existing <b> in the mailto keeps the appearance identical — .contactline b's color:var(--ink) still styles the bold text (it wins over the anchor's blue for the text it directly targets), and .contactline a's text-decoration:none suppresses the underline — so this only adds the click target. No visual change. -->
-    <!-- rel="me" marks this visible address link as Jacob's own verified email identity, matching
-         the site-wide rel-me pattern index.html and 404.html already apply to this same
-         hi@jacobhl.com address (a mailto to one's own verified address is an explicitly supported
-         rel-me target, crawled on any reachable page of the domain). building.html's two links that
-         display the address as their text — this contact line and the footer below — were the ones
-         still outside that identity graph. Additive rel token; browsers ignore rel on rendering, so
-         no visual or behaviour change. -->
-    <div class="contactline"><a href="mailto:hi@jacobhl.com" rel="me"><b>hi@jacobhl.com</b></a></div>
-  </section>
-
-  <!-- Make the footer's email tappable — this was the one contact line on the page still
-       plain text (the CTA's "Email the idea" button and the .contactline above are already
-       actionable). This flyer/QR page is opened almost entirely on phones, where email
-       addresses don't auto-link. footer a{color:inherit;text-decoration:none} keeps the muted
-       footer look unchanged — the link looks identical to the plain text it replaces. No visual
-       change. -->
-  <!-- Explicit role="contentinfo" so this page footer is exposed as the contentinfo landmark. A
-       bare <footer> only maps to contentinfo when it's NOT a descendant of main/article/aside/nav/
-       section (ARIA-in-HTML) — this one sits inside <main> (moving it out would push it past the
-       centered 940px container and change the layout), so without the explicit role it maps to
-       generic and the page has no contentinfo landmark at all, unlike index.html and 404.html
-       whose footers sit outside <main>. The role restores the landmark for screen-reader landmark
-       navigation with no visual or behaviour change. -->
-  <footer role="contentinfo">
-    Jacob Heifetz-Licht · neighbor, web/app developer · <a href="mailto:hi@jacobhl.com" rel="me">hi@jacobhl.com</a>
-  </footer>
-</main>
-
-<!-- GoatCounter analytics — the same privacy-first, cookieless snippet every other page carries
-     (index.html, 404.html, weather/), so visits to this page are counted in the same dashboard.
-     building.html was the one indexed, directly-landed-on page site-wide with no analytics — and
-     it's the flyer/QR target, the page where measuring how many people scan the code and arrive
-     matters most. Pairs with the Umami beacon just below, so this page carries both analytics
-     tags — matching the current sub-page pattern (404/weather run both too).
-     Async and non-blocking — no visual or behaviour change to the page. -->
-<script data-goatcounter="https://jacobhl.goatcounter.com/count"
-        async src="//gc.zgo.at/count.js"></script>
-<!-- Umami beacon (self-hosted, stats.hidescore.com). index.html has carried this since the
-     fleet rollout, but the sub-pages never got it, so the sites dashboard's jacobhl.com row
-     was homepage-only — /weather/, /building.html and this page reported nothing at all while
-     GoatCounter saw them fine. Same website-id as the homepage so it stays ONE row on the
-     dashboard rather than splitting per page. data-domains is mandatory fleet-wide: it is the
-     only own-traffic exclusion that survives a hotspot or a dropped VPN, since IGNORE_IP only
-     covers the home/exit-node IP. Co-exists with GoatCounter; both count the same visit. -->
+<p>Redirecting to <a href="/">jacobhl.com</a>…</p>
+<script>location.replace('/');</script>
+<!-- Keep the Umami beacon (same website-id and data-domains as every other jacobhl.com page). This
+     stub exists for printed flyer QRs, and this one line is the only thing that would ever tell
+     Jacob that someone actually scanned one — the zero-visit reading that retired the page came from
+     exactly this beacon. Deferred, fires before the redirect completes. -->
 <script defer src="https://stats.hidescore.com/script.js" data-website-id="ae74c209-399b-416b-b340-b8dfac70cfa3" data-domains="jacobhl.com,www.jacobhl.com"></script>
 </body>
 </html>
