@@ -214,10 +214,10 @@
             "numberOfItems": 6,
             "itemListElement": [
                 { "@type": "ListItem", "position": 1, "item": { "@type": "CreativeWork", "name": "HideScore", "url": "https://hidescore.com", "image": "https://jacobhl.com/assets/img/hidescore-cover.png", "description": "Watch sports highlights without seeing the score.", "creator": { "@id": "https://jacobhl.com/#person" } } },
-                { "@type": "ListItem", "position": 2, "item": { "@type": "CreativeWork", "name": "Tonight NYC", "url": "https://tonightnyc.com", "image": "https://jacobhl.com/assets/img/tonightnyc-cover.png", "description": "Every NYC comedy show, filtered to your favorite comedians.", "creator": { "@id": "https://jacobhl.com/#person" } } },
-                { "@type": "ListItem", "position": 3, "item": { "@type": "CreativeWork", "name": "Subway Times", "url": "https://subwaytimes.com", "image": "https://jacobhl.com/assets/img/subwaytimes-cover.png", "description": "Real-time NYC subway arrivals, faster than Maps.", "creator": { "@id": "https://jacobhl.com/#person" } } },
+                { "@type": "ListItem", "position": 2, "item": { "@type": "CreativeWork", "name": "The Island", "url": "https://theisland.nyc", "image": "https://jacobhl.com/assets/img/theisland-cover.png", "description": "Everything happening on NYC’s Roosevelt Island, in one place.", "creator": { "@id": "https://jacobhl.com/#person" } } },
+                { "@type": "ListItem", "position": 3, "item": { "@type": "CreativeWork", "name": "Tonight NYC", "url": "https://tonightnyc.com", "image": "https://jacobhl.com/assets/img/tonightnyc-cover.png", "description": "Every NYC comedy show, filtered to your favorite comedians.", "creator": { "@id": "https://jacobhl.com/#person" } } },
                 { "@type": "ListItem", "position": 4, "item": { "@type": "CreativeWork", "name": "David Licht", "url": "https://davidlicht.com", "image": "https://jacobhl.com/assets/img/davidlicht.jpg", "description": "A showcase site for my dad — five decades of drumming.", "creator": { "@id": "https://jacobhl.com/#person" } } },
-                { "@type": "ListItem", "position": 5, "item": { "@type": "CreativeWork", "name": "The Island", "url": "https://theisland.nyc", "image": "https://jacobhl.com/assets/img/theisland-cover.png", "description": "Everything happening on NYC’s Roosevelt Island, in one place.", "creator": { "@id": "https://jacobhl.com/#person" } } },
+                { "@type": "ListItem", "position": 5, "item": { "@type": "CreativeWork", "name": "Subway Times", "url": "https://subwaytimes.com", "image": "https://jacobhl.com/assets/img/subwaytimes-cover.png", "description": "Real-time NYC subway arrivals, faster than Maps.", "creator": { "@id": "https://jacobhl.com/#person" } } },
                 { "@type": "ListItem", "position": 6, "item": { "@type": "CreativeWork", "name": "TidyTab", "url": "https://tidytab.jacobhl.com/", "image": "https://jacobhl.com/assets/img/tidytab-cover.png", "description": "Bulk unpin or close Safari pinned tabs — a macOS menu-bar app.", "creator": { "@id": "https://jacobhl.com/#person" } } }
             ]
         }
@@ -1278,6 +1278,11 @@
                              App Store developer profile next to it, and carries the same rel="me" as that link since
                              it is now a member of the JSON-LD Person "sameAs" array above too. -->
                         <a class="proj-appstore-all" href="https://play.google.com/store/apps/developer?id=Jacob+Heifetz-Licht" target="_blank" rel="me noopener noreferrer" aria-label="View all Jacob Heifetz-Licht apps on Google Play" title="Google Play apps"><i class='bx bxl-play-store' aria-hidden="true"></i><span>Apps</span></a>
+                        <!-- Apple TV pill, added 2026-09-11 once HideScore's tvOS app went live (its App Store listing now
+                             shows "Apple TV - Requires tvOS 17.0"). Icon is bx-tv, not bxl-apple: below the phone breakpoint the
+                             pills collapse to icon-only, and a second Apple mark would read as a copy of the App Store pill.
+                             HideScore is the only TV app, so this opens its Apple TV listing, not the developer page. -->
+                        <a class="proj-appstore-all" href="https://apps.apple.com/us/app/hidescore/id6766885311?platform=appleTV" target="_blank" rel="noopener noreferrer" aria-label="HideScore on the Apple TV App Store" title="Apple TV app"><i class='bx bx-tv' aria-hidden="true"></i><span>TV</span></a>
                         <a class="proj-linkedin" href="https://www.linkedin.com/in/jacobhl/" target="_blank" rel="me noopener noreferrer" aria-label="Connect with me on LinkedIn" title="Connect on LinkedIn"><i class='bx bxl-linkedin' aria-hidden="true"></i></a>
                     </div>
                 </div>
@@ -1297,10 +1302,10 @@
                         <!-- Use the site's own theme-aware body-text token (--second-color) instead of a fixed mid-gray: --text-color is defined nowhere in the CSS, so the old value resolved to its literal #8b94a0 fallback, which on the light-mode white background gives only ~3:1 contrast — a WCAG 1.4.3 AA failure for normal text. --second-color is the body's text colour (dark navy in light mode, light in dark mode), so this list matches the rest of the page and passes contrast in both themes. Only the no-JS fallback is affected; the JS-rendered cards replace this entirely. -->
                         <ul style="list-style:none;margin:0;padding:0;line-height:1.6;color:var(--second-color);">
                             <li><a href="https://hidescore.com" target="_blank" rel="noopener noreferrer">HideScore</a> — Watch sports highlights without seeing the score.</li>
-                            <li><a href="https://tonightnyc.com" target="_blank" rel="noopener noreferrer">Tonight NYC</a> — Every NYC comedy show, filtered to your favorite comedians.</li>
-                            <li><a href="https://subwaytimes.com" target="_blank" rel="noopener noreferrer">Subway Times</a> — Real-time NYC subway arrivals, faster than Maps.</li>
-                            <li><a href="https://davidlicht.com" target="_blank" rel="noopener noreferrer">David Licht</a> — A showcase site for my dad — five decades of drumming.</li>
                             <li><a href="https://theisland.nyc" target="_blank" rel="noopener noreferrer">The Island</a> — Everything happening on NYC’s Roosevelt Island, in one place.</li>
+                            <li><a href="https://tonightnyc.com" target="_blank" rel="noopener noreferrer">Tonight NYC</a> — Every NYC comedy show, filtered to your favorite comedians.</li>
+                            <li><a href="https://davidlicht.com" target="_blank" rel="noopener noreferrer">David Licht</a> — A showcase site for my dad — five decades of drumming.</li>
+                            <li><a href="https://subwaytimes.com" target="_blank" rel="noopener noreferrer">Subway Times</a> — Real-time NYC subway arrivals, faster than Maps.</li>
                             <li><a href="https://tidytab.jacobhl.com/" target="_blank" rel="noopener noreferrer">TidyTab</a> — Bulk unpin or close Safari pinned tabs — a macOS menu-bar app.</li>
                         </ul>
                     </noscript>
@@ -1617,10 +1622,20 @@ const MAIN = [
     one:"Watch sports highlights without seeing the score.",
     full:"Watch sports highlights without seeing the score. Covers MLB, NBA, NHL, NFL, soccer, tennis and more with score-hidden cards, embedded highlights, and a unified news view — without spoiling anything you haven't watched.",
     site:"https://hidescore.com", appstore:"https://apps.apple.com/app/hidescore/id6766885311" },
+  // Order = 30-day human visitors on the sites dashboard (Umami), read 2026-09-11:
+  // HideScore 1,056 · The Island 686 · Tonight NYC 92 · David Licht 90 · Subway Times 15 · TidyTab 1.
+  { title:"The Island", live:true, img:"assets/img/theisland-cover-thumb.webp?v=1", imgLight:"assets/img/theisland-cover-light-thumb.webp?v=1", url:"https://theisland.nyc",
+    one:"Everything happening on NYC’s Roosevelt Island, in one place.",
+    full:"Everything happening on NYC’s Roosevelt Island, in one place — real-time bus GPS, subway, tram, and ferry times, a restaurant guide, service alerts, an events newsletter, and an interactive map.",
+    site:"https://theisland.nyc", appstore:"https://apps.apple.com/us/app/roosevelt-island/id6775979583" },
   { title:"Tonight NYC", live:true, img:"assets/img/tonightnyc-cover-thumb.webp?v=1", imgLight:"assets/img/tonightnyc-cover-light-thumb.webp?v=1", url:"https://tonightnyc.com",
     one:"Every NYC comedy show, filtered to your favorite comedians.",
     full:"No more digging for comedy showtimes, stick to your favorite comedians. Includes every NYC show from the Comedy Cellar, The Stand, and more, filtered your way. Mark favorites and skips, see which set to attend at a glance, and book directly.",
     site:"https://tonightnyc.com", appstore:"https://apps.apple.com/app/id6763027650" },
+  { title:"David Licht", live:true, img:"assets/img/davidlicht-app-thumb.webp?v=1", imgWide:"assets/img/davidlicht-thumb.webp?v=1", url:"https://davidlicht.com",
+    one:"A showcase site for my dad — five decades of drumming.",
+    full:"A showcase site I built for my dad — a drummer for five decades, from downtown NYC noise bands to the Grammy-winning Klezmatics. His story, music, and photos in one place.",
+    site:"https://davidlicht.com" },
   // noEmbed: subwaytimes.com's own CSP/X-Frame-Options refuses iframe embedding (as the modal-noembed
   // CSS/JS comments already note), so the live-preview iframe would just sit blank until the 6s timeout
   // text. This flag routes its preview straight to the built-but-until-now-unwired poster fallback
@@ -1629,14 +1644,6 @@ const MAIN = [
     one:"Real-time NYC subway arrivals, faster than Maps.",
     full:"Quicker than Google Maps for simple departures, especially from your home station. Real-time NYC subway arrivals, where you can favorite your stations, see countdown timers down to the second, and get out the door faster.",
     site:"https://subwaytimes.com", appstore:"https://apps.apple.com/us/app/subwaytimes/id6775994423" },
-  { title:"David Licht", live:true, img:"assets/img/davidlicht-app-thumb.webp?v=1", imgWide:"assets/img/davidlicht-thumb.webp?v=1", url:"https://davidlicht.com",
-    one:"A showcase site for my dad — five decades of drumming.",
-    full:"A showcase site I built for my dad — a drummer for five decades, from downtown NYC noise bands to the Grammy-winning Klezmatics. His story, music, and photos in one place.",
-    site:"https://davidlicht.com" },
-  { title:"The Island", live:true, img:"assets/img/theisland-cover-thumb.webp?v=1", imgLight:"assets/img/theisland-cover-light-thumb.webp?v=1", url:"https://theisland.nyc",
-    one:"Everything happening on NYC’s Roosevelt Island, in one place.",
-    full:"Everything happening on NYC’s Roosevelt Island, in one place — real-time bus GPS, subway, tram, and ferry times, a restaurant guide, service alerts, an events newsletter, and an interactive map.",
-    site:"https://theisland.nyc", appstore:"https://apps.apple.com/us/app/roosevelt-island/id6775979583" },
   // DuelGoat lives in the "Other projects" list (MORE) for now — 2026-07-25, Jacob's call.
   // Move this entry back up here (with url: for the live preview) once it earns a main row.
   // PLACEHOLDER — uncomment to publish. Needs screenshot (assets/img/islander-app.png).
