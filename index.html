@@ -539,10 +539,18 @@
   /* Projects title (centered); the LinkedIn CTA is positioned relative to the SAME
      max-width/padding as .proj-wrap so it lands above the first card's right corner,
      not the window edge, at every viewport width. */
-  .proj-head-row{position:relative;display:flex;justify-content:center;align-items:center;
-    max-width:780px;margin:.25rem auto 1.5rem;padding:0 1.5rem;box-sizing:border-box;}
-  .proj-head-row .section-title{margin:0;}
-  .proj-head-actions{position:absolute;right:1.5rem;top:50%;transform:translateY(-50%);
+  /* 2026-09-12: three columns, not a centered title with the actions absolutely positioned on
+     top of it. Out of flow, the actions could and did cover the title — adding the Apple TV pill
+     ate the last of the gap and the word read "Projec" at 320px, "Project" at 430px (measured on
+     the live page). Grid tracks cannot overlap: 1fr | title | 1fr keeps the title on the true
+     centre line whenever the side tracks have room (every width from ~360px up, desktop included,
+     since a track's fr share there exceeds the pills' width), and below that the right track takes
+     only the width it needs and the title slides left instead of disappearing under the pills.
+     This also retires the run of "trim 2px of padding to buy the title room" patches below. */
+  .proj-head-row{position:relative;display:grid;grid-template-columns:1fr auto 1fr;align-items:center;
+    column-gap:.5rem;max-width:780px;margin:.25rem auto 1.5rem;padding:0 1.5rem;box-sizing:border-box;}
+  .proj-head-row .section-title{margin:0;grid-column:2;justify-self:center;}
+  .proj-head-actions{grid-column:3;justify-self:end;
     display:inline-flex;align-items:center;gap:.45rem;}
   .proj-head-row .toplink{position:absolute;right:0;top:50%;transform:translateY(-50%);
     display:inline-flex;align-items:center;gap:.45rem;font-family:var(--body-font);font-size:.82rem;font-weight:600;
@@ -570,11 +578,13 @@
   .proj-appstore-all:focus{outline:none;}
   .proj-appstore-all:focus-visible{outline:2px solid var(--first-color);outline-offset:2px;}
   @media(max-width:600px){
-    .proj-head-row{margin:.35rem auto 1.5rem;padding:0 1rem;}
+    /* padding is the actions' gutter now that they sit in a grid track rather than being
+       pinned with right:1.5rem — 1.5rem keeps them aligned with the card edge below. */
+    .proj-head-row{margin:.35rem auto 1.5rem;padding:0 1.5rem;}
     /* The cards below sit in .proj-wrap, which keeps a 1.5rem gutter at every width. These
        actions were pinned at 1rem instead, so the LinkedIn button hung 8px past the right
        edge of the HideScore card underneath it. Match the card gutter so the two line up. */
-    .proj-head-actions{right:1.5rem;gap:.4rem;}
+    .proj-head-actions{gap:.4rem;}
     .proj-head-row .section-title{font-size:1.42rem;}
     .proj-appstore-all{height:32px;padding:0 .5rem;font-size:.72rem;gap:.25rem;}
     .proj-linkedin{width:32px;height:32px;}
@@ -1281,8 +1291,11 @@
                         <!-- Apple TV pill, added 2026-09-11 once HideScore's tvOS app went live (its App Store listing now
                              shows "Apple TV - Requires tvOS 17.0"). Icon is bx-tv, not bxl-apple: below the phone breakpoint the
                              pills collapse to icon-only, and a second Apple mark would read as a copy of the App Store pill.
-                             HideScore is the only TV app, so this opens its Apple TV listing, not the developer page. -->
-                        <a class="proj-appstore-all" href="https://apps.apple.com/us/app/hidescore/id6766885311?platform=appleTV" target="_blank" rel="noopener noreferrer" aria-label="HideScore on the Apple TV App Store" title="Apple TV app"><i class='bx bx-tv' aria-hidden="true"></i><span>TV</span></a>
+                             ⛔ The platform token is the bare "tv" — ?platform=appleTV is silently IGNORED and serves the
+                             identical iPhone page (both 488,576 bytes, checked 2026-09-12). ?platform=tv serves a genuinely
+                             different page (419,467 bytes): tvOS screenshots and "Requires tvOS 17.0". The developer page
+                             takes no platform filter at all, so this pill opens HideScore's own listing. -->
+                        <a class="proj-appstore-all" href="https://apps.apple.com/us/app/hidescore/id6766885311?platform=tv" target="_blank" rel="noopener noreferrer" aria-label="HideScore, the Apple TV app" title="Apple TV app"><i class='bx bx-tv' aria-hidden="true"></i><span>TV</span></a>
                         <a class="proj-linkedin" href="https://www.linkedin.com/in/jacobhl/" target="_blank" rel="me noopener noreferrer" aria-label="Connect with me on LinkedIn" title="Connect on LinkedIn"><i class='bx bxl-linkedin' aria-hidden="true"></i></a>
                     </div>
                 </div>
