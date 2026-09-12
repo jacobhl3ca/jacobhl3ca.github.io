@@ -1288,14 +1288,25 @@
                              App Store developer profile next to it, and carries the same rel="me" as that link since
                              it is now a member of the JSON-LD Person "sameAs" array above too. -->
                         <a class="proj-appstore-all" href="https://play.google.com/store/apps/developer?id=Jacob+Heifetz-Licht" target="_blank" rel="me noopener noreferrer" aria-label="View all Jacob Heifetz-Licht apps on Google Play" title="Google Play apps"><i class='bx bxl-play-store' aria-hidden="true"></i><span>Apps</span></a>
-                        <!-- Apple TV pill, added 2026-09-11 once HideScore's tvOS app went live (its App Store listing now
+                        <!-- Apple TV pill — HIDDEN 2026-09-12, Jacob's call ("comment it out for now").
+                             Restore = delete this comment wrapper; nothing else moved, and the header grid
+                             below holds with 3 or 4 pills. Inner comment markers were stripped so this could
+                             wrap (HTML comments do not nest). The ⛔ notes it carried, kept here:
+                             the platform token is the bare "tv" — ?platform=appleTV is silently ignored and
+                             serves the identical iPhone page (both 488,576 bytes, checked 2026-09-12), while
+                             ?platform=tv serves the tvOS page (419,467 bytes, "Requires tvOS 17.0"); the
+                             developer page takes no platform filter at all; bx-tv rather than bxl-apple,
+                             because under 600px the pills go icon-only and a second Apple mark reads as a
+                             copy of the App Store pill.
+                         Apple TV pill, added 2026-09-11 once HideScore's tvOS app went live (its App Store listing now
                              shows "Apple TV - Requires tvOS 17.0"). Icon is bx-tv, not bxl-apple: below the phone breakpoint the
                              pills collapse to icon-only, and a second Apple mark would read as a copy of the App Store pill.
                              ⛔ The platform token is the bare "tv" — ?platform=appleTV is silently IGNORED and serves the
                              identical iPhone page (both 488,576 bytes, checked 2026-09-12). ?platform=tv serves a genuinely
                              different page (419,467 bytes): tvOS screenshots and "Requires tvOS 17.0". The developer page
-                             takes no platform filter at all, so this pill opens HideScore's own listing. -->
+                             takes no platform filter at all, so this pill opens HideScore's own listing. 
                         <a class="proj-appstore-all" href="https://apps.apple.com/us/app/hidescore/id6766885311?platform=tv" target="_blank" rel="noopener noreferrer" aria-label="HideScore, the Apple TV app" title="Apple TV app"><i class='bx bx-tv' aria-hidden="true"></i><span>TV</span></a>
+                        -->
                         <a class="proj-linkedin" href="https://www.linkedin.com/in/jacobhl/" target="_blank" rel="me noopener noreferrer" aria-label="Connect with me on LinkedIn" title="Connect on LinkedIn"><i class='bx bxl-linkedin' aria-hidden="true"></i></a>
                     </div>
                 </div>
