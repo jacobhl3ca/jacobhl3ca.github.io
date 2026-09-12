@@ -1635,8 +1635,9 @@ const MAIN = [
     one:"Watch sports highlights without seeing the score.",
     full:"Watch sports highlights without seeing the score. Covers MLB, NBA, NHL, NFL, soccer, tennis and more with score-hidden cards, embedded highlights, and a unified news view — without spoiling anything you haven't watched.",
     site:"https://hidescore.com", appstore:"https://apps.apple.com/app/hidescore/id6766885311" },
-  // Order = 30-day human visitors on the sites dashboard (Umami), read 2026-09-11:
-  // HideScore 1,056 · The Island 686 · Tonight NYC 92 · David Licht 90 · Subway Times 15 · TidyTab 1.
+  // Card ORDER does not live in this array any more — see MAIN_ORDER under the closing bracket.
+  // Entries stay put here because several carry their own explanatory comment, and a script that
+  // moved entries would strand those comments against the wrong project.
   { title:"The Island", live:true, img:"assets/img/theisland-cover-thumb.webp?v=1", imgLight:"assets/img/theisland-cover-light-thumb.webp?v=1", url:"https://theisland.nyc",
     one:"Everything happening on NYC’s Roosevelt Island, in one place.",
     full:"Everything happening on NYC’s Roosevelt Island, in one place — real-time bus GPS, subway, tram, and ferry times, a restaurant guide, service alerts, an events newsletter, and an interactive map.",
@@ -1677,6 +1678,17 @@ const MAIN = [
     // download now lives on the tidytab.html landing page the preview opens (keeps the card row clean, consistent with the others)
   },
 ];
+// Card order, 2026-09-12. One line, rewritten daily by ~/scripts/jacobhl-order-by-traffic.py from the
+// 30-day visitor counts the sites dashboard already collects (Umami), so the busiest project leads.
+// Read 2026-09-11: HideScore 1,056 · The Island 686 · Tonight NYC 92 · David Licht 90 · Subway Times 15
+// · TidyTab 1. The same script reorders the <noscript> list and the JSON-LD ItemList to match, because
+// all three have to tell a crawler the same story. A title missing from this list falls to the end in
+// file order (Array.sort is stable), so a project added here still renders if the list was not updated.
+const MAIN_ORDER = ["HideScore","The Island","Tonight NYC","David Licht","Subway Times","TidyTab"];
+const MAIN_SORTED = [...MAIN].sort((a, b) => {
+  const ia = MAIN_ORDER.indexOf(a.title), ib = MAIN_ORDER.indexOf(b.title);
+  return (ia < 0 ? 99 : ia) - (ib < 0 ? 99 : ib);
+});
 const MORE = [
   // Branded cover (not a screenshot), same generator as the main rows: ~/jacobhl-covers/covers.html
   // frame #duelgoat, palette taken from duelgoat.com's own tokens. live:true lights the dot; MORE
@@ -1832,7 +1844,7 @@ function rowHTML(p, eager){
 // list, avoiding an empty "list, 0 items". Purely the accessibility tree — no visual change.
 const _mainRows = document.getElementById('main-rows');
 _mainRows.setAttribute('role', 'list'); _mainRows.setAttribute('aria-label', 'Projects');
-_mainRows.innerHTML = MAIN.map((p, i) => rowHTML(p, i === 0)).join(''); // eager-load only the first (above-the-fold) card's image
+_mainRows.innerHTML = MAIN_SORTED.map((p, i) => rowHTML(p, i === 0)).join(''); // eager-load only the first (above-the-fold) card's image
 const _moreRows = document.getElementById('more-rows');
 _moreRows.setAttribute('role', 'list'); _moreRows.setAttribute('aria-label', 'Other projects');
 _moreRows.innerHTML = MORE.map(p => rowHTML(p, false)).join(''); // "Private projects" panel starts collapsed/inert — keep all its images lazy
