@@ -187,11 +187,18 @@ body {
    /projects/weather/ copy renders its entire UI from JS into #content and had no heading
    at all in the static markup, so the document outline was empty and a screen-reader
    "jump to main heading" had nothing to land on. The production /weather/ dashboard this
-   copies carries the same class + hidden <h1>; this mirrors it verbatim (standard clip
-   pattern — off-screen for sighted users, still announced by assistive tech). No visual change. */
+   copies carries the same class + hidden <h1>; this mirrors it (off-screen for sighted users,
+   still announced by assistive tech). clip:rect(0,0,0,0) is the long-standing screen-reader-only
+   technique, but the clip property is deprecated; clip-path:inset(50%) is its modern replacement.
+   Ship both so the utility keeps working on legacy engines while using the current, non-deprecated
+   property everywhere else — the belt-and-suspenders pair mature a11y utilities standardised on,
+   and the exact form the production /weather/ dashboard's .visually-hidden now carries (this copy
+   had drifted to the old clip-only form the production page was modernized away from). Both rules
+   collapse the box to nothing, so the element stays visually hidden and audible to screen readers
+   exactly as before. No visual change. */
 .visually-hidden {
   position:absolute; width:1px; height:1px; padding:0; margin:-1px;
-  overflow:hidden; clip:rect(0,0,0,0); white-space:nowrap; border:0;
+  overflow:hidden; clip:rect(0,0,0,0); clip-path:inset(50%); white-space:nowrap; border:0;
 }
 </style>
 </head>
