@@ -326,7 +326,13 @@
   </main>
 
   <footer>
-    <a href="https://jacobhl.com/">jacobhl.com</a>
+    <!-- Root-relative internal link, matching the site's convention for the "back to the homepage"
+         link everywhere else: 404.html's nav and the contact/, building.html and light/ redirect
+         stubs all use href="/" for this same jacobhl.com home link — this footer was the one place
+         still hardcoding the absolute https://jacobhl.com/. Same-origin, so it resolves to the
+         identical homepage (and stays portable across the raw github.io host / local previews before
+         the CNAME redirect); the visible "jacobhl.com" text is unchanged. No visual or behaviour change. -->
+    <a href="/">jacobhl.com</a>
   </footer>
 
 </div>
