@@ -357,7 +357,7 @@
                     <a href="#home" class="nav__logo">Jacob</a>
                 </div>
                 <div class="nav__menu" id="nav-menu">
-                    <ul class="nav__list">
+                    <ul class="nav__list" role="list"><!-- explicit role="list" so the nav keeps its list semantics in Safari/VoiceOver, which drops the implicit list role from any <ul> styled list-style:none (applied site-wide in styles.css) — mirrors the same fix on index.html's nav; this animated variant's nav was still on the browser default. No visual effect. -->
 
                         <li class="nav__item"><a href="#home" class="nav__link active-link">Home</a></li>
                         <li class="nav__item"><a href="#about" class="nav__link">About</a></li>

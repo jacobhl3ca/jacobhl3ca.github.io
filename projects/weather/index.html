@@ -187,11 +187,18 @@ body {
    /projects/weather/ copy renders its entire UI from JS into #content and had no heading
    at all in the static markup, so the document outline was empty and a screen-reader
    "jump to main heading" had nothing to land on. The production /weather/ dashboard this
-   copies carries the same class + hidden <h1>; this mirrors it verbatim (standard clip
-   pattern — off-screen for sighted users, still announced by assistive tech). No visual change. */
+   copies carries the same class + hidden <h1>; this mirrors it (off-screen for sighted users,
+   still announced by assistive tech). clip:rect(0,0,0,0) is the long-standing screen-reader-only
+   technique, but the clip property is deprecated; clip-path:inset(50%) is its modern replacement.
+   Ship both so the utility keeps working on legacy engines while using the current, non-deprecated
+   property everywhere else — the belt-and-suspenders pair mature a11y utilities standardised on,
+   and the exact form the production /weather/ dashboard's .visually-hidden now carries (this copy
+   had drifted to the old clip-only form the production page was modernized away from). Both rules
+   collapse the box to nothing, so the element stays visually hidden and audible to screen readers
+   exactly as before. No visual change. */
 .visually-hidden {
   position:absolute; width:1px; height:1px; padding:0; margin:-1px;
-  overflow:hidden; clip:rect(0,0,0,0); white-space:nowrap; border:0;
+  overflow:hidden; clip:rect(0,0,0,0); clip-path:inset(50%); white-space:nowrap; border:0;
 }
 </style>
 </head>
@@ -510,7 +517,7 @@ function render(w, aqi, geo) {
   // Hero
   html += `<div class="card hero">
     <div class="hero-left">
-      <div class="hero-icon">${getIcon(weatherCode, isDay)}</div>
+      <div class="hero-icon" aria-hidden="true">${getIcon(weatherCode, isDay)}</div>
       <div>
         <div class="hero-temp">${temp}<span>°F</span></div>
         <div class="feels-like">${feelsNote}</div>
@@ -533,7 +540,7 @@ function render(w, aqi, geo) {
 
   // Humidity comfort
   html += `<div class="card">
-    <div class="stat-icon">💧</div>
+    <div class="stat-icon" aria-hidden="true">💧</div>
     <div class="stat-label">Humidity Comfort</div>
     <div class="stat-value">${humidity}%</div>
     <div class="stat-sub">${comfort.label}</div>
@@ -542,7 +549,7 @@ function render(w, aqi, geo) {
 
   // AQI
   html += `<div class="card">
-    <div class="stat-icon">🌬️</div>
+    <div class="stat-icon" aria-hidden="true">🌬️</div>
     <div class="stat-label">Air Quality${usAqi != null ? ' (US AQI: '+usAqi+')' : ''}</div>
     <div class="stat-value" style="color:${aqiInfo.color}">${aqiInfo.text}</div>
     <div class="stat-sub">${pm25 != null ? 'PM2.5: ' + pm25.toFixed(1) + ' µg/m³' : ''}</div>
@@ -551,13 +558,13 @@ function render(w, aqi, geo) {
 
   // Sunrise/Sunset
   html += `<div class="card">
-    <div class="stat-icon">🌅</div>
+    <div class="stat-icon" aria-hidden="true">🌅</div>
     <div class="stat-label">Sunrise / Sunset</div>
     <div class="sun-bar"><div class="sun-dot" style="left:calc(${sunProg}% - 7px)"></div></div>
     <div class="sun-times">
-      <span>↑ ${fmtTime(sunrise)}</span>
+      <span><span aria-hidden="true">↑</span><span class="visually-hidden">Sunrise: </span> ${fmtTime(sunrise)}</span>
       <span>${dlH}h ${dlM}m daylight</span>
-      <span>↓ ${fmtTime(sunset)}</span>
+      <span><span aria-hidden="true">↓</span><span class="visually-hidden">Sunset: </span> ${fmtTime(sunset)}</span>
     </div>
   </div>`;
 
@@ -565,14 +572,14 @@ function render(w, aqi, geo) {
 
   // Hourly rain
   html += `<div class="card">
-    <div class="section-title">☂️ Rain Chance — Next 12h</div>
+    <div class="section-title"><span aria-hidden="true">☂️</span> Rain Chance — Next 12h</div>
     <div class="hourly-row">
       ${hourly.map(h => {
         const pop = h.pop;
         const popColor = pop >= 60 ? '#ef4444' : pop >= 30 ? '#f59e0b' : '#22c55e';
         return `<div class="hourly-item">
           <div class="time">${fmtHour(h.time)}</div>
-          <div class="icon">${getIcon(h.code, h.isDay)}</div>
+          <div class="icon" aria-hidden="true">${getIcon(h.code, h.isDay)}</div>
           <div class="chance" style="color:${popColor}">${pop}%</div>
         </div>`;
       }).join('')}
@@ -581,11 +588,11 @@ function render(w, aqi, geo) {
 
   // 5-day forecast
   html += `<div class="card">
-    <div class="section-title">📅 5-Day Forecast</div>
+    <div class="section-title"><span aria-hidden="true">📅</span> 5-Day Forecast</div>
     ${dailyRows.map(d => {
       return `<div class="forecast-row">
         <div class="forecast-day">${d.day}</div>
-        <div class="forecast-icon">${getIcon(d.code, true)}</div>
+        <div class="forecast-icon" aria-hidden="true">${getIcon(d.code, true)}</div>
         <div class="forecast-desc">${getDesc(d.code)}${d.pop > 20 ? ' · ' + d.pop + '% rain' : ''}</div>
         <div class="forecast-temps"><span class="hi">${d.hi}°</span> / <span class="lo">${d.lo}°</span></div>
       </div>`;
@@ -605,10 +612,10 @@ function render(w, aqi, geo) {
   if (isNYC) {
     html += `<div class="card" style="text-align:center;">
       <div style="font-size:12px;color:var(--text-dim);">
-        ${temp <= 35 ? '🧤 NYC Tip: Watch for icy sidewalks, especially bridge overpasses and shaded blocks.' :
-          temp >= 90 ? '🚰 NYC Tip: Cooling centers are open. Stay near AC — check NYC.gov for locations.' :
-          willRain ? '🚇 NYC Tip: Expect crowded subways. Leave 10 min early and bring an umbrella.' :
-          '🏙️ NYC Tip: Great day to walk — Central Park and the High Line are calling.'}
+        ${temp <= 35 ? '<span aria-hidden="true">🧤</span> NYC Tip: Watch for icy sidewalks, especially bridge overpasses and shaded blocks.' :
+          temp >= 90 ? '<span aria-hidden="true">🚰</span> NYC Tip: Cooling centers are open. Stay near AC — check NYC.gov for locations.' :
+          willRain ? '<span aria-hidden="true">🚇</span> NYC Tip: Expect crowded subways. Leave 10 min early and bring an umbrella.' :
+          '<span aria-hidden="true">🏙️</span> NYC Tip: Great day to walk — Central Park and the High Line are calling.'}
       </div>
     </div>`;
   }

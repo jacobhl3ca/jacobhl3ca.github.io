@@ -7,7 +7,14 @@
     </url>
     <url>
         <loc>https://jacobhl.com/weather/</loc>
-        <lastmod>2026-09-07</lastmod>
+        <!-- lastmod tracks this page's last visitor-perceptible content change and is kept in
+             lockstep with the WebApplication JSON-LD dateModified in weather/index.html
+             (2026-09-05, the US-AQI fallback-label correction). Screen-reader-only and
+             comment-only edits after that date — the 2026-09-07 .visually-hidden clip-path
+             refinement, later stale-comment fixes — ride along and do NOT advance it, per that
+             page's documented freshness invariant; so this stays 2026-09-05 rather than tracking
+             every HTML touch. Keep the two dates equal when either moves. -->
+        <lastmod>2026-09-05</lastmod>
         <priority>0.6</priority>
     </url>
     <!-- tidytab.html intentionally NOT listed: it is now a noindex stub that redirects to

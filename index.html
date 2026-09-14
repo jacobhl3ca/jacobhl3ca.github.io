@@ -1069,7 +1069,7 @@
                     <a href="#home" class="nav__logo">Jacob</a>
                 </div>
                 <div class="nav__menu" id="nav-menu">
-                    <ul class="nav__list">
+                    <ul class="nav__list" role="list"><!-- explicit role="list" so the nav keeps its list semantics in Safari/VoiceOver, which drops the implicit list role from any <ul> styled list-style:none (applied site-wide in styles.css) — the same reason the skills-tag and project-card lists carry role="list". No visual effect. -->
 
                         <li class="nav__item"><a href="#home" class="nav__link active-link" aria-current="location">Home</a></li> <!-- baseline aria-current to match the hardcoded active-link class, so AT announces Home as the current section before/independent of main-alt.js's scrollActive() (which manages this pair dynamically thereafter). Token is "location" (in-page scroll-spy position), not "page" — matching what scrollActive() now sets, so there's no page→location flip once the JS runs; see the rationale in main-alt.js. -->
                         <li class="nav__item"><a href="#about" class="nav__link">About</a></li>
@@ -1324,7 +1324,7 @@
                              2026-07-25) and was pulled from the site entirely on 2026-08-31 — its
                              commented-out no-JS entry sits in that section's <noscript> fallback below. -->
                         <!-- Use the site's own theme-aware body-text token (--second-color) instead of a fixed mid-gray: --text-color is defined nowhere in the CSS, so the old value resolved to its literal #8b94a0 fallback, which on the light-mode white background gives only ~3:1 contrast — a WCAG 1.4.3 AA failure for normal text. --second-color is the body's text colour (dark navy in light mode, light in dark mode), so this list matches the rest of the page and passes contrast in both themes. Only the no-JS fallback is affected; the JS-rendered cards replace this entirely. -->
-                        <ul style="list-style:none;margin:0;padding:0;line-height:1.6;color:var(--second-color);">
+                        <ul role="list" style="list-style:none;margin:0;padding:0;line-height:1.6;color:var(--second-color);">
                             <li><a href="https://hidescore.com" target="_blank" rel="noopener noreferrer">HideScore</a> — Watch sports highlights without seeing the score.</li>
                             <li><a href="https://theisland.nyc" target="_blank" rel="noopener noreferrer">The Island</a> — Everything happening on NYC’s Roosevelt Island, in one place.</li>
                             <li><a href="https://tonightnyc.com" target="_blank" rel="noopener noreferrer">Tonight NYC</a> — Every NYC comedy show, filtered to your favorite comedians.</li>
@@ -1349,7 +1349,7 @@
                              commented-out entry). DuelGoat's linked entry is commented out here too, since it was
                              pulled from the site on 2026-08-31. The JS-rendered cards replace this entirely. -->
                         <style>#moreToggle{display:none;}</style>
-                        <ul style="list-style:none;margin:0;padding:0;line-height:1.6;color:var(--second-color);">
+                        <ul role="list" style="list-style:none;margin:0;padding:0;line-height:1.6;color:var(--second-color);">
                             <!-- DuelGoat pulled 2026-08-31 (Jacob's call) — uncomment to restore, alongside the MORE[] entry below:
                             <li><a href="https://duelgoat.com" target="_blank" rel="noopener noreferrer">DuelGoat</a> — A browser recreation of GOAT-format Yu-Gi-Oh dueling.</li>
                             -->
