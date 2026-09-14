@@ -1706,8 +1706,10 @@ const MORE = [
   // live:true needs a url: — the preview modal binds globally to .proj-thumb[data-url], so this
   // MORE card opens a live preview like a main row (duelgoat.com sends no X-Frame-Options/CSP).
   /* DuelGoat — pulled from the site 2026-08-31, Jacob's call. Restore by uncommenting this entry
-     AND its three companions: the JSON-LD ListItem (see the note above that <script>), the no-JS
-     <li> in the "Other projects" <noscript> above, and the building.html tile.
+     AND its two remaining companions: the JSON-LD ListItem (see the note above that <script>) and
+     the no-JS <li> in the "Other projects" <noscript> above. (There is no longer a building.html
+     tile to restore: building.html was retired to a bare redirect stub on 2026-09-07 and all its
+     project tiles were removed — see the ⛔ RETIRED-PAGE banner at the top of that file.)
   { title:"DuelGoat", live:true, url:"https://duelgoat.com", site:"https://duelgoat.com",
     img:"assets/img/duelgoat-cover-thumb.webp?v=1", imgLight:"assets/img/duelgoat-cover-light-thumb.webp?v=1",
     one:"A browser recreation of GOAT-format Yu-Gi-Oh dueling.",
