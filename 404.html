@@ -136,7 +136,7 @@
                     <a href="/" class="nav__logo">Jacob</a>
                 </div>
                 <div class="nav__menu" id="nav-menu">
-                    <ul class="nav__list">
+                    <ul class="nav__list" role="list"><!-- explicit role="list" so the primary nav keeps its list semantics in Safari/VoiceOver, which drops the implicit list role from any <ul> styled list-style:none (applied site-wide in styles.css) — the same fix index.html and index_with_animation.html carry on this identical nav markup. 404.html was the one chrome-rendered page whose nav <ul> still relied on native list semantics. Attribute-only, no visual change. -->
                         <li class="nav__item"><a href="/" class="nav__link">Home</a></li>
                         <li class="nav__item"><a href="/#about" class="nav__link">About</a></li>
                         <li class="nav__item"><a href="/#Projects" class="nav__link">Projects</a></li>
