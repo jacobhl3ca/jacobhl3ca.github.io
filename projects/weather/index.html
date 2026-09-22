@@ -10,31 +10,31 @@
 <meta name="color-scheme" content="dark">
 <!-- Give the tab the site favicon. There is no root /favicon.ico, so without this link a browser landing on this leftover /projects/weather/ copy by direct URL fires a 404 for the default /favicon.ico and shows a blank/generic tab icon. Root-absolute path (mirroring the production /weather/ dashboard this copies, and index.html/404.html/building.html/light/) references the existing favicon.ico — no new asset. This copy was the one weather page still missing the icon link; completes the site-wide favicon pattern. No visual change to page content. -->
 <link rel="icon" type="image/x-icon" href="/assets/img/favicon.ico">
-<title>Weather Dashboard — NYC</title>
+<title>NYC Weather Dashboard</title>
 <!-- Give this leftover /projects/weather/ copy the same meta description its production /weather/ sibling ships. This copy carries no description and no OG/Twitter tags at all, so a browser reader-mode view or a link scraped from a direct URL had nothing but the page title to summarise it. Reusing the production dashboard's exact wording keeps the two copies consistent and is the one remaining head field still setting this copy apart from the real dashboard. noindex is unaffected (a description is not an indexing signal). No visual change. -->
-<meta name="description" content="A live weather dashboard with current conditions, hourly rain chance, a 5-day forecast, air quality, and sun times. Search any city — defaults to New York, NY.">
-<!-- noindex this older, unlinked, sitemap-absent copy of the weather dashboard. The production dashboard lives at /weather/ (indexed, canonical, richer head); this /projects/weather/ page is a near-duplicate of it (same title "Weather Dashboard — NYC", same design) left over from staging, with no robots meta of its own — so it was the one weather copy still fully indexable, creating a duplicate-content risk against the real /weather/. noindex, follow removes it from search results while still letting crawlers follow its links, matching the site's established pattern for duplicate/experiment pages (index_with_animation.html, light/index.html, projects/index_cascade_animate.html, the projects-*-preview.html pages). rel=canonical also names /weather/ as the authoritative copy. Metadata only — no visual change. -->
+<meta name="description" content="A live weather dashboard with current conditions, hourly rain chance, a 5-day forecast, air quality, and sun times. Search any city. It defaults to New York, NY.">
+<!-- noindex this older, unlinked, sitemap-absent copy of the weather dashboard. The production dashboard lives at /weather/ (indexed, canonical, richer head); this /projects/weather/ page is a near-duplicate of it (same title "NYC Weather Dashboard", same design) left over from staging, with no robots meta of its own — so it was the one weather copy still fully indexable, creating a duplicate-content risk against the real /weather/. noindex, follow removes it from search results while still letting crawlers follow its links, matching the site's established pattern for duplicate/experiment pages (index_with_animation.html, light/index.html, projects/index_cascade_animate.html, the projects-*-preview.html pages). rel=canonical also names /weather/ as the authoritative copy. Metadata only — no visual change. -->
 <meta name="robots" content="noindex, follow">
 <link rel="canonical" href="https://jacobhl.com/weather/">
 <!-- Name the document's author, consistent with the production /weather/ dashboard this copies and every other page site-wide (index.html, weather/, building.html, 404.html, refer/, light/ all declare it) — this leftover /projects/weather/ copy was the one page still missing it. Purely document metadata surfaced by some browsers, tools, and reader modes; no visual change and no effect on this copy's noindex status. -->
 <meta name="author" content="Jacob Heifetz-Licht">
 <!-- Link-preview (Open Graph / Twitter) tags so a shared or pasted /projects/weather/ direct URL unfurls with a branded card instead of a bare, title-only (or blank) preview. This leftover copy shipped none — the one remaining head field, noted in the description comment above, still setting it apart from the production /weather/ dashboard, whose OG/Twitter block this mirrors verbatim (same title/description, the site-wide shared og_image.png — an existing asset, nothing new added). og:url points at the canonical /weather/ (matching the rel=canonical above) so the preview and its link resolve to the authoritative dashboard rather than this noindex duplicate. noindex is unaffected — OG tags drive social/chat unfurls, not search indexing. No visual change to page content. -->
-<meta property="og:title" content="Weather Dashboard — NYC">
-<meta property="og:description" content="A live weather dashboard with current conditions, hourly rain chance, a 5-day forecast, air quality, and sun times. Search any city — defaults to New York, NY.">
+<meta property="og:title" content="NYC Weather Dashboard">
+<meta property="og:description" content="A live weather dashboard with current conditions, hourly rain chance, a 5-day forecast, air quality, and sun times. Search any city. It defaults to New York, NY.">
 <meta property="og:image" content="https://jacobhl.com/assets/img/og_image.png">
 <meta property="og:image:type" content="image/png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
-<meta property="og:image:alt" content="Jacob Heifetz-Licht — Analytics Manager and app developer">
+<meta property="og:image:alt" content="Jacob Heifetz-Licht, Analytics Manager and app developer">
 <meta property="og:url" content="https://jacobhl.com/weather/">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Jacob Heifetz-Licht">
 <meta property="og:locale" content="en_US">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Weather Dashboard — NYC">
-<meta name="twitter:description" content="A live weather dashboard with current conditions, hourly rain chance, a 5-day forecast, air quality, and sun times. Search any city — defaults to New York, NY.">
+<meta name="twitter:title" content="NYC Weather Dashboard">
+<meta name="twitter:description" content="A live weather dashboard with current conditions, hourly rain chance, a 5-day forecast, air quality, and sun times. Search any city. It defaults to New York, NY.">
 <meta name="twitter:image" content="https://jacobhl.com/assets/img/og_image.png">
-<meta name="twitter:image:alt" content="Jacob Heifetz-Licht — Analytics Manager and app developer">
+<meta name="twitter:image:alt" content="Jacob Heifetz-Licht, Analytics Manager and app developer">
 <!-- Warm the TLS connections to the Google Fonts hosts before the render-blocking Poppins stylesheet below is requested. That stylesheet blocks first paint, and without a preconnect the browser only starts the (DNS + TCP + TLS) handshake to fonts.googleapis.com once it discovers the <link> — then repeats it for the font-file host fonts.gstatic.com. Preconnecting both up front overlaps those handshakes with head parsing so the font CSS and woff2 arrive sooner. crossorigin on the gstatic hint so the warmed socket is reused for the CORS woff2 fetch. This leftover /projects/weather/ copy was loading the same font cold; the production /weather/ dashboard it copies already ships exactly these two preconnects. Resource hints only — no visual or behaviour change. -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -297,7 +297,7 @@ function windDir(deg) {
 }
 
 function humidityComfort(h) {
-  if (h < 30) return { label:'Dry — moisturize', level:1, cls:'active-ok' };
+  if (h < 30) return { label:'Dry, moisturize', level:1, cls:'active-ok' };
   if (h <= 50) return { label:'Comfortable', level:2, cls:'active-good' };
   if (h <= 70) return { label:'Muggy', level:3, cls:'active-ok' };
   return { label:'Oppressive', level:4, cls:'active-bad' };
@@ -406,8 +406,8 @@ function render(w, aqi, geo) {
   const feelsLike = Math.round(c.apparent_temperature);
   const diff = feelsLike - temp;
   let feelsNote = `Feels like ${feelsLike}°F`;
-  if (diff <= -5) feelsNote = `Feels ${Math.abs(diff)}° colder — wind chill`;
-  else if (diff >= 5) feelsNote = `Feels ${diff}° warmer — heat index`;
+  if (diff <= -5) feelsNote = `Feels ${Math.abs(diff)}° colder (wind chill)`;
+  else if (diff >= 5) feelsNote = `Feels ${diff}° warmer (heat index)`;
 
   const humidity = c.relative_humidity_2m;
   const comfort = humidityComfort(humidity);
@@ -494,14 +494,14 @@ function render(w, aqi, geo) {
   // wrap their ←/↑/↓ arrows and emoji the same way). Text-only — the banner renders identically.
   let alertClass = '', alertMsg = '';
   if (windSpeed >= 25 || gusts >= 40) {
-    alertClass = 'warning'; alertMsg = `<span aria-hidden="true">⚠️</span> High wind advisory — gusts up to ${gusts || windSpeed} mph. Secure loose items.`;
+    alertClass = 'warning'; alertMsg = `<span aria-hidden="true">⚠️</span> High wind advisory. Gusts up to ${gusts || windSpeed} mph. Secure loose items.`;
   } else if (temp <= 20) {
-    alertClass = 'danger'; alertMsg = `<span aria-hidden="true">🥶</span> Extreme cold — frostbite risk. Layer up and limit exposure.`;
+    alertClass = 'danger'; alertMsg = `<span aria-hidden="true">🥶</span> Extreme cold and frostbite risk. Layer up and limit exposure.`;
   } else if (temp >= 95 && humidity >= 60) {
-    alertClass = 'danger'; alertMsg = `<span aria-hidden="true">🔥</span> Excessive heat + humidity — heat stroke risk. Stay indoors if possible.`;
+    alertClass = 'danger'; alertMsg = `<span aria-hidden="true">🔥</span> Excessive heat + humidity bring heat stroke risk. Stay indoors if possible.`;
   } else if (willRain) {
     const rainH = hourly.find(h => h.pop > 40);
-    alertClass = 'info'; alertMsg = `<span aria-hidden="true">☂️</span> Rain likely around ${fmtHour(rainH.time)} — grab an umbrella before heading out.`;
+    alertClass = 'info'; alertMsg = `<span aria-hidden="true">☂️</span> Rain likely around ${fmtHour(rainH.time)}, so grab an umbrella before heading out.`;
   }
   const alertsBanner = document.getElementById('alertsBanner');
   alertsBanner.className = 'alerts-banner' + (alertClass ? ' ' + alertClass : '');
@@ -582,7 +582,7 @@ function render(w, aqi, geo) {
 
   // Hourly rain
   html += `<div class="card">
-    <div class="section-title"><span aria-hidden="true">☂️</span> Rain Chance — Next 12h</div>
+    <div class="section-title"><span aria-hidden="true">☂️</span> Rain Chance (Next 12h)</div>
     <div class="hourly-row">
       ${hourly.map(h => {
         const pop = h.pop;
@@ -623,9 +623,9 @@ function render(w, aqi, geo) {
     html += `<div class="card" style="text-align:center;">
       <div style="font-size:12px;color:var(--text-dim);">
         ${temp <= 35 ? '<span aria-hidden="true">🧤</span> NYC Tip: Watch for icy sidewalks, especially bridge overpasses and shaded blocks.' :
-          temp >= 90 ? '<span aria-hidden="true">🚰</span> NYC Tip: Cooling centers are open. Stay near AC — check NYC.gov for locations.' :
+          temp >= 90 ? '<span aria-hidden="true">🚰</span> NYC Tip: Cooling centers are open. Stay near AC and check NYC.gov for locations.' :
           willRain ? '<span aria-hidden="true">🚇</span> NYC Tip: Expect crowded subways. Leave 10 min early and bring an umbrella.' :
-          '<span aria-hidden="true">🏙️</span> NYC Tip: Great day to walk — Central Park and the High Line are calling.'}
+          '<span aria-hidden="true">🏙️</span> NYC Tip: Great day to walk. Central Park and the High Line are calling.'}
       </div>
     </div>`;
   }

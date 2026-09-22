@@ -7,12 +7,12 @@
 <!-- Declare the supported colour scheme to the UA up front. color-scheme is otherwise only set inside the render-blocking inline <style> (:root { color-scheme: dark }), so before that CSS parses the browser doesn't know this is a dark-only page and paints the root canvas/scrollbars with the OS default (a brief light flash). This dashboard has no theme toggle, so "dark" (matching the CSS) is correct. No visual change to the settled page. -->
 <meta name="color-scheme" content="dark">
 <link rel="icon" type="image/x-icon" href="/assets/img/favicon.ico">
-<title>Weather Dashboard — NYC</title>
-<!-- iOS home-screen label. This dashboard is an app-like tool a visitor may "Add to Home Screen", and iOS Safari names that icon from apple-mobile-web-app-title, falling back to the <title> element, which it truncates ("Weather Dashboard — NYC" becomes "Weather Da…"). Give it the same short, distinctive label the page already leads with (the <title>/og lead on NYC), matching the apple-mobile-web-app-title index.html already declares — weather/ was the app-like page still missing it. Deliberately NOT paired with apple-mobile-web-app-capable (that forces a chromeless standalone launch) and no manifest here (the installable app is scoped to the homepage at "/"); this only names the icon. Pure metadata, no visual change. -->
+<title>NYC Weather Dashboard</title>
+<!-- iOS home-screen label. This dashboard is an app-like tool a visitor may "Add to Home Screen", and iOS Safari names that icon from apple-mobile-web-app-title, falling back to the <title> element, which it truncates ("NYC Weather Dashboard" becomes "Weather Da…"). Give it the same short, distinctive label the page already leads with (the <title>/og lead on NYC), matching the apple-mobile-web-app-title index.html already declares — weather/ was the app-like page still missing it. Deliberately NOT paired with apple-mobile-web-app-capable (that forces a chromeless standalone launch) and no manifest here (the installable app is scoped to the homepage at "/"); this only names the icon. Pure metadata, no visual change. -->
 <meta name="apple-mobile-web-app-title" content="NYC Weather">
-<!-- Non-Apple counterpart to the apple-mobile-web-app-title above: application-name is the standard field browsers read when this page is pinned or turned into a desktop/taskbar shortcut. Without it that path falls back to the <title> ("Weather Dashboard — NYC"), the same truncation the Apple label above avoids on iOS. Give it the same short "NYC Weather" label so the pinned icon reads cleanly on every platform, completing the cross-platform short-name pair index.html already carries (apple-mobile-web-app-title + application-name). Like the Apple label it only names the icon — no apple-mobile-web-app-capable, no standalone/chromeless launch. Pure metadata, no visual change. -->
+<!-- Non-Apple counterpart to the apple-mobile-web-app-title above: application-name is the standard field browsers read when this page is pinned or turned into a desktop/taskbar shortcut. Without it that path falls back to the <title> ("NYC Weather Dashboard"), the same truncation the Apple label above avoids on iOS. Give it the same short "NYC Weather" label so the pinned icon reads cleanly on every platform, completing the cross-platform short-name pair index.html already carries (apple-mobile-web-app-title + application-name). Like the Apple label it only names the icon — no apple-mobile-web-app-capable, no standalone/chromeless launch. Pure metadata, no visual change. -->
 <meta name="application-name" content="NYC Weather">
-<meta name="description" content="A live weather dashboard with current conditions, hourly rain chance, a 5-day forecast, air quality, and sun times. Search any city — defaults to New York, NY.">
+<meta name="description" content="A live weather dashboard with current conditions, hourly rain chance, a 5-day forecast, air quality, and sun times. Search any city. It defaults to New York, NY.">
 <meta name="author" content="Jacob Heifetz-Licht">
 <!-- max-snippet:-1 explicitly lets Google use a text snippet of any length in results (the default is a search-engine-chosen limit) so the dashboard's description can show in full; completes the max-* preview directive set alongside max-image-preview:large. Mirrors index.html, the site's only other indexed page. No visual change. -->
 <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">
@@ -27,7 +27,7 @@
     "url": "https://jacobhl.com/weather/",
     "mainEntityOfPage": "https://jacobhl.com/weather/",
     "image": "https://jacobhl.com/assets/img/og_image.png",
-    "description": "A live weather dashboard with current conditions, hourly rain chance, a 5-day forecast, air quality, and sun times. Search any city — defaults to New York, NY.",
+    "description": "A live weather dashboard with current conditions, hourly rain chance, a 5-day forecast, air quality, and sun times. Search any city. It defaults to New York, NY.",
     "inLanguage": "en-US",
     "dateModified": "2026-09-05",
     "isPartOf": { "@id": "https://jacobhl.com/#website" },
@@ -35,7 +35,7 @@
     "operatingSystem": "Web browser",
     "browserRequirements": "Requires JavaScript",
     "featureList": [
-        "Current conditions — temperature, feels-like, wind, and a plain-language sky summary",
+        "Current conditions (temperature, feels-like, wind, and a plain-language sky summary)",
         "Humidity comfort reading",
         "Air quality with the US AQI value and health category",
         "Sunrise and sunset times",
@@ -82,23 +82,23 @@
 }
 </script>
 <!-- Open Graph / Twitter meta for link previews -->
-<meta property="og:title" content="Weather Dashboard — NYC">
-<meta property="og:description" content="A live weather dashboard with current conditions, hourly rain chance, a 5-day forecast, air quality, and sun times. Search any city — defaults to New York, NY.">
+<meta property="og:title" content="NYC Weather Dashboard">
+<meta property="og:description" content="A live weather dashboard with current conditions, hourly rain chance, a 5-day forecast, air quality, and sun times. Search any city. It defaults to New York, NY.">
 <meta property="og:image" content="https://jacobhl.com/assets/img/og_image.png">
 <meta property="og:image:type" content="image/png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <!-- Alt text describes the shared og_image.png itself (the portfolio preview graphic), so keep it identical to the wording index.html, 404.html, and light/index.html already use for this same image file — rather than the page-specific "portfolio link preview" it read before. Consistent alt for one shared asset across every page that references it. No visual change. -->
-<meta property="og:image:alt" content="Jacob Heifetz-Licht — Analytics Manager and app developer">
+<meta property="og:image:alt" content="Jacob Heifetz-Licht, Analytics Manager and app developer">
 <meta property="og:url" content="https://jacobhl.com/weather/">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Jacob Heifetz-Licht">
 <meta property="og:locale" content="en_US">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Weather Dashboard — NYC">
-<meta name="twitter:description" content="A live weather dashboard with current conditions, hourly rain chance, a 5-day forecast, air quality, and sun times. Search any city — defaults to New York, NY.">
+<meta name="twitter:title" content="NYC Weather Dashboard">
+<meta name="twitter:description" content="A live weather dashboard with current conditions, hourly rain chance, a 5-day forecast, air quality, and sun times. Search any city. It defaults to New York, NY.">
 <meta name="twitter:image" content="https://jacobhl.com/assets/img/og_image.png">
-<meta name="twitter:image:alt" content="Jacob Heifetz-Licht — Analytics Manager and app developer">
+<meta name="twitter:image:alt" content="Jacob Heifetz-Licht, Analytics Manager and app developer">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <!-- The query separator is written &amp; (not a bare &), matching the escape-bare-& convention already applied to the Poppins hrefs on index.html and 404.html — the two remaining bare & in an href site-wide were here and on refer/. The browser decodes &amp;→& when parsing the attribute, so the requested font URL is byte-for-byte identical (Google Fonts still receives ...700&display=swap) and the same weights load. No visual or behaviour change. -->
@@ -347,7 +347,7 @@ body {
   <section class="card about" aria-labelledby="about-title">
     <h2 class="section-title" id="about-title">About this dashboard</h2>
     <p>This is a free, live weather dashboard for any city in the world. It opens on
-      <strong>New York, NY</strong> by default — type a city into the search box above to switch.
+      <strong>New York, NY</strong> by default. Type a city into the search box above to switch.
       Everything on the page is current observed and forecast data, refreshed each time you load
       or search, with no account, no sign-up and no ads.</p>
     <p>Each search returns six things: <strong>current conditions</strong> (temperature, what it
@@ -357,8 +357,8 @@ body {
       and its health category; <strong>sunrise and sunset</strong> times for that location;
       an <strong>hourly rain chance</strong> for the next 12 hours, so you can see whether a
       shower lands before or after your commute; and a <strong>5-day forecast</strong> with daily
-      highs and lows. When conditions call for it — high wind, extreme cold or heat, or likely
-      rain — a heads-up banner appears at the top.</p>
+      highs and lows. When conditions call for it (high wind, extreme cold or heat, or likely
+      rain), a heads-up banner appears at the top.</p>
     <h3 class="section-title">Where the data comes from</h3>
     <p>Weather and air-quality data are supplied by <a href="https://open-meteo.com/"
       target="_blank" rel="noopener">Open-Meteo</a>, an open-data weather API that aggregates
@@ -368,7 +368,7 @@ body {
       no search history kept.</p>
     <h3 class="section-title">Why this exists</h3>
     <p>I’m <a href="/">Jacob Heifetz-Licht</a>, an analytics manager and app developer in New York.
-      I built this as a small, deliberately fast example of the kind of thing I ship — a single
+      I built this as a small, deliberately fast example of the kind of thing I ship. It is a single
       static page, no framework, no build step and no tracking beyond privacy-friendly page counts,
       that still does something genuinely useful every day. It loads in well under a second on a
       phone. If you want to see the rest of my work, or you need something similar built,
@@ -446,7 +446,7 @@ function windDirName(deg) {
 }
 
 function humidityComfort(h) {
-  if (h < 30) return { label:'Dry — moisturize', level:1, cls:'active-ok' };
+  if (h < 30) return { label:'Dry, moisturize', level:1, cls:'active-ok' };
   if (h <= 50) return { label:'Comfortable', level:2, cls:'active-good' };
   if (h <= 70) return { label:'Muggy', level:3, cls:'active-ok' };
   return { label:'Oppressive', level:4, cls:'active-bad' };
@@ -512,7 +512,7 @@ async function geocode(city) {
   const res = await fetchWithTimeout(`https://geocoding-api.open-meteo.com/v1/search?name=${encodeURIComponent(cleanCity)}&count=5&language=en&format=json`);
   if (!res.ok) throw new Error('Could not reach the location service. Please try again.');
   const data = await res.json();
-  if (!data.results?.length) throw new Error('City not found — check the spelling and try another city.');
+  if (!data.results?.length) throw new Error('City not found. Check the spelling and try another city.');
   // Only prefer a US match when the query actually signalled a US location — i.e. it carried a
   // trailing US state/territory code (checked against US_STATES above) or "US"/"USA". The old
   // unconditional find(US) hijacked every ambiguous world city to its US namesake even with no
@@ -597,7 +597,7 @@ async function fetchWeather() {
     // messages ("City not found…", etc.) as-is. Static strings only (no user input echoed),
     // mirroring the geocode-error hardening.
     const msg = (err instanceof TypeError || err.name === 'AbortError')
-      ? 'Could not connect — check your internet connection and try again.'
+      ? 'Could not connect. Check your internet connection and try again.'
       : err.message;
     // Reset the tab title on failure. render() rewrites document.title to the loaded city on
     // every success (e.g. "Tokyo, Japan — Weather Dashboard"), but the error path left it
@@ -614,7 +614,7 @@ async function fetchWeather() {
 
 function render(w, aqi, geo) {
   // Reflect the loaded city in the tab title (the static <title> only says NYC).
-  if (geo && geo.name) document.title = `${geo.name} — Weather Dashboard`;
+  if (geo && geo.name) document.title = `${geo.name} Weather Dashboard`;
   // Announce completion to screen readers (the loading status node is replaced below).
   const srStatus = document.getElementById('srStatus');
   if (srStatus) srStatus.textContent = `Weather for ${geo && geo.name ? geo.name : 'your location'} loaded.`;
@@ -623,8 +623,8 @@ function render(w, aqi, geo) {
   const feelsLike = Math.round(c.apparent_temperature);
   const diff = feelsLike - temp;
   let feelsNote = `Feels like ${feelsLike}°F`;
-  if (diff <= -5) feelsNote = `Feels ${Math.abs(diff)}° colder — wind chill`;
-  else if (diff >= 5) feelsNote = `Feels ${diff}° warmer — heat index`;
+  if (diff <= -5) feelsNote = `Feels ${Math.abs(diff)}° colder (wind chill)`;
+  else if (diff >= 5) feelsNote = `Feels ${diff}° warmer (heat index)`;
 
   const humidity = c.relative_humidity_2m;
   const comfort = humidityComfort(humidity);
@@ -701,14 +701,14 @@ function render(w, aqi, geo) {
   const willRain = hourly.some(h => h.pop > 40);
   let alertClass = '', alertMsg = '';
   if (windSpeed >= 25 || gusts >= 40) {
-    alertClass = 'warning'; alertMsg = `<span aria-hidden="true">⚠️</span> High wind advisory — gusts up to ${gusts || windSpeed} mph. Secure loose items.`;
+    alertClass = 'warning'; alertMsg = `<span aria-hidden="true">⚠️</span> High wind advisory. Gusts up to ${gusts || windSpeed} mph. Secure loose items.`;
   } else if (temp <= 20) {
-    alertClass = 'danger'; alertMsg = `<span aria-hidden="true">🥶</span> Extreme cold — frostbite risk. Layer up and limit exposure.`;
+    alertClass = 'danger'; alertMsg = `<span aria-hidden="true">🥶</span> Extreme cold and frostbite risk. Layer up and limit exposure.`;
   } else if (temp >= 95 && humidity >= 60) {
-    alertClass = 'danger'; alertMsg = `<span aria-hidden="true">🔥</span> Excessive heat + humidity — heat stroke risk. Stay indoors if possible.`;
+    alertClass = 'danger'; alertMsg = `<span aria-hidden="true">🔥</span> Excessive heat + humidity bring heat stroke risk. Stay indoors if possible.`;
   } else if (willRain) {
     const rainH = hourly.find(h => h.pop > 40);
-    alertClass = 'info'; alertMsg = `<span aria-hidden="true">☂️</span> Rain likely around ${fmtHour(rainH.time)} — grab an umbrella before heading out.`;
+    alertClass = 'info'; alertMsg = `<span aria-hidden="true">☂️</span> Rain likely around ${fmtHour(rainH.time)}, so grab an umbrella before heading out.`;
   }
   // Update the persistent aria-live banner in place (rather than replacing it via outerHTML)
   // so screen readers announce the alert; clear the inline display the reset path set so the
@@ -816,8 +816,8 @@ function render(w, aqi, geo) {
 
   // Hourly rain
   html += `<div class="card">
-    <h2 class="section-title"><span aria-hidden="true">☂️</span> Rain Chance — Next 12h</h2>
-    <div class="hourly-row" tabindex="0" role="group" aria-label="Hourly rain-chance forecast — scroll horizontally to see all 12 hours">
+    <h2 class="section-title"><span aria-hidden="true">☂️</span> Rain Chance (Next 12h)</h2>
+    <div class="hourly-row" tabindex="0" role="group" aria-label="Hourly rain-chance forecast. Scroll horizontally to see all 12 hours">
       ${hourly.map(h => {
         const pop = h.pop;
         // Open-Meteo can return null for an hourly precipitation_probability (some models/hours
@@ -870,9 +870,9 @@ function render(w, aqi, geo) {
     html += `<div class="card" style="text-align:center;">
       <div style="font-size:12px;color:var(--text-dim);">
         ${temp <= 35 ? '<span aria-hidden="true">🧤</span> NYC Tip: Watch for icy sidewalks, especially bridge overpasses and shaded blocks.' :
-          temp >= 90 ? '<span aria-hidden="true">🚰</span> NYC Tip: Cooling centers are open. Stay near AC — check NYC.gov for locations.' :
+          temp >= 90 ? '<span aria-hidden="true">🚰</span> NYC Tip: Cooling centers are open. Stay near AC and check NYC.gov for locations.' :
           willRain ? '<span aria-hidden="true">🚇</span> NYC Tip: Expect crowded subways. Leave 10 min early and bring an umbrella.' :
-          '<span aria-hidden="true">🏙️</span> NYC Tip: Great day to walk — Central Park and the High Line are calling.'}
+          '<span aria-hidden="true">🏙️</span> NYC Tip: Great day to walk. Central Park and the High Line are calling.'}
       </div>
     </div>`;
   }

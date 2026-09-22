@@ -13,9 +13,9 @@
         <link rel="icon" type="image/x-icon" href="/assets/img/favicon.ico">
         <!-- Web app manifest: the homepage is the page people bookmark / "Add to Home Screen", but the site declared no manifest anywhere — so an installed/standalone launch fell back to the raw <title> for its name and the OS default for its toolbar colour. This gives the installed entry a proper app name ("Jacob HL"), the site's own light theme/background colour (#ffffff, matching the theme-color meta above and the default light theme), and reuses the existing favicon.ico/favicon2.ico for icons (no new image asset added). start_url/scope "/" keep it anchored to the homepage. Pure metadata, no visual change to the page in a normal browser tab. -->
         <link rel="manifest" href="/site.webmanifest">
-        <!-- iOS home-screen label: the manifest above sets short_name "Jacob HL" for the Add-to-Home-Screen name, but iOS Safari ignores the manifest's short_name and instead reads apple-mobile-web-app-title (falling back to the full page title element, which it truncates — "Jacob Heifetz-Licht — Analytics Manager" becomes "Jacob Heife…"). This gives iOS the same short "Jacob HL" label Android already gets from the manifest, so a bookmarked icon reads cleanly on both. Deliberately NOT paired with apple-mobile-web-app-capable — that would force a chromeless standalone launch (a behaviour change); this only names the icon. Pure metadata, no visual change to a normal browser tab. -->
+        <!-- iOS home-screen label: the manifest above sets short_name "Jacob HL" for the Add-to-Home-Screen name, but iOS Safari ignores the manifest's short_name and instead reads apple-mobile-web-app-title (falling back to the full page title element, which it truncates — "Jacob Heifetz-Licht | Analytics Manager" becomes "Jacob Heife…"). This gives iOS the same short "Jacob HL" label Android already gets from the manifest, so a bookmarked icon reads cleanly on both. Deliberately NOT paired with apple-mobile-web-app-capable — that would force a chromeless standalone launch (a behaviour change); this only names the icon. Pure metadata, no visual change to a normal browser tab. -->
         <meta name="apple-mobile-web-app-title" content="Jacob HL">
-        <!-- Generic app name for browsers that pin the site or make a desktop/taskbar shortcut. This completes the site's deliberate cross-platform short-name set — the manifest short_name "Jacob HL" (Android/Chrome install), apple-mobile-web-app-title "Jacob HL" (iOS Safari home screen, above), and the JSON-LD alternateName "Jacob HL" — with the one platform-neutral field still missing. application-name is the standard the non-Apple pinned/shortcut path reads; without it those contexts fall back to the full <title> ("Jacob Heifetz-Licht — Analytics Manager"), the same truncation the apple-mobile-web-app-title note above avoids on iOS. Unlike apple-mobile-web-app-capable it triggers no standalone/chromeless launch — it only names the shortcut. Pure metadata, no visual change to a normal browser tab. -->
+        <!-- Generic app name for browsers that pin the site or make a desktop/taskbar shortcut. This completes the site's deliberate cross-platform short-name set — the manifest short_name "Jacob HL" (Android/Chrome install), apple-mobile-web-app-title "Jacob HL" (iOS Safari home screen, above), and the JSON-LD alternateName "Jacob HL" — with the one platform-neutral field still missing. application-name is the standard the non-Apple pinned/shortcut path reads; without it those contexts fall back to the full <title> ("Jacob Heifetz-Licht | Analytics Manager"), the same truncation the apple-mobile-web-app-title note above avoids on iOS. Unlike apple-mobile-web-app-capable it triggers no standalone/chromeless launch — it only names the shortcut. Pure metadata, no visual change to a normal browser tab. -->
         <meta name="application-name" content="Jacob HL">
         <link rel="preconnect" href="https://cdn.jsdelivr.net"> <!-- early-connect for the render-blocking boxicons CSS fetch (non-CORS, so it can't reuse the crossorigin socket below) -->
         <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin> <!-- early-connect for the boxicons icon font (CORS woff2, crossorigin so the warmed socket is reused) -->
@@ -93,29 +93,29 @@
                 })();
             }
         </script>
-        <title>Jacob Heifetz-Licht — Analytics Manager</title>
+        <title>Jacob Heifetz-Licht | Analytics Manager</title>
         <meta name="description" content="Data analytics leader and app developer in New York, known online as JacobHL. Builder of HideScore, Tonight NYC, Subway Times, The Island and TidyTab. Python, SQL, Tableau, React and Next.js.">
         <meta name="keywords" content="JacobHL, Jacob Heifetz-Licht, jacobhl.com, analytics manager, data analytics, Python, SQL, Tableau, automation, dashboard design, data visualization, ETL, BigQuery, JavaScript, React, Node.js, Next.js, web development">
         <meta name="author" content="Jacob Heifetz-Licht">
         <!-- max-snippet:-1 explicitly lets Google use a text snippet of any length in results (the default is a search-engine-chosen limit) so the description/intro can show in full; completes the max-* preview directive set alongside the max-image-preview:large already declared. No visual change. -->
         <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">
         <!-- Open Graph meta tags for link previews -->
-        <meta property="og:title" content="Jacob Heifetz-Licht — Analytics Manager">
+        <meta property="og:title" content="Jacob Heifetz-Licht | Analytics Manager">
         <meta property="og:description" content="Data analytics leader and app developer specializing in Python, SQL, Tableau, React, and Next.js. Turning data into things people actually use.">
         <meta property="og:image" content="https://jacobhl.com/assets/img/og_image.png">
         <meta property="og:image:type" content="image/png">
         <meta property="og:image:width" content="1200">
         <meta property="og:image:height" content="630">
-        <meta property="og:image:alt" content="Jacob Heifetz-Licht — Analytics Manager and app developer">
+        <meta property="og:image:alt" content="Jacob Heifetz-Licht, Analytics Manager and app developer">
         <meta property="og:url" content="https://jacobhl.com/">
         <meta property="og:type" content="website">
         <meta property="og:site_name" content="Jacob Heifetz-Licht">
         <meta property="og:locale" content="en_US">
         <meta name="twitter:card" content="summary_large_image">
-        <meta name="twitter:title" content="Jacob Heifetz-Licht — Analytics Manager">
+        <meta name="twitter:title" content="Jacob Heifetz-Licht | Analytics Manager">
         <meta name="twitter:description" content="Data analytics leader and app developer specializing in Python, SQL, Tableau, React, and Next.js. Turning data into things people actually use.">
         <meta name="twitter:image" content="https://jacobhl.com/assets/img/og_image.png">
-        <meta name="twitter:image:alt" content="Jacob Heifetz-Licht — Analytics Manager and app developer">
+        <meta name="twitter:image:alt" content="Jacob Heifetz-Licht, Analytics Manager and app developer">
         <link rel="canonical" href="https://jacobhl.com/">
         <!-- address gives the Person entity a location signal for Knowledge-Graph / entity disambiguation, the same enrichment role the node's jobTitle, alumniOf, knowsAbout and sameAs already play. It only surfaces to structured-data consumers a fact this site already states in plain sight — the homepage meta description reads "…in New York, known online as JacobHL", the weather page's copy says "an analytics manager and app developer in New York", and the weather dashboard defaults to "New York, NY" — so nothing new or more precise is disclosed than the page copy. Deliberately city-level only (addressLocality/addressRegion/addressCountry, no street address) — that's all the site publishes. Pure metadata, no visual change. -->
         <!-- The Person "knowsAbout" list carries "Data Visualization": it is one of Jacob's core competencies surfaced everywhere else on the site — the visible Skills section has a dedicated "Data & Visualization" category, and both the <meta name="keywords"> list and llms.txt name "data visualization" — yet this structured-data topic list was the one place still omitting it, though it already carried the closely-related "Dashboard Design" and "Tableau". It sits next to "Dashboard Design" so the data-viz topics group together. Pure metadata; no visual change. -->
@@ -185,7 +185,7 @@
             "@type": "ProfilePage",
             "@id": "https://jacobhl.com/#webpage",
             "url": "https://jacobhl.com/",
-            "name": "Jacob Heifetz-Licht — Analytics Manager",
+            "name": "Jacob Heifetz-Licht | Analytics Manager",
             "isPartOf": { "@id": "https://jacobhl.com/#website" },
             "about": { "@id": "https://jacobhl.com/#person" },
             "mainEntity": { "@id": "https://jacobhl.com/#person" },
@@ -215,10 +215,10 @@
             "itemListElement": [
                 { "@type": "ListItem", "position": 1, "item": { "@type": "CreativeWork", "name": "HideScore", "url": "https://hidescore.com", "image": "https://jacobhl.com/assets/img/hidescore-cover.png", "description": "Watch sports highlights without seeing the score.", "creator": { "@id": "https://jacobhl.com/#person" } } },
                 { "@type": "ListItem", "position": 2, "item": { "@type": "CreativeWork", "name": "The Island", "url": "https://theisland.nyc", "image": "https://jacobhl.com/assets/img/theisland-cover.png", "description": "Everything happening on NYC’s Roosevelt Island, in one place.", "creator": { "@id": "https://jacobhl.com/#person" } } },
-                { "@type": "ListItem", "position": 3, "item": { "@type": "CreativeWork", "name": "David Licht", "url": "https://davidlicht.com", "image": "https://jacobhl.com/assets/img/davidlicht.jpg", "description": "A showcase site for my dad — five decades of drumming.", "creator": { "@id": "https://jacobhl.com/#person" } } },
+                { "@type": "ListItem", "position": 3, "item": { "@type": "CreativeWork", "name": "David Licht", "url": "https://davidlicht.com", "image": "https://jacobhl.com/assets/img/davidlicht.jpg", "description": "A showcase site for my dad and his five decades of drumming.", "creator": { "@id": "https://jacobhl.com/#person" } } },
                 { "@type": "ListItem", "position": 4, "item": { "@type": "CreativeWork", "name": "Tonight NYC", "url": "https://tonightnyc.com", "image": "https://jacobhl.com/assets/img/tonightnyc-cover.png", "description": "Every NYC comedy show, filtered to your favorite comedians.", "creator": { "@id": "https://jacobhl.com/#person" } } },
                 { "@type": "ListItem", "position": 5, "item": { "@type": "CreativeWork", "name": "Subway Times", "url": "https://subwaytimes.com", "image": "https://jacobhl.com/assets/img/subwaytimes-cover.png", "description": "Real-time NYC subway arrivals, faster than Maps.", "creator": { "@id": "https://jacobhl.com/#person" } } },
-                { "@type": "ListItem", "position": 6, "item": { "@type": "CreativeWork", "name": "TidyTab", "url": "https://tidytab.jacobhl.com/", "image": "https://jacobhl.com/assets/img/tidytab-cover.png", "description": "Bulk unpin or close Safari pinned tabs — a macOS menu-bar app.", "creator": { "@id": "https://jacobhl.com/#person" } } }
+                { "@type": "ListItem", "position": 6, "item": { "@type": "CreativeWork", "name": "TidyTab", "url": "https://tidytab.jacobhl.com/", "image": "https://jacobhl.com/assets/img/tidytab-cover.png", "description": "A macOS menu-bar app that bulk unpins or closes Safari pinned tabs.", "creator": { "@id": "https://jacobhl.com/#person" } } }
             ]
         }
         </script>
@@ -1119,7 +1119,7 @@
                  the head styles): #home carries the visible <h1>, but it's display:none in that view,
                  so this gives the page a proper <h1> for assistive tech and SEO. Hidden in full-site
                  view so the visible hero <h1> stays the only one. -->
-            <h1 class="projects-only-h1">Jacob Heifetz-Licht (JacobHL) — Analytics Manager</h1>
+            <h1 class="projects-only-h1">Jacob Heifetz-Licht (JacobHL), Analytics Manager</h1>
             <!--===== CLAUDE CODE USAGE — TEMPORARILY DISABLED 2026-06-17 (remove the two ccu-disabled comment lines to re-enable) =====-->
             <!-- ccu-disabled
             <section class="ccu-section" id="ccu" style="display:none" aria-label="My Claude Code usage">
@@ -1262,7 +1262,7 @@
 
                         <!-- V3 — Active -->
                         <p class="about__text">
-                            I’m a data analytics leader who’s spent years turning messy data into products people actually use — automated pipelines, executive dashboards, self-service tools. I’ve done this at Kepler, Condé Nast, and Deloitte, leading teams and building systems that have saved hundreds of thousands of hours and dollars.
+                            I’m a data analytics leader who’s spent years turning messy data into products people actually use, like automated pipelines, executive dashboards, and self-service tools. I’ve done this at Kepler, Condé Nast, and Deloitte, leading teams and building systems that have saved hundreds of thousands of hours and dollars.
                             <br><br>
                             I work mostly in Python, SQL, and Tableau, and lately I’ve been building web and mobile apps<!-- on the side --><!-- (this site, a comedy lineup tracker, a subway times PWA) -->.<!-- CLOSING-LINE ALTERNATIVES (parked) — V1: I like making tools that are useful, fast, and fun. | V2: I prioritize speed, function, and a bit of fun. | V3: Every one of these started as a problem I had. -->
                         </p>
@@ -1325,12 +1325,12 @@
                              commented-out no-JS entry sits in that section's <noscript> fallback below. -->
                         <!-- Use the site's own theme-aware body-text token (--second-color) instead of a fixed mid-gray: --text-color is defined nowhere in the CSS, so the old value resolved to its literal #8b94a0 fallback, which on the light-mode white background gives only ~3:1 contrast — a WCAG 1.4.3 AA failure for normal text. --second-color is the body's text colour (dark navy in light mode, light in dark mode), so this list matches the rest of the page and passes contrast in both themes. Only the no-JS fallback is affected; the JS-rendered cards replace this entirely. -->
                         <ul role="list" style="list-style:none;margin:0;padding:0;line-height:1.6;color:var(--second-color);">
-                            <li><a href="https://hidescore.com" target="_blank" rel="noopener noreferrer">HideScore</a> — Watch sports highlights without seeing the score.</li>
-                            <li><a href="https://theisland.nyc" target="_blank" rel="noopener noreferrer">The Island</a> — Everything happening on NYC’s Roosevelt Island, in one place.</li>
-                            <li><a href="https://davidlicht.com" target="_blank" rel="noopener noreferrer">David Licht</a> — A showcase site for my dad — five decades of drumming.</li>
-                            <li><a href="https://tonightnyc.com" target="_blank" rel="noopener noreferrer">Tonight NYC</a> — Every NYC comedy show, filtered to your favorite comedians.</li>
-                            <li><a href="https://subwaytimes.com" target="_blank" rel="noopener noreferrer">Subway Times</a> — Real-time NYC subway arrivals, faster than Maps.</li>
-                            <li><a href="https://tidytab.jacobhl.com/" target="_blank" rel="noopener noreferrer">TidyTab</a> — Bulk unpin or close Safari pinned tabs — a macOS menu-bar app.</li>
+                            <li><a href="https://hidescore.com" target="_blank" rel="noopener noreferrer">HideScore</a>. Watch sports highlights without seeing the score.</li>
+                            <li><a href="https://theisland.nyc" target="_blank" rel="noopener noreferrer">The Island</a>. Everything happening on NYC’s Roosevelt Island, in one place.</li>
+                            <li><a href="https://davidlicht.com" target="_blank" rel="noopener noreferrer">David Licht</a>. A showcase site for my dad and his five decades of drumming.</li>
+                            <li><a href="https://tonightnyc.com" target="_blank" rel="noopener noreferrer">Tonight NYC</a>. Every NYC comedy show, filtered to your favorite comedians.</li>
+                            <li><a href="https://subwaytimes.com" target="_blank" rel="noopener noreferrer">Subway Times</a>. Real-time NYC subway arrivals, faster than Maps.</li>
+                            <li><a href="https://tidytab.jacobhl.com/" target="_blank" rel="noopener noreferrer">TidyTab</a>. A macOS menu-bar app that bulk unpins or closes Safari pinned tabs.</li>
                         </ul>
                     </noscript>
 
@@ -1351,13 +1351,13 @@
                         <style>#moreToggle{display:none;}</style>
                         <ul role="list" style="list-style:none;margin:0;padding:0;line-height:1.6;color:var(--second-color);">
                             <!-- DuelGoat pulled 2026-08-31 (Jacob's call) — uncomment to restore, alongside the MORE[] entry below:
-                            <li><a href="https://duelgoat.com" target="_blank" rel="noopener noreferrer">DuelGoat</a> — A browser recreation of GOAT-format Yu-Gi-Oh dueling.</li>
+                            <li><a href="https://duelgoat.com" target="_blank" rel="noopener noreferrer">DuelGoat</a>. A browser recreation of GOAT-format Yu-Gi-Oh dueling.</li>
                             -->
-                            <li><strong>Spotify Analytics</strong> — Interactive dashboard of my listening trends — beyond Wrapped.</li>
-                            <li><strong>Spotify Playlist Archiver</strong> — Auto-archives playlists that would otherwise disappear.</li>
-                            <li><strong>Personal Finance App</strong> — Daily budgeting, investment planning, and optimization.</li>
-                            <li><strong>E-commerce Store</strong> — Full-stack store with Stripe checkout.</li>
-                            <li><strong>System Administration</strong> — Self-hosted media &amp; web apps on a home Linux server.</li>
+                            <li><strong>Spotify Analytics</strong>. Interactive dashboard of my listening trends, beyond Wrapped.</li>
+                            <li><strong>Spotify Playlist Archiver</strong>. Auto-archives playlists that would otherwise disappear.</li>
+                            <li><strong>Personal Finance App</strong>. Daily budgeting, investment planning, and optimization.</li>
+                            <li><strong>E-commerce Store</strong>. Full-stack store with Stripe checkout.</li>
+                            <li><strong>System Administration</strong>. Self-hosted media &amp; web apps on a home Linux server.</li>
                         </ul>
                     </noscript>
                     <div class="more-wrap" id="moreWrap" inert><div class="more-inner"><div class="padtop">
@@ -1628,7 +1628,7 @@
       <!-- fallback: shown for sites that refuse iframe embedding (their own X-Frame-Options / CSP) -->
       <div class="modal-noembed" id="modalNoembed">
         <img id="modalNoembedImg" alt="" decoding="async">
-        <p>This site blocks embedded previews for security — open it in a new tab to explore it live:</p>
+        <p>This site blocks embedded previews for security. Open it in a new tab to explore it live.</p>
         <a id="modalNoembedOpen" class="ne-open" target="_blank" rel="noopener"><i class='bx bx-link-external' aria-hidden="true"></i> <span id="modalNoembedHost"></span><span aria-hidden="true"> ↗</span></a>
       </div>
     </div>
@@ -1644,22 +1644,22 @@ const MAIN = [
   // Cards without an imgLight are real screenshots of dark-by-design sites, so they stay as-is.
   { title:"HideScore", live:true, img:"assets/img/hidescore-cover-thumb.webp?v=1", imgLight:"assets/img/hidescore-cover-light-thumb.webp?v=1", url:"https://hidescore.com",
     one:"Watch sports highlights without seeing the score.",
-    full:"Watch sports highlights without seeing the score. Covers MLB, NBA, NHL, NFL, soccer, tennis and more with score-hidden cards, embedded highlights, and a unified news view — without spoiling anything you haven't watched.",
+    full:"Watch sports highlights without seeing the score. Covers MLB, NBA, NHL, NFL, soccer, tennis and more with score-hidden cards, embedded highlights, and a unified news view, all without spoiling anything you haven't watched.",
     site:"https://hidescore.com", appstore:"https://apps.apple.com/app/hidescore/id6766885311" },
   // Card ORDER does not live in this array any more — see MAIN_ORDER under the closing bracket.
   // Entries stay put here because several carry their own explanatory comment, and a script that
   // moved entries would strand those comments against the wrong project.
   { title:"The Island", live:true, img:"assets/img/theisland-cover-thumb.webp?v=1", imgLight:"assets/img/theisland-cover-light-thumb.webp?v=1", url:"https://theisland.nyc",
     one:"Everything happening on NYC’s Roosevelt Island, in one place.",
-    full:"Everything happening on NYC’s Roosevelt Island, in one place — real-time bus GPS, subway, tram, and ferry times, a restaurant guide, service alerts, an events newsletter, and an interactive map.",
+    full:"Everything happening on NYC’s Roosevelt Island, in one place. It has real-time bus GPS, subway, tram, and ferry times, a restaurant guide, service alerts, an events newsletter, and an interactive map.",
     site:"https://theisland.nyc", appstore:"https://apps.apple.com/us/app/roosevelt-island/id6775979583" },
   { title:"Tonight NYC", live:true, img:"assets/img/tonightnyc-cover-thumb.webp?v=1", imgLight:"assets/img/tonightnyc-cover-light-thumb.webp?v=1", url:"https://tonightnyc.com",
     one:"Every NYC comedy show, filtered to your favorite comedians.",
     full:"No more digging for comedy showtimes, stick to your favorite comedians. Includes every NYC show from the Comedy Cellar, The Stand, and more, filtered your way. Mark favorites and skips, see which set to attend at a glance, and book directly.",
     site:"https://tonightnyc.com", appstore:"https://apps.apple.com/app/id6763027650" },
   { title:"David Licht", live:true, img:"assets/img/davidlicht-app-thumb.webp?v=1", imgWide:"assets/img/davidlicht-thumb.webp?v=1", url:"https://davidlicht.com",
-    one:"A showcase site for my dad — five decades of drumming.",
-    full:"A showcase site I built for my dad — a drummer for five decades, from downtown NYC noise bands to the Grammy-winning Klezmatics. His story, music, and photos in one place.",
+    one:"A showcase site for my dad and his five decades of drumming.",
+    full:"A showcase site I built for my dad. He has drummed for five decades, from downtown NYC noise bands to the Grammy-winning Klezmatics. His story, music, and photos in one place.",
     site:"https://davidlicht.com" },
   // noEmbed: subwaytimes.com's own CSP/X-Frame-Options refuses iframe embedding (as the modal-noembed
   // CSS/JS comments already note), so the live-preview iframe would just sit blank until the 6s timeout
@@ -1684,8 +1684,8 @@ const MAIN = [
   // differing from the site's canonical and made the preview take an extra 301 redirect to the slash
   // version. Same destination either way — this only drops the redirect hop and aligns the displayed URL.
   { title:"TidyTab", live:true, img:"assets/img/tidytab-cover-thumb.webp?v=1", imgLight:"assets/img/tidytab-cover-light-thumb.webp?v=1", url:"https://tidytab.jacobhl.com/",
-    one:"Bulk unpin or close Safari pinned tabs — a macOS menu-bar app.",
-    full:"A menu-bar app I built to bulk unpin or close Safari pinned tabs in one sweep — it auto-detects your pinned tabs and clears them (press Space to stop).",
+    one:"A macOS menu-bar app that bulk unpins or closes Safari pinned tabs.",
+    full:"A menu-bar app I built to bulk unpin or close Safari pinned tabs in one sweep. It auto-detects your pinned tabs and clears them (press Space to stop).",
     // download now lives on the tidytab.html landing page the preview opens (keeps the card row clean, consistent with the others)
   },
 ];
@@ -1716,11 +1716,11 @@ const MORE = [
     full:"A faithful browser recreation of GOAT-format Yu-Gi-Oh — the 2005 metagame competitive players still love — with the full card database, deck building, and online play. Live at duelgoat.com (TypeScript, React, Vite, Colyseus)." },
   */
   { title:"Spotify Analytics", img:"assets/img/spotify_monthly-thumb.webp?v=1", imgLight:"assets/img/spotify_monthly_light-thumb.webp?v=1",
-    one:"Interactive dashboard of my listening trends — beyond Wrapped.",
-    full:"Summarize listening trends without relying on annual Spotify Wrapped — an interactive dashboard with top songs/artists/albums, heatmaps, skip-rate analysis, artist evolution timelines, session tracking, and a listening clock (Python, Plotly, Streamlit)." },
+    one:"Interactive dashboard of my listening trends, beyond Wrapped.",
+    full:"Summarize listening trends without relying on annual Spotify Wrapped. It is an interactive dashboard with top songs/artists/albums, heatmaps, skip-rate analysis, artist evolution timelines, session tracking, and a listening clock (Python, Plotly, Streamlit)." },
   { title:"Spotify Playlist Archiver", img:"assets/img/spotify_archiver-thumb.webp?v=1", imgLight:"assets/img/spotify_archiver_light-thumb.webp?v=1",
     one:"Auto-archives playlists that would otherwise disappear.",
-    full:"Automatic weekly archiver of playlists that would otherwise disappear — Discover Weekly, Release Radar, and Your Top Songs at different granularities. Uses PyAutoGUI automation for playlists unavailable via API, and the Spotify API for top tracks with rate-limit handling (Python, Spotipy)." },
+    full:"Automatic weekly archiver of playlists that would otherwise disappear, like Discover Weekly, Release Radar, and Your Top Songs at different granularities. Uses PyAutoGUI automation for playlists unavailable via API, and the Spotify API for top tracks with rate-limit handling (Python, Spotipy)." },
   { title:"Personal Finance App", img:"assets/img/finance_trend_crop-thumb.webp?v=1", imgLight:"assets/img/finance_trend_crop_light-thumb.webp?v=1",
     one:"Daily budgeting, investment planning, and optimization.",
     full:"Enables precise daily budgeting, investment planning, and optimization (Python, Apps Script)." },
@@ -1735,7 +1735,7 @@ const MORE = [
   */
   { title:"System Administration", img:"assets/img/docker_dark-thumb.webp?v=1", imgLight:"assets/img/docker_dark_light-thumb.webp?v=1", alt:"Docker logo",
     one:"Self-hosted media &amp; web apps on a home Linux server.",
-    full:"Self-hosted web apps and network services on a home Linux server — a full Plex/Jellyfin media-automation stack (Radarr, Sonarr, Prowlarr, Bazarr, SABnzbd), a Homepage dashboard, Umami analytics, and Uptime Kuma monitoring, all containerized (Docker, Docker Compose)." },
+    full:"Self-hosted web apps and network services on a home Linux server. It runs a full Plex/Jellyfin media-automation stack (Radarr, Sonarr, Prowlarr, Bazarr, SABnzbd), a Homepage dashboard, Umami analytics, and Uptime Kuma monitoring, all containerized (Docker, Docker Compose)." },
 ];
 
 // Locally-hosted real favicons for the site CTA. Set USE_FAVICONS=false to revert to the globe.
@@ -1947,9 +1947,9 @@ function navigate(url, push){
   // self-XSS vector — the .href setter and textContent treat it as inert data instead. Same
   // concern the weather dashboard guards against when rendering user input. Renders identically.
   loadTimer=setTimeout(()=>{
-    mLoadTxt.textContent='Taking a while — ';
+    mLoadTxt.textContent='Taking a while. ';
     const _a=document.createElement('a');
-    _a.href=url; _a.target='_blank'; _a.rel='noopener'; _a.textContent='open '+url+' ';
+    _a.href=url; _a.target='_blank'; _a.rel='noopener'; _a.textContent='Open '+url+' ';
     // The trailing ↗ is a decorative "opens externally" cue, so keep it out of the link's
     // accessible name (a screen reader would otherwise announce "north east arrow" after the
     // URL) — matching how the site marks up its other decorative arrows/glyphs as aria-hidden.
@@ -1983,7 +1983,7 @@ function setBackgroundInert(on){
 function setModalLabel(t){
   const title = t && t.closest && t.closest('.proj-row') ? t.closest('.proj-row').querySelector('.proj-title') : null;
   const name = title ? title.textContent.trim() : '';
-  modal.setAttribute('aria-label', (name ? name + ' — ' : '') + 'Live site preview');
+  modal.setAttribute('aria-label', (name ? name + ', ' : '') + 'Live site preview');
 }
 function openModal(url, srcEl){ sourceThumb=srcEl||null; setModalLabel(srcEl); backStack=[]; modal.classList.remove('fullscreen'); card.classList.remove('minimizing');
   card.style.transform=''; card.style.opacity=''; card.style.transformOrigin='';

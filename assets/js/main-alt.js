@@ -939,16 +939,16 @@ if (contactForm) {
                 btn.textContent = 'Sent!';
                 btn.style.transition = 'none';
                 btn.style.background = '#28a745';
-                srStatus.textContent = 'Message sent — thanks! I\'ll get back to you soon.';
+                srStatus.textContent = 'Message sent. Thanks! I\'ll get back to you soon.';
                 setTimeout(() => { btn.textContent = origText; btn.disabled = false; btn.style.background = ''; btn.style.transition = ''; }, 4000);
             } else {
-                btn.textContent = 'Error — try again';
+                btn.textContent = 'Error, try again';
                 btn.style.background = '#dc3545';
                 srStatus.textContent = 'Something went wrong sending your message. Please try again.';
                 setTimeout(() => { btn.textContent = origText; btn.disabled = false; btn.style.background = ''; }, 3000);
             }
         }).catch(() => {
-            btn.textContent = 'Error — try again';
+            btn.textContent = 'Error, try again';
             btn.style.background = '#dc3545';
             srStatus.textContent = 'Something went wrong sending your message. Please try again.';
             setTimeout(() => { btn.textContent = origText; btn.disabled = false; btn.style.background = ''; }, 3000);
