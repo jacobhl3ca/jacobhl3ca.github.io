@@ -1055,6 +1055,45 @@
      the accent-filled pill. Mirrors the .modal-side / toolbar-control focus convention just above. */
   .modal-noembed .ne-open:focus{outline:none;}
   .modal-noembed .ne-open:focus-visible{outline:2px solid var(--first-color);outline-offset:2px;}
+
+  /* ===== 2026-09-22: COVER GRID (Jacob: "make into a grid, see max at once with just the cover
+     photos"). Switched on by the proj-grid-view class on #Projects; the JS builder reads the same
+     class. Remove that class and the page renders the expandable rows above exactly as before,
+     since none of the row rules were touched. Every main cover already carries the project name
+     and tagline in its artwork, so the tile is the image alone. The "Other projects" images are
+     plain screenshots and logos with no name in them, so those tiles keep a one-line caption.
+     1024px matches the site's .bd-grid container. At that width 3 columns give 312px tiles, which
+     is 624px on a 2x screen, so the existing 640px thumbs stay sharp. 6 covers = 3 x 2 on a laptop
+     and 2 x 3 on a phone, all on one screen. ===== */
+  #Projects.proj-grid-view .proj-head-row,
+  #Projects.proj-grid-view .proj-wrap{max-width:1024px;}
+  .proj-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1.25rem;}
+  #main-rows.proj-grid{margin-bottom:1.5rem;}
+  .proj-tile{min-width:0;margin:0;}
+  /* width/max-width/margin undo the row layout's flex-basis and its 410px phone cap */
+  .proj-tile .proj-thumb{width:100%;max-width:none;margin:0;border-radius:.5rem;
+    box-shadow:0 4px 25px rgba(14,36,49,.15);transition:transform .25s ease,box-shadow .25s ease;}
+  [data-theme="dark"] .proj-tile .proj-thumb{box-shadow:0 4px 25px rgba(0,0,0,.3);}
+  .proj-tile a.proj-thumb:hover,.proj-tile .proj-thumb[role="button"]:hover{transform:translateY(-3px);
+    box-shadow:0 10px 30px rgba(14,36,49,.22);}
+  [data-theme="dark"] .proj-tile a.proj-thumb:hover{box-shadow:0 10px 30px rgba(0,0,0,.45);}
+  /* a gentler zoom than the rows' 1.08, which would crop the tagline baked into each cover */
+  .proj-tile .proj-thumb:hover img{transform:scale(1.03);}
+  .proj-tile .proj-thumb.no-live{cursor:default;}
+  .proj-tile .proj-thumb.no-live:hover img{transform:none;}
+  .proj-tile-cap{margin:.55rem 0 0;text-align:center;font-size:var(--smaller-font-size);font-weight:600;
+    line-height:1.35;color:var(--second-color);}
+  [data-theme="dark"] .proj-tile-cap{color:#e0e0e0;}
+  @media(max-width:699px){
+    .proj-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:.75rem;}
+    .proj-tile .proj-thumb{border-radius:.4rem;}
+  }
+  /* old engines without aspect-ratio: the row fallback pins a fixed 200x107 box, which would
+     overflow a grid cell. Keep the tile full width and let the image set its own height. */
+  @supports not (aspect-ratio: 640/342){
+    .proj-tile .proj-thumb{height:auto;flex:none;}
+    .proj-tile .proj-thumb img{position:static;height:auto;}
+  }
     </style>
 <!-- sentry -->
 <script src="https://js.sentry-cdn.com/ac636d393a29ab42c76e116c2d4d0cad.min.js" crossorigin="anonymous"></script>
@@ -1272,7 +1311,8 @@
 
             <!-- ===== PROJECTS =====--> <!-- or "Work" -->
             
-            <section class="work section" id="Projects" aria-labelledby="projects-heading">
+            <!-- proj-grid-view = the cover grid (2026-09-22). Delete the class to get the expandable rows back. -->
+            <section class="work section proj-grid-view" id="Projects" aria-labelledby="projects-heading">
 
                 <div class="proj-head-row">
                     <h2 class="section-title" id="projects-heading">Projects</h2>
@@ -1849,6 +1889,35 @@ function rowHTML(p, eager){
   </div>`;
 }
 
+// 2026-09-22 cover grid (see the proj-grid-view CSS block). One tile per project, image only. It
+// reuses the row builder's theme wiring (data-dark/data-light for setThemeImages()) and its live-link
+// rules (a plain new-tab <a> while previews are off, the role="button" preview trigger if they come
+// back), so the preview modal and the theme toggle work unchanged. title= gives a hover name, since
+// the tile has no text of its own.
+function tileHTML(p, eager){
+  const imgLoad = eager ? 'loading="eager" fetchpriority="high"' : 'loading="lazy"';
+  const themed = p.imgLight ? ` data-dark="${p.img}" data-light="${p.imgLight}"` : '';
+  const imgSrc = (p.imgLight && document.documentElement.getAttribute('data-theme') !== 'dark')
+    ? p.imgLight : p.img;
+  const img = p.imgWide
+    ? `<img src="${p.imgWide}" alt="${p.live ? '' : (p.alt || p.title + ' screenshot')}" ${imgLoad} decoding="async">`
+    : `<img src="${imgSrc}"${themed} alt="${p.live ? '' : (p.alt || p.title + ' screenshot')}" ${imgLoad} decoding="async">`;
+  const tag = (p.live && !PREVIEW_ENABLED) ? 'a' : 'div';
+  const attrs = !p.live ? ''
+    : PREVIEW_ENABLED
+      ? `data-url="${p.url}"${p.noEmbed?` data-noembed="1" data-poster="${p.img}"`:''} role="button" tabindex="0" aria-haspopup="dialog" aria-label="Open live preview of ${p.title}"`
+      : `href="${p.url}" target="_blank" rel="noopener" aria-label="Open ${p.title} in a new tab"`;
+  const cls = (p.live ? '' : 'no-live') + (p.pos === 'top' ? ' pos-top' : '');
+  return `
+  <div class="proj-tile" role="listitem">
+    <${tag} class="proj-thumb ${cls}" ${attrs} title="${p.title}">${img}</${tag}>
+    ${p.live ? '' : `<p class="proj-tile-cap">${p.title}</p>`}
+    ${(p.site || p.url) ? `<div class="proj-print-url">${p.site || p.url}</div>` : ''}
+  </div>`;
+}
+const GRID_VIEW = document.getElementById('Projects').classList.contains('proj-grid-view');
+const buildCard = GRID_VIEW ? tileHTML : rowHTML;
+
 // Expose the JS-rendered project cards as a semantic list (role="list" + each .proj-row role="listitem"),
 // so screen readers announce "list, N items" and let users jump card-to-card — matching how the skills
 // pills, the weather dashboard's forecast rows, and this section's own no-JS <ul> fallback are already
@@ -1857,10 +1926,11 @@ function rowHTML(p, eager){
 // list, avoiding an empty "list, 0 items". Purely the accessibility tree — no visual change.
 const _mainRows = document.getElementById('main-rows');
 _mainRows.setAttribute('role', 'list'); _mainRows.setAttribute('aria-label', 'Projects');
-_mainRows.innerHTML = MAIN_SORTED.map((p, i) => rowHTML(p, i === 0)).join(''); // eager-load only the first (above-the-fold) card's image
+_mainRows.innerHTML = MAIN_SORTED.map((p, i) => buildCard(p, i === 0)).join(''); // eager-load only the first (above-the-fold) card's image
 const _moreRows = document.getElementById('more-rows');
 _moreRows.setAttribute('role', 'list'); _moreRows.setAttribute('aria-label', 'Other projects');
-_moreRows.innerHTML = MORE.map(p => rowHTML(p, false)).join(''); // "Private projects" panel starts collapsed/inert — keep all its images lazy
+_moreRows.innerHTML = MORE.map(p => buildCard(p, false)).join(''); // "Private projects" panel starts collapsed/inert — keep all its images lazy
+if (GRID_VIEW) { _mainRows.classList.add('proj-grid'); _moreRows.classList.add('proj-grid'); }
 
 // click anywhere on the card toggles expand — EXCEPT a live thumbnail (opens preview) and CTA links.
 // "Other projects" have no live preview, so clicking their thumbnail expands the card like the rest.
@@ -1982,7 +2052,8 @@ function setBackgroundInert(on){
 // the project name actually takes effect (openModal/cycle call this before either of them).
 function setModalLabel(t){
   const title = t && t.closest && t.closest('.proj-row') ? t.closest('.proj-row').querySelector('.proj-title') : null;
-  const name = title ? title.textContent.trim() : '';
+  // grid tiles have no .proj-title, so fall back to the tile's own title= attribute
+  const name = title ? title.textContent.trim() : ((t && t.getAttribute && t.getAttribute('title')) || '');
   modal.setAttribute('aria-label', (name ? name + ', ' : '') + 'Live site preview');
 }
 function openModal(url, srcEl){ sourceThumb=srcEl||null; setModalLabel(srcEl); backStack=[]; modal.classList.remove('fullscreen'); card.classList.remove('minimizing');
