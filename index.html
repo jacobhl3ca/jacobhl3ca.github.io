@@ -88,7 +88,7 @@
                     // /assets/… URL, so this is byte-for-byte behaviour-preserving; it just makes the
                     // head internally consistent and independent of the document path. No visual change.
                     l.href = dark ? '/assets/img/hidescore-cover-thumb.webp?v=1'
-                                  : '/assets/img/hidescore-cover-light-thumb.webp?v=1';
+                                  : '/assets/img/hidescore-cover-light-thumb.webp?v=2';
                     document.head.appendChild(l);
                 })();
             }
@@ -1682,18 +1682,18 @@ const MAIN = [
   // make-thumbs.py — the card slot is 200px, so the full 2004px PNGs (still in this folder,
   // and still the source/social art) were ~25x more bytes than anything on screen.
   // Cards without an imgLight are real screenshots of dark-by-design sites, so they stay as-is.
-  { title:"HideScore", live:true, img:"assets/img/hidescore-cover-thumb.webp?v=1", imgLight:"assets/img/hidescore-cover-light-thumb.webp?v=1", url:"https://hidescore.com",
+  { title:"HideScore", live:true, img:"assets/img/hidescore-cover-thumb.webp?v=1", imgLight:"assets/img/hidescore-cover-light-thumb.webp?v=2", url:"https://hidescore.com",
     one:"Watch sports highlights without seeing the score.",
     full:"Watch sports highlights without seeing the score. Covers MLB, NBA, NHL, NFL, soccer, tennis and more with score-hidden cards, embedded highlights, and a unified news view, all without spoiling anything you haven't watched.",
     site:"https://hidescore.com", appstore:"https://apps.apple.com/app/hidescore/id6766885311" },
   // Card ORDER does not live in this array any more — see MAIN_ORDER under the closing bracket.
   // Entries stay put here because several carry their own explanatory comment, and a script that
   // moved entries would strand those comments against the wrong project.
-  { title:"The Island", live:true, img:"assets/img/theisland-cover-thumb.webp?v=1", imgLight:"assets/img/theisland-cover-light-thumb.webp?v=1", url:"https://theisland.nyc",
+  { title:"The Island", live:true, img:"assets/img/theisland-cover-thumb.webp?v=1", imgLight:"assets/img/theisland-cover-light-thumb.webp?v=2", url:"https://theisland.nyc",
     one:"Everything happening on NYC’s Roosevelt Island, in one place.",
     full:"Everything happening on NYC’s Roosevelt Island, in one place. It has real-time bus GPS, subway, tram, and ferry times, a restaurant guide, service alerts, an events newsletter, and an interactive map.",
     site:"https://theisland.nyc", appstore:"https://apps.apple.com/us/app/roosevelt-island/id6775979583" },
-  { title:"Tonight NYC", live:true, img:"assets/img/tonightnyc-cover-thumb.webp?v=1", imgLight:"assets/img/tonightnyc-cover-light-thumb.webp?v=1", url:"https://tonightnyc.com",
+  { title:"Tonight NYC", live:true, img:"assets/img/tonightnyc-cover-thumb.webp?v=1", imgLight:"assets/img/tonightnyc-cover-light-thumb.webp?v=2", url:"https://tonightnyc.com",
     one:"Every NYC comedy show, filtered to your favorite comedians.",
     full:"No more digging for comedy showtimes, stick to your favorite comedians. Includes every NYC show from the Comedy Cellar, The Stand, and more, filtered your way. Mark favorites and skips, see which set to attend at a glance, and book directly.",
     site:"https://tonightnyc.com", appstore:"https://apps.apple.com/app/id6763027650" },
@@ -1705,7 +1705,7 @@ const MAIN = [
   // CSS/JS comments already note), so the live-preview iframe would just sit blank until the 6s timeout
   // text. This flag routes its preview straight to the built-but-until-now-unwired poster fallback
   // (cover image + "Open subwaytimes.com ↗"), the exact case that feature was added for.
-  { title:"Subway Times", live:true, noEmbed:true, img:"assets/img/subwaytimes-cover-thumb.webp?v=1", imgLight:"assets/img/subwaytimes-cover-light-thumb.webp?v=1", url:"https://subwaytimes.com",
+  { title:"Subway Times", live:true, noEmbed:true, img:"assets/img/subwaytimes-cover-thumb.webp?v=1", imgLight:"assets/img/subwaytimes-cover-light-thumb.webp?v=2", url:"https://subwaytimes.com",
     one:"Real-time NYC subway arrivals, faster than Maps.",
     full:"Quicker than Google Maps for simple departures, especially from your home station. Real-time NYC subway arrivals, where you can favorite your stations, see countdown timers down to the second, and get out the door faster.",
     site:"https://subwaytimes.com", appstore:"https://apps.apple.com/us/app/subwaytimes/id6775994423" },
