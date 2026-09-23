@@ -1697,7 +1697,7 @@ const MAIN = [
     one:"Every NYC comedy show, filtered to your favorite comedians.",
     full:"No more digging for comedy showtimes, stick to your favorite comedians. Includes every NYC show from the Comedy Cellar, The Stand, and more, filtered your way. Mark favorites and skips, see which set to attend at a glance, and book directly.",
     site:"https://tonightnyc.com", appstore:"https://apps.apple.com/app/id6763027650" },
-  { title:"David Licht", live:true, img:"assets/img/davidlicht-app-thumb.webp?v=1", imgWide:"assets/img/davidlicht-thumb.webp?v=1", url:"https://davidlicht.com",
+  { title:"David Licht", live:true, img:"assets/img/davidlicht-app-thumb.webp?v=1", imgWide:"assets/img/davidlicht-thumb.webp?v=2", imgWideLight:"assets/img/davidlicht-light-thumb.webp?v=1", url:"https://davidlicht.com",
     one:"A showcase site for my dad and his five decades of drumming.",
     full:"A showcase site I built for my dad. He has drummed for five decades, from downtown NYC noise bands to the Grammy-winning Klezmatics. His story, music, and photos in one place.",
     site:"https://davidlicht.com" },
@@ -1832,6 +1832,10 @@ function rowHTML(p, eager){
     : '';
   const imgSrc = (p.imgLight && document.documentElement.getAttribute('data-theme') !== 'dark')
     ? p.imgLight : p.img;
+  // Same wiring for the wide screenshot (David Licht). imgWideLight is its light-theme capture.
+  const wideThemed = p.imgWideLight ? ` data-dark="${p.imgWide}" data-light="${p.imgWideLight}"` : '';
+  const wideSrc = (p.imgWideLight && document.documentElement.getAttribute('data-theme') !== 'dark')
+    ? p.imgWideLight : p.imgWide;
   // Stable, unique id per project (titles are unique across both lists) so the chevron toggle can
   // point at the panel it expands via aria-controls, mirroring the #moreToggle → #moreWrap wiring.
   const detailId = 'proj-detail-' + p.title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
@@ -1862,7 +1866,7 @@ function rowHTML(p, eager){
     <div class="proj-head">
       <${thumbTag} class="proj-thumb ${thumbCls}" ${thumbAttrs}>
         ${p.imgWide
-          ? `<img src="${p.imgWide}" alt="${altText}" ${imgLoad} decoding="async">`
+          ? `<img src="${wideSrc}"${wideThemed} alt="${altText}" ${imgLoad} decoding="async">`
           : `<img src="${imgSrc}"${themed} alt="${altText}" ${imgLoad} decoding="async">`}
         <span class="proj-zoom" aria-hidden="true"><i class='bx ${cornerIcon}' aria-hidden="true"></i></span>
         <div class="proj-cue"><span>${cueInner}</span></div>
@@ -1899,8 +1903,11 @@ function tileHTML(p, eager){
   const themed = p.imgLight ? ` data-dark="${p.img}" data-light="${p.imgLight}"` : '';
   const imgSrc = (p.imgLight && document.documentElement.getAttribute('data-theme') !== 'dark')
     ? p.imgLight : p.img;
+  const wideThemed = p.imgWideLight ? ` data-dark="${p.imgWide}" data-light="${p.imgWideLight}"` : '';
+  const wideSrc = (p.imgWideLight && document.documentElement.getAttribute('data-theme') !== 'dark')
+    ? p.imgWideLight : p.imgWide;
   const img = p.imgWide
-    ? `<img src="${p.imgWide}" alt="${p.live ? '' : (p.alt || p.title + ' screenshot')}" ${imgLoad} decoding="async">`
+    ? `<img src="${wideSrc}"${wideThemed} alt="${p.live ? '' : (p.alt || p.title + ' screenshot')}" ${imgLoad} decoding="async">`
     : `<img src="${imgSrc}"${themed} alt="${p.live ? '' : (p.alt || p.title + ' screenshot')}" ${imgLoad} decoding="async">`;
   const tag = (p.live && !PREVIEW_ENABLED) ? 'a' : 'div';
   const attrs = !p.live ? ''
