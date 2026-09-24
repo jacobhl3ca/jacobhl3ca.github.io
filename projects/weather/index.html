@@ -478,9 +478,9 @@ function render(w, aqi, geo) {
   // "No sunrise/sunset" instead — the exact guard the production /weather/ dashboard this leftover
   // copy duplicates already carries; this copy still computed and rendered the offset-less stamps
   // unguarded. Every normal city carries both values, so hasSun is true and nothing below changes for
-  // them (identical output); only a genuine no-sun day takes the fallback path. (The hourly-rain null
-  // case production also guards remains unhandled in this copy — left for a future run; the UV null
-  // case is now guarded, mirroring production, in the hero render below.)
+  // them (identical output); only a genuine no-sun day takes the fallback path. (The UV null case is
+  // guarded in the hero render below, and the hourly-rain null case in the Rain Chance strip further
+  // down — both mirroring production — so this copy now matches the production dashboard's null handling.)
   const hasSun = sunrise != null && sunset != null;
   // Anchor "now" to the SEARCHED CITY's clock, not the viewer's. sunrise/sunset are offset-less
   // ISO stamps in the city's timezone (we pass timezone=geo.tz), and sunProgress parses them via
