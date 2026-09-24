@@ -1120,6 +1120,17 @@ html.theme-switching * {
   cursor: pointer;
   margin-left: auto;
 }
+/* While the message sends, main-alt.js sets the submit button disabled (btn.disabled = true)
+   and swaps its text to "Sending…", but the rule above declares cursor:pointer unconditionally,
+   so the inert button still showed a clickable pointer — the one interactive control on the page
+   whose disabled state wasn't reflected in its cursor. Restore the standard not-allowed cursor
+   while disabled so the pointer stops implying the button can be clicked mid-send (and through the
+   brief "Sent!"/"Error" windows, which stay disabled until the JS resets them). Scoped to
+   :disabled, so the settled, enabled button is visually unchanged — no colour, size, or layout
+   change. */
+.contact__button:disabled {
+  cursor: not-allowed;
+}
 
 /* ===== FOOTER =====*/
 .footer {
