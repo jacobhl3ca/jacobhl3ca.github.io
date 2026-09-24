@@ -613,11 +613,16 @@ function render(w, aqi, geo) {
     <div class="hourly-row">
       ${hourly.map(h => {
         const pop = h.pop;
-        const popColor = pop >= 60 ? '#ef4444' : pop >= 30 ? '#f59e0b' : '#22c55e';
+        // Open-Meteo can return null for an hourly precipitation_probability (some models
+        // omit it for certain hours); guard it so the strip shows a dim "N/A" instead of the
+        // literal "null%", mirroring this copy's UV/AQI/sunrise null → "N/A" handling. Real
+        // forecast hours always carry a value, so output is unchanged for normal cities.
+        const hasPop = pop != null;
+        const popColor = hasPop ? (pop >= 60 ? '#ef4444' : pop >= 30 ? '#f59e0b' : '#22c55e') : 'var(--text-dim)';
         return `<div class="hourly-item">
           <div class="time">${fmtHour(h.time)}</div>
           <div class="icon" aria-hidden="true">${getIcon(h.code, h.isDay)}</div>
-          <div class="chance" style="color:${popColor}">${pop}%</div>
+          <div class="chance" style="color:${popColor}">${hasPop ? pop + '%' : 'N/A'}</div>
         </div>`;
       }).join('')}
     </div>
