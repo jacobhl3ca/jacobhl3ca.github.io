@@ -455,8 +455,9 @@ function render(w, aqi, geo) {
   // "No sunrise/sunset" instead — the exact guard the production /weather/ dashboard this leftover
   // copy duplicates already carries; this copy still computed and rendered the offset-less stamps
   // unguarded. Every normal city carries both values, so hasSun is true and nothing below changes for
-  // them (identical output); only a genuine no-sun day takes the fallback path. (The UV and hourly-
-  // rain null cases production also guards remain unhandled in this copy — left for a future run.)
+  // them (identical output); only a genuine no-sun day takes the fallback path. (The hourly-rain null
+  // case production also guards remains unhandled in this copy — left for a future run; the UV null
+  // case is now guarded, mirroring production, in the hero render below.)
   const hasSun = sunrise != null && sunset != null;
   // Anchor "now" to the SEARCHED CITY's clock, not the viewer's. sunrise/sunset are offset-less
   // ISO stamps in the city's timezone (we pass timezone=geo.tz), and sunProgress parses them via
@@ -561,7 +562,12 @@ function render(w, aqi, geo) {
         Humidity: ${humidity}%<br>
         Wind: ${windSpeed} mph ${windD}${gusts ? '<br>Gusts: ' + gusts + ' mph' : ''}<br>
         Pressure: ${pressure} inHg<br>
-        UV Index: ${uvMax} ${uvMax <= 2 ? '(Low)' : uvMax <= 5 ? '(Moderate)' : uvMax <= 7 ? '(High)' : '(Very High)'}
+        <!-- Ported from the production /weather/ hero: Open-Meteo can return null for uv_index_max
+             (e.g. polar-night days with no UV model value), so guard it to show "N/A" instead of the
+             literal "null (Low)"; and add the EPA "Extreme" band (11+), reached at high altitude / near
+             the equator, which this copy previously mislabeled "Very High". Every normal reading keeps
+             its existing label; only null and 11+ values change. -->
+        UV Index: ${uvMax != null ? `${uvMax} ${uvMax <= 2 ? '(Low)' : uvMax <= 5 ? '(Moderate)' : uvMax <= 7 ? '(High)' : uvMax <= 10 ? '(Very High)' : '(Extreme)'}` : 'N/A'}
       </div>
     </div>
   </div>`;
