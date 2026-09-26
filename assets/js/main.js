@@ -871,7 +871,15 @@ if (contactForm) {
     srStatus.id = 'contact-sr-status';   // stable hook so requestResume() can announce through this same region
     srStatus.setAttribute('role', 'status');
     srStatus.setAttribute('aria-live', 'polite');
-    srStatus.style.cssText = 'position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0;';
+    // clip:rect(0,0,0,0) is the long-standing screen-reader-only clipping technique, but the clip
+    // property is deprecated; clip-path:inset(50%) is its modern replacement. Ship both so this
+    // JS-built live region matches the belt-and-suspenders sr-only utilities used across the site's
+    // markup (index.html's .projects-only-h1, weather/'s .visually-hidden, the preview pages) and
+    // the identical region already upgraded in main-alt.js (the homepage's active script) — this
+    // copy, which runs on index_with_animation.html and the preview pages, was the one sr-only clip
+    // still lacking the modern property. Both rules collapse the box to nothing, so the region stays
+    // visually hidden and announced to assistive tech exactly as before. No visual change.
+    srStatus.style.cssText = 'position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);clip-path:inset(50%);white-space:nowrap;border:0;';
     contactForm.appendChild(srStatus);
 
     contactForm.addEventListener('submit', function(e) {

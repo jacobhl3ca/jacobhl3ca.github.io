@@ -29,7 +29,7 @@
     "image": "https://jacobhl.com/assets/img/og_image.png",
     "description": "A live weather dashboard with current conditions, hourly rain chance, a 5-day forecast, air quality, and sun times. Search any city. It defaults to New York, NY.",
     "inLanguage": "en-US",
-    "dateModified": "2026-09-05",
+    "dateModified": "2026-09-22",
     "isPartOf": { "@id": "https://jacobhl.com/#website" },
     "applicationCategory": "UtilitiesApplication",
     "operatingSystem": "Web browser",
@@ -600,11 +600,11 @@ async function fetchWeather() {
       ? 'Could not connect. Check your internet connection and try again.'
       : err.message;
     // Reset the tab title on failure. render() rewrites document.title to the loaded city on
-    // every success (e.g. "Tokyo, Japan — Weather Dashboard"), but the error path left it
+    // every success (e.g. "Tokyo, Japan Weather Dashboard"), but the error path left it
     // untouched — so after one good search, a later failed search (bad city, dropped network)
     // showed the error card while the browser tab still read the previously-loaded city's name.
     // Fall back to the neutral app title — the bare <h1> text ("Weather Dashboard"), deliberately
-    // without the "— NYC" suffix the static <title> carries, since the error path is showing no
+    // without the "NYC" the static <title> ("NYC Weather Dashboard") leads with, since the error path is showing no
     // city at all (not even the NYC default), so the tab reflects that nothing is currently
     // displayed rather than implying a loaded city. No effect on the success path.
     document.title = 'Weather Dashboard';
