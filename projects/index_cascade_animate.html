@@ -327,13 +327,13 @@
         <a href="#main-content" class="skip-link">Skip to main content</a>
         <!--===== HEADER =====-->
         <header class="l-header">
-            <nav class="nav bd-grid">
+            <nav class="nav bd-grid" aria-label="Primary"> <!-- name the primary navigation landmark so screen-reader landmark menus read "Primary navigation" instead of a generic, unlabeled "navigation" — mirrors index.html, index_with_animation.html and 404.html on this identical nav markup; this cascade variant was the one served page whose nav was still unlabeled -->
                 <div>
                     <!-- Point the "Jacob" logo at the #home section (which exists on this page, id="home") instead of a bare href="#". A lone "#" scrolls to the raw top of the document and appends a meaningless "#" to the URL, whereas #home lands on the actual home section with the site's smooth-scroll — matching this page's own "Home" nav link (href="#home" just below) and the identical nav__logo on the two sibling pages (index.html, index_with_animation.html both use href="#home"). This cascade variant was the one page still on the bare "#". No visual change. -->
                     <a href="#home" class="nav__logo">Jacob</a>
                 </div>
                 <div class="nav__menu" id="nav-menu">
-                    <ul class="nav__list">
+                    <ul class="nav__list" role="list"><!-- explicit role="list" so the nav keeps its list semantics in Safari/VoiceOver, which drops the implicit list role from any <ul> styled list-style:none (applied site-wide in styles.css) — the same fix index.html, index_with_animation.html and 404.html already carry on this identical nav markup. No visual effect. -->
 
                         <li class="nav__item"><a href="#home" class="nav__link active-link">Home</a></li>
                         <li class="nav__item"><a href="#about" class="nav__link">About</a></li>
