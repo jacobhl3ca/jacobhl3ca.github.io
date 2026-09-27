@@ -1114,7 +1114,17 @@
 
 
         <!--===== MAIN JS =====-->
-        <script src="/assets/js/main.js"></script>
+        <!-- defer: main.js is a ~49KB parser-blocking script sitting above ~340 lines of live-preview
+             modal + render/interaction DOM (below), so without defer the parser stalls here while
+             main.js downloads and runs before finishing that markup. Deferring lets the browser keep
+             parsing in parallel, then runs main.js after parse (still before DOMContentLoaded). Safe
+             here: main.js runs its setup against elements that all sit ABOVE this tag (nav, view pill,
+             theme toggle, the section[id] scroll-spy/reveal targets) — it references none of the modal
+             IDs below — and the trailing inline modal script calls no main.js global, so neither
+             depends on the other's run order. Mirrors the defer index.html (main-alt.js) and 404.html
+             (main.js) already carry for the same "script above trailing modal DOM" reason. No visual
+             or behaviour change. -->
+        <script defer src="/assets/js/main.js"></script>
 
         <!-- Inline JS moved to assets/js/main.js on 2026-03-27 -->
 
