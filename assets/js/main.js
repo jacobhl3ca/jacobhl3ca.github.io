@@ -115,7 +115,28 @@ if (viewPill) {
         });
     };
     // Default = projects-only; honor saved preference.
-    applyView(safeGetItem('viewMode') === 'full' ? 'full' : 'projects');
+    // Also honor an incoming deep link: #home/#about/#skills/#contact are display:none in
+    // projects-only view (see styles.css), so arriving at /#about (e.g. from the 404 page's
+    // nav, the sitemap, or a shared link) would otherwise land in the projects view with the
+    // anchor pointing at a hidden element — the visitor never reaches the section. If the hash
+    // targets one of those full-view-only sections, start in full view and scroll to it (the
+    // browser already tried to resolve the anchor against the then-hidden element, so it won't
+    // scroll on its own). #Projects stays visible in projects-only, so it needs none of this.
+    // Ported from main-alt.js (the live homepage's script) to keep the two scripts at parity:
+    // this file (main.js) runs on projects-stack-preview.html, which ships the same projects-only
+    // view + full-only sections, so it had the same deep-link trap; on the main.js pages that
+    // carry no view toggle (index_with_animation.html, the cascade variant, 404.html) there are
+    // no display:none full-only sections, so the branch is a harmless no-op.
+    var hashId = (location.hash || '').slice(1);
+    var fullOnlySection = { home: 1, about: 1, skills: 1, contact: 1 };
+    var deepLink = hashId && fullOnlySection[hashId];
+    applyView((deepLink || safeGetItem('viewMode') === 'full') ? 'full' : 'projects');
+    if (deepLink) {
+        var deepTarget = document.getElementById(hashId);
+        // Plain scrollIntoView() (no behavior override) honors the CSS scroll-behavior, which is
+        // set to auto under prefers-reduced-motion — so this stays reduced-motion-safe.
+        if (deepTarget) deepTarget.scrollIntoView();
+    }
     pillBtns.forEach((b) => b.addEventListener('click', () => {
         const mode = b.dataset.view === 'full' ? 'full' : 'projects';
         safeSetItem('viewMode', mode);
