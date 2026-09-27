@@ -22,6 +22,13 @@ Allow: /
 User-agent: PerplexityBot
 Allow: /
 
+# Perplexity-User is Perplexity's user-triggered fetcher (it retrieves a page when someone asks
+# about it), the counterpart to OpenAI's ChatGPT-User already welcomed above — this list paired
+# OpenAI's crawler + user-fetcher but only had Perplexity's crawler (PerplexityBot). Behaviour is
+# unchanged (User-agent: * already allows everything); this just states the same welcome explicitly.
+User-agent: Perplexity-User
+Allow: /
+
 User-agent: Google-Extended
 Allow: /
 
