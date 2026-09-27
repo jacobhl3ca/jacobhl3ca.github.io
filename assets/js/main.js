@@ -140,6 +140,35 @@ function setThemeImages(theme) {
     });
 }
 
+// Warm the OTHER theme's project images so the first toggle is instant. setThemeImages()
+// only reassigns src; if the incoming file has never been fetched the browser keeps painting
+// the old frame until it downloads and decodes — a visible flash on the first theme toggle.
+// Prefetch the alternate covers into cache on idle so that swap is immediate;
+// do it after load so it never competes with the visible theme's images, and skip it when the
+// visitor has asked us to conserve (Save-Data / 2g). Each request never enters the DOM. This
+// mirrors the same warm-up already in main-alt.js (the homepage's active script); this file
+// (main.js) runs on index_with_animation.html — the dark-default homepage variant that carries
+// the toggle and the themed data-dark/data-light covers — and the preview pages, which was the
+// one theme-toggling served page still fetching the alternate covers cold on first toggle. On
+// pages with no themed images (e.g. 404.html) the querySelectorAll finds nothing, so it's a
+// no-op. No visual change to the settled page.
+function warmOtherTheme() {
+    const c = navigator.connection;
+    if (c && (c.saveData || /(^|-)2g$/.test(c.effectiveType || ''))) return;
+    const other = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+    document.querySelectorAll('img[data-dark][data-light]').forEach(img => {
+        const href = img.dataset[other];
+        if (href) new Image().src = href;   // fetch + decode into cache; never enters the DOM
+    });
+}
+// requestIdleCallback's 2nd arg is an options object, not a delay — the two APIs are not
+// interchangeable, so branch instead of picking whichever exists.
+const scheduleWarm = () => window.requestIdleCallback
+    ? window.requestIdleCallback(warmOtherTheme, { timeout: 3000 })
+    : window.setTimeout(warmOtherTheme, 1200);
+if (document.readyState === 'complete') scheduleWarm();
+else window.addEventListener('load', scheduleWarm, { once: true });
+
 // Keep the mobile address-bar colour (theme-color meta) in sync with the active
 // theme — the light header is #fff, the dark page bg is #090f20.
 function setThemeColor(theme) {
