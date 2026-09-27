@@ -12,6 +12,23 @@
         <link rel="stylesheet" href="/assets/css/styles.css">
         <link rel="icon" type="image/x-icon" href="/assets/img/favicon.ico">
         <link href='https://cdn.jsdelivr.net/npm/boxicons@2.0.5/css/boxicons.min.css' rel='stylesheet'> <!-- icons -->
+        <script>
+            // Apply the saved theme before paint so light-mode users don't see a dark flash
+            // (the document defaults to data-theme="dark"; main.js loads at the end of <body>).
+            // The theme-color/color-scheme metas above only fix the UA-chrome flash; this fixes
+            // the actual page-content flash. Mirrors index.html, index_with_animation.html, and
+            // 404.html — this cascade-animate variant was the one served page still missing the
+            // pre-paint theme handling. Uses the same 'theme' localStorage key main.js reads.
+            try {
+                if (localStorage.getItem('theme') === 'light') {
+                    document.documentElement.removeAttribute('data-theme');
+                    // Sync the mobile address-bar colour to the light header before first paint
+                    // (main.js does this too, but only later at the end of <body>).
+                    var tc = document.querySelector('meta[name="theme-color"]');
+                    if (tc) tc.setAttribute('content', '#ffffff');
+                }
+            } catch (e) {}
+        </script>
         <!-- Match the homepage's <title> ("Jacob Heifetz-Licht — Analytics Manager") and this page's own og:title/twitter:title (both already the fuller form below): the plain page title was the one metadata field here still lagging with just the bare name, so a bookmark/tab for this cascade-animate variant read differently than the homepage it copies and than its own share-card titles. Prior runs aligned this page's description and keywords; this completes the variant/homepage title consistency. No visual change. -->
         <title>Jacob Heifetz-Licht | Analytics Manager</title>
         <!-- Match the homepage's current messaging: index.html was repositioned to lead with web development (React/Next.js) alongside analytics, but this cascade-animate variant kept the older analytics-only description. og:title/twitter:title here already mirror index.html; align the description (and its og/twitter copies below) too so a shared link to this page reflects the current positioning. Prior runs made this same alignment on index_with_animation.html and light/index.html; this experiment was the last variant still on the old copy. No visual change. -->
