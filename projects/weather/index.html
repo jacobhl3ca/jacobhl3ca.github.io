@@ -285,6 +285,16 @@ function getIcon(code, isDay) {
 }
 function getDesc(code) { return WMO_DESC[code] || 'Unknown'; }
 
+// Geocoded place names come from the Open-Meteo geocoding API (external data) but are rendered
+// into the hero card via innerHTML in render() below. Escape the HTML-special characters so an
+// unexpected or compromised API response can't inject markup — defense-in-depth mirroring the
+// escHtml guard the production /weather/ dashboard already applies; this leftover /projects/
+// variant rendered geo.name raw. Real place names contain none of these characters, so the
+// rendered output is unchanged.
+function escHtml(s) {
+  return String(s).replace(/[&<>"']/g, c => ({ '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;', "'":'&#39;' }[c]));
+}
+
 // Wind direction on the standard 16-point compass (22.5° per point). The 8-point version
 // (45° per point) rounded coarsely — a wind from ~70° reads as ENE but showed "E", and ~25°
 // (NNE) showed "NE" — so the displayed bearing could be a full point off the API's actual
@@ -581,7 +591,7 @@ function render(w, aqi, geo) {
     <div class="hero-right">
       <div class="hero-condition">${getDesc(weatherCode)}</div>
       <div class="hero-detail">
-        ${geo.name}<br>
+        ${escHtml(geo.name)}<br>
         Humidity: ${humidity}%<br>
         Wind: ${windSpeed} mph ${windD}${gusts ? '<br>Gusts: ' + gusts + ' mph' : ''}<br>
         Pressure: ${pressure} inHg<br>
