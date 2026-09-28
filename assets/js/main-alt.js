@@ -520,10 +520,12 @@ function setupAutoFire(el) {
     el.style.userSelect = 'none';
     el.style.webkitUserSelect = 'none';
 
-    window.addEventListener('mousemove', function(e) {
-        mouseX = e.clientX;
-        mouseY = e.clientY;
-    });
+    // Track the cursor only while auto-firing: this handler is added in startAutoFire and
+    // removed in stopAutoFire, rather than living for the page lifetime. The coords are read
+    // only inside fireOnce during an active mousedown-hold, so a permanent global mousemove
+    // listener (one per photo — about-photo, home-photo, and the skills IIFE below — so three
+    // on the homepage) ran on every idle hover/scroll for nothing. Same coords, no idle cost.
+    const trackMouse = (e) => { mouseX = e.clientX; mouseY = e.clientY; };
     el.addEventListener('touchmove', function(e) {
         mouseX = e.touches[0].clientX;
         mouseY = e.touches[0].clientY;
@@ -572,6 +574,7 @@ function setupAutoFire(el) {
             mouseX = e.clientX;
             mouseY = e.clientY;
         }
+        window.addEventListener('mousemove', trackMouse);
         autoFireDelay = 300;
         fireOnce();
     }
@@ -579,6 +582,7 @@ function setupAutoFire(el) {
     function stopAutoFire() {
         clearTimeout(autoFireTimer);
         autoFireTimer = null;
+        window.removeEventListener('mousemove', trackMouse);
     }
 
     el.addEventListener('mousedown', startAutoFire);
@@ -664,10 +668,10 @@ let codeIdx = 0;
     el.style.userSelect = 'none';
     el.style.webkitUserSelect = 'none';
 
-    window.addEventListener('mousemove', function(e) {
-        mouseX = e.clientX;
-        mouseY = e.clientY;
-    });
+    // Track the cursor only while auto-firing (added in startAutoFire, removed in stopAutoFire):
+    // the coords are read only inside fireOnce during an active hold, so a permanent global
+    // mousemove listener ran on every idle hover/scroll for nothing. Matches setupAutoFire above.
+    const trackMouse = (e) => { mouseX = e.clientX; mouseY = e.clientY; };
     el.addEventListener('touchmove', function(e) {
         mouseX = e.touches[0].clientX;
         mouseY = e.touches[0].clientY;
@@ -702,6 +706,7 @@ let codeIdx = 0;
         if (autoFireTimer) return;
         if (e.touches) { mouseX = e.touches[0].clientX; mouseY = e.touches[0].clientY; }
         else { mouseX = e.clientX; mouseY = e.clientY; }
+        window.addEventListener('mousemove', trackMouse);
         autoFireDelay = 350;
         fireOnce();
     }
@@ -709,6 +714,7 @@ let codeIdx = 0;
     function stopAutoFire() {
         clearTimeout(autoFireTimer);
         autoFireTimer = null;
+        window.removeEventListener('mousemove', trackMouse);
     }
 
     el.addEventListener('mousedown', startAutoFire);
