@@ -19,6 +19,20 @@ Allow: /
 User-agent: Claude-Web
 Allow: /
 
+# Claude-SearchBot and Claude-User are Anthropic's two other documented agents, the counterparts
+# to OpenAI's OAI-SearchBot and ChatGPT-User already welcomed above: Claude-SearchBot crawls to
+# improve Claude's in-product search results, and Claude-User is the user-triggered fetcher that
+# retrieves a page when someone asks Claude about it. This list paired OpenAI's crawler +
+# search bot + user-fetcher (and Perplexity's crawler + user-fetcher) but had only Anthropic's
+# training crawler (ClaudeBot) plus the now-undocumented legacy Claude-Web — so these complete the
+# same trio for Claude. Behaviour is unchanged (User-agent: * already allows everything); this just
+# states the same welcome explicitly.
+User-agent: Claude-SearchBot
+Allow: /
+
+User-agent: Claude-User
+Allow: /
+
 User-agent: PerplexityBot
 Allow: /
 
