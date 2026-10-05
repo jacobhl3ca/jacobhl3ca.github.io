@@ -1241,8 +1241,8 @@
                     <a href="https://www.linkedin.com/in/jacobhl/" class="home__social-icon" target="_blank" rel="me noopener noreferrer" aria-label="LinkedIn profile"><i class='bx bxl-linkedin' aria-hidden="true"></i></a>
                     <a href="https://github.com/jacobhl3ca" class="home__social-icon" target="_blank" rel="me noopener noreferrer" aria-label="GitHub profile"><i class='bx bxl-github' aria-hidden="true"></i></a>
                     <!-- rel="me": completes the identity marking within this home__social block. The LinkedIn and GitHub links just above already carry rel="me" (Jacob's own verified profiles, matching the JSON-LD Person sameAs), and the footer's mailto to this same address does too — but this hero-social mailto, a mailto to Jacob's own verified address (an explicitly supported rel-me identity target), was the one link in the block still missing it. Additive rel token — no visual or behaviour change (no target="_blank" here, so no noopener/noreferrer needed). -->
-                    <a href="mailto:hi@jacobhl.com" class="home__social-icon" rel="me" aria-label="Send email" style="margin-bottom: 0.75rem;"><i class='bx bx-envelope' aria-hidden="true"></i></a>
-                    <a href="#contact" id="home-resume-link" class="home__social-icon" aria-label="Request resume"><i class='bx bx-file' aria-hidden="true"></i></a> <!-- The click is wired in main-alt.js via addEventListener rather than an inline onclick, keeping JS out of the markup — the site's own convention (the homepage's inline JS was extracted to main-alt.js, and the weather dashboard's Search button was moved off its inline handler for the same reason); this was the last inline event handler left in the served markup. The listener calls event.preventDefault() so the browser's instant #contact fragment jump doesn't fight requestResume()'s own reduced-motion-aware smooth scroll, reset the focus it places in the form, or pollute the URL with #contact. The plain href="#contact" stays as the no-JS fallback (the listener never runs then, and until main-alt.js loads a click simply follows the href). -->
+                    <a href="mailto:hi@jacobhl.com" class="home__social-icon" rel="me" aria-label="Send email" data-umami-event="email-click" style="margin-bottom: 0.75rem;"><i class='bx bx-envelope' aria-hidden="true"></i></a>
+                    <a href="#contact" id="home-resume-link" class="home__social-icon" aria-label="Request resume" data-umami-event="resume-request"><i class='bx bx-file' aria-hidden="true"></i></a> <!-- The click is wired in main-alt.js via addEventListener rather than an inline onclick, keeping JS out of the markup — the site's own convention (the homepage's inline JS was extracted to main-alt.js, and the weather dashboard's Search button was moved off its inline handler for the same reason); this was the last inline event handler left in the served markup. The listener calls event.preventDefault() so the browser's instant #contact fragment jump doesn't fight requestResume()'s own reduced-motion-aware smooth scroll, reset the focus it places in the form, or pollute the URL with #contact. The plain href="#contact" stays as the no-JS fallback (the listener never runs then, and until main-alt.js loads a click simply follows the href). -->
                 </div>
 
                 <div class="home__img">
@@ -1559,7 +1559,7 @@
                 <a href="https://github.com/jacobhl3ca" class="footer__icon" target="_blank" rel="me noopener noreferrer" aria-label="GitHub profile"><i class='bx bxl-github' aria-hidden="true"></i></a>
 
                 <!-- rel="me" completes the footer's identity set: the LinkedIn and GitHub links beside this one already assert "this profile is mine" via rel="me" (the microformats2 / IndieAuth identity relation), and a mailto to Jacob's own verified address is an explicitly supported rel-me target — so this was the one contact link still outside the identity graph. Additive rel only (no target="_blank" here, so no noopener/noreferrer needed); browsers ignore rel on rendering, so no visual or behaviour change. -->
-                <a href="mailto:hi@jacobhl.com" class="footer__icon" rel="me" aria-label="Send email"><i class='bx bx-envelope' aria-hidden="true"></i></a>
+                <a href="mailto:hi@jacobhl.com" class="footer__icon" rel="me" aria-label="Send email" data-umami-event="email-click"><i class='bx bx-envelope' aria-hidden="true"></i></a>
 
             </div>
 
@@ -1797,7 +1797,7 @@ function ctaHTML(p){
     const _inner = _fav ? `<img class="favicon" src="${_fav}" alt="" width="20" height="20" loading="lazy" decoding="async">` : `<i class='bx bx-globe' aria-hidden="true"></i>`;
     h+=`<a href="${p.site}" target="_blank" rel="noopener" class="site-link" title="Visit website" aria-label="Visit the ${p.title} website">${_inner}</a>`; } */
   /* if(p.appstore) h+=`<a href="${p.appstore}" target="_blank" rel="noopener" class="app-store-badge-link" aria-label="Download ${p.title} on the App Store"><img src="assets/img/app-store-badge.svg" alt="" class="app-store-badge" width="120" height="40" loading="lazy" decoding="async"></a>`; */
-  if(p.download) h+=`<a href="${p.download}" class="mac-badge" title="Download TidyTab for macOS (.dmg, notarized)"><i class='bx bxl-apple' aria-hidden="true"></i><span class="mb-txt"><span class="mb-top">Download for</span><span class="mb-big">Mac</span></span></a>`;
+  if(p.download) h+=`<a href="${p.download}" data-umami-event="tidytab-download" class="mac-badge" title="Download TidyTab for macOS (.dmg, notarized)"><i class='bx bxl-apple' aria-hidden="true"></i><span class="mb-txt"><span class="mb-top">Download for</span><span class="mb-big">Mac</span></span></a>`;
   if(p.mas) h+=`<a href="${p.mas}" class="mac-badge mas-badge" title="Download on the Mac App Store"><i class='bx bxl-apple' aria-hidden="true"></i><span class="mb-txt"><span class="mb-top">Download on the</span><span class="mb-big">Mac App Store</span></span></a>`;
   if(p.github) h+=`<a href="${p.github}" target="_blank" rel="noopener" class="gh-link" aria-label="View the ${p.title} source on GitHub"><i class='bx bxl-github' aria-hidden="true"></i>GitHub</a>`;
   return h; // inner links only — wrapped by the .proj-actions row (with the chevron) in rowHTML
@@ -1853,10 +1853,13 @@ function rowHTML(p, eager){
   // .proj-head expand handler already ignores anything inside an <a>. The overlay wording and the
   // corner glyph follow: a magnifier promising a preview would be a lie now.
   const thumbTag  = (p.live && !PREVIEW_ENABLED) ? 'a' : 'div';
+  // Umami click event per project (2026-10-05, tracking baseline): one event name, the
+  // project as a property, so the dashboard counts "project-open" and splits it by title.
+  const evAttrs = ` data-umami-event="project-open" data-umami-event-project="${p.title}"`;
   const thumbAttrs = !p.live ? ''
-    : PREVIEW_ENABLED
+    : evAttrs + ' ' + (PREVIEW_ENABLED
       ? `data-url="${p.url}"${p.noEmbed?` data-noembed="1" data-poster="${p.img}"`:''} role="button" tabindex="0" aria-haspopup="dialog" aria-label="Open live preview of ${p.title}"`
-      : `href="${p.url}" target="_blank" rel="noopener" aria-label="Open ${p.title} in a new tab"`;
+      : `href="${p.url}" target="_blank" rel="noopener" aria-label="Open ${p.title} in a new tab"`);
   const cueInner  = PREVIEW_ENABLED
     ? `<i class='bx bx-expand-alt' aria-hidden="true"></i> Preview`
     : `<i class='bx bx-link-external' aria-hidden="true"></i> Open site`;
@@ -1911,9 +1914,9 @@ function tileHTML(p, eager){
     : `<img src="${imgSrc}"${themed} alt="${p.live ? '' : (p.alt || p.title + ' screenshot')}" ${imgLoad} decoding="async">`;
   const tag = (p.live && !PREVIEW_ENABLED) ? 'a' : 'div';
   const attrs = !p.live ? ''
-    : PREVIEW_ENABLED
+    : ` data-umami-event="project-open" data-umami-event-project="${p.title}" ` + (PREVIEW_ENABLED
       ? `data-url="${p.url}"${p.noEmbed?` data-noembed="1" data-poster="${p.img}"`:''} role="button" tabindex="0" aria-haspopup="dialog" aria-label="Open live preview of ${p.title}"`
-      : `href="${p.url}" target="_blank" rel="noopener" aria-label="Open ${p.title} in a new tab"`;
+      : `href="${p.url}" target="_blank" rel="noopener" aria-label="Open ${p.title} in a new tab"`);
   const cls = (p.live ? '' : 'no-live') + (p.pos === 'top' ? ' pos-top' : '');
   return `
   <div class="proj-tile" role="listitem">

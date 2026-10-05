@@ -935,6 +935,9 @@ if (contactForm) {
             signal: ctrl.signal
         }).finally(() => clearTimeout(timeout)).then(res => {
             if (res.ok) {
+                // Umami conversion event (2026-10-05): fires only on a real Formspree success,
+                // so a click on Send that fails validation or the network never counts.
+                if (window.umami && typeof window.umami.track === 'function') window.umami.track('contact-sent');
                 contactForm.reset();
                 btn.textContent = 'Sent!';
                 btn.style.transition = 'none';
