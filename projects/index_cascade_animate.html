@@ -11,6 +11,8 @@
         <!-- Root-absolute asset paths (/assets/…), not relative (assets/…): this page lives in /projects/, so a relative "assets/…" resolves to the nonexistent /projects/assets/… — the stylesheet 404'd (leaving the whole page unstyled) and every image/favicon broke. There is no /projects/assets dir; the assets live at the site root. Root-absolute paths point at them from anywhere, matching the site's other subdirectory pages (light/ and weather/ both already use /assets/…). Applied to every asset URL on this page (css, favicon, js, img src, and the data-dark/data-light theme-swap attributes). No visual change once the CSS/images resolve. -->
         <link rel="stylesheet" href="/assets/css/styles.css">
         <link rel="icon" type="image/x-icon" href="/assets/img/favicon.ico">
+        <link rel="preconnect" href="https://fonts.googleapis.com"> <!-- styles.css @imports Poppins from here -->
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin> <!-- Poppins woff2 host, same pair index.html carries -->
         <link href='https://cdn.jsdelivr.net/npm/boxicons@2.0.5/css/boxicons.min.css' rel='stylesheet'> <!-- icons -->
         <!-- Match the homepage's <title> ("Jacob Heifetz-Licht — Analytics Manager") and this page's own og:title/twitter:title (both already the fuller form below): the plain page title was the one metadata field here still lagging with just the bare name, so a bookmark/tab for this cascade-animate variant read differently than the homepage it copies and than its own share-card titles. Prior runs aligned this page's description and keywords; this completes the variant/homepage title consistency. No visual change. -->
         <title>Jacob Heifetz-Licht — Analytics Manager</title>
@@ -379,7 +381,7 @@
                 <div class="home__img">
                     <div class="home__circle clickable-img" id="home-photo">
                         <!-- Intrinsic width/height (matching the source files, 705x800) so the browser reserves the portrait's box before the image loads, preventing the layout shift (CLS) an unsized img causes as it pops in. These are the real dimensions of /assets/img/header.png and the exact values index.html and the index_with_animation.html sibling already declare on this same hero image; CSS (.home__circle-img) still controls the rendered size, so the attributes only supply the aspect ratio and change nothing visually. This cascade variant was the one homepage page still shipping these three photos unsized. -->
-                        <img src="/assets/img/header.png" alt="Jacob Heifetz-Licht" width="705" height="800" class="home__circle-img">
+                        <img src="/assets/img/header.webp" alt="Jacob Heifetz-Licht" width="705" height="800" class="home__circle-img" fetchpriority="high">
                     </div>
                 </div>
             </section>
@@ -392,7 +394,7 @@
                     <div class="about__img">
 
                          <!-- loading="lazy" decoding="async" on this and every image below the fold (the about/skills photos and all project thumbnails): this cascade variant was the one page site-wide still eager-loading its whole image set, so every thumbnail was fetched up front on load even though they sit well below the viewport. Lazy defers each off-screen fetch until it nears the viewport and decoding="async" keeps the decode off the main thread — mirroring the exact attributes the sibling homepage variant (index_with_animation.html) and index.html already carry on these same theme-swapped images. The hero portrait above is deliberately left eager (it's the above-the-fold LCP). No visual change. -->
-                         <img loading="lazy" decoding="async" src="/assets/img/about.jpg" alt="Jacob Heifetz-Licht portrait" width="600" height="600" class="clickable-img" id="about-photo">
+                         <img loading="lazy" decoding="async" src="/assets/img/about.webp" alt="Jacob Heifetz-Licht portrait" width="600" height="600" class="clickable-img" id="about-photo">
 
                     </div>
                     <div>
@@ -526,7 +528,7 @@
 
                     <div class="work__img"> <!-- Spotify Analytics -->
                         <!-- <a href=""> -->
-                            <img loading="lazy" decoding="async" src="/assets/img/spotify_monthly.png" alt="Spotify Analytics" data-dark="/assets/img/spotify_monthly.png" data-light="/assets/img/spotify_monthly_light.png" id="project-spotify-analytics">
+                            <img loading="lazy" decoding="async" src="/assets/img/spotify_monthly.png" width="2908" height="1389" alt="Spotify Analytics" data-dark="/assets/img/spotify_monthly.png" data-light="/assets/img/spotify_monthly_light.png" id="project-spotify-analytics">
                         <!-- </a> -->
                         <div class="work__description">
                             <center>
@@ -542,7 +544,7 @@
 
                     <div class="work__img"> <!-- Spotify Playlist Archiver -->
                         <!-- <a href=""> -->
-                            <img loading="lazy" decoding="async" src="/assets/img/spotify_archiver.png" alt="Spotify Playlist Archiver" style="object-fit: contain; background: #121212;" data-dark="/assets/img/spotify_archiver.png" data-light="/assets/img/spotify_archiver_light.png" id="project-spotify-archiver">
+                            <img loading="lazy" decoding="async" src="/assets/img/spotify_archiver.png" width="682" height="278" alt="Spotify Playlist Archiver" style="object-fit: contain; background: #121212;" data-dark="/assets/img/spotify_archiver.png" data-light="/assets/img/spotify_archiver_light.png" id="project-spotify-archiver">
                         <!-- </a> -->
                         <div class="work__description">
                             <center>
@@ -558,7 +560,7 @@
 
                     <div class="work__img"> <!-- Personal Finance App -->
                         <!-- <a href=""> -->
-                            <img loading="lazy" decoding="async" src="/assets/img/finance_trend.png" alt="Personal Finance App" data-dark="/assets/img/finance_trend.png" data-light="/assets/img/finance_trend_light.png">
+                            <img loading="lazy" decoding="async" src="/assets/img/finance_trend.png" width="2779" height="980" alt="Personal Finance App" data-dark="/assets/img/finance_trend.png" data-light="/assets/img/finance_trend_light.png">
                         <!-- </a> -->
                         <div class="work__description">
                             <center>
@@ -573,7 +575,7 @@
                     </div>
 
                     <div class="work__img"> <!-- E-commerce Store -->
-                            <img loading="lazy" decoding="async" src="/assets/img/stripe_dark.svg" alt="E-commerce Store" style="object-fit: cover; background: #121212;" data-dark="/assets/img/stripe_dark.svg" data-light="/assets/img/stripe_light.svg">
+                            <img loading="lazy" decoding="async" src="/assets/img/stripe_dark.svg" width="600" height="300" alt="E-commerce Store" style="object-fit: cover; background: #121212;" data-dark="/assets/img/stripe_dark.svg" data-light="/assets/img/stripe_light.svg">
                         <div class="work__description">
                             <center>
                                 <h3>
@@ -587,7 +589,7 @@
                     </div>
 
                     <div class="work__img"> <!-- Automation Utilities -->
-                            <img loading="lazy" decoding="async" src="/assets/img/automation_dark.svg" alt="Automation Utilities" style="object-fit: cover; background: #121212;" data-dark="/assets/img/automation_dark.svg" data-light="/assets/img/automation_light.svg">
+                            <img loading="lazy" decoding="async" src="/assets/img/automation_dark.svg" width="600" height="300" alt="Automation Utilities" style="object-fit: cover; background: #121212;" data-dark="/assets/img/automation_dark.svg" data-light="/assets/img/automation_light.svg">
                         <div class="work__description">
                             <center>
                                 <h3>
@@ -605,7 +607,7 @@
 
                     <div class="work__img"> <!-- System Administration -->
                         <!-- <a href=""> -->
-                            <img loading="lazy" decoding="async" src="/assets/img/docker_dark.png" alt="System Administration" data-dark="/assets/img/docker_dark.png" data-light="/assets/img/docker_dark_light.png">
+                            <img loading="lazy" decoding="async" src="/assets/img/docker_dark.png" width="800" height="400" alt="System Administration" data-dark="/assets/img/docker_dark.png" data-light="/assets/img/docker_dark_light.png">
                         <!-- </a> -->
                         <div class="work__description">
                             <center>
