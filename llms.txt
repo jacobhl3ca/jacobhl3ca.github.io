@@ -23,10 +23,10 @@ side. Rutgers University graduate.
   Events, transit and news in one place. Web app + iOS app.
 - [Tonight NYC](https://tonightnyc.com): Every NYC comedy show tonight, filtered to your
   favorite comedians. Web app + iOS app.
-- [David Licht](https://davidlicht.com): A showcase site for drummer David Licht and his five
-  decades of drumming.
 - [Subway Times](https://subwaytimes.com): Real-time NYC subway arrival times for every
   station, faster than Maps. Web app + iOS app.
+- [David Licht](https://davidlicht.com): A showcase site for drummer David Licht and his five
+  decades of drumming.
 - [TidyTab](https://tidytab.jacobhl.com/): A macOS menu-bar app that bulk-unpins or closes
   Safari pinned tabs.
 
