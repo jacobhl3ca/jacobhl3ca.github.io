@@ -7,7 +7,7 @@
         <meta name="theme-color" content="#090f20">
         <!-- Declare supported colour schemes to the UA up front. color-scheme is otherwise only set inside the render-blocking styles.css (:root=light, [data-theme="dark"]=dark), so before that CSS loads the browser doesn't know this is a dark-default page and paints the root canvas/scrollbars with the OS default (a brief light flash for the majority dark view). "dark light" matches the document's literal default (<html data-theme="dark">) while still advertising light-mode support; the CSS color-scheme rules take over once loaded. No visual change to the settled page. -->
         <meta name="color-scheme" content="dark light">
-        <!-- Root-absolute asset paths (leading /), matching every other page site-wide (index.html, 404.html, building.html, weather/, refer/, me/, light/ all reference /assets/…) and index.html's own head, whose stylesheet/favicon/preload/script paths were normalized to /assets/… "for site-wide consistency, independent of the document path." This projects-stack preview was still loading its own declarative document resources (stylesheet, favicon, the two LCP preload images, and main.js below) via directory-relative hrefs. The page is served only at /projects-stack-preview.html, where assets/… and /assets/… resolve to the identical /assets/… URL, so this is byte-for-byte behaviour-preserving — it just makes the head internally consistent with the site-wide convention. No visual or behaviour change. -->
+        <!-- Root-absolute asset paths (leading /), matching every other page site-wide (index.html, 404.html, building.html, weather/, refer/, light/ all reference /assets/…) and index.html's own head, whose stylesheet/favicon/preload/script paths were normalized to /assets/… "for site-wide consistency, independent of the document path." This projects-stack preview was still loading its own declarative document resources (stylesheet, favicon, the two LCP preload images, and main.js below) via directory-relative hrefs. The page is served only at /projects-stack-preview.html, where assets/… and /assets/… resolve to the identical /assets/… URL, so this is byte-for-byte behaviour-preserving — it just makes the head internally consistent with the site-wide convention. No visual or behaviour change. -->
         <link rel="stylesheet" href="/assets/css/styles.css">
         <link rel="icon" type="image/x-icon" href="/assets/img/favicon.ico">
         <link rel="preconnect" href="https://cdn.jsdelivr.net"> <!-- early-connect for the render-blocking boxicons CSS fetch (non-CORS, so it can't reuse the crossorigin socket below) -->
@@ -709,7 +709,7 @@
                     <a href="#home" class="nav__logo">Jacob</a>
                 </div>
                 <div class="nav__menu" id="nav-menu">
-                    <ul class="nav__list">
+                    <ul class="nav__list" role="list">
 
                         <li class="nav__item"><a href="#home" class="nav__link active-link" aria-current="location">Home</a></li> <!-- baseline aria-current to match the hardcoded active-link class, so AT announces Home as the current section before/independent of main.js's scrollActive() (which manages this pair dynamically thereafter). Token is "location" (in-page scroll-spy position), not "page" — matching what scrollActive() now sets, so there's no page→location flip once the JS runs; mirrors index.html. -->
                         <li class="nav__item"><a href="#about" class="nav__link">About</a></li>
@@ -1114,7 +1114,17 @@
 
 
         <!--===== MAIN JS =====-->
-        <script src="/assets/js/main.js"></script>
+        <!-- defer: main.js is a ~49KB parser-blocking script sitting above ~340 lines of live-preview
+             modal + render/interaction DOM (below), so without defer the parser stalls here while
+             main.js downloads and runs before finishing that markup. Deferring lets the browser keep
+             parsing in parallel, then runs main.js after parse (still before DOMContentLoaded). Safe
+             here: main.js runs its setup against elements that all sit ABOVE this tag (nav, view pill,
+             theme toggle, the section[id] scroll-spy/reveal targets) — it references none of the modal
+             IDs below — and the trailing inline modal script calls no main.js global, so neither
+             depends on the other's run order. Mirrors the defer index.html (main-alt.js) and 404.html
+             (main.js) already carry for the same "script above trailing modal DOM" reason. No visual
+             or behaviour change. -->
+        <script defer src="/assets/js/main.js"></script>
 
         <!-- Inline JS moved to assets/js/main.js on 2026-03-27 -->
 

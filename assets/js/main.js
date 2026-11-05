@@ -118,7 +118,28 @@ if (viewPill) {
         });
     };
     // Default = projects-only; honor saved preference.
-    applyView(safeGetItem('viewMode') === 'full' ? 'full' : 'projects');
+    // Also honor an incoming deep link: #home/#about/#skills/#contact are display:none in
+    // projects-only view (see styles.css), so arriving at /#about (e.g. from the 404 page's
+    // nav, the sitemap, or a shared link) would otherwise land in the projects view with the
+    // anchor pointing at a hidden element — the visitor never reaches the section. If the hash
+    // targets one of those full-view-only sections, start in full view and scroll to it (the
+    // browser already tried to resolve the anchor against the then-hidden element, so it won't
+    // scroll on its own). #Projects stays visible in projects-only, so it needs none of this.
+    // Ported from main-alt.js (the live homepage's script) to keep the two scripts at parity:
+    // this file (main.js) runs on projects-stack-preview.html, which ships the same projects-only
+    // view + full-only sections, so it had the same deep-link trap; on the main.js pages that
+    // carry no view toggle (index_with_animation.html, the cascade variant, 404.html) there are
+    // no display:none full-only sections, so the branch is a harmless no-op.
+    var hashId = (location.hash || '').slice(1);
+    var fullOnlySection = { home: 1, about: 1, skills: 1, contact: 1 };
+    var deepLink = hashId && fullOnlySection[hashId];
+    applyView((deepLink || safeGetItem('viewMode') === 'full') ? 'full' : 'projects');
+    if (deepLink) {
+        var deepTarget = document.getElementById(hashId);
+        // Plain scrollIntoView() (no behavior override) honors the CSS scroll-behavior, which is
+        // set to auto under prefers-reduced-motion — so this stays reduced-motion-safe.
+        if (deepTarget) deepTarget.scrollIntoView();
+    }
     pillBtns.forEach((b) => b.addEventListener('click', () => {
         const mode = b.dataset.view === 'full' ? 'full' : 'projects';
         safeSetItem('viewMode', mode);
@@ -142,6 +163,35 @@ function setThemeImages(theme) {
         }
     });
 }
+
+// Warm the OTHER theme's project images so the first toggle is instant. setThemeImages()
+// only reassigns src; if the incoming file has never been fetched the browser keeps painting
+// the old frame until it downloads and decodes — a visible flash on the first theme toggle.
+// Prefetch the alternate covers into cache on idle so that swap is immediate;
+// do it after load so it never competes with the visible theme's images, and skip it when the
+// visitor has asked us to conserve (Save-Data / 2g). Each request never enters the DOM. This
+// mirrors the same warm-up already in main-alt.js (the homepage's active script); this file
+// (main.js) runs on index_with_animation.html — the dark-default homepage variant that carries
+// the toggle and the themed data-dark/data-light covers — and the preview pages, which was the
+// one theme-toggling served page still fetching the alternate covers cold on first toggle. On
+// pages with no themed images (e.g. 404.html) the querySelectorAll finds nothing, so it's a
+// no-op. No visual change to the settled page.
+function warmOtherTheme() {
+    const c = navigator.connection;
+    if (c && (c.saveData || /(^|-)2g$/.test(c.effectiveType || ''))) return;
+    const other = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+    document.querySelectorAll('img[data-dark][data-light]').forEach(img => {
+        const href = img.dataset[other];
+        if (href) new Image().src = href;   // fetch + decode into cache; never enters the DOM
+    });
+}
+// requestIdleCallback's 2nd arg is an options object, not a delay — the two APIs are not
+// interchangeable, so branch instead of picking whichever exists.
+const scheduleWarm = () => window.requestIdleCallback
+    ? window.requestIdleCallback(warmOtherTheme, { timeout: 3000 })
+    : window.setTimeout(warmOtherTheme, 1200);
+if (document.readyState === 'complete') scheduleWarm();
+else window.addEventListener('load', scheduleWarm, { once: true });
 
 // Keep the mobile address-bar colour (theme-color meta) in sync with the active
 // theme — the light header is #fff, the dark page bg is #090f20.
@@ -859,7 +909,15 @@ if (contactForm) {
     srStatus.id = 'contact-sr-status';   // stable hook so requestResume() can announce through this same region
     srStatus.setAttribute('role', 'status');
     srStatus.setAttribute('aria-live', 'polite');
-    srStatus.style.cssText = 'position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0;';
+    // clip:rect(0,0,0,0) is the long-standing screen-reader-only clipping technique, but the clip
+    // property is deprecated; clip-path:inset(50%) is its modern replacement. Ship both so this
+    // JS-built live region matches the belt-and-suspenders sr-only utilities used across the site's
+    // markup (index.html's .projects-only-h1, weather/'s .visually-hidden, the preview pages) and
+    // the identical region already upgraded in main-alt.js (the homepage's active script) — this
+    // copy, which runs on index_with_animation.html and the preview pages, was the one sr-only clip
+    // still lacking the modern property. Both rules collapse the box to nothing, so the region stays
+    // visually hidden and announced to assistive tech exactly as before. No visual change.
+    srStatus.style.cssText = 'position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);clip-path:inset(50%);white-space:nowrap;border:0;';
     contactForm.appendChild(srStatus);
 
     contactForm.addEventListener('submit', function(e) {
