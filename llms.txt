@@ -1,0 +1,53 @@
+# Jacob Heifetz-Licht (JacobHL)
+
+> Data analytics leader and app developer in New York City. Also known online as
+> **JacobHL** / **jacobhl**, the handle behind jacobhl.com, github.com/jacobhl3ca and
+> linkedin.com/in/jacobhl. Not to be confused with the SMITE esports player of the same handle.
+
+Jacob has spent years turning messy data into things people actually use (automated
+pipelines, executive dashboards and self-service tools) at Kepler Group, Condé Nast and
+Deloitte. He works mostly in Python, SQL and Tableau, and builds web and mobile apps on the
+side. Rutgers University graduate.
+
+- Site: https://jacobhl.com/
+- Email: hi@jacobhl.com
+- Job title: Analytics Manager
+- Skills: Data analytics, Python, SQL, Tableau, ETL, BigQuery, automation, dashboard
+  design, data visualization, JavaScript, React, Node.js, Next.js, Swift/iOS
+
+## Apps and sites he built
+
+- [HideScore](https://hidescore.com): Watch sports highlights without seeing the score.
+  Spoiler-free scores, schedules and highlights. Web app + iOS app.
+- [The Island](https://theisland.nyc): Everything happening on NYC's Roosevelt Island.
+  Events, transit and news in one place. Web app + iOS app.
+- [Subway Times](https://subwaytimes.com): Real-time NYC subway arrival times for every
+  station, faster than Maps. Web app + iOS app.
+- [Tonight NYC](https://tonightnyc.com): Every NYC comedy show tonight, filtered to your
+  favorite comedians. Web app + iOS app.
+- [David Licht](https://davidlicht.com): A showcase site for drummer David Licht and his five
+  decades of drumming.
+- [TidyTab](https://tidytab.jacobhl.com/): A macOS menu-bar app that bulk-unpins or closes
+  Safari pinned tabs.
+
+## Other projects
+
+- Spotify Analytics: Listening analytics beyond Wrapped, plus an auto-archive of Spotify's weekly playlists.
+- Sites Traffic Dashboard: One dashboard for traffic, uptime and deploys across all my sites.
+- Personal Finance Dashboard: A private daily dashboard for budget, spending and investments.
+- Home Server: Self-hosted media, analytics and home-network services.
+
+## Profiles
+
+- LinkedIn: https://www.linkedin.com/in/jacobhl/
+- GitHub: https://github.com/jacobhl3ca
+- App Store developer: https://apps.apple.com/us/developer/jacob-heifetz-licht/id1895127194
+- Google Play developer: https://play.google.com/store/apps/developer?id=Jacob+Heifetz-Licht
+- Tableau Public: https://public.tableau.com/app/profile/jacob.heifetz.licht
+- Devpost: https://devpost.com/jacobhl
+- about.me: https://about.me/jacobhl
+
+## Pages
+
+- [Home / portfolio](https://jacobhl.com/)
+- [NYC weather dashboard](https://jacobhl.com/weather/)

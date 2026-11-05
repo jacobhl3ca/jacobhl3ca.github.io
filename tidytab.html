@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+  <meta charset="UTF-8">
+  <!-- Give the visible fallback (the <p> below, shown when the instant JS/meta-refresh redirect is slow or blocked) proper mobile scaling. tidytab.html was the one page site-wide still missing a viewport meta — every other page (index.html, 404.html, building.html, weather/, light/, and the preview pages) declares it. Without it, mobile browsers render at a 980px desktop width and zoom out, shrinking the fallback text; with it the fallback reads at device width. Completes the site-wide viewport pattern. No effect on the normal redirect path. -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- Declare supported colour schemes up front. This page carries no CSS at all, so its visible fallback (the <p> below, shown when the instant JS/meta-refresh redirect is slow or blocked) renders with the UA default background/text. Without color-scheme an OS-dark browser paints the root canvas dark while treating the page as light, giving dark-on-dark (or a mismatched flash) for the fallback. "light dark" lets the bare page adapt to the visitor's OS theme so the fallback stays readable either way. tidytab.html was the one production page site-wide still missing this — every other page (index.html, 404.html, building.html, weather/, light/) already declares it. No effect on the normal redirect path. -->
+  <meta name="color-scheme" content="light dark">
+  <!-- Tint the mobile browser chrome (address bar / status bar) to match the bare page's own background during the brief redirect paint (the visible <p> fallback, shown when the instant JS/meta-refresh redirect is slow or blocked). This page carries no CSS, so it renders on the UA default canvas, which the color-scheme="light dark" above lets follow the visitor's OS theme — so a single static value would mismatch one theme. Two media-query variants keep the chrome aligned in both: white in light, near-black in dark (matching the site's declarative dark chrome on refer/). tidytab.html was the one production page site-wide still missing theme-color — every other page (index.html, 404.html, building.html, weather/, light/, refer/) already declares it. Completes the site-wide theme-color pattern; no effect on the normal redirect path. -->
+  <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#101216" media="(prefers-color-scheme: dark)">
+  <!-- Root-absolute favicon so this redirect stub shows the site icon in the browser tab (and on the visible fallback below when the instant redirect is slow or blocked) instead of firing a 404 for the default /favicon.ico. tidytab.html was the one production page site-wide still missing this — every other page (index.html, 404.html, building.html, weather/, light/) already declares it. Completes the site-wide favicon pattern; no effect on the normal redirect path. -->
+  <link rel="icon" type="image/x-icon" href="/assets/img/favicon.ico">
+  <title>TidyTab has moved to tidytab.jacobhl.com</title>
+  <!-- Social-share metadata: this stub is a legacy landing point for the TidyTab app (old links, App Store support URLs, printed/QR references) and is far more likely to be shared and unfurled than crawled — yet it was the one shareable stub site-wide carrying no Open Graph/Twitter tags, so a scraper (which reads this served HTML rather than following the JS/meta-refresh redirect to tidytab.jacobhl.com) rendered a bare card: just the "moved to…" <title>, with no image or summary. Give it a proper preview that describes what TidyTab is, reusing the app's own canonical one-liner (the same text in this site's projects JSON-LD and project card) and its existing cover image — no media asset added. Mirrors the OG/Twitter blocks the site's other shareable stubs already carry (light/, building.html). Read only by social scrapers; no effect on the normal redirect path, and the page stays noindex. -->
+  <meta name="description" content="A macOS menu-bar app that bulk unpins or closes Safari pinned tabs.">
+  <!-- Name the document's author, the standard document-identity field every full page (index.html,
+       building.html, weather/, 404.html, refer/) and the redirect stubs light/ and contact/ already
+       declare — tidytab.html was the last page site-wide still missing it, so this closes out the
+       site-wide author-metadata pattern the prior runs built. Purely document metadata surfaced by some
+       browsers, tools, and reader modes; no visual change and no effect on the redirect path (the page
+       stays noindex and still hops to tidytab.jacobhl.com via the JS/meta-refresh below). -->
+  <meta name="author" content="Jacob Heifetz-Licht">
+  <meta property="og:title" content="TidyTab">
+  <meta property="og:description" content="A macOS menu-bar app that bulk unpins or closes Safari pinned tabs.">
+  <meta property="og:image" content="https://jacobhl.com/assets/img/tidytab-cover.png">
+  <meta property="og:image:type" content="image/png">
+  <meta property="og:image:width" content="2004">
+  <meta property="og:image:height" content="1072">
+  <meta property="og:image:alt" content="TidyTab, a macOS menu-bar app for bulk-managing Safari pinned tabs">
+  <!-- og:url points at the canonical home of this content (the tidytab.jacobhl.com subdomain the page redirects and canonicalizes to), so a shared jacobhl.com/tidytab link resolves social signals onto the real app URL. -->
+  <meta property="og:url" content="https://tidytab.jacobhl.com/">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Jacob Heifetz-Licht">
+  <meta property="og:locale" content="en_US">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="TidyTab">
+  <meta name="twitter:description" content="A macOS menu-bar app that bulk unpins or closes Safari pinned tabs.">
+  <meta name="twitter:image" content="https://jacobhl.com/assets/img/tidytab-cover.png">
+  <meta name="twitter:image:alt" content="TidyTab, a macOS menu-bar app for bulk-managing Safari pinned tabs">
+  <link rel="canonical" href="https://tidytab.jacobhl.com/">
+  <!-- Make the crawl-follow directive explicit ("noindex, follow"), matching every other noindex page
+       site-wide — 404.html, contact/, light/, index_with_animation.html and the preview pages all
+       spell out "noindex, follow"; refer/ deliberately uses "noindex, nofollow" for its sponsored links.
+       tidytab.html was the one page still leaving it as a bare "noindex". Bare "noindex" already implies
+       follow (the default), so this is behaviour-preserving — but stating it removes ambiguity and, more
+       to the point, matches intent: this stub's only outbound link is to its own canonical subdomain
+       (tidytab.jacobhl.com, above), which should be followed so discovery signals flow to the real app
+       home the page redirects to. Completes the site-wide robots pattern. No effect on the redirect path. -->
+  <meta name="robots" content="noindex, follow">
+  <meta http-equiv="refresh" content="0; url=https://tidytab.jacobhl.com/">
+  <script>location.replace("https://tidytab.jacobhl.com/" + location.hash);</script>
+<!-- sentry -->
+<script src="https://js.sentry-cdn.com/ac636d393a29ab42c76e116c2d4d0cad.min.js" crossorigin="anonymous"></script>
+<!-- /sentry -->
+</head>
+<body>
+  <p>TidyTab has moved to <a href="https://tidytab.jacobhl.com/">tidytab.jacobhl.com</a>.</p>
+</body>
+</html>

@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!-- ⛔⛔ RETIRED PAGE — DO NOT RESTORE OR EXPAND (auto-improve bot: read this before touching this file).
+
+     /building.html used to be a small services-offer page — the QR / tear-off-tab landing target for
+     a printed flyer (the flyer source still lives outside this repo). Jacob retired that offer on
+     2026-09-07. Reasons, so nobody re-derives them: Umami recorded ZERO visits to this path in the
+     27 days the beacon was on it (2026-08-11 → 2026-09-07) while the homepage took 528, i.e. the QR
+     was never once scanned; and the page had been INDEXED by Google, so the offer copy was surfacing
+     in search results against his own name, which is the specific thing he wanted gone.
+
+     It is a redirect stub rather than a deletion ONLY so a printed flyer QR still lands on the
+     homepage instead of a 404. That is its whole job.
+
+     ⛔ Do NOT reintroduce ANY of the retired copy — not the pricing/what-it-costs framing, not the
+        who-it-was-aimed-at framing, not the project tiles, headshot, "how it works" steps, or the
+        taking-on-projects line. The full retired page is in git history if it is ever wanted back
+        (last content revision: commit 95c7eb0, 2026-09-05); it is deliberately not restated here,
+        because the point of this commit is that the wording stops being served from this URL.
+     ⛔ Do NOT add a phone number here (see the 2026-09-05 privacy sweep — a Google Voice number was
+        removed from this page for exactly that reason).
+     ⛔ Do NOT re-add this URL to sitemap.xml or llms.txt; both entries were removed on purpose in
+        the same commit, and a sitemap entry for a noindex redirect stub just asks Google to keep
+        coming back to look at it.
+     ⛔ Do NOT flip robots to index/allow — noindex is what actually drops the old copy out of search
+        results, and "follow" keeps the outbound link to the homepage passing discovery (same
+        reasoning as the contact/ and light/ stubs).
+
+     Title/description below deliberately carry the SITE's identity, not the retired offer's, so that
+     anything Google or a social scraper still renders for this URL describes the homepage it hands
+     off to. Mirrors the metadata pattern the site's other redirect stubs (contact/, light/,
+     tidytab.html) already follow. -->
+<meta name="robots" content="noindex, follow">
+<link rel="canonical" href="https://jacobhl.com/">
+<!-- No-JS fallback: the meta refresh fires even with scripting disabled. The script in <body> does
+     the same hop via location.replace, which leaves no history entry, so Back returns the visitor
+     where they came from instead of bouncing them through this stub again. -->
+<meta http-equiv="refresh" content="0; url=/">
+<!-- Site-wide chrome/icon pattern, so the brief redirect paint (the visible <p> fallback, shown when
+     the instant JS/meta-refresh hop is slow or blocked) matches the homepage this stub hands off to,
+     and so it doesn't fire a 404 for the default /favicon.ico. Two theme-color variants rather than
+     one pinned value: this stub does a plain location.replace('/') that PRESERVES the visitor's saved
+     theme, so it can land on the light OR the dark homepage (#ffffff / #090f20 are the homepage's own
+     two chrome values) — the same reasoning contact/ documents. -->
+<meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#090f20" media="(prefers-color-scheme: dark)">
+<meta name="color-scheme" content="light dark">
+<link rel="icon" type="image/x-icon" href="/assets/img/favicon.ico">
+<title>Jacob Heifetz-Licht | Analytics Manager</title>
+<meta name="description" content="Data analytics leader and app developer specializing in Python, SQL, Tableau, React, and Next.js. Turning data into things people actually use.">
+<meta name="author" content="Jacob Heifetz-Licht">
+<!-- Social-share metadata reusing the site-wide og_image.png (no media asset added), exactly as the
+     other stubs do. og:url points at the destination this stub redirects to (/), not at itself, so a
+     shared or previously-shared /building.html link resolves social signals onto the homepage. Read
+     only by scrapers, which see this served HTML rather than following the hop; no effect on the
+     redirect path, and the page stays noindex. -->
+<meta property="og:title" content="Jacob Heifetz-Licht | Analytics Manager">
+<meta property="og:description" content="Data analytics leader and app developer specializing in Python, SQL, Tableau, React, and Next.js. Turning data into things people actually use.">
+<meta property="og:image" content="https://jacobhl.com/assets/img/og_image_v3.png">
+<meta property="og:image:type" content="image/png">
+<meta property="og:image:width" content="2400">
+<meta property="og:image:height" content="1260">
+<meta property="og:image:alt" content="Jacob Heifetz-Licht, Analytics Manager and app developer">
+<meta property="og:url" content="https://jacobhl.com/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Jacob Heifetz-Licht">
+<meta property="og:locale" content="en_US">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Jacob Heifetz-Licht | Analytics Manager">
+<meta name="twitter:description" content="Data analytics leader and app developer specializing in Python, SQL, Tableau, React, and Next.js. Turning data into things people actually use.">
+<meta name="twitter:image" content="https://jacobhl.com/assets/img/og_image_v3.png">
+<meta name="twitter:image:alt" content="Jacob Heifetz-Licht, Analytics Manager and app developer">
+<!-- Sentry error monitoring, the same loader (same DSN) every other page on the site carries,
+     including the sibling redirect stubs contact/, light/ and tidytab.html. Deliberately WITHOUT a
+     dns-prefetch, matching those stubs' convention (a page that navigates away instantly skips
+     resource hints). -->
+<!-- sentry -->
+<script src="https://js.sentry-cdn.com/ac636d393a29ab42c76e116c2d4d0cad.min.js" crossorigin="anonymous"></script>
+<!-- /sentry -->
+</head>
+<body>
+<p>Redirecting to <a href="/">jacobhl.com</a>…</p>
+<script>location.replace('/');</script>
+<!-- Keep the Umami beacon (same website-id and data-domains as every other jacobhl.com page). This
+     stub exists for printed flyer QRs, and this one line is the only thing that would ever tell
+     Jacob that someone actually scanned one — the zero-visit reading that retired the page came from
+     exactly this beacon. Deferred, fires before the redirect completes. -->
+<script defer src="https://stats.hidescore.com/script.js" data-website-id="ae74c209-399b-416b-b340-b8dfac70cfa3" data-domains="jacobhl.com,www.jacobhl.com"></script>
+</body>
+</html>

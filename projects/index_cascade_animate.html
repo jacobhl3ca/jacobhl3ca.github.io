@@ -1,0 +1,1329 @@
+<!DOCTYPE html>
+<!-- lang="en-US" (not the broader "en") to match the region-specific locale used site-wide — index.html, index_with_animation.html, 404.html, building.html, weather/, and light/ all declare en-US; this animated projects variant was one of the last pages still on the bare "en". A more specific, valid BCP-47 tag gives assistive tech the correct US-English pronunciation/voice and search engines one consistent language signal. No visual change. -->
+<html lang="en-US" data-theme="dark">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <!-- Tint the mobile browser chrome (address bar / status bar) to match this dark-default page. Mirrors the theme-color already on index.html, index_with_animation.html, 404.html, weather/, and light/ — this cascade-animate variant was the one page site-wide still missing it. #090f20 matches index.html's dark chrome (and the sibling index_with_animation.html variant). No visual change to page content. -->
+        <meta name="theme-color" content="#090f20">
+        <!-- Declare supported colour schemes to the UA up front. color-scheme is otherwise only set inside the render-blocking styles.css (:root=light, [data-theme="dark"]=dark), so before that CSS loads the browser doesn't know this is a dark-default page (<html data-theme="dark">) and paints the root canvas/scrollbars with the OS default — a brief light flash. "dark light" matches the document's default while still advertising light-mode support; the CSS color-scheme rules take over once loaded. Completes the site-wide pattern already on index.html, index_with_animation.html, 404.html, weather/, and light/. No visual change to the settled page. -->
+        <meta name="color-scheme" content="dark light">
+        <!-- Root-absolute asset paths (/assets/…), not relative (assets/…): this page lives in /projects/, so a relative "assets/…" resolves to the nonexistent /projects/assets/… — the stylesheet 404'd (leaving the whole page unstyled) and every image/favicon broke. There is no /projects/assets dir; the assets live at the site root. Root-absolute paths point at them from anywhere, matching the site's other subdirectory pages (light/ and weather/ both already use /assets/…). Applied to every asset URL on this page (css, favicon, js, img src, and the data-dark/data-light theme-swap attributes). No visual change once the CSS/images resolve. -->
+        <link rel="stylesheet" href="/assets/css/styles.css">
+        <link rel="icon" type="image/x-icon" href="/assets/img/favicon.ico">
+        <link href='https://cdn.jsdelivr.net/npm/boxicons@2.0.5/css/boxicons.min.css' rel='stylesheet'> <!-- icons -->
+        <!-- Match the homepage's <title> ("Jacob Heifetz-Licht — Analytics Manager") and this page's own og:title/twitter:title (both already the fuller form below): the plain page title was the one metadata field here still lagging with just the bare name, so a bookmark/tab for this cascade-animate variant read differently than the homepage it copies and than its own share-card titles. Prior runs aligned this page's description and keywords; this completes the variant/homepage title consistency. No visual change. -->
+        <title>Jacob Heifetz-Licht — Analytics Manager</title>
+        <!-- Match the homepage's current messaging: index.html was repositioned to lead with web development (React/Next.js) alongside analytics, but this cascade-animate variant kept the older analytics-only description. og:title/twitter:title here already mirror index.html; align the description (and its og/twitter copies below) too so a shared link to this page reflects the current positioning. Prior runs made this same alignment on index_with_animation.html and light/index.html; this experiment was the last variant still on the old copy. No visual change. -->
+        <meta name="description" content="Data analytics leader and app developer specializing in Python, SQL, Tableau, React, and Next.js. Turning data into things people actually use.">
+        <!-- Keep the keyword list in sync with index.html and the sibling variants (index_with_animation.html, light/index.html): the homepage was repositioned to lead with web development (React/Next.js) alongside analytics, and this page's title/og tags were already aligned to that — the keywords meta was the one field here still carrying the older analytics-only list. Completes the variant/homepage metadata consistency. No visual change. -->
+        <meta name="keywords" content="analytics manager, data analytics, Python, SQL, Tableau, automation, dashboard design, data visualization, ETL, BigQuery, JavaScript, React, Node.js, Next.js, web development">
+        <meta name="author" content="Jacob Heifetz-Licht">
+        <!-- noindex (keep follow): this is an unfinished, unlinked "cascade animate" experiment — a near-duplicate of the homepage (same title "Jacob Heifetz-Licht — Analytics Manager", stale description, og:url pointing at jacobhl.com, and no canonical of its own). Left as "index, follow" it's a duplicate-content liability that could compete with the real homepage in search. Match the site's established pattern for alternate/experiment pages — index_with_animation.html and light/index.html both declare exactly "noindex, follow" — so search engines drop this copy but still crawl its links. Not in sitemap.xml. No visual change. -->
+        <meta name="robots" content="noindex, follow">
+        <!-- Canonical → the homepage. This "cascade animate" page is a near-duplicate of the homepage (its own noindex note above flags it: same title/description, og:url already pointing at jacobhl.com, "no canonical of its own"). The noindex,follow keeps it out of the index, but a canonical additionally consolidates any signals for this /projects/index_cascade_animate.html URL onto the real page — mirroring the rel=canonical the site's other noindex homepage variants (index_with_animation.html and light/index.html) already carry. This experiment was the one noindex homepage variant still missing it; completes the canonical pattern across the variants. No visual change. -->
+        <link rel="canonical" href="https://jacobhl.com/">
+        <!-- Open Graph meta tags for link previews -->
+        <meta property="og:title" content="Jacob Heifetz-Licht — Analytics Manager">
+        <!-- <meta property="og:title" content="Jacob Heifetz-Licht — Analytics Engineer"> -->
+        <meta property="og:description" content="Data analytics leader and app developer specializing in Python, SQL, Tableau, React, and Next.js. Turning data into things people actually use.">
+        <!-- Point the share image at the canonical custom domain (jacobhl.com), not the raw jacobhl3ca.github.io host. The site is served from the custom domain via CNAME, so GitHub Pages 301-redirects github.io asset URLs to jacobhl.com — and social scrapers that don't follow redirects for images (a common limitation) then render a broken preview card. Every other page site-wide, including this page's sibling variant index_with_animation.html, already references https://jacobhl.com/assets/img/og_image_v3.png; this animated variant's og:image/twitter:image were the last two share URLs still on the github.io host. Same image file, no visual change to the page. -->
+        <meta property="og:image" content="https://jacobhl.com/assets/img/og_image_v3.png">
+        <!-- Declare the share image's MIME type and pixel dimensions (the file is a 1200×630 PNG). Social scrapers (Facebook, LinkedIn, Slack) use these to reserve the correct card size and render the preview immediately on first share, instead of skipping the image or waiting to fetch-and-measure it. Every other page (index.html, index_with_animation.html, 404.html, weather/, light/) already pairs this same og_image.png with these three tags; this cascade-animate variant was the last one missing them. No visual change to the page itself. -->
+        <meta property="og:image:type" content="image/png">
+        <meta property="og:image:width" content="2400">
+        <meta property="og:image:height" content="1260">
+        <!-- Describe the share image for assistive tech reading a link preview of this page. Every other page (index.html, index_with_animation.html, 404.html, weather/, light/) already pairs this same og_image.png with this exact alt; this cascade-animate variant was the last one missing it. Same wording so the site's shared-link previews stay consistent. No visual change to the page itself. -->
+        <meta property="og:image:alt" content="Jacob Heifetz-Licht — Analytics Manager and app developer">
+        <!-- Give og:url the same trailing-slash canonical form the rest of the site declares. This page's own rel=canonical above is https://jacobhl.com/ (with the slash), and index.html, index_with_animation.html, /weather/, and /light/ all end their og:url in a slash too. Social scrapers (Facebook, LinkedIn, Slack) key share/like aggregation off og:url, and the bare-domain string https://jacobhl.com is a distinct key from the slash form — so a share of this variant would otherwise bucket separately from the real homepage. This cascade-animate variant was the one page still lagging on the bare-domain form (its sibling index_with_animation.html was already fixed); this completes the trailing-slash og:url pattern site-wide. No visual change. -->
+        <meta property="og:url" content="https://jacobhl.com/">
+        <meta property="og:type" content="website">
+        <!-- Name the site and its locale for link previews, mirroring index.html's og block (and index_with_animation.html, 404.html, weather/, light/, which all declare both): og:site_name gives Facebook/LinkedIn/Slack the site label shown above the card title, and og:locale=en_US matches the en-US this page already declares on <html> and its canonical. This cascade-animate variant was the last page site-wide missing these two og fields; adding them completes the variant/homepage OG parity. No visual change to the page itself. -->
+        <meta property="og:site_name" content="Jacob Heifetz-Licht">
+        <meta property="og:locale" content="en_US">
+        <!-- twitter:image here is the 1200×630 landscape og_image.png, which is the format the large-image card expects; "summary" would instead crop it to a small square thumbnail. Use summary_large_image so a shared link to this page gets the full-width banner preview — matching index.html, index_with_animation.html, 404.html, weather/, and light/, which all pair this same image with summary_large_image. This cascade-animate variant was the last page still on the smaller card. No visual change to the page itself. -->
+        <meta name="twitter:card" content="summary_large_image">
+        <meta name="twitter:title" content="Jacob Heifetz-Licht — Analytics Manager">
+        <meta name="twitter:description" content="Data analytics leader and app developer specializing in Python, SQL, Tableau, React, and Next.js. Turning data into things people actually use.">
+        <meta name="twitter:image" content="https://jacobhl.com/assets/img/og_image_v3.png">
+        <!-- Alt text for the Twitter/X card image, mirroring og:image:alt above and the twitter:image:alt already on index.html, index_with_animation.html, 404.html, weather/, and light/ — this cascade-animate variant was the only page still missing it. Gives assistive-tech users a description of the preview image on a shared link. No visual change. -->
+        <meta name="twitter:image:alt" content="Jacob Heifetz-Licht — Analytics Manager and app developer">
+        <!-- Removed a dead, commented-out Plausible analytics snippet that hardcoded a private LAN dev endpoint (an http:// URL to a non-routable 192.168.x.x address): it was inert (commented out) yet still shipped an internal IP in this live page's served source, would never have loaded on production (mixed content + a private, unreachable host), and was inconsistent with the site's actual analytics — every other page uses GoatCounter (gc.zgo.at), which this variant page doesn't carry at all. Pure dead-code/source cleanup; no visual or behavioural change. -->
+        <style>
+            /* Override: cascade with 30px slide up */
+            .reveal { opacity: 0; transform: translateY(30px); transition: opacity 0.6s ease, transform 0.6s ease; }
+            .reveal.visible { opacity: 1; transform: translateY(0); }
+
+            .clickable-img {
+                cursor: pointer;
+                transition: filter 0.5s ease, mix-blend-mode 0.3s ease;
+            }
+            .clickable-img.bg-removed {
+                mix-blend-mode: screen;
+            }
+            [data-theme="dark"] .clickable-img.bg-removed {
+                mix-blend-mode: screen;
+            }
+            html:not([data-theme="dark"]) .clickable-img.bg-removed {
+                mix-blend-mode: multiply;
+            }
+            .home__circle.clickable-img {
+                cursor: pointer;
+            }
+            .home__circle.bg-removed {
+                background-color: transparent;
+            }
+
+            .confetti-piece {
+                position: fixed;
+                width: 10px;
+                height: 10px;
+                pointer-events: none;
+                z-index: 9999;
+            }
+
+            /* project tile images - no special cursor needed */
+
+            .skills__img {
+                cursor: pointer;
+                position: relative;
+            }
+            .code-popup {
+                position: fixed;
+                pointer-events: none;
+                z-index: 9999;
+                font-family: 'Courier New', monospace;
+                font-size: 0.8rem;
+                padding: 0.4rem 0.75rem;
+                border-radius: 6px;
+                background: rgba(30, 30, 60, 0.92);
+                color: #43e97b;
+                border: 1px solid rgba(67, 233, 123, 0.4);
+                white-space: nowrap;
+                box-shadow: 0 4px 16px rgba(0,0,0,0.3);
+                animation: code-float 1.8s ease-out forwards;
+            }
+            html:not([data-theme="dark"]) .code-popup {
+                background: rgba(30, 30, 60, 0.92);
+                color: #43e97b;
+                border-color: rgba(67, 233, 123, 0.4);
+                box-shadow: 0 4px 16px rgba(0,0,0,0.3);
+            }
+            @keyframes code-float {
+                0% { opacity: 0; transform: translateY(0) scale(0.7); }
+                15% { opacity: 1; transform: translateY(-10px) scale(1); }
+                70% { opacity: 1; transform: translateY(-40px) scale(1); }
+                100% { opacity: 0; transform: translateY(-70px) scale(0.9); }
+            }
+
+            .skills__category {
+                margin-bottom: 1.5rem;
+                text-align: left;
+            }
+            .skills__category-title {
+                font-size: 1rem;
+                font-weight: 600;
+                color: var(--first-color);
+                margin-bottom: 0.75rem;
+                display: flex;
+                align-items: center;
+                gap: 0.4rem;
+            }
+            .skills__category-title .skills__icon {
+                font-size: 1.4rem;
+                margin-right: 0;
+            }
+            .skills__tags {
+                display: flex;
+                flex-wrap: wrap;
+                gap: 0.5rem;
+            }
+            .skills__tag {
+                display: inline-block;
+                padding: 0.4rem 1rem;
+                border-radius: 2rem;
+                font-size: 0.85rem;
+                font-weight: 500;
+                background: hsl(var(--hue-color), 89%, 95%);
+                color: hsl(var(--hue-color), 89%, 40%);
+                border: 1px solid hsl(var(--hue-color), 89%, 80%);
+                transition: all 0.3s ease;
+            }
+            .skills__tag:hover {
+                background: var(--first-color);
+                color: #fff;
+                border-color: var(--first-color);
+                transform: translateY(-2px);
+            }
+            [data-theme="dark"] .skills__tag {
+                background: hsl(var(--hue-color), 40%, 18%);
+                color: hsl(var(--hue-color), 89%, 75%);
+                border-color: hsl(var(--hue-color), 40%, 35%);
+            }
+            [data-theme="dark"] .skills__tag:hover {
+                background: var(--first-color);
+                color: #fff;
+                border-color: var(--first-color);
+            }
+            [data-theme="dark"] .skills__category-title {
+                color: var(--first-color);
+            }
+            [data-theme="dark"] .skills__subtitle,
+            [data-theme="dark"] .skills__text {
+                color: #fff;
+            }
+
+            /* Ensure skills text stays blue on mobile */
+            @media screen and (max-width: 767px) {
+                .skills__category-title {
+                    color: var(--first-color);
+                }
+                .skills__tag {
+                    color: hsl(var(--hue-color), 89%, 40%);
+                }
+                [data-theme="dark"] .skills__tag {
+                    color: hsl(var(--hue-color), 89%, 75%);
+                }
+            }
+
+            /* Back to top button */
+            .scroll-down-arrow {
+                position: fixed;
+                bottom: 2rem;
+                right: 2rem;
+                width: 2.5rem;
+                height: 2.5rem;
+                border-radius: 50%;
+                background: var(--first-color);
+                color: #fff;
+                border: none;
+                font-size: 1.2rem;
+                cursor: pointer;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                opacity: 0;
+                visibility: hidden;
+                transition: opacity 0.3s, visibility 0.3s, transform 0.3s;
+                z-index: 99;
+                box-shadow: 0 2px 12px rgba(0,0,0,0.15);
+                animation: bounce-down 2s ease-in-out infinite;
+            }
+            .scroll-down-arrow.visible {
+                opacity: 1;
+                visibility: visible;
+            }
+            html:not([data-theme="dark"]) .scroll-down-arrow {
+                background: #fff;
+                color: #333;
+                box-shadow: 0 2px 12px rgba(0,0,0,0.25);
+            }
+            .scroll-down-arrow:hover {
+                transform: translateY(3px);
+                box-shadow: 0 4px 20px rgba(0,0,0,0.35);
+            }
+            @keyframes bounce-down {
+                0%, 100% { transform: translateY(0); }
+                50% { transform: translateY(5px); }
+            }
+            .back-to-top {
+                position: fixed;
+                bottom: 2rem;
+                right: 2rem;
+                width: 2.5rem;
+                height: 2.5rem;
+                border-radius: 50%;
+                background: var(--first-color);
+                color: #fff;
+                border: none;
+                font-size: 1.2rem;
+                cursor: pointer;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                opacity: 0;
+                visibility: hidden;
+                transition: opacity 0.3s, visibility 0.3s, transform 0.3s;
+                z-index: 99;
+                box-shadow: 0 2px 12px rgba(0,0,0,0.15);
+            }
+            .back-to-top.visible {
+                opacity: 1;
+                visibility: visible;
+            }
+            .back-to-top:hover {
+                transform: translateY(-3px);
+                box-shadow: 0 4px 20px rgba(0,0,0,0.25);
+            }
+
+            /* Easter egg */
+            .easter-egg {
+                position: fixed;
+                bottom: 1rem;
+                left: 1rem;
+                font-size: 1rem;
+                cursor: default;
+                opacity: 0.18;
+                transition: opacity 0.3s;
+                z-index: 98;
+                user-select: none;
+                line-height: 1;
+            }
+            .easter-egg:hover {
+                opacity: 0.35;
+            }
+            .easter-egg.hatched {
+                animation: egg-hatch 0.6s ease forwards;
+                opacity: 0.7;
+            }
+            .easter-egg .bird {
+                position: absolute;
+                bottom: 0;
+                left: 50%;
+                transform: translateX(-50%) scale(0);
+                opacity: 0;
+                font-size: 1.2rem;
+            }
+            .easter-egg.hatched .bird {
+                animation: bird-pop 3s 0.4s ease forwards;
+            }
+            @keyframes egg-hatch {
+                0% { transform: rotate(0deg); }
+                20% { transform: rotate(10deg); }
+                40% { transform: rotate(-10deg); }
+                60% { transform: rotate(8deg); }
+                80% { transform: rotate(-5deg); }
+                100% { transform: rotate(0deg) scale(0.5); opacity: 0.1; }
+            }
+            @keyframes bird-pop {
+                0% { transform: translateX(-50%) translateY(0) scale(0); opacity: 0; }
+                15% { transform: translateX(-50%) translateY(-18px) scale(1.2); opacity: 1; }
+                25% { transform: translateX(-50%) translateY(-12px) scale(1); opacity: 1; }
+                80% { transform: translateX(-50%) translateY(-10px) scale(1); opacity: 1; }
+                100% { transform: translateX(-50%) translateY(-8px) scale(1); opacity: 0; }
+            }
+            /* Honor prefers-reduced-motion. This cascade-animate variant carries several CSS
+               animations (the infinite bounce-down scroll cue, the code-float popups, the
+               egg-hatch/bird-pop easter egg) plus the .reveal cascade slide-up transitions, but —
+               unlike the production styles.css and the sibling index_with_animation.html variant —
+               it had no reduced-motion guard, so motion-sensitive visitors got the full animation
+               set (including the never-ending bounce). Neutralize animations and transitions and
+               settle .reveal to its final state, mirroring the block in assets/css/styles.css and
+               index_with_animation.html. Only affects users who request reduced motion; no change
+               to the default look. */
+            @media (prefers-reduced-motion: reduce) {
+                *, *::before, *::after {
+                    animation-duration: 0.01ms !important;
+                    animation-iteration-count: 1 !important;
+                    transition-duration: 0.01ms !important;
+                }
+                html { scroll-behavior: auto; }
+                .reveal { opacity: 1; transform: none; }
+            }
+        </style>
+    </head>
+    <body>
+        <!-- Keyboard/screen-reader skip link: this page (like index.html) opens with the sticky nav, so without a bypass a keyboard or switch-access user has to tab through every nav item before reaching content (WCAG 2.4.1 Bypass Blocks). Mirrors the skip link on index.html and the sibling index_with_animation.html; targets the main-content landmark below. The .skip-link style (in the already-loaded styles.css) keeps it visually hidden until focused, so there's no visual change. This cascade variant was the one homepage variant still missing it. -->
+        <a href="#main-content" class="skip-link">Skip to main content</a>
+        <!--===== HEADER =====-->
+        <header class="l-header">
+            <nav class="nav bd-grid">
+                <div>
+                    <!-- Point the "Jacob" logo at the #home section (which exists on this page, id="home") instead of a bare href="#". A lone "#" scrolls to the raw top of the document and appends a meaningless "#" to the URL, whereas #home lands on the actual home section with the site's smooth-scroll — matching this page's own "Home" nav link (href="#home" just below) and the identical nav__logo on the two sibling pages (index.html, index_with_animation.html both use href="#home"). This cascade variant was the one page still on the bare "#". No visual change. -->
+                    <a href="#home" class="nav__logo">Jacob</a>
+                </div>
+                <div class="nav__menu" id="nav-menu">
+                    <ul class="nav__list">
+
+                        <li class="nav__item"><a href="#home" class="nav__link active-link">Home</a></li>
+                        <li class="nav__item"><a href="#about" class="nav__link">About</a></li>
+
+                        <!-- Update Periodically -->
+                        <li class="nav__item"><a href="#skills" class="nav__link">Skills</a></li> 
+                        <li class="nav__item"><a href="#Projects" class="nav__link">Projects</a></li> <!-- or "Work" -->
+
+                        <li class="nav__item"><a href="#contact" class="nav__link">Contact</a></li>
+
+                    </ul>
+                </div>
+                <div style="display: flex; align-items: center;">
+                    <!-- Baseline accessible name for this icon-only toggle. main.js sets the aria-label on load and on each toggle (Switch to light/dark mode), but it runs at the end of <body> — so until then the button shipped with no accessible name and was announced as an unlabeled "button" (WCAG 4.1.2 Name, Role, Value). This page defaults to dark (<html data-theme="dark"> + the sun icon), so "Switch to light mode" is the correct baseline; main.js keeps it in sync afterward. aria-hidden on the decorative icon and type="button" mirror the production homepage toggle (index.html). No visual change. -->
+                    <button type="button" id="theme-toggle" class="theme-toggle" aria-label="Switch to light mode" style="position: relative; top: -2px;">
+                        <i class='bx bx-sun' id="theme-icon" aria-hidden="true"></i>
+                    </button>
+                    <!-- Keyboard-operable, self-describing baseline for this div[role=button] menu toggle, mirroring the production homepage (index.html). main.js's showMenu() adds tabindex="0" and keeps aria-expanded in sync — but it runs at the end of <body>, so until then this control was unreachable by keyboard and announced with no state; and it never sets aria-controls at all, so the toggle→menu relationship was never exposed to assistive tech on this page. Declaring all three in markup fixes the pre-JS window (tabindex/aria-expanded) and supplies the association JS doesn't (aria-controls points at the #nav-menu above). No visual change. -->
+                    <div class="nav__toggle" id="nav-toggle" role="button" tabindex="0" aria-label="Toggle navigation menu" aria-controls="nav-menu" aria-expanded="false">
+                        <i class='bx bx-menu' aria-hidden="true"></i>
+                    </div>
+                </div>
+            </nav>
+        </header>
+        <main class="l-main" id="main-content" tabindex="-1"> <!-- id = skip-link target; tabindex="-1" lets the anchor move focus here (a <main> isn't focusable by default) so the skip actually lands, not just scrolls. Mirrors index.html / index_with_animation.html. -->
+            <!--===== HOME =====-->
+            <section class="home bd-grid" id="home">
+                <div class="home__data">
+                    <h1 class="home__title">Hi,<br>I’m <span class="home__title-color">Jacob</span><br>Analytics Manager</h1>
+                    <!-- Analytics Engineer --> 
+                    <!-- or Manager, Analytics -->
+                    <a href="#contact" class="button">Contact</a>
+                </div>
+
+                <div class="home__social">
+                    <a href="https://www.linkedin.com/in/jacobhl/" class="home__social-icon" target="_blank" rel="me noopener noreferrer" aria-label="LinkedIn profile"><i class='bx bxl-linkedin' aria-hidden="true"></i></a>
+                    <a href="https://github.com/jacobhl3ca" class="home__social-icon" target="_blank" rel="me noopener noreferrer" aria-label="GitHub profile"><i class='bx bxl-github' aria-hidden="true"></i></a>
+                    <!-- Plain mailto: href, mirroring the live index.html / index_with_animation.html email icons (href="mailto:hi@jacobhl.com", no target, no onclick). The previous href="#" + JS-only onclick was a dead anchor on the no-JS path — clicking it jumped to the top of the page instead of opening a mail client — and its 'mail'+'to:' string-splitting gave no real spam protection, since the same address is already published as a plain mailto site-wide (index.html contact links, building.html). A real mailto href works without JS, is announced correctly by assistive tech, and target="_blank"/rel are dropped as meaningless on a mailto. This cascade-animate variant was the last page still carrying the old dead-anchor pattern on both its email icons. No visual change. -->
+                    <a href="mailto:hi@jacobhl.com" class="home__social-icon" aria-label="Send email"><i class='bx bx-envelope' aria-hidden="true"></i></a>
+                    <a href="#contact" class="home__social-icon" onclick="event.preventDefault(); requestResume()" aria-label="Request resume"><i class='bx bx-file' aria-hidden="true"></i></a>
+                </div>
+
+                <div class="home__img">
+                    <div class="home__circle clickable-img" id="home-photo">
+                        <!-- Intrinsic width/height (matching the source files, 705x800) so the browser reserves the portrait's box before the image loads, preventing the layout shift (CLS) an unsized img causes as it pops in. These are the real dimensions of /assets/img/header.png and the exact values index.html and the index_with_animation.html sibling already declare on this same hero image; CSS (.home__circle-img) still controls the rendered size, so the attributes only supply the aspect ratio and change nothing visually. This cascade variant was the one homepage page still shipping these three photos unsized. -->
+                        <img src="/assets/img/header.png" alt="Jacob Heifetz-Licht" width="705" height="800" class="home__circle-img">
+                    </div>
+                </div>
+            </section>
+
+            <!--===== ABOUT =====-->
+            <section class="about section " id="about">
+                <h2 class="section-title">About</h2>
+
+                <div class="about__container bd-grid">
+                    <div class="about__img">
+
+                         <!-- loading="lazy" decoding="async" on this and every image below the fold (the about/skills photos and all project thumbnails): this cascade variant was the one page site-wide still eager-loading its whole image set, so every thumbnail was fetched up front on load even though they sit well below the viewport. Lazy defers each off-screen fetch until it nears the viewport and decoding="async" keeps the decode off the main thread — mirroring the exact attributes the sibling homepage variant (index_with_animation.html) and index.html already carry on these same theme-swapped images. The hero portrait above is deliberately left eager (it's the above-the-fold LCP). No visual change. -->
+                         <img loading="lazy" decoding="async" src="/assets/img/about.jpg" alt="Jacob Heifetz-Licht portrait" width="600" height="600" class="clickable-img" id="about-photo">
+
+                    </div>
+                    <div>
+                        
+                        <h2 class="about__subtitle">I’m Jacob</h2>
+                        <p class="about__text">
+
+                            🌟 Hi there! 
+                            I’m a passionate data analytics leader 
+                            with a knack for turning complex data into actionable insights. 
+                            Over the years, I’ve led impactful projects at companies like Kepler, Condé Nast, and Deloitte, 
+                            where I’ve automated processes (saving thousands of hours and dollars), 
+                            built award-winning dashboards, and mentored teams to unlock their full potential.
+                            <br><br>
+
+                            Whether it’s optimizing scripts or 
+                            creating self-service tools for executives, 
+                            I geek out on blending my technical chops 
+                            (Python, SQL, Tableau, and more!) 
+                            with strategic thinking to solve real-world problems.
+                            <br><br>
+                            
+                            A proud Rutgers grad with a passion for entrepreneurship, 
+                            I’m always excited to collaborate, innovate, and empower teams. 
+                            Let’s connect if you’re looking for someone who 
+                            can turn data into your organization’s superpower—or 
+                            if you just want to chat about the latest in AI, analytics, or data viz! 🚀✨
+
+                        </p>           
+                    </div>                                   
+                </div>
+            </section>
+
+            <!--===== SKILLS =====-->
+            <section class="skills section" id="skills">
+                <h2 class="section-title">Skills</h2>
+
+                <div class="skills__container bd-grid">          
+                    <div>
+                        <h2 class="skills__subtitle">Professional Skills</h2>
+                        <p class="skills__text">
+                            As a data analytics leader, I bring a diverse skill set spanning technical expertise and strategic thinking,
+                            transforming complex datasets into actionable insights that drive business decisions.
+                        </p>
+
+                        <div class="skills__category">
+                            <h3 class="skills__category-title"><i class='bx bx-code-alt skills__icon' aria-hidden="true"></i> Languages &amp; Scripting</h3>
+                            <div class="skills__tags">
+                                <span class="skills__tag">Python</span>
+                                <span class="skills__tag">SQL</span>
+                                <span class="skills__tag">Google Apps Script</span>
+                                <span class="skills__tag">HTML / CSS</span>
+                            </div>
+                        </div>
+
+                        <div class="skills__category">
+                            <h3 class="skills__category-title"><i class='bx bx-bar-chart-alt-2 skills__icon' aria-hidden="true"></i> Data &amp; Visualization</h3>
+                            <div class="skills__tags">
+                                <span class="skills__tag">Tableau</span>
+                                <span class="skills__tag">Looker</span>
+                                <span class="skills__tag">Qlik</span>
+                                <span class="skills__tag">Datorama</span>
+                                <span class="skills__tag">Mode Analytics</span>
+                                <span class="skills__tag">Excel</span>
+                                <span class="skills__tag">Google Sheets</span>
+                            </div>
+                        </div>
+
+                        <div class="skills__category">
+                            <h3 class="skills__category-title"><i class='bx bx-data skills__icon' aria-hidden="true"></i> Analytics Platforms</h3>
+                            <div class="skills__tags">
+                                <span class="skills__tag">BigQuery</span>
+                                <span class="skills__tag">GA4</span>
+                                <span class="skills__tag">Adobe Analytics</span>
+                                <span class="skills__tag">Google Data Studio</span>
+                            </div>
+                        </div>
+
+                        <div class="skills__category">
+                            <h3 class="skills__category-title"><i class='bx bx-cog skills__icon' aria-hidden="true"></i> Automation &amp; Infrastructure</h3>
+                            <div class="skills__tags">
+                                <span class="skills__tag">Process Automation</span>
+                                <span class="skills__tag">ETL Pipelines</span>
+                                <span class="skills__tag">APIs</span>
+                                <span class="skills__tag">Docker</span>
+                                <span class="skills__tag">Linux</span>
+                                <span class="skills__tag">Git</span>
+                            </div>
+                        </div>
+
+                        <div class="skills__category">
+                            <h3 class="skills__category-title"><i class='bx bx-bulb skills__icon' aria-hidden="true"></i> Strategy &amp; Leadership</h3>
+                            <div class="skills__tags">
+                                <span class="skills__tag">Analytics Strategy</span>
+                                <span class="skills__tag">Stakeholder Communication</span>
+                                <span class="skills__tag">Data Storytelling</span>
+                                <span class="skills__tag">Dashboard Design</span>
+                                <span class="skills__tag">Cross-functional Collaboration</span>
+                                <!-- <span class="skills__tag">Media Strategy</span> -->
+                                <!-- <span class="skills__tag">Roadmap Planning</span> -->
+                            </div>
+                        </div>
+
+                        <!--
+                        <div class="skills__category">
+                            <h3 class="skills__category-title"><i class='bx bx-certification skills__icon' aria-hidden="true"></i> Certifications</h3>
+                            <div class="skills__tags">
+                                <span class="skills__tag">Automate the Boring Stuff with Python</span>
+                                <span class="skills__tag">Tableau Desktop Specialist</span>
+                                <span class="skills__tag">Google Analytics Certified</span>
+                                <span class="skills__tag">Google Data Studio Certified</span>
+                                <span class="skills__tag">Google Sheets Certified</span>
+                            </div>
+                        </div>
+                        -->
+                    </div>
+                    
+                    <div>              
+                        <img loading="lazy" decoding="async" src="/assets/img/skills.jpg" alt="Jacob working with data analytics tools" width="640" height="426" class="skills__img" id="skills-photo">
+                    </div>
+                </div>
+            </section>
+
+            <!-- ===== PROJECTS =====--> <!-- or "Work" -->
+            
+            <section class="work section" id="Projects">
+
+                <h2 class="section-title">Projects</h2> 
+                
+                <div class="work__container bd-grid">
+
+                    <div class="work__img"> <!-- Spotify Analytics -->
+                        <!-- <a href=""> -->
+                            <img loading="lazy" decoding="async" src="/assets/img/spotify_monthly.png" alt="Spotify Analytics" data-dark="/assets/img/spotify_monthly.png" data-light="/assets/img/spotify_monthly_light.png" id="project-spotify-analytics">
+                        <!-- </a> -->
+                        <div class="work__description">
+                            <center>
+                                <h3>
+                                    Spotify Analytics
+                                </h3>
+                                <p>
+                                    Summarize listening trends, without relying on annual Spotify Wrapped. Created an interactive dashboard highlighting top songs/artists/albums via listening trends, heatmaps, skip-rate analysis, artist evolution timelines, session tracking, and listening clock, using Python, Plotly, and Streamlit.
+                                </p>
+                            </center>
+                        </div>
+                    </div>
+
+                    <div class="work__img"> <!-- Spotify Playlist Archiver -->
+                        <!-- <a href=""> -->
+                            <img loading="lazy" decoding="async" src="/assets/img/spotify_archiver.png" alt="Spotify Playlist Archiver" style="object-fit: contain; background: #121212;" data-dark="/assets/img/spotify_archiver.png" data-light="/assets/img/spotify_archiver_light.png" id="project-spotify-archiver">
+                        <!-- </a> -->
+                        <div class="work__description">
+                            <center>
+                                <h3>
+                                    Spotify Playlist Archiver
+                                </h3>
+                                <p>
+                                    Automatic weekly archiver of playlists that would otherwise disappear. Includes Discover Weekly, Release Radar, and Your Top Songs at different granularities. Uses PyAutoGUI automation for playlists unavailable via API, and the Spotify API for top tracks with rate-limit handling (Python, Spotipy).
+                                </p>
+                            </center>
+                        </div>
+                    </div>
+
+                    <div class="work__img"> <!-- Personal Finance App -->
+                        <!-- <a href=""> -->
+                            <img loading="lazy" decoding="async" src="/assets/img/finance_trend.png" alt="Personal Finance App" data-dark="/assets/img/finance_trend.png" data-light="/assets/img/finance_trend_light.png">
+                        <!-- </a> -->
+                        <div class="work__description">
+                            <center>
+                                <h3>
+                                    Personal Finance App
+                                </h3>
+                                <p>
+                                    Enables precise <!-- added precise --> daily budgeting, investment planning, and optimization, using Python and Apps Script.
+                                </p>
+                            </center>
+                        </div>
+                    </div>
+
+                    <div class="work__img"> <!-- E-commerce Store -->
+                            <img loading="lazy" decoding="async" src="/assets/img/stripe_dark.svg" alt="E-commerce Store" style="object-fit: cover; background: #121212;" data-dark="/assets/img/stripe_dark.svg" data-light="/assets/img/stripe_light.svg">
+                        <div class="work__description">
+                            <center>
+                                <h3>
+                                    E-commerce Store
+                                </h3>
+                                <p>
+                                    Full-stack e-commerce site with Stripe payment processing, Express.js backend (Node.js, Stripe API, HTML/CSS/JS).
+                                </p>
+                            </center>
+                        </div>
+                    </div>
+
+                    <div class="work__img"> <!-- Automation Utilities -->
+                            <img loading="lazy" decoding="async" src="/assets/img/automation_dark.svg" alt="Automation Utilities" style="object-fit: cover; background: #121212;" data-dark="/assets/img/automation_dark.svg" data-light="/assets/img/automation_light.svg">
+                        <div class="work__description">
+                            <center>
+                                <h3>
+                                    Automation Utilities
+                                </h3>
+                                <p>
+                                    <!-- Safari description Option A: "...Safari bulk tab unpinning and closing — handling Safari's quirk where tabs shift position during unpin, requiring reverse iteration..." -->
+                                    <!-- Safari description Option B: "...Safari bulk tab unpinning and closing with bidirectional navigation, solving Safari's behavior where unpinning a tab shifts remaining tabs and breaks sequential automation..." -->
+                                    <!-- Safari description Option C: "...Safari bulk tab unpinning and closing — Safari doesn't support batch unpin natively, and unpinning a tab causes remaining pinned tabs to shift position, breaking forward navigation; solved with reverse iteration and per-tab error handling across multiple windows..." -->
+                                    macOS productivity automation suite including Safari bulk tab unpinning and closing, timesheet autofill via keystroke injection, a variety of frequently used toggles (menu bar hide/show, system-wide dark/light mode, VPN connect/disconnect), keyboard backlight control, dock spacer grouping, and game re-roll automation (Python, AppleScript, Bash, PyAutoGUI).
+                                </p>
+                            </center>
+                        </div>
+                    </div>
+
+                    <div class="work__img"> <!-- System Administration -->
+                        <!-- <a href=""> -->
+                            <img loading="lazy" decoding="async" src="/assets/img/docker_dark.png" alt="System Administration" data-dark="/assets/img/docker_dark.png" data-light="/assets/img/docker_dark_light.png">
+                        <!-- </a> -->
+                        <div class="work__description">
+                            <center>
+                                <h3>
+                                    System Administration
+                                </h3>
+                                <p>
+                                    Self-hosted web apps and network services on a Linux server (Docker, Docker Compose) including Plex media automation stack, Portainer, and Plausible Analytics (PostgreSQL, ClickHouse).
+                                </p>
+                            </center>
+                        </div>
+                    </div>
+
+                    <!-- Safari Unpinner (commented out)
+                    <div class="work__img">
+                            <img loading="lazy" decoding="async" src="/assets/img/unpin_safari.png" alt="Safari Unpinner" style="object-fit: cover;">
+                        <div class="work__description">
+                            <center>
+                                <h3>
+                                    Safari Unpinner
+                                </h3>
+                                <p>
+                                    Python automation script that better manages Safari pinned tabs. Supports bulk unpinning and closing operations with bidirectional navigation.
+                                </p>
+                            </center>
+                        </div>
+                    </div>
+                    -->
+
+                    <!-- Weather Dashboard (commented out)
+                    <div class="work__img">
+                            <img loading="lazy" decoding="async" src="/assets/img/weather_real.png" alt="Weather Dashboard" style="object-fit: cover;">
+                        <div class="work__description">
+                            <center>
+                                <h3>
+                                    Weather Dashboard
+                                </h3>
+                                <p>
+                                    Desktop weather app with real-time conditions and interactive 5-day temperature forecast graph. Integrates the OpenWeather API, city search, and configurable settings (Python, Tkinter, Matplotlib).
+                                </p>
+                            </center>
+                        </div>
+                    </div>
+                    -->
+
+                    <!-- Coinbase Analytics (commented out)
+                    <div class="work__img">
+                            <img loading="lazy" decoding="async" src="/assets/img/coinbase_dark.png" alt="Coinbase Analytics">
+                        <div class="work__description">
+                            <center>
+                                <h3>
+                                    Coinbase Analytics
+                                </h3>
+                                <p>
+                                    Crypto portfolio analytics app with Coinbase API authentication, real-time price tracking, and profit/cost analysis for Bitcoin, Ethereum, and Litecoin (Node.js, Google Cloud, Angular.js, HTML/CSS/JS). Best Financial Hack — HackPrinceton 2017.
+                                </p>
+                            </center>
+                        </div>
+                    </div>
+                    -->
+
+                    <!-- Data Analytics Dashboard (commented out)
+                    <div class="work__img">
+                            <img loading="lazy" decoding="async" src="/assets/img/data_analytics_real.png" alt="Data Analytics Dashboard" style="object-fit: cover;">
+                        <div class="work__description">
+                            <center>
+                                <h3>
+                                    Data Analytics Dashboard
+                                </h3>
+                                <p>
+                                    Full-stack interactive analytics platform with ETL pipeline, statistical analysis (t-tests, ANOVA, chi-square), machine learning (RandomForest regression, K-Means/DBSCAN clustering), and 10+ visualization types. Supports CSV/Excel upload and live data exploration (Python, Streamlit, Plotly, scikit-learn).
+                                </p>
+                            </center>
+                        </div>
+                    </div>
+                    -->
+
+                    <!-- TaskMaster Mobile App (commented out)
+                    <div class="work__img">
+                            <img loading="lazy" decoding="async" src="/assets/img/taskmaster_real.png" alt="TaskMaster Mobile App" style="object-fit: cover; background: #0d1117;">
+                        <div class="work__description">
+                            <center>
+                                <h3>
+                                    TaskMaster Mobile App
+                                </h3>
+                                <p>
+                                    React Native task management app with three-tab navigation: a Home dashboard showing productivity stats (total, completed, in-progress, pending) and recent tasks with priority badges; a Tasks screen with live search, status-based filtering (All/Pending/In Progress/Completed), category labels, and due dates; and a Profile screen with avatar, success-rate metrics, and settings menu. Built with Expo, React Navigation bottom tabs, and Ionicons (React Native, Expo, React Navigation).
+                                </p>
+                            </center>
+                        </div>
+                    </div>
+                    -->
+
+                    <!-- Terminal Snake Game (commented out)
+                    <div class="work__img">
+                            <img loading="lazy" decoding="async" src="/assets/img/snake_real.png" alt="Terminal Snake Game" style="object-fit: cover;">
+                        <div class="work__description">
+                            <center>
+                                <h3>
+                                    Terminal Snake Game
+                                </h3>
+                                <p>
+                                    Feature-rich terminal snake game with 4 food types (regular, super, bonus, power-up), 5 customizable snake skins, persistent JSON high-score leaderboard, difficulty scaling, speed boosts, invincibility mode, and visual effects. Built with Python curses (480 lines).
+                                </p>
+                            </center>
+                        </div>
+                    </div>
+                    -->
+
+                    <!-- Surfing Cat Emoji (commented out)
+                    <div class="work__img">
+                            <img loading="lazy" decoding="async" src="/assets/img/surfing_cat_real.png" alt="Surfing Cat Emoji Creator" style="object-fit: cover;">
+                        <div class="work__description">
+                            <center>
+                                <h3>
+                                    Surfing Cat Emoji
+                                </h3>
+                                <p>
+                                    Custom SVG emoji creator featuring a hand-drawn tuxedo cat surfing on a surfboard. Three size variants (64/128/256px) with gradient shading, whiskers, and water splash effects. Download as SVG/PNG or copy to clipboard. Pure HTML/CSS/JS, no dependencies.
+                                </p>
+                            </center>
+                        </div>
+                    </div>
+                    -->
+
+                    <!-- Beat Generator (commented out)
+                    <div class="work__img">
+                            <img loading="lazy" decoding="async" src="/assets/img/beatgen_real.png" alt="Procedural Beat Generator" style="object-fit: cover;">
+                        <div class="work__description">
+                            <center>
+                                <h3>
+                                    Procedural Beat Generator
+                                </h3>
+                                <p>
+                                    Synthesizes kicks, snares, hi-hats, claps, and toms from pure math (sine sweeps, filtered noise, envelopes), then arranges 16-step patterns into WAV files. 5 genre presets (Rock, House, Hip Hop, Breakbeat, Trap), configurable BPM/bars/swing, and batch export. Python + NumPy, zero audio samples needed.
+                                </p>
+                            </center>
+                        </div>
+                    </div>
+                    -->
+
+                    <!-- Tigers App (commented out)
+                    <div class="work__img">
+                            <img loading="lazy" decoding="async" src="/assets/img/tigers_real.png" alt="Detroit Tigers iOS App" style="object-fit: cover; background: #0d1117;">
+                        <div class="work__description">
+                            <center>
+                                <h3>
+                                    Detroit Tigers iOS App
+                                </h3>
+                                <p>
+                                    Native SwiftUI iOS app for watching Detroit Tigers game highlights without score spoilers. Integrates MLB Stats API for real schedules, YouTube Data API and MLB Film Room for video highlights, with background refresh, video preloading, WKWebView player, and Keychain storage (Swift, 1,774 lines).
+                                </p>
+                            </center>
+                        </div>
+                    </div>
+                    -->
+
+                </div>
+            </section>
+
+            <!--===== CONTACT =====-->
+            <section class="contact section" id="contact">
+                <h2 class="section-title">Contact</h2>
+                <div class="contact__container bd-grid">
+                    <form action="https://formspree.io/f/mkgqkgyr" method="POST" class="contact__form">
+                        <!-- Formspree honeypot: hidden from people, but bots fill it in — those submissions are silently discarded as spam. This cascade-animate variant posts to the same Formspree endpoint as the live index.html contact form, and was the last form site-wide still missing the honeypot the production form, index_with_animation.html, and projects-stack-preview.html already carry — so bots that reach this page could spam Jacob's shared inbox unfiltered. Kept out of the tab order and the accessibility tree; no visual change. -->
+                        <input type="text" name="_gotcha" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden;">
+                        <!-- Formspree reads a field named _subject to set the notification email's subject line; without it these submissions land in Jacob's inbox under Formspree's generic default, indistinguishable from the production form's messages since both post to the same endpoint. A fixed, identifiable subject makes them easy to spot and filter. Hidden fixed value, kept out of the tab order and the accessibility tree — no visual or user-facing behaviour change. -->
+                        <input type="hidden" name="_subject" value="New message from jacobhl.com" tabindex="-1" aria-hidden="true">
+                        <!-- Accessible names for the contact fields: the placeholder is only a hint (it disappears once typing starts and isn't a reliable accessible name), so without these a screen reader announced each field as an unlabeled "edit text" (WCAG 3.3.2 Labels / 4.1.2 Name, Role, Value). aria-label keeps the placeholder-only visual design unchanged while giving each control a stable name — mirroring the labels already on the production homepage contact form (index.html). No visual change. -->
+                        <!-- Autofill + mobile-input hints, bringing this cascade variant's contact form in line with the set every other homepage form already carries (index.html, index_with_animation.html, me/, projects-stack-preview.html). autocomplete="name"/"email" lets the browser offer stored values and satisfies WCAG 1.3.5 (Identify Input Purpose) — this variant's fields were the one contact form site-wide still declaring no input purpose. The rest tune the on-screen keyboard and stop the field being mangled: autocapitalize="words" on the name and "off" on the email (so the local part isn't capitalized), autocorrect="off" so an unusual name/address isn't "corrected" mid-entry (iOS autocorrects text inputs by default), spellcheck="false" so neither is flagged with red squiggles, and inputmode="email" reinforcing type="email"'s email keyboard for Android IMEs. All editable hints; no visual change on desktop. -->
+                        <input type="text" name="name" placeholder="Name" class="contact__input" aria-label="Your name" autocomplete="name" autocapitalize="words" autocorrect="off" spellcheck="false" required>
+                        <input type="email" name="email" placeholder="Email" class="contact__input" aria-label="Your email address" autocomplete="email" inputmode="email" autocapitalize="off" autocorrect="off" spellcheck="false" required>
+                        <textarea name="message" placeholder="Your Message" class="contact__input" aria-label="Your message" rows="10" required></textarea>
+                        <button type="submit" class="contact__button button">Send</button>
+                    </form>
+                </div>
+            </section>
+            
+        </main>
+
+        <!--===== FOOTER =====-->
+        <footer class="footer">
+            <p class="footer__title">Jacob</p>
+            <div class="footer__social">
+
+                <a href="https://www.linkedin.com/in/jacobhl/" class="footer__icon" target="_blank" rel="me noopener noreferrer" aria-label="LinkedIn profile"><i class='bx bxl-linkedin' aria-hidden="true"></i></a>
+
+                <a href="https://github.com/jacobhl3ca" class="footer__icon" target="_blank" rel="me noopener noreferrer" aria-label="GitHub profile"><i class='bx bxl-github' aria-hidden="true"></i></a>
+
+                <!-- Plain mailto: href, mirroring the home email icon above and the live index.html / index_with_animation.html footer icons. The previous href="#" + JS-only onclick was a dead anchor without JS (it jumped to the top of the page rather than opening a mail client), and its 'mail'+'to:' obfuscation added no protection since the address is plain-text mailto site-wide. A real mailto works without JS and is announced correctly by assistive tech; target="_blank"/rel are dropped as meaningless on a mailto. No visual change. -->
+                <a href="mailto:hi@jacobhl.com" class="footer__icon" aria-label="Send email"><i class='bx bx-envelope' aria-hidden="true"></i></a>
+
+                <a href="#contact" class="footer__icon" onclick="event.preventDefault(); requestResume()" aria-label="Request resume"><i class='bx bx-file' aria-hidden="true"></i></a>
+
+            </div>
+
+            <p class="footer__copy">Thanks for coming!</p>
+
+        </footer>
+
+        <!-- Scroll down arrow -->
+        <!-- Explicit type="button": a <button> with no type defaults to type="submit", and this
+             cascade-animate variant carries a Formspree contact form (.contact__form above), so an
+             untyped button is a latent submit footgun and is announced to assistive tech with the
+             wrong "submit button" role. These two nav buttons sit outside the form so they don't
+             submit it today, but typing them states the real JS-only intent and matches the
+             type="button" the sibling index_with_animation.html and the live index.html already
+             carry on this same pair. Text-only, no visual change. -->
+        <button type="button" class="scroll-down-arrow" id="scrollDown" aria-label="Scroll down">
+            <i class='bx bx-chevron-down' aria-hidden="true"></i>
+        </button>
+
+        <!-- Back to top button -->
+        <button type="button" class="back-to-top" id="backToTop" aria-label="Back to top">
+            <i class='bx bx-chevron-up' aria-hidden="true"></i>
+        </button>
+
+        <!-- Easter egg (uncomment to enable)
+        <div class="easter-egg" id="easterEgg">🥚<span class="bird">🐣</span></div>
+        -->
+
+        <script>
+            if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
+            // Clear hash so refresh doesn't jump to #contact
+            if (window.location.hash) {
+                history.replaceState(null, '', window.location.pathname);
+            }
+            window.scrollTo(0, 0);
+        </script>
+
+
+        <!--===== MAIN JS =====-->
+        <script src="/assets/js/main.js"></script>
+
+        <script>
+
+            // --- Image click effects ---
+            function spawnConfetti(x, y, count) {
+                const colors = ['#6c63ff', '#ff6584', '#43e97b', '#f9d423', '#00d2ff', '#ff4e50', '#fc5c7d', '#4361ee'];
+                const shapes = ['circle', 'square', 'triangle'];
+                for (let i = 0; i < count; i++) {
+                    const el = document.createElement('div');
+                    el.classList.add('confetti-piece');
+                    const color = colors[Math.floor(Math.random() * colors.length)];
+                    const shape = shapes[Math.floor(Math.random() * shapes.length)];
+                    const size = 6 + Math.random() * 10;
+                    el.style.left = x + 'px';
+                    el.style.top = y + 'px';
+                    el.style.width = size + 'px';
+                    el.style.height = size + 'px';
+                    el.style.background = color;
+                    if (shape === 'circle') el.style.borderRadius = '50%';
+                    else if (shape === 'triangle') {
+                        el.style.width = '0'; el.style.height = '0';
+                        el.style.background = 'transparent';
+                        el.style.borderLeft = size/2 + 'px solid transparent';
+                        el.style.borderRight = size/2 + 'px solid transparent';
+                        el.style.borderBottom = size + 'px solid ' + color;
+                    }
+                    document.body.appendChild(el);
+                    const angle = (Math.PI * 2 * i / count) + (Math.random() - 0.5) * 0.8;
+                    const distance = 120 + Math.random() * 200;
+                    const dx = Math.cos(angle) * distance;
+                    const dy = Math.sin(angle) * distance - 80;
+                    const spin = (Math.random() - 0.5) * 1080;
+                    const duration = 800 + Math.random() * 600;
+                    el.animate([
+                        { opacity: 1, transform: 'translate(0, 0) rotate(0deg) scale(1)' },
+                        { opacity: 0.8, transform: `translate(${dx*0.4}px, ${dy*0.3}px) rotate(${spin*0.4}deg) scale(1.1)`, offset: 0.3 },
+                        { opacity: 0, transform: `translate(${dx}px, ${dy}px) rotate(${spin}deg) scale(0.2)` }
+                    ], { duration: duration, easing: 'cubic-bezier(0.25, 0.46, 0.45, 0.94)', fill: 'forwards' });
+                    setTimeout(() => el.remove(), duration + 100);
+                }
+            }
+
+            function wiggleElement(el) {
+                el.style.transition = 'transform 0.1s ease';
+                const steps = [
+                    'rotate(3deg) scale(1.05)',
+                    'rotate(-3deg) scale(1.05)',
+                    'rotate(2deg) scale(1.03)',
+                    'rotate(-2deg) scale(1.03)',
+                    'rotate(0deg) scale(1)',
+                ];
+                let i = 0;
+                const interval = setInterval(() => {
+                    if (i >= steps.length) { clearInterval(interval); el.style.transition = ''; el.style.transform = ''; return; }
+                    el.style.transform = steps[i]; i++;
+                }, 80);
+            }
+
+            let confettiClickCount = 0;
+
+            const burstStyles = [
+                { name: 'starburst', colors: ['#FFD700', '#FF4500', '#FF6347', '#FFA500', '#FFFF00'], shape: 'star', glow: true },
+                { name: 'hearts', colors: ['#FF1493', '#FF69B4', '#FF007F', '#DC143C', '#FF4081'], shape: 'heart', glow: false },
+                { name: 'neon', colors: ['#00FF41', '#00FFFF', '#FF00FF', '#FFFF00', '#7B68EE'], shape: 'circle', glow: true },
+                { name: 'firework', colors: ['#FF0000', '#FF7700', '#FFFF00', '#FFFFFF', '#00BFFF'], shape: 'spark', glow: true },
+                { name: 'confetti-rain', colors: ['#6c63ff', '#ff6584', '#43e97b', '#f9d423', '#fc5c7d'], shape: 'rect', glow: false },
+                { name: 'galaxy', colors: ['#9B59B6', '#3498DB', '#1ABC9C', '#E8DAEF', '#AED6F1'], shape: 'circle', glow: true },
+                { name: 'fire', colors: ['#FF4500', '#FF6600', '#FF8C00', '#FFD700', '#FFF8DC'], shape: 'triangle', glow: true },
+                { name: 'ocean', colors: ['#006994', '#00CED1', '#20B2AA', '#48D1CC', '#AFEEEE'], shape: 'circle', glow: true },
+                { name: 'rainbow', colors: ['#FF0000', '#FF7F00', '#FFFF00', '#00FF00', '#0000FF', '#8B00FF'], shape: 'mixed', glow: false },
+            ];
+
+            function spawnBurst(x, y, style) {
+                const count = 60 + Math.floor(Math.random() * 30);
+                for (let i = 0; i < count; i++) {
+                    const el = document.createElement('div');
+                    el.classList.add('confetti-piece');
+                    const color = style.colors[Math.floor(Math.random() * style.colors.length)];
+                    const size = 6 + Math.random() * 12;
+                    el.style.left = x + 'px';
+                    el.style.top = y + 'px';
+                    el.style.width = size + 'px';
+                    el.style.height = size + 'px';
+                    el.style.background = color;
+                    if (style.glow) el.style.boxShadow = `0 0 ${size}px ${color}`;
+
+                    const s = style.shape === 'mixed' ? ['circle','square','triangle'][i%3] : style.shape;
+                    if (s === 'circle') el.style.borderRadius = '50%';
+                    else if (s === 'star') el.style.clipPath = 'polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%)';
+                    else if (s === 'heart') el.style.clipPath = 'polygon(50% 85%, 15% 45%, 0% 25%, 5% 5%, 25% 0%, 50% 20%, 75% 0%, 95% 5%, 100% 25%, 85% 45%)';
+                    else if (s === 'spark') { el.style.width = '2px'; el.style.height = (size*1.5)+'px'; el.style.borderRadius = '1px'; }
+                    else if (s === 'rect') { el.style.width = (size*0.4)+'px'; el.style.height = (size*1.2)+'px'; }
+                    else if (s === 'triangle') { el.style.background = 'transparent'; el.style.borderLeft = size/2+'px solid transparent'; el.style.borderRight = size/2+'px solid transparent'; el.style.borderBottom = size+'px solid '+color; }
+
+                    document.body.appendChild(el);
+                    const angle = (Math.PI * 2 * i / count) + (Math.random() - 0.5) * 0.8;
+                    const distance = 150 + Math.random() * 250;
+                    const dx = Math.cos(angle) * distance;
+                    const dy = Math.sin(angle) * distance - 100;
+                    const spin = (Math.random() - 0.5) * 1440;
+                    const duration = 1000 + Math.random() * 800;
+                    el.animate([
+                        { opacity: 1, transform: 'translate(0, 0) rotate(0deg) scale(1)' },
+                        { opacity: 1, transform: `translate(${dx*0.5}px, ${dy*0.3}px) rotate(${spin*0.5}deg) scale(1.3)`, offset: 0.35 },
+                        { opacity: 0, transform: `translate(${dx}px, ${dy}px) rotate(${spin}deg) scale(0.1)` }
+                    ], { duration, easing: 'cubic-bezier(0.25, 0.46, 0.45, 0.94)', fill: 'forwards' });
+                    setTimeout(() => el.remove(), duration + 100);
+                }
+            }
+
+            function megaExplosion() {
+                const overlay = document.createElement('div');
+                overlay.style.cssText = 'position:fixed;inset:0;z-index:99999;pointer-events:none;display:flex;align-items:center;justify-content:center;';
+                const text = document.createElement('div');
+                text.textContent = 'MEGA-EXPLOSION';
+                text.style.cssText = `
+                    font-family: 'Impact', 'Arial Black', sans-serif;
+                    font-size: clamp(3rem, 12vw, 10rem);
+                    font-weight: 900;
+                    font-style: italic;
+                    color: #FF0000;
+                    text-shadow:
+                        0 0 20px #FF4500,
+                        0 0 40px #FFD700,
+                        0 0 80px #FF6347,
+                        4px 4px 0 #FFD700,
+                        -2px -2px 0 #FFA500;
+                    letter-spacing: 0.05em;
+                    -webkit-text-stroke: 2px #FFD700;
+                    opacity: 0;
+                    transform: scale(0.1) rotate(-10deg);
+                    white-space: nowrap;
+                `;
+                overlay.appendChild(text);
+                document.body.appendChild(overlay);
+
+                // Animate text in
+                text.animate([
+                    { opacity: 0, transform: 'scale(0.1) rotate(-10deg)', filter: 'blur(20px)' },
+                    { opacity: 1, transform: 'scale(1.15) rotate(2deg)', filter: 'blur(0px)', offset: 0.3 },
+                    { opacity: 1, transform: 'scale(1) rotate(0deg)', filter: 'blur(0px)', offset: 0.5 },
+                    { opacity: 1, transform: 'scale(1.05) rotate(-1deg)', filter: 'blur(0px)', offset: 0.7 },
+                    { opacity: 0, transform: 'scale(2) rotate(5deg)', filter: 'blur(10px)' }
+                ], { duration: 2500, easing: 'ease-out', fill: 'forwards' });
+
+                // Screen flash
+                const flash = document.createElement('div');
+                flash.style.cssText = 'position:fixed;inset:0;z-index:99998;pointer-events:none;background:white;';
+                document.body.appendChild(flash);
+                flash.animate([
+                    { opacity: 0.8 },
+                    { opacity: 0 }
+                ], { duration: 400, fill: 'forwards' });
+                setTimeout(() => flash.remove(), 500);
+
+                // Burst confetti from multiple points
+                const cx = window.innerWidth / 2, cy = window.innerHeight / 2;
+                for (let i = 0; i < 5; i++) {
+                    setTimeout(() => {
+                        const ox = cx + (Math.random() - 0.5) * window.innerWidth * 0.6;
+                        const oy = cy + (Math.random() - 0.5) * window.innerHeight * 0.4;
+                        spawnBurst(ox, oy, burstStyles[i % burstStyles.length]);
+                    }, i * 150);
+                }
+
+                setTimeout(() => overlay.remove(), 3000);
+            }
+
+            // Auto-fire: hold mousedown = accelerating confetti, bursts grow each 10, mega at 100
+            function setupAutoFire(el) {
+                let autoFireTimer = null;
+                let autoFireDelay = 300;
+                let mouseX = 0;
+                let mouseY = 0;
+
+                // Prevent browser image drag so mousedown works properly
+                el.setAttribute('draggable', 'false');
+                el.style.userSelect = 'none';
+                el.style.webkitUserSelect = 'none';
+
+                // Track mouse/touch position so confetti spawns at cursor/finger
+                window.addEventListener('mousemove', function(e) {
+                    mouseX = e.clientX;
+                    mouseY = e.clientY;
+                });
+                el.addEventListener('touchmove', function(e) {
+                    mouseX = e.touches[0].clientX;
+                    mouseY = e.touches[0].clientY;
+                    var target = document.elementFromPoint(mouseX, mouseY);
+                    if (!el.contains(target)) stopAutoFire();
+                }, { passive: true });
+
+                function fireOnce() {
+                    if (el.classList.contains('clickable-img')) {
+                        el.classList.toggle('bg-removed');
+                    }
+                    const centerX = mouseX;
+                    const centerY = mouseY;
+                    confettiClickCount++;
+
+                    if (confettiClickCount >= 100) {
+                        megaExplosion();
+                        confettiClickCount = 0;
+                        stopAutoFire();
+                        return;
+                    } else if (confettiClickCount % 10 === 0) {
+                        // Each 10th burst is bigger than the last
+                        const tier = Math.floor(confettiClickCount / 10); // 1-9
+                        const idx = (tier - 1) % burstStyles.length;
+                        // Scale burst count and distance by tier
+                        const origBurst = spawnBurst;
+                        const scaledCount = 60 + tier * 15;
+                        const scaledDist = 150 + tier * 30;
+                        // Spawn a scaled burst
+                        spawnScaledBurst(centerX, centerY, burstStyles[idx], scaledCount, scaledDist);
+                    } else {
+                        spawnConfetti(centerX, centerY, 40);
+                    }
+                    wiggleElement(el);
+                    autoFireDelay = Math.max(40, autoFireDelay * 0.92);
+                    autoFireTimer = setTimeout(fireOnce, autoFireDelay);
+                }
+
+                function startAutoFire(e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    if (autoFireTimer) return;
+                    // Set initial position from the click/touch point
+                    if (e.touches) {
+                        mouseX = e.touches[0].clientX;
+                        mouseY = e.touches[0].clientY;
+                    } else {
+                        mouseX = e.clientX;
+                        mouseY = e.clientY;
+                    }
+                    autoFireDelay = 300;
+                    fireOnce();
+                }
+
+                function stopAutoFire() {
+                    clearTimeout(autoFireTimer);
+                    autoFireTimer = null;
+                }
+
+                el.addEventListener('mousedown', startAutoFire);
+                el.addEventListener('touchstart', startAutoFire, { passive: false });
+                window.addEventListener('mouseup', stopAutoFire);
+                window.addEventListener('touchend', stopAutoFire);
+                window.addEventListener('touchcancel', stopAutoFire);
+                el.addEventListener('mouseleave', stopAutoFire);
+                // Block click so it doesn't fire after mouseup
+                el.addEventListener('click', e => e.preventDefault());
+            }
+
+            // Scaled burst: more particles and bigger spread for higher tiers
+            function spawnScaledBurst(x, y, style, count, maxDist) {
+                for (let i = 0; i < count; i++) {
+                    const el = document.createElement('div');
+                    el.classList.add('confetti-piece');
+                    const color = style.colors[Math.floor(Math.random() * style.colors.length)];
+                    const size = 6 + Math.random() * 14;
+                    el.style.left = x + 'px';
+                    el.style.top = y + 'px';
+                    el.style.width = size + 'px';
+                    el.style.height = size + 'px';
+                    el.style.background = color;
+                    if (style.glow) el.style.boxShadow = `0 0 ${size}px ${color}`;
+                    const s = style.shape === 'mixed' ? ['circle','square','triangle'][i%3] : style.shape;
+                    if (s === 'circle') el.style.borderRadius = '50%';
+                    else if (s === 'star') el.style.clipPath = 'polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%)';
+                    else if (s === 'heart') el.style.clipPath = 'polygon(50% 85%, 15% 45%, 0% 25%, 5% 5%, 25% 0%, 50% 20%, 75% 0%, 95% 5%, 100% 25%, 85% 45%)';
+                    else if (s === 'spark') { el.style.width = '2px'; el.style.height = (size*1.5)+'px'; el.style.borderRadius = '1px'; }
+                    else if (s === 'rect') { el.style.width = (size*0.4)+'px'; el.style.height = (size*1.2)+'px'; }
+                    else if (s === 'triangle') { el.style.background = 'transparent'; el.style.borderLeft = size/2+'px solid transparent'; el.style.borderRight = size/2+'px solid transparent'; el.style.borderBottom = size+'px solid '+color; }
+                    document.body.appendChild(el);
+                    const angle = (Math.PI * 2 * i / count) + (Math.random() - 0.5) * 0.8;
+                    const distance = maxDist + Math.random() * (maxDist * 0.6);
+                    const dx = Math.cos(angle) * distance;
+                    const dy = Math.sin(angle) * distance - 100;
+                    const spin = (Math.random() - 0.5) * 1440;
+                    const duration = 1000 + Math.random() * 800;
+                    el.animate([
+                        { opacity: 1, transform: 'translate(0, 0) rotate(0deg) scale(1)' },
+                        { opacity: 1, transform: `translate(${dx*0.5}px, ${dy*0.3}px) rotate(${spin*0.5}deg) scale(1.3)`, offset: 0.35 },
+                        { opacity: 0, transform: `translate(${dx}px, ${dy}px) rotate(${spin}deg) scale(0.1)` }
+                    ], { duration, easing: 'cubic-bezier(0.25, 0.46, 0.45, 0.94)', fill: 'forwards' });
+                    setTimeout(() => el.remove(), duration + 100);
+                }
+            }
+
+            setupAutoFire(document.getElementById('about-photo'));
+            setupAutoFire(document.getElementById('home-photo'));
+
+            const codeSnippets = [
+                'SELECT * FROM insights WHERE impact > 9000;',
+                'import pandas as pd',
+                'df.groupby("channel").agg({"revenue": "sum"})',
+                'for row in dataset: optimize(row)',
+                'CREATE VIEW kpi_dashboard AS ...',
+                'plt.plot(dates, conversions, color="blue")',
+                'docker compose up -d',
+                'git push origin main',
+                'def automate(boring_stuff):',
+                'WHERE date BETWEEN @start AND @end',
+                'pip install streamlit plotly',
+                'tableau.publish(workbook, server)',
+                'df["roi"] = df["revenue"] / df["cost"]',
+                'spark.sql("SELECT COUNT(*) FROM events")',
+                'echo "ETL pipeline complete"',
+                'requests.get(api_endpoint).json()',
+                'crontab -e  # schedule the magic',
+                'ALTER TABLE metrics ADD COLUMN trend FLOAT;',
+                'sns.heatmap(corr_matrix, annot=True)',
+                'print("Hello, recruiter!")',
+            ];
+            let codeIdx = 0;
+
+            function handleSkillsClick(e) {
+                const snippet = codeSnippets[codeIdx % codeSnippets.length];
+                codeIdx++;
+                const popup = document.createElement('div');
+                popup.classList.add('code-popup');
+                popup.textContent = snippet;
+                popup.style.left = e.clientX + 'px';
+                popup.style.top = e.clientY + 'px';
+                document.body.appendChild(popup);
+                setTimeout(() => popup.remove(), 1900);
+            }
+
+            // Auto-fire code snippets on hold (same mousedown logic as confetti)
+            (function() {
+                const el = document.getElementById('skills-photo');
+                let autoFireTimer = null;
+                let autoFireDelay = 350;
+                let mouseX = 0, mouseY = 0;
+
+                el.setAttribute('draggable', 'false');
+                el.style.userSelect = 'none';
+                el.style.webkitUserSelect = 'none';
+
+                window.addEventListener('mousemove', function(e) {
+                    mouseX = e.clientX;
+                    mouseY = e.clientY;
+                });
+                el.addEventListener('touchmove', function(e) {
+                    mouseX = e.touches[0].clientX;
+                    mouseY = e.touches[0].clientY;
+                    var target = document.elementFromPoint(mouseX, mouseY);
+                    if (!el.contains(target)) stopAutoFire();
+                }, { passive: true });
+
+                function fireOnce() {
+                    const snippet = codeSnippets[codeIdx % codeSnippets.length];
+                    codeIdx++;
+                    const popup = document.createElement('div');
+                    popup.classList.add('code-popup');
+                    popup.textContent = snippet;
+                    popup.style.left = mouseX + 'px';
+                    popup.style.top = mouseY + 'px';
+                    document.body.appendChild(popup);
+                    setTimeout(() => popup.remove(), 1900);
+                    autoFireDelay = Math.max(250, autoFireDelay * 0.93);
+                    autoFireTimer = setTimeout(fireOnce, autoFireDelay);
+                }
+
+                function startAutoFire(e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    if (autoFireTimer) return;
+                    if (e.touches) { mouseX = e.touches[0].clientX; mouseY = e.touches[0].clientY; }
+                    else { mouseX = e.clientX; mouseY = e.clientY; }
+                    autoFireDelay = 350;
+                    fireOnce();
+                }
+
+                function stopAutoFire() {
+                    clearTimeout(autoFireTimer);
+                    autoFireTimer = null;
+                }
+
+                el.addEventListener('mousedown', startAutoFire);
+                el.addEventListener('touchstart', startAutoFire, { passive: false });
+                window.addEventListener('mouseup', stopAutoFire);
+                window.addEventListener('touchend', stopAutoFire);
+                window.addEventListener('touchcancel', stopAutoFire);
+                el.addEventListener('mouseleave', stopAutoFire);
+                el.addEventListener('click', e => e.preventDefault());
+            })();
+
+            // Section navigation
+            const sectionIds = ['home', 'about', 'skills', 'Projects', 'contact'];
+            const scrollDownBtn = document.getElementById('scrollDown');
+            const backToTop = document.getElementById('backToTop');
+
+            // Show down arrow after 3s delay at top, hide on scroll, re-show when back at top
+            let downArrowTimer = setTimeout(() => {
+                scrollDownBtn.classList.add('visible');
+            }, 3000);
+
+            function getCurrentSectionIndex() {
+                const scrollPos = window.scrollY + window.innerHeight / 3;
+                for (let i = sectionIds.length - 1; i >= 0; i--) {
+                    const el = document.getElementById(sectionIds[i]);
+                    if (el && scrollPos >= el.offsetTop) return i;
+                }
+                return 0;
+            }
+
+            let backToTopTimer = null;
+            window.addEventListener('scroll', () => {
+                const idx = getCurrentSectionIndex();
+                const atContact = idx >= sectionIds.length - 1;
+                const atTop = window.scrollY < 10;
+
+                // Down arrow: hide on scroll, re-show with 3s delay at top
+                if (atTop) {
+                    if (!downArrowTimer && !scrollDownBtn.classList.contains('visible')) {
+                        downArrowTimer = setTimeout(() => {
+                            scrollDownBtn.classList.add('visible');
+                            downArrowTimer = null;
+                        }, 3000);
+                    }
+                } else {
+                    clearTimeout(downArrowTimer);
+                    downArrowTimer = null;
+                    scrollDownBtn.classList.remove('visible');
+                }
+
+                // Up arrow: show with 2s delay when at contact, hide otherwise
+                if (atContact) {
+                    if (!backToTopTimer && !backToTop.classList.contains('visible')) {
+                        backToTopTimer = setTimeout(() => {
+                            backToTop.classList.add('visible');
+                            backToTopTimer = null;
+                        }, 2000);
+                    }
+                } else {
+                    clearTimeout(backToTopTimer);
+                    backToTopTimer = null;
+                    backToTop.classList.remove('visible');
+                }
+            });
+
+            scrollDownBtn.addEventListener('click', () => {
+                const idx = getCurrentSectionIndex();
+                const nextIdx = Math.min(idx + 1, sectionIds.length - 1);
+                const target = document.getElementById(sectionIds[nextIdx]);
+                if (target) target.scrollIntoView({ behavior: 'smooth' });
+            });
+
+            backToTop.addEventListener('click', () => {
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            });
+
+            // Easter egg (uncomment to enable)
+            // const egg = document.getElementById('easterEgg');
+            // egg.addEventListener('click', () => {
+            //     if (egg.classList.contains('hatched')) return;
+            //     egg.classList.add('hatched');
+            //     setTimeout(() => egg.classList.remove('hatched'), 4000);
+            // });
+
+            // Confetti only on profile pics (about-photo, home-photo)
+
+            function requestResume() {
+                document.getElementById('contact').scrollIntoView({ behavior: 'smooth' });
+                const form = document.querySelector('.contact__form');
+                const nameInput = form.querySelector('input[name="name"]');
+                const emailInput = form.querySelector('input[name="email"]');
+                const messageInput = form.querySelector('textarea[name="message"]');
+
+                // Pre-fill only the message (and only if empty, so a half-written one isn't clobbered).
+                // Leave name/email untouched: their placeholders already show the format, and overwriting
+                // them with placeholder-looking strings ("Your Name"/"your@email.com") meant a user had to
+                // delete that junk first — or, if they'd already typed real values, lost them. Mirrors the
+                // production main-alt.js requestResume() behaviour the site's other pages already use.
+                if (!messageInput.value.trim()) {
+                    messageInput.value = 'Hi Jacob,\n\nI\'d love a copy of your resume.\n\nThanks!';
+                }
+
+                // Focus the first field still needing input so they can start typing right away.
+                (!nameInput.value.trim() ? nameInput : !emailInput.value.trim() ? emailInput : messageInput).focus();
+            }
+        </script>
+        
+    </body>
+</html>

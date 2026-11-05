@@ -1,0 +1,909 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#0b1121">
+<!-- Declare the supported colour scheme to the UA up front. color-scheme is otherwise only set inside the render-blocking inline <style> (:root { color-scheme: dark }), so before that CSS parses the browser doesn't know this is a dark-only page and paints the root canvas/scrollbars with the OS default (a brief light flash). This dashboard has no theme toggle, so "dark" (matching the CSS) is correct. No visual change to the settled page. -->
+<meta name="color-scheme" content="dark">
+<link rel="icon" type="image/x-icon" href="/assets/img/favicon.ico">
+<title>NYC Weather Dashboard</title>
+<!-- iOS home-screen label. This dashboard is an app-like tool a visitor may "Add to Home Screen", and iOS Safari names that icon from apple-mobile-web-app-title, falling back to the <title> element, which it truncates ("NYC Weather Dashboard" becomes "Weather Da…"). Give it the same short, distinctive label the page already leads with (the <title>/og lead on NYC), matching the apple-mobile-web-app-title index.html already declares — weather/ was the app-like page still missing it. Deliberately NOT paired with apple-mobile-web-app-capable (that forces a chromeless standalone launch) and no manifest here (the installable app is scoped to the homepage at "/"); this only names the icon. Pure metadata, no visual change. -->
+<meta name="apple-mobile-web-app-title" content="NYC Weather">
+<!-- Non-Apple counterpart to the apple-mobile-web-app-title above: application-name is the standard field browsers read when this page is pinned or turned into a desktop/taskbar shortcut. Without it that path falls back to the <title> ("NYC Weather Dashboard"), the same truncation the Apple label above avoids on iOS. Give it the same short "NYC Weather" label so the pinned icon reads cleanly on every platform, completing the cross-platform short-name pair index.html already carries (apple-mobile-web-app-title + application-name). Like the Apple label it only names the icon — no apple-mobile-web-app-capable, no standalone/chromeless launch. Pure metadata, no visual change. -->
+<meta name="application-name" content="NYC Weather">
+<meta name="description" content="A live weather dashboard with current conditions, hourly rain chance, a 5-day forecast, air quality, and sun times. Search any city. It defaults to New York, NY.">
+<meta name="author" content="Jacob Heifetz-Licht">
+<!-- max-snippet:-1 explicitly lets Google use a text snippet of any length in results (the default is a search-engine-chosen limit) so the dashboard's description can show in full; completes the max-* preview directive set alongside max-image-preview:large. Mirrors index.html, the site's only other indexed page. No visual change. -->
+<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">
+<link rel="canonical" href="https://jacobhl.com/weather/">
+<!-- Structured data so search engines understand this is a free, browser-based weather app. Tie this sub-page's node into the site's linked-data graph the same way the homepage's ProfilePage does: isPartOf the WebSite (#website, defined on index.html) and authored by the Person (#person) — a cross-page @id reference search engines merge site-wide (the author @id already relies on this). inLanguage matches the en-US the homepage's WebSite/ProfilePage nodes declare. Pure metadata, no visual change. -->
+<script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "@id": "https://jacobhl.com/weather/#webapp",
+    "name": "Weather Dashboard",
+    "url": "https://jacobhl.com/weather/",
+    "mainEntityOfPage": "https://jacobhl.com/weather/",
+    "image": "https://jacobhl.com/assets/img/og_image_v3.png",
+    "description": "A live weather dashboard with current conditions, hourly rain chance, a 5-day forecast, air quality, and sun times. Search any city. It defaults to New York, NY.",
+    "inLanguage": "en-US",
+    "dateModified": "2026-09-05",
+    "isPartOf": { "@id": "https://jacobhl.com/#website" },
+    "applicationCategory": "UtilitiesApplication",
+    "operatingSystem": "Web browser",
+    "browserRequirements": "Requires JavaScript",
+    "featureList": [
+        "Current conditions (temperature, feels-like, wind, and a plain-language sky summary)",
+        "Humidity comfort reading",
+        "Air quality with the US AQI value and health category",
+        "Sunrise and sunset times",
+        "Hourly rain chance for the next 12 hours",
+        "5-day forecast with daily highs and lows"
+    ],
+    "isAccessibleForFree": true,
+    "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+    },
+    "author": {
+        "@type": "Person",
+        "@id": "https://jacobhl.com/#person",
+        "name": "Jacob Heifetz-Licht",
+        "url": "https://jacobhl.com/"
+    },
+    "breadcrumb": { "@id": "https://jacobhl.com/weather/#breadcrumb" }
+}
+</script>
+<!-- featureList names what the dashboard actually does — the recommended WebApplication/SoftwareApplication property this node was still missing (it already declared applicationCategory, operatingSystem, browserRequirements, offers, isAccessibleForFree). The six entries mirror, verbatim in substance, the visible About copy just below ("Each search returns six things: current conditions… humidity comfort… air quality… sunrise and sunset… hourly rain chance… a 5-day forecast"), so the markup keeps reflecting on-page content as Google requires while giving search engines and AI-retrieval crawlers a structured list of capabilities instead of only the prose description. Mirrors the enrichment prior runs made to the homepage ItemList and building.html's WebPage node (adding each node's recommended-but-missing properties). Pure metadata, no visual change. -->
+<!-- dateModified above is kept in sync with this page's <lastmod> in sitemap.xml, always tracking the page's true last-modified date on production. It last read 2026-09-03 (a visible About-paragraph edit, "…web developer…" → "…app developer…", aligned the on-page copy with the site's canonical self-description). It now advances to 2026-09-05: a real served-content edit landed on this page — the air-quality fallback categories a visitor reads were corrected to the US AQI scale (e.g. the PM2.5-derived label at moderate levels changed from "Fair" to "Moderate", and "Unhealthy"/"Hazardous" bands were added), so the AQI category shown for a given reading can now differ from what the page displayed before. Because a visitor reads those changed labels, it advances the freshness date, so both this node and the sitemap lastmod move to 2026-09-05 in lockstep to track it, exactly as the earlier visible-copy edits advanced it before. (Same-day comment-only syncs and screen-reader-label refinements ride along on this content date; the served AQI-label change is what actually moves it.) Unlike the homepage ProfilePage (a rich-result type that requires a full ISO datetime + offset), WebApplication is not a rich-result type, so date-only granularity — mirroring the sitemap's — is fine here, as the homepage's dateModified note explicitly permits. Pure metadata, no visual change. -->
+<!-- Breadcrumb trail: this dashboard is a sub-page that's independently indexed (it's in the sitemap and canonical'd) but sits one level under the homepage — the visible "← Back to jacobhl.com" link is its informal breadcrumb. Formalize that Home → Weather Dashboard hierarchy so search engines can model the page's place in the site and show a breadcrumb in results instead of the raw URL. Continues the site's linked-data pattern (Person → WebSite → WebApplication). The #breadcrumb @id (and the matching "breadcrumb" reference just added to the WebApplication node above) ties this list into the site's @id graph the way every other node here is cross-referenced — it was the one structured-data node on this page still floating unconnected, the same gap already closed on building.html. Google's breadcrumb guidance associates a page's BreadcrumbList with its main entity via this exact property, so the link also makes "which page owns this trail" explicit rather than inferred. Pure metadata, no visual change. -->
+<script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "@id": "https://jacobhl.com/weather/#breadcrumb",
+    "itemListElement": [
+        {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "Home",
+            "item": "https://jacobhl.com/"
+        },
+        {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "Weather Dashboard",
+            "item": "https://jacobhl.com/weather/"
+        }
+    ]
+}
+</script>
+<!-- Open Graph / Twitter meta for link previews -->
+<meta property="og:title" content="NYC Weather Dashboard">
+<meta property="og:description" content="A live weather dashboard with current conditions, hourly rain chance, a 5-day forecast, air quality, and sun times. Search any city. It defaults to New York, NY.">
+<meta property="og:image" content="https://jacobhl.com/assets/img/og_image_v3.png">
+<meta property="og:image:type" content="image/png">
+<meta property="og:image:width" content="2400">
+<meta property="og:image:height" content="1260">
+<!-- Alt text describes the shared og_image.png itself (the portfolio preview graphic), so keep it identical to the wording index.html, 404.html, and light/index.html already use for this same image file — rather than the page-specific "portfolio link preview" it read before. Consistent alt for one shared asset across every page that references it. No visual change. -->
+<meta property="og:image:alt" content="Jacob Heifetz-Licht, Analytics Manager and app developer">
+<meta property="og:url" content="https://jacobhl.com/weather/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Jacob Heifetz-Licht">
+<meta property="og:locale" content="en_US">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="NYC Weather Dashboard">
+<meta name="twitter:description" content="A live weather dashboard with current conditions, hourly rain chance, a 5-day forecast, air quality, and sun times. Search any city. It defaults to New York, NY.">
+<meta name="twitter:image" content="https://jacobhl.com/assets/img/og_image_v3.png">
+<meta name="twitter:image:alt" content="Jacob Heifetz-Licht, Analytics Manager and app developer">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<!-- The query separator is written &amp; (not a bare &), matching the escape-bare-& convention already applied to the Poppins hrefs on index.html and 404.html — the two remaining bare & in an href site-wide were here and on refer/. The browser decodes &amp;→& when parsing the attribute, so the requested font URL is byte-for-byte identical (Google Fonts still receives ...700&display=swap) and the same weights load. No visual or behaviour change. -->
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+<!-- Warm up TLS connections to the Open-Meteo APIs: geocoding gates the weather + air-quality fetches on first load, so preconnecting shaves the connection setup off the critical path. crossorigin so the socket is reused for the CORS JSON requests. -->
+<link rel="preconnect" href="https://geocoding-api.open-meteo.com" crossorigin>
+<link rel="preconnect" href="https://api.open-meteo.com" crossorigin>
+<link rel="preconnect" href="https://air-quality-api.open-meteo.com" crossorigin>
+<link rel="dns-prefetch" href="//gc.zgo.at"> <!-- resolve the GoatCounter analytics host ahead of the async count.js fetch at end of body (mirrors index.html) -->
+<link rel="dns-prefetch" href="//jacobhl.goatcounter.com"> <!-- resolve the GoatCounter *beacon* host too: count.js (from gc.zgo.at above) sends every pageview hit to https://jacobhl.goatcounter.com/count, a separate host whose DNS was otherwise only looked up lazily when the beacon fires. The prefetch above warmed only the script host; this warms the endpoint the hit actually goes to, so the beacon isn't delayed (and is less likely to be dropped on a slow/flaky DNS). Mirrors the beacon-host prefetch already on index.html and 404.html. Pure resource hint, no visual or behaviour change. -->
+<link rel="dns-prefetch" href="//stats.hidescore.com"> <!-- resolve the self-hosted Umami analytics host ahead of its deferred script.js fetch at end of body. The fleet rollout (master fc7f585) added the Umami beacon (stats.hidescore.com/script.js, deferred, just before </body>) to this page and the other sub-pages, but only index.html and refer/ (and now building.html) also carry the matching DNS hint — so on this page the Umami host was looked up cold when the deferred script fires. This mirrors the identical hint index.html has carried since the rollout and completes the Umami-host prefetch pattern here, exactly as the GoatCounter and Sentry hints alongside already do for their hosts. Pure resource hint, no visual or behaviour change. -->
+<link rel="dns-prefetch" href="//js.sentry-cdn.com"> <!-- resolve the Sentry CDN host ahead of the error-monitoring loader script that ships at the end of <head> on this page too. That host is contacted on every load but had no resource hint here, unlike the analytics hosts warmed above — so its DNS was looked up cold on the critical path. This JS-heavy dashboard is exactly where a caught runtime error is most likely, so the monitoring host benefits most from an early lookup. dns-prefetch (DNS only) rather than preconnect keeps this non-render-critical monitoring script from opening a speculative connection that would compete with the render-critical sockets. Mirrors the Sentry hint already on index.html and 404.html. Pure resource hint, no visual or behaviour change. -->
+<style>
+:root {
+  /* Dark-only dashboard: tell the browser to render UA chrome (scrollbars, the
+     text caret, form autofill) in dark mode so it matches the dark theme. */
+  color-scheme: dark;
+  --bg: #0b1121;
+  --card: #111a2e;
+  --card-border: #1a2744;
+  --accent: #00b4d8;
+  --accent-dim: rgba(0,180,216,0.15);
+  --text: #e0e6ed;
+  --text-dim: #7a8ba0;
+  --danger: #ef4444;
+  --warning: #f59e0b;
+  --success: #22c55e;
+  --radius: 16px;
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+body {
+  font-family:'Poppins',sans-serif;
+  background:var(--bg);
+  color:var(--text);
+  min-height:100vh;
+  padding:24px;
+}
+.container { max-width:900px; margin:0 auto; }
+
+/* Branded text selection: highlighting text otherwise used the OS-default grey/blue
+   swatch — the one interactive-state colour on this dashboard not tied to the brand
+   accent (every focus ring here already uses var(--accent)). Tint the selection with
+   the brand cyan instead, with the near-black --bg as the selected-text colour so it
+   stays legible on the accent. This page is self-contained (its own inline styles, not
+   styles.css), so it was outside the reach of the site-wide ::selection styling on the
+   main pages; this completes that pattern here. Only affects the momentary highlight
+   during an active selection — no change to the resting design. */
+::selection {
+  background-color: var(--accent);
+  color: var(--bg);
+}
+
+.search-bar { display:flex; gap:12px; margin-bottom:24px; }
+.search-bar input {
+  flex:1; padding:14px 20px; border-radius:var(--radius);
+  border:1px solid var(--card-border); background:var(--card);
+  color:var(--text); font-family:inherit; font-size:15px;
+  outline:none; transition:border-color .2s;
+}
+.search-bar input:focus { border-color:var(--accent); }
+/* Keyboard focus: the input sets outline:none and its only focus cue is the 1px border
+   tint above — weaker than the 2px accent ring the adjacent Search button and hourly row
+   already use (WCAG 2.4.7 / 2.4.11 Focus Appearance). Add the same branded ring on
+   :focus-visible so the two side-by-side controls behave identically for keyboard users;
+   scoped to :focus-visible so mouse/touch focus keeps just the border tint (no visual
+   change there). Mirrors the .search-bar button:focus-visible rule below. */
+.search-bar input:focus-visible { outline:2px solid var(--accent); outline-offset:2px; }
+.search-bar button {
+  padding:14px 28px; border-radius:var(--radius); border:none;
+  background:var(--accent); color:#fff; font-family:inherit;
+  font-size:15px; font-weight:600; cursor:pointer; transition:opacity .2s;
+}
+.search-bar button:hover { opacity:.85; }
+/* Keyboard focus: give the Search button the same branded accent ring the input focus and hourly row use, instead of the inconsistent UA-default outline (WCAG 2.4.7). The offset keeps a dark gap so the ring stays visible against the same-accent button. */
+.search-bar button:focus-visible { outline:2px solid var(--accent); outline-offset:3px; }
+
+.card {
+  background:var(--card); border:1px solid var(--card-border);
+  border-radius:var(--radius); padding:24px; margin-bottom:16px;
+}
+
+.hero { display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:20px; }
+.hero-left { display:flex; align-items:center; gap:20px; }
+.hero-temp { font-size:72px; font-weight:700; line-height:1; }
+.hero-temp span { font-size:36px; font-weight:400; color:var(--text-dim); }
+.hero-icon { font-size:56px; }
+.hero-right { text-align:right; }
+.hero-condition { font-size:22px; font-weight:600; margin-bottom:4px; }
+.hero-detail { font-size:13px; color:var(--text-dim); line-height:1.8; }
+
+.feels-like {
+  display:inline-block; margin-top:6px; padding:4px 14px;
+  border-radius:20px; font-size:13px; font-weight:500;
+  background:var(--accent-dim); color:var(--accent);
+}
+
+.alerts-banner {
+  display:none; padding:14px 20px; border-radius:var(--radius);
+  margin-bottom:16px; font-size:13px; font-weight:500;
+  border:1px solid; gap:10px; align-items:center;
+}
+.alerts-banner.warning { background:rgba(245,158,11,.1); border-color:rgba(245,158,11,.3); color:var(--warning); display:flex; }
+.alerts-banner.danger { background:rgba(239,68,68,.1); border-color:rgba(239,68,68,.3); color:var(--danger); display:flex; }
+.alerts-banner.info { background:var(--accent-dim); border-color:rgba(0,180,216,.3); color:var(--accent); display:flex; }
+
+.grid-2 { display:grid; grid-template-columns:1fr 1fr; gap:16px; }
+.grid-3 { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; }
+@media(max-width:700px) {
+  .grid-2,.grid-3 { grid-template-columns:1fr; }
+  .hero { flex-direction:column; text-align:center; }
+  .hero-right { text-align:center; }
+}
+
+/* Also used on the <h2> stat-card labels (Humidity / Air Quality / Sunrise), so reset the
+   heading UA defaults (bold + top margin) to keep these rendering exactly as the old <div>s did. */
+.stat-label { font-size:11px; font-weight:400; text-transform:uppercase; letter-spacing:1px; color:var(--text-dim); margin:0 0 6px; }
+.stat-value { font-size:24px; font-weight:600; }
+.stat-sub { font-size:12px; color:var(--text-dim); margin-top:2px; }
+.stat-icon { font-size:20px; margin-bottom:8px; }
+
+.hourly-row { display:flex; gap:8px; overflow-x:auto; padding-bottom:8px; }
+/* Keyboard users can't drag-scroll: make the overflow row focusable (tabindex below) and show a clear focus ring so arrow keys can reveal the off-screen hours. */
+.hourly-row:focus-visible { outline:2px solid var(--accent); outline-offset:3px; border-radius:12px; }
+.hourly-item {
+  flex:0 0 auto; width:64px; text-align:center; padding:12px 8px;
+  border-radius:12px; background:rgba(255,255,255,.03);
+}
+.hourly-item .time { font-size:11px; color:var(--text-dim); }
+.hourly-item .icon { font-size:20px; margin:6px 0; }
+.hourly-item .chance { font-size:13px; font-weight:600; }
+
+.forecast-row {
+  display:flex; justify-content:space-between; padding:14px 0;
+  border-bottom:1px solid var(--card-border); align-items:center;
+}
+.forecast-row:last-child { border-bottom:none; }
+.forecast-day { width:60px; font-weight:500; font-size:14px; }
+.forecast-icon { font-size:24px; width:40px; text-align:center; }
+.forecast-desc { flex:1; font-size:13px; color:var(--text-dim); padding:0 12px; }
+.forecast-temps { font-size:14px; white-space:nowrap; }
+.forecast-temps .hi { font-weight:600; }
+.forecast-temps .lo { color:var(--text-dim); }
+
+.sun-bar {
+  height:6px; border-radius:3px; margin:12px 0 8px;
+  background:linear-gradient(90deg,#1a1a3e,#f59e0b 20%,#fb923c 50%,#f59e0b 80%,#1a1a3e);
+  position:relative;
+}
+.sun-dot {
+  width:14px; height:14px; border-radius:50%; background:#fbbf24;
+  border:2px solid var(--card); position:absolute; top:-4px;
+  transition:left .5s;
+}
+.sun-times { display:flex; justify-content:space-between; font-size:12px; color:var(--text-dim); }
+
+.comfort-meter { display:flex; gap:4px; margin-top:8px; }
+.comfort-seg { flex:1; height:6px; border-radius:3px; background:rgba(255,255,255,.08); }
+.comfort-seg.active-good { background:var(--success); }
+.comfort-seg.active-ok { background:var(--warning); }
+.comfort-seg.active-bad { background:var(--danger); }
+
+.section-title {
+  font-size:13px; font-weight:600; text-transform:uppercase;
+  letter-spacing:1px; color:var(--text-dim); margin:0 0 12px;
+}
+
+/* Static "About this dashboard" prose. Reuses .card and .section-title; only the paragraph
+   rhythm is new, since every other block on this page is a stat readout rather than body text. */
+.about p { color:var(--text-dim); font-size:14px; line-height:1.7; margin:0 0 12px; }
+.about p:last-child { margin-bottom:0; }
+.about strong { color:var(--text); font-weight:600; }
+.about a { color:var(--accent); }
+.about h3.section-title { margin-top:22px; }
+
+.loading { text-align:center; padding:60px; color:var(--text-dim); font-size:14px; }
+.spinner { display:inline-block; width:24px; height:24px; border:3px solid var(--card-border); border-top-color:var(--accent); border-radius:50%; animation:spin .8s linear infinite; margin-bottom:12px; }
+@keyframes spin { to { transform:rotate(360deg); } }
+
+/* Respect users who prefer reduced motion: stop the looping spinner and ease off transitions */
+@media (prefers-reduced-motion: reduce) {
+  .spinner { animation: none; }
+  .search-bar input, .search-bar button, .sun-dot { transition: none; }
+}
+
+.aqi-bar { display:flex; height:8px; border-radius:4px; overflow:hidden; margin-top:8px; gap:2px; }
+.aqi-seg { flex:1; border-radius:4px; }
+
+/* Data-source attribution: Open-Meteo's free API data is licensed CC BY 4.0, which requires credit. */
+.attribution { text-align:center; margin-top:32px; padding-bottom:24px; color:var(--text-dim); font-size:12px; }
+.attribution a { color:var(--accent); text-decoration:none; }
+.attribution a:hover { text-decoration:underline; }
+/* Keyboard focus: give the attribution links the same branded accent ring the Search button and hourly row already use, instead of the inconsistent UA-default outline (WCAG 2.4.7). These two footer links ("Back to jacobhl.com" and the Open-Meteo credit) were the only interactive controls on this page still on the browser default, so this completes the page's focus-visible treatment. Scoped to :focus-visible, so mouse/touch focus shows no ring and the hover underline is unchanged. */
+.attribution a:focus-visible { outline:2px solid var(--accent); outline-offset:3px; border-radius:4px; }
+
+/* Visually hidden but available to assistive tech (gives the page a programmatic heading) */
+.visually-hidden {
+  position:absolute; width:1px; height:1px; padding:0; margin:-1px;
+  /* clip:rect(0,0,0,0) is the long-standing screen-reader-only technique but the clip
+     property is deprecated; clip-path:inset(50%) is its modern replacement. Ship both so
+     the utility keeps working on legacy engines while using the current, non-deprecated
+     property everywhere else — the belt-and-suspenders pair mature a11y utilities
+     (Bootstrap's .visually-hidden, the A11Y Project's .sr-only) standardised on. This
+     class hides real assistive-tech-only text throughout the dashboard (the programmatic
+     <h1>, the full wind-direction names, the Sunrise:/Sunset: labels, and each hourly
+     cell's spoken condition), so it should use the robust modern form. Both rules collapse
+     the box to nothing, so the element stays visually hidden and audible to screen readers
+     exactly as before. No visual change. */
+  overflow:hidden; clip:rect(0,0,0,0); clip-path:inset(50%); white-space:nowrap; border:0;
+}
+</style>
+<!-- sentry -->
+<script src="https://js.sentry-cdn.com/ac636d393a29ab42c76e116c2d4d0cad.min.js" crossorigin="anonymous"></script>
+<!-- /sentry -->
+</head>
+<body>
+<main class="container">
+  <h1 class="visually-hidden">Weather Dashboard</h1>
+  <div class="search-bar" role="search" aria-label="City weather search">
+    <!-- autocomplete="off": this is a live-search box (it fires fetchWeather on Enter, and via the Search button), not a stored profile field, so the browser's autofill dropdown — offering saved names/addresses/emails — is both irrelevant here and liable to cover the results as they load. Completes the deliberate input-hint set already on this field (autocapitalize/autocorrect/spellcheck); "off" is the standard signal for a search input. No visual change to the settled field. -->
+    <input type="text" id="cityInput" placeholder="Search city…" value="New York, NY" aria-label="Search for a city" enterkeyhint="search" autocomplete="off" autocapitalize="words" autocorrect="off" spellcheck="false">
+    <button type="button" id="searchBtn">Search</button>
+  </div>
+  <div id="alertsBanner" class="alerts-banner" aria-live="polite" aria-atomic="true"></div>
+  <!-- Persistent polite live region: the loading spinner (role=status) is wiped when results
+       render, so screen-reader users otherwise get no confirmation the new city's weather arrived. -->
+  <div id="srStatus" class="visually-hidden" role="status" aria-live="polite"></div>
+  <div id="content">
+    <div class="loading" role="status"><div class="spinner" aria-hidden="true"></div><br>Loading weather data…</div>
+    <noscript>
+      <!-- The whole dashboard is rendered by JavaScript, so with JS disabled the loading
+           spinner above would otherwise hang forever. Hide it and explain instead. -->
+      <style>.loading{display:none;}</style>
+      <div class="card" role="alert" style="text-align:center;">This weather dashboard needs JavaScript to load live data. Please enable JavaScript, or head back to <a href="/" style="color:var(--accent);">jacobhl.com</a>.</div>
+    </noscript>
+  </div>
+
+  <!-- Static, server-served description of the dashboard. Everything above this point inside
+       #content is injected by JavaScript at runtime, so before this section the page shipped only
+       23 words of real body copy ("Loading weather data…") to any crawler that doesn't execute JS.
+       Google classified the URL as a Soft 404 on that basis (live URL Inspection, 2026-08-10:
+       "Page cannot be indexed: Soft 404", despite crawl allowed + fetch successful + indexing
+       allowed) — the same failure mode, and the same fix, as the subwaytimes station pages. This
+       copy is deliberately static and evergreen: it describes what the dashboard does rather than
+       what today's weather is, so it never contradicts the live data rendered above it. It sits
+       OUTSIDE #content because fetchWeather() overwrites that element's innerHTML wholesale. -->
+  <section class="card about" aria-labelledby="about-title">
+    <h2 class="section-title" id="about-title">About this dashboard</h2>
+    <p>This is a free, live weather dashboard for any city in the world. It opens on
+      <strong>New York, NY</strong> by default. Type a city into the search box above to switch.
+      Everything on the page is current observed and forecast data, refreshed each time you load
+      or search, with no account, no sign-up and no ads.</p>
+    <p>Each search returns six things: <strong>current conditions</strong> (temperature, what it
+      actually feels like, wind, and a plain-language summary of the sky); a
+      <strong>humidity comfort</strong> reading that translates relative humidity into whether the
+      air will feel muggy, comfortable or dry; <strong>air quality</strong> with the US AQI value
+      and its health category; <strong>sunrise and sunset</strong> times for that location;
+      an <strong>hourly rain chance</strong> for the next 12 hours, so you can see whether a
+      shower lands before or after your commute; and a <strong>5-day forecast</strong> with daily
+      highs and lows. When conditions call for it (high wind, extreme cold or heat, or likely
+      rain), a heads-up banner appears at the top.</p>
+    <h3 class="section-title">Where the data comes from</h3>
+    <p>Weather and air-quality data are supplied by <a href="https://open-meteo.com/"
+      target="_blank" rel="noopener">Open-Meteo</a>, an open-data weather API that aggregates
+      national meteorological services, published under a <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="license noopener">CC&nbsp;BY&nbsp;4.0</a> license. City names
+      are resolved through the same provider’s geocoding service. Nothing is stored: the page
+      queries the API directly from your browser each time, so there is no account to create and
+      no search history kept.</p>
+    <h3 class="section-title">Why this exists</h3>
+    <p>I’m <a href="/">Jacob Heifetz-Licht</a>, an analytics manager and app developer in New York.
+      I built this as a small, deliberately fast example of the kind of thing I ship. It is a single
+      static page, no framework, no build step and no tracking beyond privacy-friendly page counts,
+      that still does something genuinely useful every day. It loads in well under a second on a
+      phone. If you want to see the rest of my work, or you need something similar built,
+      <a href="/">the portfolio is one click away</a>.</p>
+  </section>
+</main>
+
+<!-- Open-Meteo requires attribution: its weather/air-quality data is published under CC BY 4.0. -->
+<footer class="attribution">
+  <!-- This dashboard is reachable by direct URL / search (it's in the sitemap and canonical'd) but
+       isn't linked from the portfolio, so without this a JS-enabled visitor has no way back to the
+       main site — the /-link in the <noscript> block only shows when JavaScript is disabled. Uses
+       the existing .attribution link styling; the arrow is decorative, so it's aria-hidden (mirrors
+       the ↑/↓ sun-times markup). -->
+  <a href="/"><span aria-hidden="true">&larr;</span> Back to jacobhl.com</a><br>
+  Weather &amp; air-quality data by <a href="https://open-meteo.com/" target="_blank" rel="noopener">Open-Meteo.com</a> (<a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="license noopener">CC&nbsp;BY&nbsp;4.0</a>)
+</footer>
+
+<script>
+const WMO_ICONS = {
+  0:'☀️',1:'🌤️',2:'⛅',3:'☁️',45:'🌫️',48:'🌫️',
+  51:'🌦️',53:'🌧️',55:'🌧️',56:'🌧️',57:'🌧️',
+  61:'🌧️',63:'🌧️',65:'🌧️',66:'🌧️',67:'🌧️',
+  71:'❄️',73:'❄️',75:'❄️',77:'❄️',
+  80:'🌦️',81:'🌧️',82:'🌧️',85:'❄️',86:'❄️',
+  95:'⛈️',96:'⛈️',99:'⛈️'
+};
+const WMO_DESC = {
+  0:'Clear Sky',1:'Mostly Clear',2:'Partly Cloudy',3:'Overcast',
+  45:'Fog',48:'Depositing Rime Fog',
+  51:'Light Drizzle',53:'Moderate Drizzle',55:'Dense Drizzle',
+  56:'Freezing Drizzle',57:'Heavy Freezing Drizzle',
+  61:'Light Rain',63:'Moderate Rain',65:'Heavy Rain',
+  66:'Freezing Rain',67:'Heavy Freezing Rain',
+  71:'Light Snow',73:'Moderate Snow',75:'Heavy Snow',77:'Snow Grains',
+  80:'Light Showers',81:'Moderate Showers',82:'Violent Showers',
+  85:'Light Snow Showers',86:'Heavy Snow Showers',
+  95:'Thunderstorm',96:'Thunderstorm w/ Hail',99:'Severe Thunderstorm'
+};
+const WMO_NIGHT = {0:'🌙',1:'🌙',2:'☁️',3:'☁️'};
+
+function getIcon(code, isDay) {
+  if (!isDay && WMO_NIGHT[code]) return WMO_NIGHT[code];
+  return WMO_ICONS[code] || '🌡️';
+}
+function getDesc(code) { return WMO_DESC[code] || 'Unknown'; }
+
+// Geocoded place names come from the Open-Meteo geocoding API (external data) but are rendered
+// into the hero card via innerHTML in render() below. Escape the HTML-special characters so an
+// unexpected or compromised API response can't inject markup — defense-in-depth mirroring the
+// self-XSS guard the preview code on the homepage already applies to user-typed input. Real
+// place names contain none of these characters, so the rendered output is unchanged.
+function escHtml(s) {
+  return String(s).replace(/[&<>"']/g, c => ({ '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;', "'":'&#39;' }[c]));
+}
+
+// Wind direction on the standard 16-point compass (22.5° per point). The 8-point version
+// (45° per point) rounded coarsely — a wind from ~70° reads as ENE but showed "E", and ~25°
+// (NNE) showed "NE" — so the displayed bearing could be a full point off the API's actual
+// wind_direction_10m. 16 points is the convention weather services use and matches what the
+// degrees imply. Still a short "Wind: N mph <dir>" string in the hero detail (dir is now up to
+// three letters, e.g. "ENE"), which wraps naturally in its div — no layout or visual change.
+function windDir(deg) {
+  const dirs = ['N','NNE','NE','ENE','E','ESE','SE','SSE','S','SSW','SW','WSW','W','WNW','NW','NNW'];
+  return dirs[Math.round(deg / 22.5) % 16];
+}
+// Spoken full name for the same 16-point bearing. The abbreviation windDir() returns is compact for
+// sighted users but reads ambiguously to a screen reader ("N" is announced as the letter, "SSW" is
+// spelled out), so the hero surfaces this as a visually-hidden label beside the abbreviation — the
+// same terse-token expansion this page already applies to the 5-day weekday abbreviations (dayFull),
+// High:/Low:, Sunrise:/Sunset:, and the hourly rain-chance/condition. Same index math as windDir().
+function windDirName(deg) {
+  const names = ['north','north-northeast','northeast','east-northeast','east','east-southeast','southeast','south-southeast','south','south-southwest','southwest','west-southwest','west','west-northwest','northwest','north-northwest'];
+  return names[Math.round(deg / 22.5) % 16];
+}
+
+function humidityComfort(h) {
+  if (h < 30) return { label:'Dry, moisturize', level:1, cls:'active-ok' };
+  if (h <= 50) return { label:'Comfortable', level:2, cls:'active-good' };
+  if (h <= 70) return { label:'Muggy', level:3, cls:'active-ok' };
+  return { label:'Oppressive', level:4, cls:'active-bad' };
+}
+
+// Fallback category, used only when the air-quality API returns pm2_5 but a null us_aqi (it can be
+// null for some hours/remote locations). The breakpoints below (12.0 / 35.4 / 55.4 / 150.4 / 250.4)
+// are the US EPA PM2.5 24-hour breakpoints, and the AQI card heading, its stat text, and the
+// WebApplication JSON-LD featureList all describe this as "US AQI" — yet this fallback previously
+// returned European EAQI-style labels ("Fair"/"Poor"/"Very Poor"), which both named a scale the
+// page doesn't use and UNDERSTATED severity (PM2.5 45 µg/m³ is US "Unhealthy for Sensitive Groups",
+// not "Moderate"). Map each PM2.5 band to the exact US AQI category name, colour, and segment count
+// the us_aqi branch in render() already uses, so the fallback matches the primary path instead of
+// contradicting it. aqi caps at 5 for both Very Unhealthy and Hazardous, keeping the 5-segment bar full.
+function aqiFromPM25(pm) {
+  if (pm <= 12) return { aqi:1, text:'Good', color:'#22c55e' };
+  if (pm <= 35.4) return { aqi:2, text:'Moderate', color:'#f59e0b' };
+  if (pm <= 55.4) return { aqi:3, text:'Unhealthy (Sensitive)', color:'#f97316' };
+  if (pm <= 150.4) return { aqi:4, text:'Unhealthy', color:'#ef4444' };
+  if (pm <= 250.4) return { aqi:5, text:'Very Unhealthy', color:'#7c3aed' };
+  return { aqi:5, text:'Hazardous', color:'#7e0023' };
+}
+
+function sunProgress(sunrise, sunset, now) {
+  const sr = new Date(sunrise).getTime();
+  const ss = new Date(sunset).getTime();
+  const n = now.getTime();
+  if (n < sr) return 0;
+  if (n > ss) return 100;
+  return ((n - sr) / (ss - sr)) * 100;
+}
+
+function fmtTime(iso) {
+  return new Date(iso).toLocaleTimeString('en-US', { hour:'numeric', minute:'2-digit' });
+}
+function fmtHour(iso) {
+  return new Date(iso).toLocaleTimeString('en-US', { hour:'numeric' });
+}
+
+// Bound every API request with a timeout. fetch() only rejects on a hard network error, not on a
+// connection that opens and then stalls with no response — so a hung Open-Meteo request (captive
+// portal, flaky mobile, an unresponsive edge node) otherwise left the loading spinner spinning
+// forever with no recovery but a manual reload. AbortController cancels the request after `ms`,
+// turning that silent hang into the same friendly "Could not connect…" error the catch below
+// already shows for other network failures (an aborted fetch rejects with an AbortError, now
+// mapped there). 15s is well beyond a normal small-JSON response, so a working-but-slow request
+// still completes on schedule; only a genuine stall trips it. No change to the success path.
+function fetchWithTimeout(url, ms = 15000) {
+  const ctrl = new AbortController();
+  const timer = setTimeout(() => ctrl.abort(), ms);
+  return fetch(url, { signal: ctrl.signal }).finally(() => clearTimeout(timer));
+}
+
+// US state/territory postal codes — the only trailing two-letter codes that actually signal a US
+// location. usHinted below tests membership here rather than a bare /[A-Z]{2}/, so a foreign country
+// code (GB, FR, JP…) is NOT mistaken for a US-state hint. Without this "London, GB" and "Paris, FR"
+// matched [A-Z]{2}, flipped usHinted true, and were hijacked to their small US namesakes (London, OH /
+// Paris, TX) — the very thing the geocode comment below says it avoids.
+const US_STATES = new Set(['AL','AK','AZ','AR','CA','CO','CT','DE','FL','GA','HI','ID','IL','IN','IA','KS','KY','LA','ME','MD','MA','MI','MN','MS','MO','MT','NE','NV','NH','NJ','NM','NY','NC','ND','OH','OK','OR','PA','RI','SC','SD','TN','TX','UT','VT','VA','WA','WV','WI','WY','DC','PR','VI','GU','AS','MP']);
+
+async function geocode(city) {
+  const cleanCity = city.replace(/,\s*(US|USA|[A-Z]{2})$/i, '').trim();
+  const res = await fetchWithTimeout(`https://geocoding-api.open-meteo.com/v1/search?name=${encodeURIComponent(cleanCity)}&count=5&language=en&format=json`);
+  if (!res.ok) throw new Error('Could not reach the location service. Please try again.');
+  const data = await res.json();
+  if (!data.results?.length) throw new Error('City not found. Check the spelling and try another city.');
+  // Only prefer a US match when the query actually signalled a US location — i.e. it carried a
+  // trailing US state/territory code (checked against US_STATES above) or "US"/"USA". The old
+  // unconditional find(US) hijacked every ambiguous world city to its US namesake even with no
+  // hint: "London" resolved to London, Ohio and "Paris" to Paris, Texas instead of the far
+  // larger London, GB / Paris, FR the searcher almost certainly meant. But its /[A-Z]{2}/ hint test
+  // was itself too broad: a foreign country code (GB, FR, JP…) also matched, so "London, GB" and
+  // "Paris, FR" still flipped usHinted true and were sent to London, OH / Paris, TX. Restrict the
+  // hint to real US codes so those resolve to results[0] — Open-Meteo returns matches population-
+  // ranked, so "London, GB" → London, GB while the default "New York, NY" and any "City, ST" query
+  // keep resolving to the US city.
+  const hintCode = (city.match(/,\s*([A-Za-z]{2,3})\s*$/) || [])[1];
+  const usHinted = !!hintCode && (/^usa?$/i.test(hintCode) || US_STATES.has(hintCode.toUpperCase()));
+  const r = (usHinted && data.results.find(x => x.country_code === 'US')) || data.results[0];
+  return { lat:r.latitude, lon:r.longitude, name:r.admin1 ? `${r.name}, ${r.admin1}` : `${r.name}, ${r.country}`, tz:r.timezone };
+}
+
+// Sequence guard for concurrent searches: a rapid second search — or the on-load fetch
+// racing a fast first search — puts two requests in flight at once, and without this
+// whichever RESOLVES last wins, so a slow earlier request can clobber the newer city's
+// result with stale data (e.g. type "Tokyo", then "London": if Tokyo's response lands
+// later it overwrites London's). Tag each call with an incrementing id and ignore any
+// response or error a newer search has already superseded. No change to the common
+// single-search path.
+let requestSeq = 0;
+async function fetchWeather() {
+  const city = document.getElementById('cityInput').value.trim();
+  if (!city) return;
+  const seq = ++requestSeq;
+  document.getElementById('content').innerHTML = '<div class="loading" role="status"><div class="spinner" aria-hidden="true"></div><br>Loading weather data…</div>';
+  document.getElementById('alertsBanner').className = 'alerts-banner';
+  document.getElementById('alertsBanner').innerHTML = '';
+  document.getElementById('alertsBanner').style.display = 'none';
+
+  try {
+    const geo = await geocode(city);
+    const params = [
+      `latitude=${geo.lat}`, `longitude=${geo.lon}`,
+      `current=temperature_2m,relative_humidity_2m,apparent_temperature,weather_code,wind_speed_10m,wind_direction_10m,wind_gusts_10m,surface_pressure,is_day`,
+      // Hourly card renders only rain chance + an icon (see render()), so request just those
+      // fields — hourly temperature_2m was fetched for all 168 forecast hours but never used.
+      `hourly=precipitation_probability,weather_code,is_day`,
+      `daily=weather_code,temperature_2m_max,temperature_2m_min,sunrise,sunset,uv_index_max,precipitation_probability_max`,
+      `temperature_unit=fahrenheit`,
+      `wind_speed_unit=mph`,
+      `precipitation_unit=inch`,
+      `timezone=${encodeURIComponent(geo.tz)}`,
+      // render() reads daily indices 0–5 only (index 0 for sun times/UV, 1–5 for the "5-Day
+      // Forecast"), and the hourly card shows just a 12h window — so the 7th forecast day was
+      // fetched (as a daily row AND ~24 extra hourly entries) but never used. Request 6.
+      `forecast_days=6`
+    ].join('&');
+
+    // Kick off both requests in parallel. Weather is required; air quality is optional and must
+    // degrade gracefully, so resolve the AQI request to null on ANY failure (network error,
+    // non-OK response, or bad JSON) instead of letting it reject. A shared Promise.all would
+    // have failed the whole dashboard when only the air-quality request errored — render()
+    // already tolerates a null aqi (optional chaining → "N/A"), so this restores the intended
+    // graceful degradation without breaking the current-conditions view.
+    const weatherPromise = fetchWithTimeout(`https://api.open-meteo.com/v1/forecast?${params}`);
+    // render() reads only pm2_5 (aqi.current.pm2_5, the AQI-fallback source) and us_aqi
+    // (the displayed category) — pm10 was requested but never used, so drop it from the
+    // current= list. Mirrors the unused-field trims already made on the weather request
+    // (the never-rendered hourly temperature_2m and the 7th forecast day). No visual change.
+    const aqiPromise = fetchWithTimeout(`https://air-quality-api.open-meteo.com/v1/air-quality?latitude=${geo.lat}&longitude=${geo.lon}&current=pm2_5,us_aqi&timezone=${encodeURIComponent(geo.tz)}`)
+      .then(r => r.ok ? r.json() : null)
+      .catch(() => null);
+
+    const weatherRes = await weatherPromise;
+    if (!weatherRes.ok) throw new Error('Could not load weather data. Please try again in a moment.');
+    const weather = await weatherRes.json();
+    const aqi = await aqiPromise;
+    if (seq !== requestSeq) return; // a newer search superseded this response — don't render stale data
+    render(weather, aqi, geo);
+  } catch (err) {
+    if (seq !== requestSeq) return; // stale error from a superseded search — leave the newer request's UI intact
+    // Network-level failures (offline, DNS/CORS block, request aborted) reject fetch() with a
+    // TypeError whose browser-generated message ("Failed to fetch" / "NetworkError when attempting
+    // to fetch resource.") was being shown to the user verbatim — inconsistent with the friendly,
+    // actionable strings the other error paths throw (all plain Errors). An fetchWithTimeout abort
+    // (a stalled request the timeout cancelled) rejects instead with an AbortError DOMException —
+    // same user-facing situation, so map both to the connection message; keep showing our own Error
+    // messages ("City not found…", etc.) as-is. Static strings only (no user input echoed),
+    // mirroring the geocode-error hardening.
+    const msg = (err instanceof TypeError || err.name === 'AbortError')
+      ? 'Could not connect. Check your internet connection and try again.'
+      : err.message;
+    // Reset the tab title on failure. render() rewrites document.title to the loaded city on
+    // every success (e.g. "Tokyo, Japan — Weather Dashboard"), but the error path left it
+    // untouched — so after one good search, a later failed search (bad city, dropped network)
+    // showed the error card while the browser tab still read the previously-loaded city's name.
+    // Fall back to the neutral app title — the bare <h1> text ("Weather Dashboard"), deliberately
+    // without the "— NYC" suffix the static <title> carries, since the error path is showing no
+    // city at all (not even the NYC default), so the tab reflects that nothing is currently
+    // displayed rather than implying a loaded city. No effect on the success path.
+    document.title = 'Weather Dashboard';
+    document.getElementById('content').innerHTML = `<div class="card" role="alert" style="text-align:center;color:var(--danger);">${msg}</div>`;
+  }
+}
+
+function render(w, aqi, geo) {
+  // Reflect the loaded city in the tab title (the static <title> only says NYC).
+  if (geo && geo.name) document.title = `${geo.name} Weather Dashboard`;
+  // Announce completion to screen readers (the loading status node is replaced below).
+  const srStatus = document.getElementById('srStatus');
+  if (srStatus) srStatus.textContent = `Weather for ${geo && geo.name ? geo.name : 'your location'} loaded.`;
+  const c = w.current;
+  const temp = Math.round(c.temperature_2m);
+  const feelsLike = Math.round(c.apparent_temperature);
+  const diff = feelsLike - temp;
+  let feelsNote = `Feels like ${feelsLike}°F`;
+  if (diff <= -5) feelsNote = `Feels ${Math.abs(diff)}° colder (wind chill)`;
+  else if (diff >= 5) feelsNote = `Feels ${diff}° warmer (heat index)`;
+
+  const humidity = c.relative_humidity_2m;
+  const comfort = humidityComfort(humidity);
+  const windSpeed = Math.round(c.wind_speed_10m);
+  const windD = windDir(c.wind_direction_10m);
+  const windDName = windDirName(c.wind_direction_10m);
+  const gusts = c.wind_gusts_10m ? Math.round(c.wind_gusts_10m) : 0;
+  const pressure = (c.surface_pressure * 0.02953).toFixed(2);
+  const isDay = c.is_day;
+  const weatherCode = c.weather_code;
+
+  const pm25 = aqi?.current?.pm2_5;
+  const usAqi = aqi?.current?.us_aqi;
+  const aqiInfo = pm25 != null ? aqiFromPM25(pm25) : { aqi:0, text:'N/A', color:'#666' };
+  if (usAqi != null) {
+    if (usAqi <= 50) { aqiInfo.text = 'Good'; aqiInfo.color = '#22c55e'; aqiInfo.aqi = 1; }
+    else if (usAqi <= 100) { aqiInfo.text = 'Moderate'; aqiInfo.color = '#f59e0b'; aqiInfo.aqi = 2; }
+    else if (usAqi <= 150) { aqiInfo.text = 'Unhealthy (Sensitive)'; aqiInfo.color = '#f97316'; aqiInfo.aqi = 3; }
+    else if (usAqi <= 200) { aqiInfo.text = 'Unhealthy'; aqiInfo.color = '#ef4444'; aqiInfo.aqi = 4; }
+    else if (usAqi <= 300) { aqiInfo.text = 'Very Unhealthy'; aqiInfo.color = '#7c3aed'; aqiInfo.aqi = 5; }
+    // US AQI tops out at a distinct "Hazardous" band (301+), reached during wildfire smoke or in
+    // heavily polluted cities. Without this the dashboard mislabeled such readings as "Very
+    // Unhealthy". Keep aqi:5 so the 5-segment bar stays fully filled (no layout change); use the
+    // official EPA maroon so the value/segment colour reflects the more severe category.
+    else { aqiInfo.text = 'Hazardous'; aqiInfo.color = '#7e0023'; aqiInfo.aqi = 5; }
+  }
+
+  const sunrise = w.daily.sunrise[0];
+  const sunset = w.daily.sunset[0];
+  // Open-Meteo returns null for sunrise/sunset at high latitudes on polar-day/polar-night days (the
+  // sun never crosses the horizon, so there's no sunrise/sunset event that day — e.g. Tromsø in
+  // midwinter or midsummer). Without a guard, new Date(null) resolves to the Unix epoch, so the card
+  // showed a garbage 1969/1970 time and "0h 0m daylight". Detect the null case and surface "N/A" /
+  // "—" instead — mirroring the UV, AQI, and hourly-rain null handling already used elsewhere in
+  // render(). Every normal city carries both values, so hasSun is true and nothing below changes for
+  // them (identical output); only a genuine no-sun day takes the fallback path.
+  const hasSun = sunrise != null && sunset != null;
+  // Anchor "now" to the SEARCHED CITY's clock, not the viewer's. sunrise/sunset are offset-less
+  // ISO stamps in the city's timezone (we pass timezone=geo.tz), and sunProgress parses them via
+  // new Date() — i.e. as browser-local wall-clock. So compare them against the city's current
+  // local time (w.current.time, parsed the same offset-less way), not the browser's real instant.
+  // With new Date() the sun-arc dot was placed by the viewer's clock, so it sat at the wrong spot
+  // for any city in a different timezone (e.g. Tokyo viewed from New York). Mirrors the hourly-
+  // window fix. Falls back to the browser clock if current.time is ever absent. No visual change
+  // for same-timezone use.
+  const now = c.time ? new Date(c.time) : new Date();
+  const sunProg = hasSun ? sunProgress(sunrise, sunset, now) : 0;
+  const daylightSec = hasSun ? (new Date(sunset) - new Date(sunrise)) / 1000 : 0;
+  const dlH = Math.floor(daylightSec/3600);
+  const dlM = Math.floor((daylightSec%3600)/60);
+
+  const uvMax = w.daily.uv_index_max[0];
+
+  // Next 12 hours of hourly data. The API returns hourly times in the SEARCHED CITY's timezone
+  // (we pass timezone=geo.tz), so anchor "now" to the city's own clock via w.current.time rather
+  // than the browser's — otherwise the window started at the viewer's local hour and was shifted
+  // for any city in a different timezone (e.g. searching Tokyo from New York). Compare the ISO
+  // "YYYY-MM-DDTHH" hour prefixes so it's a pure string match, immune to how new Date() localizes
+  // these offset-less stamps. (|| '') falls back to the first slot if current.time is ever absent.
+  const cityNowHour = (c.time || '').slice(0, 13);
+  let hourlyStart = w.hourly.time.findIndex(t => t.slice(0, 13) >= cityNowHour);
+  if (hourlyStart === -1) hourlyStart = 0; // defensive: never let the loop start at index -1
+  const hourly = [];
+  for (let i = hourlyStart; i < Math.min(hourlyStart + 12, w.hourly.time.length); i++) {
+    hourly.push({
+      time: w.hourly.time[i],
+      pop: w.hourly.precipitation_probability[i],
+      code: w.hourly.weather_code[i],
+      isDay: w.hourly.is_day[i]
+    });
+  }
+
+  // Alerts
+  const willRain = hourly.some(h => h.pop > 40);
+  let alertClass = '', alertMsg = '';
+  if (windSpeed >= 25 || gusts >= 40) {
+    alertClass = 'warning'; alertMsg = `<span aria-hidden="true">⚠️</span> High wind advisory. Gusts up to ${gusts || windSpeed} mph. Secure loose items.`;
+  } else if (temp <= 20) {
+    alertClass = 'danger'; alertMsg = `<span aria-hidden="true">🥶</span> Extreme cold and frostbite risk. Layer up and limit exposure.`;
+  } else if (temp >= 95 && humidity >= 60) {
+    alertClass = 'danger'; alertMsg = `<span aria-hidden="true">🔥</span> Excessive heat + humidity bring heat stroke risk. Stay indoors if possible.`;
+  } else if (willRain) {
+    const rainH = hourly.find(h => h.pop > 40);
+    alertClass = 'info'; alertMsg = `<span aria-hidden="true">☂️</span> Rain likely around ${fmtHour(rainH.time)}, so grab an umbrella before heading out.`;
+  }
+  // Update the persistent aria-live banner in place (rather than replacing it via outerHTML)
+  // so screen readers announce the alert; clear the inline display the reset path set so the
+  // CSS class controls visibility again.
+  const alertsBanner = document.getElementById('alertsBanner');
+  alertsBanner.className = 'alerts-banner' + (alertClass ? ' ' + alertClass : '');
+  alertsBanner.innerHTML = alertMsg;
+  alertsBanner.style.display = alertClass ? '' : 'none';
+
+  // Daily forecast
+  const days = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+  // Full weekday names for screen readers — the visible column shows the 3-letter abbreviation,
+  // but "Mon"/"Tue" are announced ambiguously by assistive tech, so expose the full name too.
+  const daysFull = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+  const dailyRows = [];
+  for (let i = 1; i < Math.min(6, w.daily.time.length); i++) {
+    const d = new Date(w.daily.time[i] + 'T12:00:00');
+    dailyRows.push({
+      day: days[d.getDay()],
+      dayFull: daysFull[d.getDay()],
+      code: w.daily.weather_code[i],
+      hi: Math.round(w.daily.temperature_2m_max[i]),
+      lo: Math.round(w.daily.temperature_2m_min[i]),
+      pop: w.daily.precipitation_probability_max[i]
+    });
+  }
+
+  let html = '';
+
+  // Hero
+  html += `<div class="card hero">
+    <h2 class="visually-hidden">Current conditions in ${escHtml(geo.name)}</h2>
+    <div class="hero-left">
+      <div class="hero-icon" aria-hidden="true">${getIcon(weatherCode, isDay)}</div>
+      <div>
+        <div class="hero-temp">${temp}<span>°F</span></div>
+        <div class="feels-like">${feelsNote}</div>
+      </div>
+    </div>
+    <div class="hero-right">
+      <div class="hero-condition">${getDesc(weatherCode)}</div>
+      <div class="hero-detail">
+        ${escHtml(geo.name)}<br>
+        Humidity: ${humidity}%<br>
+        Wind: ${windSpeed} mph <span class="visually-hidden">${windDName} </span><span aria-hidden="true">${windD}</span>${gusts ? '<br>Gusts: ' + gusts + ' mph' : ''}<br>
+        Pressure: ${pressure} inHg<br>
+        <!-- EPA UV Index scale tops out at a distinct "Extreme" band (11+), reached at high
+             altitude/near the equator or under ozone-thinned skies. Without this, such readings
+             were mislabeled "Very High". Mirrors the AQI "Hazardous" band fix.
+             Open-Meteo can return null for uv_index_max (e.g. polar-night days with no UV model
+             value); guard it so the hero shows "N/A" instead of the literal "null (Low)", mirroring
+             the AQI null → "N/A" handling above. -->
+        UV Index: ${uvMax != null ? `${uvMax} ${uvMax <= 2 ? '(Low)' : uvMax <= 5 ? '(Moderate)' : uvMax <= 7 ? '(High)' : uvMax <= 10 ? '(Very High)' : '(Extreme)'}` : 'N/A'}
+      </div>
+    </div>
+  </div>`;
+
+  // Stat row
+  html += `<div class="grid-3">`;
+
+  // Humidity comfort
+  html += `<div class="card">
+    <div class="stat-icon" aria-hidden="true">💧</div>
+    <h2 class="stat-label">Humidity Comfort</h2>
+    <div class="stat-value">${humidity}%</div>
+    <div class="stat-sub">${comfort.label}</div>
+    <!-- Decorative meter: the humidity % (.stat-value) and comfort label (.stat-sub) above already
+         convey this level as text, so the four coloured segments are a visual reinforcement only.
+         aria-hidden keeps its empty segment divs out of the accessibility tree, matching this page's
+         consistent decorative-element pattern (every stat-icon/hero-icon/arrow/emoji here is hidden).
+         No visual change. -->
+    <div class="comfort-meter" aria-hidden="true">${[1,2,3,4].map(i => `<div class="comfort-seg ${i <= comfort.level ? comfort.cls : ''}"></div>`).join('')}</div>
+  </div>`;
+
+  // AQI
+  html += `<div class="card">
+    <div class="stat-icon" aria-hidden="true">🌬️</div>
+    <h2 class="stat-label">Air Quality${usAqi != null ? ' (US AQI: '+usAqi+')' : ''}</h2>
+    <div class="stat-value" style="color:${aqiInfo.color}">${aqiInfo.text}</div>
+    <div class="stat-sub">${pm25 != null ? 'PM2.5: ' + pm25.toFixed(1) + ' µg/m³' : ''}</div>
+    <!-- Decorative meter: the category text (.stat-value, e.g. "Good"/"Moderate"), the "US AQI: N" in the
+         heading, and the PM2.5 reading already state this level in text, so the five coloured segments
+         are visual reinforcement only. aria-hidden keeps its empty segment divs out of the a11y tree,
+         matching the page's decorative-element pattern (mirrors the humidity meter above). No visual change. -->
+    <div class="aqi-bar" aria-hidden="true">${[1,2,3,4,5].map(i => `<div class="aqi-seg" style="background:${i <= aqiInfo.aqi ? aqiInfo.color : 'rgba(255,255,255,.08)'}"></div>`).join('')}</div>
+  </div>`;
+
+  // Sunrise/Sunset
+  html += `<div class="card">
+    <div class="stat-icon" aria-hidden="true">🌅</div>
+    <h2 class="stat-label">Sunrise / Sunset</h2>
+    <!-- Decorative track: the sunrise time, "Xh Ym daylight", and sunset time below convey the sun
+         data in text; this bar+dot is a visual at-a-glance of the sun's position with no text of its
+         own. aria-hidden keeps the empty track/dot out of the a11y tree, matching the page's
+         decorative-element pattern (mirrors the two meters above). No visual change. -->
+    <div class="sun-bar" aria-hidden="true"><div class="sun-dot" style="left:calc(${sunProg}% - 7px)"></div></div>
+    <div class="sun-times">
+      <span><span aria-hidden="true">↑</span><span class="visually-hidden">Sunrise: </span> ${hasSun ? fmtTime(sunrise) : 'N/A'}</span>
+      <span>${hasSun ? `${dlH}h ${dlM}m daylight` : 'No sunrise/sunset'}</span>
+      <span><span aria-hidden="true">↓</span><span class="visually-hidden">Sunset: </span> ${hasSun ? fmtTime(sunset) : 'N/A'}</span>
+    </div>
+  </div>`;
+
+  html += `</div>`;
+
+  // Hourly rain
+  html += `<div class="card">
+    <h2 class="section-title"><span aria-hidden="true">☂️</span> Rain Chance (Next 12h)</h2>
+    <div class="hourly-row" tabindex="0" role="group" aria-label="Hourly rain-chance forecast. Scroll horizontally to see all 12 hours">
+      ${hourly.map(h => {
+        const pop = h.pop;
+        // Open-Meteo can return null for an hourly precipitation_probability (some models/hours
+        // omit it); guard it so the strip shows a dim "N/A" instead of the literal "null%",
+        // mirroring the hero's UV/AQI null → "N/A" handling and the 5-day row, which already
+        // drops a null rain chance. Real forecast hours always carry a value, so no visual change.
+        const hasPop = pop != null;
+        const popColor = hasPop ? (pop >= 60 ? '#ef4444' : pop >= 30 ? '#f59e0b' : '#22c55e') : 'var(--text-dim)';
+        return `<div class="hourly-item">
+          <div class="time">${fmtHour(h.time)}</div>
+          <div class="icon" aria-hidden="true">${getIcon(h.code, h.isDay)}</div>
+          <!-- The per-hour condition icon above is aria-hidden (decorative emoji), so screen-reader
+               users got only the time + rain %, missing the sky condition that sighted users read
+               from the icon. Add it as a visually-hidden label — mirrors getDesc() already surfaced
+               in the hero (.hero-condition) and 5-day rows (.forecast-desc). Positioned absolute, so
+               no visual/layout change to the strip. -->
+          <span class="visually-hidden">${getDesc(h.code)}, </span>
+          <!-- The bare "40%" reads ambiguously on its own to a screen reader (percent of what?).
+               Sighted users get "rain chance" from the section heading + the ☂️ icon; give SR users
+               the same qualifier inline so each hour is self-describing when navigated element by
+               element. Mirrors the visually-hidden "High:/Low:/Sunrise:/Sunset:" labels elsewhere on
+               this page and the "% rain" wording in the 5-day rows. Positioned absolute — no visual change. -->
+          <div class="chance" style="color:${popColor}"><span class="visually-hidden">Rain chance: </span>${hasPop ? pop + '%' : 'N/A'}</div>
+        </div>`;
+      }).join('')}
+    </div>
+  </div>`;
+
+  // 5-day forecast
+  html += `<div class="card">
+    <h2 class="section-title"><span aria-hidden="true">📅</span> 5-Day Forecast</h2>
+    <div class="forecast-list" role="list" aria-label="5-day forecast">
+    ${dailyRows.map(d => {
+      return `<div class="forecast-row" role="listitem">
+        <div class="forecast-day"><span class="visually-hidden">${d.dayFull}</span><span aria-hidden="true">${d.day}</span></div>
+        <div class="forecast-icon" aria-hidden="true">${getIcon(d.code, true)}</div>
+        <div class="forecast-desc">${getDesc(d.code)}${d.pop > 20 ? ' · ' + d.pop + '% rain' : ''}</div>
+        <div class="forecast-temps"><span class="hi"><span class="visually-hidden">High: </span>${d.hi}°</span> <span aria-hidden="true">/</span> <span class="lo"><span class="visually-hidden">Low: </span>${d.lo}°</span></div>
+      </div>`;
+    }).join('')}
+    </div>
+  </div>`;
+
+  // NYC tip — the dashboard is NYC-themed (defaults to New York), and the advice below is
+  // NYC-specific (subways, Central Park, the High Line), so only show it when the loaded
+  // location is actually New York. For any other searched city ("Search any city") this card
+  // would be misleading, so it's omitted rather than shown with the wrong locale's tips.
+  const isNYC = /^New York,/.test(geo.name || '');
+  if (isNYC) {
+    html += `<div class="card" style="text-align:center;">
+      <div style="font-size:12px;color:var(--text-dim);">
+        ${temp <= 35 ? '<span aria-hidden="true">🧤</span> NYC Tip: Watch for icy sidewalks, especially bridge overpasses and shaded blocks.' :
+          temp >= 90 ? '<span aria-hidden="true">🚰</span> NYC Tip: Cooling centers are open. Stay near AC and check NYC.gov for locations.' :
+          willRain ? '<span aria-hidden="true">🚇</span> NYC Tip: Expect crowded subways. Leave 10 min early and bring an umbrella.' :
+          '<span aria-hidden="true">🏙️</span> NYC Tip: Great day to walk. Central Park and the High Line are calling.'}
+      </div>
+    </div>`;
+  }
+
+  document.getElementById('content').innerHTML = html;
+}
+
+document.getElementById('cityInput').addEventListener('keydown', e => {
+  if (e.key === 'Enter') fetchWeather();
+});
+// Wire the Search button here rather than via an inline onclick, so the search control is
+// uniformly event-listener-driven (its sibling cityInput keydown handler just above already
+// is) and the page carries no inline handler — matching the site's convention of keeping JS
+// out of markup (the homepage's inline JS was extracted to main-alt.js for the same reason).
+// Wrapped in an arrow so the click Event isn't passed as fetchWeather's first arg. No visual
+// or behaviour change: clicking Search still runs the same fetch.
+document.getElementById('searchBtn').addEventListener('click', () => fetchWeather());
+
+fetchWeather();
+</script>
+
+<!-- GoatCounter analytics — same as the homepage and 404 page, so weather dashboard visits are counted too -->
+<script data-goatcounter="https://jacobhl.goatcounter.com/count"
+        async src="//gc.zgo.at/count.js"></script>
+<!-- Umami beacon (self-hosted, stats.hidescore.com). index.html has carried this since the
+     fleet rollout, but the sub-pages never got it, so the sites dashboard's jacobhl.com row
+     was homepage-only — /weather/, /building.html and this page reported nothing at all while
+     GoatCounter saw them fine. Same website-id as the homepage so it stays ONE row on the
+     dashboard rather than splitting per page. data-domains is mandatory fleet-wide: it is the
+     only own-traffic exclusion that survives a hotspot or a dropped VPN, since IGNORE_IP only
+     covers the home/exit-node IP. Co-exists with GoatCounter; both count the same visit. -->
+<script defer src="https://stats.hidescore.com/script.js" data-website-id="ae74c209-399b-416b-b340-b8dfac70cfa3" data-domains="jacobhl.com,www.jacobhl.com"></script>
+</body>
+</html>

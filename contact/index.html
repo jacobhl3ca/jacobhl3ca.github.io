@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!-- Redirect stub for /contact.
+
+     GoatCounter recorded live traffic to /contact (title "Page Not Found | Jacob Heifetz-Licht"),
+     so people are reaching for the bare path even though every internal link on the site points at
+     the fragment /#contact — the contact form is a section of the single-page homepage, not a page
+     of its own. GitHub Pages served those visits a hard 404. This stub hands them to the real
+     section instead.
+
+     noindex: this is a redirect, not content. The homepage already owns the contact section and is
+     the canonical target; letting Google index a stub that instantly leaves would just compete with
+     it. "follow" so the outbound link still passes discovery, matching the site's other redirect stubs' reasoning.
+     Deliberately NOT added to sitemap.xml for the same reason. -->
+<meta name="robots" content="noindex, follow">
+<link rel="canonical" href="https://jacobhl.com/">
+<!-- No-JS fallback: the meta refresh fires even with scripting disabled. The script below does the
+     same hop without leaving a history entry, so Back returns where the visitor came from rather
+     than bouncing them through this stub again. -->
+<meta http-equiv="refresh" content="0; url=/#contact">
+<!-- Match the site-wide chrome/icon pattern so the brief redirect paint (the visible <p> fallback,
+     shown when the instant JS/meta-refresh hop is slow or blocked) matches the homepage this stub
+     hands off to, and so it doesn't fire a 404 for the default /favicon.ico.
+
+     theme-color, two media variants (light #ffffff / dark #090f20): unlike the light/ stub — which
+     FORCES light (it writes theme='light' before redirecting, so it fairly pins a single light
+     chrome) — this stub does a plain location.replace('/#contact') that PRESERVES the visitor's
+     saved theme, so it can hand off to the light OR the dark homepage. The homepage's own chrome is
+     exactly these two values (index.html's inline head script and main-alt.js set theme-color to
+     #ffffff in light, #090f20 in dark), so a returning dark-mode visitor previously got a white
+     chrome flash here before the #090f20 dark homepage. A single value can only match one
+     destination; keying the two off prefers-color-scheme tracks the same OS signal the
+     color-scheme below already honors, so the chrome matches whichever homepage the redirect lands
+     on. Mirrors the two-variant theme-color tidytab.html already uses for the same reason.
+
+     color-scheme "light dark": every other page site-wide declares color-scheme, pairing it with its
+     theme-color. "light dark" advertises dark-mode support (a returning visitor may have chosen it)
+     so the bare fallback <p> renders on the right canvas — now matched by the theme-color variants
+     above rather than a single pinned-light value. -->
+<meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#090f20" media="(prefers-color-scheme: dark)">
+<meta name="color-scheme" content="light dark">
+<link rel="icon" type="image/x-icon" href="/assets/img/favicon.ico">
+<title>Contact Jacob Heifetz-Licht</title>
+<meta name="description" content="Get in touch with Jacob Heifetz-Licht, analytics manager and app developer in New York.">
+<!-- Name the document's author, the standard document-identity field every full page (index.html,
+     building.html, weather/, 404.html, refer/) and the peer redirect stub light/ already
+     declare — contact/ and tidytab.html were the two pages site-wide still missing it. Completes the
+     author-metadata pattern the prior runs built out here (description, OG/Twitter, robots, canonical,
+     theme-color, color-scheme, favicon all already present). Purely document metadata surfaced by some
+     browsers, tools, and reader modes; no visual change and no effect on the redirect path (the page
+     stays noindex and still hops to /#contact via the JS/meta-refresh above). -->
+<meta name="author" content="Jacob Heifetz-Licht">
+<!-- Social-share metadata: GoatCounter records live traffic to the bare /contact path (see the
+     redirect note above), so this URL gets shared and unfurled, yet it was the one shareable stub
+     site-wide still carrying no Open Graph/Twitter tags — a scraper (which reads this served HTML
+     rather than following the JS/meta-refresh hop to /#contact) rendered a bare card: just the
+     <title>, with no image or summary. Give it a proper preview, reusing the site-wide og_image.png
+     (no media asset added) exactly as 404.html and light/ do, and mirroring the OG/Twitter blocks
+     the site's other redirect stubs already carry (tidytab.html, light/). og:url points at the real
+     destination this stub redirects to (/#contact) so a shared /contact preview resolves onto the
+     homepage's contact section. Read only by social scrapers; no effect on the normal redirect path,
+     and the page stays noindex. -->
+<meta property="og:title" content="Contact Jacob Heifetz-Licht">
+<meta property="og:description" content="Get in touch with Jacob Heifetz-Licht, analytics manager and app developer in New York.">
+<meta property="og:image" content="https://jacobhl.com/assets/img/og_image_v3.png">
+<meta property="og:image:type" content="image/png">
+<meta property="og:image:width" content="2400">
+<meta property="og:image:height" content="1260">
+<meta property="og:image:alt" content="Jacob Heifetz-Licht, Analytics Manager and app developer">
+<meta property="og:url" content="https://jacobhl.com/#contact">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Jacob Heifetz-Licht">
+<meta property="og:locale" content="en_US">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Contact Jacob Heifetz-Licht">
+<meta name="twitter:description" content="Get in touch with Jacob Heifetz-Licht, analytics manager and app developer in New York.">
+<meta name="twitter:image" content="https://jacobhl.com/assets/img/og_image_v3.png">
+<meta name="twitter:image:alt" content="Jacob Heifetz-Licht, Analytics Manager and app developer">
+<!-- Sentry error monitoring, the same loader (same DSN) every other page on the site carries —
+     including the two sibling redirect stubs, light/ and tidytab.html. contact/ was the one page
+     site-wide still without it, so a runtime break on this stub (e.g. the location.replace redirect
+     below, or the visible <p> fallback shown when the instant hop is slow/blocked) reported to
+     nothing while every other page's did — a lone gap in the site's monitoring coverage. Placed at
+     the end of <head> exactly as the other stubs do; deliberately WITHOUT a matching dns-prefetch,
+     matching those stubs' convention (redirect stubs skip resource hints since they navigate away
+     instantly). Async loader, no visual change and no effect on the normal redirect path. -->
+<!-- sentry -->
+<script src="https://js.sentry-cdn.com/ac636d393a29ab42c76e116c2d4d0cad.min.js" crossorigin="anonymous"></script>
+<!-- /sentry -->
+</head>
+<body>
+<p>Redirecting to <a href="/#contact">the contact section on jacobhl.com</a>…</p>
+<script>location.replace('/#contact');</script>
+</body>
+</html>

@@ -1,0 +1,2189 @@
+<!DOCTYPE html>
+<!-- lang="en-US" (not the broader "en") to match the region-specific locale this page already declares everywhere else: og:locale=en_US and the JSON-LD WebSite/ProfilePage inLanguage=en-US. A more specific, valid BCP-47 tag gives assistive tech the correct US-English pronunciation/voice and search engines one consistent language signal. No visual change. -->
+<html lang="en-US">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="theme-color" content="#ffffff">
+        <meta name='impact-site-verification' value='1d1d2142-74d8-456e-a4f9-9b202a03ea27'>
+        <!-- Declare supported colour schemes to the UA up front. color-scheme is otherwise only set inside the render-blocking styles.css (:root=light, [data-theme="dark"]=dark), so before that CSS loads the browser paints the root canvas/scrollbars with the OS default. "light dark" matches the document's literal default (light — the <html> ships with no data-theme) while still advertising dark-mode support; the CSS color-scheme rules take over once loaded. No visual change to the settled page. -->
+        <meta name="color-scheme" content="light dark">
+        <link rel="stylesheet" href="/assets/css/styles.css">
+        <!-- Root-absolute asset paths (leading /), matching every other page site-wide (404.html, weather/, building.html, refer/, light/ all reference /assets/…) and the root-absolute manifest/preloads already in this same head. The homepage was the one page still loading its stylesheet and favicon via directory-relative hrefs; at "/" both forms resolve to the identical /assets/… URL, so this is byte-for-byte behaviour-preserving today — it just makes the head internally consistent and independent of the document path. No visual or behaviour change. -->
+        <link rel="icon" type="image/x-icon" href="/assets/img/favicon.ico">
+        <!-- Web app manifest: the homepage is the page people bookmark / "Add to Home Screen", but the site declared no manifest anywhere — so an installed/standalone launch fell back to the raw <title> for its name and the OS default for its toolbar colour. This gives the installed entry a proper app name ("Jacob HL"), the site's own light theme/background colour (#ffffff, matching the theme-color meta above and the default light theme), and reuses the existing favicon.ico/favicon2.ico for icons (no new image asset added). start_url/scope "/" keep it anchored to the homepage. Pure metadata, no visual change to the page in a normal browser tab. -->
+        <link rel="manifest" href="/site.webmanifest">
+        <!-- iOS home-screen label: the manifest above sets short_name "Jacob HL" for the Add-to-Home-Screen name, but iOS Safari ignores the manifest's short_name and instead reads apple-mobile-web-app-title (falling back to the full page title element, which it truncates — "Jacob Heifetz-Licht | Analytics Manager" becomes "Jacob Heife…"). This gives iOS the same short "Jacob HL" label Android already gets from the manifest, so a bookmarked icon reads cleanly on both. Deliberately NOT paired with apple-mobile-web-app-capable — that would force a chromeless standalone launch (a behaviour change); this only names the icon. Pure metadata, no visual change to a normal browser tab. -->
+        <meta name="apple-mobile-web-app-title" content="Jacob HL">
+        <!-- Generic app name for browsers that pin the site or make a desktop/taskbar shortcut. This completes the site's deliberate cross-platform short-name set — the manifest short_name "Jacob HL" (Android/Chrome install), apple-mobile-web-app-title "Jacob HL" (iOS Safari home screen, above), and the JSON-LD alternateName "Jacob HL" — with the one platform-neutral field still missing. application-name is the standard the non-Apple pinned/shortcut path reads; without it those contexts fall back to the full <title> ("Jacob Heifetz-Licht | Analytics Manager"), the same truncation the apple-mobile-web-app-title note above avoids on iOS. Unlike apple-mobile-web-app-capable it triggers no standalone/chromeless launch — it only names the shortcut. Pure metadata, no visual change to a normal browser tab. -->
+        <meta name="application-name" content="Jacob HL">
+        <link rel="preconnect" href="https://cdn.jsdelivr.net"> <!-- early-connect for the render-blocking boxicons CSS fetch (non-CORS, so it can't reuse the crossorigin socket below) -->
+        <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin> <!-- early-connect for the boxicons icon font (CORS woff2, crossorigin so the warmed socket is reused) -->
+        <link rel="preconnect" href="https://fonts.googleapis.com"> <!-- early-connect to Google Fonts CSS (styles.css @imports Poppins from here, on the critical path) -->
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin> <!-- early-connect to the Google Fonts file host; crossorigin so the warmed socket is reused for the CORS woff2 fetch -->
+        <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&amp;display=swap"> <!-- styles.css @imports Poppins, but @import isn't discoverable until styles.css has downloaded + parsed, so the font CSS fetch is serialized on the critical path; preload it (same URL) so the browser fetches it in parallel up front and the @import then resolves from cache. Kept identical to the @import (now includes weight 500, used by .skills__tag / .mac-badge) so the preload still satisfies it. The query separator is written &amp; (not a bare &): an unescaped & in an attribute value is an "ambiguous ampersand" HTML parse error (W3C validation), and this preload href was the one bare & left on the page — matching the site's escape-bare-& pattern already applied to building.html's mailto. The browser decodes &amp;→& when parsing the attribute, so the preloaded URL is byte-for-byte identical and still matches the @import it warms. No visual or behaviour change. -->
+        <!-- LCP preload: the first project card's thumbnail (HideScore's branded cover) is the
+             projects-only LCP, but the project rows are built by the inline script near </body>,
+             so the preload scanner can't discover this image during head parse — the
+             fetchpriority="high" already on the <img> only helps once it's discovered (late).
+             The cover now ships in two themes, so this is injected by the pre-paint script below
+             (which already reads the stored theme) rather than hard-coded: a static tag would
+             always preload the dark file and every default/light visitor would pay for a cover
+             they never render, then fetch the light one late — the exact cost this preload exists
+             to avoid. Injected from the head script it still starts during head parse. -->
+        <link rel="dns-prefetch" href="//gc.zgo.at"> <!-- resolve the GoatCounter script host ahead of the async count.js fetch at end of body -->
+        <link rel="dns-prefetch" href="//jacobhl.goatcounter.com"> <!-- resolve the GoatCounter *beacon* host too: count.js (from gc.zgo.at above) sends every pageview hit to https://jacobhl.goatcounter.com/count, a separate host whose DNS was otherwise only looked up lazily when the beacon fires. The prefetch above warmed only the script host; this warms the endpoint the hit actually goes to, so the beacon isn't delayed (and is less likely to be dropped on a slow/flaky DNS). The homepage was the one GoatCounter page still missing this — 404.html, weather/, and building.html all already carry it — so this completes the beacon-host prefetch pattern site-wide. Pure resource hint, no visual or behaviour change. -->
+        <link rel="dns-prefetch" href="//stats.hidescore.com"> <!-- resolve the self-hosted Umami analytics host ahead of its deferred script.js fetch at end of body -->
+        <link rel="dns-prefetch" href="//formspree.io"> <!-- resolve the Formspree host ahead of the contact form's on-submit POST (assets/js/main-alt.js) so the DNS lookup isn't on the send path -->
+        <link rel="dns-prefetch" href="//js.sentry-cdn.com"> <!-- resolve the Sentry CDN host ahead of the error-monitoring loader script that ships at the end of <head> on every page. That host is contacted on every load but had no resource hint, unlike every other third party the site warms (GoatCounter, Umami, Formspree above; jsdelivr/Google Fonts below) — so its DNS was looked up cold on the critical path. dns-prefetch (DNS only) rather than preconnect keeps this non-render-critical monitoring script from opening a speculative connection that would compete with the render-critical CSS/font sockets. Pure resource hint, no visual or behaviour change. -->
+        <!-- (No dns-prefetch for gist.githubusercontent.com: the only code that fetched from it was the live "Claude Code usage" section (#ccu), which has been commented out / disabled since 2026-06-17. With that section inert the page never contacts gist.githubusercontent.com, so a prefetch here would fire a speculative DNS lookup on every homepage load for a host that's never used. If #ccu is re-enabled, re-add the hint alongside it.) -->
+        <link href='https://cdn.jsdelivr.net/npm/boxicons@2.0.5/css/boxicons.min.css' rel='stylesheet'> <!-- icons -->
+        <script>
+            // Default view = projects-only (set before paint to avoid flash); honor saved preference.
+            // The document ships light (NO data-theme attribute). Apply dark before paint when the
+            // user chose it, or made no choice and the device is in dark mode, so nobody sees a
+            // light flash (main-alt.js loads at the end of <body>).
+            try {
+                // One-time migration to the new light default. Older builds auto-persisted
+                // theme='dark' for EVERY first-time visitor, so returning visitors would otherwise
+                // stay dark forever and never see the new light default. Clear that once (the flag
+                // makes this fire a single time, so any genuine dark choice made afterwards still sticks).
+                if (localStorage.getItem('themeReset2026') !== '1') {
+                    localStorage.removeItem('theme');
+                    localStorage.setItem('themeReset2026', '1');
+                }
+                if (localStorage.getItem('viewMode') !== 'full') {
+                    document.documentElement.classList.add('projects-only');
+                }
+                // No saved choice → follow the device theme (prefers-color-scheme). A saved choice wins.
+                var savedTheme = localStorage.getItem('theme');
+                if (savedTheme === 'dark' || (!savedTheme && window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+                    document.documentElement.setAttribute('data-theme', 'dark');
+                    // Sync the mobile address-bar colour to the dark header before first paint.
+                    var tc = document.querySelector('meta[name="theme-color"]');
+                    if (tc) tc.setAttribute('content', '#090f20');
+                }
+            } catch (e) {
+                document.documentElement.classList.add('projects-only');
+            }
+            // LCP preload for the first project card's cover, in whichever theme is about to
+            // render (see the comment above the link block). Only preload it in the projects-only
+            // view — the view where that cover IS the above-the-fold LCP. In the full-site view the
+            // hero (#home) is what sits above the fold and this project cover is below it, so a
+            // high-priority head preload there would pull a below-the-fold image ahead of the real
+            // above-the-fold content (hero + render-critical CSS) — a known Core Web Vitals
+            // anti-pattern (preloading below-the-fold media). Full-site visitors still get the cover:
+            // it loads when the inline row builder near </body> runs, just not at head-parse priority.
+            // Reuses the projects-only class already asserted above (before paint), so no extra
+            // storage read; the catch path also forces projects-only, so a storage exception still
+            // leaves the default light cover preloaded, exactly as before.
+            if (document.documentElement.classList.contains('projects-only')) {
+                (function () {
+                    var dark = document.documentElement.getAttribute('data-theme') === 'dark';
+                    var l = document.createElement('link');
+                    l.rel = 'preload'; l.as = 'image'; l.fetchPriority = 'high';
+                    // Root-absolute href (leading /), matching this head's stylesheet, favicon,
+                    // manifest and hero <img> (all /assets/…) — the line-12 comment already states
+                    // the head's preloads are root-absolute, but this dynamic LCP preload was the one
+                    // asset reference still built with a directory-relative path. The homepage is
+                    // served only at "/", where assets/… and /assets/… resolve to the identical
+                    // /assets/… URL, so this is byte-for-byte behaviour-preserving; it just makes the
+                    // head internally consistent and independent of the document path. No visual change.
+                    l.href = dark ? '/assets/img/hidescore-cover-thumb.webp?v=1'
+                                  : '/assets/img/hidescore-cover-light-thumb.webp?v=2';
+                    document.head.appendChild(l);
+                })();
+            }
+        </script>
+        <title>Jacob Heifetz-Licht | Analytics Manager</title>
+        <meta name="description" content="Data analytics leader and app developer in New York, known online as JacobHL. Builder of HideScore, Tonight NYC, Subway Times, The Island and TidyTab. Python, SQL, Tableau, React and Next.js.">
+        <meta name="keywords" content="JacobHL, Jacob Heifetz-Licht, jacobhl.com, analytics manager, data analytics, Python, SQL, Tableau, automation, dashboard design, data visualization, ETL, BigQuery, JavaScript, React, Node.js, Next.js, web development">
+        <meta name="author" content="Jacob Heifetz-Licht">
+        <!-- max-snippet:-1 explicitly lets Google use a text snippet of any length in results (the default is a search-engine-chosen limit) so the description/intro can show in full; completes the max-* preview directive set alongside the max-image-preview:large already declared. No visual change. -->
+        <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">
+        <!-- Open Graph meta tags for link previews -->
+        <meta property="og:title" content="Jacob Heifetz-Licht | Analytics Manager">
+        <meta property="og:description" content="Data analytics leader and app developer specializing in Python, SQL, Tableau, React, and Next.js. Turning data into things people actually use.">
+        <meta property="og:image" content="https://jacobhl.com/assets/img/og_image_v3.png">
+        <meta property="og:image:type" content="image/png">
+        <meta property="og:image:width" content="2400">
+        <meta property="og:image:height" content="1260">
+        <meta property="og:image:alt" content="Jacob Heifetz-Licht, Analytics Manager and app developer">
+        <meta property="og:url" content="https://jacobhl.com/">
+        <meta property="og:type" content="website">
+        <meta property="og:site_name" content="Jacob Heifetz-Licht">
+        <meta property="og:locale" content="en_US">
+        <meta name="twitter:card" content="summary_large_image">
+        <meta name="twitter:title" content="Jacob Heifetz-Licht | Analytics Manager">
+        <meta name="twitter:description" content="Data analytics leader and app developer specializing in Python, SQL, Tableau, React, and Next.js. Turning data into things people actually use.">
+        <meta name="twitter:image" content="https://jacobhl.com/assets/img/og_image_v3.png">
+        <meta name="twitter:image:alt" content="Jacob Heifetz-Licht, Analytics Manager and app developer">
+        <link rel="canonical" href="https://jacobhl.com/">
+        <!-- address gives the Person entity a location signal for Knowledge-Graph / entity disambiguation, the same enrichment role the node's jobTitle, alumniOf, knowsAbout and sameAs already play. It only surfaces to structured-data consumers a fact this site already states in plain sight — the homepage meta description reads "…in New York, known online as JacobHL", the weather page's copy says "an analytics manager and app developer in New York", and the weather dashboard defaults to "New York, NY" — so nothing new or more precise is disclosed than the page copy. Deliberately city-level only (addressLocality/addressRegion/addressCountry, no street address) — that's all the site publishes. Pure metadata, no visual change. -->
+        <!-- The Person "knowsAbout" list carries "Data Visualization": it is one of Jacob's core competencies surfaced everywhere else on the site — the visible Skills section has a dedicated "Data & Visualization" category, and both the <meta name="keywords"> list and llms.txt name "data visualization" — yet this structured-data topic list was the one place still omitting it, though it already carried the closely-related "Dashboard Design" and "Tableau". It sits next to "Dashboard Design" so the data-viz topics group together. Pure metadata; no visual change. -->
+        <script type="application/ld+json">
+        {
+            "@context": "https://schema.org",
+            "@type": "Person",
+            "@id": "https://jacobhl.com/#person",
+            "name": "Jacob Heifetz-Licht",
+            "givenName": "Jacob",
+            "familyName": "Heifetz-Licht",
+            "alternateName": ["JacobHL", "Jacob HL", "jacobhl"],
+            "url": "https://jacobhl.com/",
+            "mainEntityOfPage": { "@id": "https://jacobhl.com/#webpage" },
+            "image": "https://jacobhl.com/assets/img/about.jpg",
+            "email": "hi@jacobhl.com",
+            "jobTitle": "Analytics Manager",
+            "address": {
+                "@type": "PostalAddress",
+                "addressLocality": "New York",
+                "addressRegion": "NY",
+                "addressCountry": "US"
+            },
+            "description": "Data analytics leader and app developer specializing in Python, SQL, Tableau, React, and Next.js. Turning data into things people actually use.",
+            "sameAs": [
+                "https://www.linkedin.com/in/jacobhl/",
+                "https://github.com/jacobhl3ca",
+                "https://apps.apple.com/us/developer/jacob-heifetz-licht/id1895127194",
+                "https://play.google.com/store/apps/developer?id=Jacob+Heifetz-Licht",
+                "https://about.me/jacobhl",
+                "https://devpost.com/jacobhl",
+                "https://public.tableau.com/app/profile/jacob.heifetz.licht"
+            ],
+            "alumniOf": {
+                "@type": "CollegeOrUniversity",
+                "name": "Rutgers University",
+                "url": "https://www.rutgers.edu/"
+            },
+            "knowsAbout": ["Data Analytics", "Python", "SQL", "Tableau", "ETL", "BigQuery", "Automation", "Dashboard Design", "Data Visualization", "JavaScript", "React", "Node.js", "Next.js", "Web Development", "iOS Development", "Swift"],
+            "knowsLanguage": "en-US"
+        }
+        </script>
+        <!-- knowsAbout now names the iOS/mobile expertise the entity was silent on. The array declared Jacob's data (Python/SQL/Tableau) and web (JavaScript/React/Next.js) skills but no mobile term at all — even though this same Person node's sameAs already links his App Store developer profile, four native iOS apps ship on-page here (the HideScore/Tonight NYC/Subway Times/The Island cards each carry an App Store link), and llms.txt lists "Swift/iOS" among his skills. So the whole native-app half of his portfolio — prominent on the page and in his own machine-readable summary — had zero representation in the Person's knowsAbout, unlike web dev which does. "iOS Development" + "Swift" mirror llms.txt's wording and reflect content the page already shows (Google wants knowsAbout to reflect on-page facts). Pure metadata, no visual change. -->
+
+        <!-- knowsLanguage names the language Jacob works in, as the BCP-47 tag "en-US" — the same value this page's WebSite/ProfilePage nodes already use for inLanguage and the <html lang>/og:locale declare for the document. Those describe the *content's* language; knowsLanguage is the distinct Person-entity property for a language the person themselves knows, a recognized part of schema.org's Person markup that the rest of the entity (sameAs, alumniOf, knowsAbout, jobTitle) already invests in. It gives search engines one more disambiguation signal for the person entity without any visual change — the Person node was declaring skills and identity links but never the language behind them. Pure metadata. -->
+        <!-- alumniOf.url points the "Rutgers University" node at the institution's official homepage so search engines can resolve the plain-text school name to the real organization entity (Knowledge Graph disambiguation) instead of guessing from the string alone — the same entity-linking role the Person node's sameAs array already plays for Jacob's LinkedIn/GitHub/App Store profiles. Standard structured-data practice for a named sub-entity; pure metadata, no visual change. -->
+        <!-- WebSite entity: gives the site itself a stable node distinct from the Person, and names the Person (via the same #person @id) as its author/publisher — a recognized structured-data pattern that helps search engines model "this site" as one entity (Knowledge Graph / sitelinks eligibility) and links it to its owner. Continues the #person linked-data pattern; pure metadata, no visual change. -->
+        <!-- alternateName declares the other names this site is known by, so a brand search for the shortened form or the bare domain resolves to the same WebSite entity as the full "Jacob Heifetz-Licht" name (Knowledge Graph "also known as" / brand disambiguation). Both values are already true and declared elsewhere on the site — "Jacob HL" is the manifest short_name and apple-mobile-web-app-title, and "jacobhl.com" is the domain every canonical/og:url uses — so this only surfaces existing alternate names to search engines. Standard WebSite structured-data practice; pure metadata, no visual change. -->
+        <script type="application/ld+json">
+        {
+            "@context": "https://schema.org",
+            "@type": "WebSite",
+            "@id": "https://jacobhl.com/#website",
+            "url": "https://jacobhl.com/",
+            "name": "Jacob Heifetz-Licht",
+            "alternateName": ["JacobHL", "Jacob HL", "jacobhl.com"],
+            "description": "Data analytics leader and app developer specializing in Python, SQL, Tableau, React, and Next.js. Turning data into things people actually use.",
+            "inLanguage": "en-US",
+            "author": { "@id": "https://jacobhl.com/#person" },
+            "publisher": { "@id": "https://jacobhl.com/#person" }
+        }
+        </script>
+        <!-- ProfilePage entity: the homepage is Jacob's primary profile page, so give it an explicit page node (ProfilePage is a WebPage subtype). It sits inside the site (isPartOf #website) and is *about* / has as its mainEntity the Person (#person). This ties together the two nodes the site already declares — Person (#person) and WebSite (#website) — via the page that connects them, the recognized "WebSite → WebPage → about Person" structured-data pattern for a site's primary entity page. Pure metadata, no visual change. -->
+        <script type="application/ld+json">
+        {
+            "@context": "https://schema.org",
+            "@type": "ProfilePage",
+            "@id": "https://jacobhl.com/#webpage",
+            "url": "https://jacobhl.com/",
+            "name": "Jacob Heifetz-Licht | Analytics Manager",
+            "isPartOf": { "@id": "https://jacobhl.com/#website" },
+            "about": { "@id": "https://jacobhl.com/#person" },
+            "mainEntity": { "@id": "https://jacobhl.com/#person" },
+            "inLanguage": "en-US",
+            "dateModified": "2026-09-12T00:00:00-04:00"
+        }
+        </script>
+        <!-- ⛔ dateModified above MUST stay a full ISO 8601 datetime with a time AND a timezone offset (YYYY-MM-DDThh:mm:ss±hh:mm). Google's ProfilePage structured-data spec requires the time+offset on this field specifically, and a bare "YYYY-MM-DD" trips the Search Console warning "Invalid datetime value for dateModified" (first detected 2026-08-10, fixed 2026-08-11). Keep the DATE half in sync with this page's <lastmod> in sitemap.xml as before — just never drop the T-time or the offset when refreshing it. This is a ProfilePage-only requirement; the WebPage/WebApplication nodes on building.html and weather/ are not rich-result types and may stay date-only. -->
+        <!-- ItemList of Jacob's live projects: the projects section is the homepage's most substantial content (rendered as cards, and mirrored in the no-JS <noscript> lists), but those works had no structured-data node — the graph modeled the Person, WebSite, and ProfilePage, but never what Jacob has actually built. This names each live project as a CreativeWork whose creator is the same #person node, so search engines can associate Jacob's entity with his body of work (Knowledge Graph "creator of"). Each name/URL/description mirrors what the page already shows in the visible cards and the <noscript> fallback lists (Google requires structured data to reflect on-page content), and each URL is the same live site its card opens. Order matches the visible card order. Pure metadata, no visual change. -->
+        <!-- @id + isPartOf tie this list into the site's @id graph the way every other node here already is: the individual projects reference the Person via each item's creator, but the ItemList container itself was the one structured-data node on the homepage still floating unconnected — the Person (#person), WebSite (#website), and ProfilePage (#webpage) are all cross-referenced, and building.html's BreadcrumbList was connected to its WebPage the same way in a prior run. isPartOf points at the homepage's ProfilePage (#webpage) — the page this list actually appears on — using the same one-directional isPartOf link the ProfilePage uses to sit inside the WebSite, so search engines can attribute "this list of works belongs to this page" instead of inferring it. Pure metadata, no visual change. -->
+        <!-- Each CreativeWork now names its image — the recommended CreativeWork property this node was still missing (it already carried name, url, description, and creator). The value is the full-resolution source of the exact cover the on-page project card renders (e.g. hidescore-cover.png is the source art for the hidescore-cover-thumb.webp the card shows), so the markup keeps reflecting on-page content as Google requires while giving each work an entity image for Knowledge-Graph / AI-retrieval understanding — the same discoverability goal this site's llms.txt and AI-crawler-welcoming robots.txt already serve. All seven files already exist (they're the social/source art behind the card thumbnails); no media asset added. Pure metadata, no visual change. -->
+        <!-- 2026-08-31: DuelGoat pulled from the site for now (Jacob's call). JSON-LD is JSON, so its
+             ListItem can't be commented out like the HTML/JS entries elsewhere on this page — it was
+             deleted and numberOfItems dropped 7 -> 6. To restore: re-add it as position 7 (name
+             "DuelGoat", url https://duelgoat.com, image /assets/img/duelgoat-cover.png, description
+             "A browser recreation of GOAT-format Yu-Gi-Oh dueling.", creator #person), put the comma
+             back on position 6, and set numberOfItems to 7. -->
+        <script type="application/ld+json">
+        {
+            "@context": "https://schema.org",
+            "@type": "ItemList",
+            "@id": "https://jacobhl.com/#projects",
+            "isPartOf": { "@id": "https://jacobhl.com/#webpage" },
+            "name": "Projects by Jacob Heifetz-Licht",
+            "itemListOrder": "https://schema.org/ItemListOrderAscending",
+            "numberOfItems": 6,
+            "itemListElement": [
+                { "@type": "ListItem", "position": 1, "item": { "@type": "CreativeWork", "name": "HideScore", "url": "https://hidescore.com", "image": "https://jacobhl.com/assets/img/hidescore-cover.png", "description": "Watch sports highlights without seeing the score.", "creator": { "@id": "https://jacobhl.com/#person" } } },
+                { "@type": "ListItem", "position": 2, "item": { "@type": "CreativeWork", "name": "The Island", "url": "https://theisland.nyc", "image": "https://jacobhl.com/assets/img/theisland-cover.png", "description": "Everything happening on NYC’s Roosevelt Island, in one place.", "creator": { "@id": "https://jacobhl.com/#person" } } },
+                { "@type": "ListItem", "position": 3, "item": { "@type": "CreativeWork", "name": "Subway Times", "url": "https://subwaytimes.com", "image": "https://jacobhl.com/assets/img/subwaytimes-cover.png", "description": "Real-time NYC subway arrivals, faster than Maps.", "creator": { "@id": "https://jacobhl.com/#person" } } },
+                { "@type": "ListItem", "position": 4, "item": { "@type": "CreativeWork", "name": "Tonight NYC", "url": "https://tonightnyc.com", "image": "https://jacobhl.com/assets/img/tonightnyc-cover.png", "description": "Every NYC comedy show, filtered to your favorite comedians.", "creator": { "@id": "https://jacobhl.com/#person" } } },
+                { "@type": "ListItem", "position": 5, "item": { "@type": "CreativeWork", "name": "David Licht", "url": "https://davidlicht.com", "image": "https://jacobhl.com/assets/img/davidlicht.jpg", "description": "A showcase site for my dad and his five decades of drumming.", "creator": { "@id": "https://jacobhl.com/#person" } } },
+                { "@type": "ListItem", "position": 6, "item": { "@type": "CreativeWork", "name": "TidyTab", "url": "https://tidytab.jacobhl.com/", "image": "https://jacobhl.com/assets/img/tidytab-cover.png", "description": "A macOS menu-bar app that bulk unpins or closes Safari pinned tabs.", "creator": { "@id": "https://jacobhl.com/#person" } } }
+            ]
+        }
+        </script>
+        <style>
+
+            /* Default view = projects-only, where #home (the visible <h1>) is display:none — so
+               that view, which every first-time visitor and JS crawler sees, would otherwise have
+               NO top-level heading (its first heading is the "Projects" <h2>). This visually-hidden
+               <h1> gives the projects-only view a proper page heading for assistive tech and SEO.
+               It's shown ONLY in projects-only mode, so the full-site view keeps its single visible
+               hero <h1> and the document never has two. No visual change in either view. */
+            .projects-only-h1 {
+                position: absolute; width: 1px; height: 1px;
+                padding: 0; margin: -1px; overflow: hidden;
+                /* clip: rect(0,0,0,0) is the long-standing screen-reader-only technique, but the
+                   clip property is deprecated; clip-path: inset(50%) is its modern replacement.
+                   Ship both so this hidden-<h1> utility keeps working on legacy engines while using
+                   the current, non-deprecated property everywhere else — the belt-and-suspenders pair
+                   mature a11y utilities standardised on, and the same modernization a prior run made
+                   to the weather dashboard's .visually-hidden. Both rules collapse the box to nothing,
+                   so the heading stays visually hidden and audible to assistive tech exactly as before.
+                   No visual change. */
+                clip: rect(0, 0, 0, 0); clip-path: inset(50%); white-space: nowrap; border: 0;
+            }
+            html:not(.projects-only) .projects-only-h1 { display: none; }
+
+            .clickable-img {
+                cursor: pointer;
+                transition: filter 0.5s ease, mix-blend-mode 0.3s ease;
+            }
+            .clickable-img.bg-removed {
+                mix-blend-mode: screen;
+            }
+            /* Light mode only: the base rule above already gives dark mode its "screen"
+               blend, so only the light theme needs to override it to "multiply". */
+            html:not([data-theme="dark"]) .clickable-img.bg-removed {
+                mix-blend-mode: multiply;
+            }
+            .home__circle.clickable-img {
+                cursor: pointer;
+            }
+            .home__circle.bg-removed {
+                background-color: transparent;
+            }
+
+            .confetti-piece {
+                position: fixed;
+                width: 10px;
+                height: 10px;
+                pointer-events: none;
+                z-index: 9999;
+            }
+
+            /* project tile images - no special cursor needed */
+
+            .skills__img {
+                cursor: pointer;
+                position: relative;
+            }
+            .code-popup {
+                position: fixed;
+                pointer-events: none;
+                z-index: 9999;
+                font-family: 'Courier New', monospace;
+                font-size: 0.8rem;
+                padding: 0.4rem 0.75rem;
+                border-radius: 6px;
+                background: rgba(30, 30, 60, 0.92);
+                color: #43e97b;
+                border: 1px solid rgba(67, 233, 123, 0.4);
+                white-space: nowrap;
+                box-shadow: 0 4px 16px rgba(0,0,0,0.3);
+                animation: code-float 1.8s ease-out forwards;
+            }
+            @keyframes code-float {
+                0% { opacity: 0; transform: translateY(0) scale(0.7); }
+                15% { opacity: 1; transform: translateY(-10px) scale(1); }
+                70% { opacity: 1; transform: translateY(-40px) scale(1); }
+                100% { opacity: 0; transform: translateY(-70px) scale(0.9); }
+            }
+
+            .skills__category {
+                margin-bottom: 1.5rem;
+                text-align: left;
+            }
+            .skills__category-title {
+                font-size: 1rem;
+                font-weight: 600;
+                color: var(--first-color);
+                margin-bottom: 0.75rem;
+                display: flex;
+                align-items: center;
+                gap: 0.4rem;
+            }
+            .skills__category-title .skills__icon {
+                font-size: 1.4rem;
+                margin-right: 0;
+            }
+            .skills__tags {
+                display: flex;
+                flex-wrap: wrap;
+                gap: 0.5rem;
+            }
+            .skills__tag {
+                display: inline-block;
+                padding: 0.4rem 1rem;
+                border-radius: 2rem;
+                font-size: 0.85rem;
+                font-weight: 500;
+                background: hsl(var(--hue-color), 89%, 95%);
+                color: hsl(var(--hue-color), 89%, 40%);
+                border: 1px solid hsl(var(--hue-color), 89%, 80%);
+                transition: all 0.3s ease;
+            }
+            .skills__tag:hover {
+                background: var(--first-color);
+                color: #fff;
+                border-color: var(--first-color);
+                transform: translateY(-2px);
+            }
+            [data-theme="dark"] .skills__tag {
+                background: hsl(var(--hue-color), 40%, 18%);
+                color: hsl(var(--hue-color), 89%, 75%);
+                border-color: hsl(var(--hue-color), 40%, 35%);
+            }
+            [data-theme="dark"] .skills__tag:hover {
+                background: var(--first-color);
+                color: #fff;
+                border-color: var(--first-color);
+            }
+            [data-theme="dark"] .skills__category-title {
+                color: var(--first-color);
+            }
+            [data-theme="dark"] .skills__subtitle,
+            [data-theme="dark"] .skills__text {
+                color: #fff;
+            }
+
+            /* Ensure skills text stays blue on mobile */
+            @media screen and (max-width: 767px) {
+                .skills__category-title {
+                    color: var(--first-color);
+                }
+                .skills__tag {
+                    color: hsl(var(--hue-color), 89%, 40%);
+                }
+                [data-theme="dark"] .skills__tag {
+                    color: hsl(var(--hue-color), 89%, 75%);
+                }
+            }
+
+            /* Back to top button */
+            .scroll-down-arrow {
+                position: fixed;
+                bottom: 2rem;
+                right: 2rem;
+                width: 2.5rem;
+                height: 2.5rem;
+                border-radius: 50%;
+                background: var(--first-color);
+                color: #fff;
+                border: none;
+                font-size: 1.2rem;
+                cursor: pointer;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                opacity: 0;
+                visibility: hidden;
+                transition: opacity 0.3s, visibility 0.3s, transform 0.3s;
+                z-index: 99;
+                box-shadow: 0 2px 12px rgba(0,0,0,0.15);
+                animation: bounce-down 2s ease-in-out infinite;
+            }
+            .scroll-down-arrow.visible {
+                opacity: 1;
+                visibility: visible;
+            }
+            html:not([data-theme="dark"]) .scroll-down-arrow {
+                background: #fff;
+                color: #333;
+                box-shadow: 0 2px 12px rgba(0,0,0,0.25);
+            }
+            .scroll-down-arrow:hover {
+                transform: translateY(3px);
+                box-shadow: 0 4px 20px rgba(0,0,0,0.35);
+            }
+            @keyframes bounce-down {
+                0%, 100% { transform: translateY(0); }
+                50% { transform: translateY(5px); }
+            }
+            @media (prefers-reduced-motion: reduce) {
+                .scroll-down-arrow { animation: none; }
+            }
+            .back-to-top {
+                position: fixed;
+                bottom: 2rem;
+                right: 2rem;
+                width: 2.5rem;
+                height: 2.5rem;
+                border-radius: 50%;
+                background: var(--first-color);
+                color: #fff;
+                border: none;
+                font-size: 1.2rem;
+                cursor: pointer;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                opacity: 0;
+                visibility: hidden;
+                transition: opacity 0.3s, visibility 0.3s, transform 0.3s;
+                z-index: 99;
+                box-shadow: 0 2px 12px rgba(0,0,0,0.15);
+            }
+            .back-to-top.visible {
+                opacity: 1;
+                visibility: visible;
+            }
+            .back-to-top:hover {
+                transform: translateY(-3px);
+                box-shadow: 0 4px 20px rgba(0,0,0,0.25);
+            }
+            /* Keyboard focus indicator for the two floating scroll buttons. They set
+               border:none but no outline replacement, so keyboard users only got the
+               inconsistent UA default ring on these circular, accent-filled controls —
+               every other interactive element on the site ships the branded accent
+               outline (WCAG 2.4.7). Scope to :focus-visible so mouse/touch focus shows
+               no ring (look unchanged); reuses the same 2px accent outline used site-wide. */
+            .scroll-down-arrow:focus-visible,
+            .back-to-top:focus-visible {
+                outline: 2px solid var(--first-color);
+                outline-offset: 2px;
+            }
+
+            /* Easter egg */
+            .easter-egg {
+                position: fixed;
+                bottom: 1rem;
+                left: 1rem;
+                font-size: 1rem;
+                cursor: default;
+                opacity: 0.18;
+                transition: opacity 0.3s;
+                z-index: 98;
+                /* -webkit- prefix first (autoprefixer ordering): Safari added the unprefixed user-select only in 17.4, so on Safari/iOS ≤17.3 the unprefixed rule alone is ignored and this decorative easter-egg stays text-selectable (a stray tap-and-drag could highlight it). The prefixed variant restores the intended non-selectable behaviour there; no change where unprefixed is already supported. Mirrors the site's existing -webkit-backdrop-filter / -webkit-text-size-adjust prefixing. */
+                -webkit-user-select: none;
+                user-select: none;
+                line-height: 1;
+            }
+            .easter-egg:hover {
+                opacity: 0.35;
+            }
+            .easter-egg.hatched {
+                animation: egg-hatch 0.6s ease forwards;
+                opacity: 0.7;
+            }
+            .easter-egg .bird {
+                position: absolute;
+                bottom: 0;
+                left: 50%;
+                transform: translateX(-50%) scale(0);
+                opacity: 0;
+                font-size: 1.2rem;
+            }
+            .easter-egg.hatched .bird {
+                animation: bird-pop 3s 0.4s ease forwards;
+            }
+            @keyframes egg-hatch {
+                0% { transform: rotate(0deg); }
+                20% { transform: rotate(10deg); }
+                40% { transform: rotate(-10deg); }
+                60% { transform: rotate(8deg); }
+                80% { transform: rotate(-5deg); }
+                100% { transform: rotate(0deg) scale(0.5); opacity: 0.1; }
+            }
+            @keyframes bird-pop {
+                0% { transform: translateX(-50%) translateY(0) scale(0); opacity: 0; }
+                15% { transform: translateX(-50%) translateY(-18px) scale(1.2); opacity: 1; }
+                25% { transform: translateX(-50%) translateY(-12px) scale(1); opacity: 1; }
+                80% { transform: translateX(-50%) translateY(-10px) scale(1); opacity: 1; }
+                100% { transform: translateX(-50%) translateY(-8px) scale(1); opacity: 0; }
+            }
+        </style>
+        <style id="proj-rows-css">
+  .proj-wrap{max-width:780px;margin:0 auto;padding:0 1.5rem}
+  /* LinkedIn = just the icon, pinned top-right in the Projects title row */
+  .proj-linkedin{display:flex;width:40px;height:40px;position:absolute;right:1.5rem;top:50%;transform:translateY(-50%);
+    align-items:center;justify-content:center;
+    background:transparent;color:var(--second-color);text-decoration:none;
+    transition:border-color .2s ease,color .2s ease,transform .2s ease;}
+  .proj-head-actions .proj-linkedin{position:static;right:auto;top:auto;transform:none;}
+  [data-theme="dark"] .proj-linkedin{color:#e0e0e0;}
+  .proj-linkedin:hover{border-color:var(--first-color);color:var(--first-color);transform:translateY(-50%) translateY(-1px);}
+  .proj-head-actions .proj-linkedin:hover{transform:translateY(-1px);}
+  /* Branded focus ring so keyboard users get the same accent outline as the rest of the site
+     instead of the inconsistent browser default (WCAG 2.4.7). :focus-visible only, so mouse/touch
+     clicks show no ring and the look is unchanged; the outline follows the button's circular shape. */
+  .proj-linkedin:focus{outline:none;}
+  .proj-linkedin:focus-visible{outline:2px solid var(--first-color);outline-offset:2px;}
+  .proj-linkedin i{font-size:1.45rem;line-height:1;}
+  /* projects-only view starts at this section, just under the fixed header — clear it with a
+     small gap. The header is ~48px on narrow widths and 72px on desktop, so match it per-width
+     (a flat 72px left a big dead band on phones/narrow windows). */
+  /* One rhythm for the whole section: 24px, the gap between the project tiles themselves
+     (.proj-row margin-bottom:1.5rem). It sets the space above the Projects title, below the
+     header row, and under the "Other projects" pill, so the pill is framed evenly instead of
+     sitting ~18px off the blue footer band. */
+  #Projects{padding-top:calc(48px + 1.15rem);padding-bottom:1.5rem;}
+  @media(min-width:768px){ #Projects{padding-top:calc(72px + 1.25rem); } }
+  /* On narrow widths <body> already has margin-top:var(--header-height) clearing the fixed nav,
+     so the 48px baked into the padding above double-counts it — leaving a ~58px dead band above the
+     title in projects-only view. Scope a small gap (matching the desktop 0.65rem) to projects-only;
+     full-site view keeps the padding above as normal inter-section spacing. */
+  @media(max-width:767px){ html.projects-only #Projects{padding-top:1.15rem; } }
+  /* drop the bright-blue underline bar under the Projects title */
+  .proj-head-row .section-title::after{display:none;}
+  /* Projects title (centered); the LinkedIn CTA is positioned relative to the SAME
+     max-width/padding as .proj-wrap so it lands above the first card's right corner,
+     not the window edge, at every viewport width. */
+  /* 2026-09-12: three columns, not a centered title with the actions absolutely positioned on
+     top of it. Out of flow, the actions could and did cover the title — adding the Apple TV pill
+     ate the last of the gap and the word read "Projec" at 320px, "Project" at 430px (measured on
+     the live page). Grid tracks cannot overlap: 1fr | title | 1fr keeps the title on the true
+     centre line whenever the side tracks have room (every width from ~360px up, desktop included,
+     since a track's fr share there exceeds the pills' width), and below that the right track takes
+     only the width it needs and the title slides left instead of disappearing under the pills.
+     This also retires the run of "trim 2px of padding to buy the title room" patches below. */
+  .proj-head-row{position:relative;display:grid;grid-template-columns:1fr auto 1fr;align-items:center;
+    column-gap:.5rem;max-width:780px;margin:.25rem auto 1.5rem;padding:0 1.5rem;box-sizing:border-box;}
+  .proj-head-row .section-title{margin:0;grid-column:2;justify-self:center;}
+  .proj-head-actions{grid-column:3;justify-self:end;
+    display:inline-flex;align-items:center;gap:.45rem;}
+  .proj-head-row .toplink{position:absolute;right:0;top:50%;transform:translateY(-50%);
+    display:inline-flex;align-items:center;gap:.45rem;font-family:var(--body-font);font-size:.82rem;font-weight:600;
+    padding:.5rem .95rem;border-radius:999px;text-decoration:none;background:transparent;border:1px solid #a6a6a6;
+    color:var(--second-color);transition:border-color .2s ease,color .2s ease,transform .2s ease;white-space:nowrap;}
+  [data-theme="dark"] .proj-head-row .toplink{color:#e0e0e0;}
+  .proj-head-row .toplink:hover{border-color:var(--first-color);color:var(--first-color);}
+  .proj-head-row .toplink i{font-size:1.15rem;}
+  @media(max-width:600px){
+    /* compact the button ("LinkedIn") so it fits top-right beside the centered title */
+    .proj-head-row .toplink{font-size:.74rem;padding:.42rem .7rem;gap:.3rem;}
+    .proj-head-row .toplink .tl-full{display:none;}
+  }
+  .proj-appstore-all{display:inline-flex;align-items:center;justify-content:center;gap:.32rem;height:36px;
+    padding:0 .62rem;
+    border:1px solid #a6a6a6;border-radius:8px;background:#000;color:#fff;text-decoration:none;
+    font-size:.78rem;font-weight:600;line-height:1;white-space:nowrap;transition:border-color .2s ease,color .2s ease;}
+  .proj-appstore-all i{font-size:1.02rem;line-height:1;position:relative;top:-1px;}
+  .proj-appstore-all:hover{border-color:var(--first-color);color:#fff;}
+  /* Branded focus ring so keyboard users get the same accent outline as the rest of the site
+     (its sibling .proj-linkedin beside it, .button, .view-pill__btn, etc.) instead of the
+     inconsistent browser default (WCAG 2.4.7). This "Apps" App Store link was the one interactive
+     control in the projects header still falling back to the UA outline. :focus-visible only, so
+     mouse/touch clicks show no ring and the resting look is unchanged. */
+  .proj-appstore-all:focus{outline:none;}
+  .proj-appstore-all:focus-visible{outline:2px solid var(--first-color);outline-offset:2px;}
+  @media(max-width:600px){
+    /* padding is the actions' gutter now that they sit in a grid track rather than being
+       pinned with right:1.5rem — 1.5rem keeps them aligned with the card edge below. */
+    .proj-head-row{margin:.35rem auto 1.5rem;padding:0 1.5rem;}
+    /* The cards below sit in .proj-wrap, which keeps a 1.5rem gutter at every width. These
+       actions were pinned at 1rem instead, so the LinkedIn button hung 8px past the right
+       edge of the HideScore card underneath it. Match the card gutter so the two line up. */
+    .proj-head-actions{gap:.4rem;}
+    .proj-head-row .section-title{font-size:1.42rem;}
+    .proj-appstore-all{height:32px;padding:0 .5rem;font-size:.72rem;gap:.25rem;}
+    .proj-linkedin{width:32px;height:32px;}
+    .proj-appstore-all i,.proj-linkedin i{font-size:1rem;}
+  }
+  /* 365, not 360: with the actions pulled in to the card gutter the title and the Apps pill
+     just touch at 361px, so the hide has to start a few px wider than it used to. */
+  @media(max-width:365px){
+    .proj-head-actions .proj-linkedin{display:none;}
+    .proj-appstore-all{padding:0 .48rem;}
+  }
+
+  /* Pulling the actions in to the card gutter costs 8px of the room the centered title needs,
+     which on a 375px phone (SE/8/mini) left the title and the Apps pill about 1px apart. Trim
+     the Apps padding a little on the narrowest phones to buy that back. */
+  @media(max-width:400px){
+    .proj-appstore-all{padding:0 .42rem;}
+    .proj-head-actions{gap:.3rem;}
+  }
+
+  /* The LinkedIn logo stays a logo (no label) and stays inline top-right, but a bare glyph
+     read as decoration and was a small target next to the Apps button. Give it that button's
+     outline and radius so it reads as tappable, and size it to the same height so the two
+     still sit level. The ::after bleeds the touch region a few px past the border on each
+     side — a bigger hit area without a bigger-looking button, so the row doesn't grow. */
+  .proj-head-actions .proj-linkedin{
+    position:relative;width:42px;height:36px;padding:0;
+    border:1px solid #a6a6a6;border-radius:8px;}
+  .proj-head-actions .proj-linkedin i{font-size:1.15rem;}
+  .proj-head-actions .proj-linkedin::after{content:"";position:absolute;left:-4px;right:-4px;top:-5px;bottom:-5px;}
+  @media(max-width:600px){
+    .proj-head-actions .proj-linkedin{width:40px;height:32px;}
+    .proj-head-actions .proj-linkedin i{font-size:1.05rem;}
+  }
+
+  /* Two store pills side by side do not fit beside the centred "Projects" title on a phone. The
+     single Apps pill was already within ~1px of the title at 375px (see the 400px/365px padding
+     trims above), so a second labelled pill overlaps the heading outright from ~600px down. Drop
+     both to icon-only squares here, the same size as the LinkedIn button beside them: the pair
+     costs ~70px instead of ~145px and the title stays clear down to 320px. This block sits after
+     those trims so its padding wins at every width below the breakpoint. Each link keeps its
+     aria-label and title, so the bare icons are still announced and hoverable as "App Store apps"
+     and "Google Play apps". */
+  @media(max-width:600px){
+    .proj-head-actions .proj-appstore-all{width:32px;padding:0;gap:0;}
+    .proj-head-actions .proj-appstore-all span{display:none;}
+  }
+
+  /* Even icon-only, the second pill costs ~37px, which puts the actions within ~3px of the title
+     on a 375px phone (SE / 8 / 13 mini). The existing hide of the LinkedIn button starts at 365px
+     for exactly this reason, so extend it to cover that band: LinkedIn is still reachable from the
+     hero social row and the footer on the same page, while the two store links are only here. */
+  @media(max-width:400px){
+    .proj-head-actions .proj-linkedin{display:none;}
+  }
+
+  /* ===== 2026-08-24: make the three projects-header buttons one control ==========================
+     They had drifted apart: the App Store / Google Play pills carried a lighter #d0d0d0 outline,
+     no hover lift and a 32px icon-only box on phones, while LinkedIn beside them had the darker
+     #a6a6a6 outline, a translateY(-1px) hover and a 40px box with a bleed-out touch region. And
+     LinkedIn never actually got the blue hover outline the pills have, because the border
+     SHORTHAND in `.proj-head-actions .proj-linkedin` above is declared after (and at the same
+     specificity as) the `.proj-linkedin:hover` border-color, so the grey always won.
+     Take LinkedIn's size + movement + resting outline for all three, and the pills' blue hover
+     outline for all three. ===================================================================== */
+  .proj-head-actions > a{
+    border-color:#a6a6a6;
+    transition:border-color .2s ease,color .2s ease,transform .2s ease;
+  }
+  .proj-head-actions > a:hover{border-color:var(--first-color);transform:translateY(-1px);}
+  /* LinkedIn's blue hover outline — needs this specificity to beat the border shorthand above */
+  .proj-head-actions .proj-linkedin:hover{border-color:var(--first-color);color:var(--first-color);}
+  /* dark mode: the pills were filled black next to a transparent LinkedIn; drop the fill and let
+     the icon go accent-blue on hover, exactly like LinkedIn does */
+  [data-theme="dark"] .proj-head-actions .proj-appstore-all{background:transparent;color:#e0e0e0;}
+  [data-theme="dark"] .proj-head-actions .proj-appstore-all:hover{color:var(--first-color);}
+  /* the same bleed-out hit area LinkedIn already had, so all three are equally tappable */
+  .proj-head-actions .proj-appstore-all{position:relative;}
+  .proj-head-actions .proj-appstore-all::after{content:"";position:absolute;left:-4px;right:-4px;top:-5px;bottom:-5px;}
+  /* icon-only band: the pills were 32px wide against LinkedIn's 40px. One size for all three. */
+  @media(max-width:600px){
+    .proj-head-actions .proj-appstore-all{width:40px;height:32px;padding:0;gap:0;}
+  }
+  /* 401-460px is the tight band: LinkedIn is still shown (the hide starts at 400px) so all three
+     are on screen, and three 40px boxes + two 0.4rem gaps = 133px, which ran ~4px into the centred
+     "Projects" title at 401px. Step all three down together to 36px + 0.3rem gaps (118px) there —
+     still well up on the 32px the store pills used to be, still one size for all three, and the
+     ::after bleed keeps the tap target at 44px wide. Verified clear at 401/410/430/460/461. */
+  @media(max-width:460px){
+    .proj-head-actions{gap:.3rem;}
+    .proj-head-actions .proj-appstore-all,.proj-head-actions .proj-linkedin{width:36px;}
+  }
+
+  /* ---- ROW CARD (mirrors .work__img shadow/radius, laid out horizontally) ---- */
+  .proj-row{
+    background:#fff;border-radius:.5rem;overflow:hidden;margin-bottom:1.5rem;
+    box-shadow:0px 4px 25px rgba(14,36,49,.15);
+    transition:transform .25s ease, box-shadow .25s ease;
+  }
+  [data-theme="dark"] .proj-row{background:var(--container-bg);box-shadow:0px 4px 25px rgba(0,0,0,.3);}
+  .proj-row:hover{transform:translateY(-2px);}
+
+  .proj-head{display:flex;align-items:stretch;gap:1.1rem;padding:.85rem;cursor:pointer;}
+  /* 2026-08-31 — the tile carries the artwork's OWN ratio (640x342 = 1.87:1) instead of stretching
+     to the text column's height. Stretching was the root bug: the moment a one-liner wrapped to two
+     lines the box went squarer (1.54 in a half-width window, 0.99 at <=576px), and object-fit:cover
+     then ate up to ~47% of the image WIDTH — chopping the tagline baked into every cover
+     ("...thing on Roosevelt Island in one"). The 2026-08-24 fix answered that by switching the image
+     to object-fit:contain over a blurred backdrop, which stopped the crop but SHRANK the cover
+     inside the still-too-tall box at every width that isn't exactly 1.87 — including the half-width
+     MacBook window, where the cards had looked fine before. Pinning the BOX to 1.87 fixes both at
+     once: contain === cover at that ratio, so the artwork fills its tile edge-to-edge, uncropped, at
+     the largest size the column allows, at EVERY window width — and the full-screen desktop card is
+     identical to how it looked before either change (it was already ~1.83 there). The thumb now
+     centres against a taller text column instead of stretching to meet it. */
+  /* display:block — with previews off a LIVE cover is an <a>, which is inline by default and would
+     collapse the padding/overflow box this rule builds. */
+  .proj-thumb{flex:0 0 clamp(150px,44%,310px);align-self:center;aspect-ratio:640/342;border-radius:.4rem;overflow:hidden;
+    display:block;position:relative;background:#0f0f0f;cursor:pointer;}
+  /* aspect-ratio is the first modern-CSS feature on this page (everything else here works back to
+     ~2019 Safari), and without it the tile has no height source at all now that align-self:stretch
+     and min-height are gone — it would collapse to 0 and the covers would vanish, not just look
+     wrong. Pin the same heights explicitly for that case: 200/1.871 = 107, and 150/1.871 = 80 in
+     the phone band below. Keep both numbers in step with the flex-basis if it ever changes. */
+  @supports not (aspect-ratio: 640/342){
+    /* A fixed height can't track the clamp()ed width, and the padding-top:% trick can't either —
+       percentage padding resolves against the CONTAINING BLOCK's width (the ~705px .proj-head), not
+       the element's own, so it measured 310x377 here instead of 310x166. So for engines without
+       aspect-ratio (pre-2021: Safari <15, Chrome <88, Firefox <89) pin BOTH axes back to the fixed
+       pair this rule shipped with — 200x107 and 150x80 — a known-good ratio rather than a guess.
+       Those browsers lose the fluid sizing and keep a correct, if smaller, cover. */
+    .proj-thumb{flex:0 0 200px;height:107px;}
+    /* the phone half of this fallback lives inside the max-width:576px block below, so it lands
+       after the stacking rules it has to override */
+  }
+  /* The thumb backing shows through while the cover is still decoding (and behind any
+     rounding). It was hard-coded near-black, which flashed a dark rectangle on the
+     now-light-default page — match it to the light covers instead. */
+  html:not([data-theme="dark"]) .proj-thumb{background:#eef1f8;}
+  /* Back to object-fit:cover now that the box above matches the artwork's ratio — no crop to
+     avoid, so the blurred-backdrop copy + scrim the contain version needed are gone with it. */
+  .proj-thumb img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center;transition:transform .9s ease;}
+  .proj-thumb.pos-top img{object-position:top;}
+  .proj-thumb:hover img{transform:scale(1.08);}
+  .proj-cue{position:absolute;inset:0;z-index:1;display:flex;align-items:center;justify-content:center;
+    background:rgba(8,10,18,.40);opacity:0;transition:opacity .2s ease;}
+  .proj-thumb:hover .proj-cue{opacity:1;}
+  .proj-cue span{display:inline-flex;align-items:center;gap:.4rem;font-size:.75rem;font-weight:600;
+    color:#fff;background:rgba(20,26,42,.92);border:1px solid rgba(255,255,255,.25);
+    padding:.42rem .8rem;border-radius:999px;}
+  /* persistent magnifying-glass affordance — plain white icon, bottom-right corner, sat on the
+     same horizontal line as the action-row buttons (favicon/App Store/chevron) */
+  .proj-zoom{position:absolute;right:.6rem;bottom:.55rem;display:flex;align-items:center;justify-content:center;
+    color:#fff;pointer-events:none;z-index:2;filter:drop-shadow(0 1px 4px rgba(0,0,0,.85));}
+  .proj-zoom i{font-size:1.4rem;line-height:1;}
+  .proj-thumb.no-live{cursor:pointer;}
+  .proj-thumb.no-live:hover img{transform:none;}
+  .proj-thumb.no-live .proj-cue{display:none;}
+  /* Live thumbnails are role=button/tabindex=0 (they open the preview), so keyboard users can
+     focus them — give them a visible accent ring (matches the nav/.hourly-row focus convention; WCAG 2.4.7).
+     :focus-visible only, so mouse/touch clicks show no extra ring and the layout is unchanged. */
+  .proj-thumb[role="button"]:focus,a.proj-thumb:focus{outline:none;}
+  .proj-thumb[role="button"]:focus-visible,a.proj-thumb:focus-visible{outline:2px solid var(--first-color);outline-offset:2px;}
+  /* Live project cards open a preview via a role="button" thumbnail (not a link), and their CTA
+     links are commented out — so each app's URL lives only in the thumbnail's data-url and never
+     renders as visible text. The @media print block in styles.css exists precisely so a recruiter
+     can save this portfolio as a PDF, but in that PDF the projects would list what each app IS with
+     no way to reach it. Surface each live project's URL on paper only: display:none keeps it out of
+     the on-screen design entirely (zero layout box, no visual change), and the print rule reveals it
+     under the card so a saved PDF says where each app actually lives — mirroring the a[href]::after
+     link-destination reveal styles.css already prints for the footer/CTA links. */
+  .proj-print-url{display:none;}
+  @media print{
+    .proj-print-url{display:block;font-size:.85em;word-break:break-all;margin-top:4px;}
+  }
+
+  /* justify-content:center — with the one-liner gone the column is a single title row, so
+     top-aligning it against a 166px cover left it stranded at the top of the card. */
+  .proj-info{flex:1 1 auto;min-width:0;display:flex;flex-direction:column;justify-content:center;}
+  /* title + its chevron share one row; the chevron's own margin-left:auto pushes it to the edge */
+  .proj-titlerow{display:flex;align-items:center;gap:.6rem;}
+  .proj-title{display:flex;align-items:center;font-size:1.15rem;font-weight:var(--font-semi);
+    color:var(--second-color);margin:0;min-width:0;}
+  .proj-info .live-dot{flex:0 0 auto;}
+  .proj-one{font-size:var(--normal-font-size);line-height:1.5;margin:0;
+    color:var(--second-color);opacity:.72;}
+  /* CTAs pinned to the bottom of the text column (room freed by top-aligning the text) */
+  .proj-info .work__cta{margin-top:auto;justify-content:flex-start;padding-top:.8rem;}
+  .proj-info img.app-store-badge{height:40px;width:auto;}
+  .proj-info .app-store-badge-link{position:relative;top:-1px;}
+
+  /* CTA + expand-arrow share one bottom row. Desktop: favicon + App Store grouped left, chevron pinned right.
+     Mobile only: App Store centers (space-between) — see the @media block below. */
+  .proj-info .proj-actions{flex-wrap:nowrap;gap:.55rem;align-items:center;justify-content:flex-start;}
+  /* every button gets the App Store badge's grey (#a6a6a6) outline + matching 40px height */
+  .proj-actions .site-link{width:40px;height:40px;border-radius:8px;background:#000;border:1px solid #a6a6a6;}
+  .proj-actions .site-link img.favicon{width:22px;height:22px;border-radius:6px;} /* round off stray white image corners */
+  .proj-actions .mac-badge,.proj-actions .gh-link{height:40px;border-color:#a6a6a6;}
+  /* arrow background = the card colour so it blends in (only the grey outline reads) */
+  .proj-chev{flex:0 0 auto;width:40px;height:40px;border-radius:8px;cursor:pointer;margin-left:auto;
+    border:1px solid #a6a6a6;background:transparent;color:var(--second-color);
+    display:flex;align-items:center;justify-content:center;transition:all .25s ease;}
+  [data-theme="dark"] .proj-chev{color:#e0e0e0;}
+  .proj-chev i{font-size:1.5rem;line-height:1;transition:transform .25s ease;}
+  .proj-chev:hover{color:var(--first-color);border-color:var(--first-color);}
+  .proj-row.open .proj-chev{color:var(--first-color);border-color:var(--first-color);}
+  .proj-row.open .proj-chev i{transform:rotate(180deg);}
+
+  /* ---- COLLAPSIBLE DETAIL (block, full width — sits BELOW the head, no flex squeeze) ---- */
+  .proj-detail{display:grid;grid-template-rows:0fr;transition:grid-template-rows .3s ease;}
+  .proj-row.open .proj-detail{grid-template-rows:1fr;}
+  .proj-detail-in{overflow:hidden;min-height:0;}
+  .proj-detail .pad{padding:.2rem 1.25rem 1.15rem;border-top:1px solid rgba(128,140,170,.18);
+    margin:0 .85rem;}
+  .proj-detail p{font-size:var(--normal-font-size);line-height:1.65;margin:.9rem 0 0;
+    color:var(--second-color);opacity:.85;}
+  .proj-detail .work__cta{justify-content:flex-start;margin-top:.9rem;padding-top:0;}
+  .proj-detail img.app-store-badge{height:42px;width:auto;}
+  .gh-link{display:inline-flex;align-items:center;gap:.4rem;height:42px;padding:0 .9rem;
+    border:1px solid #a6a6a6;border-radius:5px;text-decoration:none;color:var(--second-color);
+    font-size:var(--smaller-font-size);font-weight:600;transition:all .3s ease;}
+  .gh-link:hover{background:var(--first-color);color:#fff;border-color:var(--first-color);transform:translateY(-2px);}
+  [data-theme="dark"] .gh-link{color:#e0e0e0;}
+  .gh-link i{font-size:1.35rem;}
+  .site-link img.favicon{width:20px;height:20px;border-radius:4px;display:block;}
+  /* download button stands out (filled accent) */
+  /* "Download for Mac" styled exactly like Apple's App Store badge (black, two-line) */
+  .mac-badge{display:inline-flex;align-items:center;gap:9px;height:42px;padding:0 15px;
+    background:#000;border:1px solid #a6a6a6;border-radius:8px;text-decoration:none;color:#fff;
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;line-height:1;
+    transition:transform .25s ease;box-sizing:border-box;
+    will-change:transform;backface-visibility:hidden;}  /* keep the apple glyph from re-snapping on hover */
+  .mac-badge:hover{transform:translateY(-2px);}
+  /* fixed, flex-centered box for the glyph so it never shifts */
+  .mac-badge i{flex:0 0 auto;width:1.75rem;height:1.75rem;font-size:1.75rem;line-height:1;
+    display:flex;align-items:center;justify-content:center;}
+  .mac-badge .mb-txt{display:flex;flex-direction:column;align-items:flex-start;}
+  .mac-badge .mb-top{font-size:.6rem;letter-spacing:.01em;}
+  .mac-badge .mb-big{font-size:1.2rem;font-weight:500;letter-spacing:-.01em;margin-top:2px;}
+  /* "Download on the Mac App Store" — longer text, keep it on its two lines inside the 40px badge */
+  .mas-badge .mb-top{font-size:.55rem;white-space:nowrap;}
+  .mas-badge .mb-big{font-size:.92rem;white-space:nowrap;margin-top:1px;}
+
+  /* ---- OTHER PROJECTS DROPDOWN ---- */
+  .more-toggle{display:flex;align-items:center;justify-content:center;gap:.55rem;margin:.5rem auto 0;
+    background:transparent;border:1px solid #a6a6a6;border-radius:999px;cursor:pointer;
+    font-family:var(--body-font);font-size:var(--smaller-font-size);font-weight:600;letter-spacing:.02em;
+    color:var(--second-color);padding:.65rem 1.5rem;transition:all .25s ease;}
+  [data-theme="dark"] .more-toggle{color:#e0e0e0;}
+  .more-toggle:hover{color:var(--first-color);border-color:var(--first-color);}
+  /* Branded focus ring to match the rest of the site's controls instead of the browser default
+     (WCAG 2.4.7). :focus-visible only, so mouse/touch focus shows no ring; the outline follows
+     the button's pill radius. */
+  .more-toggle:focus{outline:none;}
+  .more-toggle:focus-visible{outline:2px solid var(--first-color);outline-offset:2px;}
+  .more-toggle i{font-size:1.4rem;transition:transform .3s ease;}
+  .more-toggle.open i{transform:rotate(180deg);}
+  .more-wrap{display:grid;grid-template-rows:0fr;transition:grid-template-rows .35s ease;}
+  .more-wrap.open{grid-template-rows:1fr;}
+  .more-inner{overflow:hidden;min-height:0;}
+  .more-inner .padtop{padding-top:1.6rem;}
+
+  /* ---- LIVE PREVIEW MODAL ---- */
+  .modal{position:fixed;inset:0;background:rgba(6,9,18,.80);-webkit-backdrop-filter:blur(5px);backdrop-filter:blur(5px);
+    display:none;align-items:center;justify-content:center;z-index:200;padding:24px;}
+  .modal.open{display:flex;}
+  .modal-card{width:min(980px,100%);height:min(80vh,840px);background:#0c0e12;
+    border:1px solid #2a3242;border-radius:.7rem;overflow:hidden;display:flex;flex-direction:column;
+    box-shadow:0 30px 80px rgba(0,0,0,.6);transform-origin:center bottom;
+    transition:transform .34s cubic-bezier(.34,.01,.21,1), opacity .3s ease, width .34s ease, height .34s ease, border-radius .34s ease;}
+  /* yellow = minimize: genie-ish shrink toward the bottom, then close */
+  .modal-card.minimizing{transform:translateY(62vh) scale(.18) rotateX(8deg);opacity:0;}
+  /* green = expand: animate the card to fill the whole screen */
+  .modal.fullscreen{padding:0;}
+  .modal.fullscreen .modal-card{width:100%;height:100%;max-width:100%;border-radius:0;border:0;}
+  .modal.fullscreen .modal-bar{display:none;}
+  /* big back button shown only in fullscreen, floating over the site */
+  .fs-back{position:absolute;top:18px;left:18px;z-index:6;display:none;align-items:center;gap:.45rem;
+    padding:.6rem 1.1rem .6rem .85rem;border:0;border-radius:999px;cursor:pointer;
+    background:rgba(12,14,18,.82);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);color:#fff;font-family:var(--body-font);
+    font-size:.92rem;font-weight:600;box-shadow:0 6px 24px rgba(0,0,0,.45);transition:background .2s ease, transform .2s ease;}
+  .fs-back:hover{background:rgba(20,24,34,.95);transform:translateX(-2px);}
+  .fs-back i{font-size:1.4rem;}
+  .modal.fullscreen .fs-back{display:inline-flex;}
+  .modal-bar{display:flex;align-items:center;gap:.6rem;padding:.5rem .7rem;background:#11141a;
+    border-bottom:1px solid #232a36;}
+  /* functional traffic-light dots: red=close, yellow=minimize, green=expand to fullscreen */
+  .modal-bar .dots{display:flex;gap:8px;align-items:center;}
+  .modal-bar .dots .dot{width:12px;height:12px;border-radius:50%;border:0;padding:0;cursor:pointer;
+    display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:600;line-height:1;
+    color:rgba(0,0,0,.5);font-family:-apple-system,BlinkMacSystemFont,sans-serif;
+    box-shadow:inset 0 0 0 0.5px rgba(0,0,0,.12);}  /* subtle ring like the real macOS dots */
+  .dot.red{background:#ff5f57;}.dot.yellow{background:#febc2e;}.dot.green{background:#28c840;}
+  /* macOS-accurate glyphs: revealed on hover (×, −, fullscreen triangles), drawn as SVG */
+  .modal-bar .dots .dot svg{width:12px;height:12px;display:block;opacity:0;transition:opacity .1s ease;}
+  .modal-bar .dots .dot svg path{stroke:rgba(0,0,0,.58);stroke-width:1.3;fill:none;stroke-linecap:round;}
+  .modal-bar .dots .dot svg path.fill{fill:rgba(0,0,0,.52);stroke:none;}
+  .modal-bar:hover .dots .dot svg{opacity:1;}
+  .nav-btn{flex:0 0 auto;width:30px;height:30px;border-radius:6px;border:1px solid #2a3242;background:#1a1f29;
+    color:#9aa3b4;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .2s ease;}
+  .nav-btn:hover{color:#fff;border-color:#3a445a;}
+  .nav-btn i{font-size:1.15rem;}
+  .nav-btn:disabled{opacity:.35;cursor:default;pointer-events:none;}
+  /* large prev/next arrows flanking the preview, over the backdrop — more visible than the toolbar pair */
+  .modal-side{position:absolute;top:50%;transform:translateY(-50%);z-index:5;width:46px;height:46px;border-radius:50%;
+    border:1px solid #2a3242;background:rgba(17,20,26,.82);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);
+    color:#e6e9ef;cursor:pointer;display:flex;align-items:center;justify-content:center;
+    box-shadow:0 6px 24px rgba(0,0,0,.45);transition:background .2s ease, transform .2s ease, opacity .2s ease;}
+  .modal-side:hover{background:rgba(26,31,41,.95);transform:translateY(-50%) scale(1.06);}
+  .modal-side.prev{left:max(16px, calc(50% - 490px - 62px));}
+  .modal-side.next{right:max(16px, calc(50% - 490px - 62px));}
+  .modal-side:disabled{opacity:.22;pointer-events:none;}
+  .modal-side i{font-size:1.7rem;line-height:1;}
+  .modal-side:focus{outline:none;}
+  .modal-side:focus-visible{outline:2px solid var(--first-color);outline-offset:2px;}
+  .modal.fullscreen .modal-side.prev{left:16px;}
+  .modal.fullscreen .modal-side.next{right:16px;}
+  @media(max-width:640px){ .modal-side{width:38px;height:38px;} .modal-side.prev{left:8px;} .modal-side.next{right:8px;} .modal-side i{font-size:1.4rem;} }
+  .url-form{flex:1;display:flex;}
+  .modal-url{flex:1;width:100%;font-size:.8rem;color:#cdd3df;background:#1a1f29;border:1px solid #232a36;
+    border-radius:6px;padding:.42rem .8rem;text-align:center;outline:none;font-family:var(--body-font);
+    transition:border-color .2s ease, background .2s ease;}
+  .modal-url:focus{border-color:var(--first-color);text-align:left;background:#11141a;}
+  /* Keyboard focus: the address input sets outline:none above and its only :focus cue is the 1px
+     border-color tint — weaker than the 2px accent ring every other control in this same modal
+     toolbar gets (the dots/nav-btns/openext/mclose/fs-back below), so it was the one toolbar
+     control still short of WCAG 2.4.7 Focus Visible. Give it the same branded ring on
+     :focus-visible so it behaves identically to its neighbours; scoped to :focus-visible so
+     mouse/touch focus keeps just the border tint + background shift (no visual change there).
+     Mirrors the weather page's .search-bar input:focus-visible fix. */
+  .modal-url:focus-visible{outline:2px solid var(--first-color);outline-offset:2px;}
+  .modal-bar a.openext{flex:0 0 auto;display:flex;align-items:center;justify-content:center;width:30px;height:30px;
+    color:#9aa3b4;text-decoration:none;border-radius:6px;transition:all .2s ease;}
+  .modal-bar a.openext:hover{color:var(--first-color);background:#1a1f29;}
+  .modal-bar a.openext i{font-size:1.2rem;}
+  /* boxicon (not a raw × glyph) so it centers in its 30×30 box exactly like a.openext does */
+  .modal-bar button.mclose{flex:0 0 auto;background:none;border:0;color:#9aa3b4;cursor:pointer;
+    display:inline-flex;align-items:center;justify-content:center;width:30px;height:30px;line-height:1;padding:0;
+    border-radius:6px;transition:all .2s ease;}
+  .modal-bar button.mclose i{font-size:1.35rem;}
+  .modal-bar button.mclose:hover{color:#fff;background:#1a1f29;}
+  .modal-body{flex:1;position:relative;background:#0c0e12;}
+  /* iframe sits ON TOP (z-index 2) with a transparent bg; the loader is BEHIND it (z-index 1),
+     so the moment the site paints it covers the spinner — the overlay can never hide a working site */
+  .modal-frame{position:absolute;inset:0;border:0;width:100%;height:100%;background:transparent;z-index:2;}
+  /* Branded keyboard-focus ring for the live-preview dialog's toolbar controls, matching the accent
+     :focus-visible ring the rest of the site ships (WCAG 2.4.7 Focus Visible). The modal is
+     aria-modal="true", so keyboard users who open a project preview tab straight through these — the
+     traffic-light dots, back/reload, open-in-new-tab and close controls — yet they were the only
+     interactive elements still falling back to the low-contrast browser-default outline against the
+     dark bar. Scoped to :focus-visible so mouse/touch focus shows no ring — the look is unchanged. */
+  .modal-bar .dots .dot:focus,.nav-btn:focus,.modal-bar a.openext:focus,
+  .modal-bar button.mclose:focus,.fs-back:focus,.esc-hint:focus{outline:none;}
+  .modal-bar .dots .dot:focus-visible,.nav-btn:focus-visible,.modal-bar a.openext:focus-visible,
+  .modal-bar button.mclose:focus-visible,.fs-back:focus-visible,.esc-hint:focus-visible{
+    outline:2px solid var(--first-color);outline-offset:2px;}
+  .modal-load{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;
+    gap:.7rem;background:#0c0e12;color:#9aa3b4;font-size:.85rem;z-index:1;transition:opacity .25s ease,visibility 0s;}
+  /* Once the preview has loaded, this overlay is only faded out (opacity:0) — but opacity:0 leaves
+     its "Loading preview…" text and the spinner in the accessibility tree, so a screen-reader user
+     browsing the loaded dialog still meets a stale "Loading preview…". display:none can't be used
+     (it would kill the .25s fade), so also flip visibility:hidden — but delay it by the fade
+     duration so the fade-out still plays in full, then the overlay drops out of the a11y tree (and
+     keyboard/hit-testing). Showing again removes .hidden → the base transition makes it visible
+     instantly while opacity fades back in, exactly as before. Purely removes hidden-state content
+     from AT; no visual change. */
+  .modal-load.hidden{opacity:0;visibility:hidden;pointer-events:none;transition:opacity .25s ease,visibility 0s .25s;}
+  .modal-load .spin{width:30px;height:30px;border:3px solid #2a3242;border-top-color:var(--first-color);
+    border-radius:50%;animation:spin 0.8s linear infinite;}
+  .modal-load a{color:var(--first-color);text-decoration:none;}
+  @keyframes spin{to{transform:rotate(360deg)}}
+  /* Honour reduced-motion for the modal's loading spinner. This infinite-rotation ring is a
+     continuous animation on a live element (the hero scroll-down arrow is already stilled in its own
+     reduced-motion block above; the pulsing ccu-dot is stilled in its own reduced-motion block within
+     the CCU widget's <style>), so a visitor who
+     asked their OS to reduce motion still got a spinner while a project's details loaded. Mirrors
+     the weather dashboard's reduced-motion rule, which likewise sets its .spinner animation to none.
+     The ring stays visible as a static loading affordance — only the rotation stops. */
+  @media (prefers-reduced-motion: reduce){
+    .modal-load .spin{animation:none;}
+  }
+
+  @media(max-width:576px){
+    /* STACK the cover above the text on phones (2026-08-31). Side by side, the tile can't pass
+       ~150px before "Subway Times" wraps, and the tagline baked into each cover renders at
+       150 x 3.39% = ~5px — present but unreadable, which is exactly what Jacob flagged. Full width
+       instead: ~320px at a 390px viewport, so the same tagline lands near ~11px. It costs card
+       height (the cover alone goes 80px -> ~171px), which is the trade he asked for. */
+    .proj-head{flex-wrap:wrap;gap:.75rem;padding:.7rem;}
+    /* max-width caps the hero at 410px — what the widest real phone (a 430px viewport) already
+       produces — so the 481-576px band (small tablets, split-view) doesn't balloon the cover to
+       506px and the card to 404px tall. Auto inline margins centre it in the row once capped; at
+       phone widths 100% is under the cap, so they are 0 and nothing moves. */
+    .proj-thumb{flex:0 0 100%;max-width:410px;margin-inline:auto;}
+    .proj-title{font-size:1.02rem;}
+    /* App Store always sits next to the favicon (arrow stays pinned right) — never centered */
+    .proj-info .proj-actions{gap:.45rem;}
+    /* keep the favicon box, App Store badge, Mac badge and chevron all the same (smaller) height */
+    .proj-info img.app-store-badge{height:34px;}
+    .proj-actions .site-link{width:34px;height:34px;}
+    .proj-actions .site-link img.favicon{width:19px;height:19px;}
+    .proj-actions .mac-badge,.proj-actions .gh-link{height:34px;}
+    /* keep the wider "Mac App Store" badge from pushing the arrow off the row on mobile */
+    .proj-actions .mas-badge{padding:0 9px;gap:6px;}
+    .proj-actions .mas-badge i{width:1.4rem;height:1.4rem;font-size:1.4rem;}
+    .proj-actions .mas-badge .mb-top{font-size:.46rem;}
+    .proj-actions .mas-badge .mb-big{font-size:.74rem;}
+    .proj-chev{width:34px;height:34px;}
+    .proj-chev i{font-size:1.3rem;}
+    /* Phone half of the no-aspect-ratio fallback. It has to sit here, after the stacking rules
+       above, to beat them at equal specificity — a full-width tile with no height source would be
+       invisible, so those engines keep the old 150x80 tile side by side instead. */
+    @supports not (aspect-ratio: 640/342){
+      .proj-head{flex-wrap:nowrap;}
+      .proj-thumb{flex:0 0 150px;height:80px;}
+    }
+  }
+
+  /* ===== 2026-07-17 tweaks ===== */
+  /* #8 — "Projects" section title reads black in light mode (was the blue accent) */
+  html:not([data-theme="dark"]) #projects-heading{color:#000;}
+  /* #7 — light-mode variant of the top-right "Apps" button (was fixed black) */
+  html:not([data-theme="dark"]) .proj-appstore-all{background:#fff;color:var(--second-color);border-color:#a6a6a6;}
+  html:not([data-theme="dark"]) .proj-appstore-all:hover{border-color:var(--first-color);color:var(--first-color);}
+  /* #5 — zoom HideScore / Tonight NYC thumbnails in so league & comedian names + CTAs read on the small card */
+  .proj-thumb.zoomed img{transform:scale(1.32);transform-origin:center top;}
+  .proj-thumb.zoomed:hover img{transform:scale(1.42);}
+  /* center title + one-liner on the thumbnail's vertical center when a card has no CTA button
+     (the live preview is the CTA). The chevron is pulled OUT of the flex flow (absolute, bottom-right)
+     so only the title + one-liner are centered — they align with the middle of the thumbnail, not
+     the title+desc+chevron group. */
+  .proj-info.centered{justify-content:center;position:relative;}
+  .proj-info.centered .work__cta{position:absolute;right:0;bottom:0;margin:0;padding:0;}
+
+  /* #3 + #6 — preview opens MAXIMIZED with the URL bar visible; bottom floating toolbar for an easy-reach Close */
+  .modal-foot{position:absolute;left:50%;bottom:20px;transform:translateX(-50%);z-index:6;display:none;
+    align-items:center;gap:.4rem;padding:.35rem .4rem;border-radius:999px;
+    background:rgba(12,14,18,.86);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);
+    box-shadow:0 8px 28px rgba(0,0,0,.5);}
+  .modal.fullscreen .modal-foot{display:inline-flex;}
+  .modal-foot .foot-btn{border:0;cursor:pointer;background:transparent;color:#e6e9ef;
+    font:600 .88rem var(--body-font);display:inline-flex;align-items:center;gap:.35rem;
+    padding:.5rem .95rem;border-radius:999px;transition:background .2s ease,color .2s ease;}
+  .modal-foot .foot-btn:hover{background:rgba(255,255,255,.14);color:#fff;}
+  .modal-foot .foot-btn i{font-size:1.3rem;line-height:1;}
+  .modal-foot .foot-close{background:rgba(255,95,87,.18);color:#ff6b63;}
+  .modal-foot .foot-close:hover{background:rgba(255,95,87,.30);color:#fff;}
+  .modal-foot .foot-btn:focus{outline:none;}
+  .modal-foot .foot-btn:focus-visible{outline:2px solid var(--first-color);outline-offset:2px;}
+
+  /* #4 — poster fallback for sites that block iframe embedding (e.g. Subway Times' own CSP) */
+  .modal-noembed{position:absolute;inset:0;z-index:4;display:none;flex-direction:column;align-items:center;justify-content:center;
+    gap:1.1rem;padding:2rem;text-align:center;background:#0c0e12;}
+  .modal-noembed.show{display:flex;}
+  .modal-noembed img{max-width:min(560px,86%);max-height:52%;object-fit:contain;border-radius:.6rem;
+    box-shadow:0 12px 40px rgba(0,0,0,.5);}
+  .modal-noembed p{margin:0;color:#9aa3b4;font-size:.9rem;max-width:38ch;line-height:1.55;}
+  .modal-noembed .ne-open{display:inline-flex;align-items:center;gap:.45rem;text-decoration:none;
+    background:var(--first-color);color:#fff;font-weight:600;font-size:.92rem;padding:.7rem 1.3rem;border-radius:999px;
+    transition:transform .2s ease,filter .2s ease;}
+  .modal-noembed .ne-open i{font-size:1.15rem;}
+  .modal-noembed .ne-open:hover{transform:translateY(-2px);filter:brightness(1.06);}
+  /* Keyboard focus indicator for the noembed fallback's "open in new tab" link — the primary
+     action shown when a site blocks embedded previews. Every other interactive control ships the
+     branded accent ring (WCAG 2.4.7 Focus Visible), but this link was the one still falling back to
+     the inconsistent UA-default outline. Scope to :focus-visible so mouse/touch focus shows no ring
+     (look unchanged); outline-offset:2px places it on the dark noembed backdrop for contrast against
+     the accent-filled pill. Mirrors the .modal-side / toolbar-control focus convention just above. */
+  .modal-noembed .ne-open:focus{outline:none;}
+  .modal-noembed .ne-open:focus-visible{outline:2px solid var(--first-color);outline-offset:2px;}
+
+  /* ===== 2026-09-22: COVER GRID (Jacob: "make into a grid, see max at once with just the cover
+     photos"). Switched on by the proj-grid-view class on #Projects; the JS builder reads the same
+     class. Remove that class and the page renders the expandable rows above exactly as before,
+     since none of the row rules were touched. Every main cover already carries the project name
+     and tagline in its artwork, so the tile is the image alone. The "Other projects" images are
+     plain screenshots and logos with no name in them, so those tiles keep a one-line caption.
+     1024px matches the site's .bd-grid container. At that width 3 columns give 312px tiles, which
+     is 624px on a 2x screen, so the existing 640px thumbs stay sharp. 6 covers = 3 x 2 on a laptop
+     and 2 x 3 on a phone, all on one screen. ===== */
+  #Projects.proj-grid-view .proj-head-row,
+  #Projects.proj-grid-view .proj-wrap{max-width:1024px;}
+  .proj-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1.25rem;}
+  #main-rows.proj-grid{margin-bottom:1.5rem;}
+  .proj-tile{min-width:0;margin:0;}
+  /* width/max-width/margin undo the row layout's flex-basis and its 410px phone cap */
+  .proj-tile .proj-thumb{width:100%;max-width:none;margin:0;border-radius:.5rem;
+    box-shadow:0 4px 25px rgba(14,36,49,.15);transition:transform .25s ease,box-shadow .25s ease;}
+  [data-theme="dark"] .proj-tile .proj-thumb{box-shadow:0 4px 25px rgba(0,0,0,.3);}
+  .proj-tile a.proj-thumb:hover,.proj-tile .proj-thumb[role="button"]:hover{transform:translateY(-3px);
+    box-shadow:0 10px 30px rgba(14,36,49,.22);}
+  [data-theme="dark"] .proj-tile a.proj-thumb:hover{box-shadow:0 10px 30px rgba(0,0,0,.45);}
+  /* a gentler zoom than the rows' 1.08, which would crop the tagline baked into each cover */
+  .proj-tile .proj-thumb:hover img{transform:scale(1.03);}
+  .proj-tile .proj-thumb.no-live{cursor:default;}
+  .proj-tile .proj-thumb.no-live:hover img{transform:none;}
+  .proj-tile-cap{margin:.55rem 0 0;text-align:center;font-size:var(--smaller-font-size);font-weight:600;
+    line-height:1.35;color:var(--second-color);}
+  [data-theme="dark"] .proj-tile-cap{color:#e0e0e0;}
+  @media(max-width:699px){
+    .proj-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:.75rem;}
+    .proj-tile .proj-thumb{border-radius:.4rem;}
+  }
+  /* old engines without aspect-ratio: the row fallback pins a fixed 200x107 box, which would
+     overflow a grid cell. Keep the tile full width and let the image set its own height. */
+  @supports not (aspect-ratio: 640/342){
+    .proj-tile .proj-thumb{height:auto;flex:none;}
+    .proj-tile .proj-thumb img{position:static;height:auto;}
+  }
+    </style>
+<!-- sentry -->
+<script src="https://js.sentry-cdn.com/ac636d393a29ab42c76e116c2d4d0cad.min.js" crossorigin="anonymous"></script>
+<!-- /sentry -->
+</head>
+    <body>
+        <a href="#main-content" class="skip-link">Skip to main content</a>
+        <!--===== HEADER =====-->
+        <header class="l-header">
+            <nav class="nav bd-grid" aria-label="Primary"> <!-- name the primary navigation landmark so screen-reader landmark menus read "Primary navigation" instead of a generic, unlabeled "navigation" -->
+                <div>
+                    <a href="#home" class="nav__logo">Jacob</a>
+                </div>
+                <div class="nav__menu" id="nav-menu">
+                    <ul class="nav__list" role="list"><!-- explicit role="list" so the nav keeps its list semantics in Safari/VoiceOver, which drops the implicit list role from any <ul> styled list-style:none (applied site-wide in styles.css) — the same reason the skills-tag and project-card lists carry role="list". No visual effect. -->
+
+                        <li class="nav__item"><a href="#home" class="nav__link active-link" aria-current="location">Home</a></li> <!-- baseline aria-current to match the hardcoded active-link class, so AT announces Home as the current section before/independent of main-alt.js's scrollActive() (which manages this pair dynamically thereafter). Token is "location" (in-page scroll-spy position), not "page" — matching what scrollActive() now sets, so there's no page→location flip once the JS runs; see the rationale in main-alt.js. -->
+                        <li class="nav__item"><a href="#about" class="nav__link">About</a></li>
+
+                        <!-- Update Periodically -->
+                        <li class="nav__item"><a href="#Projects" class="nav__link">Projects</a></li> <!-- or "Work" -->
+                        <li class="nav__item"><a href="#skills" class="nav__link">Skills</a></li>
+
+                        <li class="nav__item"><a href="#contact" class="nav__link">Contact</a></li>
+
+                    </ul>
+                </div>
+                <div style="display: flex; align-items: center;">
+                    <div class="view-pill" id="view-pill" role="group" aria-label="View mode">
+                        <button type="button" class="view-pill__btn is-active" data-view="projects" aria-pressed="true">Projects</button>
+                        <button type="button" class="view-pill__btn" data-view="full" aria-pressed="false">Full site</button>
+                    </div>
+                    <button type="button" id="theme-toggle" class="theme-toggle" aria-label="Switch to dark mode" style="position: relative; top: 0;">
+                        <i class='bx bx-moon' id="theme-icon" aria-hidden="true"></i>
+                    </button>
+                    <script>
+                        // Correct the theme toggle's baseline state for returning DARK-mode users,
+                        // before paint and before main-alt.js loads at end of <body>. The button is hardcoded
+                        // in its light-mode state (moon icon + "Switch to dark mode"), but the inline <head>
+                        // script has already applied the saved dark theme — so without this the toggle
+                        // briefly shows the wrong icon and, more importantly, announces the wrong action to
+                        // assistive tech ("Switch to dark mode" while the page is already dark). main-alt.js
+                        // re-applies the same state later (classList.replace is a no-op when the class is
+                        // absent, and the aria-label is identical), so this only removes the flash/mismatch.
+                        try {
+                            if (document.documentElement.getAttribute('data-theme') === 'dark') {
+                                var _ti = document.getElementById('theme-icon');
+                                if (_ti) _ti.classList.replace('bx-moon', 'bx-sun');
+                                var _tt = document.getElementById('theme-toggle');
+                                if (_tt) _tt.setAttribute('aria-label', 'Switch to light mode');
+                            }
+                        } catch (e) {}
+                    </script>
+                    <div class="nav__toggle" id="nav-toggle" role="button" tabindex="0" aria-label="Toggle navigation menu" aria-controls="nav-menu" aria-expanded="false">
+                        <i class='bx bx-menu' aria-hidden="true"></i>
+                    </div>
+                </div>
+            </nav>
+        </header>
+        <main class="l-main" id="main-content" tabindex="-1">
+            <!-- Top-level page heading for the default projects-only view (see .projects-only-h1 in
+                 the head styles): #home carries the visible <h1>, but it's display:none in that view,
+                 so this gives the page a proper <h1> for assistive tech and SEO. Hidden in full-site
+                 view so the visible hero <h1> stays the only one. -->
+            <h1 class="projects-only-h1">Jacob Heifetz-Licht (JacobHL), Analytics Manager</h1>
+            <!--===== CLAUDE CODE USAGE — TEMPORARILY DISABLED 2026-06-17 (remove the two ccu-disabled comment lines to re-enable) =====-->
+            <!-- ccu-disabled
+            <section class="ccu-section" id="ccu" style="display:none" aria-label="My Claude Code usage">
+              <style>
+                .ccu-section{padding:5rem 1.25rem 1rem;text-align:center}
+                .ccu-wrap{max-width:760px;margin:0 auto}
+                .ccu-eyebrow{font-size:.78rem;letter-spacing:.12em;text-transform:uppercase;color:var(--text-color,#8b94a0);margin:0 0 1.1rem;display:flex;gap:.5rem;align-items:center;justify-content:center}
+                .ccu-dot{width:7px;height:7px;border-radius:50%;background:#34d399;animation:ccu-pulse 2s infinite}
+                @keyframes ccu-pulse{0%{box-shadow:0 0 0 0 rgba(52,211,153,.5)}70%{box-shadow:0 0 0 7px rgba(52,211,153,0)}100%{box-shadow:0 0 0 0 rgba(52,211,153,0)}}
+                /* Honour reduced-motion: this "Live" dot pulses infinitely, so a visitor who asked their OS to
+                   reduce motion should get the static green dot (still a clear live-status affordance) without the
+                   continuous ripple. Mirrors the modal spinner and scroll-arrow reduced-motion rules elsewhere. */
+                @media (prefers-reduced-motion: reduce){.ccu-dot{animation:none}}
+                .ccu-r{display:inline-flex;gap:3px;border:1px solid color-mix(in srgb,var(--first-color) 35%,transparent);border-radius:999px;padding:3px;margin-bottom:1.6rem}
+                .ccu-r button{border:0;background:transparent;color:var(--text-color,#8b94a0);font:600 .8rem var(--body-font,system-ui);padding:.4rem .95rem;border-radius:999px;cursor:pointer;transition:.2s}
+                .ccu-r button.on{background:var(--first-color);color:#fff}
+                .ccu-h{display:flex;gap:3.5rem;justify-content:center;flex-wrap:wrap}
+                .ccu-num{font-size:3.1rem;font-weight:700;line-height:1;font-variant-numeric:tabular-nums;color:var(--first-color)}
+                .ccu-lab{font-size:.74rem;letter-spacing:.08em;text-transform:uppercase;color:var(--text-color,#8b94a0);margin-top:.5rem}
+                .ccu-sub{font-size:.68rem;color:var(--text-color,#8b94a0);opacity:.7;margin-top:.15rem}
+                .ccu-more{display:flex;flex-wrap:wrap;gap:.9rem 1.9rem;justify-content:center;margin-top:2rem;padding-top:1.4rem;border-top:1px solid color-mix(in srgb,var(--first-color) 18%,transparent)}
+                .ccu-more div{min-width:82px}
+                .ccu-more b{display:block;font-size:1.35rem;font-weight:650;font-variant-numeric:tabular-nums;color:var(--title-color,inherit)}
+                .ccu-more span{font-size:.66rem;letter-spacing:.04em;text-transform:uppercase;color:var(--text-color,#8b94a0)}
+                .ccu-u{font-size:.66rem;color:var(--text-color,#8b94a0);opacity:.6;margin-top:1.3rem}
+                @media(max-width:560px){.ccu-h{gap:2rem}.ccu-num{font-size:2.3rem}}
+              </style>
+              <div class="ccu-wrap">
+                <p class="ccu-eyebrow"><span class="ccu-dot"></span> Live · my Claude Code usage</p>
+                <div class="ccu-r" role="group" aria-label="Usage time range"><button type="button" data-r="today" aria-pressed="false">Today</button><button type="button" data-r="d7" aria-pressed="false">7 days</button><button type="button" data-r="d30" class="on" aria-pressed="true">30 days</button><button type="button" data-r="all" aria-pressed="false">All time</button></div>
+                <div class="ccu-h">
+                  <div><div class="ccu-num" id="ccu-m">0</div><div class="ccu-lab">Messages</div><div class="ccu-sub">prompts I’ve sent</div></div>
+                  <div><div class="ccu-num" id="ccu-t">0</div><div class="ccu-lab">Tokens</div><div class="ccu-sub">processed</div></div>
+                </div>
+                <div class="ccu-more">
+                  <div><b id="ccu-turns">0</b><span>AI turns</span></div>
+                  <div><b id="ccu-tools">0</b><span>tool runs</span></div>
+                  <div><b id="ccu-convos">0</b><span>conversations</span></div>
+                  <div><b id="ccu-written">0</b><span>tokens written</span></div>
+                  <div><b id="ccu-days">0</b><span>active days</span></div>
+                </div>
+                <p class="ccu-u" id="ccu-u"></p>
+              </div>
+              <script>
+              (function(){
+                var FEED="https://gist.githubusercontent.com/jacobhl3ca/484da555aac44cf90b41ca36174a1dfe/raw/usage-public.json";
+                function ab(n){return n>=1e9?(n/1e9).toFixed(2)+"B":n>=1e6?(n/1e6).toFixed(1)+"M":n>=1e3?(n/1e3).toFixed(1)+"K":(""+n);}
+                function L(n){return n.toLocaleString();}
+                // Honor the OS "reduce motion" setting. The site's CSS reduced-motion reset can't touch
+                // this JS-driven count-up (it tweens textContent via requestAnimationFrame, not a CSS
+                // animation/transition), so reduced-motion visitors would still see the numbers tick up.
+                // When reduce is requested, skip the 650ms tween and write the final value at once —
+                // el._v is still updated so a later range switch also jumps instantly. No change for
+                // everyone else. (matchMedia is universally supported; the guard is a cheap no-op if absent.)
+                function anim(el,to,fmt){if(window.matchMedia&&window.matchMedia("(prefers-reduced-motion: reduce)").matches){el._v=to;el.textContent=fmt(to);return;}var t0=performance.now(),from=el._v||0;el._v=to;(function f(t){var k=Math.min(1,(t-t0)/650);k=1-Math.pow(1-k,3);el.textContent=fmt(Math.round(from+(to-from)*k));if(k<1)requestAnimationFrame(f);})(t0);}
+                fetch(FEED,{cache:"no-store"}).then(function(r){return r.json();}).then(function(D){
+                  var BY=D.by_day,CUT=D.cutoffs;
+                  function rng(r){var o={p:0,a:0,t:0,tr:0,o:0,s:0,days:0};BY.forEach(function(x){if(r==="all"||x.d>=CUT[r]){o.p+=x.p;o.a+=x.a;o.t+=x.t;o.tr+=x.tr;o.o+=x.o;o.s+=x.s;if(x.p||x.t)o.days++;}});return o;}
+                  function show(r){var s=rng(r);anim(document.getElementById("ccu-m"),s.p,L);anim(document.getElementById("ccu-t"),s.a,ab);document.getElementById("ccu-turns").textContent=L(s.t);document.getElementById("ccu-tools").textContent=L(s.tr);document.getElementById("ccu-convos").textContent=L(s.s);document.getElementById("ccu-written").textContent=ab(s.o);document.getElementById("ccu-days").textContent=L(s.days);}
+                  Array.prototype.forEach.call(document.querySelectorAll(".ccu-r button"),function(b){b.onclick=function(){Array.prototype.forEach.call(document.querySelectorAll(".ccu-r button"),function(x){x.classList.remove("on");x.setAttribute("aria-pressed","false");});b.classList.add("on");b.setAttribute("aria-pressed","true");show(b.dataset.r);};});
+                  document.getElementById("ccu-u").textContent="updated "+D.updated+" · auto-refreshes";
+                  document.getElementById("ccu").style.display="";
+                  show("d30");
+                }).catch(function(){});
+              })();
+              </script>
+            </section>
+            ccu-disabled -->
+            <!--===== HOME =====-->
+            <section class="home bd-grid" id="home" aria-labelledby="home-heading">
+                <div class="home__data">
+                    <h1 class="home__title" id="home-heading">Hi,<br>I’m <span class="home__title-color">Jacob</span><br>Analytics Manager</h1>
+                    <!-- Analytics Engineer --> 
+                    <!-- or Manager, Analytics -->
+                    <a href="#contact" class="button">Contact</a>
+                </div>
+
+                <div class="home__social">
+                    <!-- rel="me" marks these as Jacob's own verified identity profiles — the HTML-level companion to the LinkedIn/GitHub URLs already declared as sameAs in the JSON-LD Person node above. It's the identity/authorship signal read by search engines and rel-me consumers (IndieAuth, Mastodon verification); keeping rel="me" in sync with sameAs is the standard practice. Additive rel token — no visual change, no behaviour change (noopener/noreferrer are preserved). Applied to every link to these two profiles site-wide (footer + Projects row below). -->
+                    <a href="https://www.linkedin.com/in/jacobhl/" class="home__social-icon" target="_blank" rel="me noopener noreferrer" aria-label="LinkedIn profile"><i class='bx bxl-linkedin' aria-hidden="true"></i></a>
+                    <a href="https://github.com/jacobhl3ca" class="home__social-icon" target="_blank" rel="me noopener noreferrer" aria-label="GitHub profile"><i class='bx bxl-github' aria-hidden="true"></i></a>
+                    <!-- rel="me": completes the identity marking within this home__social block. The LinkedIn and GitHub links just above already carry rel="me" (Jacob's own verified profiles, matching the JSON-LD Person sameAs), and the footer's mailto to this same address does too — but this hero-social mailto, a mailto to Jacob's own verified address (an explicitly supported rel-me identity target), was the one link in the block still missing it. Additive rel token — no visual or behaviour change (no target="_blank" here, so no noopener/noreferrer needed). -->
+                    <a href="mailto:hi@jacobhl.com" class="home__social-icon" rel="me" aria-label="Send email" data-umami-event="email-click" style="margin-bottom: 0.75rem;"><i class='bx bx-envelope' aria-hidden="true"></i></a>
+                    <a href="#contact" id="home-resume-link" class="home__social-icon" aria-label="Request resume" data-umami-event="resume-request"><i class='bx bx-file' aria-hidden="true"></i></a> <!-- The click is wired in main-alt.js via addEventListener rather than an inline onclick, keeping JS out of the markup — the site's own convention (the homepage's inline JS was extracted to main-alt.js, and the weather dashboard's Search button was moved off its inline handler for the same reason); this was the last inline event handler left in the served markup. The listener calls event.preventDefault() so the browser's instant #contact fragment jump doesn't fight requestResume()'s own reduced-motion-aware smooth scroll, reset the focus it places in the form, or pollute the URL with #contact. The plain href="#contact" stays as the no-JS fallback (the listener never runs then, and until main-alt.js loads a click simply follows the href). -->
+                </div>
+
+                <div class="home__img">
+                    <div class="home__circle clickable-img" id="home-photo">
+                        <!-- Root-absolute src (leading /), matching the stylesheet/favicon/script paths the head already normalized and every other page site-wide (404.html, weather/, building.html, refer/, light/ all reference /assets/…). These three content images (hero, About, Skills) were the homepage's last directory-relative asset refs; index.html is served only at "/" and "/index.html", where assets/… and /assets/… resolve to the identical /assets/… URL, so this is byte-for-byte behaviour-preserving — it just makes the homepage's asset paths internally consistent and independent of the document path. No visual change. -->
+                        <img src="/assets/img/header.png" alt="Jacob Heifetz-Licht" class="home__circle-img" width="705" height="800" loading="lazy" decoding="async"> <!-- Hero portrait (391KB). The #home section is display:none in the default projects-only view that every first-time visitor sees, so this is NOT the page LCP there — the first project thumbnail is (it carries fetchpriority="high" + a head preload). loading="lazy" means projects-only visitors skip this hidden download entirely (a display:none image has no layout box, so it never enters the viewport), while full-site visitors — where #home sits atop the initial viewport — still get it immediately, since browsers don't defer a lazy image that's already in view. Eager + fetchpriority="high" here would instead force the hidden 391KB fetch at high priority, stealing early bandwidth from render-critical CSS/fonts and the real project-card LCP. No visual change in either view. -->
+                    </div>
+                </div>
+            </section>
+
+            <!--===== ABOUT =====-->
+            <section class="about section " id="about" aria-labelledby="about-heading">
+                <h2 class="section-title" id="about-heading">About</h2>
+
+                <div class="about__container bd-grid">
+                    <div class="about__img">
+
+                         <!-- Root-absolute src, matching the hero portrait above and the site-wide /assets/… convention; byte-for-byte identical at "/". No visual change. -->
+                         <img src="/assets/img/about.jpg" alt="Jacob Heifetz-Licht portrait" width="600" height="600" loading="lazy" decoding="async" class="clickable-img" id="about-photo">
+
+                    </div>
+                    <div>
+                        
+                        <h3 class="about__subtitle">I’m Jacob</h3>
+
+                        <!-- V1 — Original description
+                        <p class="about__text">
+                            🌟 Hi there!
+                            I’m a passionate data analytics leader
+                            with a knack for turning complex data into actionable insights.
+                            Over the years, I’ve led impactful projects at companies like Kepler, Condé Nast, and Deloitte,
+                            where I’ve automated processes (saving thousands of hours and dollars),
+                            built award-winning dashboards, and mentored teams to unlock their full potential.
+                            <br><br>
+                            Whether it’s optimizing scripts or
+                            creating self-service tools for executives,
+                            I geek out on blending my technical chops
+                            (Python, SQL, Tableau, and more!)
+                            with strategic thinking to solve real-world problems.
+                            <br><br>
+                            A proud Rutgers grad with a passion for entrepreneurship,
+                            I’m always excited to collaborate, innovate, and empower teams.
+                            Let’s connect if you’re looking for someone who
+                            can turn data into your organization’s superpower—or
+                            if you just want to chat about the latest in AI, analytics, or data viz! 🚀✨
+                        </p>
+                        END V1 -->
+
+                        <!-- V2 — Trimmed proposal (original draft)
+                        <p class="about__text">
+                            I’m a data analytics leader who’s spent years turning messy data into things people actually use — automated pipelines, executive dashboards, self-service tools. I’ve done this at Kepler, Condé Nast, and Deloitte, leading teams and building systems that saved real time and money.
+                            <br><br>
+                            I work mostly in Python, SQL, and Tableau, and lately I’ve been building web apps on the side (this site, a comedy lineup tracker, a subway times PWA). I like making things that are useful and fast.
+                        </p>
+                        END V2 -->
+
+                        <!-- V3 — Active -->
+                        <p class="about__text">
+                            I’m a data analytics leader who’s spent years turning messy data into products people actually use, like automated pipelines, executive dashboards, and self-service tools. I’ve done this at Kepler, Condé Nast, and Deloitte, leading teams and building systems that have saved hundreds of thousands of hours and dollars.
+                            <br><br>
+                            I work mostly in Python, SQL, and Tableau, and lately I’ve been building web and mobile apps<!-- on the side --><!-- (this site, a comedy lineup tracker, a subway times PWA) -->.<!-- CLOSING-LINE ALTERNATIVES (parked) — V1: I like making tools that are useful, fast, and fun. | V2: I prioritize speed, function, and a bit of fun. | V3: Every one of these started as a problem I had. -->
+                        </p>
+                    </div>                                   
+                </div>
+            </section>
+
+            <!-- ===== PROJECTS =====--> <!-- or "Work" -->
+            
+            <!-- proj-grid-view = the cover grid (2026-09-22). Delete the class to get the expandable rows back. -->
+            <section class="work section proj-grid-view" id="Projects" aria-labelledby="projects-heading">
+
+                <div class="proj-head-row">
+                    <h2 class="section-title" id="projects-heading">Projects</h2>
+                    <div class="proj-head-actions">
+                        <!-- rel="me": this App Store developer profile is one of Jacob's own verified identity profiles and is already declared in the JSON-LD Person "sameAs" array above (alongside LinkedIn and GitHub). Those two profiles carry rel="me" on every link site-wide as the HTML-level companion to sameAs (see the home__social comment); this developer-profile link was the one sameAs member still missing it, so add it to complete that sameAs↔rel=me parity. Additive rel token — no visual or behaviour change (noopener/noreferrer preserved). -->
+                        <a class="proj-appstore-all" href="https://apps.apple.com/us/developer/jacob-heifetz-licht/id1895127194" target="_blank" rel="me noopener noreferrer" aria-label="View all Jacob Heifetz-Licht apps on the App Store" title="App Store apps"><i class='bx bxl-apple' aria-hidden="true"></i><span>Apps</span></a>
+                        <!-- Android companion to the App Store pill above, in the same .proj-appstore-all format,
+                             iOS first so the two stores read as one pair. Icon is bxl-play-store (the Play triangle)
+                             rather than bxl-android (the robot): at the pill's 1.02rem size the robot's antennae and
+                             legs thin right out and sit visually lighter than the solid Apple mark beside it, while
+                             the triangle matches its weight - and it is the correct mark for a Google Play link
+                             anyway. Points at the Play developer listing (hidescore, Tonight NYC), the mirror of the
+                             App Store developer profile next to it, and carries the same rel="me" as that link since
+                             it is now a member of the JSON-LD Person "sameAs" array above too. -->
+                        <a class="proj-appstore-all" href="https://play.google.com/store/apps/developer?id=Jacob+Heifetz-Licht" target="_blank" rel="me noopener noreferrer" aria-label="View all Jacob Heifetz-Licht apps on Google Play" title="Google Play apps"><i class='bx bxl-play-store' aria-hidden="true"></i><span>Apps</span></a>
+                        <!-- Apple TV pill — HIDDEN 2026-09-12, Jacob's call ("comment it out for now").
+                             Restore = delete this comment wrapper; nothing else moved, and the header grid
+                             below holds with 3 or 4 pills. Inner comment markers were stripped so this could
+                             wrap (HTML comments do not nest). The ⛔ notes it carried, kept here:
+                             the platform token is the bare "tv" — ?platform=appleTV is silently ignored and
+                             serves the identical iPhone page (both 488,576 bytes, checked 2026-09-12), while
+                             ?platform=tv serves the tvOS page (419,467 bytes, "Requires tvOS 17.0"); the
+                             developer page takes no platform filter at all; bx-tv rather than bxl-apple,
+                             because under 600px the pills go icon-only and a second Apple mark reads as a
+                             copy of the App Store pill.
+                         Apple TV pill, added 2026-09-11 once HideScore's tvOS app went live (its App Store listing now
+                             shows "Apple TV - Requires tvOS 17.0"). Icon is bx-tv, not bxl-apple: below the phone breakpoint the
+                             pills collapse to icon-only, and a second Apple mark would read as a copy of the App Store pill.
+                             ⛔ The platform token is the bare "tv" — ?platform=appleTV is silently IGNORED and serves the
+                             identical iPhone page (both 488,576 bytes, checked 2026-09-12). ?platform=tv serves a genuinely
+                             different page (419,467 bytes): tvOS screenshots and "Requires tvOS 17.0". The developer page
+                             takes no platform filter at all, so this pill opens HideScore's own listing. 
+                        <a class="proj-appstore-all" href="https://apps.apple.com/us/app/hidescore/id6766885311?platform=tv" target="_blank" rel="noopener noreferrer" aria-label="HideScore, the Apple TV app" title="Apple TV app"><i class='bx bx-tv' aria-hidden="true"></i><span>TV</span></a>
+                        -->
+                        <a class="proj-linkedin" href="https://www.linkedin.com/in/jacobhl/" target="_blank" rel="me noopener noreferrer" aria-label="Connect with me on LinkedIn" title="Connect on LinkedIn"><i class='bx bxl-linkedin' aria-hidden="true"></i></a>
+                    </div>
+                </div>
+
+                <div class="proj-wrap">
+                    <div id="main-rows"></div>
+                    <noscript>
+                        <!-- The project cards above are built by JavaScript, so with scripting disabled
+                             (or for crawlers that don't run JS) #main-rows is empty. List the projects
+                             as plain links so the core content and its SEO value aren't lost. Mirrors the
+                             MAIN[] array — each links to the same live site the JS-rendered card opens
+                             (TidyTab now has one at tidytab.jacobhl.com, so it links there like the others,
+                             rather than to its GitHub repo as it did before the site existed). DuelGoat is
+                             NOT listed here: it lived in the MORE[] "Other projects" group (Jacob's call,
+                             2026-07-25) and was pulled from the site entirely on 2026-08-31 — its
+                             commented-out no-JS entry sits in that section's <noscript> fallback below. -->
+                        <!-- Use the site's own theme-aware body-text token (--second-color) instead of a fixed mid-gray: --text-color is defined nowhere in the CSS, so the old value resolved to its literal #8b94a0 fallback, which on the light-mode white background gives only ~3:1 contrast — a WCAG 1.4.3 AA failure for normal text. --second-color is the body's text colour (dark navy in light mode, light in dark mode), so this list matches the rest of the page and passes contrast in both themes. Only the no-JS fallback is affected; the JS-rendered cards replace this entirely. -->
+                        <ul role="list" style="list-style:none;margin:0;padding:0;line-height:1.6;color:var(--second-color);">
+                            <li><a href="https://hidescore.com" target="_blank" rel="noopener noreferrer">HideScore</a>. Watch sports highlights without seeing the score.</li>
+                            <li><a href="https://theisland.nyc" target="_blank" rel="noopener noreferrer">The Island</a>. Everything happening on NYC’s Roosevelt Island, in one place.</li>
+                            <li><a href="https://subwaytimes.com" target="_blank" rel="noopener noreferrer">Subway Times</a>. Real-time NYC subway arrivals, faster than Maps.</li>
+                            <li><a href="https://tonightnyc.com" target="_blank" rel="noopener noreferrer">Tonight NYC</a>. Every NYC comedy show, filtered to your favorite comedians.</li>
+                            <li><a href="https://davidlicht.com" target="_blank" rel="noopener noreferrer">David Licht</a>. A showcase site for my dad and his five decades of drumming.</li>
+                            <li><a href="https://tidytab.jacobhl.com/" target="_blank" rel="noopener noreferrer">TidyTab</a>. A macOS menu-bar app that bulk unpins or closes Safari pinned tabs.</li>
+                        </ul>
+                    </noscript>
+
+                    <button type="button" class="more-toggle" id="moreToggle" aria-expanded="false" aria-controls="moreWrap">
+                        <span id="moreLabel">Other projects</span>
+                        <i class='bx bx-chevron-down' aria-hidden="true"></i>
+                    </button>
+                    <noscript>
+                        <!-- The "Other projects" cards are built by JavaScript into #more-rows below, and the
+                             toggle button above is a JS-only expander that does nothing without scripting — so
+                             for no-JS visitors (and crawlers that don't run JS) this whole section is a dead
+                             button over an empty div. Hide the inert toggle and list the projects as plain text
+                             so their content and SEO value aren't lost, mirroring the #main-rows fallback above.
+                             Mirrors the MORE[] array — the portfolio pieces have no live site, so unlike the
+                             live-app cards they're unlinked (Automation Utilities stays out, matching the array's
+                             commented-out entry). DuelGoat's linked entry is commented out here too, since it was
+                             pulled from the site on 2026-08-31. The JS-rendered cards replace this entirely. -->
+                        <style>#moreToggle{display:none;}</style>
+                        <ul role="list" style="list-style:none;margin:0;padding:0;line-height:1.6;color:var(--second-color);">
+                            <!-- DuelGoat pulled 2026-08-31 (Jacob's call) — uncomment to restore, alongside the MORE[] entry below:
+                            <li><a href="https://duelgoat.com" target="_blank" rel="noopener noreferrer">DuelGoat</a>. A browser recreation of GOAT-format Yu-Gi-Oh dueling.</li>
+                            -->
+                            <li><strong>Spotify Analytics</strong>. Listening analytics beyond Wrapped, plus an auto-archive of Spotify's weekly playlists.</li>
+                            <li><strong>Sites Traffic Dashboard</strong>. One dashboard for traffic, uptime, and deploys across all my sites.</li>
+                            <li><strong>Personal Finance Dashboard</strong>. A private daily dashboard for budget, spending, and investments.</li>
+                            <!-- E-commerce Store hidden 2026-10-31: <li><strong>E-commerce Store</strong>. Full-stack store with Stripe checkout.</li> -->
+                            <li><strong>Home Server</strong>. Self-hosted media, analytics, and home-network services.</li>
+                        </ul>
+                    </noscript>
+                    <div class="more-wrap" id="moreWrap" inert><div class="more-inner"><div class="padtop">
+                        <div id="more-rows"></div>
+                    </div></div></div>
+                </div>
+            </section>
+
+            <!--===== SKILLS =====-->
+            <section class="skills section" id="skills" aria-labelledby="skills-heading">
+                <h2 class="section-title" id="skills-heading">Skills</h2>
+
+                <div class="skills__container bd-grid">
+                    <div>
+                        <h3 class="skills__subtitle">Professional Skills</h3>
+                        <!-- V3 — New (pending)
+                        <p class="skills__text">
+                            I combine deep technical skills with strategic thinking to transform complex data into actionable insights and tools that drive business decisions.
+                        </p>
+                        END V3 -->
+                        <!-- V1 — Original
+                        <p class="skills__text">
+                            As a data analytics leader, I bring a diverse skill set spanning technical expertise and strategic thinking,
+                            transforming complex datasets into actionable insights that drive business decisions.
+                        </p>
+                        END V1 -->
+                        <!-- V2 — Direct tone (pending)
+                        <p class="skills__text">
+                            What I work with day to day — and what I build with on the side.
+                        </p>
+                        END V2 -->
+
+                        <div class="skills__category">
+                            <h4 class="skills__category-title" id="skills-cat-langs"><i class='bx bx-code-alt skills__icon' aria-hidden="true"></i> Languages &amp; Scripting</h4>
+                            <div class="skills__tags" role="list" aria-labelledby="skills-cat-langs"> <!-- expose the styled pills as a list so screen readers announce them as grouped, countable items (WCAG 1.3.1) rather than run-together text; role has no visual effect -->
+                                <span class="skills__tag" role="listitem">Python</span>
+                                <span class="skills__tag" role="listitem">SQL</span>
+                                <span class="skills__tag" role="listitem">Google Apps Script</span>
+                                <span class="skills__tag" role="listitem">HTML / CSS</span>
+                            </div>
+                        </div>
+
+                        <!--
+                        <div class="skills__category">
+                            <h4 class="skills__category-title" id="skills-cat-webdev"><i class='bx bx-globe skills__icon' aria-hidden="true"></i> Web Development</h4>
+                            <div class="skills__tags" role="list" aria-labelledby="skills-cat-webdev">
+                                <span class="skills__tag" role="listitem">JavaScript</span>
+                                <span class="skills__tag" role="listitem">React</span>
+                                <span class="skills__tag" role="listitem">Node.js</span>
+                                <span class="skills__tag" role="listitem">Next.js</span>
+                                <span class="skills__tag" role="listitem">Vercel</span>
+                            </div>
+                        </div>
+                        -->
+
+                        <div class="skills__category">
+                            <h4 class="skills__category-title" id="skills-cat-dataviz"><i class='bx bx-bar-chart-alt-2 skills__icon' aria-hidden="true"></i> Data &amp; Visualization</h4>
+                            <div class="skills__tags" role="list" aria-labelledby="skills-cat-dataviz">
+                                <span class="skills__tag" role="listitem">Tableau</span>
+                                <span class="skills__tag" role="listitem">Looker</span>
+                                <span class="skills__tag" role="listitem">Qlik</span>
+                                <span class="skills__tag" role="listitem">Datorama</span>
+                                <span class="skills__tag" role="listitem">Mode Analytics</span>
+                                <span class="skills__tag" role="listitem">Excel</span>
+                                <span class="skills__tag" role="listitem">Google Sheets</span>
+                            </div>
+                        </div>
+
+                        <div class="skills__category">
+                            <h4 class="skills__category-title" id="skills-cat-platforms"><i class='bx bx-data skills__icon' aria-hidden="true"></i> Analytics Platforms</h4>
+                            <div class="skills__tags" role="list" aria-labelledby="skills-cat-platforms">
+                                <span class="skills__tag" role="listitem">BigQuery</span>
+                                <span class="skills__tag" role="listitem">GA4</span>
+                                <span class="skills__tag" role="listitem">Adobe Analytics</span>
+                                <span class="skills__tag" role="listitem">Google Data Studio</span>
+                            </div>
+                        </div>
+
+                        <div class="skills__category">
+                            <h4 class="skills__category-title" id="skills-cat-automation"><i class='bx bx-cog skills__icon' aria-hidden="true"></i> Automation &amp; Infrastructure</h4>
+                            <div class="skills__tags" role="list" aria-labelledby="skills-cat-automation">
+                                <span class="skills__tag" role="listitem">Process Automation</span>
+                                <span class="skills__tag" role="listitem">ETL Pipelines</span>
+                                <span class="skills__tag" role="listitem">APIs</span>
+                                <span class="skills__tag" role="listitem">Docker</span>
+                                <span class="skills__tag" role="listitem">Linux</span>
+                                <span class="skills__tag" role="listitem">Git</span>
+                            </div>
+                        </div>
+
+                        <div class="skills__category">
+                            <h4 class="skills__category-title" id="skills-cat-strategy"><i class='bx bx-bulb skills__icon' aria-hidden="true"></i> Strategy &amp; Leadership</h4>
+                            <div class="skills__tags" role="list" aria-labelledby="skills-cat-strategy">
+                                <span class="skills__tag" role="listitem">Analytics Strategy</span>
+                                <span class="skills__tag" role="listitem">Stakeholder Communication</span>
+                                <span class="skills__tag" role="listitem">Data Storytelling</span>
+                                <span class="skills__tag" role="listitem">Dashboard Design</span>
+                                <span class="skills__tag" role="listitem">Cross-functional Collaboration</span>
+                                <!-- <span class="skills__tag">Media Strategy</span> -->
+                                <!-- <span class="skills__tag">Roadmap Planning</span> -->
+                            </div>
+                        </div>
+
+                        <!--
+                        <div class="skills__category">
+                            <h4 class="skills__category-title"><i class='bx bx-certification skills__icon' aria-hidden="true"></i> Certifications</h4>
+                            <div class="skills__tags">
+                                <span class="skills__tag">Automate the Boring Stuff with Python</span>
+                                <span class="skills__tag">Tableau Desktop Specialist</span>
+                                <span class="skills__tag">Google Analytics Certified</span>
+                                <span class="skills__tag">Google Data Studio Certified</span>
+                                <span class="skills__tag">Google Sheets Certified</span>
+                            </div>
+                        </div>
+                        -->
+                    </div>
+
+                    <div>
+                        <!-- Root-absolute src, matching the hero/About images and the site-wide /assets/… convention; byte-for-byte identical at "/". No visual change. -->
+                        <img src="/assets/img/skills.jpg" alt="Jacob working with data analytics tools" width="640" height="426" loading="lazy" decoding="async" class="skills__img" id="skills-photo">
+                    </div>
+                </div>
+            </section>
+
+            <!--===== CONTACT =====-->
+            <section class="contact section" id="contact" aria-labelledby="contact-heading">
+                <h2 class="section-title" id="contact-heading">Contact</h2>
+                <div class="contact__container bd-grid">
+                    <!-- aria-label names the form so it's exposed as a form landmark for screen-reader landmark navigation. A <form> only maps to the ARIA "form" landmark when it has an accessible name; without one this — the site's primary contact/conversion point — was reachable only by scrolling, not from the landmarks menu. The name is "Contact form" rather than "Contact" so it reads distinctly from the enclosing "Contact" section region (aria-labelledby="contact-heading" on the <section>), instead of two identically-named landmarks. Continues the site's deliberate landmark-labelling pattern (nav aria-label="Primary", the "View mode" group, weather/'s role="search" "City weather search" region). Semantics only — no visual or behaviour change. -->
+                    <form action="https://formspree.io/f/mkgqkgyr" method="POST" class="contact__form" aria-label="Contact form">
+                        <!-- Formspree honeypot: hidden from people, but bots fill it in — those submissions are silently discarded as spam. Kept out of the tab order and the accessibility tree. -->
+                        <input type="text" name="_gotcha" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden;">
+                        <!-- Formspree reads a field named _subject to set the notification email's subject line; without it these submissions land in Jacob's inbox under Formspree's generic default ("New submission from your form"), indistinguishable from other forms. A fixed, identifiable subject makes portfolio contact messages easy to spot and filter. Hidden fixed value, kept out of the tab order and the accessibility tree — no visual or user-facing behaviour change. -->
+                        <input type="hidden" name="_subject" value="New message from jacobhl.com" tabindex="-1" aria-hidden="true">
+                        <!-- Formspree _next names the URL to return to after a submission. The JS path (main-alt.js) AJAX-posts this form with Accept: application/json, so Formspree answers with JSON and the page handles its own "Sending…/Sent!" status — _next is ignored on that path. But with JavaScript disabled the form does a plain native POST, and Formspree then shows its own generic hosted "thank you" page, stranding the visitor on formspree.io with no link back to the site. _next sends that no-JS visitor back to the contact section instead. Hidden fixed value, kept out of the tab order and the accessibility tree; completes the Formspree hidden-field set (_gotcha, _subject) already here. No visual change and no effect on the JS/AJAX path. -->
+                        <input type="hidden" name="_next" value="https://jacobhl.com/#contact" tabindex="-1" aria-hidden="true">
+                        <!-- Mobile-input hints for a proper-name field: capitalize each word (matches how names are written), turn off autocorrect so an unusual surname isn't "corrected" into a dictionary word as it's typed (iOS Safari autocorrects text inputs by default), and turn off spellcheck so real names aren't flagged with red squiggles. All editable hints, no visual change on desktop. Mirrors the weather dashboard's search input (autocapitalize + autocorrect + spellcheck). -->
+                        <!-- enterkeyhint="next" labels the on-screen keyboard's action key "Next" (instead of a generic Return) so a phone visitor moves name → email → message down the form without reaching for the field. It's the one mobile-keyboard hint this form was missing — the fields already carry the site's input-tuning set (autocapitalize/autocorrect/spellcheck, plus inputmode on email), and the weather dashboard's search box already uses enterkeyhint ("search" there). "next" on both text fields (the message textarea keeps the default Return so Enter still inserts a newline). Editable hint only; no visual change and no effect on submit. -->
+                        <input type="text" name="name" placeholder="Your Name" class="contact__input" aria-label="Your name" autocomplete="name" autocapitalize="words" autocorrect="off" spellcheck="false" enterkeyhint="next" required>
+                        <!-- Mobile-input hints for the email field, mirroring the name field above: turn off autocapitalize so the local part isn't capitalized as it's typed, autocorrect off so an address isn't "corrected" mid-entry (iOS autocorrects text inputs by default), and spellcheck off so email addresses aren't flagged with red squiggles. type="email" already picks the right keyboard; these just stop the input being mangled. All editable hints, no visual change on desktop. -->
+                        <!-- inputmode="email" reinforces the email-optimized on-screen keyboard alongside type="email". type="email" already selects it on iOS Safari and Chrome, so this is a no-op for nearly everyone, but it's the belt-and-suspenders hint some Android IMEs read when their type→keyboard mapping differs. Editable hint only; no visual change. -->
+                        <input type="email" name="email" placeholder="your@email.com" class="contact__input" aria-label="Your email address" autocomplete="email" inputmode="email" autocapitalize="off" autocorrect="off" spellcheck="false" enterkeyhint="next" required>
+                        <textarea name="message" placeholder="Your Message" class="contact__input" aria-label="Your message" rows="10" required></textarea>
+                        <!-- No aria-live here: the button is set disabled on submit (dropping it from the a11y tree), and main-alt.js mirrors the "Sending…/Sent!/Error" status into a dedicated visually-hidden #contact-sr-status live region (created in main-alt.js and appended to this form; distinct from the weather dashboard's #srStatus). Keeping aria-live on the button too caused a redundant/inconsistent double announcement. -->
+                        <button type="submit" class="contact__button button">Send</button>
+                    </form>
+                </div>
+            </section>
+            
+        </main>
+
+        <!--===== FOOTER =====-->
+        <footer class="footer">
+            <p class="footer__title">Jacob</p>
+            <div class="footer__social">
+
+                <a href="https://www.linkedin.com/in/jacobhl/" class="footer__icon" target="_blank" rel="me noopener noreferrer" aria-label="LinkedIn profile"><i class='bx bxl-linkedin' aria-hidden="true"></i></a>
+
+                <a href="https://github.com/jacobhl3ca" class="footer__icon" target="_blank" rel="me noopener noreferrer" aria-label="GitHub profile"><i class='bx bxl-github' aria-hidden="true"></i></a>
+
+                <!-- rel="me" completes the footer's identity set: the LinkedIn and GitHub links beside this one already assert "this profile is mine" via rel="me" (the microformats2 / IndieAuth identity relation), and a mailto to Jacob's own verified address is an explicitly supported rel-me target — so this was the one contact link still outside the identity graph. Additive rel only (no target="_blank" here, so no noopener/noreferrer needed); browsers ignore rel on rendering, so no visual or behaviour change. -->
+                <a href="mailto:hi@jacobhl.com" class="footer__icon" rel="me" aria-label="Send email" data-umami-event="email-click"><i class='bx bx-envelope' aria-hidden="true"></i></a>
+
+            </div>
+
+            <p class="footer__copy">Thanks for coming!</p>
+            <!-- <p class="footer__copy">Thanks for stopping by.</p> -->
+
+        </footer>
+
+        <!-- Scroll down arrow -->
+        <button type="button" class="scroll-down-arrow" id="scrollDown" aria-label="Scroll down">
+            <i class='bx bx-chevron-down' aria-hidden="true"></i>
+        </button>
+
+        <!-- Back to top button -->
+        <button type="button" class="back-to-top" id="backToTop" aria-label="Back to top">
+            <i class='bx bx-chevron-up' aria-hidden="true"></i>
+        </button>
+
+        <!-- Easter egg (uncomment to enable)
+        <div class="easter-egg" id="easterEgg">🥚<span class="bird">🐣</span></div>
+        -->
+
+        <script>
+            if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
+            // Clear the hash on RELOAD only, so a refresh doesn't jump back to #contact — but a
+            // FRESH arrival at /#about, /#skills, /#contact (from the 404 page's nav, the sitemap,
+            // or a shared link) keeps its hash so the deferred main-alt.js deep-link handler can
+            // switch to full view and scroll to that section. This inline script runs before
+            // main-alt.js, and clearing the hash on every load silently defeated that deep-link for
+            // external arrivals — they landed in projects-only view at the top, never reaching the
+            // hidden section. Detect reloads via the Navigation Timing API (modern
+            // PerformanceNavigationTiming.type === 'reload', with the legacy performance.navigation
+            // fallback); other navigation types (fresh navigate, back/forward) keep their hash.
+            var _navEntry = performance.getEntriesByType && performance.getEntriesByType('navigation')[0];
+            var _isReload = _navEntry ? _navEntry.type === 'reload'
+                : (performance.navigation && performance.navigation.type === 1);
+            if (window.location.hash && _isReload) {
+                history.replaceState(null, '', window.location.pathname);
+            }
+            window.scrollTo(0, 0);
+        </script>
+
+
+        <!--===== MAIN JS =====-->
+        <!-- defer: main-alt.js is a ~30KB parser-blocking script sitting above ~350 lines of modal
+             markup + the project-render IIFE, so the parser stalls on its download/execute before
+             finishing that DOM. Deferring lets the browser keep parsing while main-alt.js downloads in
+             parallel, then runs it after parse (still before DOMContentLoaded). Safe here: main-alt.js
+             only wires static elements (nav, theme/view toggles, section scroll-spy, contact form)
+             that exist at parse start, its live-dot observer is a no-op (rows ship class="live-dot
+             is-visible"), and no inline script calls a main-alt.js global — so nothing depends on it
+             running mid-parse. Consistent with the page's existing preload/preconnect/fetchpriority
+             work; no visual or behaviour change. -->
+        <!-- Root-absolute script path (leading /), matching this page's own head resource loads
+             (stylesheet, favicon, manifest were all made /assets/… "for site-wide consistency,
+             independent of the document path") and 404.html, which already loads its sibling
+             main.js via the root-absolute /assets/js/main.js. This was the one internal declarative
+             document resource on the homepage still loaded by a directory-relative href. index.html
+             is served only at "/", where assets/… and /assets/… resolve to the identical /assets/…
+             URL, so this is byte-for-byte behaviour-preserving; it just completes the root-absolute
+             path convention across the page's linked resources. No visual or behaviour change. -->
+        <script defer src="/assets/js/main-alt.js"></script>
+
+        <!-- The homepage's behaviour (nav, theme/view toggles, scroll-spy, contact form, modal preview)
+             lives in the deferred assets/js/main-alt.js above — the page's inline JS was extracted to an
+             external file on 2026-03-27. (main.js, the sibling file, is the variant this page does NOT
+             load. It runs on 404.html and the noindex homepage/experiment variants —
+             index_with_animation.html, projects-stack-preview.html, and projects/index_cascade_animate.html —
+             not here, despite an earlier note that pointed this page at main.js. That earlier fix
+             corrected the script src above to main-alt.js but left this parenthetical saying main.js was
+             loaded "only by index_with_animation.html", which understated it — main.js also powers the
+             production 404 page.) -->
+
+        <!-- GoatCounter analytics -->
+        <script data-goatcounter="https://jacobhl.goatcounter.com/count"
+                async src="//gc.zgo.at/count.js"></script>
+
+        <!-- Umami analytics — self-hosted on the Mac mini, privacy-first; feeds the sites dashboard -->
+        <script defer src="https://stats.hidescore.com/script.js" data-website-id="ae74c209-399b-416b-b340-b8dfac70cfa3" data-domains="jacobhl.com,www.jacobhl.com"></script>
+
+    
+    <!-- ===== Projects rows: live-preview modal + render/interaction JS ===== -->
+    <div class="modal" id="modal" role="dialog" aria-modal="true" aria-label="Live site preview">
+  <button type="button" class="modal-side prev" id="sidePrev" title="Previous project" aria-label="Previous project"><i class='bx bx-chevron-left' aria-hidden="true"></i></button>
+  <button type="button" class="modal-side next" id="sideNext" title="Next project" aria-label="Next project"><i class='bx bx-chevron-right' aria-hidden="true"></i></button>
+  <div class="modal-card">
+    <div class="modal-bar">
+      <div class="dots">
+        <button type="button" class="dot red" id="dotClose" title="Close" aria-label="Close preview"><svg viewBox="0 0 12 12" aria-hidden="true"><path d="M3.8 3.8 L8.2 8.2 M8.2 3.8 L3.8 8.2"/></svg></button>
+        <button type="button" class="dot yellow" id="dotMin" title="Minimize" aria-label="Minimize preview"><svg viewBox="0 0 12 12" aria-hidden="true"><path d="M3.3 6 H8.7"/></svg></button>
+        <button type="button" class="dot green" id="dotExpand" title="Full screen" aria-label="Full screen preview"><svg viewBox="0 0 12 12" aria-hidden="true"><path class="fill" d="M3 3 L3 7 L7 3 Z"/><path class="fill" d="M9 9 L9 5 L5 9 Z"/></svg></button>
+      </div>
+      <button type="button" class="nav-btn" id="navPrev" title="Previous project" aria-label="Previous project"><i class='bx bx-chevron-left' aria-hidden="true"></i></button>
+      <button type="button" class="nav-btn" id="navNext" title="Next project" aria-label="Next project"><i class='bx bx-chevron-right' aria-hidden="true"></i></button>
+      <button type="button" class="nav-btn" id="navBack" title="Back" aria-label="Back" style="display:none;"><i class='bx bx-chevron-left' aria-hidden="true"></i></button>
+      <button type="button" class="nav-btn" id="navReload" title="Reload" aria-label="Reload"><i class='bx bx-revision' aria-hidden="true"></i></button>
+      <!-- Mobile-input hints for the editable preview address bar, mirroring the contact fields: inputmode="url" gives mobile users the URL-optimized keyboard (dedicated "/", ".", and ".com" keys) instead of the plain text one, autocapitalize="off" stops the first character of an address being capitalized as it's typed, and autocorrect="off" stops iOS "correcting" a URL mid-entry. type stays "text" (not "url") because the submit handler prepends https:// to a bare domain, which native type="url" validation would otherwise reject. All editable hints, no visual change on desktop. -->
+      <form class="url-form" id="urlForm"><input class="modal-url" id="modalUrl" type="text" inputmode="url" spellcheck="false" autocomplete="off" autocapitalize="off" autocorrect="off" aria-label="Preview address"></form>
+      <a class="openext" id="modalOpen" target="_blank" rel="noopener" title="Open in new tab" aria-label="Open preview in new tab"><i class='bx bx-link-external' aria-hidden="true"></i></a>
+      <button type="button" class="mclose" id="modalClose" title="Close" aria-label="Close preview"><i class='bx bx-x' aria-hidden="true"></i></button>
+    </div>
+    <div class="modal-body">
+      <button type="button" class="fs-back" id="fsBack" title="Back to projects"><i class='bx bx-arrow-back' aria-hidden="true"></i> Back</button>
+      <div class="modal-load" id="modalLoad"><div class="spin"></div><span id="modalLoadTxt">Loading preview…</span></div>
+      <iframe class="modal-frame" id="modalFrame" title="Live preview" referrerpolicy="no-referrer-when-downgrade"></iframe>
+      <!-- fallback: shown for sites that refuse iframe embedding (their own X-Frame-Options / CSP) -->
+      <div class="modal-noembed" id="modalNoembed">
+        <img id="modalNoembedImg" alt="" decoding="async">
+        <p>This site blocks embedded previews for security. Open it in a new tab to explore it live.</p>
+        <a id="modalNoembedOpen" class="ne-open" target="_blank" rel="noopener"><i class='bx bx-link-external' aria-hidden="true"></i> <span id="modalNoembedHost"></span><span aria-hidden="true"> ↗</span></a>
+      </div>
+    </div>
+  </div>
+</div>
+    <script>
+(function(){
+const MAIN = [
+  // imgLight: the light-mode twin of the branded cover (same artwork, light backdrop/type).
+  // Rendered by ~/jacobhl-covers/covers.html + render.mjs, then downscaled to 640px WebP by
+  // make-thumbs.py — the card slot is 200px, so the full 2004px PNGs (still in this folder,
+  // and still the source/social art) were ~25x more bytes than anything on screen.
+  // Cards without an imgLight are real screenshots of dark-by-design sites, so they stay as-is.
+  { title:"HideScore", live:true, img:"assets/img/hidescore-cover-thumb.webp?v=1", imgLight:"assets/img/hidescore-cover-light-thumb.webp?v=2", url:"https://hidescore.com",
+    one:"Watch sports highlights without seeing the score.",
+    full:"Watch sports highlights without seeing the score. Covers MLB, NBA, NHL, NFL, soccer, tennis and more with score-hidden cards, embedded highlights, and a unified news view, all without spoiling anything you haven't watched.",
+    site:"https://hidescore.com", appstore:"https://apps.apple.com/app/hidescore/id6766885311" },
+  // Card ORDER does not live in this array any more — see MAIN_ORDER under the closing bracket.
+  // Entries stay put here because several carry their own explanatory comment, and a script that
+  // moved entries would strand those comments against the wrong project.
+  { title:"The Island", live:true, img:"assets/img/theisland-cover-thumb.webp?v=1", imgLight:"assets/img/theisland-cover-light-thumb.webp?v=2", url:"https://theisland.nyc",
+    one:"Everything happening on NYC’s Roosevelt Island, in one place.",
+    full:"Everything happening on NYC’s Roosevelt Island, in one place. It has real-time bus GPS, subway, tram, and ferry times, a restaurant guide, service alerts, an events newsletter, and an interactive map.",
+    site:"https://theisland.nyc", appstore:"https://apps.apple.com/us/app/roosevelt-island/id6775979583" },
+  { title:"Tonight NYC", live:true, img:"assets/img/tonightnyc-cover-thumb.webp?v=1", imgLight:"assets/img/tonightnyc-cover-light-thumb.webp?v=2", url:"https://tonightnyc.com",
+    one:"Every NYC comedy show, filtered to your favorite comedians.",
+    full:"No more digging for comedy showtimes, stick to your favorite comedians. Includes every NYC show from the Comedy Cellar, The Stand, and more, filtered your way. Mark favorites and skips, see which set to attend at a glance, and book directly.",
+    site:"https://tonightnyc.com", appstore:"https://apps.apple.com/app/id6763027650" },
+  { title:"David Licht", live:true, img:"assets/img/davidlicht-app-thumb.webp?v=1", imgWide:"assets/img/davidlicht-thumb.webp?v=2", imgWideLight:"assets/img/davidlicht-light-thumb.webp?v=1", url:"https://davidlicht.com",
+    one:"A showcase site for my dad and his five decades of drumming.",
+    full:"A showcase site I built for my dad. He has drummed for five decades, from downtown NYC noise bands to the Grammy-winning Klezmatics. His story, music, and photos in one place.",
+    site:"https://davidlicht.com" },
+  // noEmbed: subwaytimes.com's own CSP/X-Frame-Options refuses iframe embedding (as the modal-noembed
+  // CSS/JS comments already note), so the live-preview iframe would just sit blank until the 6s timeout
+  // text. This flag routes its preview straight to the built-but-until-now-unwired poster fallback
+  // (cover image + "Open subwaytimes.com ↗"), the exact case that feature was added for.
+  { title:"Subway Times", live:true, noEmbed:true, img:"assets/img/subwaytimes-cover-thumb.webp?v=1", imgLight:"assets/img/subwaytimes-cover-light-thumb.webp?v=2", url:"https://subwaytimes.com",
+    one:"Real-time NYC subway arrivals, faster than Maps.",
+    full:"Quicker than Google Maps for simple departures, especially from your home station. Real-time NYC subway arrivals, where you can favorite your stations, see countdown timers down to the second, and get out the door faster.",
+    site:"https://subwaytimes.com", appstore:"https://apps.apple.com/us/app/subwaytimes/id6775994423" },
+  // DuelGoat lives in the "Other projects" list (MORE) for now — 2026-07-25, Jacob's call.
+  // Move this entry back up here (with url: for the live preview) once it earns a main row.
+  // PLACEHOLDER — uncomment to publish. Needs screenshot (assets/img/islander-app.png).
+  // { title:"Islander", live:true, img:"assets/img/islander-app.png", url:"https://islander.theisland.nyc",
+  //   one:"A neighbor-help app for NYC's Roosevelt Island.",
+  //   full:"A neighbor-help app for Roosevelt Island — post what you need or offer a hand, from borrowing a tool to walking a dog, so favors stay local (Next.js, Supabase).",
+  //   site:"https://islander.theisland.nyc" },
+  // ref (hidden from site): "Developer ID-signed and Apple-notarized, so it downloads and opens cleanly (Python, rumps, py2app)."
+  // url carries the trailing slash to match the canonical form used for TidyTab everywhere else on the
+  // site (the JSON-LD ItemList item, the no-JS <noscript> link, llms.txt, and tidytab.html's own
+  // canonical/og:url all use https://tidytab.jacobhl.com/). This field both loads the live-preview
+  // iframe (data-url) and renders as the visible .proj-print-url, so the bare-host form showed a URL
+  // differing from the site's canonical and made the preview take an extra 301 redirect to the slash
+  // version. Same destination either way — this only drops the redirect hop and aligns the displayed URL.
+  { title:"TidyTab", live:true, img:"assets/img/tidytab-cover-thumb.webp?v=1", imgLight:"assets/img/tidytab-cover-light-thumb.webp?v=1", url:"https://tidytab.jacobhl.com/",
+    one:"A macOS menu-bar app that bulk unpins or closes Safari pinned tabs.",
+    full:"A menu-bar app I built to bulk unpin or close Safari pinned tabs in one sweep. It auto-detects your pinned tabs and clears them (press Space to stop).",
+    // download now lives on the tidytab.html landing page the preview opens (keeps the card row clean, consistent with the others)
+  },
+];
+// Card order, 2026-09-12. One line, rewritten daily by ~/scripts/jacobhl-order-by-traffic.py from the
+// 30-day visitor counts the sites dashboard already collects (Umami), so the busiest project leads.
+// Read 2026-09-11: HideScore 1,056 · The Island 686 · Tonight NYC 92 · David Licht 90 · Subway Times 15
+// · TidyTab 1. The same script reorders the <noscript> list and the JSON-LD ItemList to match, because
+// all three have to tell a crawler the same story. A title missing from this list falls to the end in
+// file order (Array.sort is stable), so a project added here still renders if the list was not updated.
+const MAIN_ORDER = ["HideScore","The Island","Subway Times","Tonight NYC","David Licht","TidyTab"];
+const MAIN_SORTED = [...MAIN].sort((a, b) => {
+  const ia = MAIN_ORDER.indexOf(a.title), ib = MAIN_ORDER.indexOf(b.title);
+  return (ia < 0 ? 99 : ia) - (ib < 0 ? 99 : ib);
+});
+const MORE = [
+  // Branded cover (not a screenshot), same generator as the main rows: ~/jacobhl-covers/covers.html
+  // frame #duelgoat, palette taken from duelgoat.com's own tokens. live:true lights the dot; MORE
+  // live:true needs a url: — the preview modal binds globally to .proj-thumb[data-url], so this
+  // MORE card opens a live preview like a main row (duelgoat.com sends no X-Frame-Options/CSP).
+  /* DuelGoat — pulled from the site 2026-08-31, Jacob's call. Restore by uncommenting this entry
+     AND its two remaining companions: the JSON-LD ListItem (see the note above that <script>) and
+     the no-JS <li> in the "Other projects" <noscript> above. (There is no longer a building.html
+     tile to restore: building.html was retired to a bare redirect stub on 2026-09-07 and all its
+     project tiles were removed — see the ⛔ RETIRED-PAGE banner at the top of that file.)
+  { title:"DuelGoat", live:true, url:"https://duelgoat.com", site:"https://duelgoat.com",
+    img:"assets/img/duelgoat-cover-thumb.webp?v=1", imgLight:"assets/img/duelgoat-cover-light-thumb.webp?v=1",
+    one:"A browser recreation of GOAT-format Yu-Gi-Oh dueling.",
+    full:"A faithful browser recreation of GOAT-format Yu-Gi-Oh — the 2005 metagame competitive players still love — with the full card database, deck building, and online play. Live at duelgoat.com (TypeScript, React, Vite, Colyseus)." },
+  */
+  // 2026-10-31: the two Spotify cards merged into one (the archiver is part of the same setup now),
+  // copy refreshed to what runs today. E-commerce Store hidden (Jacob's call); restore by uncommenting.
+  { title:"Spotify Analytics", img:"assets/img/spotify_monthly-thumb.webp?v=1", imgLight:"assets/img/spotify_monthly_light-thumb.webp?v=1",
+    one:"Listening analytics beyond Wrapped, plus an auto-archive of Spotify's weekly playlists.",
+    full:"Summarizes my listening without waiting for Spotify Wrapped. Interactive dashboards show top songs, artists and albums, heatmaps, skip rates, sessions, and a listening clock. A logger saves every play, since Spotify only keeps the last 50, and a scheduled job archives Discover Weekly and Release Radar before they disappear (Python, Plotly, Streamlit, Playwright, Spotify API)." },
+  { title:"Sites Traffic Dashboard", img:"assets/img/traffic_dark.svg", imgLight:"assets/img/traffic_light.svg", alt:"Bar chart icon",
+    one:"One dashboard for traffic, uptime, and deploys across all my sites.",
+    full:"Tracks every site I run on one page: visitors from self-hosted Umami with bot traffic filtered out, uptime and SSL checks, deploy status, and domain expiry. It refreshes every 20 minutes and flags new bot patterns and pages missing the analytics tag (Python, Umami, Vercel and Cloudflare APIs)." },
+  { title:"Personal Finance Dashboard", img:"assets/img/finance_trend_crop-thumb.webp?v=1", imgLight:"assets/img/finance_trend_crop_light-thumb.webp?v=1",
+    one:"A private daily dashboard for budget, spending, and investments.",
+    full:"A private dashboard that rebuilds every day from brokerage exports, live prices, and read-only transaction alerts. Pages for spending by category, recurring charges, net worth, investments, and planning, with a period bar to compare months. It runs on my own machine, with no cloud spreadsheet (Python, HTML/JS)." },
+  /* E-commerce Store — hidden 2026-10-31; restore by uncommenting (and its <noscript> + llms.txt lines):
+  { title:"E-commerce Store", img:"assets/img/stripe_dark.svg", imgLight:"assets/img/stripe_light.svg", alt:"Stripe logo",
+    one:"Full-stack store with Stripe checkout.",
+    full:"Full-stack e-commerce site with Stripe payment processing and an Express.js backend (Node.js, Stripe API, HTML/CSS/JS)." },
+  */
+  /* Automation Utilities — hidden for now (TidyTab is its own row); restore by uncommenting:
+  { title:"Automation Utilities", img:"assets/img/automation_dark.svg", imgLight:"assets/img/automation_light.svg",
+    one:"macOS automation suite — system toggles, timesheet autofill, and more.",
+    full:"macOS productivity automation suite including timesheet autofill via keystroke injection, system toggles (menu bar hide/show, dark/light mode, VPN connect/disconnect), keyboard backlight control, dock spacer grouping, and game re-roll automation (Python, AppleScript, Bash, PyAutoGUI). The Safari pinned-tab tool from this suite ships separately as TidyTab.",
+    github:"https://github.com/jacobhl3ca/safari-pinned-tab-automation" },
+  */
+  { title:"Home Server", img:"assets/img/docker_dark-thumb.webp?v=1", imgLight:"assets/img/docker_dark_light-thumb.webp?v=1", alt:"Docker logo",
+    one:"Self-hosted media, analytics, and home-network services.",
+    full:"Self-hosted apps and network services on a home server and NAS. It runs a Plex/Jellyfin media stack (Radarr, Sonarr, Prowlarr, Bazarr, SABnzbd), home-wide ad blocking with AdGuard Home, Umami analytics for my sites, Uptime Kuma monitoring, Paperless document search, and a Homepage dashboard, mostly in containers (Docker, Docker Compose)." },
+];
+
+// Locally-hosted real favicons for the site CTA. Set USE_FAVICONS=false to revert to the globe.
+const USE_FAVICONS = true;
+const FAVICONS = {
+  'hidescore.com':  'assets/img/favicons/hidescore.png',
+  'tonightnyc.com': 'assets/img/favicons/tonightnyc.png',
+  'subwaytimes.com':'assets/img/favicons/subwaytimes.png',
+  'davidlicht.com': 'assets/img/favicons/davidlicht.png',
+  'theisland.nyc':  'assets/img/favicons/theisland.png',
+};
+function ctaHTML(p){
+  let h='';
+  // 2026-07-17 (#1): the favicon "visit site" button and the App Store badge are commented OUT of
+  // every card for now — the live thumbnail preview (with its own URL bar + open-in-new-tab) is the
+  // primary CTA. Un-comment either block below to bring it back.
+  /* if(p.site){ const _d=(()=>{try{return new URL(p.site).hostname.replace(/^www\./,'')}catch(e){return ''}})();
+    const _fav = USE_FAVICONS && FAVICONS[_d];
+    const _inner = _fav ? `<img class="favicon" src="${_fav}" alt="" width="20" height="20" loading="lazy" decoding="async">` : `<i class='bx bx-globe' aria-hidden="true"></i>`;
+    h+=`<a href="${p.site}" target="_blank" rel="noopener" class="site-link" title="Visit website" aria-label="Visit the ${p.title} website">${_inner}</a>`; } */
+  /* if(p.appstore) h+=`<a href="${p.appstore}" target="_blank" rel="noopener" class="app-store-badge-link" aria-label="Download ${p.title} on the App Store"><img src="assets/img/app-store-badge.svg" alt="" class="app-store-badge" width="120" height="40" loading="lazy" decoding="async"></a>`; */
+  if(p.download) h+=`<a href="${p.download}" data-umami-event="tidytab-download" class="mac-badge" title="Download TidyTab for macOS (.dmg, notarized)"><i class='bx bxl-apple' aria-hidden="true"></i><span class="mb-txt"><span class="mb-top">Download for</span><span class="mb-big">Mac</span></span></a>`;
+  if(p.mas) h+=`<a href="${p.mas}" class="mac-badge mas-badge" title="Download on the Mac App Store"><i class='bx bxl-apple' aria-hidden="true"></i><span class="mb-txt"><span class="mb-top">Download on the</span><span class="mb-big">Mac App Store</span></span></a>`;
+  if(p.github) h+=`<a href="${p.github}" target="_blank" rel="noopener" class="gh-link" aria-label="View the ${p.title} source on GitHub"><i class='bx bxl-github' aria-hidden="true"></i>GitHub</a>`;
+  return h; // inner links only — wrapped by the .proj-actions row (with the chevron) in rowHTML
+}
+// 2026-08-31 — LIVE PREVIEWS ARE OFF (Jacob's call: "skip the preview things for now, i want to
+// open link in new tab"). Nothing about the preview was deleted: the modal markup, its window
+// chrome, the prev/next gallery paging and the no-embed poster fallback are all still below and
+// still wired — they simply never get a thumbnail to bind to, because with this false the live
+// covers render as plain <a target="_blank"> instead of role="button" data-url. Flip to true and
+// the preview is back exactly as it was. (With previews off there is nothing to navigate "back"
+// from — the project opens in its own tab and this page is never left — so the back-button idea
+// only matters if this goes true again.)
+const PREVIEW_ENABLED = false;
+
+function rowHTML(p, eager){
+  const dot = (p.live || p.download || p.mas) ? '<span class="live-dot is-visible" role="img" aria-label="Live" title="Live"></span>' : '';
+  const thumbCls = (p.live?'':'no-live') + (p.pos==='top'?' pos-top':'') + (p.zoom?' zoomed':''); // #5 zoom flagged cards in tighter
+  // The first project card sits above the fold in the default projects-only view, so its
+  // thumbnail is the likely LCP element — load it eagerly (lazy-loading an above-the-fold
+  // image is a known LCP anti-pattern) and give it fetchpriority="high" so the browser pulls
+  // it forward in the fetch queue instead of at default priority (the recommended LCP-image
+  // pairing; safe now that the hero portrait is lazy and no longer claims high priority).
+  // Every other card stays lazy at default priority.
+  const imgLoad = eager ? 'loading="eager" fetchpriority="high"' : 'loading="lazy"';
+  // Theme-aware cover. main-alt.js's setThemeImages() re-points every img[data-dark][data-light]
+  // on toggle, but it's deferred — it runs AFTER this inline builder — so the initial src has to
+  // be resolved here or a light-mode visitor gets a dark cover until main-alt.js lands. The page
+  // ships light (no data-theme) and the pre-paint head script asserts dark before we run, so
+  // reading the attribute now is accurate.
+  const themed = p.imgLight
+    ? ` data-dark="${p.img}" data-light="${p.imgLight}"`
+    : '';
+  const imgSrc = (p.imgLight && document.documentElement.getAttribute('data-theme') !== 'dark')
+    ? p.imgLight : p.img;
+  // Same wiring for the wide screenshot (David Licht). imgWideLight is its light-theme capture.
+  const wideThemed = p.imgWideLight ? ` data-dark="${p.imgWide}" data-light="${p.imgWideLight}"` : '';
+  const wideSrc = (p.imgWideLight && document.documentElement.getAttribute('data-theme') !== 'dark')
+    ? p.imgWideLight : p.imgWide;
+  // Stable, unique id per project (titles are unique across both lists) so the chevron toggle can
+  // point at the panel it expands via aria-controls, mirroring the #moreToggle → #moreWrap wiring.
+  const detailId = 'proj-detail-' + p.title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+  const cta = ctaHTML(p);                        // empty for the decluttered preview cards; only TidyTab (Mac download) has one
+  // Cover alt text. Live cards keep alt="" — their thumb sits in a role="button" whose aria-label
+  // ("Open live preview of X") already names it, so a non-empty alt would double-announce. Non-live
+  // cards' images ARE announced by their alt, which defaults to "<title> screenshot" — accurate for
+  // the actual screenshot thumbnails (Spotify, Finance), but wrong for the two cards whose cover is a
+  // brand/tech LOGO, not a screenshot (Sites Traffic Dashboard → chart icon, Home Server → Docker). Those
+  // two set an explicit p.alt so the image is described for what it is (WCAG 1.1.1), instead of being
+  // mislabelled a "screenshot". No visual change.
+  const altText = p.live ? '' : (p.alt || p.title + ' screenshot');
+  // A live cover is a real <a> while previews are off, not a div with a click handler — that buys
+  // middle-click, cmd-click, "copy link" and the browser's own status bar for free, and the
+  // .proj-head expand handler already ignores anything inside an <a>. The overlay wording and the
+  // corner glyph follow: a magnifier promising a preview would be a lie now.
+  const thumbTag  = (p.live && !PREVIEW_ENABLED) ? 'a' : 'div';
+  // Umami click event per project (2026-10-05, tracking baseline): one event name, the
+  // project as a property, so the dashboard counts "project-open" and splits it by title.
+  const evAttrs = ` data-umami-event="project-open" data-umami-event-project="${p.title}"`;
+  const thumbAttrs = !p.live ? ''
+    : evAttrs + ' ' + (PREVIEW_ENABLED
+      ? `data-url="${p.url}"${p.noEmbed?` data-noembed="1" data-poster="${p.img}"`:''} role="button" tabindex="0" aria-haspopup="dialog" aria-label="Open live preview of ${p.title}"`
+      : `href="${p.url}" target="_blank" rel="noopener" aria-label="Open ${p.title} in a new tab"`);
+  const cueInner  = PREVIEW_ENABLED
+    ? `<i class='bx bx-expand-alt' aria-hidden="true"></i> Preview`
+    : `<i class='bx bx-link-external' aria-hidden="true"></i> Open site`;
+  const cornerIcon = PREVIEW_ENABLED ? 'bx-search' : 'bx-link-external';
+  return `
+  <div class="proj-row" role="listitem">
+    <div class="proj-head">
+      <${thumbTag} class="proj-thumb ${thumbCls}" ${thumbAttrs}>
+        ${p.imgWide
+          ? `<img src="${wideSrc}"${wideThemed} alt="${altText}" ${imgLoad} decoding="async">`
+          : `<img src="${imgSrc}"${themed} alt="${altText}" ${imgLoad} decoding="async">`}
+        <span class="proj-zoom" aria-hidden="true"><i class='bx ${cornerIcon}' aria-hidden="true"></i></span>
+        <div class="proj-cue"><span>${cueInner}</span></div>
+      </${thumbTag}>
+      <div class="proj-info">
+        <!-- The one-liner (a <p class="proj-one"> holding p.one) used to sit under the title. Dropped
+             2026-08-31: every cover has that same sentence baked into the artwork, so on the card it
+             was printing twice. p.one is still on each project object and still feeds the JSON-LD
+             description, the no-JS <noscript> list and llms.txt, so nothing is lost to crawlers. -->
+        <div class="proj-titlerow">
+          <h3 class="proj-title">${dot}${p.title}</h3>
+          <!-- The chevron used to sit at the bottom-right of the text column, a long way under a
+               title it belonged to and floating in whitespace once the one-liner went. On the title
+               row it reads as what it is: the control that opens THIS card. -->
+          <button type="button" class="proj-chev" aria-label="Show details" aria-expanded="false" aria-controls="${detailId}"><i class='bx bx-chevron-down' aria-hidden="true"></i></button>
+        </div>
+        ${cta ? `<div class="work__cta proj-actions">${cta}</div>` : ''}
+        ${(p.site || p.url) ? `<div class="proj-print-url">${p.site || p.url}</div>` : ''}
+      </div>
+    </div>
+    <div class="proj-detail" id="${detailId}" inert><div class="proj-detail-in"><div class="pad">
+      <p>${p.full}</p>
+    </div></div></div>
+  </div>`;
+}
+
+// 2026-09-22 cover grid (see the proj-grid-view CSS block). One tile per project, image only. It
+// reuses the row builder's theme wiring (data-dark/data-light for setThemeImages()) and its live-link
+// rules (a plain new-tab <a> while previews are off, the role="button" preview trigger if they come
+// back), so the preview modal and the theme toggle work unchanged. title= gives a hover name, since
+// the tile has no text of its own.
+function tileHTML(p, eager){
+  const imgLoad = eager ? 'loading="eager" fetchpriority="high"' : 'loading="lazy"';
+  const themed = p.imgLight ? ` data-dark="${p.img}" data-light="${p.imgLight}"` : '';
+  const imgSrc = (p.imgLight && document.documentElement.getAttribute('data-theme') !== 'dark')
+    ? p.imgLight : p.img;
+  const wideThemed = p.imgWideLight ? ` data-dark="${p.imgWide}" data-light="${p.imgWideLight}"` : '';
+  const wideSrc = (p.imgWideLight && document.documentElement.getAttribute('data-theme') !== 'dark')
+    ? p.imgWideLight : p.imgWide;
+  const img = p.imgWide
+    ? `<img src="${wideSrc}"${wideThemed} alt="${p.live ? '' : (p.alt || p.title + ' screenshot')}" ${imgLoad} decoding="async">`
+    : `<img src="${imgSrc}"${themed} alt="${p.live ? '' : (p.alt || p.title + ' screenshot')}" ${imgLoad} decoding="async">`;
+  const tag = (p.live && !PREVIEW_ENABLED) ? 'a' : 'div';
+  const attrs = !p.live ? ''
+    : ` data-umami-event="project-open" data-umami-event-project="${p.title}" ` + (PREVIEW_ENABLED
+      ? `data-url="${p.url}"${p.noEmbed?` data-noembed="1" data-poster="${p.img}"`:''} role="button" tabindex="0" aria-haspopup="dialog" aria-label="Open live preview of ${p.title}"`
+      : `href="${p.url}" target="_blank" rel="noopener" aria-label="Open ${p.title} in a new tab"`);
+  const cls = (p.live ? '' : 'no-live') + (p.pos === 'top' ? ' pos-top' : '');
+  return `
+  <div class="proj-tile" role="listitem">
+    <${tag} class="proj-thumb ${cls}" ${attrs} title="${p.title}">${img}</${tag}>
+    ${p.live ? '' : `<p class="proj-tile-cap">${p.title}</p>`}
+    ${(p.site || p.url) ? `<div class="proj-print-url">${p.site || p.url}</div>` : ''}
+  </div>`;
+}
+const GRID_VIEW = document.getElementById('Projects').classList.contains('proj-grid-view');
+const buildCard = GRID_VIEW ? tileHTML : rowHTML;
+
+// Expose the JS-rendered project cards as a semantic list (role="list" + each .proj-row role="listitem"),
+// so screen readers announce "list, N items" and let users jump card-to-card — matching how the skills
+// pills, the weather dashboard's forecast rows, and this section's own no-JS <ul> fallback are already
+// marked up. The role is set here (not in the static HTML) so the container is only a list once its
+// items exist: for no-JS visitors #main-rows stays an empty plain div and the <noscript> <ul> is the
+// list, avoiding an empty "list, 0 items". Purely the accessibility tree — no visual change.
+const _mainRows = document.getElementById('main-rows');
+_mainRows.setAttribute('role', 'list'); _mainRows.setAttribute('aria-label', 'Projects');
+_mainRows.innerHTML = MAIN_SORTED.map((p, i) => buildCard(p, i === 0)).join(''); // eager-load only the first (above-the-fold) card's image
+const _moreRows = document.getElementById('more-rows');
+_moreRows.setAttribute('role', 'list'); _moreRows.setAttribute('aria-label', 'Other projects');
+_moreRows.innerHTML = MORE.map(p => buildCard(p, false)).join(''); // "Private projects" panel starts collapsed/inert — keep all its images lazy
+if (GRID_VIEW) { _mainRows.classList.add('proj-grid'); _moreRows.classList.add('proj-grid'); }
+
+// click anywhere on the card toggles expand — EXCEPT a live thumbnail (opens preview) and CTA links.
+// "Other projects" have no live preview, so clicking their thumbnail expands the card like the rest.
+document.querySelectorAll('.proj-head').forEach(h=>{
+  h.addEventListener('click', e=>{
+    if(e.target.closest('.proj-thumb[data-url]')) return; // only LIVE thumbnails open the preview
+    if(e.target.closest('a')) return;                     // let the site / App Store links work
+    const row = h.closest('.proj-row');
+    const open = row.classList.toggle('open');
+    // Collapsed, .proj-detail is zero-height (grid-template-rows:0fr + overflow:hidden) but its
+    // description text stays in the DOM and is still announced by assistive tech; mark it inert
+    // when collapsed so AT matches the chevron's aria-expanded state (inert is a no-op in older
+    // browsers, so behaviour there is unchanged). Mirrors the "Private projects" panel above.
+    const detail = row.querySelector('.proj-detail');
+    if(detail){ if(open) detail.removeAttribute('inert'); else detail.setAttribute('inert',''); }
+    const chev = h.querySelector('.proj-chev');
+    if(chev){
+      chev.setAttribute('aria-expanded', open); // mirror collapsed/expanded state to assistive tech
+      chev.setAttribute('aria-label', open ? 'Hide details' : 'Show details'); // keep the action label in sync with the state
+    }
+  });
+});
+
+const modal=document.getElementById('modal'), card=modal.querySelector('.modal-card'),
+      frame=document.getElementById('modalFrame'),
+      mUrl=document.getElementById('modalUrl'), mOpen=document.getElementById('modalOpen'),
+      mLoad=document.getElementById('modalLoad'), mLoadTxt=document.getElementById('modalLoadTxt'),
+      navBack=document.getElementById('navBack'),
+      navPrev=document.getElementById('navPrev'), navNext=document.getElementById('navNext'),
+      sidePrev=document.getElementById('sidePrev'), sideNext=document.getElementById('sideNext'),
+      noembed=document.getElementById('modalNoembed'), neImg=document.getElementById('modalNoembedImg'),
+      neOpen=document.getElementById('modalNoembedOpen'), neHost=document.getElementById('modalNoembedHost');
+let loadTimer=null, currentUrl='', backStack=[], sourceThumb=null, noEmbedPoster=null;
+// prev/next cycle through the live-preview projects — same gallery-paging idea as the templates modal
+let liveThumbs=[], curIdx=-1;
+function updateCycle(){ const atStart=curIdx<=0, atEnd=(curIdx<0||curIdx>=liveThumbs.length-1);
+  navPrev.disabled=atStart; navNext.disabled=atEnd; sidePrev.disabled=atStart; sideNext.disabled=atEnd; }
+function cycle(dir){ const n=curIdx+dir; if(n<0||n>=liveThumbs.length) return; curIdx=n; const t=liveThumbs[n]; sourceThumb=t; setModalLabel(t); backStack=[];
+  if(t.dataset && t.dataset.noembed){ showNoEmbed(t.dataset.url, t.dataset.poster); } else { navigate(t.dataset.url,false); }
+  updateCycle(); }
+
+// #4: sites that refuse iframe embedding (their own X-Frame-Options / CSP) can't load in the preview,
+// so instead of an endless spinner show their poster + an "open in a new tab" button. Still fills the
+// URL bar and open-in-new-tab link so the chrome behaves the same.
+function showNoEmbed(url, poster){
+  clearTimeout(loadTimer);
+  currentUrl=url; backStack=[]; updateBack(); noEmbedPoster=poster||null;
+  let _host=url; try{ _host=new URL(url).hostname.replace(/^www\./,''); }catch(e){}
+  mUrl.value=url; mOpen.href=url;
+  // Keep alt in lockstep with src: a descriptive name only when there's an actual poster image,
+  // otherwise an empty alt so the src-less <img> is treated as decorative/absent rather than
+  // announced by screen readers as a missing "<host> preview" image (the visible <p> + open-link
+  // already carry the fallback's meaning). No visual change — a src-less img renders nothing.
+  if(poster){ neImg.src=poster; neImg.alt=_host+' preview'; } else { neImg.removeAttribute('src'); neImg.alt=''; }
+  neOpen.href=url; neHost.textContent='Open '+_host;   // trailing ↗ is a static aria-hidden span in the markup, so AT reads "Open <host>" without a "north east arrow"
+  // The dialog's accessible name stays owned by setModalLabel() (the project name), which
+  // openModal/cycle call just before reaching this no-embed branch; the old per-host write here
+  // ("Preview of <host>") overwrote that project name, so it's removed (see navigate()/setModalLabel).
+  frame.src='about:blank'; mLoad.classList.add('hidden');
+  noembed.classList.add('show');
+}
+
+function updateBack(){ navBack.style.display = backStack.length ? 'flex' : 'none'; }
+// push=true records the prior page so the toolbar back button can return to it
+function navigate(url, push){
+  noembed.classList.remove('show'); noEmbedPoster=null;   // #4: any real iframe load hides the poster fallback
+  if(push && currentUrl && currentUrl!==url) backStack.push(currentUrl);
+  currentUrl=url; updateBack();
+  mLoad.classList.remove('hidden'); mLoadTxt.innerHTML='Loading preview…';
+  // Give the iframe a per-site accessible name (its static title is generic "Live preview"),
+  // so screen-reader users entering the frame hear which site this preview is showing.
+  let _host=url; try{ _host=new URL(url).hostname.replace(/^www\./,''); }catch(e){}
+  frame.src=url; frame.title='Live preview of '+_host; mUrl.value=url; mOpen.href=url;
+  // Note: the DIALOG's accessible name is owned by setModalLabel() (the project's name, e.g.
+  // "GOAT Format — Live site preview"), which openModal/cycle call just before this. navigate()
+  // deliberately no longer sets modal's aria-label: it runs right after setModalLabel and its old
+  // per-host write ("Live preview of <host>") silently clobbered that project name every time,
+  // making setModalLabel dead code. The per-host identifier still reaches AT via the iframe title
+  // set just above (which correctly tracks the current page as the user navigates within the preview);
+  // the dialog keeps the project identity it was opened from. See setModalLabel below.
+  clearTimeout(loadTimer);
+  // Build the fallback link via DOM APIs rather than innerHTML: `url` can come from the user-typed
+  // preview address bar (navigate(u,true) below), so interpolating it into an HTML string is a
+  // self-XSS vector — the .href setter and textContent treat it as inert data instead. Same
+  // concern the weather dashboard guards against when rendering user input. Renders identically.
+  loadTimer=setTimeout(()=>{
+    mLoadTxt.textContent='Taking a while. ';
+    const _a=document.createElement('a');
+    _a.href=url; _a.target='_blank'; _a.rel='noopener'; _a.textContent='Open '+url+' ';
+    // The trailing ↗ is a decorative "opens externally" cue, so keep it out of the link's
+    // accessible name (a screen reader would otherwise announce "north east arrow" after the
+    // URL) — matching how the site marks up its other decorative arrows/glyphs as aria-hidden.
+    const _arr=document.createElement('span'); _arr.setAttribute('aria-hidden','true'); _arr.textContent='↗'; _a.appendChild(_arr);
+    mLoadTxt.appendChild(_a);
+  }, 6000);
+}
+// WAI-ARIA modal-dialog pattern: while the preview is open, hide the rest of the page from
+// assistive tech and keyboard/pointer input, complementing the Tab focus-trap below. The Tab
+// trap only stops keyboard tabbing; a screen-reader virtual cursor could still wander into the
+// content behind the overlay. Marking the landmark siblings inert removes them from the
+// accessibility tree AND makes them unfocusable. The dialog (#modal) lives outside these
+// containers, so it stays fully interactive. inert is a no-op in older browsers (graceful
+// fallback to today's focus-trap-only behaviour), matching the proj-detail / moreWrap panels.
+function setBackgroundInert(on){
+  document.querySelectorAll('.l-header, #main-content, .footer, #scrollDown, #backToTop').forEach(el=>{
+    if(on) el.setAttribute('inert',''); else el.removeAttribute('inert');
+  });
+}
+// Name the dialog after the project being previewed. The modal ships with a static
+// aria-label="Live site preview", so screen readers announced every project's preview
+// with the same generic dialog name (and prev/next cycling never changed it) — the one
+// thing telling them WHICH site they opened. Derive the visible title from the card the
+// thumbnail lives in (.proj-title's text is just the name; the live-dot span it also holds
+// carries no text) and fold it into the accessible name. Falls back to the generic label
+// if the card/title can't be found. Purely the dialog's accessible name — no visual change.
+// This is now the SOLE writer of the dialog's aria-label: navigate() and showNoEmbed() used
+// to overwrite it with a per-host string ("Live preview of <host>") immediately after this
+// ran, which silently discarded the project name computed here; those writes were removed so
+// the project name actually takes effect (openModal/cycle call this before either of them).
+function setModalLabel(t){
+  const title = t && t.closest && t.closest('.proj-row') ? t.closest('.proj-row').querySelector('.proj-title') : null;
+  // grid tiles have no .proj-title, so fall back to the tile's own title= attribute
+  const name = title ? title.textContent.trim() : ((t && t.getAttribute && t.getAttribute('title')) || '');
+  modal.setAttribute('aria-label', (name ? name + ', ' : '') + 'Live site preview');
+}
+function openModal(url, srcEl){ sourceThumb=srcEl||null; setModalLabel(srcEl); backStack=[]; modal.classList.remove('fullscreen'); card.classList.remove('minimizing');
+  card.style.transform=''; card.style.opacity=''; card.style.transformOrigin='';
+  if(srcEl && srcEl.dataset && srcEl.dataset.noembed){ showNoEmbed(url, srcEl.dataset.poster); } // poster fallback for framing-blocked sites (Subway Times)
+  else { navigate(url,false); }
+  modal.classList.add('open'); document.body.style.overflow='hidden';
+  setBackgroundInert(true);   // hide the page behind the dialog from AT + keyboard
+  liveThumbs=[...document.querySelectorAll('.proj-thumb[data-url]')]; curIdx=liveThumbs.indexOf(srcEl); updateCycle();   // position prev/next in the gallery
+  document.getElementById('modalClose').focus(); }   // move focus into the dialog for keyboard/AT users
+function closeModal(){ modal.classList.remove('open','fullscreen'); card.classList.remove('minimizing');
+  card.style.transform=''; card.style.opacity=''; card.style.transformOrigin='';
+  frame.src='about:blank'; document.body.style.overflow=''; clearTimeout(loadTimer);
+  noembed.classList.remove('show'); noEmbedPoster=null;   // #4: clear the poster fallback on close
+  setBackgroundInert(false);   // restore the page BEFORE returning focus (an inert element can't take focus)
+  if(sourceThumb) sourceThumb.focus(); }   // return focus to the thumbnail that opened the preview
+function reload(){ if(!currentUrl) return; if(noEmbedPoster){ showNoEmbed(currentUrl, noEmbedPoster); } else { navigate(currentUrl,false); } }
+function goBack(){ if(backStack.length) navigate(backStack.pop(), false); }
+// yellow dot — minimize: genie back into the exact thumbnail it was opened from, then close
+function minimize(){
+  const c=card.getBoundingClientRect();
+  if(sourceThumb){
+    const t=sourceThumb.getBoundingClientRect();
+    const scale=Math.max(0.04, t.width/c.width);
+    const tx=(t.left+t.width/2)-(c.left+c.width/2);
+    const ty=(t.top+t.height/2)-(c.top+c.height/2);
+    card.style.transformOrigin='center center';
+    card.style.transform=`translate(${tx}px, ${ty}px) scale(${scale})`;
+    card.style.opacity='0';
+  } else { card.classList.add('minimizing'); }
+  setTimeout(closeModal, 360);
+}
+// green dot — expand the preview to fill the screen (and back)
+function setFullscreen(on){ modal.classList.toggle('fullscreen', on); }
+frame.addEventListener('load', ()=>{ if(frame.src && !frame.src.endsWith('about:blank')){ mLoad.classList.add('hidden'); clearTimeout(loadTimer);} });
+
+document.querySelectorAll('.proj-thumb[data-url]').forEach(t=>{
+  t.addEventListener('click', ()=>openModal(t.dataset.url, t));
+  // keyboard users: live thumbnails act as buttons, so Enter/Space opens the preview too
+  t.addEventListener('keydown', e=>{ if(e.key==='Enter'||e.key===' '){ e.preventDefault(); openModal(t.dataset.url, t); } });
+});
+// functional window controls
+document.getElementById('dotClose').addEventListener('click', closeModal);
+document.getElementById('modalClose').addEventListener('click', closeModal);
+document.getElementById('dotMin').addEventListener('click', minimize);
+document.getElementById('dotExpand').addEventListener('click', ()=> setFullscreen(!modal.classList.contains('fullscreen')));
+document.getElementById('fsBack').addEventListener('click', ()=> setFullscreen(false));
+navBack.addEventListener('click', goBack);
+navPrev.addEventListener('click', ()=>cycle(-1));
+navNext.addEventListener('click', ()=>cycle(1));
+sidePrev.addEventListener('click', ()=>cycle(-1));
+sideNext.addEventListener('click', ()=>cycle(1));
+// ←/→ arrow keys cycle projects too, but never while typing in the address bar
+document.addEventListener('keydown', e=>{
+  if(!modal.classList.contains('open') || document.activeElement===mUrl) return;
+  if(e.key==='ArrowLeft') cycle(-1); else if(e.key==='ArrowRight') cycle(1);
+});
+document.getElementById('navReload').addEventListener('click', reload);
+document.getElementById('urlForm').addEventListener('submit', e=>{
+  e.preventDefault();
+  let u=mUrl.value.trim(); if(!u) return;
+  if(!/^https?:\/\//i.test(u)) u='https://'+u;
+  navigate(u, true); mUrl.blur();   // typed/searched URL records history → back button appears
+});
+modal.addEventListener('click', e=>{ if(e.target===modal) closeModal(); });
+// Guard on modal.open: this global Esc handler otherwise ran closeModal() on EVERY Escape
+// press, even with no preview open. closeModal() ends with `sourceThumb.focus()`, and
+// sourceThumb keeps referencing the last-previewed thumbnail after close — so once a user had
+// opened+closed a preview, pressing Esc anywhere (e.g. while typing in the contact form) yanked
+// focus back to that project thumbnail and scrolled it into view. Only act while a preview is open.
+document.addEventListener('keydown', e=>{ if(e.key==='Escape' && modal.classList.contains('open')){ if(modal.classList.contains('fullscreen')) setFullscreen(false); else closeModal(); } });
+// Esc-while-inside-the-preview fix: once the user clicks inside the cross-origin iframe,
+// keystrokes go to that frame and never reach the parent's Esc handler above — and we can't
+// read keys across origins. The old approach only took focus back when the pointer happened
+// to cross the modal chrome, so after clicking or scrolling around inside a site Esc simply
+// did nothing. Instead, reclaim keyboard focus to the dialog immediately whenever the frame
+// takes it: the click itself still reaches the embedded site (navigation, buttons, scrolling
+// all keep working), only the keyboard stays with the parent, so Esc always closes.
+// Trade-off: you can't type into the embedded site from the preview — open it in a new tab
+// (the toolbar's ↗ button) to interact with it fully.
+function reclaimFocus(){
+  if(!modal.classList.contains('open')) return;
+  if(document.activeElement!==frame) return;
+  window.focus();
+  document.getElementById('modalClose').focus({preventScroll:true});
+}
+// window blur while the frame is the active element == focus just moved into the iframe.
+window.addEventListener('blur', ()=>{ setTimeout(reclaimFocus, 0); });
+// Belt-and-braces: any pointer or wheel activity over the dialog also re-arms Esc.
+modal.addEventListener('mousemove', reclaimFocus);
+modal.addEventListener('mouseenter', reclaimFocus);
+modal.addEventListener('wheel', reclaimFocus, {passive:true});
+// Trap Tab focus inside the open preview dialog so keyboard users can't tab out to the page behind it (WAI-ARIA modal-dialog pattern).
+modal.addEventListener('keydown', e=>{
+  if(e.key!=='Tab' || !modal.classList.contains('open')) return;
+  const items=[...modal.querySelectorAll('button, a[href], input, iframe, [tabindex]:not([tabindex="-1"])')]
+    .filter(el=>!el.disabled && el.offsetParent!==null); // visible, focusable controls only (hidden toolbar/back button excluded)
+  if(!items.length) return;
+  const first=items[0], last=items[items.length-1];
+  if(e.shiftKey && document.activeElement===first){ e.preventDefault(); last.focus(); }
+  else if(!e.shiftKey && document.activeElement===last){ e.preventDefault(); first.focus(); }
+});
+
+const mt=document.getElementById('moreToggle'), mw=document.getElementById('moreWrap'), ml=document.getElementById('moreLabel');
+mt.addEventListener('click', ()=>{
+  const open=mw.classList.toggle('open'); mt.classList.toggle('open',open);
+  mt.setAttribute('aria-expanded', open); // mirror collapsed/expanded state to assistive tech
+  // Collapsed, the panel is zero-height but its project rows stay in the DOM with focusable
+  // chevron buttons; mark it inert so keyboard focus and assistive tech skip the hidden rows
+  // (inert is a no-op in older browsers, so behaviour there is unchanged).
+  if(open) mw.removeAttribute('inert'); else mw.setAttribute('inert','');
+  ml.textContent = open ? 'Hide other projects' : 'Other projects';
+});
+})();
+    </script>
+</body>
+</html>

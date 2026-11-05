@@ -1,0 +1,643 @@
+<!DOCTYPE html>
+<!-- lang="en-US" (not the broader "en") to match the region-specific locale of the production /weather/ dashboard this is a copy of, and of every indexed page site-wide (index.html, building.html, 404.html, light/, weather/ all declare en-US). This leftover /projects/weather/ copy shipped with the bare "en". A more specific, valid BCP-47 tag gives assistive tech the correct US-English pronunciation/voice for anyone who lands here by direct URL. No visual change. -->
+<html lang="en-US">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!-- Tint the mobile browser chrome (address/status bar) to match this dark dashboard. This leftover copy is a dark-only page (--bg:#0b1121, no theme toggle) but — unlike the production /weather/ page, which ships this exact theme-color — declared none, so on mobile the chrome stayed the OS default (often a light bar wrapping the dark design) for anyone who lands here by direct URL. #0b1121 matches --bg and the production sibling's own value; this was the one thing (alongside color-scheme, already added below) still setting this copy apart from the real dashboard's chrome treatment. No visual change to the page content. -->
+<meta name="theme-color" content="#0b1121">
+<!-- Declare the supported colour scheme to the UA up front. This leftover copy of the /weather/ dashboard is a dark-only page (--bg:#0b1121, no theme toggle) but — unlike the production /weather/ page — declared color-scheme nowhere: not here and not in its inline :root below. So on an OS-light browser the root canvas, scrollbars, and the search input/button rendered with the light UA default against the dark design. "dark" matches the page (and the production sibling's own declaration). No visual change to the intended dark design. -->
+<meta name="color-scheme" content="dark">
+<!-- Give the tab the site favicon. There is no root /favicon.ico, so without this link a browser landing on this leftover /projects/weather/ copy by direct URL fires a 404 for the default /favicon.ico and shows a blank/generic tab icon. Root-absolute path (mirroring the production /weather/ dashboard this copies, and index.html/404.html/building.html/light/) references the existing favicon.ico — no new asset. This copy was the one weather page still missing the icon link; completes the site-wide favicon pattern. No visual change to page content. -->
+<link rel="icon" type="image/x-icon" href="/assets/img/favicon.ico">
+<title>NYC Weather Dashboard</title>
+<!-- Give this leftover /projects/weather/ copy the same meta description its production /weather/ sibling ships. This copy carries no description and no OG/Twitter tags at all, so a browser reader-mode view or a link scraped from a direct URL had nothing but the page title to summarise it. Reusing the production dashboard's exact wording keeps the two copies consistent and is the one remaining head field still setting this copy apart from the real dashboard. noindex is unaffected (a description is not an indexing signal). No visual change. -->
+<meta name="description" content="A live weather dashboard with current conditions, hourly rain chance, a 5-day forecast, air quality, and sun times. Search any city. It defaults to New York, NY.">
+<!-- noindex this older, unlinked, sitemap-absent copy of the weather dashboard. The production dashboard lives at /weather/ (indexed, canonical, richer head); this /projects/weather/ page is a near-duplicate of it (same title "NYC Weather Dashboard", same design) left over from staging, with no robots meta of its own — so it was the one weather copy still fully indexable, creating a duplicate-content risk against the real /weather/. noindex, follow removes it from search results while still letting crawlers follow its links, matching the site's established pattern for duplicate/experiment pages (index_with_animation.html, light/index.html, projects/index_cascade_animate.html, the projects-*-preview.html pages). rel=canonical also names /weather/ as the authoritative copy. Metadata only — no visual change. -->
+<meta name="robots" content="noindex, follow">
+<link rel="canonical" href="https://jacobhl.com/weather/">
+<!-- Name the document's author, consistent with the production /weather/ dashboard this copies and every other page site-wide (index.html, weather/, building.html, 404.html, refer/, light/ all declare it) — this leftover /projects/weather/ copy was the one page still missing it. Purely document metadata surfaced by some browsers, tools, and reader modes; no visual change and no effect on this copy's noindex status. -->
+<meta name="author" content="Jacob Heifetz-Licht">
+<!-- Link-preview (Open Graph / Twitter) tags so a shared or pasted /projects/weather/ direct URL unfurls with a branded card instead of a bare, title-only (or blank) preview. This leftover copy shipped none — the one remaining head field, noted in the description comment above, still setting it apart from the production /weather/ dashboard, whose OG/Twitter block this mirrors verbatim (same title/description, the site-wide shared og_image.png — an existing asset, nothing new added). og:url points at the canonical /weather/ (matching the rel=canonical above) so the preview and its link resolve to the authoritative dashboard rather than this noindex duplicate. noindex is unaffected — OG tags drive social/chat unfurls, not search indexing. No visual change to page content. -->
+<meta property="og:title" content="NYC Weather Dashboard">
+<meta property="og:description" content="A live weather dashboard with current conditions, hourly rain chance, a 5-day forecast, air quality, and sun times. Search any city. It defaults to New York, NY.">
+<meta property="og:image" content="https://jacobhl.com/assets/img/og_image_v3.png">
+<meta property="og:image:type" content="image/png">
+<meta property="og:image:width" content="2400">
+<meta property="og:image:height" content="1260">
+<meta property="og:image:alt" content="Jacob Heifetz-Licht, Analytics Manager and app developer">
+<meta property="og:url" content="https://jacobhl.com/weather/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Jacob Heifetz-Licht">
+<meta property="og:locale" content="en_US">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="NYC Weather Dashboard">
+<meta name="twitter:description" content="A live weather dashboard with current conditions, hourly rain chance, a 5-day forecast, air quality, and sun times. Search any city. It defaults to New York, NY.">
+<meta name="twitter:image" content="https://jacobhl.com/assets/img/og_image_v3.png">
+<meta name="twitter:image:alt" content="Jacob Heifetz-Licht, Analytics Manager and app developer">
+<!-- Warm the TLS connections to the Google Fonts hosts before the render-blocking Poppins stylesheet below is requested. That stylesheet blocks first paint, and without a preconnect the browser only starts the (DNS + TCP + TLS) handshake to fonts.googleapis.com once it discovers the <link> — then repeats it for the font-file host fonts.gstatic.com. Preconnecting both up front overlaps those handshakes with head parsing so the font CSS and woff2 arrive sooner. crossorigin on the gstatic hint so the warmed socket is reused for the CORS woff2 fetch. This leftover /projects/weather/ copy was loading the same font cold; the production /weather/ dashboard it copies already ships exactly these two preconnects. Resource hints only — no visual or behaviour change. -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<!-- Warm the TLS connections to the Open-Meteo APIs this dashboard fetches from. On load the geocoding request (geocoding-api.open-meteo.com) resolves the city, and its result gates the forecast (api.open-meteo.com) and air-quality (air-quality-api.open-meteo.com) fetches — so those handshakes otherwise happen cold on the critical path to the first data render. Preconnecting all three up front overlaps the (DNS + TCP + TLS) setup with head parsing so the JSON arrives sooner; crossorigin so each warmed socket is reused for its CORS JSON request. This leftover /projects/weather/ copy was fetching from these same three hosts cold — the production /weather/ dashboard it copies already ships exactly these three preconnects. Resource hints only — no visual or behaviour change. -->
+<link rel="preconnect" href="https://geocoding-api.open-meteo.com" crossorigin>
+<link rel="preconnect" href="https://api.open-meteo.com" crossorigin>
+<link rel="preconnect" href="https://air-quality-api.open-meteo.com" crossorigin>
+<!-- Drop weight 300 from the requested Poppins set: this leftover /projects/weather/ copy asked Google Fonts for 300;400;500;600;700, but nothing on the page uses font-weight:300 (its CSS only sets 400/500/600/700) — so the browser fetched and parsed an extra @font-face woff2 that never renders. Requesting only the weights actually used trims that wasted font download on this render-blocking stylesheet, and matches the exact 400;500;600;700 set the production /weather/ dashboard this copies (and every other Poppins page site-wide) already ships. No visual change — the removed weight was unused. -->
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+<style>
+:root {
+  color-scheme: dark;
+  --bg: #0b1121;
+  --card: #111a2e;
+  --card-border: #1a2744;
+  --accent: #00b4d8;
+  --accent-dim: rgba(0,180,216,0.15);
+  --text: #e0e6ed;
+  --text-dim: #7a8ba0;
+  --danger: #ef4444;
+  --warning: #f59e0b;
+  --success: #22c55e;
+  --radius: 16px;
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+body {
+  font-family:'Poppins',sans-serif;
+  background:var(--bg);
+  color:var(--text);
+  min-height:100vh;
+  padding:24px;
+}
+.container { max-width:900px; margin:0 auto; }
+
+.search-bar { display:flex; gap:12px; margin-bottom:24px; }
+.search-bar input {
+  flex:1; padding:14px 20px; border-radius:var(--radius);
+  border:1px solid var(--card-border); background:var(--card);
+  color:var(--text); font-family:inherit; font-size:15px;
+  outline:none; transition:border-color .2s;
+}
+.search-bar input:focus { border-color:var(--accent); }
+.search-bar button {
+  padding:14px 28px; border-radius:var(--radius); border:none;
+  background:var(--accent); color:#fff; font-family:inherit;
+  font-size:15px; font-weight:600; cursor:pointer; transition:opacity .2s;
+}
+.search-bar button:hover { opacity:.85; }
+
+.card {
+  background:var(--card); border:1px solid var(--card-border);
+  border-radius:var(--radius); padding:24px; margin-bottom:16px;
+}
+
+.hero { display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:20px; }
+.hero-left { display:flex; align-items:center; gap:20px; }
+.hero-temp { font-size:72px; font-weight:700; line-height:1; }
+.hero-temp span { font-size:36px; font-weight:400; color:var(--text-dim); }
+.hero-icon { font-size:56px; }
+.hero-right { text-align:right; }
+.hero-condition { font-size:22px; font-weight:600; margin-bottom:4px; }
+.hero-detail { font-size:13px; color:var(--text-dim); line-height:1.8; }
+
+.feels-like {
+  display:inline-block; margin-top:6px; padding:4px 14px;
+  border-radius:20px; font-size:13px; font-weight:500;
+  background:var(--accent-dim); color:var(--accent);
+}
+
+.alerts-banner {
+  display:none; padding:14px 20px; border-radius:var(--radius);
+  margin-bottom:16px; font-size:13px; font-weight:500;
+  border:1px solid; gap:10px; align-items:center;
+}
+.alerts-banner.warning { background:rgba(245,158,11,.1); border-color:rgba(245,158,11,.3); color:var(--warning); display:flex; }
+.alerts-banner.danger { background:rgba(239,68,68,.1); border-color:rgba(239,68,68,.3); color:var(--danger); display:flex; }
+.alerts-banner.info { background:var(--accent-dim); border-color:rgba(0,180,216,.3); color:var(--accent); display:flex; }
+
+.grid-2 { display:grid; grid-template-columns:1fr 1fr; gap:16px; }
+.grid-3 { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; }
+@media(max-width:700px) {
+  .grid-2,.grid-3 { grid-template-columns:1fr; }
+  .hero { flex-direction:column; text-align:center; }
+  .hero-right { text-align:center; }
+}
+
+.stat-label { font-size:11px; text-transform:uppercase; letter-spacing:1px; color:var(--text-dim); margin-bottom:6px; }
+.stat-value { font-size:24px; font-weight:600; }
+.stat-sub { font-size:12px; color:var(--text-dim); margin-top:2px; }
+.stat-icon { font-size:20px; margin-bottom:8px; }
+
+.hourly-row { display:flex; gap:8px; overflow-x:auto; padding-bottom:8px; }
+.hourly-item {
+  flex:0 0 auto; width:64px; text-align:center; padding:12px 8px;
+  border-radius:12px; background:rgba(255,255,255,.03);
+}
+.hourly-item .time { font-size:11px; color:var(--text-dim); }
+.hourly-item .icon { font-size:20px; margin:6px 0; }
+.hourly-item .chance { font-size:13px; font-weight:600; }
+
+.forecast-row {
+  display:flex; justify-content:space-between; padding:14px 0;
+  border-bottom:1px solid var(--card-border); align-items:center;
+}
+.forecast-row:last-child { border-bottom:none; }
+.forecast-day { width:60px; font-weight:500; font-size:14px; }
+.forecast-icon { font-size:24px; width:40px; text-align:center; }
+.forecast-desc { flex:1; font-size:13px; color:var(--text-dim); padding:0 12px; }
+.forecast-temps { font-size:14px; white-space:nowrap; }
+.forecast-temps .hi { font-weight:600; }
+.forecast-temps .lo { color:var(--text-dim); }
+
+.sun-bar {
+  height:6px; border-radius:3px; margin:12px 0 8px;
+  background:linear-gradient(90deg,#1a1a3e,#f59e0b 20%,#fb923c 50%,#f59e0b 80%,#1a1a3e);
+  position:relative;
+}
+.sun-dot {
+  width:14px; height:14px; border-radius:50%; background:#fbbf24;
+  border:2px solid var(--card); position:absolute; top:-4px;
+  transition:left .5s;
+}
+.sun-times { display:flex; justify-content:space-between; font-size:12px; color:var(--text-dim); }
+
+.comfort-meter { display:flex; gap:4px; margin-top:8px; }
+.comfort-seg { flex:1; height:6px; border-radius:3px; background:rgba(255,255,255,.08); }
+.comfort-seg.active-good { background:var(--success); }
+.comfort-seg.active-ok { background:var(--warning); }
+.comfort-seg.active-bad { background:var(--danger); }
+
+.section-title {
+  font-size:13px; font-weight:600; text-transform:uppercase;
+  letter-spacing:1px; color:var(--text-dim); margin-bottom:12px;
+}
+
+.loading { text-align:center; padding:60px; color:var(--text-dim); font-size:14px; }
+.spinner { display:inline-block; width:24px; height:24px; border:3px solid var(--card-border); border-top-color:var(--accent); border-radius:50%; animation:spin .8s linear infinite; margin-bottom:12px; }
+@keyframes spin { to { transform:rotate(360deg); } }
+
+/* Respect users who prefer reduced motion: stop the looping spinner and ease off transitions. This leftover /projects/weather/ copy was missing the reduced-motion block its production sibling /weather/ already ships (it carries the same infinite spin animation and the same input/button/sun-dot transitions). Mirrors that block verbatim so both weather copies honour the OS setting; no visual change for users without the preference. */
+@media (prefers-reduced-motion: reduce) {
+  .spinner { animation: none; }
+  .search-bar input, .search-bar button, .sun-dot { transition: none; }
+}
+
+.aqi-bar { display:flex; height:8px; border-radius:4px; overflow:hidden; margin-top:8px; gap:2px; }
+.aqi-seg { flex:1; border-radius:4px; }
+
+/* Off-screen-but-readable utility for the visually-hidden <h1> below. This leftover
+   /projects/weather/ copy renders its entire UI from JS into #content and had no heading
+   at all in the static markup, so the document outline was empty and a screen-reader
+   "jump to main heading" had nothing to land on. The production /weather/ dashboard this
+   copies carries the same class + hidden <h1>; this mirrors it (off-screen for sighted users,
+   still announced by assistive tech). clip:rect(0,0,0,0) is the long-standing screen-reader-only
+   technique, but the clip property is deprecated; clip-path:inset(50%) is its modern replacement.
+   Ship both so the utility keeps working on legacy engines while using the current, non-deprecated
+   property everywhere else — the belt-and-suspenders pair mature a11y utilities standardised on,
+   and the exact form the production /weather/ dashboard's .visually-hidden now carries (this copy
+   had drifted to the old clip-only form the production page was modernized away from). Both rules
+   collapse the box to nothing, so the element stays visually hidden and audible to screen readers
+   exactly as before. No visual change. */
+.visually-hidden {
+  position:absolute; width:1px; height:1px; padding:0; margin:-1px;
+  overflow:hidden; clip:rect(0,0,0,0); clip-path:inset(50%); white-space:nowrap; border:0;
+}
+</style>
+</head>
+<body>
+<!-- <main> landmark + a visually-hidden <h1> so this leftover /projects/weather/ copy has a
+     real document outline and a "main" region for screen-reader landmark navigation. The whole
+     dashboard is rendered from JS into #content, so the static markup previously had no heading
+     and no main landmark at all — the production /weather/ dashboard this copies already ships
+     exactly this (<main class="container"> + hidden "Weather Dashboard" <h1>). .container is
+     display:block for both div and main and has no direct-child selectors, so the layout is
+     unchanged. Semantics only — no visual change. -->
+<main class="container">
+  <h1 class="visually-hidden">Weather Dashboard</h1>
+  <!-- role="search" + aria-label expose this as the search landmark, so screen-reader landmark
+       navigation can jump straight to the city-search box (and the whole page's only interactive
+       region). A bare <div> maps to generic and provides no landmark at all, so this copy's search
+       box was unreachable by landmark nav — the production /weather/ dashboard it copies already
+       wraps the identical box in <div class="search-bar" role="search" aria-label="City weather
+       search">. Mirrored verbatim so both copies expose the same landmark; the input inside keeps
+       its own aria-label ("Search for a city") as the control's name. Semantics only — no visual
+       change. -->
+  <div class="search-bar" role="search" aria-label="City weather search">
+    <!-- aria-label gives the city search box a real accessible name. A placeholder is not a label: it's advisory text that many screen readers don't announce as the field's name and that vanishes on input, so this field otherwise reached assistive tech as an unnamed "edit text" (WCAG 1.3.1 / 4.1.2). This leftover /projects/weather/ copy was the one still missing the name; the production /weather/ dashboard it copies already labels the identical input aria-label="Search for a city". Added the same label so both copies name the field. No visual change — the placeholder text is unchanged. -->
+    <!-- Mobile input hints, matching the production /weather/ dashboard's identical search box (which carries this exact hint set). enterkeyhint="search" labels the on-screen keyboard's Enter key as a search action — correct here because the field really does search on Enter (the keydown handler below calls fetchWeather) as well as via the Search button. autocomplete="off": this is a live-search box, not a stored-profile field, so the browser's autofill dropdown (saved names/addresses) is irrelevant and can cover the results as they load. autocapitalize="words" matches how city names are written; autocorrect="off" stops an unusual place name being "corrected" into a dictionary word as it's typed (iOS autocorrects text inputs by default); spellcheck="false" keeps real place names from being flagged with red squiggles. This leftover copy was the one still missing the set the production sibling already has. All editable/keyboard hints — no visual change to the settled field on desktop, and no behaviour change (Enter already searched). -->
+    <input type="text" id="cityInput" placeholder="Search city..." value="New York, NY" aria-label="Search for a city" enterkeyhint="search" autocomplete="off" autocapitalize="words" autocorrect="off" spellcheck="false">
+    <!-- Explicit type="button": a <button> with no type defaults to type="submit", so this control was the one button site-wide still carrying implicit submit semantics. There's no enclosing <form> here today, so nothing breaks — but the default is a footgun (add a form wrapper later and this button silently starts submitting/reloading before/instead of fetchWeather), and screen readers announce the implicit "submit button" role name. type="button" states the real intent (JS-only action) and matches the production /weather/ dashboard this copies (<button type="button" onclick="fetchWeather()">Search</button>). No visual or behaviour change. -->
+    <button type="button" onclick="fetchWeather()">Search</button>
+  </div>
+  <!-- aria-live="polite" + aria-atomic: expose the alert banner as a live region so its weather
+       alerts — the frostbite / heat-stroke / high-wind safety warnings and the rain heads-up set
+       below in JS — are announced to screen readers when they appear, not just shown visually
+       (WCAG 4.1.3 Status Messages). This leftover /projects/weather/ copy shipped a bare div; the
+       production /weather/ dashboard it copies already carries this exact aria-live region. Paired
+       with the JS change below, which now updates this element in place instead of replacing the
+       whole node each render (outerHTML replacement destroyed the live region every time, so an
+       alert was never announced). No visual change. -->
+  <div id="alertsBanner" class="alerts-banner" aria-live="polite" aria-atomic="true"></div>
+  <div id="content">
+    <!-- role="status" (a polite live region) so screen readers announce that live data is being
+         fetched; aria-hidden on the purely-decorative spinner keeps its empty div out of the
+         accessibility tree, and the visible copy uses a proper … ellipsis. Brings this leftover
+         /projects/weather/ copy's loading indicator into parity with the production /weather/
+         dashboard it mirrors, which already ships exactly this markup. No visual change. -->
+    <div class="loading" role="status"><div class="spinner" aria-hidden="true"></div><br>Loading weather data…</div>
+    <!-- No-JS fallback. The whole dashboard is rendered by JavaScript into #content, so with JS
+         disabled the loading spinner above would otherwise spin forever with no data ever arriving.
+         Hide the spinner and explain instead, offering a way back to the site. This leftover
+         /projects/weather/ copy was still missing the fallback; the production /weather/ dashboard
+         it copies already ships exactly this block. Only shown when JavaScript is disabled — no
+         effect on the normal JS-enabled render. -->
+    <noscript>
+      <style>.loading{display:none;}</style>
+      <div class="card" role="alert" style="text-align:center;">This weather dashboard needs JavaScript to load live data. Please enable JavaScript, or head back to <a href="/" style="color:var(--accent);">jacobhl.com</a>.</div>
+    </noscript>
+  </div>
+</main>
+
+<script>
+const WMO_ICONS = {
+  0:'☀️',1:'🌤️',2:'⛅',3:'☁️',45:'🌫️',48:'🌫️',
+  51:'🌦️',53:'🌧️',55:'🌧️',56:'🌧️',57:'🌧️',
+  61:'🌧️',63:'🌧️',65:'🌧️',66:'🌧️',67:'🌧️',
+  71:'❄️',73:'❄️',75:'❄️',77:'❄️',
+  80:'🌦️',81:'🌧️',82:'🌧️',85:'❄️',86:'❄️',
+  95:'⛈️',96:'⛈️',99:'⛈️'
+};
+const WMO_DESC = {
+  0:'Clear Sky',1:'Mostly Clear',2:'Partly Cloudy',3:'Overcast',
+  45:'Fog',48:'Depositing Rime Fog',
+  51:'Light Drizzle',53:'Moderate Drizzle',55:'Dense Drizzle',
+  56:'Freezing Drizzle',57:'Heavy Freezing Drizzle',
+  61:'Light Rain',63:'Moderate Rain',65:'Heavy Rain',
+  66:'Freezing Rain',67:'Heavy Freezing Rain',
+  71:'Light Snow',73:'Moderate Snow',75:'Heavy Snow',77:'Snow Grains',
+  80:'Light Showers',81:'Moderate Showers',82:'Violent Showers',
+  85:'Light Snow Showers',86:'Heavy Snow Showers',
+  95:'Thunderstorm',96:'Thunderstorm w/ Hail',99:'Severe Thunderstorm'
+};
+const WMO_NIGHT = {0:'🌙',1:'🌙',2:'☁️',3:'☁️'};
+
+function getIcon(code, isDay) {
+  if (!isDay && WMO_NIGHT[code]) return WMO_NIGHT[code];
+  return WMO_ICONS[code] || '🌡️';
+}
+function getDesc(code) { return WMO_DESC[code] || 'Unknown'; }
+
+// Wind direction on the standard 16-point compass (22.5° per point). The 8-point version
+// (45° per point) rounded coarsely — a wind from ~70° reads as ENE but showed "E", and ~25°
+// (NNE) showed "NE" — so the displayed bearing could be a full point off the API's actual
+// wind_direction_10m. 16 points is the convention weather services use and matches what the
+// degrees imply. Mirrors the fix already applied to the served /weather/ page; this /projects/
+// variant kept the coarse 8-point version. Text-only JS, no layout or visual change.
+function windDir(deg) {
+  const dirs = ['N','NNE','NE','ENE','E','ESE','SE','SSE','S','SSW','SW','WSW','W','WNW','NW','NNW'];
+  return dirs[Math.round(deg / 22.5) % 16];
+}
+
+function humidityComfort(h) {
+  if (h < 30) return { label:'Dry, moisturize', level:1, cls:'active-ok' };
+  if (h <= 50) return { label:'Comfortable', level:2, cls:'active-good' };
+  if (h <= 70) return { label:'Muggy', level:3, cls:'active-ok' };
+  return { label:'Oppressive', level:4, cls:'active-bad' };
+}
+
+// Fallback category, used only when the air-quality API returns pm2_5 but a null us_aqi. The
+// breakpoints (12.0 / 35.4 / 55.4 / 150.4 / 250.4) are the US EPA PM2.5 24-hour breakpoints, and
+// the AQI card heading and the us_aqi branch in render() both label this "US AQI" — yet this
+// fallback returned European EAQI-style labels ("Fair"/"Poor"/"Very Poor"), which named a scale
+// the page doesn't use and UNDERSTATED severity (PM2.5 45 µg/m³ is US "Unhealthy for Sensitive
+// Groups", not "Moderate"). Map each PM2.5 band to the exact US AQI category name, colour, and
+// segment count the us_aqi branch already uses, so the fallback matches the primary path instead
+// of contradicting it. aqi caps at 5 for both Very Unhealthy and Hazardous, keeping the 5-segment
+// bar full. Mirrors the fix on the production /weather/ dashboard this leftover copy duplicates.
+function aqiFromPM25(pm) {
+  if (pm <= 12) return { aqi:1, text:'Good', color:'#22c55e' };
+  if (pm <= 35.4) return { aqi:2, text:'Moderate', color:'#f59e0b' };
+  if (pm <= 55.4) return { aqi:3, text:'Unhealthy (Sensitive)', color:'#f97316' };
+  if (pm <= 150.4) return { aqi:4, text:'Unhealthy', color:'#ef4444' };
+  if (pm <= 250.4) return { aqi:5, text:'Very Unhealthy', color:'#7c3aed' };
+  return { aqi:5, text:'Hazardous', color:'#7e0023' };
+}
+
+function sunProgress(sunrise, sunset, now) {
+  const sr = new Date(sunrise).getTime();
+  const ss = new Date(sunset).getTime();
+  const n = now.getTime();
+  if (n < sr) return 0;
+  if (n > ss) return 100;
+  return ((n - sr) / (ss - sr)) * 100;
+}
+
+function fmtTime(iso) {
+  return new Date(iso).toLocaleTimeString('en-US', { hour:'numeric', minute:'2-digit' });
+}
+function fmtHour(iso) {
+  return new Date(iso).toLocaleTimeString('en-US', { hour:'numeric' });
+}
+
+async function geocode(city) {
+  const cleanCity = city.replace(/,\s*(US|USA|[A-Z]{2})$/i, '').trim();
+  const res = await fetch(`https://geocoding-api.open-meteo.com/v1/search?name=${encodeURIComponent(cleanCity)}&count=5&language=en&format=json`);
+  const data = await res.json();
+  if (!data.results?.length) throw new Error('City not found');
+  // Only prefer a US match when the query actually signalled a US location — i.e. it carried a
+  // trailing US-state code or "US"/"USA" (the same suffix cleanCity strips above). The old
+  // unconditional find(US) hijacked every ambiguous world city to its US namesake even with no
+  // hint: "London" resolved to London, Ohio and "Paris" to Paris, Texas instead of the far
+  // larger London, GB / Paris, FR the searcher almost certainly meant. With no US hint, fall
+  // through to results[0] — Open-Meteo already returns matches population-ranked, so "London" →
+  // London, GB while a bare "New York" still lands on NYC. Mirrors the fix on the production
+  // /weather/ dashboard this leftover copy duplicates.
+  const usHinted = /,\s*(US|USA|[A-Z]{2})$/i.test(city);
+  const r = (usHinted && data.results.find(x => x.country_code === 'US')) || data.results[0];
+  return { lat:r.latitude, lon:r.longitude, name:r.admin1 ? `${r.name}, ${r.admin1}` : `${r.name}, ${r.country}`, tz:r.timezone };
+}
+
+async function fetchWeather() {
+  const city = document.getElementById('cityInput').value.trim();
+  if (!city) return;
+  document.getElementById('content').innerHTML = '<div class="loading" role="status"><div class="spinner" aria-hidden="true"></div><br>Loading weather data…</div>';
+  document.getElementById('alertsBanner').className = 'alerts-banner';
+  document.getElementById('alertsBanner').innerHTML = '';
+  document.getElementById('alertsBanner').style.display = 'none';
+
+  try {
+    const geo = await geocode(city);
+    const params = [
+      `latitude=${geo.lat}`, `longitude=${geo.lon}`,
+      `current=temperature_2m,relative_humidity_2m,apparent_temperature,weather_code,wind_speed_10m,wind_direction_10m,wind_gusts_10m,surface_pressure,is_day`,
+      `hourly=temperature_2m,precipitation_probability,weather_code,is_day`,
+      `daily=weather_code,temperature_2m_max,temperature_2m_min,sunrise,sunset,uv_index_max,precipitation_probability_max`,
+      `temperature_unit=fahrenheit`,
+      `wind_speed_unit=mph`,
+      `precipitation_unit=inch`,
+      `timezone=${encodeURIComponent(geo.tz)}`,
+      `forecast_days=7`
+    ].join('&');
+
+    // Kick off both requests in parallel. Weather is required; air quality is optional and must
+    // degrade gracefully, so resolve the AQI request to null on ANY failure (network error,
+    // non-OK response, or bad JSON) instead of letting it reject. The old shared Promise.all
+    // failed the WHOLE dashboard when only the air-quality request errored — blanking the
+    // successfully-loaded weather with an error card — even though render() already tolerates a
+    // null aqi (its aqi?.current?.pm2_5 / us_aqi optional chaining falls back to "N/A"). Mirrors
+    // the graceful-degradation fix on the production /weather/ dashboard this leftover copy
+    // duplicates. No change to the success path.
+    const weatherPromise = fetch(`https://api.open-meteo.com/v1/forecast?${params}`);
+    const aqiPromise = fetch(`https://air-quality-api.open-meteo.com/v1/air-quality?latitude=${geo.lat}&longitude=${geo.lon}&current=pm2_5,pm10,us_aqi&timezone=${encodeURIComponent(geo.tz)}`)
+      .then(r => r.ok ? r.json() : null)
+      .catch(() => null);
+
+    const weatherRes = await weatherPromise;
+    if (!weatherRes.ok) throw new Error('Could not load weather data. Please try again in a moment.');
+    const weather = await weatherRes.json();
+    const aqi = await aqiPromise;
+    render(weather, aqi, geo);
+  } catch (err) {
+    document.getElementById('content').innerHTML = `<div class="card" style="text-align:center;color:var(--danger);">${err.message}</div>`;
+  }
+}
+
+function render(w, aqi, geo) {
+  const c = w.current;
+  const temp = Math.round(c.temperature_2m);
+  const feelsLike = Math.round(c.apparent_temperature);
+  const diff = feelsLike - temp;
+  let feelsNote = `Feels like ${feelsLike}°F`;
+  if (diff <= -5) feelsNote = `Feels ${Math.abs(diff)}° colder (wind chill)`;
+  else if (diff >= 5) feelsNote = `Feels ${diff}° warmer (heat index)`;
+
+  const humidity = c.relative_humidity_2m;
+  const comfort = humidityComfort(humidity);
+  const windSpeed = Math.round(c.wind_speed_10m);
+  const windD = windDir(c.wind_direction_10m);
+  const gusts = c.wind_gusts_10m ? Math.round(c.wind_gusts_10m) : 0;
+  const pressure = (c.surface_pressure * 0.02953).toFixed(2);
+  const isDay = c.is_day;
+  const weatherCode = c.weather_code;
+
+  const pm25 = aqi?.current?.pm2_5;
+  const usAqi = aqi?.current?.us_aqi;
+  const aqiInfo = pm25 != null ? aqiFromPM25(pm25) : { aqi:0, text:'N/A', color:'#666' };
+  if (usAqi != null) {
+    if (usAqi <= 50) { aqiInfo.text = 'Good'; aqiInfo.color = '#22c55e'; aqiInfo.aqi = 1; }
+    else if (usAqi <= 100) { aqiInfo.text = 'Moderate'; aqiInfo.color = '#f59e0b'; aqiInfo.aqi = 2; }
+    else if (usAqi <= 150) { aqiInfo.text = 'Unhealthy (Sensitive)'; aqiInfo.color = '#f97316'; aqiInfo.aqi = 3; }
+    else if (usAqi <= 200) { aqiInfo.text = 'Unhealthy'; aqiInfo.color = '#ef4444'; aqiInfo.aqi = 4; }
+    else if (usAqi <= 300) { aqiInfo.text = 'Very Unhealthy'; aqiInfo.color = '#7c3aed'; aqiInfo.aqi = 5; }
+    // US AQI tops out at a distinct "Hazardous" band (301+), reached during wildfire smoke or in
+    // heavily polluted cities. Without this the dashboard mislabeled such readings as "Very
+    // Unhealthy". Keep aqi:5 so the 5-segment bar stays fully filled (no layout change); use the
+    // official EPA maroon so the value/segment colour reflects the more severe category. Mirrors
+    // the fix already on the production /weather/ dashboard this leftover copy duplicates.
+    else { aqiInfo.text = 'Hazardous'; aqiInfo.color = '#7e0023'; aqiInfo.aqi = 5; }
+  }
+
+  const sunrise = w.daily.sunrise[0];
+  const sunset = w.daily.sunset[0];
+  // Anchor "now" to the SEARCHED CITY's clock, not the viewer's. sunrise/sunset are offset-less
+  // ISO stamps in the city's timezone (we pass timezone=geo.tz), and sunProgress parses them via
+  // new Date() — i.e. as browser-local wall-clock — so compare them against the city's current
+  // local time (w.current.time, parsed the same offset-less way), not the browser's real instant.
+  // With a bare new Date() the sun-arc dot was placed by the viewer's clock, so it sat at the wrong
+  // spot for any city in a different timezone (e.g. Tokyo viewed from New York). Mirrors the fix on
+  // the production /weather/ dashboard this leftover copy duplicates. Falls back to the browser clock
+  // if current.time is ever absent. No change for same-timezone use.
+  const now = c.time ? new Date(c.time) : new Date();
+  const sunProg = sunProgress(sunrise, sunset, now);
+  const daylightSec = (new Date(sunset) - new Date(sunrise)) / 1000;
+  const dlH = Math.floor(daylightSec/3600);
+  const dlM = Math.floor((daylightSec%3600)/60);
+
+  const uvMax = w.daily.uv_index_max[0];
+
+  // Next 12 hours of hourly data. The API returns hourly times in the SEARCHED CITY's timezone
+  // (we pass timezone=geo.tz), so anchor "now" to the city's own clock via w.current.time rather
+  // than the browser's — otherwise the window started at the viewer's local hour and was shifted
+  // for any city in a different timezone (e.g. searching Tokyo from New York). Compare the ISO
+  // "YYYY-MM-DDTHH" hour prefixes so it's a pure string match, immune to how new Date() localizes
+  // these offset-less stamps. (|| '') falls back to the first slot if current.time is ever absent.
+  // Mirrors the fix on the production /weather/ dashboard this leftover copy duplicates.
+  const cityNowHour = (c.time || '').slice(0, 13);
+  let hourlyStart = w.hourly.time.findIndex(t => t.slice(0, 13) >= cityNowHour);
+  if (hourlyStart === -1) hourlyStart = 0; // defensive: never let the loop start at index -1
+  const hourly = [];
+  for (let i = hourlyStart; i < Math.min(hourlyStart + 12, w.hourly.time.length); i++) {
+    hourly.push({
+      time: w.hourly.time[i],
+      pop: w.hourly.precipitation_probability[i],
+      code: w.hourly.weather_code[i],
+      isDay: w.hourly.is_day[i]
+    });
+  }
+
+  // Alerts. Update the persistent #alertsBanner element in place (className + innerHTML) instead
+  // of swapping the whole node via outerHTML: the div is now an aria-live="polite" region (see the
+  // markup), and replacing the node each render destroyed that region, so a screen reader never
+  // announced the alert — the frostbite / heat-stroke / high-wind safety warnings and the rain
+  // heads-up all went unspoken (WCAG 4.1.3 Status Messages). Mutating the same node's text lets the
+  // live region announce each new alert. style.display is set explicitly to clear the inline
+  // display:none the reset at the top of fetchWeather() puts on this element (that inline style
+  // would otherwise beat the modifier class's display:flex and keep the alert hidden); '' lets the
+  // CSS decide (empty class → display:none, a modifier → display:flex). This is the exact pattern
+  // the production /weather/ dashboard this copies already uses. Same messages, thresholds, and
+  // rendered result — no visual change.
+  const willRain = hourly.some(h => h.pop > 40);
+  // The leading emoji on each alert is decorative — the wording ("High wind advisory…", "Extreme
+  // cold…") already carries the meaning — so wrap it in aria-hidden. Otherwise a screen reader
+  // prefixes every safety warning with the emoji's spoken name ("warning sign High wind advisory…",
+  // "snowflake Extreme cold…"), noise on exactly the messages that most need to read cleanly. The
+  // production /weather/ dashboard this copies already wraps these four emoji this way; this leftover
+  // copy still emitted them bare. Matches the site-wide decorative-glyph pattern (weather/, index.html
+  // wrap their ←/↑/↓ arrows and emoji the same way). Text-only — the banner renders identically.
+  let alertClass = '', alertMsg = '';
+  if (windSpeed >= 25 || gusts >= 40) {
+    alertClass = 'warning'; alertMsg = `<span aria-hidden="true">⚠️</span> High wind advisory. Gusts up to ${gusts || windSpeed} mph. Secure loose items.`;
+  } else if (temp <= 20) {
+    alertClass = 'danger'; alertMsg = `<span aria-hidden="true">🥶</span> Extreme cold and frostbite risk. Layer up and limit exposure.`;
+  } else if (temp >= 95 && humidity >= 60) {
+    alertClass = 'danger'; alertMsg = `<span aria-hidden="true">🔥</span> Excessive heat + humidity bring heat stroke risk. Stay indoors if possible.`;
+  } else if (willRain) {
+    const rainH = hourly.find(h => h.pop > 40);
+    alertClass = 'info'; alertMsg = `<span aria-hidden="true">☂️</span> Rain likely around ${fmtHour(rainH.time)}, so grab an umbrella before heading out.`;
+  }
+  const alertsBanner = document.getElementById('alertsBanner');
+  alertsBanner.className = 'alerts-banner' + (alertClass ? ' ' + alertClass : '');
+  alertsBanner.innerHTML = alertMsg;
+  alertsBanner.style.display = alertClass ? '' : 'none';
+
+  // Daily forecast
+  const days = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+  const dailyRows = [];
+  for (let i = 1; i < Math.min(6, w.daily.time.length); i++) {
+    const d = new Date(w.daily.time[i] + 'T12:00:00');
+    dailyRows.push({
+      day: days[d.getDay()],
+      code: w.daily.weather_code[i],
+      hi: Math.round(w.daily.temperature_2m_max[i]),
+      lo: Math.round(w.daily.temperature_2m_min[i]),
+      pop: w.daily.precipitation_probability_max[i]
+    });
+  }
+
+  let html = '';
+
+  // Hero
+  html += `<div class="card hero">
+    <div class="hero-left">
+      <div class="hero-icon" aria-hidden="true">${getIcon(weatherCode, isDay)}</div>
+      <div>
+        <div class="hero-temp">${temp}<span>°F</span></div>
+        <div class="feels-like">${feelsNote}</div>
+      </div>
+    </div>
+    <div class="hero-right">
+      <div class="hero-condition">${getDesc(weatherCode)}</div>
+      <div class="hero-detail">
+        ${geo.name}<br>
+        Humidity: ${humidity}%<br>
+        Wind: ${windSpeed} mph ${windD}${gusts ? '<br>Gusts: ' + gusts + ' mph' : ''}<br>
+        Pressure: ${pressure} inHg<br>
+        UV Index: ${uvMax} ${uvMax <= 2 ? '(Low)' : uvMax <= 5 ? '(Moderate)' : uvMax <= 7 ? '(High)' : '(Very High)'}
+      </div>
+    </div>
+  </div>`;
+
+  // Stat row
+  html += `<div class="grid-3">`;
+
+  // Humidity comfort
+  html += `<div class="card">
+    <div class="stat-icon" aria-hidden="true">💧</div>
+    <div class="stat-label">Humidity Comfort</div>
+    <div class="stat-value">${humidity}%</div>
+    <div class="stat-sub">${comfort.label}</div>
+    <div class="comfort-meter">${[1,2,3,4].map(i => `<div class="comfort-seg ${i <= comfort.level ? comfort.cls : ''}"></div>`).join('')}</div>
+  </div>`;
+
+  // AQI
+  html += `<div class="card">
+    <div class="stat-icon" aria-hidden="true">🌬️</div>
+    <div class="stat-label">Air Quality${usAqi != null ? ' (US AQI: '+usAqi+')' : ''}</div>
+    <div class="stat-value" style="color:${aqiInfo.color}">${aqiInfo.text}</div>
+    <div class="stat-sub">${pm25 != null ? 'PM2.5: ' + pm25.toFixed(1) + ' µg/m³' : ''}</div>
+    <div class="aqi-bar">${[1,2,3,4,5].map(i => `<div class="aqi-seg" style="background:${i <= aqiInfo.aqi ? aqiInfo.color : 'rgba(255,255,255,.08)'}"></div>`).join('')}</div>
+  </div>`;
+
+  // Sunrise/Sunset
+  html += `<div class="card">
+    <div class="stat-icon" aria-hidden="true">🌅</div>
+    <div class="stat-label">Sunrise / Sunset</div>
+    <div class="sun-bar"><div class="sun-dot" style="left:calc(${sunProg}% - 7px)"></div></div>
+    <div class="sun-times">
+      <span><span aria-hidden="true">↑</span><span class="visually-hidden">Sunrise: </span> ${fmtTime(sunrise)}</span>
+      <span>${dlH}h ${dlM}m daylight</span>
+      <span><span aria-hidden="true">↓</span><span class="visually-hidden">Sunset: </span> ${fmtTime(sunset)}</span>
+    </div>
+  </div>`;
+
+  html += `</div>`;
+
+  // Hourly rain
+  html += `<div class="card">
+    <div class="section-title"><span aria-hidden="true">☂️</span> Rain Chance (Next 12h)</div>
+    <div class="hourly-row">
+      ${hourly.map(h => {
+        const pop = h.pop;
+        const popColor = pop >= 60 ? '#ef4444' : pop >= 30 ? '#f59e0b' : '#22c55e';
+        return `<div class="hourly-item">
+          <div class="time">${fmtHour(h.time)}</div>
+          <div class="icon" aria-hidden="true">${getIcon(h.code, h.isDay)}</div>
+          <div class="chance" style="color:${popColor}">${pop}%</div>
+        </div>`;
+      }).join('')}
+    </div>
+  </div>`;
+
+  // 5-day forecast
+  html += `<div class="card">
+    <div class="section-title"><span aria-hidden="true">📅</span> 5-Day Forecast</div>
+    ${dailyRows.map(d => {
+      return `<div class="forecast-row">
+        <div class="forecast-day">${d.day}</div>
+        <div class="forecast-icon" aria-hidden="true">${getIcon(d.code, true)}</div>
+        <div class="forecast-desc">${getDesc(d.code)}${d.pop > 20 ? ' · ' + d.pop + '% rain' : ''}</div>
+        <div class="forecast-temps"><span class="hi">${d.hi}°</span> / <span class="lo">${d.lo}°</span></div>
+      </div>`;
+    }).join('')}
+  </div>`;
+
+  // NYC tip — the dashboard is NYC-themed (defaults to New York), and the advice below is
+  // NYC-specific (subways, Central Park, the High Line), so only show it when the loaded
+  // location is actually New York. This is a "Search any city" dashboard, so for any other
+  // searched city (London, Tokyo, …) the card was misleading — it still read "NYC Tip: Expect
+  // crowded subways… Central Park and the High Line" over the wrong city's weather. Gate it on
+  // the loaded place name instead, matching the isNYC guard the production /weather/ dashboard
+  // this leftover copy duplicates already ships (geo.name is built identically in both copies,
+  // so "New York, New York" matches and every other city omits the card). Logic only — no
+  // visual change for a New York search, and the misplaced card simply no longer renders elsewhere.
+  const isNYC = /^New York,/.test(geo.name || '');
+  if (isNYC) {
+    html += `<div class="card" style="text-align:center;">
+      <div style="font-size:12px;color:var(--text-dim);">
+        ${temp <= 35 ? '<span aria-hidden="true">🧤</span> NYC Tip: Watch for icy sidewalks, especially bridge overpasses and shaded blocks.' :
+          temp >= 90 ? '<span aria-hidden="true">🚰</span> NYC Tip: Cooling centers are open. Stay near AC and check NYC.gov for locations.' :
+          willRain ? '<span aria-hidden="true">🚇</span> NYC Tip: Expect crowded subways. Leave 10 min early and bring an umbrella.' :
+          '<span aria-hidden="true">🏙️</span> NYC Tip: Great day to walk. Central Park and the High Line are calling.'}
+      </div>
+    </div>`;
+  }
+
+  document.getElementById('content').innerHTML = html;
+}
+
+document.getElementById('cityInput').addEventListener('keydown', e => {
+  if (e.key === 'Enter') fetchWeather();
+});
+
+fetchWeather();
+</script>
+</body>
+</html>

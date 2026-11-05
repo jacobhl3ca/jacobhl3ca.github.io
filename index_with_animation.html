@@ -1,0 +1,886 @@
+<!DOCTYPE html>
+<!-- lang="en-US" (not the broader "en") to match the region-specific locale the rest of the site declares (index.html, 404.html, light/, weather/ all use en-US, as does og:locale=en_US). A more specific, valid BCP-47 tag gives assistive tech the correct US-English pronunciation/voice and search engines one consistent language signal. No visual change. -->
+<html lang="en-US" data-theme="dark">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <!-- Tint the mobile browser chrome (address bar / status bar) to match this dark-default page. Mirrors the theme-color already on index.html, 404.html, weather/, and light/ — this animated homepage variant was the one page site-wide still missing it. #090f20 matches index.html's dark chrome. No visual change to page content. -->
+        <meta name="theme-color" content="#090f20">
+        <!-- Declare supported colour schemes to the UA up front. color-scheme is otherwise only set inside the render-blocking styles.css (:root=light, [data-theme="dark"]=dark), so before that CSS loads the browser doesn't know this is a dark-default page (<html data-theme="dark">) and paints the root canvas/scrollbars with the OS default — a brief light flash. "dark light" matches the document's default while still advertising light-mode support; the CSS color-scheme rules take over once loaded. Completes the site-wide pattern already on index.html, 404.html, weather/, and light/. No visual change to the settled page. -->
+        <meta name="color-scheme" content="dark light">
+        <!-- Root-absolute stylesheet + favicon (leading /), matching every other page site-wide (index.html, 404.html, weather/, building.html, refer/, light/ all reference /assets/…) and the root-absolute /site.webmanifest already linked just below. This animated homepage variant is kept deploy-ready-consistent with index.html (see the manifest/short-name notes below), but was the last page still loading its head stylesheet and favicon via directory-relative hrefs — index.html's head was already converted for the same reason. Served at the root path today, so both forms resolve to the identical /assets/… URL; this is byte-for-byte behaviour-preserving and just makes the head internally consistent and independent of the document path. No visual or behaviour change. -->
+        <link rel="stylesheet" href="/assets/css/styles.css">
+        <link rel="icon" type="image/x-icon" href="/assets/img/favicon.ico">
+        <!-- Web app manifest: this animated homepage variant is a deploy-ready alternative to the live index.html (prior runs kept its contact form, pre-paint theme handling, and resource hints in sync), so it should stay installable-consistent with it — index.html declares the manifest but this variant did not, so if it were ever swapped in as the live homepage the Add-to-Home-Screen name/theme/icons would silently regress to the raw <title> and OS defaults. Same "/" manifest the live homepage links; reuses the existing favicon icons (no new image asset). Pure metadata, no visual change to a normal browser tab. -->
+        <link rel="manifest" href="/site.webmanifest">
+        <!-- iOS home-screen label: mirrors index.html. iOS Safari ignores the manifest's short_name and reads apple-mobile-web-app-title instead (falling back to the full page title, which it truncates), so this gives iOS the same short "Jacob HL" icon label Android already gets from the manifest. Deliberately NOT paired with apple-mobile-web-app-capable (that would force a chromeless standalone launch — a behaviour change); this only names the icon. Pure metadata, no visual change to a normal browser tab. -->
+        <meta name="apple-mobile-web-app-title" content="Jacob HL">
+        <!-- Non-Apple counterpart to the apple-mobile-web-app-title above: application-name is the field browsers read when a page is pinned or made a desktop/taskbar shortcut. This variant already links the same "/" manifest and iOS label as index.html and is kept deploy-ready-consistent with it (see the manifest note above), yet index.html's cross-platform short-name set — manifest short_name + apple-mobile-web-app-title + application-name, all "Jacob HL" — was missing this one field here, so a pinned/shortcut of this page (or of it swapped in as the live homepage) would fall back to the truncated full <title> on the non-Apple path the Apple label already covers. Mirrors the application-name index.html, me/, weather/ and building.html already declare. Like the Apple label it only names the icon — no apple-mobile-web-app-capable, no standalone launch. Pure metadata, no visual change. -->
+        <meta name="application-name" content="Jacob HL">
+        <!-- Resource hints mirroring index.html / 404.html: this variant loads the same render-blocking assets (boxicons from jsdelivr, and Poppins which styles.css @imports from Google Fonts) but was the only page site-wide with no connection warm-up, so every one of those sockets is opened serially on the critical path here. -->
+        <link rel="preconnect" href="https://cdn.jsdelivr.net"> <!-- early-connect for the render-blocking boxicons CSS fetch (non-CORS, so it can't reuse the crossorigin socket below) -->
+        <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin> <!-- early-connect for the boxicons icon font (CORS woff2, crossorigin so the warmed socket is reused) -->
+        <link rel="preconnect" href="https://fonts.googleapis.com"> <!-- early-connect to Google Fonts CSS (styles.css @imports Poppins from here, on the critical path) -->
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin> <!-- early-connect to the Google Fonts file host; crossorigin so the warmed socket is reused for the CORS woff2 fetch -->
+        <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&amp;display=swap"> <!-- styles.css @imports Poppins, but @import isn't discoverable until styles.css has downloaded + parsed, so the font CSS fetch is serialized on the critical path; preload it (same URL) so the browser fetches it in parallel up front and the @import then resolves from cache. Kept identical to the @import so the preload still satisfies it. The query separator is written &amp; (not a bare &): an unescaped & in an attribute value is an "ambiguous ampersand" HTML parse error (W3C validation), matching the &amp; escaping index.html's and 404.html's own Poppins preloads already use — this variant was the last page still carrying the bare &. The browser decodes &amp;→& when parsing the attribute, so the preloaded URL is byte-for-byte identical and still matches the @import it warms. No visual or behaviour change. -->
+        <link rel="dns-prefetch" href="//formspree.io"> <!-- resolve the Formspree host ahead of the contact form's on-submit POST (assets/js/main.js) so the DNS lookup isn't on the send path -->
+        <link href='https://cdn.jsdelivr.net/npm/boxicons@2.0.5/css/boxicons.min.css' rel='stylesheet'> <!-- icons -->
+        <script>
+            // Apply the saved theme before paint so light-mode users don't see a dark flash
+            // (the document defaults to data-theme="dark"; main.js loads at the end of <body>).
+            // The theme-color/color-scheme metas above only fix the UA-chrome flash; this fixes
+            // the actual page-content flash. Mirrors index.html and 404.html — this animated
+            // variant was the one page still missing the pre-paint theme handling.
+            try {
+                if (localStorage.getItem('theme') === 'light') {
+                    document.documentElement.removeAttribute('data-theme');
+                    // Sync the mobile address-bar colour to the light header before first paint
+                    // (main.js does this too, but only later at the end of <body>).
+                    var tc = document.querySelector('meta[name="theme-color"]');
+                    if (tc) tc.setAttribute('content', '#ffffff');
+                }
+            } catch (e) {}
+        </script>
+        <!-- Match the homepage's title element (index.html) and this page's own og:title/twitter:title (all "Jacob Heifetz-Licht — Analytics Manager"): the plain page title was the one metadata field here still lagging with just the bare name, so this animated variant's browser tab/bookmark read differently than the homepage's. A prior run aligned this page's description and og/twitter tags; this completes the variant/homepage title consistency (same fix already applied to light/index.html). No visual change to page content. -->
+        <title>Jacob Heifetz-Licht — Analytics Manager</title>
+        <!-- Match the homepage's current messaging: index.html was repositioned to lead with web development (React/Next.js) alongside analytics, but this animated homepage variant kept the older analytics-only description. og:title/twitter:title here already mirror index.html; align the description (and its og/twitter copies below) too so a shared link to this page reflects the current positioning. A prior run made this same alignment on light/index.html. No visual change. -->
+        <meta name="description" content="Data analytics leader and app developer specializing in Python, SQL, Tableau, React, and Next.js. Turning data into things people actually use.">
+        <!-- Keep the keyword list in sync with index.html: the homepage was repositioned to lead with web development (React/Next.js) alongside analytics, and this variant's title/description/og tags were already aligned to that — the keywords meta was the one field here still carrying the older analytics-only list. Completes the variant/homepage metadata consistency (same fix already applied to light/index.html). No visual change. -->
+        <meta name="keywords" content="analytics manager, data analytics, Python, SQL, Tableau, automation, dashboard design, data visualization, ETL, BigQuery, JavaScript, React, Node.js, Next.js, web development">
+        <meta name="author" content="Jacob Heifetz-Licht">
+        <meta name="robots" content="noindex, follow">
+        <!-- Open Graph meta tags for link previews -->
+        <meta property="og:title" content="Jacob Heifetz-Licht — Analytics Manager">
+        <!-- <meta property="og:title" content="Jacob Heifetz-Licht — Analytics Engineer"> -->
+        <meta property="og:description" content="Data analytics leader and app developer specializing in Python, SQL, Tableau, React, and Next.js. Turning data into things people actually use.">
+        <meta property="og:image" content="https://jacobhl.com/assets/img/og_image_v3.png">
+        <!-- Declare the share image's MIME type and pixel dimensions (the file is a 1200×630 PNG). Social scrapers (Facebook, LinkedIn, Slack) use these to reserve the correct card size and render the preview immediately on first share, instead of skipping the image or waiting to fetch-and-measure it. Every other page (index.html, 404.html, weather/, light/) already pairs this same og_image.png with these three tags; this animated homepage variant was the only one missing them. No visual change to the page itself. -->
+        <meta property="og:image:type" content="image/png">
+        <meta property="og:image:width" content="2400">
+        <meta property="og:image:height" content="1260">
+        <!-- Describe the share image for assistive tech reading a link preview of this page. Every other page (index.html, 404.html, weather/, light/) already pairs this same og_image.png with this exact alt; this animated homepage variant was the only one missing it. Same wording so the site's shared-link previews stay consistent. No visual change to the page itself. -->
+        <meta property="og:image:alt" content="Jacob Heifetz-Licht — Analytics Manager and app developer">
+        <!-- Give og:url the same trailing-slash canonical form the rest of the site declares (index.html's og:url is https://jacobhl.com/, and /weather/ and /light/ likewise end in a slash). Social scrapers (Facebook, LinkedIn, Slack) key share/like aggregation off og:url, and the bare-domain string is a distinct key from the slash form the homepage uses — so a share of this variant would otherwise bucket separately from the real homepage. Matches index.html; the one og field on this page still lagging. No visual change. -->
+        <meta property="og:url" content="https://jacobhl.com/">
+        <meta property="og:type" content="website">
+        <!-- Name the site and its locale for link previews, mirroring index.html's og block (and 404.html, weather/, light/, which all declare both): og:site_name gives Facebook/LinkedIn/Slack the site label shown above the card title, and og:locale=en_US matches the en-US this page already declares on <html> and the JSON-LD elsewhere. This animated homepage variant was the only page site-wide missing these two og fields; adding them completes the variant/homepage OG parity. No visual change to the page itself. -->
+        <meta property="og:site_name" content="Jacob Heifetz-Licht">
+        <meta property="og:locale" content="en_US">
+        <!-- twitter:image here is the 1200×630 landscape og_image.png, which is the format the large-image card expects; "summary" would instead crop it to a small square thumbnail. Use summary_large_image so a shared link to this page gets the full-width banner preview — matching index.html, 404.html, weather/, and light/, which all pair this same image with summary_large_image. This alternate page was the only one still on the smaller card. No visual change to the page itself. -->
+        <meta name="twitter:card" content="summary_large_image">
+        <meta name="twitter:title" content="Jacob Heifetz-Licht — Analytics Manager">
+        <meta name="twitter:description" content="Data analytics leader and app developer specializing in Python, SQL, Tableau, React, and Next.js. Turning data into things people actually use.">
+        <meta name="twitter:image" content="https://jacobhl.com/assets/img/og_image_v3.png">
+        <!-- Alt text for the Twitter/X card image, mirroring og:image:alt above and the twitter:image:alt already on index.html, 404.html, weather/, and light/ — this page was the only one missing it. Gives assistive-tech users a description of the preview image on a shared link. No visual change. -->
+        <meta name="twitter:image:alt" content="Jacob Heifetz-Licht — Analytics Manager and app developer">
+        <!-- Canonical → the real homepage. This is a near-duplicate variant of the homepage (same title/hero/copy, only the intro animation differs) and is already noindex; point its canonical at https://jacobhl.com/ so any crawler that reaches it consolidates all ranking/duplicate signals onto the real homepage rather than treating this alternate URL as its own page. Consistent with the og:url above (already set to https://jacobhl.com/ so social shares aggregate with the homepage) and completes head parity with index.html, the only page here that declared a canonical. Pure metadata, no visual change. -->
+        <link rel="canonical" href="https://jacobhl.com/">
+        <style>
+            /* Override: cascade with 30px slide up */
+            .reveal { opacity: 0; transform: translateY(30px); transition: opacity 0.6s ease, transform 0.6s ease; }
+            .reveal.visible { opacity: 1; transform: translateY(0); }
+
+            .clickable-img {
+                cursor: pointer;
+                transition: filter 0.5s ease, mix-blend-mode 0.3s ease;
+            }
+            .clickable-img.bg-removed {
+                mix-blend-mode: screen;
+            }
+            [data-theme="dark"] .clickable-img.bg-removed {
+                mix-blend-mode: screen;
+            }
+            html:not([data-theme="dark"]) .clickable-img.bg-removed {
+                mix-blend-mode: multiply;
+            }
+            .home__circle.clickable-img {
+                cursor: pointer;
+            }
+            .home__circle.bg-removed {
+                background-color: transparent;
+            }
+
+            .confetti-piece {
+                position: fixed;
+                width: 10px;
+                height: 10px;
+                pointer-events: none;
+                z-index: 9999;
+            }
+
+            /* project tile images - no special cursor needed */
+
+            .skills__img {
+                cursor: pointer;
+                position: relative;
+            }
+            .code-popup {
+                position: fixed;
+                pointer-events: none;
+                z-index: 9999;
+                font-family: 'Courier New', monospace;
+                font-size: 0.8rem;
+                padding: 0.4rem 0.75rem;
+                border-radius: 6px;
+                background: rgba(30, 30, 60, 0.92);
+                color: #43e97b;
+                border: 1px solid rgba(67, 233, 123, 0.4);
+                white-space: nowrap;
+                box-shadow: 0 4px 16px rgba(0,0,0,0.3);
+                animation: code-float 1.8s ease-out forwards;
+            }
+            html:not([data-theme="dark"]) .code-popup {
+                background: rgba(30, 30, 60, 0.92);
+                color: #43e97b;
+                border-color: rgba(67, 233, 123, 0.4);
+                box-shadow: 0 4px 16px rgba(0,0,0,0.3);
+            }
+            @keyframes code-float {
+                0% { opacity: 0; transform: translateY(0) scale(0.7); }
+                15% { opacity: 1; transform: translateY(-10px) scale(1); }
+                70% { opacity: 1; transform: translateY(-40px) scale(1); }
+                100% { opacity: 0; transform: translateY(-70px) scale(0.9); }
+            }
+
+            .skills__category {
+                margin-bottom: 1.5rem;
+                text-align: left;
+            }
+            .skills__category-title {
+                font-size: 1rem;
+                font-weight: 600;
+                color: var(--first-color);
+                margin-bottom: 0.75rem;
+                display: flex;
+                align-items: center;
+                gap: 0.4rem;
+            }
+            .skills__category-title .skills__icon {
+                font-size: 1.4rem;
+                margin-right: 0;
+            }
+            .skills__tags {
+                display: flex;
+                flex-wrap: wrap;
+                gap: 0.5rem;
+            }
+            .skills__tag {
+                display: inline-block;
+                padding: 0.4rem 1rem;
+                border-radius: 2rem;
+                font-size: 0.85rem;
+                font-weight: 500;
+                background: hsl(var(--hue-color), 89%, 95%);
+                color: hsl(var(--hue-color), 89%, 40%);
+                border: 1px solid hsl(var(--hue-color), 89%, 80%);
+                transition: all 0.3s ease;
+            }
+            .skills__tag:hover {
+                background: var(--first-color);
+                color: #fff;
+                border-color: var(--first-color);
+                transform: translateY(-2px);
+            }
+            [data-theme="dark"] .skills__tag {
+                background: hsl(var(--hue-color), 40%, 18%);
+                color: hsl(var(--hue-color), 89%, 75%);
+                border-color: hsl(var(--hue-color), 40%, 35%);
+            }
+            [data-theme="dark"] .skills__tag:hover {
+                background: var(--first-color);
+                color: #fff;
+                border-color: var(--first-color);
+            }
+            [data-theme="dark"] .skills__category-title {
+                color: var(--first-color);
+            }
+            [data-theme="dark"] .skills__subtitle,
+            [data-theme="dark"] .skills__text {
+                color: #fff;
+            }
+
+            /* Ensure skills text stays blue on mobile */
+            @media screen and (max-width: 767px) {
+                .skills__category-title {
+                    color: var(--first-color);
+                }
+                .skills__tag {
+                    color: hsl(var(--hue-color), 89%, 40%);
+                }
+                [data-theme="dark"] .skills__tag {
+                    color: hsl(var(--hue-color), 89%, 75%);
+                }
+            }
+
+            /* Back to top button */
+            .scroll-down-arrow {
+                position: fixed;
+                bottom: 2rem;
+                right: 2rem;
+                width: 2.5rem;
+                height: 2.5rem;
+                border-radius: 50%;
+                background: var(--first-color);
+                color: #fff;
+                border: none;
+                font-size: 1.2rem;
+                cursor: pointer;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                opacity: 0;
+                visibility: hidden;
+                transition: opacity 0.3s, visibility 0.3s, transform 0.3s;
+                z-index: 99;
+                box-shadow: 0 2px 12px rgba(0,0,0,0.15);
+                animation: bounce-down 2s ease-in-out infinite;
+            }
+            .scroll-down-arrow.visible {
+                opacity: 1;
+                visibility: visible;
+            }
+            html:not([data-theme="dark"]) .scroll-down-arrow {
+                background: #fff;
+                color: #333;
+                box-shadow: 0 2px 12px rgba(0,0,0,0.25);
+            }
+            .scroll-down-arrow:hover {
+                transform: translateY(3px);
+                box-shadow: 0 4px 20px rgba(0,0,0,0.35);
+            }
+            @keyframes bounce-down {
+                0%, 100% { transform: translateY(0); }
+                50% { transform: translateY(5px); }
+            }
+            .back-to-top {
+                position: fixed;
+                bottom: 2rem;
+                right: 2rem;
+                width: 2.5rem;
+                height: 2.5rem;
+                border-radius: 50%;
+                background: var(--first-color);
+                color: #fff;
+                border: none;
+                font-size: 1.2rem;
+                cursor: pointer;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                opacity: 0;
+                visibility: hidden;
+                transition: opacity 0.3s, visibility 0.3s, transform 0.3s;
+                z-index: 99;
+                box-shadow: 0 2px 12px rgba(0,0,0,0.15);
+            }
+            .back-to-top.visible {
+                opacity: 1;
+                visibility: visible;
+            }
+            .back-to-top:hover {
+                transform: translateY(-3px);
+                box-shadow: 0 4px 20px rgba(0,0,0,0.25);
+            }
+
+            /* Easter egg */
+            .easter-egg {
+                position: fixed;
+                bottom: 1rem;
+                left: 1rem;
+                font-size: 1rem;
+                cursor: default;
+                opacity: 0.18;
+                transition: opacity 0.3s;
+                z-index: 98;
+                user-select: none;
+                line-height: 1;
+            }
+            .easter-egg:hover {
+                opacity: 0.35;
+            }
+            .easter-egg.hatched {
+                animation: egg-hatch 0.6s ease forwards;
+                opacity: 0.7;
+            }
+            .easter-egg .bird {
+                position: absolute;
+                bottom: 0;
+                left: 50%;
+                transform: translateX(-50%) scale(0);
+                opacity: 0;
+                font-size: 1.2rem;
+            }
+            .easter-egg.hatched .bird {
+                animation: bird-pop 3s 0.4s ease forwards;
+            }
+            @keyframes egg-hatch {
+                0% { transform: rotate(0deg); }
+                20% { transform: rotate(10deg); }
+                40% { transform: rotate(-10deg); }
+                60% { transform: rotate(8deg); }
+                80% { transform: rotate(-5deg); }
+                100% { transform: rotate(0deg) scale(0.5); opacity: 0.1; }
+            }
+            @keyframes bird-pop {
+                0% { transform: translateX(-50%) translateY(0) scale(0); opacity: 0; }
+                15% { transform: translateX(-50%) translateY(-18px) scale(1.2); opacity: 1; }
+                25% { transform: translateX(-50%) translateY(-12px) scale(1); opacity: 1; }
+                80% { transform: translateX(-50%) translateY(-10px) scale(1); opacity: 1; }
+                100% { transform: translateX(-50%) translateY(-8px) scale(1); opacity: 0; }
+            }
+            /* Honor prefers-reduced-motion. This animation variant carries several CSS
+               animations (the infinite bounce-down scroll cue, the code-float popups, the
+               egg-hatch/bird-pop easter egg) plus the scroll-reveal transitions, but — unlike
+               the production styles.css and every other page — it had no reduced-motion guard,
+               so motion-sensitive visitors got the full animation set. Neutralize animations
+               and transitions and settle .reveal to its final state, mirroring the block in
+               assets/css/styles.css. Only affects users who request reduced motion; no change
+               to the default look. */
+            @media (prefers-reduced-motion: reduce) {
+                *, *::before, *::after {
+                    animation-duration: 0.01ms !important;
+                    animation-iteration-count: 1 !important;
+                    transition-duration: 0.01ms !important;
+                }
+                html { scroll-behavior: auto; }
+                .reveal { opacity: 1; transform: none; }
+            }
+        </style>
+    </head>
+    <body>
+        <!-- Keyboard/screen-reader skip link: this page (like index.html) opens with the sticky nav, so without a bypass a keyboard or switch-access user has to tab through every nav item on each page load before reaching content. Mirrors index.html's skip link; targets the main-content landmark below. The .skip-link style (in the already-loaded styles.css) keeps it visually hidden until focused, so there's no visual change. -->
+        <a href="#main-content" class="skip-link">Skip to main content</a>
+        <!--===== HEADER =====-->
+        <header class="l-header">
+            <nav class="nav bd-grid" aria-label="Primary"> <!-- name the primary navigation landmark so screen-reader landmark menus read "Primary navigation" instead of a generic, unlabeled "navigation" — this animated variant was the one page whose nav still lacked it (mirrors index.html and 404.html) -->
+                <div>
+                    <a href="#home" class="nav__logo">Jacob</a>
+                </div>
+                <div class="nav__menu" id="nav-menu">
+                    <ul class="nav__list" role="list"><!-- explicit role="list" so the nav keeps its list semantics in Safari/VoiceOver, which drops the implicit list role from any <ul> styled list-style:none (applied site-wide in styles.css) — mirrors the same fix on index.html's nav; this animated variant's nav was still on the browser default. No visual effect. -->
+
+                        <li class="nav__item"><a href="#home" class="nav__link active-link">Home</a></li>
+                        <li class="nav__item"><a href="#about" class="nav__link">About</a></li>
+
+                        <!-- Update Periodically -->
+                        <li class="nav__item"><a href="#skills" class="nav__link">Skills</a></li> 
+                        <li class="nav__item"><a href="#Projects" class="nav__link">Projects</a></li> <!-- or "Work" -->
+
+                        <li class="nav__item"><a href="#contact" class="nav__link">Contact</a></li>
+
+                    </ul>
+                </div>
+                <div style="display: flex; align-items: center;">
+                    <button type="button" id="theme-toggle" class="theme-toggle" aria-label="Switch to light mode" style="position: relative; top: -2px;">
+                        <i class='bx bx-sun' id="theme-icon" aria-hidden="true"></i>
+                    </button>
+                    <script>
+                        // Correct the theme toggle's baseline state for returning light-mode users,
+                        // before paint and before main.js loads at end of <body>. The button is hardcoded
+                        // in its dark-mode state (sun icon + "Switch to light mode"), but the inline <head>
+                        // script has already applied the saved light theme — so without this the toggle
+                        // briefly shows the wrong icon and, more importantly, announces the wrong action to
+                        // assistive tech ("Switch to light mode" while the page is already light). main.js
+                        // re-applies the same state later (classList.replace is a no-op when the class is
+                        // absent, and the aria-label is identical), so this only removes the flash/mismatch.
+                        // Mirrors index.html and 404.html.
+                        try {
+                            if (localStorage.getItem('theme') === 'light') {
+                                var _ti = document.getElementById('theme-icon');
+                                if (_ti) _ti.classList.replace('bx-sun', 'bx-moon');
+                                var _tt = document.getElementById('theme-toggle');
+                                if (_tt) _tt.setAttribute('aria-label', 'Switch to dark mode');
+                            }
+                        } catch (e) {}
+                    </script>
+                    <div class="nav__toggle" id="nav-toggle" role="button" tabindex="0" aria-label="Toggle navigation menu" aria-controls="nav-menu" aria-expanded="false"> <!-- full ARIA parity with index.html's nav toggle: tabindex="0" makes the role=button div keyboard-focusable and aria-expanded="false" announces its closed state even in the pre-main.js window (main.js backfills both on load, but the static values match the canonical page); aria-controls="nav-menu" names the menu this button toggles and is NOT set by main.js, so declaring it here is a real accessibility gain for screen-reader users. No visual change. -->
+                        <i class='bx bx-menu' aria-hidden="true"></i>
+                    </div>
+                </div>
+            </nav>
+        </header>
+        <main class="l-main" id="main-content" tabindex="-1"> <!-- id = skip-link target; tabindex="-1" lets the anchor move focus here (a <main> isn't focusable by default) so the skip actually lands, not just scrolls. Mirrors index.html. -->
+            <!--===== HOME =====-->
+            <section class="home bd-grid" id="home">
+                <div class="home__data">
+                    <h1 class="home__title">Hi,<br>I’m <span class="home__title-color">Jacob</span><br>Analytics Manager</h1>
+                    <!-- Analytics Engineer --> 
+                    <!-- or Manager, Analytics -->
+                    <a href="#contact" class="button">Contact</a>
+                </div>
+
+                <div class="home__social">
+                    <!-- rel="me" marks these as Jacob's own verified identity profiles — the HTML-level identity/authorship signal read by rel-me consumers (IndieAuth, Mastodon verification), which crawl any reachable page of the domain regardless of its noindex status. Every other page site-wide (index.html, 404.html) already carries rel="me" on every link to these two profiles; this directly-reachable animated homepage variant was the exception (both its home social row and footer). Additive rel token — no visual or behaviour change (noopener/noreferrer preserved). -->
+                    <a href="https://www.linkedin.com/in/jacobhl/" class="home__social-icon" target="_blank" rel="me noopener noreferrer" aria-label="LinkedIn profile"><i class='bx bxl-linkedin' aria-hidden="true"></i></a>
+                    <a href="https://github.com/jacobhl3ca" class="home__social-icon" target="_blank" rel="me noopener noreferrer" aria-label="GitHub profile"><i class='bx bxl-github' aria-hidden="true"></i></a>
+                    <!-- Plain mailto: href, mirroring the live index.html's equivalent email icon (href="mailto:hi@jacobhl.com", no target, no onclick). The previous href="#" + JS-only onclick was a dead anchor for the no-JS path — clicking it just jumped to the top of the page instead of opening a mail client — and its 'mail'+'to:' string-splitting obfuscation gave no real spam protection here anyway, since the same address is already published as a plain mailto site-wide (index.html contact links, building.html). A real mailto href works without JS, is announced correctly by assistive tech, and is the established mirror-index.html pattern prior runs applied to these anchors. No visual change. -->
+                    <!-- rel="me" completes the identity set: the LinkedIn/GitHub icons beside this one already assert "this profile is mine" via rel="me" (the rel-me note above this social row), and a mailto to Jacob's own verified address is an explicitly supported rel-me target — so index.html, me/, building.html and 404.html all carry rel="me" on this same hi@jacobhl.com link. This animated variant's two email icons (home row + footer) were the one place the rel-me pass skipped, leaving them outside the identity graph its siblings and every other page's email link join. Additive rel token; browsers ignore rel on rendering, so no visual or behaviour change. -->
+                    <a href="mailto:hi@jacobhl.com" class="home__social-icon" rel="me" aria-label="Send email"><i class='bx bx-envelope' aria-hidden="true"></i></a>
+                    <a href="#contact" class="home__social-icon" onclick="event.preventDefault(); requestResume()" aria-label="Request resume"><i class='bx bx-file' aria-hidden="true"></i></a> <!-- preventDefault so the browser's instant #contact fragment jump doesn't fight requestResume()'s own smooth scroll, reset the focus it places in the contact form, or append #contact to the URL. The plain href stays as the no-JS fallback (onclick won't run then). Mirrors index.html. -->
+                </div>
+
+                <div class="home__img">
+                    <div class="home__circle clickable-img" id="home-photo">
+                        <!-- Intrinsic width/height (705x800, the file's real size) reserve the hero portrait's layout box so its async decode can't shift the page (Lighthouse "unsized-images"/CLS). Same image + class as index.html, which already carries these exact dimensions, so the CSS-controlled rendered size is unchanged. This variant's portraits were the ones still unsized; mirrors index.html. No visual change. -->
+                        <img src="assets/img/header.png" alt="Jacob Heifetz-Licht" class="home__circle-img" width="705" height="800">
+                    </div>
+                </div>
+            </section>
+
+            <!--===== ABOUT =====-->
+            <section class="about section " id="about">
+                <h2 class="section-title">About</h2>
+
+                <div class="about__container bd-grid">
+                    <div class="about__img">
+
+                         <!-- Intrinsic width/height (600x600 square, the file's real size) reserve the About portrait's box to prevent layout shift on load (Lighthouse "unsized-images"/CLS). Same image + class as index.html, which already declares these; the CSS-controlled rendered size is unchanged. No visual change. -->
+                         <img loading="lazy" decoding="async" src="assets/img/about.jpg" alt="Jacob Heifetz-Licht portrait" class="clickable-img" id="about-photo" width="600" height="600">
+
+                    </div>
+                    <div>
+                        
+                        <h3 class="about__subtitle">I’m Jacob</h3>
+                        <p class="about__text">
+
+                            🌟 Hi there! 
+                            I’m a passionate data analytics leader 
+                            with a knack for turning complex data into actionable insights. 
+                            Over the years, I’ve led impactful projects at companies like Kepler, Condé Nast, and Deloitte, 
+                            where I’ve automated processes (saving thousands of hours and dollars), 
+                            built award-winning dashboards, and mentored teams to unlock their full potential.
+                            <br><br>
+
+                            Whether it’s optimizing scripts or 
+                            creating self-service tools for executives, 
+                            I geek out on blending my technical chops 
+                            (Python, SQL, Tableau, and more!) 
+                            with strategic thinking to solve real-world problems.
+                            <br><br>
+                            
+                            A proud Rutgers grad with a passion for entrepreneurship, 
+                            I’m always excited to collaborate, innovate, and empower teams. 
+                            Let’s connect if you’re looking for someone who 
+                            can turn data into your organization’s superpower—or 
+                            if you just want to chat about the latest in AI, analytics, or data viz! 🚀✨
+
+                        </p>           
+                    </div>                                   
+                </div>
+            </section>
+
+            <!--===== SKILLS =====-->
+            <section class="skills section" id="skills">
+                <h2 class="section-title">Skills</h2>
+
+                <div class="skills__container bd-grid">          
+                    <div>
+                        <h3 class="skills__subtitle">Professional Skills</h3>
+                        <p class="skills__text">
+                            As a data analytics leader, I bring a diverse skill set spanning technical expertise and strategic thinking,
+                            transforming complex datasets into actionable insights that drive business decisions.
+                        </p>
+
+                        <div class="skills__category">
+                            <h4 class="skills__category-title"><i class='bx bx-code-alt skills__icon' aria-hidden="true"></i> Languages &amp; Scripting</h4>
+                            <div class="skills__tags">
+                                <span class="skills__tag">Python</span>
+                                <span class="skills__tag">SQL</span>
+                                <span class="skills__tag">Google Apps Script</span>
+                                <span class="skills__tag">HTML / CSS</span>
+                            </div>
+                        </div>
+
+                        <div class="skills__category">
+                            <h4 class="skills__category-title"><i class='bx bx-bar-chart-alt-2 skills__icon' aria-hidden="true"></i> Data &amp; Visualization</h4>
+                            <div class="skills__tags">
+                                <span class="skills__tag">Tableau</span>
+                                <span class="skills__tag">Looker</span>
+                                <span class="skills__tag">Qlik</span>
+                                <span class="skills__tag">Datorama</span>
+                                <span class="skills__tag">Mode Analytics</span>
+                                <span class="skills__tag">Excel</span>
+                                <span class="skills__tag">Google Sheets</span>
+                            </div>
+                        </div>
+
+                        <div class="skills__category">
+                            <h4 class="skills__category-title"><i class='bx bx-data skills__icon' aria-hidden="true"></i> Analytics Platforms</h4>
+                            <div class="skills__tags">
+                                <span class="skills__tag">BigQuery</span>
+                                <span class="skills__tag">GA4</span>
+                                <span class="skills__tag">Adobe Analytics</span>
+                                <span class="skills__tag">Google Data Studio</span>
+                            </div>
+                        </div>
+
+                        <div class="skills__category">
+                            <h4 class="skills__category-title"><i class='bx bx-cog skills__icon' aria-hidden="true"></i> Automation &amp; Infrastructure</h4>
+                            <div class="skills__tags">
+                                <span class="skills__tag">Process Automation</span>
+                                <span class="skills__tag">ETL Pipelines</span>
+                                <span class="skills__tag">APIs</span>
+                                <span class="skills__tag">Docker</span>
+                                <span class="skills__tag">Linux</span>
+                                <span class="skills__tag">Git</span>
+                            </div>
+                        </div>
+
+                        <div class="skills__category">
+                            <h4 class="skills__category-title"><i class='bx bx-bulb skills__icon' aria-hidden="true"></i> Strategy &amp; Leadership</h4>
+                            <div class="skills__tags">
+                                <span class="skills__tag">Analytics Strategy</span>
+                                <span class="skills__tag">Stakeholder Communication</span>
+                                <span class="skills__tag">Data Storytelling</span>
+                                <span class="skills__tag">Dashboard Design</span>
+                                <span class="skills__tag">Cross-functional Collaboration</span>
+                                <!-- <span class="skills__tag">Media Strategy</span> -->
+                                <!-- <span class="skills__tag">Roadmap Planning</span> -->
+                            </div>
+                        </div>
+
+                        <!--
+                        <div class="skills__category">
+                            <h4 class="skills__category-title"><i class='bx bx-certification skills__icon' aria-hidden="true"></i> Certifications</h4>
+                            <div class="skills__tags">
+                                <span class="skills__tag">Automate the Boring Stuff with Python</span>
+                                <span class="skills__tag">Tableau Desktop Specialist</span>
+                                <span class="skills__tag">Google Analytics Certified</span>
+                                <span class="skills__tag">Google Data Studio Certified</span>
+                                <span class="skills__tag">Google Sheets Certified</span>
+                            </div>
+                        </div>
+                        -->
+                    </div>
+                    
+                    <div>              
+                        <!-- Intrinsic width/height (640x426, the file's real size) reserve the Skills photo's box to prevent layout shift on load (Lighthouse "unsized-images"/CLS). Same image + class as index.html, which already declares these; the CSS-controlled rendered size is unchanged. No visual change. -->
+                        <img loading="lazy" decoding="async" src="assets/img/skills.jpg" alt="Jacob working with data analytics tools" class="skills__img" id="skills-photo" width="640" height="426">
+                    </div>
+                </div>
+            </section>
+
+            <!-- ===== PROJECTS =====--> <!-- or "Work" -->
+            
+            <section class="work section" id="Projects">
+
+                <h2 class="section-title">Projects</h2> 
+                
+                <div class="work__container bd-grid">
+
+                    <div class="work__img"> <!-- Spotify Analytics -->
+                        <!-- <a href=""> -->
+                            <img loading="lazy" decoding="async" src="assets/img/spotify_monthly.png" alt="Spotify Analytics" data-dark="assets/img/spotify_monthly.png" data-light="assets/img/spotify_monthly_light.png" id="project-spotify-analytics">
+                        <!-- </a> -->
+                        <div class="work__description">
+                            <center>
+                                <h3>
+                                    Spotify Analytics
+                                </h3>
+                                <p>
+                                    Summarize listening trends, without relying on annual Spotify Wrapped. Created an interactive dashboard highlighting top songs/artists/albums via listening trends, heatmaps, skip-rate analysis, artist evolution timelines, session tracking, and listening clock, using Python, Plotly, and Streamlit.
+                                </p>
+                            </center>
+                        </div>
+                    </div>
+
+                    <div class="work__img"> <!-- Spotify Playlist Archiver -->
+                        <!-- <a href=""> -->
+                            <img loading="lazy" decoding="async" src="assets/img/spotify_archiver.png" alt="Spotify Playlist Archiver" style="object-fit: contain; background: #121212;" data-dark="assets/img/spotify_archiver.png" data-light="assets/img/spotify_archiver_light.png" id="project-spotify-archiver">
+                        <!-- </a> -->
+                        <div class="work__description">
+                            <center>
+                                <h3>
+                                    Spotify Playlist Archiver
+                                </h3>
+                                <p>
+                                    Automatic weekly archiver of playlists that would otherwise disappear. Includes Discover Weekly, Release Radar, and Your Top Songs at different granularities. Uses PyAutoGUI automation for playlists unavailable via API, and the Spotify API for top tracks with rate-limit handling (Python, Spotipy).
+                                </p>
+                            </center>
+                        </div>
+                    </div>
+
+                    <div class="work__img"> <!-- Personal Finance App -->
+                        <!-- <a href=""> -->
+                            <img loading="lazy" decoding="async" src="assets/img/finance_trend.png" alt="Personal Finance App" data-dark="assets/img/finance_trend.png" data-light="assets/img/finance_trend_light.png">
+                        <!-- </a> -->
+                        <div class="work__description">
+                            <center>
+                                <h3>
+                                    Personal Finance App
+                                </h3>
+                                <p>
+                                    Enables precise <!-- added precise --> daily budgeting, investment planning, and optimization, using Python and Apps Script.
+                                </p>
+                            </center>
+                        </div>
+                    </div>
+
+                    <div class="work__img"> <!-- E-commerce Store -->
+                            <img loading="lazy" decoding="async" src="assets/img/stripe_dark.svg" alt="E-commerce Store" style="object-fit: cover; background: #121212;" data-dark="assets/img/stripe_dark.svg" data-light="assets/img/stripe_light.svg">
+                        <div class="work__description">
+                            <center>
+                                <h3>
+                                    E-commerce Store
+                                </h3>
+                                <p>
+                                    Full-stack e-commerce site with Stripe payment processing, Express.js backend (Node.js, Stripe API, HTML/CSS/JS).
+                                </p>
+                            </center>
+                        </div>
+                    </div>
+
+                    <div class="work__img"> <!-- Automation Utilities -->
+                            <img loading="lazy" decoding="async" src="assets/img/automation_dark.svg" alt="Automation Utilities" style="object-fit: cover; background: #121212;" data-dark="assets/img/automation_dark.svg" data-light="assets/img/automation_light.svg">
+                        <div class="work__description">
+                            <center>
+                                <h3>
+                                    Automation Utilities
+                                </h3>
+                                <p>
+                                    <!-- Safari description Option A: "...Safari bulk tab unpinning and closing — handling Safari's quirk where tabs shift position during unpin, requiring reverse iteration..." -->
+                                    <!-- Safari description Option B: "...Safari bulk tab unpinning and closing with bidirectional navigation, solving Safari's behavior where unpinning a tab shifts remaining tabs and breaks sequential automation..." -->
+                                    <!-- Safari description Option C: "...Safari bulk tab unpinning and closing — Safari doesn't support batch unpin natively, and unpinning a tab causes remaining pinned tabs to shift position, breaking forward navigation; solved with reverse iteration and per-tab error handling across multiple windows..." -->
+                                    macOS productivity automation suite including Safari bulk tab unpinning and closing, timesheet autofill via keystroke injection, a variety of frequently used toggles (menu bar hide/show, system-wide dark/light mode, VPN connect/disconnect), keyboard backlight control, dock spacer grouping, and game re-roll automation (Python, AppleScript, Bash, PyAutoGUI).
+                                </p>
+                            </center>
+                        </div>
+                    </div>
+
+                    <div class="work__img"> <!-- System Administration -->
+                        <!-- <a href=""> -->
+                            <img loading="lazy" decoding="async" src="assets/img/docker_dark.png" alt="System Administration" data-dark="assets/img/docker_dark.png" data-light="assets/img/docker_dark_light.png">
+                        <!-- </a> -->
+                        <div class="work__description">
+                            <center>
+                                <h3>
+                                    System Administration
+                                </h3>
+                                <p>
+                                    Self-hosted web apps and network services on a Linux server (Docker, Docker Compose) including Plex media automation stack, Portainer, and Plausible Analytics (PostgreSQL, ClickHouse).
+                                </p>
+                            </center>
+                        </div>
+                    </div>
+
+                    <!-- Safari Unpinner (commented out)
+                    <div class="work__img">
+                            <img loading="lazy" decoding="async" src="assets/img/unpin_safari.png" alt="Safari Unpinner" style="object-fit: cover;">
+                        <div class="work__description">
+                            <center>
+                                <h3>
+                                    Safari Unpinner
+                                </h3>
+                                <p>
+                                    Python automation script that better manages Safari pinned tabs. Supports bulk unpinning and closing operations with bidirectional navigation.
+                                </p>
+                            </center>
+                        </div>
+                    </div>
+                    -->
+
+                    <!-- Weather Dashboard (commented out)
+                    <div class="work__img">
+                            <img loading="lazy" decoding="async" src="assets/img/weather_real.png" alt="Weather Dashboard" style="object-fit: cover;">
+                        <div class="work__description">
+                            <center>
+                                <h3>
+                                    Weather Dashboard
+                                </h3>
+                                <p>
+                                    Desktop weather app with real-time conditions and interactive 5-day temperature forecast graph. Integrates the OpenWeather API, city search, and configurable settings (Python, Tkinter, Matplotlib).
+                                </p>
+                            </center>
+                        </div>
+                    </div>
+                    -->
+
+                    <!-- Coinbase Analytics (commented out)
+                    <div class="work__img">
+                            <img loading="lazy" decoding="async" src="assets/img/coinbase_dark.png" alt="Coinbase Analytics">
+                        <div class="work__description">
+                            <center>
+                                <h3>
+                                    Coinbase Analytics
+                                </h3>
+                                <p>
+                                    Crypto portfolio analytics app with Coinbase API authentication, real-time price tracking, and profit/cost analysis for Bitcoin, Ethereum, and Litecoin (Node.js, Google Cloud, Angular.js, HTML/CSS/JS). Best Financial Hack — HackPrinceton 2017.
+                                </p>
+                            </center>
+                        </div>
+                    </div>
+                    -->
+
+                    <!-- Data Analytics Dashboard (commented out)
+                    <div class="work__img">
+                            <img loading="lazy" decoding="async" src="assets/img/data_analytics_real.png" alt="Data Analytics Dashboard" style="object-fit: cover;">
+                        <div class="work__description">
+                            <center>
+                                <h3>
+                                    Data Analytics Dashboard
+                                </h3>
+                                <p>
+                                    Full-stack interactive analytics platform with ETL pipeline, statistical analysis (t-tests, ANOVA, chi-square), machine learning (RandomForest regression, K-Means/DBSCAN clustering), and 10+ visualization types. Supports CSV/Excel upload and live data exploration (Python, Streamlit, Plotly, scikit-learn).
+                                </p>
+                            </center>
+                        </div>
+                    </div>
+                    -->
+
+                    <!-- TaskMaster Mobile App (commented out)
+                    <div class="work__img">
+                            <img loading="lazy" decoding="async" src="assets/img/taskmaster_real.png" alt="TaskMaster Mobile App" style="object-fit: cover; background: #0d1117;">
+                        <div class="work__description">
+                            <center>
+                                <h3>
+                                    TaskMaster Mobile App
+                                </h3>
+                                <p>
+                                    React Native task management app with three-tab navigation: a Home dashboard showing productivity stats (total, completed, in-progress, pending) and recent tasks with priority badges; a Tasks screen with live search, status-based filtering (All/Pending/In Progress/Completed), category labels, and due dates; and a Profile screen with avatar, success-rate metrics, and settings menu. Built with Expo, React Navigation bottom tabs, and Ionicons (React Native, Expo, React Navigation).
+                                </p>
+                            </center>
+                        </div>
+                    </div>
+                    -->
+
+                    <!-- Terminal Snake Game (commented out)
+                    <div class="work__img">
+                            <img loading="lazy" decoding="async" src="assets/img/snake_real.png" alt="Terminal Snake Game" style="object-fit: cover;">
+                        <div class="work__description">
+                            <center>
+                                <h3>
+                                    Terminal Snake Game
+                                </h3>
+                                <p>
+                                    Feature-rich terminal snake game with 4 food types (regular, super, bonus, power-up), 5 customizable snake skins, persistent JSON high-score leaderboard, difficulty scaling, speed boosts, invincibility mode, and visual effects. Built with Python curses (480 lines).
+                                </p>
+                            </center>
+                        </div>
+                    </div>
+                    -->
+
+                    <!-- Surfing Cat Emoji (commented out)
+                    <div class="work__img">
+                            <img loading="lazy" decoding="async" src="assets/img/surfing_cat_real.png" alt="Surfing Cat Emoji Creator" style="object-fit: cover;">
+                        <div class="work__description">
+                            <center>
+                                <h3>
+                                    Surfing Cat Emoji
+                                </h3>
+                                <p>
+                                    Custom SVG emoji creator featuring a hand-drawn tuxedo cat surfing on a surfboard. Three size variants (64/128/256px) with gradient shading, whiskers, and water splash effects. Download as SVG/PNG or copy to clipboard. Pure HTML/CSS/JS, no dependencies.
+                                </p>
+                            </center>
+                        </div>
+                    </div>
+                    -->
+
+                    <!-- Beat Generator (commented out)
+                    <div class="work__img">
+                            <img loading="lazy" decoding="async" src="assets/img/beatgen_real.png" alt="Procedural Beat Generator" style="object-fit: cover;">
+                        <div class="work__description">
+                            <center>
+                                <h3>
+                                    Procedural Beat Generator
+                                </h3>
+                                <p>
+                                    Synthesizes kicks, snares, hi-hats, claps, and toms from pure math (sine sweeps, filtered noise, envelopes), then arranges 16-step patterns into WAV files. 5 genre presets (Rock, House, Hip Hop, Breakbeat, Trap), configurable BPM/bars/swing, and batch export. Python + NumPy, zero audio samples needed.
+                                </p>
+                            </center>
+                        </div>
+                    </div>
+                    -->
+
+                    <!-- Tigers App (commented out)
+                    <div class="work__img">
+                            <img loading="lazy" decoding="async" src="assets/img/tigers_real.png" alt="Detroit Tigers iOS App" style="object-fit: cover; background: #0d1117;">
+                        <div class="work__description">
+                            <center>
+                                <h3>
+                                    Detroit Tigers iOS App
+                                </h3>
+                                <p>
+                                    Native SwiftUI iOS app for watching Detroit Tigers game highlights without score spoilers. Integrates MLB Stats API for real schedules, YouTube Data API and MLB Film Room for video highlights, with background refresh, video preloading, WKWebView player, and Keychain storage (Swift, 1,774 lines).
+                                </p>
+                            </center>
+                        </div>
+                    </div>
+                    -->
+
+                </div>
+            </section>
+
+            <!--===== CONTACT =====-->
+            <section class="contact section" id="contact">
+                <h2 class="section-title">Contact</h2>
+                <div class="contact__container bd-grid">
+                    <form action="https://formspree.io/f/mkgqkgyr" method="POST" class="contact__form">
+                        <!-- Formspree honeypot: hidden from people, but bots fill it in — those submissions are silently discarded as spam. This animated variant posts to the same Formspree endpoint as the live index.html contact form, but was one of the two forms (with projects/index_cascade_animate.html) still missing the honeypot the production form and projects-stack-preview.html already carry — so bots that reach this page could spam Jacob's shared inbox unfiltered. Kept out of the tab order and the accessibility tree; no visual change. -->
+                        <input type="text" name="_gotcha" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden;">
+                        <!-- Formspree reads a field named _subject to set the notification email's subject line; without it these submissions land in Jacob's inbox under Formspree's generic default ("New submission from your form"), indistinguishable from the production form's messages since both post to the same endpoint. A fixed, identifiable subject makes them easy to spot and filter. Hidden fixed value, kept out of the tab order and the accessibility tree — no visual or user-facing behaviour change. -->
+                        <input type="hidden" name="_subject" value="New message from jacobhl.com" tabindex="-1" aria-hidden="true">
+                        <!-- aria-label on each field so it has a stable accessible name: the placeholder is only a hint (it vanishes once the user types and is low-contrast), so placeholder-only inputs leave assistive-tech users without a reliable field name (WCAG 4.1.2). Mirrors the wording the live index.html contact form already uses ("Your name" / "Your email address" / "Your message"), bringing this animated variant to the same a11y baseline. No visual change. -->
+                        <!-- autocomplete + mobile-input hints, mirroring the live index.html contact form: autocomplete="name"/"email" identifies each field's purpose so browsers offer the right autofill (WCAG 1.3.5 Identify Input Purpose, AA), and autocapitalize/autocorrect/spellcheck off stop iOS Safari (which autocorrects and capitalises text inputs by default) from mangling an unusual surname or an email local-part as it's typed. This animated variant was the one contact form still missing these hints. Editable hints only — no visual change on desktop. -->
+                        <!-- enterkeyhint="next" labels the on-screen keyboard's action key "Next" (instead of a generic Return) so a phone visitor moves name → email down the form without reaching for the field. It's the one mobile-keyboard hint these two fields were still missing here — the live index.html twin contact form (and me/) already carry it on both — so this brings the animated variant to the same on-screen-keyboard baseline as its input-tuning set above. "next" on both text fields only; the message textarea keeps the default Return so Enter still inserts a newline. Editable hint only; no visual change and no effect on submit. -->
+                        <input type="text" name="name" placeholder="Name" aria-label="Your name" class="contact__input" autocomplete="name" autocapitalize="words" autocorrect="off" spellcheck="false" enterkeyhint="next" required>
+                        <input type="email" name="email" placeholder="Email" aria-label="Your email address" class="contact__input" autocomplete="email" inputmode="email" autocapitalize="off" autocorrect="off" spellcheck="false" enterkeyhint="next" required>
+                        <textarea name="message" placeholder="Your Message" aria-label="Your message" class="contact__input" rows="10" required></textarea>
+                        <button type="submit" class="contact__button button">Send</button>
+                    </form>
+                </div>
+            </section>
+            
+        </main>
+
+        <!--===== FOOTER =====-->
+        <footer class="footer">
+            <p class="footer__title">Jacob</p>
+            <div class="footer__social">
+
+                <a href="https://www.linkedin.com/in/jacobhl/" class="footer__icon" target="_blank" rel="me noopener noreferrer" aria-label="LinkedIn profile"><i class='bx bxl-linkedin' aria-hidden="true"></i></a>
+
+                <a href="https://github.com/jacobhl3ca" class="footer__icon" target="_blank" rel="me noopener noreferrer" aria-label="GitHub profile"><i class='bx bxl-github' aria-hidden="true"></i></a>
+
+                <!-- Plain mailto: href, mirroring the home email icon above and the live index.html footer icon (href="mailto:hi@jacobhl.com", no target, no onclick). The previous href="#" + JS-only onclick was a dead anchor without JS (it jumped to the top of the page rather than opening a mail client), and its 'mail'+'to:' obfuscation added no protection since the address is already plain-text mailto site-wide. A real mailto works without JS and is announced correctly by assistive tech. No visual change. -->
+                <!-- rel="me" for the same reason as the home-row email icon above: the LinkedIn/GitHub footer icons beside it carry rel="me", and index.html's footer email icon (plus me/, building.html, 404.html) marks this same hi@jacobhl.com mailto as Jacob's verified identity. Additive rel token, no visual or behaviour change. -->
+                <a href="mailto:hi@jacobhl.com" class="footer__icon" rel="me" aria-label="Send email"><i class='bx bx-envelope' aria-hidden="true"></i></a>
+
+                <a href="#contact" class="footer__icon" onclick="event.preventDefault(); requestResume()" aria-label="Request resume"><i class='bx bx-file' aria-hidden="true"></i></a> <!-- preventDefault so the browser's instant #contact fragment jump doesn't fight requestResume()'s own smooth scroll, reset the focus it places in the contact form, or append #contact to the URL. The plain href stays as the no-JS fallback (onclick won't run then). Mirrors index.html. -->
+
+            </div>
+
+            <p class="footer__copy">Thanks for coming!</p>
+
+        </footer>
+
+        <!-- Scroll down arrow -->
+        <!-- Explicit type="button": a <button> with no type defaults to type="submit", and this page carries a contact <form> above (formspree), so a submit-default button is a real footgun — plus assistive tech announces the implicit "submit button" role. These two page-nav buttons (scroll-down / back-to-top) were the ones in this animated variant still on the default; the live index.html already types both. Matches the site-wide type="button" pattern (index.html, weather/, refer/). No visual change. -->
+        <button type="button" class="scroll-down-arrow" id="scrollDown" aria-label="Scroll down">
+            <i class='bx bx-chevron-down' aria-hidden="true"></i>
+        </button>
+
+        <!-- Back to top button -->
+        <button type="button" class="back-to-top" id="backToTop" aria-label="Back to top">
+            <i class='bx bx-chevron-up' aria-hidden="true"></i>
+        </button>
+
+        <!-- Easter egg (uncomment to enable)
+        <div class="easter-egg" id="easterEgg">🥚<span class="bird">🐣</span></div>
+        -->
+
+        <script>
+            if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
+            // Clear hash so refresh doesn't jump to #contact
+            if (window.location.hash) {
+                history.replaceState(null, '', window.location.pathname);
+            }
+            window.scrollTo(0, 0);
+        </script>
+
+
+        <!--===== MAIN JS =====-->
+        <!-- Root-absolute script path (leading /), matching every other page that loads main.js — 404.html, projects-stack-preview.html, and projects/index_cascade_animate.html all reference /assets/js/main.js — and this page's own head, whose stylesheet and favicon were already normalized to /assets/… for site-wide consistency. This variant is served only at /index_with_animation.html, where assets/js/main.js and /assets/js/main.js resolve to the identical /assets/js/main.js URL, so this is byte-for-byte behaviour-preserving; it just makes the page's last declarative resource path independent of the document location, like the rest of the site. No visual or behaviour change. -->
+        <script src="/assets/js/main.js"></script>
+        
+    </body>
+</html>
